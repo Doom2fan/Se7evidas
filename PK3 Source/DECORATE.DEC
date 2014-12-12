@@ -1,0 +1,21 @@
+// Info
+// You can use anything from here just credit the author (They are in the
+// CREDITS or in the INFO file of the WAD or folder. Please note that I
+// have edited most of the files (Except for most of the sprites and sounds,
+// any sound or sprite that I edited should be in the CREDITS or INFO lump)
+// Highest DoomEdNum: 30000
+
+#INCLUDE "Decorate/Defaults.DEC"
+
+// Effects
+#INCLUDE "Decorate/Effects/Smoke.DEC"
+#INCLUDE "Decorate/Effects/Casings.DEC"
+
+// Inventory
+#INCLUDE "Decorate/Inventory/Health.DEC"
+
+// Player stuff
+#INCLUDE "Decorate/Player.DEC"
+
+// Weapons
+#INCLUDE "Decorate/Base Weapon.DEC"

@@ -1,0 +1,95 @@
+[default enu]
+// Dificulty Settings
+	SKILLS_BABY     			= "I'm a baby! *cries*";
+		SKILLS_BABYTEXT				=
+			"Really? You must suck a lot at this";
+	
+	SKILLS_EASY     			= "I've got a wife and kids! Kill them!";
+		SKILLS_EASYTEXT				=
+			"You still suck.";
+	
+	SKILLS_NORMAL  				= "I hunger for battle!";
+		SKILLS_NORMALTEXT			=
+			"Uses the Normal spawn filter.";
+	
+	SKILLS_HARD					= "I love pain!";
+		SKILLS_HARDTEXT				=
+			"Uses the Hard spawn filter.";
+	
+	SKILLS_HARDER     			= "Harder!";
+		SKILLS_HARDERTEXT			=
+			"Enemies are more aggressive.\n"
+			"Uses the Hard spawn filter.";
+	
+	SKILLS_HARDSPEED 			= "Faster!";
+		SKILLS_HARDSPEEDTEXT		=
+			"Enemies are faster.\n"
+			"Uses the Hard spawn filter.";
+	
+	SKILLS_NIGHTMARE			= "I am Death Incarnate!";
+		SKILLS_NIGHTMARETEXT		=
+			"Monsters are faster, more aggressive and respawn.\n"
+			"Uses the Nightmare spawn filter.";
+	
+	SKILLS_SE7EVIDAS   				= "Se7evidas";
+		SKILLS_SE7EVIDASTEXT 			=
+			"Prepare to die.";
+	
+// Cheats
+	STSTR_DQDON    				= "You are now immortal";
+	STSTR_DQDOFF   				= "Back with the mortals";
+	STSTR_KFAADDED 				= "It's raining weapons, ammunition, keys and armour!";
+	STSTR_FAADDED  				= "Need ammo?";
+	STSTR_NCON     				= "Sie sind jetzt ein geist";
+	STSTR_NCOFF    				= "After a while you start to miss being able to touch things.";
+	STSTR_BEHOLD   				= "Invuln (V), Inviso (I), Rad (R), Allmap (A), Lite-amp (L), Str (S)";
+	STSTR_BEHOLDX  				= "Powerup dispensed";
+	STSTR_CHOPPERS 				= "NEIN -AM";
+	STSTR_CLEV             		= "Changing Level...\n";
+
+// STARTUP*
+	STARTUP1					= "Tell phantombeta on the forums or on the IRC channel if you find any errors, bugs, glitches or crashes.";
+
+// Levels
+
+// Pick Ups
+	// Armour
+		GOTARMOR 					= "ST Armour.";
+		GOTMEGA 					= "GX Armour.";
+	
+	// Health
+		GOTSTIM						= "Stimpack";
+		GOTMEDIKIT					= "Medikit";
+		
+	// Ammo
+		GOTBACKPACK					= "Backpack"; // Backpack
+
+// Weapon Pickups
+	// Primary
+	
+	// Secondary
+	
+	// Melee
+
+// Deaths
+	OB_DEFAULT					= "%o was eaten by a grue.";
+
+// Self-Kills
+	OB_SUICIDE   				= "%o ate %p gun.";
+	OB_KILLEDSELF 				= "%o receives a Darwin Award.";
+	OB_VOODOO 					= "%o killed his doppelganger without considering the consequences.";
+
+// PvP
+	// Primary
+	
+	// Secondary
+	
+	// Melee
+	
+	// Misc
+		OB_SHRAPNEL				= "%o was hit by a piece of shrapnel";
+
+// Default Strings
+	QUITMSG 					= "Is this too much for you, pussy?";
+	TXT_YES 					= "Yes";
+	TXT_NO 						= "No";

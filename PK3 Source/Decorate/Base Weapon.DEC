@@ -1,0 +1,57 @@
+Actor S7_Weapon : Weapon {
+	Inventory.PickupSound "misc/gunpickup"
+	Weapon.Kickback 100
+	Weapon.BobRangeX 0.3
+	Weapon.BobRangeY 0.5
+	Weapon.BobStyle InverseSmooth
+	Weapon.BobSpeed 2.5
+	+Ammo_Optional +Weapon.NoAutoFire +Inventory.Undroppable
+	States {
+	Kicking:
+		TNT1 A 0 A_GunFlash ("KillSynthFire", GFF_NOEXTCHANGE)
+		TNT1 A 0 A_ZoomFactor (1.0)
+		TNT1 A 0 A_TakeInventory ("S7_Kicking", 1)
+		TNT1 A 0 A_JumpIfInventory ("PowerStrength", 1, "BerserkKick")
+		KICK BCD 1
+		KICK H 4 A_CustomPunch (random (30, 40), 1, 0, "S7_MeleePuff")
+		KICK IGFEDCBA 1
+		TNT1 A 0 A_Jump (256, "Ready")
+	BerserkKick:
+		KICK BCD 1
+		KICK H 4 A_CustomPunch (3 * random (30, 40), 1, 0, "S7_MeleePuffStrong")
+		KICK IGFEDCBA 1
+		TNT1 A 0 A_Jump (256, "Ready")
+	KillSynthFire:
+		TNT1 A 1
+		Stop
+	}
+}
+
+// By Jekyll Grim Payne/zer0, edited by Alex_Mercer
+Actor S7_MeleePuff {
+	+NoBlockmap +NoGravity +PuffOnActors -AllowParticles
+	+NoExtremeDeath
+	DamageType Kick
+	AttackSound "Weapons/kick/hitwall"
+	ActiveSound "Weapons/kick/swing"
+}
+
+Actor S7_MeleePuffStrong : S7_MeleePuff {
+	Decal FistScorch
+	AttackSound "Weapons/kick/strong"
+	ActiveSound "Weapons/kick/swing"
+	-NoExtremeDeath +ExtremeDeath
+	States {
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItem ("S7_ShotSmoke")
+		Stop
+	}
+}
+
+// SynthFire stuff
+// Synth-Fire|By Xaser
+Actor S7_SynthFireActive     : Boolean { }
+Actor S7_SynthFireLeft       : Boolean { }
+Actor S7_SynthFireRight      : Boolean { }
+Actor S7_SynthFireRightReady : Boolean { }

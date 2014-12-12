@@ -1,0 +1,70 @@
+ClearSkills
+Skill S7_Baby {
+	AmmoFactor = 2
+	ArmorFactor = 2
+	DamageFactor = 0.5
+	EasyBossBrain
+	SpawnFilter = Baby
+	Name = "$SKILLS_BABY"
+	PicName = "SKILL1"
+	MustConfirm = "$SKILLS_BABYTEXT"
+	Key = "H"
+	EasyKey
+}
+
+Skill S7_Easy {
+	EasyBossBrain
+	SpawnFilter = Easy
+	Name = "$SKILLS_EASY"
+	PicName = "SKILL2"
+	MustConfirm = "$SKILLS_EASYTEXT"
+	Key = "P"
+}
+
+Skill S7_Normal {
+	SpawnFilter = Normal
+	Name = "$SKILLS_NORMAL"
+	PicName = "SKILL3"
+	MustConfirm = "$SKILLS_NORMALTEXT"
+	Key = "D"
+}
+
+Skill S7_Harder {
+	SpawnFilter = Hard
+	Name = "$SKILLS_HARDER"
+	MustConfirm = "$SKILLS_HARDERTEXT"
+	Key = "F"
+	DefaultSkill
+}
+
+Skill S7_VeryHard {
+	SpawnFilter = Hard
+	FastMonsters
+	Name = "$SKILLS_HARDSPEED"
+	Aggressiveness = 0.025
+	MustConfirm = "$SKILLS_HARDSPEEDTEXT"
+	Key = "L"
+}
+
+Skill S7_Nightmare {
+	AmmoFactor = 2
+	FastMonsters
+	RespawnTime = 12
+	SpawnFilter = Nightmare
+	Name = "$SKILLS_NIGHTMARE"
+	MustConfirm = "$SKILLS_NIGHTMARETEXT"
+	Key = "B"
+}
+
+Skill S7_Brutal {
+	AmmoFactor = 2.0
+	RespawnTime = 5
+	RespawnLimit = 0
+	DamageFactor = 2.5
+	Aggressiveness = 0.5
+	SpawnFilter = Nightmare
+	Name = "$SKILLS_SE7EVIDAS"
+	FastMonsters
+	MustConfirm = "$SKILLS_SE7EVIDASTEXT"
+	Key = "I"
+}

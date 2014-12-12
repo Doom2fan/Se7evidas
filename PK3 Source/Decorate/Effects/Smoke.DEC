@@ -1,0 +1,61 @@
+// By Jekyll Grim Payne/zer0, edited by Alex_Mercer
+Actor S7_ShotSmoke {
+	+NotDMatch +NoInteraction +ForceXYBillboard +NoTimeFreeze
+	VSpeed 2
+	Renderstyle Add
+	Alpha 0.3
+	Scale 0.1
+	States {
+	Spawn:
+		SMOK ABCDEFGHIJKLMNOPQ 1 NoDelay A_SpawnItem ("S7_ShotSmokeTrail")
+		Stop
+	}
+}
+
+Actor S7_ShotSmokeTrail : S7_ShotSmoke {
+	VSpeed 0
+	Alpha 0.15
+	States {
+	Spawn:
+		SMOK CDEFGHIJKLMNOPQ 1
+		Stop
+	}
+}
+
+Actor S7_BlackSmoke : S7_ShotSmoke {
+	RenderStyle Translucent
+	Alpha 0.15
+	States {
+	Spawn:
+		TNT1 A 0
+		SMOK ABCDEFGHIJKLMNOPQ 1 A_SpawnItem ("S7_BlackSmokeTrail")
+		SMOK Q 1 A_FadeOut (0.02)
+		Wait
+	}
+}
+
+Actor S7_BlackSmokeTrail : S7_ShotSmokeTrail {
+	RenderStyle Translucent
+	Alpha 0.08
+}
+
+Actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Alex_Mercer
+	-NoGravity
+	Speed 12
+	Gravity 0.7
+	States {
+	Spawn:
+		TNT1 A 0 A_JumpIf (waterLevel >= 1, "Water")
+		TNT1 A 1
+		TNT1 A 1 A_SpawnItem ("S7_SmokingPieceSmoke")
+		Wait
+	Water:
+		TNT1 A 0
+		Stop
+	}
+}
+
+Actor S7_SmokingPieceSmoke : S7_ShotSmokeTrail {
+	Scale 0.06
+	Alpha 0.5
+}

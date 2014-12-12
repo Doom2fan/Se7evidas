@@ -1,0 +1,18 @@
+Gameinfo {
+	TitlePage = "TITLEPIC"
+	CreditPage = "CREDIT"
+	PlayerClasses = "S7_Player"
+	TitleTime = 8
+	AdvisoryTime = 6
+	PageTime = 5
+	ChatSound = "misc/chat"
+	FinaleMusic = "D_READ_2"
+	FinaleFlat = "SLIME16"
+	FinalePage = "CREDIT"
+	InfoPage = "HELP", "CREDIT"
+	QuitSound = "menu/quit2"
+	TelefogHeight = 0
+	DefKickback = 100
+	BackpackType = "Backpack"
+	GibFactor = 0.5
+}

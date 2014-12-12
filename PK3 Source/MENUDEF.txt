@@ -1,0 +1,273 @@
+DefaultListMenu {
+	Font "DBIGFONT", "Untranslated"
+	Selector "FDCURS", -32, -4
+	Linespacing 19
+}
+
+OptionMenu "OptionsMenu" {
+	Title "OPTIONS"
+	Submenu "Customize Controls",		"CustomizeControls"
+	Submenu "Mouse options",			"MouseOptions"
+	Submenu "Joystick options",			"JoystickOptions"
+	StaticText " "
+	Submenu "Player Setup",				"PlayerMenu"
+	Submenu "Gameplay Options",			"GameplayOptions"
+	Submenu "Compatibility Options",	"CompatibilityOptions"
+	Submenu "Automap Options",			"AutomapOptions"
+	Submenu "HUD Options",				"HUDOptions"
+	Submenu "Miscellaneous Options",	"MiscOptions"
+	Submenu "Sound Options",			"SoundOptions"
+	Submenu "Display Options",			"VideoOptions"
+	Submenu "Set video mode",			"VideoModeMenu"
+	StaticText " "
+	SafeCommand "Reset to defaults",	"reset2defaults"
+	SafeCommand	"Reset to last saved",	"reset2saved"
+	Command "Go to console",			"menuconsole"
+}
+
+OptionMenu "CustomizeControls" {
+	Title "CUSTOMIZE CONTROLS"
+	ScrollTop 2
+	StaticTextSwitchable 	"ENTER to change, BACKSPACE to clear", "Press new key for control, ESC to cancel", "ControlMessage"
+	StaticText 	""
+	StaticText  "Se7evidas", 1
+	Control     "Kick",					"Use S7_Kick_Key"
+	Control 	"Weapon Reload",		"+reload"
+	Control 	"Weapon Zoom",			"+zoom"
+	Control     "Sprint",				"+user1"
+	Control     "Drop Weapon",			"Use S7_Drop_Weapon_Key"
+	StaticText 	""
+	StaticText 	"Controls", 1
+	Control 	"Fire",					"+attack"
+	Control 	"Secondary Fire",		"+altattack"
+	Control 	"Use / Open",			"+use"
+	Control 	"Move forward",			"+forward"
+	Control 	"Move backward",		"+back"
+	Control 	"Strafe left",			"+moveleft"
+	Control 	"Strafe right",			"+moveright"
+	Control 	"Turn left",			"+left"
+	Control 	"Turn right",			"+right"
+	Control 	"Jump",					"+jump"
+	Control 	"Crouch",				"+crouch"
+	Control 	"Crouch Toggle",		"crouch"
+	Control 	"Fly / Swim up",		"+moveup"
+	Control 	"Fly / Swim down",		"+movedown"
+	Control 	"Stop flying",			"land"
+	Control 	"Mouse look",			"+mlook"
+	Control 	"Keyboard look",		"+klook"
+	Control 	"Look up",				"+lookup"
+	Control 	"Look down",			"+lookdown"
+	Control 	"Center view",			"centerview"
+	Control 	"Run",					"+speed"
+	Control 	"Strafe",				"+strafe"
+	Control 	"Show Scoreboard",		"+showscores"
+	StaticText 	""
+	StaticText 	"Chat", 1
+	Control 	"Say",					"messagemode"
+	Control 	"Team say",				"messagemode2"
+	StaticText 	""
+	StaticText 	"Weapons", 1
+	Control 	"Next weapon",			"weapnext"
+	Control 	"Previous weapon",		"weapprev"
+	Control		"Weapon Slot 1",		"slot 1"
+	Control		"Weapon Slot 2",		"slot 2"
+	Control		"Weapon Slot 3",		"slot 3"
+	Control		"Weapon Slot 4",		"slot 4"
+	Control		"Weapon Slot 5",		"slot 5"
+	Control		"Weapon Slot 6",		"slot 6"
+	Control		"Weapon Slot 7",		"slot 7"
+	Control		"Weapon Slot 8",		"slot 8"
+	Control		"Weapon Slot 9",		"slot 9"
+	Control		"Weapon Slot 0",		"slot 0"
+	StaticText 	""
+	StaticText 	"Inventory", 1
+	Control 	"Activate item",		"invuse"
+	Control 	"Activate all items",	"invuseall"
+	Control 	"Next item",			"invnext"
+	Control 	"Previous item",		"invprev"
+	Control 	"Drop item",			"invdrop"
+	Control		"Query item",			"invquery"
+	Control 	"Drop weapon",			"weapdrop"
+	StaticText 	""
+	StaticText 	"Other", 1
+	Control 	"Toggle automap",		"togglemap"
+	Control 	"Chasecam",				"chase"
+	Control 	"Coop spy",				"spynext"
+	Control 	"Screenshot",			"screenshot"
+	Control  	"Open console",			"toggleconsole"
+	StaticText 	""
+	StaticText 	"Strife Popup Screens", 1
+	Control 	"Mission objectives",	"showpop 1"
+	Control     "Show Player Info and keys", "showpop 2"
+	Control     "Weapons/ammo/stats",	"showpop 3"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Final Duel Options
+//
+//-------------------------------------------------------------------------------------------
+
+OptionMenu "FDSettings" {
+	Title "FINAL DUEL OPTIONS"
+	StaticText "Visual Options"
+	Option "Mod messages on",																	"FD_MsgsOn", "OnOff"
+	Option "Log level up messages",																"FD_LogLVLUpMsgs", "OnOff"
+	StaticText " "
+	StaticText "Audio Options"
+	Option "Heartbeats on",																		"FD_HeartbeatsOn", "OnOff"
+	StaticText " "
+	StaticText "Gameplay Options"
+	Option "Auto-Reload",																		"FD_AutoReload", "OnOff"
+	Option "Auto-Reload SSG",																	"FD_AutoReloadSSG", "OnOff"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Main Menu
+//
+//-------------------------------------------------------------------------------------------
+
+LISTMENU "MainMenu" {
+	Font "DBIGFONT", "Untranslated"
+	StaticText 17, 8, "Final Duel"
+	Font "Smallfont", "Untranslated"
+	Position 37, 62
+	TextItem "New", "n", "PlayerclassMenu"
+	TextItem "Options","o", "OptionsMenu"
+	TextItem "Load", "l", "LoadGameMenu"
+	TextItem "Save", "s", "SaveGameMenu"
+	TextItem "Help", "h", "HelpTopicsMenu"
+	TextItem "Quit", "q", "QuitMenu"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Skill Menu
+//
+//-------------------------------------------------------------------------------------------
+
+ListMenu "SkillMenu" {
+	StaticText 126, 14, "New Game"
+	Font "BigFont"
+	StaticText 34, 32, "Choose your skill"
+	Position 16, 50
+	Linespacing 24
+	Font "BigFont", "Gray"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Episode Menu
+//
+//-------------------------------------------------------------------------------------------
+
+ListMenu "EpisodeMenu" {
+	Font "BigFont", "Untranslated"
+	NetgameMessage "$NETGAME"
+	Position 48, 63
+	StaticText 84, 38, "Choose your mission"
+	Font "BigFont", "Gray"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Class Menu
+//
+//-------------------------------------------------------------------------------------------
+
+ListMenu "PlayerclassMenu" {
+	Font "BigFont", "Untranslated"
+	Position 48, 63
+	StaticText 84, 38, "Choose your class"
+	Font "BigFont", "Gray"
+	Position 48, 63
+	PlayerDisplay 220, 63, "20 00 00", "80 00 40"
+	MouseWindow 0, 220
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Help Menu
+//
+//-------------------------------------------------------------------------------------------
+
+ListMenu "HelpTopicsMenu" {
+	Font "Dbigfont", "Untranslated"
+	Position 37, 30
+	StaticText 0, 0, "Help"
+	Font "Smallfont", "Untranslated"
+	TextItem "1. Basic Stuff.","1","Help1"
+	TextItem "2. Damage.","2","HelpDamage"
+	TextItem "3. Credits.","3","Credits"
+}
+
+ListMenu "Help1" {
+	Font "Dbigfont", "Untranslated"
+	Position 37, 30
+	StaticText 0, 0, "Help page 1"
+	Font "Smallfont", "Untranslated"
+	StaticText 4,35, "1) There is reloading, and it is clip-based, not bullet-based(except for some"
+	StaticText 4,45, "weapons). So keep those itchy reload fingers at bay"
+	StaticText 4,65, "2) This mod has custom keys, but none are bound when first running this mod,"
+	StaticText 4,75, "you must set them yourself"
+}
+
+ListMenu "HelpDamage" {
+	Font "Dbigfont", "Untranslated"
+	Position 37, 30
+	StaticText 0, 0, "Damage"
+	Font "Smallfont", "Untranslated"
+	StaticText 4,35, "Cybernetic/Robotic enemies take higher damage from the Annihilator."
+	StaticText 4,45, "Hell Nobles and Bull Demons take higher damage from Explosive Slugs."
+	StaticText 4,55, "Rockets and other explosives make damaging shrapnel on explosion"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Credits
+//
+//-------------------------------------------------------------------------------------------
+
+ListMenu "Credits" {
+	Font "Dbigfont", "Untranslated"
+	Position 37, 20
+	StaticText 0, 0, "Credits"
+	Font "Smallfont", "Untranslated"
+	StaticText 4,30, "For detailed credits check the CREDITS or ZZZ CREDITS lumps in the PK3's folders."
+	StaticText 4,40, "Eriance, Raven Software, Keksdose, Tormentor667, Ghastly_dragon, Sniper 109,"
+	StaticText 4,50, "Mauricio Rocks, ID software, 3d Realms, MasterOFMorag, Xim, PillowBlaster,"
+	StaticText 4,60, "ClonedPickle, MidoriMan, Epic Games, Ubisoft, HellstormArchon, Necronixxus,"
+	
+	StaticText 4,80, "Sergeant_Mark_IV, Valve Software, JoeyTD, SuperSonix07, The Skulltag Team,"
+	StaticText 4,90, "zrrion the insect, osjclatchford, Blox/Bloax, Rogue Entertainment, Banjo Software,"
+	StaticText 4,100, "Lobotomy Software,Captain Toenail, ScubaSteve, Uboa, Aerial, Mike12,"
+	StaticText 4,110, "Jekyll Grim Payne \"Aka\" zer0, Blue Shadow, Infirnex, Nick Baker,"
+	
+	StaticText 4,130, "Dusk, Grymmoire, DrDoctor, Nash, DBThanatos, Blizzard, Jimmy, Virtue,"
+	StaticText 4,140, "Dutch Devil, ProjectAngel, Nanami, Vader, Cyb, Sandypaper, Solarsnowfall"
+	StaticText 4,150, "Ixnatiful, Dreadopp, Bouncy, KDiZD, Midway, TheDarkArchon, LucasArts,"
+	StaticText 4,160, "Rottking, Wolfendoom, LilWhiteMouse, Clebardman, In Persuit of Greed."
+	Position 20, 190
+	TextItem "Next page","n","Credits2"
+}
+ListMenu "Credits2" {
+	Font "Dbigfont", "Untranslated"
+	Position 37, 20
+	StaticText 0, 0, "Credits"
+	Font "Smallfont", "Untranslated"	
+	StaticText 4,30, "CyClones, Heretic, Hexen, Doom, Doom II, Quake Scourge of Armagon,"
+	StaticText 4,40, "Sonic 3, Descent, FreeRadical Design, scalliano, WildWeasel, Aenima"
+	StaticText 4,50, "Enjay, Zero X. Diamond, the Zandronum community, SladeEXE, BloodyAcid,"
+	StaticText 4,60, "the ZDoom community, Z86, Marrub, Bethesda SoftWorks, Chickenlegz,"
+	
+	StaticText 4,80, "HellCattX, Xaser, Captain J, Batandy, Team TNT, hnsolo77, Partners in Rhyme,"
+	StaticText 4,90, "Jobro, Nintendo, CroTeam, Espi, Monolith Software, the freeSFX users,"
+	StaticText 4,100, "NightmareMutant (GAMEBANANA user), Bane, abbuw, NiGHTMARE, FuzzballFox,"
+	StaticText 4,110, "Langerium (Freesound user), Sound Library, Killing Floor, DavidRaven,"
+	
+	StaticText 4, 130, "DoomNukem, Brutal Doom v19 SE, Revilution, Erdie (Freesound user),"
+	StaticText 4, 140, "Strife, IMX, Tripwire Interactive, Walter_Odington (Freesound user),"
+	StaticText 4, 150, "terranova, SoloSpaghetti, torridGristle, ItsNatureToDie, Revenant100/Marphy Black,"
+	StaticText 4, 160, "DaveOfDefeat2248 (Freesound user), Qent"
+}
