@@ -1,0 +1,16 @@
+thumbs.db
+*.backup*
+*.bak*
+*.wad.backup*
+*.wad.bak*
+*.tmp*
+*.dbs
+*.ncb
+*.suo
+*.pdb
+*.ilk
+*.aps
+*.user
+acs.err
+*.lnk
+(1)Log.txt
