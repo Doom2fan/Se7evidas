@@ -1,0 +1,72 @@
+#DEFINE MEDIKITHEALTH 40
+#DEFINE STIMPACKHEALTH MEDIKITHEALTH / 2
+
+script "S7_Medikit Script" (void) {
+	print (s:"Applying Medikit");
+	thing_Stop (0);
+	setPlayerProperty (0, 1, PROP_Frozen);
+	delay (35 * 2);
+	setPlayerProperty (0, 0, PROP_Frozen);
+	if (MEDIKITHEALTH - (100 - GetActorProperty (0, APROP_Health)) >= STIMPACKHEALTH)
+		if (!CheckInventory ("S7_Stimpack"))
+			giveInventory ("S7_Stimpack", 1);
+		else
+			spawn ("S7_Stimpack", GetActorX (0), GetActorY (0), GetActorZ (0));
+	healThing (MEDIKITHEALTH);
+}
+
+script "S7_Stimpack Script" (void) {
+	print (s:"Applying Stimpack");
+	thing_Stop (0);
+	setPlayerProperty (0, 1, PROP_Frozen);
+	delay (35 * 1);
+	healThing (STIMPACKHEALTH);
+	setPlayerProperty (0, 0, PROP_Frozen);
+}
+
+script "S7_Heartbeat Script" ENTER {
+	if (gameType () == game_Title_Map)
+		terminate;
+	
+	int health;
+	int heartbeatTics = 0;
+	
+	while (TRUE) {
+		health = getActorProperty (0, APROP_HEALTH);
+		
+		if (health < 2 && health > 0) {
+			if (heartbeatTics >= 35) {
+				heartbeatTics = 0;
+				localAmbientSound ("Player/Heartbeat", 127);
+			}
+			heartbeatTics++;
+		} else if (health <= 5 && health > 0) {
+			if (heartbeatTics >= 70) {
+				heartbeatTics = 0;
+				localAmbientSound ("Player/Heartbeat", 127);
+			}
+			heartbeatTics++;
+		} else if (health <= 10 && health > 0) {
+			if (heartbeatTics >= 105) {
+				heartbeatTics = 0;
+				localAmbientSound ("Player/Heartbeat", 127);
+			}
+			heartbeatTics++;
+		} else if (health <= 15 && health > 0) {
+			if (heartbeatTics >= 140) {
+				heartbeatTics = 0;
+				localAmbientSound ("Player/Heartbeat", 127);
+			}
+			heartbeatTics++;
+		} else if (health <= 25 && health > 0) {
+			if (heartbeatTics >= 175) {
+				heartbeatTics = 0;
+				localAmbientSound ("Player/Heartbeat", 127);
+			}
+			heartbeatTics++;
+		} else if (health > 20 && heartbeatTics > 0)
+			heartbeatTics = 0;
+			
+		delay (1);
+	}
+}

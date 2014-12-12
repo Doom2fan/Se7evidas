@@ -1,0 +1,17 @@
+script "S7_SpeedScript" ENTER {
+	if (gameType () == Game_Title_Map)
+		terminate;
+	
+	int health;
+	
+	while (TRUE) {
+		health = getActorProperty (0, APROP_HEALTH);
+		
+		if (health <= 20)
+			giveInventory ("S7_SlowedDown", 9999999);
+		else
+			takeInventory ("S7_SlowedDown", 9999999);
+		
+		delay(1);
+	}
+}
