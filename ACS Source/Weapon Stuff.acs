@@ -1,0 +1,31 @@
+#DEFINE FD_DUMMYWEAPON_COUNT 2
+str FD_DummyWeapons [FD_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon" };
+global str 54:FD_LastWeapon [];
+
+function void lastWeapon (int mode) {
+	if (mode != 0) {
+		setWeapon (FD_LastWeapon [playerNumber ()]);
+	} else {
+		for (int i = 0; i < FD_DUMMYWEAPON_COUNT; i++) {
+			if (strIcmp (FD_lastWeapon [playerNumber ()], FD_DummyWeapons [i]) == 0)
+				return;
+		}
+		FD_LastWeapon [playerNumber ()] = getWeapon ();
+	}
+}
+
+function void disableWeapon (str meh, str blah) {
+	if (meh == 0)
+		meh = FD_DummyWeapons [0];
+	
+	if (checkWeapon (meh)) {
+		if (blah != 0)
+			takeInventory (blah, 99999);
+		lastWeapon (1);
+		return;
+	}
+	
+	lastWeapon (0);
+	giveInventory (meh, 1);
+	setWeapon (meh);
+}

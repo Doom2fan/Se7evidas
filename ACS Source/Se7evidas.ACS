@@ -1,5 +1,14 @@
 #INCLUDE "zcommon.acs"
 #LIBRARY "Se7evidas"
 
+// Includes
+#INCLUDE "commonFuncs.h"
+#INCLUDE "Weapon Stuff.ACS"
 #INCLUDE "Health.ACS"
+#INCLUDE "Stamina.ACS"
+#INCLUDE "Sprint System.ACS"
 #INCLUDE "Misc.ACS"
+
+// Defines
+
+// Highest global var ID: 53
