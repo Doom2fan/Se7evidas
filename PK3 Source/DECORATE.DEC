@@ -17,5 +17,10 @@
 // Player stuff
 #INCLUDE "Decorate/Player.DEC"
 
+// Ammo
+#INCLUDE "Decorate/Inventory/Ammo.DEC"
+
 // Weapons
 #INCLUDE "Decorate/Base Weapon.DEC"
+// Secondary
+	#INCLUDE "Decorate/Weapons/Raptor Handgun/DECORATE.DEC"

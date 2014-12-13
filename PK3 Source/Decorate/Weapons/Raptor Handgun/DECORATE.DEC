@@ -1,0 +1,98 @@
+Actor S7_RaptorClip : Ammo {
+	Inventory.MaxAmount 7
+	Ammo.BackpackMaxAmount 7
+	+IgnoreSkill
+}
+
+Actor S7_Raptor : S7_BaseWeapon {
+	Inventory.PickupSound "misc/w_pkup"
+	Inventory.PickupMessage "Raptor Handgun"
+	Weapon.AmmoType1 "S7_RaptorClip"
+	Weapon.AmmoType2 "S7_Clip"
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 12
+	States {
+	Spawn:
+		RPTP A -1
+		Loop
+	Ready:
+	Ready2:
+		TNT1 A 0 A_JumpIfInventory ("S7_Kicking", 1, "Kicking")
+		RPTN A 1 A_WeaponReady (WRF_ALLOWRELOAD)
+		Loop
+	Deselect:
+		RPTN A 0 A_Lower
+		Wait
+	Select:
+		RPTN A 0 A_Raise
+		Wait
+	Fire:
+		RPTN A 0 A_JumpIfInventory ("S7_RaptorClip", 1, 1)
+		Goto DryFire
+		RPTN A 0 A_PlaySound ("Weapons/Raptor/Fire", CHAN_WEAPON)
+		RPTN A 0 A_GunFlash
+		RPTN A 0 A_SetPitch (pitch - 0.2)
+		TNT1 A 0 A_AlertMonsters
+		RPTN B 1 Bright A_FireBullets (3.0, 4.0, -1, 6, "S7_BulletPuff", 1)
+		RPTN A 0 A_SetPitch (pitch - 0.2)
+		RPTN CDAA 1
+		RPTN AAA 1 A_Refire ("Fire2")
+		RPTN A Random (8, 6)
+		Goto Ready2
+	Fire2:
+		RPTN A 0 A_JumpIfInventory ("S7_RaptorClip", 1, 1)
+		Goto DryFire
+		RPTN A 0 A_ClearRefire
+		RPTN A 0 A_PlaySound ("Weapons/Raptor/Fire", CHAN_WEAPON)
+		RPTN A 0 A_GunFlash
+		RPTN A 0 A_SetPitch (pitch - 0.2)
+		TNT1 A 0 A_AlertMonsters
+		RPTN B 1 Bright A_FireBullets (3.0, 4.0, -1, 6, "S7_BulletPuff", 1)
+		RPTN A 0 A_SetPitch (pitch - 0.2)
+		RPTN CD 1
+		RPTN AA 1
+		RPTN A Random (8, 6)
+		Goto Ready2
+	AltFire:
+		RPTM A 0 A_PlaySound ("Weapons/Raptor/Melee", CHAN_WEAPON)
+		RPTM ABC 1
+		RPTM D 1 A_CustomPunch (20, 0, 0, "S7_RaptorMPuff", 85)
+		RPTM EFGH 1
+		TNT1 A 4
+		RPTN A 1
+		Goto Ready2
+	Reload:
+		TNT1 A 0 A_JumpIfInventory ("S7_RaptorClip", 0, "Ready2")
+		TNT1 A 0 A_JumpIfInventory ("S7_Clip", 1, "TrueReload")
+		Goto Ready2
+	TrueReload:
+		TNT1 A 0 A_JumpIfInventory ("S7_RaptorClip", 0, "ReloadFinish")
+		TNT1 A 0 A_JumpIfInventory ("S7_Clip", 1, 1)
+		Goto ReloadFinish
+		TNT1 A 0 A_GiveInventory ("S7_RaptorClip", 1)
+		TNT1 A 0 A_TakeInventory ("S7_Clip", 1)
+		Loop
+	ReloadFinish:
+		RPTR ABBC 1
+		RPTR D 4
+		RPTR D 8 A_PlaySound ("Weapons/Raptor/Out", CHAN_WEAPON)
+		RPTR D 4 A_PlaySound ("Weapons/Raptor/In", CHAN_WEAPON)
+		RPTR BA 1
+		RPTN A 1
+		Goto Ready2
+	}
+}
+
+Actor S7_RaptorMPuff {
+	+NoBlockmap +NoGravity +NoExtremeDeath -PuffOnActors
+	RenderStyle Translucent
+	Alpha 0.5
+	SeeSound "Weapons/Raptor/Melee/Hit"
+	AttackSound "Weapons/Raptor/Melee/Wall"
+	States {
+	Spawn:
+		RMPF AB 2
+		RMPF C 1
+		Stop
+	}
+}

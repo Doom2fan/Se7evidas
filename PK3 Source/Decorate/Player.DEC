@@ -1,11 +1,30 @@
 // By Alex_Mercer
-// Base Player Class
-Actor S7_BasePlayerClass : PlayerPawn {
+Actor S7_Step : Boolean { }
+
+Actor S7_Player : PlayerPawn {
 	// Damage
 	GibHealth -50
 	PainChance 255
-	// Speed Related
-	Player.JumpZ 8.0
+	
+	// Movement
+	Player.ForwardMove 0.4625, 0.4625
+	Player.SideMove 0.4625, 0.4625
+	
+	// Give Items/Weapons/Ammo
+	Player.StartItem MeleeAttack
+	
+	// Class stuff
+	Player.DisplayName "Player"
+	
+	// Weapon Slots
+	Player.WeaponSlot 3, S7_Raptor
+	Player.WeaponSlot 4, MeleeWeapon
+	
+	Player.StartItem "S7_Raptor"
+	Player.StartItem "S7_Clip", 50
+	Player.StartItem "S7_KickKey"
+	Player.StartItem "S7_StaminaRegen"
+	
 	// Misc
 	Radius 16
 	Height 56
@@ -14,6 +33,7 @@ Actor S7_BasePlayerClass : PlayerPawn {
 	Player.InvulnerabilityMode Reflective
 	Player.ColorRange 112, 127
 	+Solid +NoSkin
+	
 	States {
 	Spawn:
 		PLAY AAAA 1
@@ -88,20 +108,6 @@ Actor S7_BasePlayerClass : PlayerPawn {
 		PLAY N -1
 		Stop
 	}
-}
-
-Actor S7_Step : Boolean { }
-
-Actor S7_Player : S7_BasePlayerClass {
-	// Speed related
-	Player.ForwardMove 0.5, 0.7
-	Player.SideMove 0.4, 0.6
-	
-	// Give Items/Weapons/Ammo
-	Player.StartItem MeleeAttack
-	
-	// Weapon Slots
-	Player.WeaponSlot 4, MeleeWeapon
 }
 
 Actor S7_SlowedDown : PowerSpeed {

@@ -1,11 +1,12 @@
-Actor S7_Weapon : Weapon {
+Actor S7_BaseWeapon : Weapon {
 	Inventory.PickupSound "misc/gunpickup"
 	Weapon.Kickback 100
 	Weapon.BobRangeX 0.3
 	Weapon.BobRangeY 0.5
 	Weapon.BobStyle InverseSmooth
 	Weapon.BobSpeed 2.5
-	+Ammo_Optional +Weapon.NoAutoFire +Inventory.Undroppable
+	+Weapon.Ammo_Optional +Weapon.NoAutoFire +Inventory.Undroppable
+	+Weapon.NoAlert
 	States {
 	Kicking:
 		TNT1 A 0 A_GunFlash ("KillSynthFire", GFF_NOEXTCHANGE)
@@ -16,14 +17,20 @@ Actor S7_Weapon : Weapon {
 		KICK H 4 A_CustomPunch (random (30, 40), 1, 0, "S7_MeleePuff")
 		KICK IGFEDCBA 1
 		TNT1 A 0 A_Jump (256, "Ready")
+		Wait
 	BerserkKick:
 		KICK BCD 1
 		KICK H 4 A_CustomPunch (3 * random (30, 40), 1, 0, "S7_MeleePuffStrong")
 		KICK IGFEDCBA 1
 		TNT1 A 0 A_Jump (256, "Ready")
+		Wait
 	KillSynthFire:
 		TNT1 A 1
 		Stop
+	DryFire:
+		"####" "#" 10 A_PlaySound ("Weapons/DryFire", CHAN_WEAPON)
+		"####" "#" 0 A_Jump (256, "Ready2")
+		Wait
 	}
 }
 
@@ -32,14 +39,14 @@ Actor S7_MeleePuff {
 	+NoBlockmap +NoGravity +PuffOnActors -AllowParticles
 	+NoExtremeDeath
 	DamageType Kick
-	AttackSound "Weapons/kick/hitwall"
-	ActiveSound "Weapons/kick/swing"
+	AttackSound "Weapons/Kick/HitWall"
+	ActiveSound "Weapons/Kick/Swing"
 }
 
 Actor S7_MeleePuffStrong : S7_MeleePuff {
 	Decal FistScorch
-	AttackSound "Weapons/kick/strong"
-	ActiveSound "Weapons/kick/swing"
+	AttackSound "Weapons/Kick/Strong"
+	ActiveSound "Weapons/Kick/Swing"
 	-NoExtremeDeath +ExtremeDeath
 	States {
 	Spawn:
