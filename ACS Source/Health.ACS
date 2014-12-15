@@ -1,7 +1,8 @@
 #DEFINE MEDIKITHEALTH 40
 #DEFINE STIMPACKHEALTH MEDIKITHEALTH / 2
 
-script "S7_Medikit Script" (void) {
+#DEFINE S7_MedikitScript 900
+script S7_MedikitScript (void) {
 	print (s:"Applying Medikit");
 	thing_Stop (0);
 	setPlayerProperty (0, 1, PROP_Frozen);
@@ -15,7 +16,8 @@ script "S7_Medikit Script" (void) {
 	healThing (MEDIKITHEALTH);
 }
 
-script "S7_Stimpack Script" (void) {
+#DEFINE S7_StimpackScript 901
+script S7_StimpackScript (void) {
 	print (s:"Applying Stimpack");
 	thing_Stop (0);
 	setPlayerProperty (0, 1, PROP_Frozen);
@@ -24,7 +26,8 @@ script "S7_Stimpack Script" (void) {
 	setPlayerProperty (0, 0, PROP_Frozen);
 }
 
-script "S7_Heartbeat Script" ENTER {
+#DEFINE S7_HeartbeatScript 903
+script S7_HeartbeatScript ENTER {
 	if (gameType () == game_Title_Map)
 		terminate;
 	

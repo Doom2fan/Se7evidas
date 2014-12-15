@@ -1,7 +1,8 @@
-global int 50:S7_SS_OldSpeed [];
-global int 51:S7_SS_Sprinting [];
+int S7_SS_OldSpeed [MAXPLAYERS];
+int S7_SS_Sprinting [MAXPLAYERS];
 
-script "S7_SprintSystem" ENTER {
+#DEFINE S7_SprintSystem 904
+script S7_SprintSystem ENTER {
 	if (gameType () == game_Title_Map)
 		terminate;
 	
@@ -25,8 +26,7 @@ script "S7_SprintSystem" ENTER {
 			disableWeapon ("S7_SprintWeapon", "S7_Sprinting");
 		}
 		if (checkInventory ("S7_Sprinting") && S7_SS_Sprinting [playerNumber ()]) {
-			if (checkInventory ("S7_Stamina") >= 5)
-			{
+			if (checkInventory ("S7_Stamina") >= 5) {
 				if (checkInventory ("S7_Sprinting") && tics >= 5) {
 					tics = 0;
 					takeInventory ("S7_Stamina", 5);

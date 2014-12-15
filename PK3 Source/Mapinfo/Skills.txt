@@ -1,7 +1,6 @@
 ClearSkills
 Skill S7_Baby {
 	AmmoFactor = 2
-	ArmorFactor = 2
 	DamageFactor = 0.5
 	EasyBossBrain
 	SpawnFilter = Baby
@@ -9,7 +8,6 @@ Skill S7_Baby {
 	PicName = "SKILL1"
 	MustConfirm = "$SKILLS_BABYTEXT"
 	Key = "H"
-	EasyKey
 }
 
 Skill S7_Easy {
@@ -34,7 +32,6 @@ Skill S7_Harder {
 	Name = "$SKILLS_HARDER"
 	MustConfirm = "$SKILLS_HARDERTEXT"
 	Key = "F"
-	DefaultSkill
 }
 
 Skill S7_VeryHard {

@@ -1,22 +1,38 @@
-#DEFINE FD_DUMMYWEAPON_COUNT 2
-str FD_DummyWeapons [FD_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon" };
-global str 54:FD_LastWeapon [];
+#DEFINE S7_WEAPONMAX 1
+str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor" };
+#DEFINE S7_DUMMYWEAPON_COUNT 2
+str S7_DummyWeapons [S7_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon" };
+int S7_LastWeapon [MAXPLAYERS];
+
+function int getWeaponName (void) {
+	for (int i = 0; i < S7_WEAPONMAX; i++) {
+		if (checkWeapon (S7_DummyWeapons [i])) 
+			return -1;
+		
+		if (checkWeapon (S7_WeaponName [i]))
+			return i;
+	}
+	
+	return -1;
+}
 
 function void lastWeapon (int mode) {
+	int weaponNumber;
 	if (mode != 0) {
-		setWeapon (FD_LastWeapon [playerNumber ()]);
+		weaponNumber = S7_LastWeapon [playerNumber ()];
+		setWeapon (S7_WeaponName [weaponNumber]);
 	} else {
-		for (int i = 0; i < FD_DUMMYWEAPON_COUNT; i++) {
-			if (strIcmp (FD_lastWeapon [playerNumber ()], FD_DummyWeapons [i]) == 0)
-				return;
-		}
-		FD_LastWeapon [playerNumber ()] = getWeapon ();
+		weaponNumber = getWeaponName ();
+		if (weaponNumber == -1)
+			return;
+		else
+			S7_LastWeapon [playerNumber ()] = weaponNumber;
 	}
 }
 
 function void disableWeapon (str meh, str blah) {
 	if (meh == 0)
-		meh = FD_DummyWeapons [0];
+		meh = S7_DummyWeapons [0];
 	
 	if (checkWeapon (meh)) {
 		if (blah != 0)
@@ -25,7 +41,7 @@ function void disableWeapon (str meh, str blah) {
 		return;
 	}
 	
-	lastWeapon (0);
 	giveInventory (meh, 1);
 	setWeapon (meh);
+	lastWeapon (0);
 }

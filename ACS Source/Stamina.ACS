@@ -1,8 +1,9 @@
 #DEFINE MAXSTAMINA 150
 
-global int 52:S7_SR_StaminaEmpty [];
+int S7_SR_StaminaEmpty [MAXPLAYERS];
 
-script "S7_StaminaRegeneration" ENTER {
+#DEFINE S7_StaminaRegeneration 905
+script S7_StaminaRegeneration ENTER {
 	// Not needed or desired in TitleMaps.
 	if (gameType () == game_Title_Map)
 		terminate;
@@ -15,11 +16,11 @@ script "S7_StaminaRegeneration" ENTER {
 		staminaAmount = checkInventory ("S7_Stamina");
 		health = getActorProperty (0, APROP_HEALTH);
 		
-		if (health > 50 && staminaTics >= 2 && !checkWeapon ("S7_SprintWeapon")) {
+		if (health > 50 && staminaTics >= 1 && !checkWeapon ("S7_SprintWeapon")) {
 			staminaTics = 0;
 			giveInventory ("S7_Stamina", 1);
 		}
-		if (health <= 50 && staminaTics >= 5 && !checkWeapon ("S7_SprintWeapon")) {
+		if (health <= 50 && staminaTics >= 3 && !checkWeapon ("S7_SprintWeapon")) {
 			staminaTics = 0;
 			giveInventory ("S7_Stamina", 1);
 		}

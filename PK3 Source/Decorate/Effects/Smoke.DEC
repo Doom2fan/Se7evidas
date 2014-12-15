@@ -7,7 +7,8 @@ Actor S7_ShotSmoke {
 	Scale 0.1
 	States {
 	Spawn:
-		SMOK ABCDEFGHIJKLMNOPQ 1 NoDelay A_SpawnItem ("S7_ShotSmokeTrail")
+		TNT1 A 0
+		SMOK ABCDEFGHIJKLMNOPQ 1 A_SpawnItem ("S7_ShotSmokeTrail")
 		Stop
 	}
 }
@@ -45,10 +46,11 @@ Actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Alex_Mercer
 	Gravity 0.7
 	States {
 	Spawn:
+		TNT1 A 0
 		TNT1 A 0 A_JumpIf (waterLevel >= 1, "Water")
 		TNT1 A 1
 		TNT1 A 1 A_SpawnItem ("S7_SmokingPieceSmoke")
-		Wait
+		Loop
 	Water:
 		TNT1 A 0
 		Stop

@@ -1,8 +1,16 @@
-// Info
-// You can use anything from here just credit the author (They are in the
-// CREDITS or in the INFO file of the WAD or folder. Please note that I
-// have edited most of the files (Except for most of the sprites and sounds,
-// any sound or sprite that I edited should be in the CREDITS or INFO lump)
+/* Info
+** You can use anything from here. Just make sure to credit the author(s).
+**
+** Credits for the DECORATE codes are in the file or in the CREDITS file
+** contained in the same folder as the DECORATE.DEC file.
+**
+** Credits for the sound files are in Credits/Sounds.TXT.
+**
+** Credits for the sprites is in the CREDITS.txt files contained in the
+** same folder as the DECORATE code for the actor. Sprites used in multi-
+** ple actors should be in Credits/Sprites.TXT.
+*/
+
 // Highest DoomEdNum: 30000
 
 #INCLUDE "Decorate/Defaults.DEC"

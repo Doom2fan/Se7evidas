@@ -1,7 +1,6 @@
 Gameinfo {
 	TitlePage = "TITLEPIC"
 	CreditPage = "CREDIT"
-	PlayerClasses = "S7_Player"
 	TitleTime = 8
 	AdvisoryTime = 6
 	PageTime = 5

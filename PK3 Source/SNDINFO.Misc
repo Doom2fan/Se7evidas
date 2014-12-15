@@ -1,0 +1,20 @@
+$RANDOM Misc/Body {
+	Misc/Body1
+	Misc/Body2
+	Misc/Body3
+	Misc/Body4
+	Misc/Body5
+	Misc/Body6
+	Misc/Body7
+	Misc/Body8
+	Misc/Body9
+}
+Misc/Body1					"sounds/Misc/BODY01.ogg"
+Misc/Body2					"sounds/Misc/BODY02.ogg"
+Misc/Body3					"sounds/Misc/BODY03.ogg"
+Misc/Body4					"sounds/Misc/BODY04.ogg"
+Misc/Body5					"sounds/Misc/BODY05.ogg"
+Misc/Body6					"sounds/Misc/BODY06.ogg"
+Misc/Body7					"sounds/Misc/BODY07.ogg"
+Misc/Body8					"sounds/Misc/BODY08.ogg"
+Misc/Body9					"sounds/Misc/BODY09.ogg"

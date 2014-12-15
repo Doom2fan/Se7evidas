@@ -1,5 +1,6 @@
-script "S7_SpeedScript" ENTER {
-	if (gameType () == Game_Title_Map)
+#DEFINE S7_SpeedScript 902
+script S7_SpeedScript ENTER {
+	if (gameType () == game_Title_Map)
 		terminate;
 	
 	int health;
@@ -13,5 +14,22 @@ script "S7_SpeedScript" ENTER {
 			takeInventory ("S7_SlowedDown", 9999999);
 		
 		delay(1);
+	}
+}
+
+script "Water" ENTER {
+	// Not needed or desired in TitleMaps.
+	if (gameType () == game_Title_Map)
+		terminate;
+	
+	while (TRUE) {
+		if (getActorProperty(0, APROP_WATERLEVEL) > 2) // if underwater...
+			giveInventory ("S7_IsUnderwater", 1); // give S7_IsUnderwater
+
+		else if (getActorProperty(0, APROP_WATERLEVEL) <= 2) // if not underwater
+			takeInventory ("S7_IsUnderwater", 1); // take S7_IsUnderwater
+			
+		setInventory ("S7_AirTime", getAirSupply (playerNumber ()));
+		delay (1);
 	}
 }

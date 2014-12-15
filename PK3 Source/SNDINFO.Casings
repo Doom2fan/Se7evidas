@@ -1,0 +1,43 @@
+$RANDOM Weapons/Shell {
+	Weapons/Shell1
+	Weapons/Shell2
+	Weapons/Shell3
+}
+Weapons/Shell1 "sounds/Effects/Casings/Shell1.ogg"
+Weapons/Shell2 "sounds/Effects/Casings/Shell2.ogg"
+Weapons/Shell3 "sounds/Effects/Casings/Shell3.ogg"
+
+$RANDOM Weapons/Casing {
+	Weapons/Casing1
+	Weapons/Casing2
+	Weapons/Casing3
+}
+Weapons/Casing1 "sounds/Effects/Casings/Casing1.ogg"
+Weapons/Casing2 "sounds/Effects/Casings/Casing2.ogg"
+Weapons/Casing3 "sounds/Effects/Casings/Casing3.ogg"
+$LIMIT Weapons/Casing 5
+
+/* Mag sounds
+$RANDOM Weapons/SmallMagDrop {
+	Weapons/SmallMagDrop1
+	Weapons/SmallMagDrop2
+	Weapons/SmallMagDrop3
+	Weapons/SmallMagDrop4
+}
+Weapons/SmallMagDrop1 "sounds/Effects/Casings/SmallMag1.ogg"
+Weapons/SmallMagDrop2 "sounds/Effects/Casings/SmallMag2.ogg"
+Weapons/SmallMagDrop3 "sounds/Effects/Casings/SmallMag3.ogg"
+Weapons/SmallMagDrop4 "sounds/Effects/Casings/SmallMag4.ogg"
+$VOLUME Weapons/SmallMagDrop 0.5
+
+$RANDOM Weapons/LargeMagDrop {
+	Weapons/LargeMagDrop1
+	Weapons/LargeMagDrop2
+	Weapons/LargeMagDrop3
+	Weapons/LargeMagDrop4
+}
+Weapons/LargeMagDrop1 "sounds/Effects/Casings/LargeMag1.ogg"
+Weapons/LargeMagDrop2 "sounds/Effects/Casings/LargeMag2.ogg"
+Weapons/LargeMagDrop3 "sounds/Effects/Casings/LargeMag3.ogg"
+Weapons/LargeMagDrop4 "sounds/Effects/Casings/LargeMag4.ogg"
+$VOLUME Weapons/LargeMagDrop 0.5*/
