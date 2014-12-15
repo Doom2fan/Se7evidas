@@ -21,6 +21,7 @@ Actor S7_Player : PlayerPawn {
 	Player.StartItem S7_KickKey
 	Player.StartItem S7_ReloadKey
 	Player.StartItem S7_StaminaRegen
+	Player.StartItem S7_Stamina, 150
 	
 	// Class stuff
 	Player.DisplayName "Player"

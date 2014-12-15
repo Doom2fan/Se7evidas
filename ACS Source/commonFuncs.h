@@ -168,6 +168,12 @@ function void healthUnboost (int HP) {
 	setActorProperty (0, APROP_SPAWNHEALTH, currentHP - HP);
 }
 
+// Set inventory
+function void setInventory (str actorName, int amount) {
+	takeInventory (actorName, 0x7FFFFFFF);
+	giveInventory (actorName, amount);
+}
+
 // Player move speed script made by DoomRater
 // transformed into a function by Alex_Mercer
 function void playerSpeed (int movespeed) {
