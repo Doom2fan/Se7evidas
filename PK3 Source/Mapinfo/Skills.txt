@@ -5,7 +5,6 @@ Skill S7_Baby {
 	EasyBossBrain
 	SpawnFilter = Baby
 	Name = "$SKILLS_BABY"
-	PicName = "SKILL1"
 	MustConfirm = "$SKILLS_BABYTEXT"
 	Key = "H"
 }
@@ -14,7 +13,6 @@ Skill S7_Easy {
 	EasyBossBrain
 	SpawnFilter = Easy
 	Name = "$SKILLS_EASY"
-	PicName = "SKILL2"
 	MustConfirm = "$SKILLS_EASYTEXT"
 	Key = "P"
 }
@@ -22,7 +20,6 @@ Skill S7_Easy {
 Skill S7_Normal {
 	SpawnFilter = Normal
 	Name = "$SKILLS_NORMAL"
-	PicName = "SKILL3"
 	MustConfirm = "$SKILLS_NORMALTEXT"
 	Key = "D"
 }
