@@ -1,7 +1,7 @@
 // By Alex_Mercer
 Actor S7_Step : Boolean { }
-
 Actor S7_IsUnderwater : Boolean { }
+Actor S7_Dying : Boolean { }
 
 Actor S7_AirTime : Counter { Inventory.MaxAmount 100 }
 
@@ -111,10 +111,6 @@ Actor S7_Player : PlayerPawn {
 		PLAY N -1
 		Stop
 	}
-}
-
-Actor S7_SlowedDown : PowerSpeed {
-	Speed 0.3
 }
 
 // Null Weapon
