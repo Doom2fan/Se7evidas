@@ -4,7 +4,7 @@
 		SKILLS_BABYTEXT				=
 			"Really? You must suck a lot at this";
 	
-	SKILLS_EASY     			= "I've got a wife and kids! Kill them!";
+	SKILLS_EASY     			= "Wait! I've got a wife and kids! Kill them!";
 		SKILLS_EASYTEXT				=
 			"You still suck.";
 	
