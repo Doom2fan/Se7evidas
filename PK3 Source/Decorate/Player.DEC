@@ -60,7 +60,6 @@ Actor S7_Player : PlayerPawn {
 		Goto Spawn
 	Melee:
 		PLAY F 6 Bright
-		Stop
 		Goto Missile
 	Pain:
 		PLAY G 4
@@ -81,9 +80,8 @@ Actor S7_Player : PlayerPawn {
 		PLAY P 5 A_XScream
 		PLAY Q 5 A_NoBlocking
 		PLAY RSTUV 5
-		//PLAY W -1
-		//Stop
-		Goto Hell
+		PLAY W -1
+		Stop
 	Death.Fire:
 		BURN ABC 5 Bright
 		BURN D 5 Bright
