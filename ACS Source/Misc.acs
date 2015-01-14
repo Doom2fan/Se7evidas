@@ -17,7 +17,8 @@ script S7_SpeedScript ENTER {
 	}
 }
 
-script "Water" ENTER {
+#DEFINE S7_WaterScript 909
+script S7_WaterScript ENTER {
 	// Not needed or desired in TitleMaps.
 	if (gameType () == game_Title_Map)
 		terminate;

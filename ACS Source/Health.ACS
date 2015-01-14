@@ -5,9 +5,9 @@
 script S7_MedikitScript (void) {
 	print (s:"Applying Medikit");
 	thing_Stop (0);
-	setPlayerProperty (0, 1, PROP_Frozen);
+	setPlayerProperty (0, 1, PROP_TotallyFrozen);
 	delay (35 * 2);
-	setPlayerProperty (0, 0, PROP_Frozen);
+	setPlayerProperty (0, 0, PROP_TotallyFrozen);
 	if (MEDIKITHEALTH - (100 - GetActorProperty (0, APROP_Health)) >= STIMPACKHEALTH)
 		if (!CheckInventory ("S7_Stimpack"))
 			giveInventory ("S7_Stimpack", 1);
@@ -20,10 +20,10 @@ script S7_MedikitScript (void) {
 script S7_StimpackScript (void) {
 	print (s:"Applying Stimpack");
 	thing_Stop (0);
-	setPlayerProperty (0, 1, PROP_Frozen);
+	setPlayerProperty (0, 1, PROP_TotallyFrozen);
 	delay (35 * 1);
 	healThing (STIMPACKHEALTH);
-	setPlayerProperty (0, 0, PROP_Frozen);
+	setPlayerProperty (0, 0, PROP_TotallyFrozen);
 }
 
 #DEFINE S7_HeartbeatScript 903
