@@ -45,3 +45,35 @@ function void disableWeapon (str meh, str blah) {
 	setWeapon (meh);
 	lastWeapon (0);
 }
+
+// Scripts
+// SynthFire stuff
+#DEFINE S7_SynthFire 910
+script S7_SynthFire (void) {
+	while (TRUE) {
+		if (!checkInventory ("SynthFireActive"))
+			terminate;
+		
+		if (keyDown (BT_ATTACK) && !checkInventory ("SynthFireLeft"))
+			giveInventory ("SynthFireLeft", 1);
+		
+		if (keyDown (BT_ALTATTACK) && !checkInventory ("SynthFireRight"))
+			giveInventory ("SynthFireRight", 1);
+		
+		delay (1);
+		
+		if (!keyDown (BT_ATTACK) && checkInventory ("SynthFireLeft"))
+			takeInventory ("SynthFireLeft", 1);
+		
+		if (!keyDown (BT_ALTATTACK) && checkInventory ("SynthFireRight"))
+			takeInventory ("SynthFireRight", 1);
+	}
+}
+
+#DEFINE S7_SynthFireAllowChange 911
+script S7_SynthFireAllowChange (void) {
+	if (!checkInventory ("SynthFireRightReloading") || checkInventory ("SynthFireLeftReloading"))
+		setResultValue (1);
+	else
+		setResultValue (0);
+}

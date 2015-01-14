@@ -51,7 +51,8 @@ Actor S7_MeleePuffStrong : S7_MeleePuff {
 
 // SynthFire stuff
 // Synth-Fire|By Xaser
-Actor S7_SynthFireActive     : Boolean { }
-Actor S7_SynthFireLeft       : Boolean { }
-Actor S7_SynthFireRight      : Boolean { }
-Actor S7_SynthFireRightReady : Boolean { }
+Actor S7_SynthFireActive         : Boolean { }
+Actor S7_SynthFireLeft           : Boolean { }
+Actor S7_SynthFireRight          : Boolean { }
+Actor S7_SynthFireRightReloading : Boolean { }
+Actor S7_SynthFireLeftReloading  : Boolean { }
