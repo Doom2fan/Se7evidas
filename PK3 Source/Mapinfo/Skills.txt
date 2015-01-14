@@ -1,64 +1,64 @@
-ClearSkills
-Skill S7_Baby {
-	AmmoFactor = 2
-	DamageFactor = 0.5
-	EasyBossBrain
-	SpawnFilter = Baby
-	Name = "$SKILLS_BABY"
-	MustConfirm = "$SKILLS_BABYTEXT"
-	Key = "H"
+Clearskills
+skill S7_Baby {
+	ammoFactor = 2
+	damageFactor = 0.5
+	easyBossBrain
+	spawnFilter = Baby
+	name = "$SKILLS_BABY"
+	mustConfirm = "$SKILLS_BABYTEXT"
+	key = "H"
 }
 
-Skill S7_Easy {
-	EasyBossBrain
-	SpawnFilter = Easy
-	Name = "$SKILLS_EASY"
-	MustConfirm = "$SKILLS_EASYTEXT"
-	Key = "P"
+skill S7_Easy {
+	easyBossBrain
+	spawnFilter = Easy
+	name = "$SKILLS_EASY"
+	mustConfirm = "$SKILLS_EASYTEXT"
+	key = "P"
 }
 
-Skill S7_Normal {
-	SpawnFilter = Normal
-	Name = "$SKILLS_NORMAL"
-	MustConfirm = "$SKILLS_NORMALTEXT"
-	Key = "D"
+skill S7_Normal {
+	spawnFilter = Normal
+	name = "$SKILLS_NORMAL"
+	mustConfirm = "$SKILLS_NORMALTEXT"
+	key = "D"
 }
 
-Skill S7_Harder {
-	SpawnFilter = Hard
-	Name = "$SKILLS_HARDER"
-	MustConfirm = "$SKILLS_HARDERTEXT"
-	Key = "F"
+skill S7_Harder {
+	spawnFilter = Hard
+	name = "$SKILLS_HARDER"
+	mustConfirm = "$SKILLS_HARDERTEXT"
+	key = "F"
 }
 
-Skill S7_VeryHard {
-	SpawnFilter = Hard
-	FastMonsters
-	Name = "$SKILLS_HARDSPEED"
-	Aggressiveness = 0.025
-	MustConfirm = "$SKILLS_HARDSPEEDTEXT"
-	Key = "L"
+skill S7_VeryHard {
+	spawnFilter = Hard
+	fastMonsters
+	name = "$SKILLS_HARDSPEED"
+	aggressiveness = 0.025
+	mustConfirm = "$SKILLS_HARDSPEEDTEXT"
+	key = "L"
 }
 
-Skill S7_Nightmare {
-	AmmoFactor = 2
-	FastMonsters
-	RespawnTime = 12
-	SpawnFilter = Nightmare
-	Name = "$SKILLS_NIGHTMARE"
-	MustConfirm = "$SKILLS_NIGHTMARETEXT"
-	Key = "B"
+skill S7_Nightmare {
+	ammoFactor = 2
+	fastMonsters
+	respawnTime = 12
+	spawnFilter = Nightmare
+	name = "$SKILLS_NIGHTMARE"
+	mustConfirm = "$SKILLS_NIGHTMARETEXT"
+	key = "B"
 }
 
-Skill S7_Brutal {
-	AmmoFactor = 2.0
-	RespawnTime = 5
-	RespawnLimit = 0
-	DamageFactor = 2.5
-	Aggressiveness = 0.5
-	SpawnFilter = Nightmare
-	Name = "$SKILLS_SE7EVIDAS"
-	FastMonsters
-	MustConfirm = "$SKILLS_SE7EVIDASTEXT"
-	Key = "I"
+skill S7_Brutal {
+	ammoFactor = 2.0
+	respawnTime = 5
+	respawnLimit = 0
+	damageFactor = 2.5
+	aggressiveness = 0.5
+	spawnFilter = Nightmare
+	name = "$SKILLS_SE7EVIDAS"
+	fastMonsters
+	mustConfirm = "$SKILLS_SE7EVIDASTEXT"
+	key = "I"
 }

@@ -1,0 +1,3 @@
+map TITLEMAP "Titlemap" {
+	music = "music/TITLEMAP.spc"
+}
