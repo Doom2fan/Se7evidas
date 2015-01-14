@@ -1,0 +1,4 @@
+Actor S7_Shotgun : S7_BaseWeapon {
+	Inventory.PickupMessage "$SHOTGUN"
+	Tag "$SHOTGUN"
+}
