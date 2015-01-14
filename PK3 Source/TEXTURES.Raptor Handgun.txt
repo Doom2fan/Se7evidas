@@ -50,19 +50,19 @@ Sprite RPTRD0, 320, 200 {
 }
 
 Sprite RPTRF0, 320, 200 {
-	Patch RPTNG0, 212, 90
+	Patch RPTNF0, 212, 90
 }
 
 Sprite RPTRG0, 320, 200 {
-	Patch RPTNG0, 212, 101
+	Patch RPTNF0, 212, 101
 }
 
 Sprite RPTRH0, 320, 200 {
-	Patch RPTNG0, 212, 108
+	Patch RPTNF0, 212, 108
 }
 
 Sprite RPTRI0, 320, 200 {
-	Patch RPTNG0, 212, 123
+	Patch RPTNF0, 212, 123
 }
 
 Sprite RPTRJ0, 320, 200 {
