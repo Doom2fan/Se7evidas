@@ -1,4 +1,4 @@
-[default enu]
+[default enu en]
 // Quit Doom 1 messages
 	QUITMSG1 = "Please don't leave, there's more\ndemons to toast!";
 	QUITMSG2 = "Let's beat it -- this is turning\ninto a bloodbath!";

@@ -1,4 +1,4 @@
-[default enu]
+[default enu en]
 // Dificulty Settings
 	SKILLS_BABY     			= "I'm a baby! *cries*";
 		SKILLS_BABYTEXT				=
@@ -54,15 +54,15 @@
 
 // Pick Ups
 	// Armour
-		GOTARMOR 					= "ST Armour.";
-		GOTMEGA 					= "GX Armour.";
+		GOTARMOR 					= "ST Armour";
+		GOTMEGA 					= "GX Armour";
 	
 	// Health
 		GOTSTIM						= "Stimpack";
 		GOTMEDIKIT					= "Medikit";
 		
 	// Ammo
-		GOTBACKPACK					= "Backpack"; // Backpack
+		GOTBACKPACK					= "Backpack";
 
 // Weapon Pickups
 	// Primary
