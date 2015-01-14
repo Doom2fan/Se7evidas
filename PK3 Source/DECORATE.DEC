@@ -13,6 +13,7 @@
 
 // Highest DoomEdNum: 30000
 
+#INCLUDE "Decorate/Constants.DEC"
 #INCLUDE "Decorate/Defaults.DEC"
 
 // Effects
@@ -30,5 +31,7 @@
 
 // Weapons
 #INCLUDE "Decorate/Base Weapon.DEC"
+// Primary
+#INCLUDE "Decorate/Weapons/Primary/Shotgun/DECORATE.DEC"
 // Secondary
-	#INCLUDE "Decorate/Weapons/Raptor Handgun/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Raptor Handgun/DECORATE.DEC"

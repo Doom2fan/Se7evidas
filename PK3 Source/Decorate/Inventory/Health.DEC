@@ -1,5 +1,3 @@
-const int S7_MedikitScript = 900;
-const int S7_StimpackScript = 901;
 Actor S7_Medikit : CustomInventory Replaces Medikit {
 	+Inventory.InvBar
 	Inventory.MaxAmount 1

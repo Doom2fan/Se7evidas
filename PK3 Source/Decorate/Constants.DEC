@@ -1,0 +1,7 @@
+// Inventory
+const int S7_MedikitScript = 900;
+const int S7_StimpackScript = 901;
+
+// Weapons
+const int S7_SynthFire = 910;
+const int S7_SynthFireAllowChange = 911;
