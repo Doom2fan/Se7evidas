@@ -11,8 +11,8 @@ Actor S7_Player : PlayerPawn {
 	PainChance 255
 	
 	// Movement
-	Player.ForwardMove 0.4625, 0.4625
-	Player.SideMove 0.4625, 0.4625
+	Player.ForwardMove 0.65, 0.65
+	Player.SideMove 0.65, 0.65
 	
 	// Give Items/Weapons/Ammo
 	Player.StartItem MeleeWeapon
@@ -186,6 +186,18 @@ Actor S7_ReloadKey : CustomInventory {
 	}
 }
 
+// Reload
+Actor S7_ChangeFireMode : Boolean { }
+Actor S7_FiringModeKey : CustomInventory {
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+	+Inventory.Undroppable -InvBar
+	States {
+	Use:
+		TNT1 A 0 A_GiveInventory ("S7_ChangeFireMode", 1)
+		Fail
+	}
+}
 
 // Drop Weapon
 Actor S7_DropDatWeapon : Boolean { }
