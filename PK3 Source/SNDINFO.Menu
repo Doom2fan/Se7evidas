@@ -1,0 +1,16 @@
+// Ok
+menu/activate			"sounds/Menu/Ok.ogg"
+menu/prompt				"sounds/Menu/Ok.ogg"
+menu/choose				"sounds/Menu/Ok.ogg"
+
+// Selection Move
+menu/cursor				"sounds/Menu/Selection Move.ogg"
+menu/change				"sounds/Menu/Selection Move.ogg"
+
+// Back
+menu/dismiss			"sounds/Menu/Back.ogg"
+menu/clear				"sounds/Menu/Back.ogg"
+menu/backup				"sounds/Menu/Back.ogg"
+
+// Errors
+menu/invalid			"sounds/Menu/Error.ogg"
