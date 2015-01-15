@@ -25,6 +25,7 @@ Actor S7_Raptor : S7_BaseWeapon {
 		RPTN A 1 A_WeaponReady
 		RPTN A 0 A_JumpIfInventory ("S7_Kicking", 1, "Kicking")
 		RPTN A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
+		RPTN A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
 		RPTN A 0 A_TakeInventory ("S7_RaptorRefire", 1)
 		RPTN A 1 A_WeaponReady
 		Loop
@@ -39,7 +40,6 @@ Actor S7_Raptor : S7_BaseWeapon {
 		RPTN A 0 A_JumpIfInventory ("S7_RaptorClip", 1, 1)
 		Goto DryFire
 		RPTN A 0 A_PlaySound ("Weapons/Raptor/Fire", CHAN_WEAPON)
-		RPTN A 0 A_GunFlash
 		RPTN A 0 A_SetPitch (pitch - 0.2)
 		RPTN A 0 A_AlertMonsters
 		RPTN B 1 Bright A_FireBullets (3.0, 4.0, -1, 6, "S7_BulletPuff", 1)
