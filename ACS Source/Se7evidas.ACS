@@ -14,7 +14,8 @@
 
 // Defines
 
-// Highest script num ID: 912
+// Highest script num ID: 913
+// Highest global var ID: 4
 
 #DEFINE S7_Enter 906
 script S7_Enter ENTER {

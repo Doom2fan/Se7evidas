@@ -1,6 +1,6 @@
 #DEFINE MAXSTAMINA 150
 
-int S7_SR_StaminaEmpty [MAXPLAYERS];
+global int 3:S7_SR_StaminaEmpty [];
 
 #DEFINE S7_StaminaRegeneration 905
 script S7_StaminaRegeneration ENTER {

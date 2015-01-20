@@ -142,6 +142,22 @@ function int inRange (int low, int high, int x) {
     return ((x >= low) && (x < high));
 }
 
+function int unusedTID(int start, int end) {
+	int ret = start - 1;
+	int tidNum;
+	if (start > end) {
+		start ^= end;
+		end ^= start;
+		start ^= end;
+	} // good ol' XOR swap
+	while (ret++ != end) {
+		if (ThingCount(0, ret) == 0)
+			return ret;
+	}
+	
+	return -1;
+}
+
 // by Alex_mercer
 
 // Summoning

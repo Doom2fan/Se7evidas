@@ -2,7 +2,7 @@
 str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor" };
 #DEFINE S7_DUMMYWEAPON_COUNT 2
 str S7_DummyWeapons [S7_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon" };
-int S7_LastWeapon [MAXPLAYERS];
+global int 2:S7_LastWeapon [];
 
 function int getWeaponName (void) {
 	for (int i = 0; i < S7_WEAPONMAX; i++) {
