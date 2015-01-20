@@ -1,5 +1,20 @@
-Actor S7_Clip : Ammo Replaces Clip {
+Actor S7_Clip : Ammo Replaces Clip 31000 {
 	Tag "Clip"
+	Inventory.PickupMessage "$GOTCLIP"
+	Inventory.Amount 15
+	Inventory.MaxAmount 200
+	Ammo.BackpackMaxAmount 400
+	Inventory.Icon "CLIPA0"
+	Inventory.PickupSound "misc/ammopickup"
+	States {
+	Spawn:
+		CLIP A -1
+		Stop
+	}
+}
+
+Actor S7_Shells : Ammo Replaces Shell 31001 {
+	Tag "Shells"
 	Inventory.PickupMessage "$GOTCLIP"
 	Inventory.Amount 15
 	Inventory.MaxAmount 200

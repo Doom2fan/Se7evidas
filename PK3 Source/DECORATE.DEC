@@ -6,13 +6,18 @@
 **
 ** Credits for the sound files are in Credits/Sounds.TXT.
 ** Credits for the music files are in Credits/Music.TXT.
+** Credits for the muzzle flashes goes to me, Alex_Mercer.
 **
 ** Credits for the sprites is in the CREDITS.txt files contained in the
 ** same folder as the DECORATE code for the actor. Sprites used in multi-
 ** ple actors should be in Credits/Sprites.TXT.
 */
 
-// Highest DoomEdNum: 30000
+/* Highest DoomEdNums:
+** Weapons: 30002
+** Ammo: 31002
+** Inventory: 33002
+*/
 
 #INCLUDE "Decorate/Constants.DEC"
 #INCLUDE "Decorate/Defaults.DEC"

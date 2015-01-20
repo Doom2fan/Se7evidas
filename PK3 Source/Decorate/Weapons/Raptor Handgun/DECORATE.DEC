@@ -6,7 +6,7 @@ Actor S7_RaptorClip : Ammo {
 
 Actor S7_RaptorRefire : Boolean { }
 
-Actor S7_Raptor : S7_BaseWeapon {
+Actor S7_Raptor : S7_BaseWeapon 30000 {
 	Inventory.PickupMessage "$RAPTORHANDGUN"
 	Tag "$RAPTORHANDGUN"
 	Weapon.AmmoType1 "S7_RaptorClip"
@@ -98,7 +98,7 @@ Actor S7_Raptor : S7_BaseWeapon {
 }
 
 Actor S7_RaptorMPuff {
-	+NoBlockmap +NoGravity +NoExtremeDeath -PuffOnActors
+	+NoBlockmap +NoGravity +NoExtremeDeath +PuffOnActors
 	RenderStyle Translucent
 	Alpha 0.5
 	SeeSound "Weapons/Raptor/Melee/Hit"
@@ -107,6 +107,9 @@ Actor S7_RaptorMPuff {
 	Spawn:
 		RMPF AB 2
 		RMPF C 1
+		Stop
+	XDeath:
+		TNT1 A 0
 		Stop
 	}
 }

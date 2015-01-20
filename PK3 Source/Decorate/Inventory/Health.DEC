@@ -1,4 +1,4 @@
-Actor S7_Medikit : CustomInventory Replaces Medikit {
+Actor S7_Medikit : CustomInventory Replaces Medikit 33000 {
 	+Inventory.InvBar
 	Inventory.MaxAmount 1
 	Inventory.PickupMessage "$GOTMEDIKIT" // "Picked up a medikit."
@@ -18,7 +18,7 @@ Actor S7_Medikit : CustomInventory Replaces Medikit {
 	}
 }
 
-Actor S7_Stimpack : CustomInventory Replaces Stimpack {
+Actor S7_Stimpack : CustomInventory Replaces Stimpack 33001 {
 	+Inventory.InvBar
 	Inventory.MaxAmount 1
 	Inventory.PickupMessage "$GOTSTIM" // "Picked up a stimpack."
