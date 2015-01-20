@@ -16,7 +16,7 @@
 /* Highest DoomEdNums:
 ** Weapons: 30002
 ** Ammo: 31002
-** Inventory: 33002
+** Inventory: 32003
 */
 
 #INCLUDE "Decorate/Constants.DEC"
