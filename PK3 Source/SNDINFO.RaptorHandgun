@@ -1,4 +1,12 @@
-Weapons/Raptor/Fire             "sounds/Weapons/Raptor Handgun/Fire.ogg"
+$RANDOM Weapons/Raptor/Fire {
+	Weapons/Raptor/Fire1
+	Weapons/Raptor/Fire2
+	Weapons/Raptor/Fire3
+}
+Weapons/Raptor/Fire1            "sounds/Weapons/Raptor Handgun/Fire1.ogg"
+Weapons/Raptor/Fire2            "sounds/Weapons/Raptor Handgun/Fire2.ogg"
+Weapons/Raptor/Fire3            "sounds/Weapons/Raptor Handgun/Fire3.ogg"
+
 Weapons/Raptor/Melee            "sounds/Weapons/Raptor Handgun/Melee.ogg"
 Weapons/Raptor/Melee/Hit        "sounds/Weapons/Raptor Handgun/MeleeHit.ogg"
 Weapons/Raptor/Melee/Wall       "sounds/Weapons/Raptor Handgun/MeleeWall.ogg"
