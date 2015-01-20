@@ -1,0 +1,43 @@
+Sprite SSGFE0, 320, 200 {
+	Patch SSGRA0, 215, 103
+}
+
+Sprite SSGFF0, 320, 200 {
+	Patch SSGRA0, 211, 99
+}
+
+Sprite SSGFG0, 320, 200 {
+	Patch SSGRA0, 209, 97
+}
+
+Sprite SSGFH0, 320, 200 {
+	Patch SSGRA0, 204, 90
+}
+
+Sprite SSGFI0, 320, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME1.PNG", 179, 58
+}
+
+Sprite SSGFJ0, 320, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME2.png", 163, 25
+}
+
+Sprite SSGFK0, 320, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME2.png", 166, 31
+}
+
+Sprite SSGFL0, 320, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME3.png", 184, 36
+}
+
+Sprite SSGFM0, 321, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME3.png", 187, 42
+}
+
+Sprite SSGFN0, 323, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME4.png", 200, 46
+}
+
+Sprite SSGFO0, 326, 200 {
+	Patch "graphics/Weapons/Shotgun/FRAME4.png", 203, 51
+}

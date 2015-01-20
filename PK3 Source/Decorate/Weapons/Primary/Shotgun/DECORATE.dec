@@ -1,4 +1,82 @@
-Actor S7_Shotgun : S7_BaseWeapon {
+Actor S7_ShotgunMag : Ammo {
+	Inventory.MaxAmount 8
+	Ammo.BackpackMaxAmount 8
+	+IgnoreSkill
+}
+
+Actor S7_ShotgunLoaded : Ammo {
+	Inventory.MaxAmount 2
+	Ammo.BackpackMaxAmount 2
+	+IgnoreSkill
+}
+
+Actor S7_Shotgun : S7_BaseWeapon 30001 {
 	Inventory.PickupMessage "$SHOTGUN"
 	Tag "$SHOTGUN"
+	Weapon.AmmoType1 "S7_ShotgunMag"
+	//Weapon.AmmoType2 "S7_Shells"
+	Weapon.AmmoUse 0
+	Weapon.AmmoGive 12
+	States {
+	Spawn:
+		DTUP A -1
+		Stop
+	
+	Ready:
+	Ready2:
+		//SSGR A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
+		SSGR A 0 A_JumpIfInventory ("S7_Kicking", 1, "Kicking")
+		SSGR A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
+		SSGR A 1 A_WeaponReady
+		Loop
+	Select:
+		SSGR A 0 A_Raise
+		Wait
+	Deselect:
+		SSGR A 0 A_Lower
+		Wait
+	Fire:
+		TNT1 A 0 A_JumpIfInventory ("S7_ShotgunLoaded", 2, "TrueFire")
+		TNT1 A 0 A_JumpIfInventory ("S7_ShotgunLoaded", 1, "AltFireRight")
+		Goto Pump
+	TrueFire:
+		SSGF A 0 A_JumpIfNoAmmo ("DryFire")
+		SSGF A 0 A_PlaySound ("Weapons/Shotgun/Fire", CHAN_WEAPON)
+		SSGF A 0 A_AlertMonsters
+		SSGF A 0 A_TakeInventory ("S7_ShotgunLoaded", 2)
+		SSGF A 2 A_FireBullets (3.8, 4.3, 9, 6, "S7_BulletPuff", 1)
+		SSGF EFG 1 A_SetPitch (pitch - 1.5)
+		SSGR A 6
+		Goto Ready2
+	AltFire:
+		SSGF B 0 A_JumpIfInventory ("S7_ShotgunLoaded", 1, 1)
+		Goto Pump
+		SSGF B 0 A_JumpIfInventory ("S7_ShotgunLoaded", 2, 1)
+		Goto AltFireRight
+		SSGF B 0 A_PlaySound ("Weapons/Shotgun/AltFire", CHAN_WEAPON)
+		SSGF B 0 A_AlertMonsters
+		SSGF B 0 A_TakeInventory ("S7_ShotgunLoaded", 1)
+		SSGF B 2 A_FireBullets (3.8, 4.3, 9, 6, "S7_BulletPuff", 1)
+		SSGF FG 1 A_SetPitch (pitch - 0.75)
+		SSGR A 3
+		Goto Ready2
+	AltFireRight:
+		SSGF C 0 A_PlaySound ("Weapons/Shotgun/AltFire", CHAN_WEAPON)
+		SSGF C 0 A_AlertMonsters
+		SSGF C 0 A_TakeInventory ("S7_ShotgunLoaded", 1)
+		SSGF C 2 A_FireBullets (3.8, 4.3, 9, 6, "S7_BulletPuff", 1)
+		SSGF FG 1 A_SetPitch (pitch - 0.75)
+		SSGR A 3
+		Goto Ready2
+	Pump:
+		SSGF G 0 A_JumpIfInventory ("S7_ShotgunMag", 1, 1)
+		Goto DryFire
+		SSGF G 0 A_GiveInventory ("S7_ShotgunLoaded", 2)
+		SSGF G 2 A_TakeInventory ("S7_ShotgunMag", 2)
+		SSGF H 2
+		SSGF I 0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_WEAPON)
+		SSGF IJKLMN 2
+		SSGF MLKJIH 2
+		Goto Ready2
+	}
 }
