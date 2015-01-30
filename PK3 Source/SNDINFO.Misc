@@ -1,3 +1,9 @@
+/*
+** BODY01-09 are from ww-terror. "I have no idea where a lot of these came
+** from - I got half of them from Goldeneye for Nintendo 64; the other half
+** from Woolie Wool's Mutiny Mod (which I believe were, in turn, borrowed
+** from Doom Enhanced)." --wildweasel
+*/
 $RANDOM Misc/Body {
 	Misc/Body1
 	Misc/Body2

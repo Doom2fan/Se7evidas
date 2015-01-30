@@ -1,2 +1,9 @@
-DECORATE: Alex_Mercer
-Sprites: Scuba Steve, Snarboo, Xaser, Cory Whittle, Marty Kirra, Alex_Mercer
+Decorate:
+Decorate by Alex_Mercer
+
+Sprites:
+Weapon sprites by Scuba Steve, Snarboo, Xaser, Cory Whittle, Marty Kirra
+Edited by Alex_Mercer
+
+Sounds:
+Firing sound by TerminusEst13

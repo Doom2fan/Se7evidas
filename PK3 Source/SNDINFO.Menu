@@ -1,3 +1,4 @@
+// Back, Selection Move, Ok and Error are from God of War 2
 // Ok
 menu/activate			"sounds/Menu/Ok.ogg"
 menu/prompt				"sounds/Menu/Ok.ogg"

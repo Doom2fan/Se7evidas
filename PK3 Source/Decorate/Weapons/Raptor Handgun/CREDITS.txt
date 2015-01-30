@@ -3,8 +3,8 @@ Decorate by Mor'ladim
 Edited by Alex_Mercer
 
 Sounds:
-Firing and melee sounds by Mor'ladim
-Reloading sounds by NightmareMutant
+Melee sounds by Mor'ladim
+Firing and Reloading sounds by NightmareMutant
 
 Sprites:
 Weapon sprites by Mor'ladim
