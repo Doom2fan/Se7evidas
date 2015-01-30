@@ -280,3 +280,15 @@ Actor GETTHATSHITOUTTAHERETRACER : FastProjectile {
 		Stop
 	}
 }
+
+// Weapon slot tokens
+Actor S7_Slot1Taken : Boolean { }
+Actor S7_Slot2Taken : Boolean { }
+Actor S7_Slot3Taken : Boolean { }
+Actor S7_Slot4Taken : Boolean { }
+Actor S7_Slot5Taken : Boolean { }
+Actor S7_Slot6Taken : Boolean { }
+Actor S7_Slot7Taken : Boolean { }
+Actor S7_Slot8Taken : Boolean { }
+Actor S7_Slot9Taken : Boolean { }
+Actor S7_Slot0Taken : Boolean { }
