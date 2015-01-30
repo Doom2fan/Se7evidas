@@ -27,7 +27,7 @@ script S7_StimpackScript (void) {
 }
 
 #DEFINE S7_HeartbeatScript 903
-script S7_HeartbeatScript ENTER {
+script S7_HeartbeatScript ENTER CLIENTSIDE {
 	if (gameType () == game_Title_Map)
 		terminate;
 	
