@@ -11,4 +11,4 @@ MKDIR "./PK3 Source/acs"
 
 SET PROG_GZDOOM="../../gzdoom.EXE"
 
-%PROG_GZDOOM% -file "%CD%/PK3 Source" -file %1 -file %2 -file %3 -file %4 -file  %5 -file %6
+%PROG_GZDOOM% -file "%CD%/PK3 Source" %*
