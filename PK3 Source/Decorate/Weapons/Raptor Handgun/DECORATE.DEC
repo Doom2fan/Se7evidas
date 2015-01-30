@@ -7,6 +7,9 @@ Actor S7_RaptorClip : Ammo {
 Actor S7_RaptorRefire : Boolean { }
 
 Actor S7_Raptor : S7_BaseWeapon 30000 {
+	//$Category Se7evidas - Weapons
+	//$Title Raptor
+	//$Sprite RPTPA0
 	Inventory.PickupMessage "$RAPTORHANDGUN"
 	Tag "$RAPTORHANDGUN"
 	Weapon.AmmoType1 "S7_RaptorClip"
