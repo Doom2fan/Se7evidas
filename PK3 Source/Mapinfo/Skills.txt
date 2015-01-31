@@ -62,3 +62,17 @@ skill S7_Brutal {
 	mustConfirm = "$SKILLS_SE7EVIDASTEXT"
 	key = "I"
 }
+
+Skill S7_AAAAAAAAAAA {
+	AutoUseHealth
+	AmmoFactor = 16
+	DoubleAmmoFactor = 32
+	DamageFactor = 0.0
+	SpawnFilter = Nightmare
+	Name = " "
+	MustConfirm = "$SKILLS_AAAAAAAAAAATEXT"
+	EasyKey
+	ReplaceActor = "ArmorBonus", "Cell"
+	ReplaceActor = "GreenArmor", "PlasmaRifle"
+	ReplaceActor = "BlueArmor", "BFG9000"
+}

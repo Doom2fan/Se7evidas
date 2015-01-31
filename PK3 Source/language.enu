@@ -35,6 +35,8 @@
 		SKILLS_SE7EVIDASTEXT 			=
 			"Prepare to die.";
 	
+		SKILLS_AAAAAAAAAAATEXT			= "Se7evidas' equivalent to Final Duel's AAAAAAAAAAA skill.";
+	
 // Cheats
 	STSTR_DQDON    				= "You are now immortal";
 	STSTR_DQDOFF   				= "Back with the mortals";

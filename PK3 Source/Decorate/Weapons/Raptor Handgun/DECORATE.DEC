@@ -97,6 +97,14 @@ Actor S7_Raptor : S7_BaseWeapon 30000 {
 		RPTR BA 1
 		RPTN A 1
 		Goto Ready2
+	Kick.Start:
+		RPTN STU 1
+		RPTN A 0 A_Jump (256, "Kicking.Mid")
+		Wait
+	Kick.End:
+		RPTN Y 4
+		RPTN ZXWVUTSR 1
+		Goto Ready2
 	}
 }
 
