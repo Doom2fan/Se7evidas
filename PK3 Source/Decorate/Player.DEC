@@ -11,12 +11,13 @@ Actor S7_Player : PlayerPawn {
 	PainChance 255
 	
 	// Movement
-	Player.ForwardMove 0.65, 0.65
-	Player.SideMove 0.65, 0.65
+	Player.ForwardMove 0.75, 0.75
+	Player.SideMove 0.75, 0.75
 	
 	// Give Items/Weapons/Ammo
 	Player.StartItem MeleeWeapon
 	Player.StartItem S7_Raptor
+	Player.StartItem S7_RaptorClip, 8
 	Player.StartItem S7_Clip, 50
 	Player.StartItem S7_KickKey
 	Player.StartItem S7_ReloadKey
@@ -27,8 +28,9 @@ Actor S7_Player : PlayerPawn {
 	Player.DisplayName "Player"
 	
 	// Weapon Slots
-	Player.WeaponSlot 3, S7_Raptor
-	Player.WeaponSlot 4, MeleeWeapon
+	Player.WeaponSlot 1, S7_Shotgun
+	Player.WeaponSlot 2, S7_Raptor
+	Player.WeaponSlot 3, S7_MeleeWeapon
 	
 	// Misc
 	Radius 16
