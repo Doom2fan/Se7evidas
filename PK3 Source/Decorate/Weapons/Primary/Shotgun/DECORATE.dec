@@ -37,8 +37,9 @@ Actor S7_Shotgun : S7_BaseWeapon 30001 {
 		Wait
 	
 	Deselect:
+		SSGR A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
 		SSGR A 0 A_Lower
-		Wait
+		Loop
 	
 	Fire:
 		TNT1 A 0 A_JumpIfInventory ("S7_ShotgunLoaded", 2, "TrueFire")

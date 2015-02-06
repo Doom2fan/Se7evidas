@@ -33,6 +33,7 @@ Actor S7_Raptor : S7_BaseWeapon 30000 {
 		RPTN A 1 A_WeaponReady
 		Loop
 	Deselect:
+		SSGR A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
 		RPTN A 0 A_Lower
 		Wait
 	Select:
