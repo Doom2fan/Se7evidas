@@ -87,3 +87,16 @@ Sprite SSGRZ0, 320, 200 {
 	Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
 	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
+
+// Reloading
+Sprite DSGRA0, 320, 200 {
+	Patch SSGRA0, 207, 95
+}
+
+Sprite DSGRB0, 320, 200 {
+	Patch SSGRA0, 205, 93
+}
+
+Sprite DSGRC0, 320, 200 {
+	Patch SSGRA0, 199, 87
+}
