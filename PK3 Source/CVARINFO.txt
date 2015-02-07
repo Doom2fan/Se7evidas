@@ -1,0 +1,1 @@
+Server Int S7_RunningInZDoom = 1; // HACK.

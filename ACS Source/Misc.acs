@@ -112,3 +112,11 @@ script S7_BrutalDoomCompatibility ENTER {
 			delayer = 0;
 	}
 }
+
+#DEFINE S7_RunningInZDoom 913
+script S7_RunningInZDoom (void) {
+	if (GetCVar ("S7_RunningInZDoom") == 1)
+		SetResultValue (1);
+	else
+		SetResultValue (0);
+}

@@ -5,3 +5,6 @@ const int S7_StimpackScript = 901;
 // Weapons
 const int S7_SynthFire = 910;
 const int S7_SynthFireAllowChange = 911;
+
+// Misc
+const int S7_RunningInZDoom = 913;
