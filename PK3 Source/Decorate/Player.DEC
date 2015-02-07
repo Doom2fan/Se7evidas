@@ -29,7 +29,7 @@ Actor S7_Player : PlayerPawn {
 	
 	// Weapon Slots
 	Player.WeaponSlot 1, S7_Shotgun
-	Player.WeaponSlot 2, S7_Raptor
+	Player.WeaponSlot 2, S7_Raptor, S7_TEC9
 	Player.WeaponSlot 3, S7_MeleeWeapon
 	
 	// Misc

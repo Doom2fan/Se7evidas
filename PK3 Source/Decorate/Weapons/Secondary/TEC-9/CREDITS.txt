@@ -1,0 +1,10 @@
+Decorate:
+Decorate by Alex_Mercer
+
+Sprites:
+Weapon sprites by Captain J and TheMightyHeracross
+Edited by Alex_Mercer
+
+Sounds:
+Firing and mag tap by Alex_Mercer. Made from sounds by NightmareMutant from GAMEBANANA
+Mag in/out by NightmareMutant from GAMEBANANA
