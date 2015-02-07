@@ -1,5 +1,5 @@
-#DEFINE S7_WEAPONMAX 1
-str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor" };
+#DEFINE S7_WEAPONMAX 3
+str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor", "S7_Shotgun", "S7_TEC9" };
 #DEFINE S7_DUMMYWEAPON_COUNT 2
 str S7_DummyWeapons [S7_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon" };
 global int 2:S7_LastWeapon [];
