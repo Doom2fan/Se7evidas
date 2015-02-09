@@ -6,7 +6,7 @@ SET PROG_ACC="%CD%/Tools/ACC/acc.EXE"
 SET ACSSOURCE="%CD%/ACS Source"
 SET ACS_DEST="%CD%/PK3 Source/acs"
 
-%PROG_ACC% %ACSSOURCE%/Se7evidas.ACS %ACS_DEST%/Se7evidas.O
+%PROG_ACC% %ACSSOURCE%/Se7evidas.c %ACS_DEST%/Se7evidas.O
 
 REM 7z stuff
 SET MAIN_7Z=%CD%

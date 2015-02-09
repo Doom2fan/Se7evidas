@@ -6,15 +6,16 @@
 
 // Includes
 #INCLUDE "commonFuncs.h"
-#INCLUDE "Weapon Stuff.ACS"
-#INCLUDE "Health.ACS"
-#INCLUDE "Stamina.ACS"
-#INCLUDE "Sprint System.ACS"
-#INCLUDE "Misc.ACS"
+#INCLUDE "Weapon Stuff.h"
+#INCLUDE "Health.h"
+#INCLUDE "Stamina.h"
+#INCLUDE "Sprint System.h"
+#INCLUDE "Misc.h"
+#INCLUDE "HUD.h"
 
 // Defines
 
-// Highest script num ID: 914
+// Highest script num ID: 915
 // Highest global var ID: 4
 
 #DEFINE S7_Enter 906
