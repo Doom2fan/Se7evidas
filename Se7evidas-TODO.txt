@@ -1,0 +1,3 @@
+*** High priority ***
+- Shop system.
+- Add more weapons.
