@@ -23,7 +23,7 @@ StatusBar Fullscreen, FullscreenOffsets {
 	
 	// Air supply
 	inInventory S7_IsUnderwater {
-		drawBar "S7AIRBAR", "S7AIRBCK", S7_AirTime, Vertical, -32, -280;
+		drawBar "S7AIRBAR", "S7AIRBCK", AirTime, Vertical, -32, -280;
 		// Radiation Suit
 		inInventory PowerIronFeet {
 			drawBar "S7RADBAR", "S7RADBCK", PowerupTime RadSuit, Vertical, -32, -280;
@@ -31,13 +31,13 @@ StatusBar Fullscreen, FullscreenOffsets {
 	} inInventory Not S7_IsUnderwater {
 		// Radiation Suit
 		inInventory PowerIronFeet {
-			drawBar "S7AIRBAR", "S7AIRBCK", S7_AirTime, Vertical, -32, -280;
+			drawBar "S7AIRBAR", "S7AIRBCK", AirTime, Vertical, -32, -280;
 			drawBar "S7RADBAR", "S7RADBCK", PowerupTime RadSuit, Vertical, -32, -280;
 		}
 	}
 	
 	// Weapon Tag
-	//drawString SMALLFONT, White, WeaponTag, -6, -10, 0, Alignment(Right);
+	drawString SMALLFONT, White, WeaponTag, -6, -10, 0, Alignment(Right);
 	
 	/*
 	**  3 ammo counters
