@@ -1,116 +1,116 @@
 Sprite RPTMB0, 191, 124 {
-	Offset -21, -101
-	Patch RPTMA0, 0, 0
+    Offset -21, -101
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTMC0, 191, 124 {
-	Offset -70, -80
-	Patch RPTMA0, 0, 0
+    Offset -70, -80
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTMD0, 191, 124 {
-	Offset -110, -63
-	Patch RPTMA0, 0, 0
+    Offset -110, -63
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTME0, 191, 124 {
-	Offset -140, -63
-	Patch RPTMA0, 0, 0
+    Offset -140, -63
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTMF0, 191, 124 {
-	Offset -180, -63
-	Patch RPTMA0, 0, 0
+    Offset -180, -63
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTMG0, 191, 124 {
-	Offset -230, -93
-	Patch RPTMA0, 0, 0
+    Offset -230, -93
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTMH0, 191, 124 {
-	Offset -260, -123
-	Patch RPTMA0, 0, 0
+    Offset -260, -123
+    Patch RPTMA0, 0, 0
 }
 
 Sprite RPTRA0, 320, 200 {
-	Patch RPTNA0, 212, 90
+    Patch RPTNA0, 212, 90
 }
 
 Sprite RPTRB0, 320, 200 {
-	Patch RPTNA0, 212, 101
+    Patch RPTNA0, 212, 101
 }
 
 Sprite RPTRC0, 320, 200 {
-	Patch RPTNA0, 212, 108
+    Patch RPTNA0, 212, 108
 }
 
 Sprite RPTRD0, 320, 200 {
-	Patch RPTNA0, 212, 123
+    Patch RPTNA0, 212, 123
 }
 
 Sprite RPTRF0, 320, 200 {
-	Patch RPTNF0, 212, 90
+    Patch RPTNF0, 212, 90
 }
 
 Sprite RPTRG0, 320, 200 {
-	Patch RPTNF0, 212, 101
+    Patch RPTNF0, 212, 101
 }
 
 Sprite RPTRH0, 320, 200 {
-	Patch RPTNF0, 212, 108
+    Patch RPTNF0, 212, 108
 }
 
 Sprite RPTRI0, 320, 200 {
-	Patch RPTNF0, 212, 123
+    Patch RPTNF0, 212, 123
 }
 
 Sprite RPTRJ0, 320, 200 {
-	Patch RPTNC0, 212, 123
+    Patch RPTNC0, 212, 123
 }
 
 // Kicking
 Sprite RPTNR0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNS0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNT0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNU0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNV0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNW0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNX0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNY0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }
 
 Sprite RPTNZ0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
-	Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
+    Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
+    Patch "sprites/Weapons/Raptor Handgun/RPTNA0.PNG", 212, 82
 }

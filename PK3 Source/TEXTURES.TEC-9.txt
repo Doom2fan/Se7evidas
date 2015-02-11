@@ -1,160 +1,160 @@
 Sprite TECKA0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKB0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKC0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKD0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKE0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKF0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKG0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKH0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 Sprite TECKI0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
-	Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
+    Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
+    Patch "sprites/Weapons/Secondary/TEC-9/TEC9A0.PNG", 192, 66
 }
 
 // Reloading
 Sprite TECRA0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRB0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 119
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 119
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRC0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 143
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 143
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRD0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 167
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 167
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRE0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRF0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame2.png", 100, 162
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame2.png", 100, 162
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRG0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame2.png", 105, 154
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame2.png", 105, 154
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRH0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame2.png", 108, 143
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame2.png", 108, 143
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRI0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame2.png", 109, 126
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame2.png", 109, 126
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRJ0, 320, 200 {
-	Patch "graphics/Weapons/TEC-9/Frame2.png", 109, 120
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Weapons/TEC-9/Frame2.png", 109, 120
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRK0, 320, 200 {
-	Patch "graphics/Hands/HAND-001.png", 168, 140
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-001.png", 168, 140
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRL0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 172, 133
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 172, 133
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRM0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 172, 141
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 172, 141
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRN0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 175, 151
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 175, 151
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRO0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 173, 164
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 173, 164
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRP0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 175, 154
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 175, 154
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 122
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRQ0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 177, 141
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 106
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 177, 141
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 106
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRR0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 177, 146
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 106
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 177, 146
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 106
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRS0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 177, 131
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 177, 131
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRT0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 168, 139
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 168, 139
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }
 
 Sprite TECRU0, 320, 200 {
-	Patch "graphics/Hands/HAND-002.png", 159, 151
-	Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
-	Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
+    Patch "graphics/Hands/HAND-002.png", 159, 151
+    Patch "graphics/Weapons/TEC-9/Frame3.png", 214, 95
+    Patch "graphics/Weapons/TEC-9/Frame1.png", 192, 66
 }

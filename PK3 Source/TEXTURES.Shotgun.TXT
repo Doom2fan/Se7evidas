@@ -1,102 +1,102 @@
 Sprite SSGFE0, 320, 200 {
-	Patch SSGRA0, 215, 103
+    Patch SSGRA0, 215, 103
 }
 
 Sprite SSGFF0, 320, 200 {
-	Patch SSGRA0, 211, 99
+    Patch SSGRA0, 211, 99
 }
 
 Sprite SSGFG0, 320, 200 {
-	Patch SSGRA0, 209, 97
+    Patch SSGRA0, 209, 97
 }
 
 Sprite SSGFH0, 320, 200 {
-	Patch SSGRA0, 204, 90
+    Patch SSGRA0, 204, 90
 }
 
 Sprite SSGFI0, 320, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME1.PNG", 179, 58
+    Patch "graphics/Weapons/Shotgun/FRAME1.PNG", 179, 58
 }
 
 Sprite SSGFJ0, 320, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME2.png", 163, 25
+    Patch "graphics/Weapons/Shotgun/FRAME2.png", 163, 25
 }
 
 Sprite SSGFK0, 320, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME2.png", 166, 31
+    Patch "graphics/Weapons/Shotgun/FRAME2.png", 166, 31
 }
 
 Sprite SSGFL0, 320, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME3.png", 184, 36
+    Patch "graphics/Weapons/Shotgun/FRAME3.png", 184, 36
 }
 
 Sprite SSGFM0, 321, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME3.png", 187, 42
+    Patch "graphics/Weapons/Shotgun/FRAME3.png", 187, 42
 }
 
 Sprite SSGFN0, 323, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME4.png", 200, 46
+    Patch "graphics/Weapons/Shotgun/FRAME4.png", 200, 46
 }
 
 Sprite SSGFO0, 326, 200 {
-	Patch "graphics/Weapons/Shotgun/FRAME4.png", 203, 51
+    Patch "graphics/Weapons/Shotgun/FRAME4.png", 203, 51
 }
 
 // Kicking
 Sprite SSGRR0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRS0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRT0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRU0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRV0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRW0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRX0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRY0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 Sprite SSGRZ0, 320, 200 {
-	Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
-	Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
+    Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
+    Patch "sprites/Weapons/Primary/Shotgun/SSGRA0.PNG", 207, 95
 }
 
 // Reloading
 Sprite DSGRA0, 320, 200 {
-	Patch SSGRA0, 207, 95
+    Patch SSGRA0, 207, 95
 }
 
 Sprite DSGRB0, 320, 200 {
-	Patch SSGRA0, 205, 93
+    Patch SSGRA0, 205, 93
 }
 
 Sprite DSGRC0, 320, 200 {
-	Patch SSGRA0, 199, 87
+    Patch SSGRA0, 199, 87
 }

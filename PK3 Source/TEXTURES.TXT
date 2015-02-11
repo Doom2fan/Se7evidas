@@ -1,9 +1,9 @@
 Graphic ARTIMEDI, 28, 19 {
-	Offset -1, -4
-	Patch MEDIA0, 0, 0
+    Offset -1, -4
+    Patch MEDIA0, 0, 0
 }
 
 Graphic ARTISTIM, 14, 15 {
-	Offset -8, -8
-	Patch STIMA0, 0, 0
+    Offset -8, -8
+    Patch STIMA0, 0, 0
 }
