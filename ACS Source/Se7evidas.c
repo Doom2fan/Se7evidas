@@ -20,12 +20,12 @@
 
 #DEFINE S7_Enter 906
 script S7_Enter ENTER {
-	setActorProperty (0, APROP_SPEED, 1.0);
-	S7_SR_StaminaEmpty [playerNumber ()] = 0;
+    setActorProperty (0, APROP_SPEED, 1.0);
+    S7_SR_StaminaEmpty [playerNumber ()] = 0;
 }
 
 #DEFINE S7_Respawn 907
 script S7_Respawn RESPAWN {
-	setActorProperty (0, APROP_SPEED, 1.0);
-	S7_SR_StaminaEmpty [playerNumber ()] = 0;
+    setActorProperty (0, APROP_SPEED, 1.0);
+    S7_SR_StaminaEmpty [playerNumber ()] = 0;
 }
