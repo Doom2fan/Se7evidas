@@ -2,172 +2,172 @@
 // Casing sprites by the KDIZD team
 
 Actor S7_CasingSpawnerBase {
-	Speed 20
-	Projectile
-	+NoClip +ClientsideOnly
+    Speed 20
+    Projectile
+    +NoClip +ClientsideOnly
 }
 
 Actor S7_CasingBase {
-	Speed 6
-	+DoomBounce -NoGravity +WindThrust +ClientsideOnly
-	+MoveWithSector +Missile +NoBlockmap -DropOff
-	+NoTeleport +ForceXYBillboard +NotDMatch +Ghost
+    Speed 6
+    +DoomBounce -NoGravity +WindThrust +ClientsideOnly
+    +MoveWithSector +Missile +NoBlockmap -DropOff
+    +NoTeleport +ForceXYBillboard +NotDMatch +Ghost
 }
 
 // Shotgun Casing
 Actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
-	States {
-	Spawn:
-		TNT1 A 0
-		TNT1 A 0 A_CustomMissile ("S7_ShotgunCasing", 0, 0, random (-80, -100), 2, random (-40, -60))
-		Stop
-	}
+    States {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 A_CustomMissile ("S7_ShotgunCasing", 0, 0, random (-80, -100), 2, random (-40, -60))
+        Stop
+    }
 }
 
 Actor S7_SSGCasingSpawner : S7_CasingSpawnerBase {
-	States {
-	Spawn:
-		TNT1 A 0
-		TNT1 A 0 A_CustomMissile ("S7_ShotgunCasing", 0, 0, random (80, 100), 2, random (50, 70))
-		Stop
-	}
+    States {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 A_CustomMissile ("S7_ShotgunCasing", 0, 0, random (80, 100), 2, random (50, 70))
+        Stop
+    }
 }
 
 Actor S7_ShotgunCasing : S7_CasingBase {
-	Height 12
-	Radius 9
-	SeeSound "Weapons/shell"
-	States {
-	Spawn:
-		TNT1 A 0
-		CAS1 ABCDEFGH 2 A_SpawnItem ("S7_ShotSmokeTrail")
-		Loop
-	Death:
-		CAS1 A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
-		Goto Rest1
-	Rest1:
-		CAS1 A 1000
-		Goto Fade
-	Rest2:
-		CAS1 B 1000
-		Goto Fade
-	Rest3:
-		CAS1 C 1000
-		Goto Fade
-	Rest4:
-		CAS1 D 1000
-		Goto Fade
-	Rest5:
-		CAS1 E 1000
-		Goto Fade
-	Rest6:
-		CAS1 F 1000
-		Goto Fade
-	Rest7:
-		CAS1 G 1000
-		Goto Fade
-	Rest8:
-		CAS1 H 1000
-		Goto Fade
-	Fade:
-		"----" A 3 A_FadeOut (0.03)
-		Loop
-	}
+    Height 12
+    Radius 9
+    SeeSound "Weapons/shell"
+    States {
+    Spawn:
+        TNT1 A 0
+        CAS1 ABCDEFGH 2 A_SpawnItem ("S7_ShotSmokeTrail")
+        Loop
+    Death:
+        CAS1 A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
+        Goto Rest1
+    Rest1:
+        CAS1 A 1000
+        Goto Fade
+    Rest2:
+        CAS1 B 1000
+        Goto Fade
+    Rest3:
+        CAS1 C 1000
+        Goto Fade
+    Rest4:
+        CAS1 D 1000
+        Goto Fade
+    Rest5:
+        CAS1 E 1000
+        Goto Fade
+    Rest6:
+        CAS1 F 1000
+        Goto Fade
+    Rest7:
+        CAS1 G 1000
+        Goto Fade
+    Rest8:
+        CAS1 H 1000
+        Goto Fade
+    Fade:
+        "----" A 3 A_FadeOut (0.03)
+        Loop
+    }
 }
 
 // 9mm Casing
 Actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
-	States {
-	Spawn:
-		TNT1 A 0
-		TNT1 A 0 A_CustomMissile ("S7_9mmCasing", -5, 0, random (-80, -100), 2, random (45, 80))
-		Stop
-	}
+    States {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 A_CustomMissile ("S7_9mmCasing", -5, 0, random (-80, -100), 2, random (45, 80))
+        Stop
+    }
 }
 
 Actor S7_9mmCasingSpawn2 : S7_CasingSpawnerBase {
-	States {
-	Spawn:
-		TNT1 A 0
-		TNT1 A 0 A_CustomMissile ("S7_9mmCasing", -5, 0, random (80, 100), 2, random (45, 80))
-		Stop
-	}
+    States {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 A_CustomMissile ("S7_9mmCasing", -5, 0, random (80, 100), 2, random (45, 80))
+        Stop
+    }
 }
 
 Actor S7_9mmCasing : S7_CasingBase {
-	Height 2
-	Radius 2
-	Scale 0.5
-	SeeSound "Weapons/casing"
-	States {
-	Spawn:
-		TNT1 A 0
-		CAS2 ABCD 2 A_SpawnItem ("S7_ShotSmokeTrail")
-		Loop
-	Death:
-		TNT1 A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4")
-		Goto Rest1
-	Rest1:
-		CAS2 A 1000
-		Goto Fade
-	Rest2:
-		CAS2 B 1000
-		Goto Fade
-	Rest3:
-		CAS2 C 1000
-		Goto Fade
-	Rest4:
-		CAS2 D 1000
-		Goto Fade
-	Fade:
-		"----" A 3 A_FadeOut (0.03)
-		Loop
-	}
+    Height 2
+    Radius 2
+    Scale 0.5
+    SeeSound "Weapons/casing"
+    States {
+    Spawn:
+        TNT1 A 0
+        CAS2 ABCD 2 A_SpawnItem ("S7_ShotSmokeTrail")
+        Loop
+    Death:
+        TNT1 A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4")
+        Goto Rest1
+    Rest1:
+        CAS2 A 1000
+        Goto Fade
+    Rest2:
+        CAS2 B 1000
+        Goto Fade
+    Rest3:
+        CAS2 C 1000
+        Goto Fade
+    Rest4:
+        CAS2 D 1000
+        Goto Fade
+    Fade:
+        "----" A 3 A_FadeOut (0.03)
+        Loop
+    }
 }
 
 // Rifle Casing
 Actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
-	States {
-	Spawn:
-		TNT1 A 0
-		TNT1 A 0 A_CustomMissile ("S7_RifleCasing", -5, 0, random (-80, -100), 2, random (45, 80))
-		Stop
-	}
+    States {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 A_CustomMissile ("S7_RifleCasing", -5, 0, random (-80, -100), 2, random (45, 80))
+        Stop
+    }
 }
 
 Actor S7_RifleCasing : S7_CasingBase {
-	Height 2
-	Radius 2
-	Scale .5
-	SeeSound "Weapons/casing"
-	States {
-	Spawn:
-		TNT1 A 0
-		CAS3 ABCDEF 2 A_SpawnItem ("S7_ShotSmokeTrail")
-		Loop
-	Death:
-		CAS3 A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6")
-		Goto Rest1
-	Rest1:
-		CAS3 A 1000
-		Goto Fade
-	Rest2:
-		CAS3 B 1000
-		Goto Fade
-	Rest3:
-		CAS3 C 1000
-		Goto Fade
-	Rest4:
-		CAS3 D 1000
-		Goto Fade
-	Rest5:
-		CAS3 E 1000
-		Goto Fade
-	Rest6:
-		CAS3 F 1000
-		Goto Fade
-	Fade:
-		"----" A 3 A_FadeOut (0.03)
-		Loop
-	}
+    Height 2
+    Radius 2
+    Scale .5
+    SeeSound "Weapons/casing"
+    States {
+    Spawn:
+        TNT1 A 0
+        CAS3 ABCDEF 2 A_SpawnItem ("S7_ShotSmokeTrail")
+        Loop
+    Death:
+        CAS3 A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6")
+        Goto Rest1
+    Rest1:
+        CAS3 A 1000
+        Goto Fade
+    Rest2:
+        CAS3 B 1000
+        Goto Fade
+    Rest3:
+        CAS3 C 1000
+        Goto Fade
+    Rest4:
+        CAS3 D 1000
+        Goto Fade
+    Rest5:
+        CAS3 E 1000
+        Goto Fade
+    Rest6:
+        CAS3 F 1000
+        Goto Fade
+    Fade:
+        "----" A 3 A_FadeOut (0.03)
+        Loop
+    }
 }
