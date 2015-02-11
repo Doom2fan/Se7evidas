@@ -1,21 +1,21 @@
 [default enu en]
 // Quit Doom 1 messages
-	QUITMSG1 = "Please don't leave, there's more\ndemons to toast!";
-	QUITMSG2 = "Let's beat it -- this is turning\ninto a bloodbath!";
-	QUITMSG3 = "I wouldn't leave if I were you.\ndos is much worse.";
-	QUITMSG4 = "You're trying to say you like dos\nbetter than me, right?";
-	QUITMSG5 = "Don't leave yet -- there's a\ndemon around that corner!";
-	QUITMSG6 = "Ya know, next time you come in here\nI'm gonna toast ya.";
-	QUITMSG7 = "Go ahead and leave. see if I care.";
+    QUITMSG1 = "Please don't leave, there's more\ndemons to toast!";
+    QUITMSG2 = "Let's beat it -- this is turning\ninto a bloodbath!";
+    QUITMSG3 = "I wouldn't leave if I were you.\ndos is much worse.";
+    QUITMSG4 = "You're trying to say you like dos\nbetter than me, right?";
+    QUITMSG5 = "Don't leave yet -- there's a\ndemon around that corner!";
+    QUITMSG6 = "Ya know, next time you come in here\nI'm gonna toast ya.";
+    QUITMSG7 = "Go ahead and leave. see if I care.";
 
 // Quit Doom II messages
-	QUITMSG8 = "You want to quit?\nthen, thou hast lost an eighth!";
-	QUITMSG9 = "Don't go now, there's a \ndimensional shambler waiting\nat the dos prompt!";
-	QUITMSG10 = "Get outta here and go back\nto your boring programs.";
-	QUITMSG11 = "If I were your boss, I'd \n deathmatch ya in a minute!";
-	QUITMSG12 = "Look, bud. you leave now\nand you forfeit your body count!";
-	QUITMSG13 = "Just leave. when you come\nback, I'll be waiting with a bat.";
-	QUITMSG14 = "You're lucky I don't smack\nyou for thinking about leaving.";
+    QUITMSG8 = "You want to quit?\nthen, thou hast lost an eighth!";
+    QUITMSG9 = "Don't go now, there's a \ndimensional shambler waiting\nat the dos prompt!";
+    QUITMSG10 = "Get outta here and go back\nto your boring programs.";
+    QUITMSG11 = "If I were your boss, I'd \n deathmatch ya in a minute!";
+    QUITMSG12 = "Look, bud. you leave now\nand you forfeit your body count!";
+    QUITMSG13 = "Just leave. when you come\nback, I'll be waiting with a bat.";
+    QUITMSG14 = "You're lucky I don't smack\nyou for thinking about leaving.";
 
 // Cast list (must appear in this order)
 CC_ZOMBIE = "Corrupted Human";
