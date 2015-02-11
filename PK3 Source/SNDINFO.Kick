@@ -1,8 +1,8 @@
 // Kick
 $RANDOM Weapons/Kick/Strong {
-	Weapons/Kick/Strong1
-	Weapons/Kick/Strong2
-	Weapons/Kick/Strong3
+    Weapons/Kick/Strong1
+    Weapons/Kick/Strong2
+    Weapons/Kick/Strong3
 }
 
 Weapons/Kick/Strong1            "sounds/Weapons/Kick/S7Strong1.ogg"

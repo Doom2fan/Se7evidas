@@ -1,7 +1,7 @@
 $RANDOM Weapons/Raptor/Fire {
-	Weapons/Raptor/Fire1
-	Weapons/Raptor/Fire2
-	Weapons/Raptor/Fire3
+    Weapons/Raptor/Fire1
+    Weapons/Raptor/Fire2
+    Weapons/Raptor/Fire3
 }
 Weapons/Raptor/Fire1            "sounds/Weapons/Raptor Handgun/Fire1.ogg" // By NightmareMutant from GAMEBANANA
 Weapons/Raptor/Fire2            "sounds/Weapons/Raptor Handgun/Fire2.ogg" // Ditto
