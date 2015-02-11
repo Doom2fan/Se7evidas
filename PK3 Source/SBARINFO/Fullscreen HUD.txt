@@ -1,65 +1,65 @@
 StatusBar Fullscreen, FullscreenOffsets {
-	drawImage "STATBARS", 20, -272; // 10 = a, -2 = b; health is drawn at a+26 and b-17, Armor at a+6 and b-17
-	
+    drawImage "STATBARS", 20, -272; // 10 = a, -2 = b; health is drawn at a+26 and b-17, Armor at a+6 and b-17
+    
     // Health
-	drawBar "S7HPBAR", "S7SBEMPT", Health, Vertical, 56, -239;
+    drawBar "S7HPBAR", "S7SBEMPT", Health, Vertical, 56, -239;
     drawNumber 3, BIGFONT, Red, Health, DrawShadow, 80, -24;
-	
+    
     // Armor
-	drawBar "S7ARMBR", "S7SBEMPT", Armor, Vertical, 26, -239;
-	drawNumber 3, BIGFONT, Green, Armor, DrawShadow, WhenNotZero, 48, -24;
-	
-	// Inventory
-	drawSelectedInventory CenterBottom, DrawShadow, INDEXFONT, -14, -100, -26, -105, Untranslated;
-	
-	// Stamina
-	drawImage "S7STBRBG", 5, -270;
-	drawBar "S7STBRFG", "S7STBRBK", S7_Stamina, Horizontal, 6, -268;
-	
-	// Invulnerability
-	inInventory PowerInvulnerable {
-		drawBar "S7INVBAR", "S7SBEMP2", PowerupTime InvulnerabilitySphere, Vertical, 56, -239;
-	}
-	
-	// Air supply
-	inInventory S7_IsUnderwater {
-		drawBar "S7AIRBAR", "S7AIRBCK", AirTime, Vertical, -32, -280;
-		// Radiation Suit
-		inInventory PowerIronFeet {
-			drawBar "S7RADBAR", "S7RADBCK", PowerupTime RadSuit, Vertical, -32, -280;
-		}
-	} inInventory Not S7_IsUnderwater {
-		// Radiation Suit
-		inInventory PowerIronFeet {
-			drawBar "S7AIRBAR", "S7AIRBCK", AirTime, Vertical, -32, -280;
-			drawBar "S7RADBAR", "S7RADBCK", PowerupTime RadSuit, Vertical, -32, -280;
-		}
-	}
-	
-	// Weapon Tag
-	drawString SMALLFONT, White, WeaponTag, -6, -10, 0, Alignment(Right);
-	
-	/*
-	**  3 ammo counters
-	**  drawImage "AMMOCNT3", -85, -88;
-	**  drawNumber 8, BIGFONT, Untranslated, Ammo <ammo3>, DrawShadow, -10, -82;
-	**  drawNumber 8, BIGFONT, Untranslated, Ammo2, DrawShadow, -10, -59;
-	**  drawNumber 8, BIGFONT, Untranslated, Ammo1, DrawShadow, -10, -35;
-	*/
-	// Ammo
-	usesAmmo {
+    drawBar "S7ARMBR", "S7SBEMPT", Armor, Vertical, 26, -239;
+    drawNumber 3, BIGFONT, Green, Armor, DrawShadow, WhenNotZero, 48, -24;
+    
+    // Inventory
+    drawSelectedInventory CenterBottom, DrawShadow, INDEXFONT, -14, -100, -26, -105, Untranslated;
+    
+    // Stamina
+    drawImage "S7STBRBG", 5, -270;
+    drawBar "S7STBRFG", "S7STBRBK", S7_Stamina, Horizontal, 6, -268;
+    
+    // Invulnerability
+    inInventory PowerInvulnerable {
+        drawBar "S7INVBAR", "S7SBEMP2", PowerupTime InvulnerabilitySphere, Vertical, 56, -239;
+    }
+    
+    // Air supply
+    inInventory S7_IsUnderwater {
+        drawBar "S7AIRBAR", "S7AIRBCK", AirTime, Vertical, -32, -280;
+        // Radiation Suit
+        inInventory PowerIronFeet {
+            drawBar "S7RADBAR", "S7RADBCK", PowerupTime RadSuit, Vertical, -32, -280;
+        }
+    } inInventory Not S7_IsUnderwater {
+        // Radiation Suit
+        inInventory PowerIronFeet {
+            drawBar "S7AIRBAR", "S7AIRBCK", AirTime, Vertical, -32, -280;
+            drawBar "S7RADBAR", "S7RADBCK", PowerupTime RadSuit, Vertical, -32, -280;
+        }
+    }
+    
+    // Weapon Tag
+    drawString SMALLFONT, White, WeaponTag, -6, -10, 0, Alignment(Right);
+    
+    /*
+    **  3 ammo counters
+    **  drawImage "AMMOCNT3", -85, -88;
+    **  drawNumber 8, BIGFONT, Untranslated, Ammo <ammo3>, DrawShadow, -10, -82;
+    **  drawNumber 8, BIGFONT, Untranslated, Ammo2, DrawShadow, -10, -59;
+    **  drawNumber 8, BIGFONT, Untranslated, Ammo1, DrawShadow, -10, -35;
+    */
+    // Ammo
+    usesAmmo {
         // Secondary ammo
         usesSecondaryAmmo {
-			drawImage "AMMOCNT2", -85, -65;
-			drawNumber 8, BIGFONT, Untranslated, Ammo2, DrawShadow, -10, -59;
-			drawNumber 8, BIGFONT, Untranslated, Ammo1, DrawShadow, -10, -35;
-		} usesSecondaryAmmo Not {
-			drawImage "AMMOCONT", -85, -41;
-			drawNumber 8, BIGFONT, Untranslated, Ammo1, DrawShadow, -10, -35;
-		}
+            drawImage "AMMOCNT2", -85, -65;
+            drawNumber 8, BIGFONT, Untranslated, Ammo2, DrawShadow, -10, -59;
+            drawNumber 8, BIGFONT, Untranslated, Ammo1, DrawShadow, -10, -35;
+        } usesSecondaryAmmo Not {
+            drawImage "AMMOCONT", -85, -41;
+            drawNumber 8, BIGFONT, Untranslated, Ammo1, DrawShadow, -10, -35;
+        }
     }
-	
-	gameMode Deathmatch {
+    
+    gameMode Deathmatch {
         drawNumber 4, BIGFONT, Untranslated, Frags, DrawShadow, -3, 1;
     }
 }

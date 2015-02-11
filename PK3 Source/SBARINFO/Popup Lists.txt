@@ -6,12 +6,12 @@
 
 CreatePopup Keys, 0, 0, None;
 StatusBar PopupKeys, FullscreenOffsets {
-	DrawString BIGFONT, Untranslated, "Keys", 200, 250;
-	DrawKeyBar 400, Vertical, Auto, 150, 270, 0, 3, Auto;
-	DrawString BIGFONT, Untranslated, "Current level:", 200, 150;
-	DrawNumber 2, BIGFONT, Untranslated, XPSystemLevel, 220, 150;
-	DrawString BIGFONT, Untranslated, "Experience:", 178, 168;
-	DrawNumber 6, BIGFONT, Untranslated, XPSystemExperience, 248, 168;
+    DrawString BIGFONT, Untranslated, "Keys", 200, 250;
+    DrawKeyBar 400, Vertical, Auto, 150, 270, 0, 3, Auto;
+    DrawString BIGFONT, Untranslated, "Current level:", 200, 150;
+    DrawNumber 2, BIGFONT, Untranslated, XPSystemLevel, 220, 150;
+    DrawString BIGFONT, Untranslated, "Experience:", 178, 168;
+    DrawNumber 6, BIGFONT, Untranslated, XPSystemExperience, 248, 168;
 }
 
 //-------------------------------------------------------------------------------------------
