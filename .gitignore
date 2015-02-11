@@ -14,7 +14,7 @@ thumbs.db
 acs.err
 *.lnk
 (1)Log.txt
-/PK3 Source/acs/Se7evidas.o
+*.o
 Se7evidas.PK3
 /Editing/
 /Se7evidas_Zandy.PK3
