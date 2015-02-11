@@ -6,12 +6,12 @@
 
 // Includes
 #INCLUDE "commonFuncs.h"
-#INCLUDE "Weapon Stuff.h"
-#INCLUDE "Health.h"
-#INCLUDE "Stamina.h"
-#INCLUDE "Sprint System.h"
-#INCLUDE "Misc.h"
-#INCLUDE "HUD.h"
+#INCLUDE "Se7evidas/Weapon Stuff.h"
+#INCLUDE "Se7evidas/Health.h"
+#INCLUDE "Se7evidas/Stamina.h"
+#INCLUDE "Se7evidas/Sprint System.h"
+#INCLUDE "Se7evidas/Misc.h"
+#INCLUDE "Se7evidas/HUD.h"
 
 // Defines
 
