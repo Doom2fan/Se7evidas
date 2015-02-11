@@ -12,18 +12,18 @@
 // 8/Top-Left = X 233, Y 120
 // }
 
-#DEFINE SCREEN_WIDTH            800
-#DEFINE SCREEN_HEIGHT           600
+#DEFINE SCREEN_WIDTH                800
+#DEFINE SCREEN_HEIGHT               600
 
-#DEFINE SENSITIVITY_X             20
-#DEFINE SENSITIVITY_Y             20
+#DEFINE SENSITIVITY_X               20
+#DEFINE SENSITIVITY_Y               20
 
-#DEFINE SHOPBACKGROUNDID         9000000
-#DEFINE SHOPCURSORID             8000000
-#DEFINE SHOPTEXTID                 8000001
-#DEFINE SHOPCOSTID                 8000002
-#DEFINE BACKBUTTON                8000003
-#DEFINE SHOPBUTTONS                8000004
+#DEFINE SHOPBACKGROUNDID            9000000
+#DEFINE SHOPCURSORID                8000000
+#DEFINE SHOPTEXTID                  8000001
+#DEFINE SHOPCOSTID                  8000002
+#DEFINE BACKBUTTON                  8000003
+#DEFINE SHOPBUTTONS                 8000004
 
 int mouseX [MAXPLAYERS] = { SCREEN_WIDTH / 2 };
 int mouseY [MAXPLAYERS] = { SCREEN_HEIGHT / 2 };
@@ -75,12 +75,12 @@ function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     
     print (d:checkInventory (inventory), d:checkInventoryMax (inventory));    
     if (checkInventory (inventory) >= checkInventoryMax (inventory)) {
-        ACS_NamedExecute ("shopSystem_NoSpace", 0);
+        ACS_Execute (S7_ShopSystem_NoSpace, 0);
         
         return -1;
     } else {
         if (cash < price) {
-            ACS_NamedExecute ("shopSystem_NoCash", 0);
+            ACS_Execute (S7_ShopSystem_NoCash, 0);
             
             return -2;
         } else {
@@ -94,7 +94,8 @@ function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     return 0;
 }
 
-script "shopSystem_NoCash" (void) {
+#DEFINE S7_ShopSystem_NoCash 915
+script S7_ShopSystem_NoCash (void) {
     shopGUIDisplayingError [playerNumber ()] = 1;
     shopSystem_PrintError ("You don't have enough money for that.", "SMALLFONT", 1.0);
     
@@ -103,7 +104,8 @@ script "shopSystem_NoCash" (void) {
     shopGUIDisplayingError [playerNumber ()] = 0;
 }
 
-script "shopSystem_NoSpace" (void) {
+#DEFINE S7_ShopSystem_NoSpace 916
+script S7_ShopSystem_NoSpace (void) {
     shopGUIDisplayingError[playerNumber ()] = 1;
     shopSystem_PrintError ("Your inventory is full.", "SMALLFONT", 1.0);
     
@@ -161,7 +163,8 @@ function int shopSystem_BasicTextButton (str text, int bx, int by, int bwidth, i
     return false;
 }
 
-script "ToggleShopSystem" (void) NET {
+#DEFINE S7_ShopSystem_ToggleShopSystem 917
+script S7_ShopSystem_ToggleShopSystem (void) NET {
     setHudSize (SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     
     if (shopGUIOPEN [playerNumber ()] == 0) {
@@ -170,7 +173,7 @@ script "ToggleShopSystem" (void) NET {
         mouseY [PlayerNumber ()] = SCREEN_HEIGHT / 2;
         setFont ("Graphics/ShopSystem/Background.png");
         hudMessage (s:"A"; HUDMSG_PLAIN, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0);
-        ACS_NamedExecute ("ShopSystemz", 0);
+        ACS_Execute ("ShopSystemz", 0);
         delay (1);
         setPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
         terminate;
@@ -181,14 +184,15 @@ script "ToggleShopSystem" (void) NET {
         setFont ("Graphics/ShopSystem/Background.png");
         hudMessage (s:"A";
             HUDMSG_FADEOUT, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0001, 0.3);
-        ACS_NamedTerminate ("ShopSystemz", 0);
+        ACS_Terminate ("ShopSystemz", 0);
         delay (1);
         setPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
         terminate;
     }
 }
 
-script "ShopSystemz" (void) {
+#DEFINE S7_ShopSystem 918
+script S7_ShopSystem (void) {
     int mouseXAdd = getPlayerInput (-1, INPUT_YAW);
     int mouseYAdd = getPlayerInput (-1, INPUT_PITCH);
     int CurrentPage = 0; // Current page. 0 == Main, 1 == Runes, 2 == Spheres, 3 == Health Items
@@ -219,7 +223,7 @@ script "ShopSystemz" (void) {
 
         if (CurrentPage == 0) { // Main
             if (shopSystem_BasicButton ("M_BACK_D", "M_BACK_D", 8, 6, 8, 6, BACKBUTTON) == 1)
-                ACS_NamedExecute ("ToggleShopSystem", 0);
+                ACS_Execute (S7_ShopSystem_ToggleShopSystem, 0);
             
             if (Counter < 1) {
                 if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes.png", "Graphics/ShopSystem/RunesClicked.png", 394, 60, 50, 50, SHOPBUTTONS) == 1) {
@@ -252,114 +256,6 @@ script "ShopSystemz" (void) {
 
                 if (shopSystem_BasicButton ("Graphics/ShopSystem/Health.png", "Graphics/ShopSystem/Health.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 3)
                     shopSystem_PrintText ("Enter the Health items menu.", "SmallFont");
-            }
-        }
-        
-        if (CurrentPage == 1) { // Runes. Descriptions by Qent
-            if (shopSystem_BasicButton ("M_BACK_D", "M_BACK_D", 8, 6, 8, 6, BACKBUTTON) == 1)
-                CurrentPage = 0;
-            
-            if (Counter < 1) {
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Regeneration.png", "Graphics/ShopSystem/Runes/RegenerationClicked.png", 394, 60, 50, 50, SHOPBUTTONS) == 1)
-                    shopSystem_BuyStuff ("RegenerationRune", 6000, 1);
-
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/DoubleDamage.png", "Graphics/ShopSystem/Runes/DoubleDamageClicked.png", 567, 120, 50, 50, SHOPBUTTONS + 1) == 1)
-                    shopSystem_BuyStuff ("DoubleDamageRune", 8500, 1);
-
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Agility.png", "Graphics/ShopSystem/Runes/AgilityClicked.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 1)
-                    shopSystem_BuyStuff ("AgilityRune", 4000, 1);
-                
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Drain.png", "Graphics/ShopSystem/Runes/DrainClicked.png", 567, 361, 50, 50, SHOPBUTTONS + 3) == 1)
-                    shopSystem_BuyStuff ("DrainRune", 5000, 1);
-                
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Regeneration.png", "Graphics/ShopSystem/Runes/RegenerationClicked.png", 394, 60, 50, 50, SHOPBUTTONS) == 3) {
-                    shopSystem_PrintCost (6000);
-                    shopSystem_PrintText ("Regeneration rune\nThe Regeneration rune is imbued with the power of a healing spirit, and constantly heals the user by 2 HP per second, up to full health.\nLasts 60 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/DoubleDamage.png", "Graphics/ShopSystem/Runes/DoubleDamageClicked.png", 567, 120, 50, 50, SHOPBUTTONS + 1) == 3) {
-                    shopSystem_PrintCost (8500);
-                    shopSystem_PrintText ("Double damage rune\nThe wielder of the Double Damage rune channels the power of Chaos to destroy all in his path.\nAll damage inflicted by the user is doubled.\nLasts 30 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Agility.png", "Graphics/ShopSystem/Runes/AgilityClicked.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 3) {
-                    shopSystem_PrintCost (4000);
-                    shopSystem_PrintText ("Agility rune\nThe Agility rune draws on the power of multiple supernatural entities to enable spectacular acrobatic feats, granting the user high jump and infinite stamina.\nLasts 50 seconds", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Drain.png", "Graphics/ShopSystem/Runes/DrainClicked.png", 567, 361, 50, 50, SHOPBUTTONS + 3) == 3) {
-                    shopSystem_PrintCost (5000);
-                    shopSystem_PrintText ("Drain rune\nFills the user with the sadistic malice of Hell, linking their own life force with their victims'.\nFor all harm inflicted on enemies, half that amount will be restored to the user in health.\nLasts 30 seconds", "SmallFont");
-                }
-            }
-            else {
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Regeneration.png", "Graphics/ShopSystem/Runes/Regeneration.png", 394, 60, 50, 50, SHOPBUTTONS) == 3) {
-                    shopSystem_PrintCost (6000);
-                    shopSystem_PrintText ("Regeneration rune\nThe Regeneration rune is imbued with the power of a healing spirit, and constantly heals the user by 2 HP per second, up to full health.\nLasts 60 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/DoubleDamage.png", "Graphics/ShopSystem/Runes/DoubleDamage.png", 567, 120, 50, 50, SHOPBUTTONS + 1) == 3) {
-                    shopSystem_PrintCost (8500);
-                    shopSystem_PrintText ("Double damage rune\nThe wielder of the Double Damage rune channels the power of Chaos to destroy all in his path.\nAll damage inflicted by the user is doubled.\nLasts 30 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Agility.png", "Graphics/ShopSystem/Runes/Agility.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 3) {
-                    shopSystem_PrintCost (4000);
-                    shopSystem_PrintText ("Agility rune\nThe Agility rune draws on the power of multiple supernatural entities to enable spectacular acrobatic feats, granting the user high jump and infinite stamina.\nLasts 50 seconds", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Drain.png", "Graphics/ShopSystem/Runes/Drain.png", 567, 361, 50, 50, SHOPBUTTONS + 3) == 3) {
-                    shopSystem_PrintCost (5000);
-                    shopSystem_PrintText ("Drain rune\nFills the user with the sadistic malice of Hell, linking their own life force with their victims'.\nFor all harm inflicted on enemies, half that amount will be restored to the user in health.\nLasts 30 seconds", "SmallFont");
-                }
-            }
-        }
-        
-        if (CurrentPage == 2) { // Spheres. Descriptions by Qent
-            if (shopSystem_BasicButton ("M_BACK_D", "M_BACK_D", 8, 6, 8, 6, BACKBUTTON) == 1)
-                CurrentPage = 0;
-            
-            if (Counter < 1) {
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Regeneration.png", "Graphics/ShopSystem/Runes/RegenerationClicked.png", 394, 60, 50, 50, SHOPBUTTONS) == 1)
-                    shopSystem_BuyStuff ("RegenerationRune", 8500, 1);
-
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/DoubleDamage.png", "Graphics/ShopSystem/Runes/DoubleDamageClicked.png", 567, 120, 50, 50, SHOPBUTTONS + 1) == 1)
-                    shopSystem_BuyStuff ("DoubleDamageRune", 12000, 1);
-
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Agility.png", "Graphics/ShopSystem/Runes/AgilityClicked.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 1)
-                    shopSystem_BuyStuff ("AgilityRune", 6000, 1);
-                
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Drain.png", "Graphics/ShopSystem/Runes/DrainClicked.png", 567, 361, 50, 50, SHOPBUTTONS + 3) == 1)
-                    shopSystem_BuyStuff ("DrainRune", 7000, 1);
-                
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Regeneration.png", "Graphics/ShopSystem/Runes/RegenerationClicked.png", 394, 60, 50, 50, SHOPBUTTONS) == 3) {
-                    shopSystem_PrintCost (8500);
-                    shopSystem_PrintText ("Regeneration rune\nThe Regeneration rune is imbued with the power of a healing spirit, and constantly heals the user by 2 HP per second, up to full health.\nLasts 60 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/DoubleDamage.png", "Graphics/ShopSystem/Runes/DoubleDamageClicked.png", 567, 120, 50, 50, SHOPBUTTONS + 1) == 3) {
-                    shopSystem_PrintCost (15000);
-                    shopSystem_PrintText ("Double damage rune\nThe wielder of the Double Damage rune channels the power of Chaos to destroy all in his path.\nAll damage inflicted by the user is doubled.\nLasts 30 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Agility.png", "Graphics/ShopSystem/Runes/AgilityClicked.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 3) {
-                    shopSystem_PrintCost (6000);
-                    shopSystem_PrintText ("Agility rune\nThe Agility rune draws on the power of multiple supernatural entities to enable spectacular acrobatic feats, granting the user high jump and infinite stamina.\nLasts 50 seconds", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Drain.png", "Graphics/ShopSystem/Runes/DrainClicked.png", 567, 361, 50, 50, SHOPBUTTONS + 3) == 3) {
-                    shopSystem_PrintCost (7000);
-                    shopSystem_PrintText ("Drain rune\nFills the user with the sadistic malice of Hell, linking their own life force with their victims'.\nFor all harm inflicted on enemies, half that amount will be restored to the user in health.\nLasts 30 seconds", "SmallFont");
-                }
-            }
-            else {
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Regeneration.png", "Graphics/ShopSystem/Runes/Regeneration.png", 394, 60, 50, 50, SHOPBUTTONS) == 3) {
-                    shopSystem_PrintCost (8500);
-                    shopSystem_PrintText ("Regeneration rune\nThe Regeneration rune is imbued with the power of a healing spirit, and constantly heals the user by 2 HP per second, up to full health.\nLasts 60 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/DoubleDamage.png", "Graphics/ShopSystem/Runes/DoubleDamage.png", 567, 120, 50, 50, SHOPBUTTONS + 1) == 3) {
-                    shopSystem_PrintCost (15000);
-                    shopSystem_PrintText ("Double damage rune\nThe wielder of the Double Damage rune channels the power of Chaos to destroy all in his path.\nAll damage inflicted by the user is doubled.\nLasts 30 seconds.", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Agility.png", "Graphics/ShopSystem/Runes/Agility.png", 661, 232, 50, 50, SHOPBUTTONS + 2) == 3) {
-                    shopSystem_PrintCost (6000);
-                    shopSystem_PrintText ("Agility rune\nThe Agility rune draws on the power of multiple supernatural entities to enable spectacular acrobatic feats, granting the user high jump and infinite stamina.\nLasts 50 seconds", "SmallFont");
-                }
-                if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes/Drain.png", "Graphics/ShopSystem/Runes/Drain.png", 567, 361, 50, 50, SHOPBUTTONS + 3) == 3) {
-                    shopSystem_PrintCost (7000);
-                    shopSystem_PrintText ("Drain rune\nFills the user with the sadistic malice of Hell, linking their own life force with their victims'.\nFor all harm inflicted on enemies, half that amount will be restored to the user in health.\nLasts 30 seconds", "SmallFont");
-                }
             }
         }
         
