@@ -1,17 +1,17 @@
 gameinfo {
-	titlePage = "TITLEPIC"
-	creditPage = "CREDIT"
-	titleTime = 8
-	advisoryTime = 6
-	pageTime = 5
-	chatSound = "misc/chat"
-	finaleMusic = "D_READ_2"
-	finaleFlat = "SLIME16"
-	finalePage = "CREDIT"
-	infoPage = "HELP", "CREDIT"
-	quitSound = "menu/quit2"
-	telefogHeight = 0
-	defKickback = 100
-	backpackType = "Backpack"
-	gibFactor = 0.5
+    titlePage = "TITLEPIC"
+    creditPage = "CREDIT"
+    titleTime = 8
+    advisoryTime = 6
+    pageTime = 5
+    chatSound = "misc/chat"
+    finaleMusic = "D_READ_2"
+    finaleFlat = "SLIME16"
+    finalePage = "CREDIT"
+    infoPage = "HELP", "CREDIT"
+    quitSound = "menu/quit2"
+    telefogHeight = 0
+    defKickback = 100
+    backpackType = "Backpack"
+    gibFactor = 0.5
 }
