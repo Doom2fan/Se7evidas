@@ -10,8 +10,9 @@ gameinfo {
     finalePage = "CREDIT"
     infoPage = "HELP", "CREDIT"
     quitSound = "menu/quit2"
-    telefogHeight = 0
     defKickback = 100
     backpackType = "Backpack"
     gibFactor = 0.5
+    dimcolor = "00 33 CC"
+    dimamount = 0.2
 }

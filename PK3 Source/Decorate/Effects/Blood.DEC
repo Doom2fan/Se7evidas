@@ -1,0 +1,39 @@
+Actor S7_Blood Replaces Blood {
+    Mass 5
+    +NoBlockmap +NoTeleport +ClientsideOnly
+    States {
+    Spawn:
+        BLUD CC 0 A_SpawnItemEx ("S7_Flying_Blood", 0.0, fRandom (-0.5, 0.5), 0.0, fRandom (2.0, 4.0), 0.0, fRandom (1.0, 8.0), 0.0, SXF_Clientside)
+        BLUD CBA 1
+        Stop
+    }
+}
+
+Actor S7_Flying_Blood {
+    Mass 5
+    Damage 0
+    +Corpse +NoTeleport +NoBlockmap +ThruSpecies
+    +ClientsideOnly
+    States {
+    Spawn:
+        BLUD C 0
+        BLUD CCCBBBAAA 1 A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_Clientside)
+        Loop
+    Death:
+    Crush:
+    Crash:
+        BLUD A 0
+        Stop
+    }
+}
+
+Actor S7_Flying_Blood_Trail {
+    Mass 5
+    +LowGravity +NoTeleport +NoBlockmap +ClientsideOnly
+    +NoInteraction
+    States {
+    Spawn:
+        BLUD CCBBAA 1
+        Stop
+    }
+}

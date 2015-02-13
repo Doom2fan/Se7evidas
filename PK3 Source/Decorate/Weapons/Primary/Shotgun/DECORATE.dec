@@ -89,9 +89,8 @@ Actor S7_Shotgun : S7_BaseWeapon 30001 {
         Goto Ready2
     
     DryFire:
-        SSGR A 0 A_PlaySound ("Weapons/empty", 7)
-        SSGR A 0 A_JumpIfInventory ("EnableAutoReload", 1, "DryReload")
-        Goto Ready2
+        SSGR A 0 A_PlaySound ("Weapons/Misc/Dryfire", 7)
+        SSGR A 3
     
     DryReload:
         SSGR A 0 A_GiveInventory ("S7_Reloading", 1)

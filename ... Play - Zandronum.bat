@@ -10,9 +10,9 @@ RMDIR /S /Q "./PK3 Source - Zandronum/acs" 2>nul
 MKDIR "./PK3 Source/acs"
 MKDIR "./PK3 Source - Zandronum/acs"
 %PROG_ACC% %ACSSOURCE%/Se7evidas.c %ACS_DEST%/Se7evidas.O
-%PROG_ACC% %ACSSOURCE%/Se7evidas_Rep.c %ACS_DEST%/Se7evidas_Rep.O
+%PROG_ACC% %ACSSOURCE%/S7_Rep.c %ACS_DEST%/S7_Rep.O
 
-%PROG_ACC% %ACSSOURCE%/Zandronum/Se7evidas_Rep.c ./PK3 Source - Zandronum/acs/Se7evidas_Rep.O
+%PROG_ACC% %ACSSOURCE%/Zandronum/S7_Rep.c "./PK3 Source - Zandronum/acs/S7_Rep.O"
 
 SET MAIN_7Z=%CD%
 SET PROG_7Z="%CD%/Tools/7z/7z"

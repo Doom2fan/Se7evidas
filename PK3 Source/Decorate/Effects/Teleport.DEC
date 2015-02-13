@@ -1,0 +1,20 @@
+Actor S7_TeleportFog {
+    +NoBlockmap +NoTeleport +NoGravity
+    RenderStyle Add
+    States {
+    Spawn:
+        TNT1 AAAA 0 A_PlaySound ("Weapons/Raptor/Fire")
+        TFOG A 36 Bright
+    Fade:
+        TFOG A 1 Bright A_FadeOut (0.01960784313725490196078431372549)
+        Loop
+    }
+}
+
+Actor S7_TeleportFogSpawner Replaces TeleportFog {
+    States {
+        TFOG A 0
+        TFOG AA 1 A_SpawnItemEx ("S7_TeleportFog")//, -5.0)
+        Stop
+    }
+}

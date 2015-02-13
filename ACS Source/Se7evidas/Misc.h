@@ -120,3 +120,29 @@ script S7_RunningInZDoom (void) {
     else
         SetResultValue (0);
 }
+
+/*#DEFINE S7_CVars_Count 1
+str S7_CVars [S7_CVars_Count] = {
+};
+#DEFINE S7_GetCVar 916
+script S7_GetCVar (int CVar) {
+    int CVarValue = GetCVar (S7_CVars [CVar]);
+    if (CVar > S7_CVars_Count - 1 || CVar < 0)
+        setResultValue (-1);
+    setResultValue (CVarValue);
+}
+#DEFINE S7_GetUserCVar 917
+script S7_GetUserCVar (int CVar) {
+    int CVarValue = GetUserCVar (playerNumber (), S7_CVars [CVar]);
+    if (CVar > S7_CVars_Count - 1 || CVar < 0)
+        setResultValue (-1);
+    setResultValue (CVarValue);
+}
+
+#DEFINE S7_GetCVarClientside 918
+script S7_GetCVarClientside (int CVar) CLIENTSIDE {
+    int CVarValue = GetUserCVar (playerNumber (), S7_CVars [CVar]);
+    if (CVar > S7_CVars_Count - 1 || CVar < 0)
+        setResultValue (-1);
+    setResultValue (CVarValue);
+}*/

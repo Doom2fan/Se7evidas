@@ -68,6 +68,26 @@ function void shopSystem_PrintCost (int cost) {
     hudMessage (s:"$", d:cost; HUDMSG_PLAIN, SHOPCOSTID, 0, 780*1.0, 492*1.0, 0.1);
 }
 
+#DEFINE S7_ShopSystem_NoCash 915
+script S7_ShopSystem_NoCash (void) {
+    shopGUIDisplayingError [playerNumber ()] = 1;
+    shopSystem_PrintError ("You don't have enough money for that.", "SMALLFONT", 1.0);
+    
+    delay (35 * 1);
+    
+    shopGUIDisplayingError [playerNumber ()] = 0;
+}
+
+#DEFINE S7_ShopSystem_NoSpace 916
+script S7_ShopSystem_NoSpace (void) {
+    shopGUIDisplayingError[playerNumber ()] = 1;
+    shopSystem_PrintError ("Your inventory is full.", "SMALLFONT", 1.0);
+    
+    delay (35 * 1);
+    
+    shopGUIDisplayingError[playerNumber ()] = 0;
+}
+
 function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     // shopSystem_BuyStuff (str inventory, int amount, int price);
     // returns 1 if successful, -1 if inventory is full and -2 if not enough cash
@@ -92,26 +112,6 @@ function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     }
     
     return 0;
-}
-
-#DEFINE S7_ShopSystem_NoCash 915
-script S7_ShopSystem_NoCash (void) {
-    shopGUIDisplayingError [playerNumber ()] = 1;
-    shopSystem_PrintError ("You don't have enough money for that.", "SMALLFONT", 1.0);
-    
-    delay (35 * 1);
-    
-    shopGUIDisplayingError [playerNumber ()] = 0;
-}
-
-#DEFINE S7_ShopSystem_NoSpace 916
-script S7_ShopSystem_NoSpace (void) {
-    shopGUIDisplayingError[playerNumber ()] = 1;
-    shopSystem_PrintError ("Your inventory is full.", "SMALLFONT", 1.0);
-    
-    delay (35 * 1);
-    
-    shopGUIDisplayingError[playerNumber ()] = 0;
 }
 
 function int shopSystem_BasicButton (str image, str image2, int bx, int by, int bwidth, int bheight, int bid) {
@@ -164,33 +164,6 @@ function int shopSystem_BasicTextButton (str text, int bx, int by, int bwidth, i
 }
 
 #DEFINE S7_ShopSystem_ToggleShopSystem 917
-script S7_ShopSystem_ToggleShopSystem (void) NET {
-    setHudSize (SCREEN_WIDTH, SCREEN_HEIGHT, 0);
-    
-    if (shopGUIOPEN [playerNumber ()] == 0) {
-        shopGUIOPEN [playerNumber ()] = 1;
-        mouseX [PlayerNumber ()] = SCREEN_WIDTH / 2;
-        mouseY [PlayerNumber ()] = SCREEN_HEIGHT / 2;
-        setFont ("Graphics/ShopSystem/Background.png");
-        hudMessage (s:"A"; HUDMSG_PLAIN, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0);
-        ACS_Execute ("ShopSystemz", 0);
-        delay (1);
-        setPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
-        terminate;
-    } else if (shopGUIOPEN [playerNumber ()] == 1) {
-        shopGUIOPEN [playerNumber ()] = 0;
-        mouseX [PlayerNumber ()] = SCREEN_WIDTH / 2;
-        mouseY [PlayerNumber ()] = SCREEN_HEIGHT / 2;
-        setFont ("Graphics/ShopSystem/Background.png");
-        hudMessage (s:"A";
-            HUDMSG_FADEOUT, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0001, 0.3);
-        ACS_Terminate ("ShopSystemz", 0);
-        delay (1);
-        setPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
-        terminate;
-    }
-}
-
 #DEFINE S7_ShopSystem 918
 script S7_ShopSystem (void) {
     int mouseXAdd = getPlayerInput (-1, INPUT_YAW);
@@ -264,5 +237,32 @@ script S7_ShopSystem (void) {
         delay (1);
         if (Counter >= 9) // If the timer is 9,
             Counter = 0; // Reset it
+    }
+}
+
+script S7_ShopSystem_ToggleShopSystem (void) NET {
+    setHudSize (SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    
+    if (shopGUIOPEN [playerNumber ()] == 0) {
+        shopGUIOPEN [playerNumber ()] = 1;
+        mouseX [PlayerNumber ()] = SCREEN_WIDTH / 2;
+        mouseY [PlayerNumber ()] = SCREEN_HEIGHT / 2;
+        setFont ("Graphics/ShopSystem/Background.png");
+        hudMessage (s:"A"; HUDMSG_PLAIN, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0);
+        ACS_Execute (S7_ShopSystem, 0);
+        delay (1);
+        setPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
+        terminate;
+    } else if (shopGUIOPEN [playerNumber ()] == 1) {
+        shopGUIOPEN [playerNumber ()] = 0;
+        mouseX [PlayerNumber ()] = SCREEN_WIDTH / 2;
+        mouseY [PlayerNumber ()] = SCREEN_HEIGHT / 2;
+        setFont ("Graphics/ShopSystem/Background.png");
+        hudMessage (s:"A";
+            HUDMSG_FADEOUT, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0001, 0.3);
+        ACS_Terminate (S7_ShopSystem, 0);
+        delay (1);
+        setPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
+        terminate;
     }
 }

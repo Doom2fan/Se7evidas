@@ -1,0 +1,24 @@
+######################BEGIN######################
+Scaling export by a value of 4.93 to fit MD3 space
+Converted quads in UV map of Plane to tris.
+Exporting UV texture coordinates for Plane
+Exporting Plane
+Header Information
+Ident: IDP3
+Version: 15
+Name: 
+Flags: 0
+Number of Frames: 1
+Number of Tags: 0
+Number of Surfaces: 1
+Number of Skins: 0
+Offset Frames: 108
+Offset Tags: 164
+Offset Surfaces: 164
+Offset end: 6244
+Total Shaders: 1
+Total Triangles: 268
+Total Vertices: 168
+MD3 saved to C:\Users\Chronos Ouroboros\Games\Doom\_ MEIN OWN FEKIN' MODS\Se7evidas\PK3 Source\models\Teleport\Teleport.md3
+Elapsed 0.03447 seconds
+Scaled export by a value of 4.93 to fit MD3 space

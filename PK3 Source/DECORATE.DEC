@@ -22,9 +22,14 @@
 #INCLUDE "Decorate/Constants.DEC"
 #INCLUDE "Decorate/Defaults.DEC"
 
+// Common stuff
+#INCLUDE "Decorate/Bullet puffs.DEC"
+
 // Effects
 #INCLUDE "Decorate/Effects/Smoke.DEC"
 #INCLUDE "Decorate/Effects/Casings.DEC"
+#INCLUDE "Decorate/Effects/Blood.DEC"
+#INCLUDE "Decorate/Effects/Teleport.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"

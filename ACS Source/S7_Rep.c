@@ -1,12 +1,12 @@
 #INCLUDE "zcommon.acs"
-#LIBRARY "Se7evidas_Rep"
+#LIBRARY "S7_Rep"
 
 // Defines
 #DEFINE MAXPLAYERS 64
 
 // Includes
 #INCLUDE "commonFuncs.h"
-#INCLUDE "Se7evidas_Rep/Shop System.h"
+#INCLUDE "S7_Rep/Shop System.h"
 
 // Defines
 
