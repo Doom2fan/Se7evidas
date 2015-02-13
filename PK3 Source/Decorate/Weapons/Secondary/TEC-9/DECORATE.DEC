@@ -26,7 +26,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 A 1 A_WeaponReady
         Loop
     Deselect:
-        SSGR A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
+        TEC9 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
         TEC9 A 0 A_Lower
         Wait
     Select:
@@ -60,12 +60,16 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 C 0 A_GunFlash
         TEC9 C 1 A_FireBullets (4.5, 5.5, -1, Random (3, 4), "S7_BulletPuff", 1)
         TEC9 D 1 A_SetPitch (pitch - 0.5)
+        TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
+        Goto DryFire
         TEC9 C 0 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_WEAPON)
         TEC9 C 0 A_SetPitch (pitch - 0.5)
         TEC9 C 0 A_AlertMonsters
         TEC9 C 0 A_GunFlash
         TEC9 C 1 A_FireBullets (4.5, 5.5, -1, Random (3, 4), "S7_BulletPuff", 1)
         TEC9 D 1 A_SetPitch (pitch - 0.5)
+        TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
+        Goto DryFire
         TEC9 C 0 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_WEAPON)
         TEC9 C 0 A_SetPitch (pitch - 0.5)
         TEC9 C 0 A_AlertMonsters
