@@ -6,7 +6,6 @@ Model S7_TeleportFog {
     //Rotating
     //Rotation-Speed 2.0
     Scale 2.0 2.0 2.0
-    Offset 0.0 0.0 0.0
 
 	FrameIndex TFOG A 0 0
 }
