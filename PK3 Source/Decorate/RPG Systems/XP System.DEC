@@ -1,0 +1,19 @@
+//-------------------------------------------------------------------------------------------
+//
+// XP System
+//
+//-------------------------------------------------------------------------------------------
+
+Actor S7_XP_System_Experience             : Counter                        { Inventory.MaxAmount 400000 }
+Actor S7_XP_System_Level                  : Counter                        { Inventory.MaxAmount 25 }
+Actor S7_XP_System_AttributePoints        : Counter                        { }
+
+//-------------------------------------------------------------------------------------------
+//
+// Stat System
+//
+//-------------------------------------------------------------------------------------------
+
+Actor S7_Stats_System_BaseStat            : Counter                        { Inventory.MaxAmount 10 }
+Actor S7_Stats_System_Strength            : S7_Stats_System_BaseStat       { } // Should be obvious
+Actor S7_Stats_System_Stamina             : S7_Stats_System_BaseStat       { } // Increases max stamina
