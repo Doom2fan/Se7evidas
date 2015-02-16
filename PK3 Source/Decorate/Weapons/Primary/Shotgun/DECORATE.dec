@@ -50,6 +50,8 @@ Actor S7_Shotgun : S7_BaseWeapon 30001 {
         SSGF A 0 A_PlaySound ("Weapons/Shotgun/Fire", CHAN_WEAPON)
         SSGF A 0 A_AlertMonsters
         SSGF A 0 A_TakeInventory ("S7_ShotgunLoaded", 2)
+        SSGF AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 8, 4)
+        SSGF AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 7, 4)
         SSGF A 2 A_FireBullets (3.8, 4.3, 18, 6, "S7_BulletPuff")
         SSGF EFG 1 A_SetPitch (pitch - 1.5)
         SSGR A 6
@@ -63,6 +65,7 @@ Actor S7_Shotgun : S7_BaseWeapon 30001 {
         SSGF B 0 A_PlaySound ("Weapons/Shotgun/AltFire", 5)
         SSGF B 0 A_AlertMonsters
         SSGF B 0 A_TakeInventory ("S7_ShotgunLoaded", 1)
+        SSGF BB 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 7, 4)
         SSGF B 2 A_FireBullets (3.8, 4.3, 9, 6, "S7_BulletPuff")
         SSGF FG 1 A_SetPitch (pitch - 0.75)
         SSGR A 3
@@ -72,6 +75,7 @@ Actor S7_Shotgun : S7_BaseWeapon 30001 {
         SSGF C 0 A_PlaySound ("Weapons/Shotgun/AltFire", 6)
         SSGF C 0 A_AlertMonsters
         SSGF C 0 A_TakeInventory ("S7_ShotgunLoaded", 1)
+        SSGF CC 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 8, 4)
         SSGF C 2 A_FireBullets (3.8, 4.3, 9, 6, "S7_BulletPuff")
         SSGF FG 1 A_SetPitch (pitch - 0.75)
         SSGR A 3
