@@ -33,7 +33,8 @@ script S7_SprintSystem ENTER {
             if (checkInventory ("S7_Stamina") >= 5) {
                 if (checkInventory ("S7_Sprinting") && tics >= 5) {
                     tics = 0;
-                    takeInventory ("S7_Stamina", 5);
+                    if (getVelocity () > 0)
+                        takeInventory ("S7_Stamina", 5);
                 }
                 if (checkInventory ("S7_Stamina") < 5 || CheckInventory ("S7_Dying")) {
                     setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [playerNumber ()]);

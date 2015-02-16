@@ -255,3 +255,17 @@ function void hudMessageonactor (int tid, int range, str sprite, str text) {
     else
         hudMessage (s:""; HUDMSG_PLAIN, 1, CR_UNTRANSLATED, 0, 0, 0);
 }
+
+// I dunno who made this...
+function int getVelocity (void) {
+	int vel;
+	int x = getActorVelX (0);
+	int y = getActorVelY (0);
+	int angle = vectorAngle (x, y);
+	
+	if (((angle + 0.125) % 0.5) > 0.25)
+		vel = fixedDiv (y, sin (angle));
+	else
+		vel = fixedDiv (x, cos (angle));
+	return vel >> 16;
+}
