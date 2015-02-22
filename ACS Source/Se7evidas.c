@@ -12,11 +12,12 @@
 #INCLUDE "Se7evidas/Sprint System.h"
 #INCLUDE "Se7evidas/Misc.h"
 #INCLUDE "Se7evidas/HUD.h"
+#INCLUDE "Se7evidas/Bank System.h"
 
 // Defines
 
 // Highest script num ID: 918
-// Highest global var ID: 4
+// Highest global var ID: 5
 
 #DEFINE S7_Enter 906
 script S7_Enter ENTER {
