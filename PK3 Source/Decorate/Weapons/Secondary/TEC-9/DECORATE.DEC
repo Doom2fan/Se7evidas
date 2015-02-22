@@ -100,6 +100,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 A 3
         Goto Reload
     Reload:
+        TECR A 0 A_ClearRefire
         TECR A 0 A_TakeInventory ("S7_Reloading", 1)
         TECR A 0 A_JumpIfInventory ("S7_TEC9Clip", 0, "Ready2")
         TECR A 0 A_JumpIfInventory ("S7_Clip", 1, "TrueReload")
