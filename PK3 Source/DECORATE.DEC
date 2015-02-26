@@ -23,7 +23,7 @@
 #INCLUDE "Decorate/Defaults.DEC"
 
 // Common stuff
-#INCLUDE "Decorate/Bullet puffs.DEC"
+#INCLUDE "Decorate/Bullets.DEC"
 
 // Effects
 #INCLUDE "Decorate/Effects/Smoke.DEC"
