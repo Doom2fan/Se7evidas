@@ -1,4 +1,5 @@
 *** High priority ***
-- Shop system.
 - Add more weapons.
+- Shop system.
 - Fucking monsters. (Maybe literally too.)
+- Storage system.
