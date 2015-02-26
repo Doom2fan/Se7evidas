@@ -9,6 +9,15 @@ Actor S7_Blood Replaces Blood {
     }
 }
 
+Actor S7_BloodSplatter : S7_Blood Replaces BloodSplatter {
+	States {
+	Spawn:
+		TNT1 AA 0 A_ChangeVelocity (0.0, 0.0, 0.0, CVF_REPLACE)
+		TNT1 A 0 A_SpawnItemEx ("S7_Blood", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_TRANSFERTRANSLATION)
+		Stop
+	}
+}
+
 Actor S7_Flying_Blood {
     Mass 5
     Damage 0
