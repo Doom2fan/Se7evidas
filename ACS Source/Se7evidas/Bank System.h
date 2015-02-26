@@ -16,10 +16,10 @@ function str classifyInventory (int index) {
     return S7_InventoryName [index];
 }
 
-script "retard" (int HUE, int HURR, int DURR, int BURR) {
+/*script "retard" (int HUE, int HURR, int DURR, int BURR) {
     if (HUE == 1) {
         print (s:classifyInventory (readInventory (playerNumber (), HURR, DURR)));
     } else {
         writeInventory (playerNumber (), HURR, DURR, BURR);
     }
-}
+}*/
