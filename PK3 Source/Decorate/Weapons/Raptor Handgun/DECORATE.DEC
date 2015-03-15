@@ -22,11 +22,11 @@ Actor S7_Raptor : S7_BaseWeapon 30000 {
         Loop
     Ready:
     Ready2:
-        RPTN A 0 A_JumpIfInventory ("S7_Kicking", 1, "Kicking")
+        RPTN A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         RPTN A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         RPTN A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
         RPTN A 1 A_WeaponReady
-        RPTN A 0 A_JumpIfInventory ("S7_Kicking", 1, "Kicking")
+        RPTN A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         RPTN A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         RPTN A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
         RPTN A 0 A_TakeInventory ("S7_RaptorRefire", 1)
@@ -47,7 +47,7 @@ Actor S7_Raptor : S7_BaseWeapon 30000 {
         RPTN B 0 A_SetPitch (pitch - 0.2)
         RPTN B 0 A_AlertMonsters
         RPTN B 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 5, 4)
-        RPTN B 1 Bright A_FireBullets (2.8, 3.7, -1, 7, "S7_BulletPuff", 1)
+        RPTN B 1 Bright A_FireCustomMissile ("S7_RaptorTracer", frandom (-2.8, 2.8), 1, 5, 2, 0, frandom (-3.7, 3.7))
         RPTN A 0 A_SetPitch (pitch - 0.2)
         RPTN CDAA 1
         RPTN A 0 A_GiveInventory ("S7_RaptorRefire", 1)
@@ -63,7 +63,7 @@ Actor S7_Raptor : S7_BaseWeapon 30000 {
         RPTN A 0 A_GunFlash
         RPTN A 0 A_SetPitch (pitch - 0.2)
         RPTN A 0 A_AlertMonsters
-        RPTN B 1 Bright A_FireBullets (2.8, 3.7, -1, 7, "S7_BulletPuff", 1)
+        RPTN B 1 Bright A_FireCustomMissile ("S7_RaptorTracer", frandom (-2.8, 2.8), 1, 5, 2, 0, frandom (-3.7, 3.7))
         RPTN A 0 A_SetPitch (pitch - 0.2)
         RPTN CD 1
         RPTN AA 1

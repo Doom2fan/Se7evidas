@@ -1,7 +1,7 @@
-#DEFINE S7_WEAPONMAX 3
-str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor", "S7_Shotgun", "S7_TEC9" };
-#DEFINE S7_DUMMYWEAPON_COUNT 2
-str S7_DummyWeapons [S7_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon" };
+#DEFINE S7_WEAPONMAX 4
+str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor", "S7_Shotgun", "S7_TEC9", "S7_Revolver" };
+#DEFINE S7_DUMMYWEAPON_COUNT 3
+str S7_DummyWeapons [S7_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon", "S7_QuickMelee" };
 global int 2:S7_LastWeapon [];
 
 function int getWeaponName (void) {
@@ -35,7 +35,7 @@ function void disableWeapon (str meh, str blah) {
         meh = S7_DummyWeapons [0];
     
     if (checkWeapon (meh)) {
-        if (blah != 0)
+        if (blah != FALSE)
             takeInventory (blah, 99999);
         lastWeapon (1);
         return;
@@ -76,4 +76,9 @@ script S7_SynthFireAllowChange (void) {
         setResultValue (1);
     else
         setResultValue (0);
+}
+
+#DEFINE S7_QuickMelee 919
+script S7_QuickMelee (void) {
+    disableWeapon ("S7_QuickMelee", 100000);
 }

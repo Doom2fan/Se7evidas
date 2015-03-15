@@ -1,0 +1,3 @@
+DECORATE: Alex_Mercer
+Sprites: Pisstepank, Alex_Mercer
+Sounds: Action Half-Life, Killing Floor IJC Weapon Pack, WildWeasel

@@ -4,6 +4,7 @@
 // Weapons: A_FireCustomMissile (tracerName, frandom (-, horizontalSpread), 1, horizontalOffset, verticalOffset, 0, frandom (-, verticalSpread))
 // Monsters: A_CustomMissile (tracerName, verticalOffset, horizontalOffset, frandom (-, horizontalSpread), 0, frandom (-, verticalSpread))
 
+/*** Base ***/
 Actor S7_BaseTracer : FastProjectile {
 	Alpha 1.0
 	RenderStyle Add
@@ -12,14 +13,14 @@ Actor S7_BaseTracer : FastProjectile {
 	Speed 75
 	Projectile
 	+BloodSplatter +NoExtremeDeath +NoDamageThrust
-    Scale 0.1
-	Damage (random (1, 3) * 4)
-	MissileType TracerTrail
+    Scale 0.025
+	Damage (Random (1, 3) * 4)
+	MissileType "S7_TracerTrail"
 	MissileHeight 8
 	Decal Bullet
 	States {
 	Spawn:
-		LEYS A 1 Bright
+		SPRK A 1 Bright
 		Loop
 	Death:
 	Crash:
@@ -34,16 +35,20 @@ Actor S7_BaseTracer : FastProjectile {
 Actor S7_TracerTrail {
 	Alpha 1.0
 	RenderStyle Add
-	Speed 0
 	+NoBlockmap +NoGravity +NoTeleport +CannotPush
-	+NoDamageThrust
-	Scale 0.1
+	Scale 0.025
 	States {
 	Spawn:
-		LEYS A 1 Bright A_FadeOut (0.3)
+		SPRK A 1 Bright A_FadeOut (0.3)
 		Wait
 	}
 }
 
 Actor S7_BulletPuff {
 }
+
+/*** Tracers ***/
+Actor S7_RaptorTracer : S7_BaseTracer { Damage (Random (1, 3) * 7) }
+Actor S7_RevolverTracer : S7_BaseTracer { Damage (Random (1, 4) * 14) }
+Actor S7_TEC9Tracer : S7_BaseTracer { Damage (Random (1, 3) * Random (3, 4)) }
+Actor S7_SSGTracer : S7_BaseTracer { Damage (Random (1, 3) * 6) }

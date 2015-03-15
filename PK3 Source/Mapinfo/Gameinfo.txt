@@ -5,6 +5,7 @@ gameinfo {
     advisoryTime = 6
     pageTime = 5
     chatSound = "misc/chat"
+    playerClasses = "S7_BasePlayer"
     finaleMusic = "D_READ_2"
     finaleFlat = "SLIME16"
     finalePage = "CREDIT"

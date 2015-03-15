@@ -1,11 +1,7 @@
-// Add player class(es)
-clearPlayerClasses
-addPlayerClass S7_Player
-
 // Add keys
 addKeySection Se7evidas, Se7evidas
 addMenuKey "Reload" "Use S7_ReloadKey"
 addMenuKey "Firing mode" "Use S7_FiringModeKey"
-addMenuKey "Kick" "Use S7_KickKey"
+addMenuKey "Quick Melee" "Use S7_MeleeKey"
 addMenuKey "Sprint" +user1
 addMenuKey "Drop Weapon" "Use S7_DropWeaponKey"

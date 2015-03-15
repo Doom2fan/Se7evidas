@@ -14,7 +14,7 @@
 */
 
 /* Highest DoomEdNums:
-** Weapons: 30002
+** Weapons: 30003
 ** Ammo: 31002
 ** Inventory: 32003
 */
@@ -42,6 +42,7 @@
 
 // Weapons
 #INCLUDE "Decorate/Base Weapon.DEC"
+#INCLUDE "Decorate/Quick Melee.DEC"
 
 // Primary
 #INCLUDE "Decorate/Weapons/Primary/Shotgun/DECORATE.DEC"
@@ -49,3 +50,4 @@
 // Secondary
 #INCLUDE "Decorate/Weapons/Raptor Handgun/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/TEC-9/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Secondary/Revolver/DECORATE.DEC"

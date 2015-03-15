@@ -1,0 +1,54 @@
+Actor S7_DaggerMelee : Boolean { }
+Actor S7_Dagger2Melee : Boolean { }
+Actor S7_KnifeMelee : Boolean { }
+Actor S7_KickMelee : Boolean { }
+
+Actor S7_QuickMelee : S7_BaseWeapon {
+    Tag " "
+    States {
+    Ready:
+        TNT1 A 0 A_JumpIfInventory ("S7_DaggerMelee", 1, "DaggerMelee")
+        TNT1 A 0 A_JumpIfInventory ("S7_Dagger2Melee", 1, "Dagger2Melee")
+        TNT1 A 0 A_JumpIfInventory ("S7_KnifeMelee", 1, "KnifeMelee")
+        TNT1 A 0 A_JumpIfInventory ("S7_KickMelee", 1, "KickMelee")
+        TNT1 A 1
+        Goto MeleeDone
+    
+    Select:
+        TNT1 A 0 A_Raise
+        Wait
+    Deselect:
+        TNT1 A 0 A_Lower
+        Wait
+    Fire:
+        Goto Ready
+    
+    DaggerMelee:
+        Goto MeleeDone
+    
+    Dagger2Melee:
+        Goto MeleeDone
+    
+    KnifeMelee:
+        Goto MeleeDone
+    
+    KickMelee:
+        KICK BCD 1
+    KickMelee.Mid:
+        "----" A 0 A_JumpIfInventory ("PowerStrength", 1, "KickMelee.Berserk")
+        "----" A 0 A_CustomPunch (random (1, 5) * 10, 1, 0, "S7_MeleePuff")
+        Goto KickMelee.End
+    KickMelee.Berserk:
+        "----" A 0 A_CustomPunch (3 * random (1, 5) * 10, 1, 0, "S7_MeleePuffStrong")
+        Goto KickMelee.End
+    KickMelee.End:
+        KICK H 4
+        KICK IGFEDCBA 1
+        Goto MeleeDone
+    
+    MeleeDone:
+        TNT1 A 1 ACS_ExecuteAlways (S7_QuickMelee, 0)
+		TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
+        Wait
+    }
+}

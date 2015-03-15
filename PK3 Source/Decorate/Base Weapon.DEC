@@ -4,19 +4,10 @@ Actor S7_BaseWeapon : Weapon {
     +Weapon.Ammo_Optional +Weapon.NoAutoFire +Inventory.Undroppable
     +Weapon.NoAlert
     States {
-    Kicking:
-        "----" A 0 A_ZoomFactor (1.0)
-        "----" A 0 A_TakeInventory ("S7_Kicking", 1)
-        "----" A 0 A_Jump (256, "Kick.Start")
-        Wait
-    Kicking.Mid:
-        "----" A 0 A_JumpIfInventory ("PowerStrength", 1, "BerserkKick")
-        "----" A 0 A_CustomPunch (random (30, 40), 1, 0, "S7_MeleePuff")
-        "----" A 0 A_Jump (256, "Kick.End")
-        Wait
-    BerserkKick:
-        "----" A 0 A_CustomPunch (3 * random (30, 40), 1, 0, "S7_MeleePuffStrong")
-        "----" A 0 A_Jump (256, "Kick.End")
+    QuickMelee:
+        TNT1 A 0 A_TakeInventory ("S7_DoMelee", 1)
+        TNT1 A 1 ACS_ExecuteAlways (S7_QuickMelee, 0)
+        TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
         Wait
     DryFire:
         "----" A 0 A_PlaySound ("Weapons/DryFire", CHAN_WEAPON)

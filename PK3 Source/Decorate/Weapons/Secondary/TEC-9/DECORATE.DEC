@@ -20,7 +20,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         Loop
     Ready:
     Ready2:
-        TEC9 A 0 A_JumpIfInventory ("S7_Kicking", 1, "Kicking")
+        TEC9 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         TEC9 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         TEC9 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
         TEC9 A 1 A_WeaponReady
@@ -45,7 +45,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 C 0 A_AlertMonsters
         TEC9 C 0 A_GunFlash
         TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireBullets (4.5, 5.5, -1, Random (3, 4), "S7_BulletPuff", 1)
+        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
         TEC9 D 1 A_SetPitch (pitch - 0.5)
         TEC9 B 1 A_Refire
         TEC9 A 0 A_TakeInventory ("S7_TEC9_Flash", 999999)
@@ -60,7 +60,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 C 0 A_AlertMonsters
         TEC9 C 0 A_GunFlash
         TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireBullets (4.5, 5.5, -1, Random (3, 4), "S7_BulletPuff", 1)
+        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
         TEC9 D 1 A_SetPitch (pitch - 0.5)
         TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
         Goto DryFire
@@ -69,7 +69,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 C 0 A_AlertMonsters
         TEC9 C 0 A_GunFlash
         TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireBullets (4.5, 5.5, -1, Random (3, 4), "S7_BulletPuff", 1)
+        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
         TEC9 D 1 A_SetPitch (pitch - 0.5)
         TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
         Goto DryFire
@@ -78,7 +78,7 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TEC9 C 0 A_AlertMonsters
         TEC9 C 0 A_GunFlash
         TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireBullets (4.5, 5.5, -1, Random (3, 4), "S7_BulletPuff", 1)
+        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
         TEC9 D 1 A_SetPitch (pitch - 0.5)
         TEC9 B 1
         TEC9 A 0 A_TakeInventory ("S7_TEC9_Flash", 999999)
@@ -120,15 +120,6 @@ Actor S7_TEC9 : S7_BaseWeapon 30002 {
         TECR IJKLMNO 2
         TECR P 0 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_WEAPON)
         TECR PQRRRSTU 2
-        Goto Ready2
-    
-    Kick.Start:
-        TECK BCD 1
-        TECK A 0 A_Jump (256, "Kicking.Mid")
-        Wait
-    Kick.End:
-        TECK H 4
-        TECK IGFEDCBA 1
         Goto Ready2
     
     // Muzzle flashes

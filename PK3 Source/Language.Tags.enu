@@ -1,4 +1,5 @@
 [default enu en]
-SHOTGUN                         = "\"Lucifer\" Double-Barreled Shotgun";
-RAPTORHANDGUN                   = "\"Raptor\" 9mm Pistol";
-TEC9                            = "\"Kronos\" SMG";
+SHOTGUN                         = "Sigma BTK AM-10 12ga SxS Shotgun \"Lucifer\"";
+RAPTORHANDGUN                   = "Cronus Corps R16 9mm Pistol \"Raptor\"";
+TEC9                            = "Cronus Corps S18 9mm SMG \"Kronos\"";
+REVOLVER                        = "ShadowFyre Omega-Sigma .44M Revolver \"Deathbringer\"";
