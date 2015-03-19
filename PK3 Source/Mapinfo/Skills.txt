@@ -1,8 +1,8 @@
 Clearskills
 skill S7_Baby {
+    easyBossBrain
     ammoFactor = 2
     damageFactor = 0.5
-    easyBossBrain
     spawnFilter = Baby
     name = "$SKILLS_BABY"
     mustConfirm = "$SKILLS_BABYTEXT"
@@ -32,8 +32,8 @@ skill S7_Harder {
 }
 
 skill S7_VeryHard {
-    spawnFilter = Hard
     fastMonsters
+    spawnFilter = Hard
     name = "$SKILLS_HARDSPEED"
     aggressiveness = 0.025
     mustConfirm = "$SKILLS_HARDSPEEDTEXT"
@@ -41,8 +41,8 @@ skill S7_VeryHard {
 }
 
 skill S7_Nightmare {
-    ammoFactor = 2
     fastMonsters
+    ammoFactor = 2
     respawnTime = 12
     spawnFilter = Nightmare
     name = "$SKILLS_NIGHTMARE"
@@ -51,16 +51,29 @@ skill S7_Nightmare {
 }
 
 skill S7_Brutal {
+    fastMonsters
     ammoFactor = 2.0
     respawnTime = 5
     respawnLimit = 0
-    damageFactor = 2.5
+    damageFactor = 1.8
     aggressiveness = 0.5
     spawnFilter = Nightmare
     name = "$SKILLS_SE7EVIDAS"
-    fastMonsters
     mustConfirm = "$SKILLS_SE7EVIDASTEXT"
     key = "I"
+}
+
+Skill S7_IAmGod {
+	fastMonsters
+    AmmoFactor = 0.5
+    DoubleAmmoFactor = 0.5
+    DamageFactor = 2.3
+	aggressiveness = 0.75
+    SpawnFilter = Nightmare
+    Name = " "
+    MustConfirm = "$SKILLS_IAMGODTEXT"
+    ReplaceActor = "Zombieman", "ShotgunGuy"
+    ReplaceActor = "ShotgunGuy", "DoomImp"
 }
 
 Skill S7_AAAAAAAAAAA {
@@ -71,7 +84,6 @@ Skill S7_AAAAAAAAAAA {
     SpawnFilter = Nightmare
     Name = " "
     MustConfirm = "$SKILLS_AAAAAAAAAAATEXT"
-    EasyKey
     ReplaceActor = "ArmorBonus", "Cell"
     ReplaceActor = "GreenArmor", "PlasmaRifle"
     ReplaceActor = "BlueArmor", "BFG9000"
