@@ -1,7 +1,6 @@
-Actor S7_DaggerMelee : Boolean { }
-Actor S7_Dagger2Melee : Boolean { }
-Actor S7_KnifeMelee : Boolean { }
-Actor S7_KickMelee : Boolean { }
+Actor S7_DaggerMelee : Boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Alex_Mercer
+Actor S7_Dagger2Melee : Boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Alex_Mercer
+Actor S7_KickMelee : Boolean { } // Credits: Sprites: ???, Alex_Mercer
 
 Actor S7_QuickMelee : S7_BaseWeapon {
     Tag " "
@@ -9,7 +8,6 @@ Actor S7_QuickMelee : S7_BaseWeapon {
     Ready:
         TNT1 A 0 A_JumpIfInventory ("S7_DaggerMelee", 1, "DaggerMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_Dagger2Melee", 1, "Dagger2Melee")
-        TNT1 A 0 A_JumpIfInventory ("S7_KnifeMelee", 1, "KnifeMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_KickMelee", 1, "KickMelee")
         TNT1 A 1
         Goto MeleeDone
@@ -24,14 +22,12 @@ Actor S7_QuickMelee : S7_BaseWeapon {
         Goto Ready
     
     DaggerMelee:
+		DAG1 ABCDE 1
         Goto MeleeDone
     
     Dagger2Melee:
         Goto MeleeDone
-    
-    KnifeMelee:
-        Goto MeleeDone
-    
+	
     KickMelee:
         KICK BCD 1
     KickMelee.Mid:
@@ -39,7 +35,7 @@ Actor S7_QuickMelee : S7_BaseWeapon {
         "----" A 0 A_CustomPunch (random (1, 5) * 10, 1, 0, "S7_MeleePuff")
         Goto KickMelee.End
     KickMelee.Berserk:
-        "----" A 0 A_CustomPunch (3 * random (1, 5) * 10, 1, 0, "S7_MeleePuffStrong")
+        "----" A 0 A_CustomPunch (3 * random (3, 5) * 10, 1, 0, "S7_MeleePuffStrong")
         Goto KickMelee.End
     KickMelee.End:
         KICK H 4
