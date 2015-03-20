@@ -35,7 +35,7 @@ Actor S7_Revolver : S7_BaseWeapon {
         RVLV B 0 A_PlaySound ("Weapons/Revolver/Fire", CHAN_WEAPON)
         RVLV B 0 A_SetPitch (pitch - 0.8)
         RVLV B 0 A_AlertMonsters
-        RVLV B 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 5, 4)
+        RVLV B 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 5)
         RVLV B 1 Bright A_FireCustomMissile ("S7_RevolverTracer", frandom (-1.8, 1.8), 1, 5, 2, 0, frandom (-2.7, 2.7))
         RVLV C 0 A_SetPitch (pitch - 0.8)
         RVLV CDEF 1
