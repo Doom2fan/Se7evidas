@@ -1,0 +1,2 @@
+startupTitle = "Se7evidas"
+startupColors = "FFFFFF", "000000"
