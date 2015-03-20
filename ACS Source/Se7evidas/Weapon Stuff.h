@@ -33,17 +33,14 @@ function void lastWeapon (int mode) {
 }
 
 function void disableWeapon (str meh, str blah) {
-    if (meh == 0)
-        meh = S7_DummyWeapons [0];
-    
     if (checkWeapon (meh)) {
         takeInventory (blah, 99999);
         lastWeapon (1);
         return;
     }
-    
+    print (s:meh);
     giveInventory (meh, 1);
-    setWeapon (meh);
+    //setWeapon (meh);
     lastWeapon (0);
 }
 
