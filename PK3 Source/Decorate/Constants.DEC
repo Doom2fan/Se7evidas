@@ -6,7 +6,6 @@ const int S7_StimpackScript = 901;
 const int S7_SynthFire = 910;
 const int S7_SynthFireAllowChange = 911;
 const int S7_QuickMelee = 919;
-const int S7_MeleeDone = 920;
 
 // Misc
 const int S7_RunningInZDoom = 913;
