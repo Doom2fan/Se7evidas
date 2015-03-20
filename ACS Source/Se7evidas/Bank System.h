@@ -1,7 +1,7 @@
-#DEFINE S7_BS_MAXSLOTS 15
+#LIBDEFINE S7_BS_MAXSLOTS 15
 global int 4:S7_BS_Inventory [];
 
-#DEFINE S7_INVENTORYMAX 5
+#LIBDEFINE S7_INVENTORYMAX 5
 str S7_InventoryName [S7_INVENTORYMAX] = { "S7_Raptor", "S7_Shotgun", "S7_TEC9", "S7_Medikit", "S7_Stimpack" };
 
 function int readInventory (int first, int second, int third) {

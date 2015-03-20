@@ -1,4 +1,7 @@
-// Credits to TheMisterCat for the code
+/* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCKKKKKKKKKK
+** I have to rewrite some of this shit for Zandro and GZDoom now...
+*/
+/*// Credits to TheMisterCat for the code
 
 // Default button width and height = 50;
 // Default button positions {
@@ -12,28 +15,23 @@
 // 8/Top-Left = X 233, Y 120
 // }
 
-#DEFINE SCREEN_WIDTH                800
-#DEFINE SCREEN_HEIGHT               600
+#LIBDEFINE SCREEN_WIDTH                800
+#LIBDEFINE SCREEN_HEIGHT               600
 
-#DEFINE SENSITIVITY_X               20
-#DEFINE SENSITIVITY_Y               20
+#LIBDEFINE SENSITIVITY_X               20
+#LIBDEFINE SENSITIVITY_Y               20
 
-#DEFINE SHOPBACKGROUNDID            9000000
-#DEFINE SHOPCURSORID                8000000
-#DEFINE SHOPTEXTID                  8000001
-#DEFINE SHOPCOSTID                  8000002
-#DEFINE BACKBUTTON                  8000003
-#DEFINE SHOPBUTTONS                 8000004
+#LIBDEFINE SHOPBACKGROUNDID            9000000
+#LIBDEFINE SHOPCURSORID                8000000
+#LIBDEFINE SHOPTEXTID                  8000001
+#LIBDEFINE SHOPCOSTID                  8000002
+#LIBDEFINE BACKBUTTON                  8000003
+#LIBDEFINE SHOPBUTTONS                 8000004
 
 int mouseX [MAXPLAYERS] = { SCREEN_WIDTH / 2 };
 int mouseY [MAXPLAYERS] = { SCREEN_HEIGHT / 2 };
 int shopGUIOPEN [MAXPLAYERS];
 int shopGUIDisplayingError [MAXPLAYERS];
-
-function void shopSystem_PrintText (str text, str font) {
-    // shopSystem_PrintText (Text, Font);
-    shopSystem_PrintTextTimed (text, font, 0.1);
-}
 
 function void shopSystem_PrintTextTimed (str text, str font, int time) {
     // shopSystem_PrintText (Text, Font, Time);
@@ -46,6 +44,11 @@ function void shopSystem_PrintTextTimed (str text, str font, int time) {
     
     if (!shopGUIDisplayingError [playerNumber ()])
         hudMessage (s:text; HUDMSG_FADEOUT, SHOPTEXTID, 0, 11.1, 492.1, time, 0.3);
+}
+
+function void shopSystem_PrintText (str text, str font) {
+    // shopSystem_PrintText (Text, Font);
+    shopSystem_PrintTextTimed (text, font, 0.1);
 }
 
 function void shopSystem_PrintError (str text, str font, int time) {
@@ -68,7 +71,7 @@ function void shopSystem_PrintCost (int cost) {
     hudMessage (s:"$", d:cost; HUDMSG_PLAIN, SHOPCOSTID, 0, 780*1.0, 492*1.0, 0.1);
 }
 
-#DEFINE S7_ShopSystem_NoCash 915
+#LIBDEFINE S7_ShopSystem_NoCash 915
 script S7_ShopSystem_NoCash (void) {
     shopGUIDisplayingError [playerNumber ()] = 1;
     shopSystem_PrintError ("You don't have enough money for that.", "SMALLFONT", 1.0);
@@ -78,7 +81,7 @@ script S7_ShopSystem_NoCash (void) {
     shopGUIDisplayingError [playerNumber ()] = 0;
 }
 
-#DEFINE S7_ShopSystem_NoSpace 916
+#LIBDEFINE S7_ShopSystem_NoSpace 916
 script S7_ShopSystem_NoSpace (void) {
     shopGUIDisplayingError[playerNumber ()] = 1;
     shopSystem_PrintError ("Your inventory is full.", "SMALLFONT", 1.0);
@@ -93,7 +96,6 @@ function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     // returns 1 if successful, -1 if inventory is full and -2 if not enough cash
     int cash = checkInventory ("Energy");
     
-    print (d:checkInventory (inventory), d:checkInventoryMax (inventory));    
     if (checkInventory (inventory) >= checkInventoryMax (inventory)) {
         ACS_Execute (S7_ShopSystem_NoSpace, 0);
         
@@ -163,8 +165,8 @@ function int shopSystem_BasicTextButton (str text, int bx, int by, int bwidth, i
     return false;
 }
 
-#DEFINE S7_ShopSystem_ToggleShopSystem 917
-#DEFINE S7_ShopSystem 918
+#LIBDEFINE S7_ShopSystem_ToggleShopSystem 917
+#LIBDEFINE S7_ShopSystem 918
 script S7_ShopSystem (void) {
     int mouseXAdd = getPlayerInput (-1, INPUT_YAW);
     int mouseYAdd = getPlayerInput (-1, INPUT_PITCH);
@@ -265,4 +267,4 @@ script S7_ShopSystem_ToggleShopSystem (void) NET {
         setPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
         terminate;
     }
-}
+}*/

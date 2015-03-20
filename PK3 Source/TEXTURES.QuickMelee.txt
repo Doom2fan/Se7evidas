@@ -37,21 +37,21 @@ Sprite KICKI0, 320, 200 {
 
 // DTB Dagger/Dagger 1
 Sprite DAG1A0, 320, 200 {
-	Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 40, 51
+    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 40, 51
 }
 
 Sprite DAG1B0, 320, 200 {
-	Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 76, 68
+    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 76, 68
 }
 
 Sprite DAG1C0, 320, 200 {
-	Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 133, 97
+    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 133, 97
 }
 
 Sprite DAG1D0, 320, 200 {
-	Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 199, 130
+    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 199, 130
 }
 
 Sprite DAG1E0, 320, 200 {
-	Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 241, 151
+    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 241, 151
 }

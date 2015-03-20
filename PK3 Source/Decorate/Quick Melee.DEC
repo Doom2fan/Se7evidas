@@ -22,12 +22,12 @@ Actor S7_QuickMelee : S7_BaseWeapon {
         Goto Ready
     
     DaggerMelee:
-		DAG1 ABCDE 1
+        DAG1 ABCDE 1
         Goto MeleeDone
     
     Dagger2Melee:
         Goto MeleeDone
-	
+    
     KickMelee:
         KICK BCD 1
     KickMelee.Mid:
@@ -44,7 +44,7 @@ Actor S7_QuickMelee : S7_BaseWeapon {
     
     MeleeDone:
         TNT1 A 1 ACS_ExecuteAlways (S7_QuickMelee, 0)
-		TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
+        TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
         Wait
     }
 }

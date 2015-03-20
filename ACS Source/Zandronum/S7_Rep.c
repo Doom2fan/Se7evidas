@@ -2,7 +2,7 @@
 #LIBRARY "S7_Rep"
 
 // Defines
-#DEFINE MAXPLAYERS 64
+#LIBDEFINE MAXPLAYERS 64
 
 // Includes
 #INCLUDE "../commonFuncs.h"
@@ -12,7 +12,7 @@
 
 // Highest script num ID: 800
 
-#DEFINE S7_Enter_Zandronum 800
+#LIBDEFINE S7_Enter_Zandronum 800
 script S7_Enter_Zandronum (void) CLIENTSIDE {
     ConsoleCommand ("S7_Zandronum");
 }

@@ -1,8 +1,8 @@
-#DEFINE MAXSTAMINA 150
+#LIBDEFINE MAXSTAMINA 150
 
 global int 3:S7_SR_StaminaEmpty [];
 
-#DEFINE S7_StaminaRegeneration 905
+#LIBDEFINE S7_StaminaRegeneration 905
 script S7_StaminaRegeneration ENTER {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)

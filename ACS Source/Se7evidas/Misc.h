@@ -1,4 +1,4 @@
-#DEFINE S7_SpeedScript 902
+#LIBDEFINE S7_SpeedScript 902
 script S7_SpeedScript ENTER {
     if (gameType () == game_Title_Map)
         terminate;
@@ -17,7 +17,7 @@ script S7_SpeedScript ENTER {
     }
 }
 
-#DEFINE S7_WaterScript 909
+#LIBDEFINE S7_WaterScript 909
 script S7_WaterScript ENTER {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)
@@ -35,7 +35,7 @@ script S7_WaterScript ENTER {
     }
 }
 
-#DEFINE S7_BrutalDoomCompatibility 912
+#LIBDEFINE S7_BrutalDoomCompatibility 912
 script S7_BrutalDoomCompatibility ENTER {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)
@@ -113,7 +113,7 @@ script S7_BrutalDoomCompatibility ENTER {
     }
 }
 
-#DEFINE S7_RunningInZDoom 913
+#LIBDEFINE S7_RunningInZDoom 913
 script S7_RunningInZDoom (void) {
     if (GetCVar ("S7_RunningInZDoom") == 1)
         SetResultValue (1);
@@ -121,17 +121,17 @@ script S7_RunningInZDoom (void) {
         SetResultValue (0);
 }
 
-/*#DEFINE S7_CVars_Count 1
+/*#LIBDEFINE S7_CVars_Count 1
 str S7_CVars [S7_CVars_Count] = {
 };
-#DEFINE S7_GetCVar 916
+#LIBDEFINE S7_GetCVar 916
 script S7_GetCVar (int CVar) {
     int CVarValue = GetCVar (S7_CVars [CVar]);
     if (CVar > S7_CVars_Count - 1 || CVar < 0)
         setResultValue (-1);
     setResultValue (CVarValue);
 }
-#DEFINE S7_GetUserCVar 917
+#LIBDEFINE S7_GetUserCVar 917
 script S7_GetUserCVar (int CVar) {
     int CVarValue = GetUserCVar (playerNumber (), S7_CVars [CVar]);
     if (CVar > S7_CVars_Count - 1 || CVar < 0)
@@ -139,7 +139,7 @@ script S7_GetUserCVar (int CVar) {
     setResultValue (CVarValue);
 }
 
-#DEFINE S7_GetCVarClientside 918
+#LIBDEFINE S7_GetCVarClientside 918
 script S7_GetCVarClientside (int CVar) CLIENTSIDE {
     int CVarValue = GetUserCVar (playerNumber (), S7_CVars [CVar]);
     if (CVar > S7_CVars_Count - 1 || CVar < 0)

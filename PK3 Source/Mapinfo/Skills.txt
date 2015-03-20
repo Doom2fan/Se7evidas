@@ -64,11 +64,11 @@ skill S7_Brutal {
 }
 
 Skill S7_IAmGod {
-	fastMonsters
+    fastMonsters
     AmmoFactor = 0.5
     DoubleAmmoFactor = 0.5
     DamageFactor = 2.3
-	aggressiveness = 0.75
+    aggressiveness = 0.75
     SpawnFilter = Nightmare
     Name = " "
     MustConfirm = "$SKILLS_IAMGODTEXT"

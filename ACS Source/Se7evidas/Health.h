@@ -1,7 +1,7 @@
-#DEFINE MEDIKITHEALTH 40
-#DEFINE STIMPACKHEALTH MEDIKITHEALTH / 2
+#LIBDEFINE MEDIKITHEALTH 40
+#LIBDEFINE STIMPACKHEALTH MEDIKITHEALTH / 2
 
-#DEFINE S7_MedikitScript 900
+#LIBDEFINE S7_MedikitScript 900
 script S7_MedikitScript (void) {
     print (s:"Applying Medikit");
     thing_Stop (0);
@@ -16,7 +16,7 @@ script S7_MedikitScript (void) {
     healThing (MEDIKITHEALTH);
 }
 
-#DEFINE S7_StimpackScript 901
+#LIBDEFINE S7_StimpackScript 901
 script S7_StimpackScript (void) {
     print (s:"Applying Stimpack");
     thing_Stop (0);
@@ -26,7 +26,7 @@ script S7_StimpackScript (void) {
     setPlayerProperty (0, 0, PROP_TotallyFrozen);
 }
 
-#DEFINE S7_HeartbeatScript 903
+#LIBDEFINE S7_HeartbeatScript 903
 script S7_HeartbeatScript ENTER CLIENTSIDE {
     if (gameType () == game_Title_Map)
         terminate;

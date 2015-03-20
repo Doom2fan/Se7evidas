@@ -1,4 +1,4 @@
-#DEFINE TICUNITS         35.725
+#LIBDEFINE TICUNITS         35.725
 
 // A bunch of functions that I've built up
 // They come in handy :>
@@ -219,7 +219,7 @@ function int hudMessageTime (int type, int length, int typetime, int staytime, i
 // From the ZDoom Wiki
 // Hud Message on actor
 
-function void hudMessageonactor (int tid, int range, str sprite, str text) {
+/*function void hudMessageonactor (int tid, int range, str sprite, str text) {
     int dist, ang, vang, pitch, x, y;
     int HUDX = 640;
     int HUDY = 400;
@@ -254,18 +254,18 @@ function void hudMessageonactor (int tid, int range, str sprite, str text) {
     }
     else
         hudMessage (s:""; HUDMSG_PLAIN, 1, CR_UNTRANSLATED, 0, 0, 0);
-}
+}*/
 
 // I dunno who made this...
 function int getVelocity (void) {
-	int vel;
-	int x = getActorVelX (0);
-	int y = getActorVelY (0);
-	int angle = vectorAngle (x, y);
-	
-	if (((angle + 0.125) % 0.5) > 0.25)
-		vel = fixedDiv (y, sin (angle));
-	else
-		vel = fixedDiv (x, cos (angle));
-	return vel >> 16;
+    int vel;
+    int x = getActorVelX (0);
+    int y = getActorVelY (0);
+    int angle = vectorAngle (x, y);
+    
+    if (((angle + 0.125) % 0.5) > 0.25)
+        vel = fixedDiv (y, sin (angle));
+    else
+        vel = fixedDiv (x, cos (angle));
+    return vel >> 16;
 }

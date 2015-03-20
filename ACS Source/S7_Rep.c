@@ -2,7 +2,7 @@
 #LIBRARY "S7_Rep"
 
 // Defines
-#DEFINE MAXPLAYERS 64
+#LIBDEFINE MAXPLAYERS 64
 
 // Includes
 #INCLUDE "commonFuncs.h"
