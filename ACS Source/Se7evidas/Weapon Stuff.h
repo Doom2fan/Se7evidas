@@ -17,7 +17,7 @@ function int getWeaponName (void) {
 }
 
 function void lastWeapon (int mode) {
-    int weaponNumber;
+    int weaponNumber = 0;
     if (mode != 0) {
         weaponNumber = S7_LastWeapon [playerNumber ()];
         if (weaponNumber < 0 || weaponNumber > S7_WEAPONMAX - 1)
