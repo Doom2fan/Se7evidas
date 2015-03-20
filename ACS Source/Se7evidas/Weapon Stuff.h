@@ -38,7 +38,6 @@ function void disableWeapon (str meh, str blah) {
         lastWeapon (1);
         return;
     }
-    print (s:meh);
     giveInventory (meh, 1);
     setWeapon (meh);
     lastWeapon (0);
