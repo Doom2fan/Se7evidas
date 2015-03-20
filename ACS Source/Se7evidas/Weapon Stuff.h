@@ -40,7 +40,7 @@ function void disableWeapon (str meh, str blah) {
     }
     print (s:meh);
     giveInventory (meh, 1);
-    //setWeapon (meh);
+    setWeapon (meh);
     lastWeapon (0);
 }
 
