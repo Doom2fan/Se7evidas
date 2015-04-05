@@ -1,5 +1,6 @@
 *** High priority ***
 - Add more weapons.
+- Convert inventory hacks to uservars.
 - Shop system.
-- Fucking monsters. (Maybe literally too.)
+- Fucking monsters. (Maybe literally too...)
 - Storage system.
