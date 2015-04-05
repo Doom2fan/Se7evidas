@@ -1,37 +1,37 @@
-Actor S7_Medikit : CustomInventory Replaces Medikit 32001 {
-    +Inventory.InvBar
-    Inventory.MaxAmount 1
-    Inventory.PickupMessage "$GOTMEDIKIT" // "Picked up a medikit."
-    Inventory.Icon "ARTIMEDI"
-    Tag "Medikit"
-    States {
+actor S7_Medikit : customInventory replaces medikit 32001 {
+    +inventory.InvBar
+    inventory.MaxAmount 4
+    inventory.PickupMessage "$GOTMEDIKIT" // "Picked up a medikit."
+    inventory.Icon "ARTIMEDI"
+    tag "Medikit"
+    states {
     Spawn:
         MEDI A -1
-        Stop
+        stop
     Use:
-        TNT1 A 0 A_JumpIf (Health >= 100, "Failed")
-        TNT1 A 0 ACS_ExecuteAlways (S7_MedikitScript, 0)
-        Stop
+        TNT1 A 0 A_jumpIf (health >= 100, "Failed")
+        TNT1 A 0 acs_ExecuteAlways (S7_MedikitScript, 0)
+        stop
     Failed:
         TNT1 A 0
         Fail
     }
 }
 
-Actor S7_Stimpack : CustomInventory Replaces Stimpack 32002 {
-    +Inventory.InvBar
-    Inventory.MaxAmount 1
-    Inventory.PickupMessage "$GOTSTIM" // "Picked up a stimpack."
-    Inventory.Icon "ARTISTIM"
-    Tag "Stimpack"
-    States {
+actor S7_Stimpack : customInventory replaces stimpack 32002 {
+    +inventory.InvBar
+    inventory.MaxAmount 8
+    inventory.PickupMessage "$GOTSTIM" // "Picked up a stimpack."
+    inventory.Icon "ARTISTIM"
+    tag "Stimpack"
+    states {
     Spawn:
         STIM A -1
-        Stop
+        stop
     Use:
-        TNT1 A 0 A_JumpIf (Health >= 100, "Failed")
-        TNT1 A 0 ACS_ExecuteAlways (S7_StimpackScript, 0)
-        Stop
+        TNT1 A 0 A_jumpIf (health >= 100, "Failed")
+        TNT1 A 0 acs_ExecuteAlways (S7_StimpackScript, 0)
+        stop
     Failed:
         TNT1 A 0
         Fail

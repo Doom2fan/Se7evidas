@@ -1,29 +1,29 @@
-Actor S7_Clip : Ammo Replaces Clip 31000 {
-    Tag "Clip"
-    Inventory.PickupMessage "$GOTCLIP"
-    Inventory.Amount 15
-    Inventory.MaxAmount 200
-    Ammo.BackpackMaxAmount 400
-    Inventory.Icon "CLIPA0"
-    Inventory.PickupSound "misc/ammopickup"
-    States {
+actor S7_Clip : ammo replaces clip 31000 {
+    tag "9mm mag"
+    inventory.PickupMessage "$GOTCLIP"
+    inventory.Amount 15
+    inventory.MaxAmount 200
+    ammo.BackpackMaxAmount 400
+    inventory.Icon "CLIPA0"
+    inventory.PickupSound "misc/ammopickup"
+    states {
     Spawn:
         CLIP A -1
-        Stop
+        stop
     }
 }
 
-Actor S7_Shells : Ammo Replaces Shell 31001 {
-    Tag "Shells"
-    Inventory.PickupMessage "$GOTCLIP"
-    Inventory.Amount 15
-    Inventory.MaxAmount 200
-    Ammo.BackpackMaxAmount 400
-    Inventory.Icon "CLIPA0"
-    Inventory.PickupSound "misc/ammopickup"
-    States {
+actor S7_Shells : ammo replaces shell 31001 {
+    tag "20ga Shells"
+    inventory.PickupMessage "$GOTSHELLS"
+    inventory.Amount 1
+    inventory.MaxAmount 45
+    ammo.BackpackMaxAmount 90
+    inventory.Icon "SHELA0"
+    inventory.PickupSound "misc/ammopickup"
+    states {
     Spawn:
-        CLIP A -1
-        Stop
+        SHEL A -1
+        stop
     }
 }

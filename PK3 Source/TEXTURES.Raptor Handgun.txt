@@ -1,70 +1,70 @@
-Sprite RPTMB0, 191, 124 {
-    Offset -21, -101
-    Patch RPTMA0, 0, 0
+sprite RPTMB0, 191, 124 {
+    offset -21, -101
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTMC0, 191, 124 {
-    Offset -70, -80
-    Patch RPTMA0, 0, 0
+sprite RPTMC0, 191, 124 {
+    offset -70, -80
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTMD0, 191, 124 {
-    Offset -110, -63
-    Patch RPTMA0, 0, 0
+sprite RPTMD0, 191, 124 {
+    offset -110, -63
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTME0, 191, 124 {
-    Offset -140, -63
-    Patch RPTMA0, 0, 0
+sprite RPTME0, 191, 124 {
+    offset -140, -63
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTMF0, 191, 124 {
-    Offset -180, -63
-    Patch RPTMA0, 0, 0
+sprite RPTMF0, 191, 124 {
+    offset -180, -63
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTMG0, 191, 124 {
-    Offset -230, -93
-    Patch RPTMA0, 0, 0
+sprite RPTMG0, 191, 124 {
+    offset -230, -93
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTMH0, 191, 124 {
-    Offset -260, -123
-    Patch RPTMA0, 0, 0
+sprite RPTMH0, 191, 124 {
+    offset -260, -123
+    patch RPTMA0, 0, 0
 }
 
-Sprite RPTRA0, 320, 200 {
-    Patch RPTNA0, 212, 90
+sprite RPTRA0, 320, 200 {
+    patch RPTNA0, 212, 90
 }
 
-Sprite RPTRB0, 320, 200 {
-    Patch RPTNA0, 212, 101
+sprite RPTRB0, 320, 200 {
+    patch RPTNA0, 212, 101
 }
 
-Sprite RPTRC0, 320, 200 {
-    Patch RPTNA0, 212, 108
+sprite RPTRC0, 320, 200 {
+    patch RPTNA0, 212, 108
 }
 
-Sprite RPTRD0, 320, 200 {
-    Patch RPTNA0, 212, 123
+sprite RPTRD0, 320, 200 {
+    patch RPTNA0, 212, 123
 }
 
-Sprite RPTRF0, 320, 200 {
-    Patch RPTNF0, 212, 90
+sprite RPTRF0, 320, 200 {
+    patch RPTNF0, 212, 90
 }
 
-Sprite RPTRG0, 320, 200 {
-    Patch RPTNF0, 212, 101
+sprite RPTRG0, 320, 200 {
+    patch RPTNF0, 212, 101
 }
 
-Sprite RPTRH0, 320, 200 {
-    Patch RPTNF0, 212, 108
+sprite RPTRH0, 320, 200 {
+    patch RPTNF0, 212, 108
 }
 
-Sprite RPTRI0, 320, 200 {
-    Patch RPTNF0, 212, 123
+sprite RPTRI0, 320, 200 {
+    patch RPTNF0, 212, 123
 }
 
-Sprite RPTRJ0, 320, 200 {
-    Patch RPTNC0, 212, 123
+sprite RPTRJ0, 320, 200 {
+    patch RPTNC0, 212, 123
 }

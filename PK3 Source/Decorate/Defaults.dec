@@ -1,20 +1,20 @@
 // From Samsara
-Actor Boolean : Inventory {
-    Inventory.MaxAmount 1
-    +Undroppable -InvBar
+actor Boolean : inventory {
+    inventory.MaxAmount 1
+    +inventory.Undroppable -inventory.InvBar
 }
 
-Actor Counter : Inventory {
-    Inventory.MaxAmount 0x7FFFFFFF
-    +Undroppable -InvBar
+actor Counter : inventory {
+    inventory.MaxAmount 0x7FFFFFFF
+    +inventory.Undroppable -inventory.InvBar
 }
 
 // By Jekyll Grim Payne "Aka" zer0
-Actor S7_DebrisGeneral {
-    Radius 1
-    Height 1
-    Mass 1
-    Damage 0
-    +Missile +NoBlockmap +NoGravity +DropOff
-    +NoTeleport +ForceXYBillboard +NotDMatch +Ghost
+actor S7_DebrisGeneral {
+    radius 1
+    height 1
+    mass 1
+    damage 0
+    +missile +noBlockmap +noGravity +dropOff
+    +noTeleport +forceXYBillboard +ghost
 }

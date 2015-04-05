@@ -4,14 +4,14 @@
 //
 //-------------------------------------------------------------------------------------------
 
-CreatePopup Keys, 0, 0, None;
-StatusBar PopupKeys, FullscreenOffsets {
-    DrawString BIGFONT, Untranslated, "Keys", 200, 250;
-    DrawKeyBar 400, Vertical, Auto, 150, 270, 0, 3, Auto;
-    DrawString BIGFONT, Untranslated, "Current level:", 200, 150;
-    DrawNumber 2, BIGFONT, Untranslated, XPSystemLevel, 220, 150;
-    DrawString BIGFONT, Untranslated, "Experience:", 178, 168;
-    DrawNumber 6, BIGFONT, Untranslated, XPSystemExperience, 248, 168;
+createPopup keys, 0, 0, none;
+statusBar popupKeys, fullscreenOffsets {
+    drawString BIGFONT, untranslated, "Keys", 200, 250;
+    drawKeyBar 400, Vertical, Auto, 150, 270, 0, 3, Auto;
+    drawString BIGFONT, untranslated, "Current level:", 200, 150;
+    drawNumber 2, BIGFONT, untranslated, XPSystemLevel, 220, 150;
+    drawString BIGFONT, untranslated, "Experience:", 178, 168;
+    drawNumber 6, BIGFONT, untranslated, XPSystemExperience, 248, 168;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -20,6 +20,6 @@ StatusBar PopupKeys, FullscreenOffsets {
 //
 //-------------------------------------------------------------------------------------------
 
-CreatePopup Status, 0, 0, None;
-StatusBar PopupStatus, FullscreenOffsets {
+createPopup status, 0, 0, none;
+statusBar popupStatus, fullscreenOffsets {
 }

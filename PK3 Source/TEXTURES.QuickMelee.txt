@@ -1,57 +1,57 @@
 // Kick
-Sprite KICKA0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK1.png", 205, 141
+sprite KICKA0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK1.png", 205, 141
 }
 
-Sprite KICKB0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK1.png", 199, 137
+sprite KICKB0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK1.png", 199, 137
 }
 
-Sprite KICKC0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK1.png", 194, 132
+sprite KICKC0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK1.png", 194, 132
 }
 
-Sprite KICKD0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK2.png", 164, 118
+sprite KICKD0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK2.png", 164, 118
 }
 
-Sprite KICKE0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK2.png", 159, 111
+sprite KICKE0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK2.png", 159, 111
 }
 
-Sprite KICKF0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK3.png", 155, 113
+sprite KICKF0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK3.png", 155, 113
 }
 
-Sprite KICKG0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK3.png", 146, 110
+sprite KICKG0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK3.png", 146, 110
 }
 
-Sprite KICKH0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK4.png", 137, 41
+sprite KICKH0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK4.png", 137, 41
 }
 
-Sprite KICKI0, 320, 200 {
-    Patch "graphics/Weapons/Kick/KICK4.png", 139, 50
+sprite KICKI0, 320, 200 {
+    patch "graphics/Weapons/Kick/KICK4.png", 139, 50
 }
 
 // DTB Dagger/Dagger 1
-Sprite DAG1A0, 320, 200 {
-    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 40, 51
+sprite DAG1A0, 320, 200 {
+    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 40, 51
 }
 
-Sprite DAG1B0, 320, 200 {
-    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 76, 68
+sprite DAG1B0, 320, 200 {
+    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 76, 68
 }
 
-Sprite DAG1C0, 320, 200 {
-    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 133, 97
+sprite DAG1C0, 320, 200 {
+    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 133, 97
 }
 
-Sprite DAG1D0, 320, 200 {
-    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 199, 130
+sprite DAG1D0, 320, 200 {
+    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 199, 130
 }
 
-Sprite DAG1E0, 320, 200 {
-    Patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 241, 151
+sprite DAG1E0, 320, 200 {
+    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 241, 151
 }

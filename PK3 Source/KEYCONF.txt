@@ -1,6 +1,6 @@
 // Add Player Classes
 clearPlayerClasses
-AddPlayerClass S7_BasePlayer
+addPlayerClass S7_BasePlayer
 
 // Add Keys
 addKeySection Se7evidas, Se7evidas

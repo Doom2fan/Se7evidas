@@ -1,74 +1,74 @@
-Actor S7_RevolverClip : Ammo {
-    Inventory.MaxAmount 6
-    Ammo.BackpackMaxAmount 6
-    +IgnoreSkill
+actor S7_RevolverClip : ammo {
+    inventory.MaxAmount 6
+    ammo.BackpackMaxAmount 6
+    +ignoreSkill
 }
 
-Actor S7_Revolver : S7_BaseWeapon {
-    Inventory.PickupMessage "$REVOLVER"
-    Tag "$REVOLVER"
-    Weapon.AmmoType1 "S7_RevolverClip"
-    Weapon.AmmoType2 "S7_Clip"
-    Weapon.AmmoUse 1
-    Weapon.AmmoGive 6
-    States {
+actor S7_Revolver : S7_BaseWeapon {
+    inventory.PickupMessage "$REVOLVER"
+    tag "$REVOLVER"
+    weapon.AmmoType1 "S7_RevolverClip"
+    weapon.AmmoType2 "S7_Clip"
+    weapon.AmmoUse 1
+    weapon.AmmoGive 6
+    states {
     Spawn:
         RPTP A -1
-        Loop
+        loop
     Ready:
     Ready2:
-        RVLV A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
-        RVLV A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
-        RVLV A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
-        RVLV A 1 A_WeaponReady
-        Loop
+        TNT1 A 0 A_jumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 A_jumpIfInventory ("S7_Reloading", 1, "Reload")
+        TNT1 A 0 A_takeInventory ("S7_ChangeFireMode", 1)
+        RVLV A 1 A_weaponReady
+        loop
     Deselect:
-        RVLV A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
-        RVLV A 0 A_Lower
-        Wait
+        TNT1 A 0 A_jumpIfHealthLower (1, "Deselect.DEAD")
+        TNT1 A 0 A_lower
+        wait
     Select:
-        RVLV A 0 A_Raise
-        Wait
+        TNT1 A 0 A_raise
+        wait
     Fire:
-        RVLV B 0 A_JumpIfInventory ("S7_RevolverClip", 1, 1)
-        Goto DryFire
-        RVLV B 0 A_PlaySound ("Weapons/Revolver/Fire", CHAN_WEAPON)
-        RVLV B 0 A_SetPitch (pitch - 0.8)
-        RVLV B 0 A_AlertMonsters
-        RVLV B 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 5)
-        RVLV B 1 Bright A_FireCustomMissile ("S7_RevolverTracer", frandom (-1.8, 1.8), 1, 5, 2, 0, frandom (-2.7, 2.7))
-        RVLV C 0 A_SetPitch (pitch - 0.8)
+        TNT1 A 0 A_jumpIfInventory ("S7_RevolverClip", 1, 1)
+        goto DryFire
+        TNT1 A 0 A_playSound ("Weapons/Revolver/Fire", CHAN_Weapon)
+        TNT1 A 0 A_setPitch (pitch - 0.8)
+        TNT1 A 0 A_alertMonsters
+        TNT1 A 0 A_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 5)
+        RVLV B 1 bright A_fireCustomMissile ("S7_RevolverTracer", fRandom (-1.8, 1.8), 1, 5, 2, 0, fRandom (-2.7, 2.7))
+        TNT1 A 0 A_setPitch (pitch - 0.8)
         RVLV CDEF 1
         RVLV A 15
-        Goto Ready2
+        goto Ready2
     DryFire:
-        RVLV A 3 A_PlaySound ("Weapons/Revolver/Dryfire", 7)
-        Goto Ready2
+        RVLV A 3 A_playSound ("Weapons/Revolver/Dryfire", 7)
+        goto Ready2
     Reload:
-        REVR A 0 A_TakeInventory ("S7_Reloading", 1)
-        REVR A 0 A_JumpIfInventory ("S7_RevolverClip", 0, "Ready2")
-        REVR A 0 A_JumpIfInventory ("S7_Clip", 1, "TrueReload")
-        Goto Ready2
+        TNT1 A 0 A_takeInventory ("S7_Reloading", 1)
+        TNT1 A 0 A_jumpIfInventory ("S7_RevolverClip", 0, "Ready2")
+        TNT1 A 0 A_jumpIfInventory ("S7_Clip", 1, "TrueReload")
+        goto Ready2
     TrueReload:
-        REVR A 0 A_JumpIfInventory ("S7_RevolverClip", 0, "ReloadFinish")
-        REVR A 0 A_JumpIfInventory ("S7_Clip", 1, 1)
-        Goto ReloadFinish
-        REVR A 0 A_GiveInventory ("S7_RevolverClip", 1)
-        REVR A 0 A_TakeInventory ("S7_Clip", 1)
-        Loop
+        TNT1 A 0 A_jumpIfInventory ("S7_RevolverClip", 0, "ReloadFinish")
+        TNT1 A 0 A_jumpIfInventory ("S7_Clip", 1, 1)
+        goto ReloadFinish
+        TNT1 A 0 A_giveInventory ("S7_RevolverClip", 1)
+        TNT1 A 0 A_takeInventory ("S7_Clip", 1)
+        loop
     ReloadFinish:
         RVLV A 1
-        REVR A 0 A_PlaySound ("Weapons/Revolver/Open", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/Revolver/Open", CHAN_Weapon)
         REVR ABCDEFG 1
-        REVR H 0 A_PlaySound ("Weapons/Revolver/Eject", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/Revolver/Eject", CHAN_Weapon)
         REVR HIJKLMNOPQR 1
-        REVR S 0 A_PlaySound ("Weapons/Revolver/In", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/Revolver/In", CHAN_Weapon)
         REVR STUV 1
-        REVR W 0 A_PlaySound ("Weapons/Revolver/Close", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/Revolver/Close", CHAN_Weapon)
         REVR WXYZ 1
         RVR2 AB 1
-        RVR2 C 0 A_PlaySound ("Weapons/Revolver/Spin", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/Revolver/Spin", CHAN_Weapon)
         RVR2 CDEFGHGHGHGHGGHHGGHHGGGHHHGGGHHHH 1
-        Goto Ready2
+        goto Ready2
     }
 }

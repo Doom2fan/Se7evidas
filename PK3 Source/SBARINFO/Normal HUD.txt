@@ -1,2 +1,2 @@
-StatusBar Normal, FullscreenOffsets {
+statusBar normal, fullscreenOffsets {
 }

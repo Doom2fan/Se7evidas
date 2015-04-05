@@ -1,168 +1,168 @@
-Actor S7_TEC9Clip : Ammo {
-    Inventory.MaxAmount 32
-    Ammo.BackpackMaxAmount 32
-    +IgnoreSkill
+actor S7_TEC9Clip : ammo {
+    inventory.MaxAmount 32
+    ammo.BackpackMaxAmount 32
+    +ignoreSkill
 }
 
-Actor S7_TEC9_Flash : Counter { Inventory.MaxAmount 2 }
-Actor S7_TEC9_Burst : Boolean { }
+actor S7_TEC9_Flash : counter { inventory.MaxAmount 2 }
+actor S7_TEC9_Burst : boolean { }
 
-Actor S7_TEC9 : S7_BaseWeapon 30002 {
-    Inventory.PickupMessage "$TEC9"
-    Tag "$TEC9"
-    Weapon.AmmoType1 "S7_TEC9Clip"
-    Weapon.AmmoType2 "S7_Clip"
-    Weapon.AmmoUse 1
-    Weapon.AmmoGive 12
-    States {
+actor S7_TEC9 : S7_BaseWeapon 30002 {
+    inventory.PickupMessage "$TEC9"
+    tag "$TEC9"
+    weapon.AmmoType1 "S7_TEC9Clip"
+    weapon.AmmoType2 "S7_Clip"
+    weapon.AmmoUse 1
+    weapon.AmmoGive 12
+    states {
     Spawn:
         RPTP A -1
-        Loop
+        loop
     Ready:
     Ready2:
-        TEC9 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
-        TEC9 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
-        TEC9 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
-        TEC9 A 1 A_WeaponReady
-        Loop
+        TNT1 A 0 A_jumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 A_jumpIfInventory ("S7_Reloading", 1, "Reload")
+        TNT1 A 0 A_jumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
+        TEC9 A 1 A_weaponReady
+        loop
     Deselect:
-        TEC9 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
-        TEC9 A 0 A_Lower
-        Wait
+        TNT1 A 0 A_jumpIfHealthLower (1, "Deselect.DEAD")
+        TNT1 A 0 A_lower
+        wait
     Select:
-        TEC9 A 0 A_Raise
-        Wait
+        TNT1 A 0 A_raise
+        wait
     Fire:
-        TEC9 B 0 A_JumpIfInventory ("S7_TEC9_Burst", 1, "Fire.Burst")
-        TEC9 B 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
-        Goto DryFire
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9_Burst", 1, "Fire.Burst")
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 1, 1)
+        goto DryFire
         TEC9 B 1
     Hold:
-        TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
-        Goto DryFire
-        TEC9 C 0 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_WEAPON)
-        TEC9 C 0 A_SetPitch (pitch - 0.5)
-        TEC9 C 0 A_AlertMonsters
-        TEC9 C 0 A_GunFlash
-        TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
-        TEC9 D 1 A_SetPitch (pitch - 0.5)
-        TEC9 B 1 A_Refire
-        TEC9 A 0 A_TakeInventory ("S7_TEC9_Flash", 999999)
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 1, 1)
+        goto DryFire
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/Fire", CHAN_Weapon)
+        TNT1 A 0 A_setPitch (pitch - 0.5)
+        TNT1 A 0 A_alertMonsters
+        TNT1 A 0 A_gunFlash
+        TNT1 A 0 A_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
+        TEC9 C 1 A_fireCustomMissile ("S7_TEC9Tracer", fRandom (-5.5, 5.5), 1, 4, 3, 0, fRandom (-4.5, 4.5))
+        TEC9 D 1 A_setPitch (pitch - 0.5)
+        TEC9 B 1 A_refire
+        TNT1 A 0 A_takeInventory ("S7_TEC9_Flash", 999999)
         TEC9 A 7
-        Goto Ready2
+        goto Ready2
     Fire.Burst:
-        TEC9 B 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
-        Goto DryFire
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 1, 1)
+        goto DryFire
         TEC9 B 1
-        TEC9 C 0 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_WEAPON)
-        TEC9 C 0 A_SetPitch (pitch - 0.5)
-        TEC9 C 0 A_AlertMonsters
-        TEC9 C 0 A_GunFlash
-        TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
-        TEC9 D 1 A_SetPitch (pitch - 0.5)
-        TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
-        Goto DryFire
-        TEC9 C 0 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_WEAPON)
-        TEC9 C 0 A_SetPitch (pitch - 0.5)
-        TEC9 C 0 A_AlertMonsters
-        TEC9 C 0 A_GunFlash
-        TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
-        TEC9 D 1 A_SetPitch (pitch - 0.5)
-        TEC9 C 0 A_JumpIfInventory ("S7_TEC9Clip", 1, 1)
-        Goto DryFire
-        TEC9 C 0 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_WEAPON)
-        TEC9 C 0 A_SetPitch (pitch - 0.5)
-        TEC9 C 0 A_AlertMonsters
-        TEC9 C 0 A_GunFlash
-        TEC9 C 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
-        TEC9 C 1 A_FireCustomMissile ("S7_TEC9Tracer", frandom (-5.5, 5.5), 1, 4, 3, 0, frandom (-4.5, 4.5))
-        TEC9 D 1 A_SetPitch (pitch - 0.5)
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/Fire", CHAN_Weapon)
+        TNT1 A 0 A_setPitch (pitch - 0.5)
+        TNT1 A 0 A_alertMonsters
+        TNT1 A 0 A_gunFlash
+        TNT1 A 0 A_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
+        TEC9 C 1 A_fireCustomMissile ("S7_TEC9Tracer", fRandom (-5.5, 5.5), 1, 4, 3, 0, fRandom (-4.5, 4.5))
+        TEC9 D 1 A_setPitch (pitch - 0.5)
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 1, 1)
+        goto DryFire
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/Fire", CHAN_Weapon)
+        TNT1 A 0 A_setPitch (pitch - 0.5)
+        TNT1 A 0 A_alertMonsters
+        TNT1 A 0 A_gunFlash
+        TNT1 A 0 A_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
+        TEC9 C 1 A_fireCustomMissile ("S7_TEC9Tracer", fRandom (-5.5, 5.5), 1, 4, 3, 0, fRandom (-4.5, 4.5))
+        TEC9 D 1 A_setPitch (pitch - 0.5)
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 1, 1)
+        goto DryFire
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/Fire", CHAN_Weapon)
+        TNT1 A 0 A_setPitch (pitch - 0.5)
+        TNT1 A 0 A_alertMonsters
+        TNT1 A 0 A_gunFlash
+        TNT1 A 0 A_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 5)
+        TEC9 C 1 A_fireCustomMissile ("S7_TEC9Tracer", fRandom (-5.5, 5.5), 1, 4, 3, 0, fRandom (-4.5, 4.5))
+        TEC9 D 1 A_setPitch (pitch - 0.5)
         TEC9 B 1
-        TEC9 A 0 A_TakeInventory ("S7_TEC9_Flash", 999999)
+        TNT1 A 0 A_takeInventory ("S7_TEC9_Flash", 999999)
         TEC9 A 7
-        Goto Ready2
+        goto Ready2
     ChangeFireMode:
-        TEC9 A 0 A_PlaySound ("Weapons/ModeChange", CHAN_WEAPON)
-        TEC9 A 0 A_TakeInventory ("S7_ChangeFireMode", 99999)
-        TEC9 A 0 A_JumpIfInventory ("S7_TEC9_Burst", 1, "ToFullAuto")
-        TEC9 A 0 A_GiveInventory ("S7_TEC9_Burst", 1)
+        TNT1 A 0 A_playSound ("Weapons/ModeChange", CHAN_Weapon)
+        TNT1 A 0 A_takeInventory ("S7_ChangeFireMode", 99999)
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9_Burst", 1, "ToFullAuto")
+        TNT1 A 0 A_giveInventory ("S7_TEC9_Burst", 1)
         TEC9 A 5
-        Goto Ready2
+        goto Ready2
     ToFullAuto:
-        TEC9 A 0 A_TakeInventory ("S7_TEC9_Burst", 99999)
+        TNT1 A 0 A_takeInventory ("S7_TEC9_Burst", 99999)
         TEC9 A 5
-        Goto Ready2
+        goto Ready2
     DryFire:
-        TEC9 A 0 A_PlaySound ("Weapons/Misc/Dryfire", 7)
+        TNT1 A 0 A_playSound ("Weapons/Misc/Dryfire", 7)
         TEC9 A 3
-        Goto Reload
+        goto Reload
     Reload:
-        TECR A 0 A_ClearRefire
-        TECR A 0 A_TakeInventory ("S7_Reloading", 1)
-        TECR A 0 A_JumpIfInventory ("S7_TEC9Clip", 0, "Ready2")
-        TECR A 0 A_JumpIfInventory ("S7_Clip", 1, "TrueReload")
-        Goto Ready2
+        TNT1 A 0 A_clearRefire
+        TNT1 A 0 A_takeInventory ("S7_Reloading", 1)
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 0, "Ready2")
+        TNT1 A 0 A_jumpIfInventory ("S7_Clip", 1, "TrueReload")
+        goto Ready2
     TrueReload:
-        TECR A 0 A_JumpIfInventory ("S7_TEC9Clip", 0, "ReloadFinish")
-        TECR A 0 A_JumpIfInventory ("S7_Clip", 1, 1)
-        Goto ReloadFinish
-        TECR A 0 A_GiveInventory ("S7_TEC9Clip", 1)
-        TECR A 0 A_TakeInventory ("S7_Clip", 1)
-        Loop
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9Clip", 0, "ReloadFinish")
+        TNT1 A 0 A_jumpIfInventory ("S7_Clip", 1, 1)
+        goto ReloadFinish
+        TNT1 A 0 A_giveInventory ("S7_TEC9Clip", 1)
+        TNT1 A 0 A_takeInventory ("S7_Clip", 1)
+        loop
     ReloadFinish:
-        TECR A 0 A_PlaySound ("Weapons/TEC-9/Out", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/Out", CHAN_Weapon)
         TECR ABCDEEEEE 1
         TECR FGH 2
-        TECR I 0 A_PlaySound ("Weapons/TEC-9/In", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/In", CHAN_Weapon)
         TECR IJKLMNO 2
-        TECR P 0 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_WEAPON)
+        TNT1 A 0 A_playSound ("Weapons/TEC-9/Tap", CHAN_Weapon)
         TECR PQRRRSTU 2
-        Goto Ready2
+        goto Ready2
     
     // Muzzle flashes
     Flash:
-        TECF A 0 A_JumpIfInventory ("S7_TEC9_Flash", 2, "FlashSet2")
-        TECF A 0 A_JumpIfInventory ("S7_TEC9_Flash", 1, "FlashSet1")
-        TECF A 0 A_GiveInventory ("S7_TEC9_Flash", Random (1, 2))
-        Loop
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9_Flash", 2, "FlashSet2")
+        TNT1 A 0 A_jumpIfInventory ("S7_TEC9_Flash", 1, "FlashSet1")
+        TNT1 A 0 A_giveInventory ("S7_TEC9_Flash", Random (1, 2))
+        loop
     
     FlashSet1:
-        TECF A 0 Bright A_Jump (256, "FlashSet1.Flash1", "FlashSet1.Flash2")
+        TNT1 A 0 bright A_jump (256, "FlashSet1.Flash1", "FlashSet1.Flash2")
     FlashSet1.Flash1:
-        TECF A 0 A_JumpIf (ACS_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet1.Flash1.Zandronum")
+        TNT1 A 0 A_jumpIf (acs_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet1.Flash1.Zandronum")
         TECF A 1 Bright
-        Stop
+        stop
     FlashSet1.Flash2:
-        TECF B 0 A_JumpIf (ACS_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet1.Flash2.Zandronum")
+        TNT1 A 0 A_jumpIf (acs_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet1.Flash2.Zandronum")
         TECF B 1 Bright
-        Stop
+        stop
     
     FlashSet2:
-        TECF A 0 Bright A_Jump (256, "FlashSet2.Flash1", "FlashSet2.Flash2")
+        TNT1 A 0 bright A_jump (256, "FlashSet2.Flash1", "FlashSet2.Flash2")
     FlashSet2.Flash1:
-        TECF C 0 A_JumpIf (ACS_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet2.Flash1.Zandronum")
+        TNT1 A 0 A_jumpIf (acs_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet2.Flash1.Zandronum")
         TECF C 1 Bright
-        Stop
+        stop
     FlashSet2.Flash2:
-        TECF D 0 A_JumpIf (ACS_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet2.Flash2.Zandronum")
+        TNT1 A 0 A_jumpIf (acs_ExecuteWithResult (S7_RunningInZDoom) == 0, "FlashSet2.Flash2.Zandronum")
         TECF D 1 Bright
-        Stop
+        stop
     
     FlashSet1.Flash1.Zandronum:
         TECF A 2 Bright
-        Stop
+        stop
     FlashSet1.Flash2.Zandronum:
         TECF B 2 Bright
-        Stop
+        stop
     
     FlashSet2.Flash1.Zandronum:
         TECF C 2 Bright
-        Stop
+        stop
     FlashSet2.Flash2.Zandronum:
         TECF D 2 Bright
-        Stop
+        stop
     }
 }

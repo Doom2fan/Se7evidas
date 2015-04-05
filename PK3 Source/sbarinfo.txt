@@ -1,6 +1,6 @@
 height 0;
 completeborder true;
-LowerHealthCap false;
+lowerHealthCap false;
 //monospacefonts true, "0";
 
 #include "SBARINFO/Fullscreen HUD.TXT"

@@ -1,4 +1,4 @@
-Clearskills
+clearSkills
 skill S7_Baby {
     easyBossBrain
     ammoFactor = 2
@@ -65,26 +65,26 @@ skill S7_Brutal {
 
 Skill S7_IAmGod {
     fastMonsters
-    AmmoFactor = 0.5
-    DoubleAmmoFactor = 0.5
-    DamageFactor = 2.3
+    ammoFactor = 0.5
+    doubleAmmoFactor = 0.5
+    damageFactor = 2.3
     aggressiveness = 0.75
-    SpawnFilter = Nightmare
-    Name = " "
-    MustConfirm = "$SKILLS_IAMGODTEXT"
-    ReplaceActor = "Zombieman", "ShotgunGuy"
-    ReplaceActor = "ShotgunGuy", "DoomImp"
+    spawnFilter = Nightmare
+    name = " "
+    mustConfirm = "$SKILLS_IAMGODTEXT"
+    replaceActor = "Zombieman", "ShotgunGuy"
+    replaceActor = "ShotgunGuy", "DoomImp"
 }
 
 Skill S7_AAAAAAAAAAA {
-    AutoUseHealth
-    AmmoFactor = 16
-    DoubleAmmoFactor = 32
-    DamageFactor = 0.0
-    SpawnFilter = Nightmare
-    Name = " "
-    MustConfirm = "$SKILLS_AAAAAAAAAAATEXT"
-    ReplaceActor = "ArmorBonus", "Cell"
-    ReplaceActor = "GreenArmor", "PlasmaRifle"
-    ReplaceActor = "BlueArmor", "BFG9000"
+    autoUseHealth
+    ammoFactor = 16
+    doubleAmmoFactor = 32
+    damageFactor = 0.0
+    spawnFilter = Nightmare
+    name = " "
+    mustConfirm = "$SKILLS_AAAAAAAAAAATEXT"
+    replaceActor = "ArmorBonus", "Cell"
+    replaceActor = "GreenArmor", "PlasmaRifle"
+    replaceActor = "BlueArmor", "BFG9000"
 }
