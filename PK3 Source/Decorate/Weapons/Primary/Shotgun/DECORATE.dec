@@ -11,7 +11,7 @@ actor S7_ShotgunLoaded : ammo {
 }
 
 actor S7_ShotgunDontPump : boolean { }
-actor S7_Shotgun : S7_BaseWeapon 30001 {
+actor S7_Shotgun : S7_BaseWeapon replaces superShotgun 30001 {
     inventory.PickupMessage "$SHOTGUN"
     tag "$SHOTGUN"
     weapon.AmmoType1 "S7_ShotgunMag"

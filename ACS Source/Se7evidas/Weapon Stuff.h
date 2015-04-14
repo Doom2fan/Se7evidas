@@ -1,5 +1,5 @@
-#LIBDEFINE S7_WEAPONMAX 4
-str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor", "S7_Shotgun", "S7_TEC9", "S7_Revolver" };
+#LIBDEFINE S7_WEAPONMAX 5
+str S7_WeaponName [S7_WEAPONMAX] = { "S7_Raptor", "S7_Shotgun", "S7_TEC9", "S7_Revolver", "S7_PrettyShootyIonCannonGun" };
 #LIBDEFINE S7_DUMMYWEAPON_COUNT 3
 str S7_DummyWeapons [S7_DUMMYWEAPON_COUNT] = { "S7_NullWeapon", "S7_SprintWeapon", "S7_QuickMelee" };
 global int 2:S7_LastWeapon [];

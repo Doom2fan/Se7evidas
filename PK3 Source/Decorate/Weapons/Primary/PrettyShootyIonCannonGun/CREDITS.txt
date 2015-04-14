@@ -1,0 +1,4 @@
+Weapon:
+DECORATE: Alex_Mercer
+Sprites: Westwood Studios (Original model), Alex_Mercer (Sprite ripping and edits)
+Sounds: ???
