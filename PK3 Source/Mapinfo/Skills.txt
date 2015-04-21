@@ -28,6 +28,7 @@ skill S7_Harder {
     spawnFilter = Hard
     name = "$SKILLS_HARDER"
     mustConfirm = "$SKILLS_HARDERTEXT"
+    defaultSkill
     key = "F"
 }
 
@@ -35,7 +36,6 @@ skill S7_VeryHard {
     fastMonsters
     spawnFilter = Hard
     name = "$SKILLS_HARDSPEED"
-    aggressiveness = 0.025
     mustConfirm = "$SKILLS_HARDSPEEDTEXT"
     key = "L"
 }
