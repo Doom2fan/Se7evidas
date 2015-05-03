@@ -3,7 +3,7 @@ actor S7_Blood replaces blood {
     +noBlockmap +noTeleport +clientsideOnly
     states {
     Spawn:
-        TNT1 AA 0 A_spawnItemEx ("S7_Flying_Blood", 0.0, fRandom (-0.5, 0.5), 0.0, fRandom (2.0, 4.0), 0.0, fRandom (1.0, 8.0), 0.0, SXF_Clientside | SXF_TransferTranslation)
+        TNT1 AA 0 a_spawnItemEx ("S7_Flying_Blood", 0.0, fRandom (-0.5, 0.5), 0.0, fRandom (2.0, 4.0), 0.0, fRandom (1.0, 8.0), 0.0, SXF_Clientside | SXF_TransferTranslation)
         BLUD CBA 1
         stop
     }
@@ -12,8 +12,8 @@ actor S7_Blood replaces blood {
 actor S7_BloodSplatter : S7_Blood replaces bloodSplatter {
     states {
     Spawn:
-        TNT1 AA 0 A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace)
-        TNT1 A 0 A_spawnItemEx ("S7_Blood", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_TransferTranslation)
+        TNT1 AA 0 a_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace)
+        TNT1 A 0 a_spawnItemEx ("S7_Blood", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_TransferTranslation)
         stop
     }
 }
@@ -26,7 +26,7 @@ actor S7_Flying_Blood {
     states {
     Spawn:
         TNT1 A 0
-        BLUD CCCBBBAAA 1 A_spawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_Clientside)
+        BLUD CCCBBBAAA 1 a_spawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_Clientside)
         loop
     Death:
     Crush:

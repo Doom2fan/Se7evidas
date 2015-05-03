@@ -5,7 +5,7 @@ actor S7_TeleportFog {
     Spawn:
         TFOG A 36 bright
     Fade:
-        TFOG A 1 bright A_fadeOut (0.1)
+        TFOG A 1 bright a_fadeOut (0.1)
         loop
     }
 }
@@ -14,7 +14,7 @@ actor S7_TeleportFogSpawner replaces teleportFog {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_spawnItemEx ("S7_TeleportFog", 0.0, 15.0)
+        TNT1 A 0 a_spawnItemEx ("S7_TeleportFog", 0.0, 15.0)
         stop
     }
 }

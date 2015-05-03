@@ -10,13 +10,12 @@ actor S7_BasePlayer : playerPawn {
     painChance 255
     
     // Movement
-    player.ForwardMove 0.75, 0.75
-    player.SideMove 0.75, 0.75
+    player.ForwardMove 0.8, 0.8
+    player.SideMove 0.8, 0.8
     
     // Give Items/Weapons/Ammo
-    player.StartItem MeleeWeapon
-    player.StartItem S7_Raptor
-    player.StartItem S7_RaptorClip, 8
+    /*player.StartItem S7_Raptor
+    player.StartItem S7_RaptorClip, 8*/
     player.StartItem S7_Clip, 50
     player.StartItem S7_MeleeKey
     player.StartItem S7_ReloadKey
@@ -49,13 +48,13 @@ actor S7_BasePlayer : playerPawn {
         PLAY AAAA 1
         loop
     See:
-        TNT1 A 0 A_jumpIf (user_Step >= 1, "See2")
-        TNT1 A 0 A_setUserVar ("user_Step", TRUE)
+        TNT1 A 0 a_jumpIf (user_Step >= 1, "See2")
+        TNT1 A 0 a_setUserVar ("user_Step", TRUE)
         PLAY AAAAAA 1
         PLAY BBBBBB 1
         goto Spawn
     See2:
-        TNT1 A 0 A_setUserVar ("user_Step", FALSE)
+        TNT1 A 0 a_setUserVar ("user_Step", FALSE)
         PLAY CCCCCC 1
         PLAY DDDDDD 1
         goto Spawn
@@ -67,22 +66,22 @@ actor S7_BasePlayer : playerPawn {
         goto Missile
     Pain:
         PLAY G 4
-        PLAY G 4 A_pain
+        PLAY G 4 a_pain
         goto Spawn
     Death.Suicide:
     Death:
-        PLAY H 10 A_playerScream
+        PLAY H 10 a_playerScream
         PLAY I 10
-        PLAY J 10 A_noBlocking
+        PLAY J 10 a_noBlocking
         PLAY K 10
-        TNT1 A 0 A_playSound ("Misc/Body", 5)
+        TNT1 A 0 a_playSound ("Misc/Body", 5)
         PLAY LM 10
         PLAY N -1
         stop
     XDeath:
         PLAY O 5
-        PLAY P 5 A_XScream
-        PLAY Q 5 A_noBlocking
+        PLAY P 5 a_XScream
+        PLAY Q 5 a_noBlocking
         PLAY RSTUV 5
         PLAY W -1
         stop
@@ -90,23 +89,23 @@ actor S7_BasePlayer : playerPawn {
         BURN ABC 5 bright
         BURN D 5 bright
         BURN EFGHIJKLMN 5 bright
-        BURN O 5 bright A_noBlocking
+        BURN O 5 bright a_noBlocking
         BURN PQRSTU 5 bright
         BURN V -1
         stop
     Death.Plasma:
         TNT1 A 0 thing_SetTranslation (0, 7)
-        TNT1 A 0 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        PLAY H 10 A_playerScream
-        PLAY I 10 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        TNT1 A 0 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        PLAY J 10 A_noBlocking
-        PLAY K 10 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        TNT1 A 0 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        PLAY L 10 A_playSound ("Misc/Body", CHAN_BODY)
-        PLAY M 10 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        TNT1 A 0 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        PLAY NNNNNNNNNNNNNNNNNN 5 A_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        TNT1 A 0 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY H 10 a_playerScream
+        PLAY I 10 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        TNT1 A 0 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY J 10 a_noBlocking
+        PLAY K 10 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        TNT1 A 0 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY L 10 a_playSound ("Misc/Body", CHAN_BODY)
+        PLAY M 10 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        TNT1 A 0 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY NNNNNNNNNNNNNNNNNN 5 a_spawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
         PLAY N -1
         stop
     }
@@ -124,14 +123,14 @@ actor S7_NullWeapon : weapon {
         TNT1 A 0
         stop
     Select:
-        TNT1 A 1 A_raise
-        TNT1 A 0 A_raise
+        TNT1 A 1 a_raise
+        TNT1 A 0 a_raise
         wait
     Deselect:
-        TNT1 A 0 A_lower
+        TNT1 A 0 a_lower
         wait
     Ready:
-        TNT1 A 1 A_weaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
+        TNT1 A 1 a_weaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
         loop
     Fire:
         TNT1 A 1
@@ -143,20 +142,20 @@ actor S7_Sprinting : boolean { }
 actor S7_SprintWeapon : S7_NullWeapon {
     states {
     Ready:
-        TNT1 AA 1 A_weaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
-        TNT1 A 1 A_giveInventory ("S7_Sprinting", 1)
+        TNT1 AA 1 a_weaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
+        TNT1 A 1 a_giveInventory ("S7_Sprinting", 1)
     Ready2:
-        TNT1 A 0 A_jumpIfInventory ("S7_Sprinting", 1, 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_Sprinting", 1, 1)
         goto Ready3
-        TNT1 A 1 A_weaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
+        TNT1 A 1 a_weaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
         loop
     Ready3:
-        TNT1 A 1 A_weaponReady (WRF_NoFire | WRF_NoBob)
+        TNT1 A 1 a_weaponReady (WRF_NoFire | WRF_NoBob)
         Loop
     Deselect:
-        TNT1 AA 1 A_takeInventory ("S7_Sprinting", 99999)
-        TNT1 A 1 A_lower
-        TNT1 A 0 A_lower
+        TNT1 AA 1 a_takeInventory ("S7_Sprinting", 99999)
+        TNT1 A 1 a_lower
+        TNT1 A 0 a_lower
         wait
     }
 }
@@ -169,7 +168,7 @@ actor S7_MeleeKey : customInventory {
     +inventory.Undroppable -inventory.InvBar
     states {
     Use:
-        TNT1 A 0 A_giveInventory ("S7_DoMelee", 1)
+        TNT1 A 0 a_giveInventory ("S7_DoMelee", 1)
         fail
     }
 }
@@ -182,7 +181,7 @@ actor S7_ReloadKey : customInventory {
     +inventory.Undroppable -inventory.InvBar
     states {
     Use:
-        TNT1 A 0 A_giveInventory ("S7_Reloading", 1)
+        TNT1 A 0 a_giveInventory ("S7_Reloading", 1)
         fail
     }
 }
@@ -195,7 +194,7 @@ actor S7_FiringModeKey : customInventory {
     +inventory.Undroppable -inventory.InvBar
     states {
     Use:
-        TNT1 A 0 A_giveInventory ("S7_ChangeFireMode", 1)
+        TNT1 A 0 a_giveInventory ("S7_ChangeFireMode", 1)
         fail
     }
 }
@@ -208,7 +207,7 @@ actor S7_DropWeaponKey : customInventory {
     +inventory.Undroppable -inventory.InvBar
     states {
     Use:
-        TNT1 A 0 A_giveInventory ("S7_DropDatWeapon", 1)
+        TNT1 A 0 a_giveInventory ("S7_DropDatWeapon", 1)
         fail
     }
 }
@@ -235,27 +234,27 @@ actor GETTHATSHITOUTTAHERE {
     -solid -shootable -isMonster
     states {
     Spawn:
-        SKEL AB 5 A_look
+        SKEL AB 5 a_look
         loop
     See:
-        SKEL AABBCCDDEEFF 1 A_chase
+        SKEL AABBCCDDEEFF 1 a_chase
         loop
     /*Melee:
-        TNT1 A 0 A_faceTarget
-        SKEL G 1 A_skelWhoosh
-        SKEL H 1 A_faceTarget
-        TNT1 A 0 A_customMeleeAttack (0)
-        SKEL I 1 A_playSound ("skeleton/melee")
+        TNT1 A 0 a_faceTarget
+        SKEL G 1 a_skelWhoosh
+        SKEL H 1 a_faceTarget
+        TNT1 A 0 a_customMeleeAttack (0)
+        SKEL I 1 a_playSound ("skeleton/melee")
         goto See*/
     Missile:
-        TNT1 A 0 bright A_faceTarget
-        SKEL J 5 bright A_faceTarget
-        SKEL K 5 A_customMissile ("GETTHATSHITOUTTAHERETRACER")
-        SKEL K 5 A_faceTarget
+        TNT1 A 0 bright a_faceTarget
+        SKEL J 5 bright a_faceTarget
+        SKEL K 5 a_customMissile ("GETTHATSHITOUTTAHERETRACER")
+        SKEL K 5 a_faceTarget
         goto See
     Pain:
         SKEL L 2
-        SKEL L 2 A_pain
+        SKEL L 2 a_pain
         goto See
     }
 }
@@ -272,7 +271,7 @@ actor GETTHATSHITOUTTAHERETRACER : fastProjectile {
     renderStyle add
     states {
     Spawn:
-        FATB AB 1 bright A_tracer
+        FATB AB 1 bright a_tracer
         loop
     Death:
         FBXP ABC 1 bright

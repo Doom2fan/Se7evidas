@@ -5,17 +5,38 @@ actor S7_BaseWeapon : weapon {
     +weapon.NoAlert
     states {
     QuickMelee:
-        TNT1 A 0 A_takeInventory ("S7_DoMelee", 1)
+        TNT1 A 0 a_takeInventory ("S7_DoMelee", 1)
         TNT1 A 1 acs_ExecuteAlways (S7_QuickMelee, 0)
-        TNT1 A 1 A_weaponReady (WRF_NoBob | WRF_NoFire)
+        TNT1 A 1 a_weaponReady (WRF_NoBob | WRF_NoFire)
         wait
     DryFire:
-        TNT1 A 0 A_playSound ("Weapons/DryFire", CHAN_Weapon)
-        TNT1 A 0 A_jump (256, "Ready2")
+        TNT1 A 0 a_playSound ("Weapons/DryFire", CHAN_Weapon)
+        TNT1 A 0 a_jump (256, "Ready2")
+        wait
+        
+    Ready:
+        TNT1 A 1 a_weaponReady
+        loop
+    Fire:
+        TNT1 A 1
+        goto Ready
+    
+    Select:
+        TNT1 A 0 a_jump (256, "TrueSelect")
+        wait
+    TrueSelect:
+        TNT1 A 0 a_raise
+        wait
+    Deselect:
+        TNT1 A 0 a_jumpIfHealthLower (1, "Deselect.DEAD")
+        TNT1 A 0 a_jump (256, "TrueDeselect")
+        wait
+    TrueDeselect:
+        TNT1 A 0 a_lower
         wait
     Deselect.DEAD:
-        TNT1 A 1 A_lower
-        loop
+        TNT1 A 1 a_lower
+        wait
     }
 }
 
@@ -36,7 +57,7 @@ actor S7_MeleePuffStrong : S7_MeleePuff {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_spawnItem ("S7_ShotSmoke")
+        TNT1 A 0 a_spawnItem ("S7_ShotSmoke")
         stop
     }
 }

@@ -7,7 +7,7 @@ actor S7_CasingSpawnerBase {
     +noClip +clientsideOnly
 }
 
-Actor S7_CasingBase {
+actor S7_CasingBase {
     speed 6
     +doomBounce -noGravity +windThrust +clientsideOnly
     +moveWithSector +missile +noBlockmap -dropOff
@@ -19,7 +19,7 @@ actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_customMissile ("S7_ShotgunCasing", 0, 0, random (-80, -100), 2, random (-40, -60))
+        TNT1 A 0 a_customMissile ("S7_ShotgunCasing", 0, 0, random (-80, -100), 2, random (-40, -60))
         stop
     }
 }
@@ -28,7 +28,7 @@ actor S7_SSGCasingSpawner : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_customMissile ("S7_ShotgunCasing", 0, 0, random (80, 100), 2, random (50, 70))
+        TNT1 A 0 a_customMissile ("S7_ShotgunCasing", 0, 0, random (80, 100), 2, random (50, 70))
         stop
     }
 }
@@ -40,10 +40,10 @@ actor S7_ShotgunCasing : S7_CasingBase {
     states {
     Spawn:
         TNT1 A 0
-        CAS1 ABCDEFGH 2 A_spawnItem ("S7_ShotSmokeTrail")
+        CAS1 ABCDEFGH 2 a_spawnItem ("S7_ShotSmokeTrail")
         loop
     Death:
-        TNT1 A 0 A_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
+        TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
         goto Rest1
     Rest1:
         CAS1 A 1000
@@ -70,7 +70,7 @@ actor S7_ShotgunCasing : S7_CasingBase {
         CAS1 H 1000
         goto Fade
     Fade:
-        "----" A 3 A_fadeOut (0.03)
+        "----" A 3 a_fadeOut (0.03)
         loop
     }
 }
@@ -80,7 +80,7 @@ actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_customMissile ("S7_9mmCasing", -5, 0, random (-80, -100), 2, random (45, 80))
+        TNT1 A 0 a_customMissile ("S7_9mmCasing", -5, 0, random (-80, -100), 2, random (45, 80))
         stop
     }
 }
@@ -89,7 +89,7 @@ actor S7_9mmCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_customMissile ("S7_9mmCasing", -5, 0, random (80, 100), 2, random (45, 80))
+        TNT1 A 0 a_customMissile ("S7_9mmCasing", -5, 0, random (80, 100), 2, random (45, 80))
         stop
     }
 }
@@ -102,10 +102,10 @@ actor S7_9mmCasing : S7_CasingBase {
     states {
     Spawn:
         TNT1 A 0
-        CAS2 ABCD 2 A_spawnItem ("S7_ShotSmokeTrail")
+        CAS2 ABCD 2 a_spawnItem ("S7_ShotSmokeTrail")
         loop
     Death:
-        TNT1 A 0 A_jump (256, "Rest1", "Rest2", "Rest3", "Rest4")
+        TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4")
         goto Rest1
     Rest1:
         CAS2 A 1000
@@ -120,7 +120,7 @@ actor S7_9mmCasing : S7_CasingBase {
         CAS2 D 1000
         goto Fade
     Fade:
-        "----" A 3 A_fadeOut (0.03)
+        "----" A 3 a_fadeOut (0.03)
         loop
     }
 }
@@ -130,7 +130,7 @@ actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 A_customMissile ("S7_RifleCasing", -5, 0, random (-80, -100), 2, random (45, 80))
+        TNT1 A 0 a_customMissile ("S7_RifleCasing", -5, 0, random (-80, -100), 2, random (45, 80))
         stop
     }
 }
@@ -143,10 +143,10 @@ actor S7_RifleCasing : S7_CasingBase {
     states {
     Spawn:
         TNT1 A 0
-        CAS3 ABCDEF 2 A_spawnItem ("S7_ShotSmokeTrail")
+        CAS3 ABCDEF 2 a_spawnItem ("S7_ShotSmokeTrail")
         loop
     Death:
-        TNT1 A 0 A_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6")
+        TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6")
         goto Rest1
     Rest1:
         CAS3 A 1000
@@ -167,7 +167,7 @@ actor S7_RifleCasing : S7_CasingBase {
         CAS3 F 1000
         goto Fade
     Fade:
-        "----" A 3 A_fadeOut (0.03)
+        "----" A 3 a_fadeOut (0.03)
         loop
     }
 }

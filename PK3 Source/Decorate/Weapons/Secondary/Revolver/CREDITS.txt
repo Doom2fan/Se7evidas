@@ -1,3 +1,4 @@
 DECORATE: Alex_Mercer
 Sprites: Pisstepank, Alex_Mercer
-Sounds: Action Half-Life, Killing Floor IJC Weapon Pack, WildWeasel
+Sounds: Action Half-Life, Killing Floor IJC Weapon Pack, WildWeasel, [Dredile, ajoyce86 and bennychico11 from Freesound.org]
+Sounds edited by Alex_Mercer
