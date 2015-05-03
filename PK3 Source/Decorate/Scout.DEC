@@ -1,0 +1,25 @@
+actor S7_ScoutPlayer : S7_BasePlayer {
+    // Damage
+    health 75
+    player.MaxHealth 75
+    player.MugShotMaxHealth 75
+    gibHealth -37
+    
+    // Movement
+    player.ForwardMove 1.0, 1.0
+    player.SideMove 1.0, 1.0
+    
+    // Give Items/Weapons/Ammo
+    player.StartItem S7_TEC9
+    player.StartItem S7_TEC9Clip, 8
+    player.StartItem S7_Clip, 50
+    player.StartItem S7_MeleeKey
+    player.StartItem S7_ReloadKey
+    player.StartItem S7_FiringModeKey
+    player.StartItem S7_StaminaRegen
+    player.StartItem S7_Stamina, 150
+    player.StartItem S7_DaggerMelee
+    
+    // Class stuff
+    player.DisplayName "Scout"
+}

@@ -36,6 +36,7 @@
 
 // Player stuff
 #INCLUDE "Decorate/Player.DEC"
+#INCLUDE "Decorate/Scout.DEC"
 
 // Ammo
 #INCLUDE "Decorate/Inventory/Ammo.DEC"
