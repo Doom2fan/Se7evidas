@@ -1,19 +1,30 @@
 @ECHO OFF
 SETLOCAL
 
-REM ACS stuff
-SET PROG_ACC="%CD%/Tools/ACC/acc.EXE"
-SET ACSSOURCE="%CD%/ACS Source"
-SET ACS_DEST="%CD%/PK3 Source/acs"
+REM ACS Stuff
+SET PROG_ACC="C:/Users/Chronos Ouroboros/Games/Doom/GDCC/gdcc-acc.exe"
+SET PROG_LD="C:/Users/Chronos Ouroboros/Games/Doom/GDCC/gdcc-ld.exe"
+SET ACSSOURCE="./ACS Source"
+SET ACS_TEMP="./ACS Source/Temp"
+SET ACS_DEST="./PK3 Source/acs"
 
+RMDIR /S /Q %ACS_TEMP% 2>nul
 RMDIR /S /Q "./PK3 Source/acs" 2>nul
 RMDIR /S /Q "./PK3 Source - Zandronum/acs" 2>nul
 MKDIR "./PK3 Source/acs"
 MKDIR "./PK3 Source - Zandronum/acs"
-%PROG_ACC% %ACSSOURCE%/Se7evidas.c %ACS_DEST%/Se7evidas.O
-%PROG_ACC% %ACSSOURCE%/S7_Rep.c %ACS_DEST%/S7_Rep.O
+MKDIR %ACS_TEMP%
+MKDIR %ACS_TEMP%/Zandro
 
-%PROG_ACC% %ACSSOURCE%/Zandronum/S7_Rep.c "./PK3 Source - Zandronum/acs/S7_Rep.O"
+%PROG_ACC% --bc-target ZDoom --bc-format ACSE --output %ACS_TEMP%/Se7evidas.ir %ACSSOURCE%/Se7evidas.c
+REM %PROG_ACC% --bc-target ZDoom --bc-format ACSE --output %ACS_TEMP%/S7_Rep.ir %ACSSOURCE%/S7_Rep.c
+REM %PROG_ACC% --bc-target ZDoom --bc-format ACSE --output %ACS_TEMP%/Zandro/S7_Rep.ir %ACSSOURCE%/Zandronum/S7_Rep.c
+%PROG_LD% --bc-target ZDoom --bc-format ACSE --output %ACS_DEST%/Se7evidas.o %ACS_TEMP%/Se7evidas.ir
+REM %PROG_LD% --bc-target ZDoom --bc-format ACSE --output %ACS_DEST%/S7_Rep.o %ACS_TEMP%/S7_Rep.ir
+REM %PROG_LD% --bc-target ZDoom --bc-format ACSE --output "./PK3 Source - Zandronum/acs/S7_Rep.o" %ACS_TEMP%/Zandro/S7_Rep.ir
+
+PAUSE
+RMDIR /S /Q %ACS_TEMP% 2>nul
 
 REM 7z stuff
 SET MAIN_7Z=%CD%
@@ -37,7 +48,7 @@ XCOPY Se7evidas.PK3 "%MAIN_7Z%/Se7evidas" /Q /Y 2>nul
 XCOPY Se7evidas_Zandro.PK3 "%MAIN_7Z%/Se7evidas" /Q /Y 2>nul
 XCOPY Se7evidas-TODO.TXT "%MAIN_7Z%/Se7evidas" /Q /Y 2>nul
 XCOPY Se7evidas-README.TXT "%MAIN_7Z%/Se7evidas" /Q /Y 2>nul
-%PROG_7Z% A -t7z "%MAIN_7Z%/Se7evidas.7Z" -m0=LZMA2 -mx9 -ms=off "%MAIN_7Z%/Se7evidas"
+%PROG_7Z% A -t7z "%MAIN_7Z%/Se7evidas.7Z" -m0=LZMA2 -mx9 -ms=off "%MAIN_7Z%/Se7evidas/*"
 RMDIR Se7evidas /S /Q
 
 PAUSE
