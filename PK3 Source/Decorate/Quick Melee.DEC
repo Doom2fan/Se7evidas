@@ -24,7 +24,7 @@ actor S7_QuickMelee : S7_BaseWeapon {
     DaggerMelee:
         DAG1 AB 1
     DaggerMelee.Mid:
-        TNT1 A 0 a_jumpIfInventory ("PowerStrength", 1, "KickMelee.Berserk")
+        TNT1 A 0 a_jumpIfInventory ("PowerStrength", 1, "DaggerMelee.Berserk")
         TNT1 A 0 a_customPunch (random (1, 5) * 10, 1, 0, "S7_MeleePuff")
         goto DaggerMelee.End
     DaggerMelee.Berserk:
