@@ -1,70 +1,70 @@
 sprite RPTMB0, 191, 124 {
     offset -21, -101
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTMC0, 191, 124 {
     offset -70, -80
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTMD0, 191, 124 {
     offset -110, -63
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTME0, 191, 124 {
     offset -140, -63
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTMF0, 191, 124 {
     offset -180, -63
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTMG0, 191, 124 {
     offset -230, -93
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTMH0, 191, 124 {
     offset -260, -123
-    patch RPTMA0, 0, 0
+    patch RPTMA0, -30, 0
 }
 
 sprite RPTRA0, 320, 200 {
-    patch RPTNA0, 212, 90
+    patch RPTNA0, 182, 90
 }
 
 sprite RPTRB0, 320, 200 {
-    patch RPTNA0, 212, 101
+    patch RPTNA0, 182, 101
 }
 
 sprite RPTRC0, 320, 200 {
-    patch RPTNA0, 212, 108
+    patch RPTNA0, 182, 108
 }
 
 sprite RPTRD0, 320, 200 {
-    patch RPTNA0, 212, 123
+    patch RPTNA0, 182, 123
 }
 
 sprite RPTRF0, 320, 200 {
-    patch RPTNF0, 212, 90
+    patch RPTNF0, 182, 90
 }
 
 sprite RPTRG0, 320, 200 {
-    patch RPTNF0, 212, 101
+    patch RPTNF0, 182, 101
 }
 
 sprite RPTRH0, 320, 200 {
-    patch RPTNF0, 212, 108
+    patch RPTNF0, 182, 108
 }
 
 sprite RPTRI0, 320, 200 {
-    patch RPTNF0, 212, 123
+    patch RPTNF0, 182, 123
 }
 
 sprite RPTRJ0, 320, 200 {
-    patch RPTNC0, 212, 123
+    patch RPTNC0, 182, 123
 }
