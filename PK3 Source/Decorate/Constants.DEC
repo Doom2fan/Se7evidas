@@ -12,3 +12,4 @@ const int S7_RunningInZDoom = 913;
 const int S7_GetCVar = 916;
 const int S7_GetUserCVar = 917;
 const int S7_GetUserCVarClientside = 918;
+const int S7_GetMaxHealth = 920;

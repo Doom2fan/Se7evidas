@@ -35,7 +35,7 @@ script S7_HeartbeatScript ENTER CLIENTSIDE {
     int heartbeatTics = 0;
     
     while (TRUE) {
-        health = getActorProperty (0, APROP_HEALTH);
+        health = getActorProperty (0, APROP_Health);
         
         if (health < 2 && health > 0) {
             if (heartbeatTics >= 35) {
@@ -72,4 +72,9 @@ script S7_HeartbeatScript ENTER CLIENTSIDE {
             
         delay (1);
     }
+}
+
+#DEFINE S7_GetMaxHealth 920
+script S7_GetMaxHealth (void) {
+    setResultValue (getActorProperty (0, APROP_SpawnHealth));
 }

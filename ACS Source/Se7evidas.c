@@ -16,7 +16,7 @@
 
 // Defines
 
-// Highest script num ID: 920
+// Highest script num ID: 921
 // Highest global var ID: 5
 
 #LIBDEFINE S7_Enter 906
