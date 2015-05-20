@@ -91,6 +91,7 @@ actor S7_Shotgun : S7_BaseWeapon replaces superShotgun 30001 {
         TNT1 A 0 a_giveInventory ("S7_ShotgunLoaded", 2)
         SSGF G 2 a_takeInventory ("S7_ShotgunMag", 2)
         SSGF H 2
+        TNT1 AA 0 a_fireCustomMissile ("S7_ShellCasingSpawn", 0, 0, 6, -3)
         TNT1 A 0 a_playSound ("Weapons/Shotgun/Pump", 7)
         SSGF IJKLMN 2
         SSGF MLKJIH 2

@@ -1,5 +1,5 @@
 // Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
-// Casing sprites by the KDIZD team
+// Casing sprites by CaptainJ. Edited by Alex_Mercer
 
 actor S7_CasingSpawnerBase {
     speed 20
@@ -19,55 +19,47 @@ actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 a_customMissile ("S7_ShotgunCasing", 0, 0, random (-80, -100), 2, random (-40, -60))
+        TNT1 A 0 a_customMissile ("S7_ShellCasing", 0, 0, random (80, 100), 2, random (-40, -60))
         stop
     }
 }
 
-actor S7_SSGCasingSpawner : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0
-        TNT1 A 0 a_customMissile ("S7_ShotgunCasing", 0, 0, random (80, 100), 2, random (50, 70))
-        stop
-    }
-}
-
-actor S7_ShotgunCasing : S7_CasingBase {
+actor S7_ShellCasing : S7_CasingBase {
     height 12
     radius 9
     seeSound "Weapons/shell"
+    scale 0.2
     states {
     Spawn:
         TNT1 A 0
-        CAS1 ABCDEFGH 2 a_spawnItem ("S7_ShotSmokeTrail")
+        CAS0 ABCDEFGH 2 // a_spawnItem ("S7_ShotSmokeTrail")
         loop
     Death:
         TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
         goto Rest1
     Rest1:
-        CAS1 A 1000
+        CAS0 A 1000
         goto Fade
     Rest2:
-        CAS1 B 1000
+        CAS0 B 1000
         goto Fade
     Rest3:
-        CAS1 C 1000
+        CAS0 C 1000
         goto Fade
     Rest4:
-        CAS1 D 1000
+        CAS0 D 1000
         goto Fade
     Rest5:
-        CAS1 E 1000
+        CAS0 E 1000
         goto Fade
     Rest6:
-        CAS1 F 1000
+        CAS0 F 1000
         goto Fade
     Rest7:
-        CAS1 G 1000
+        CAS0 G 1000
         goto Fade
     Rest8:
-        CAS1 H 1000
+        CAS0 H 1000
         goto Fade
     Fade:
         "----" A 3 a_fadeOut (0.03)
