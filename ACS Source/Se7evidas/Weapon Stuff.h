@@ -45,8 +45,7 @@ function void disableWeapon (str meh, str blah) {
 
 // Scripts
 // SynthFire stuff
-#LIBDEFINE S7_SynthFire 910
-script S7_SynthFire (void) {
+script "S7_SynthFire" (void) {
     while (TRUE) {
         if (!checkInventory ("S7_SynthFireActive"))
             terminate;
@@ -67,15 +66,13 @@ script S7_SynthFire (void) {
     }
 }
 
-#LIBDEFINE S7_SynthFireAllowChange 911
-script S7_SynthFireAllowChange (void) {
+script "S7_SynthFireAllowChange" (void) {
     if (!checkInventory ("S7_SynthFireRightReloading") || checkInventory ("S7_SynthFireLeftReloading"))
         setResultValue (1);
     else
         setResultValue (0);
 }
 
-#LIBDEFINE S7_QuickMelee 919
-script S7_QuickMelee (void) {
+script "S7_QuickMelee" (void) {
     disableWeapon ("S7_QuickMelee", "None");
 }

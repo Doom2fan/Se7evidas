@@ -1,5 +1,4 @@
-#LIBDEFINE S7_HudWeapons 915
-script S7_HudWeapons ENTER { // HUD icons and stuff...
+script "S7_HudWeapons" ENTER { // HUD icons and stuff...
     // Not needed or desired in TitleMaps.
     if (gameType () == Game_Title_Map)
         terminate;

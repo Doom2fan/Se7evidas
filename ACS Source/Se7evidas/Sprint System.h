@@ -1,8 +1,7 @@
 global int 0:S7_SS_OldSpeed [];
 global int 1:S7_SS_Sprinting [];
 
-#LIBDEFINE S7_SprintSystem 904
-script S7_SprintSystem ENTER {
+script "S7_SprintSystem" ENTER {
     if (gameType () == game_Title_Map)
         terminate;
     

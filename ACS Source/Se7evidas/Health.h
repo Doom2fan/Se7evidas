@@ -1,8 +1,7 @@
 #LIBDEFINE MEDIKITHEALTH 40
 #LIBDEFINE STIMPACKHEALTH MEDIKITHEALTH / 2
 
-#LIBDEFINE S7_MedikitScript 900
-script S7_MedikitScript (void) {
+script "S7_MedikitScript" (void) {
     print (s:"Applying Medikit");
     thing_Stop (0);
     setPlayerProperty (0, 1, PROP_TotallyFrozen);
@@ -16,8 +15,7 @@ script S7_MedikitScript (void) {
     healThing (MEDIKITHEALTH);
 }
 
-#LIBDEFINE S7_StimpackScript 901
-script S7_StimpackScript (void) {
+script "S7_StimpackScript" (void) {
     print (s:"Applying Stimpack");
     thing_Stop (0);
     setPlayerProperty (0, 1, PROP_TotallyFrozen);
@@ -26,8 +24,7 @@ script S7_StimpackScript (void) {
     setPlayerProperty (0, 0, PROP_TotallyFrozen);
 }
 
-#LIBDEFINE S7_HeartbeatScript 903
-script S7_HeartbeatScript ENTER CLIENTSIDE {
+script "S7_HeartbeatScript" ENTER CLIENTSIDE {
     if (gameType () == game_Title_Map)
         terminate;
     
@@ -74,7 +71,6 @@ script S7_HeartbeatScript ENTER CLIENTSIDE {
     }
 }
 
-#DEFINE S7_GetMaxHealth 920
-script S7_GetMaxHealth (void) {
+script "S7_GetMaxHealth" (void) {
     setResultValue (getActorProperty (0, APROP_SpawnHealth));
 }

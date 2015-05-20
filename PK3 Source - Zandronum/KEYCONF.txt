@@ -1,1 +1,0 @@
-alias S7_Zandronum "S7_RunningInZDoom 0; S7_RunningInZDoomUser 0;"

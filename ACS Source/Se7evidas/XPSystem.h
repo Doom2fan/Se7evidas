@@ -15,8 +15,7 @@ function void levelUp (int level) {
     giveInventory ("S7_XP_System_Experience", random (4, 6));
 }
 
-#LIBDEFINE S7_XP_System 918
-script S7_XP_System ENTER {
+script "S7_XP_System" ENTER {
     if (gameType () == Game_Title_Map)
         terminate;
     

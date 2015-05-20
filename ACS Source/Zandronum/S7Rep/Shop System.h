@@ -1,4 +1,7 @@
-// Credits to TheMisterCat for the code
+/* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACCCCCCCCCCCCCCCCCCCCCCKKKKKKKKKK
+** I have to rewrite some of this shit for Zandro and GZDoom now...
+*/
+/*// Credits to TheMisterCat for the code
 
 // Default button width and height = 50;
 // Default button positions {
@@ -30,11 +33,6 @@ int mouseY [MAXPLAYERS] = { SCREEN_HEIGHT / 2 };
 int shopGUIOPEN [MAXPLAYERS];
 int shopGUIDisplayingError [MAXPLAYERS];
 
-function void shopSystem_PrintText (str text, str font) {
-    // shopSystem_PrintText (Text, Font);
-    shopSystem_PrintTextTimed (text, font, 0.1);
-}
-
 function void shopSystem_PrintTextTimed (str text, str font, int time) {
     // shopSystem_PrintText (Text, Font, Time);
     setHudSize (SCREEN_WIDTH, SCREEN_HEIGHT, 0);
@@ -46,6 +44,11 @@ function void shopSystem_PrintTextTimed (str text, str font, int time) {
     
     if (!shopGUIDisplayingError [playerNumber ()])
         hudMessage (s:text; HUDMSG_FADEOUT, SHOPTEXTID, 0, 11.1, 492.1, time, 0.3);
+}
+
+function void shopSystem_PrintText (str text, str font) {
+    // shopSystem_PrintText (Text, Font);
+    shopSystem_PrintTextTimed (text, font, 0.1);
 }
 
 function void shopSystem_PrintError (str text, str font, int time) {
@@ -93,7 +96,6 @@ function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     // returns 1 if successful, -1 if inventory is full and -2 if not enough cash
     int cash = checkInventory ("Energy");
     
-    print (d:checkInventory (inventory), d:checkInventoryMax (inventory));    
     if (checkInventory (inventory) >= checkInventoryMax (inventory)) {
         ACS_Execute (S7_ShopSystem_NoSpace, 0);
         
@@ -265,4 +267,4 @@ script S7_ShopSystem_ToggleShopSystem (void) NET {
         setPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
         terminate;
     }
-}
+}*/

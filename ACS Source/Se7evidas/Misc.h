@@ -1,5 +1,4 @@
-#LIBDEFINE S7_SpeedScript 902
-script S7_SpeedScript ENTER {
+script "S7_SpeedScript" ENTER {
     if (gameType () == game_Title_Map)
         terminate;
     
@@ -17,8 +16,7 @@ script S7_SpeedScript ENTER {
     }
 }
 
-#LIBDEFINE S7_WaterScript 909
-script S7_WaterScript ENTER {
+script "S7_WaterScript" ENTER {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)
         terminate;
@@ -35,8 +33,7 @@ script S7_WaterScript ENTER {
     }
 }
 
-#LIBDEFINE S7_BrutalDoomCompatibility 912
-script S7_BrutalDoomCompatibility ENTER {
+script "S7_BrutalDoomCompatibility" ENTER {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)
         terminate;
@@ -111,14 +108,6 @@ script S7_BrutalDoomCompatibility ENTER {
         if (delayer < 0)
             delayer = 0;
     }
-}
-
-#LIBDEFINE S7_RunningInZDoom 913
-script S7_RunningInZDoom (void) {
-    if (GetCVar ("S7_RunningInZDoom") == 1)
-        SetResultValue (1);
-    else
-        SetResultValue (0);
 }
 
 /*#LIBDEFINE S7_CVars_Count 1

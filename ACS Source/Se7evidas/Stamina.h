@@ -2,8 +2,7 @@
 
 global int 3:S7_SR_StaminaEmpty [];
 
-#LIBDEFINE S7_StaminaRegeneration 905
-script S7_StaminaRegeneration ENTER {
+script "S7_StaminaRegeneration" ENTER {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)
         terminate;
