@@ -1,0 +1,42 @@
+defaultListMenu {
+    font "DBIGFONT", "Untranslated"
+    linespacing 19
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Main Menu
+//
+//-------------------------------------------------------------------------------------------
+
+listMenu "MainMenu" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "Final Duel"
+    
+    font "Smallfont", "Untranslated"
+    position 37, 62
+    
+    textItem "New",           "n", "PlayerclassMenu"
+    textItem "Options",       "o", "OptionsMenu"
+    textItem "Se7evidas",     "7", "S7Settings"
+    textItem "Load",          "l", "LoadGameMenu"
+    textItem "Save",          "s", "SaveGameMenu"
+    //textItem "Help",        "h", "HelpTopicsMenu"
+    textItem "Quit",          "q", "QuitMenu"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Final Duel Options
+//
+//-------------------------------------------------------------------------------------------
+
+optionMenu "S7Settings" {
+    title "SE7EVIDAS"
+    staticText "Visual Options"
+    option "Mod messages on",                                                                    "S7_MsgsOn",       "OnOff"
+    option "Log level up messages",                                                              "S7_LogLVLUpMsgs", "OnOff"
+    staticText " "
+    staticText "Audio Options"
+    option "Heartbeats on",                                                                      "S7_HeartbeatsOn", "OnOff"
+}

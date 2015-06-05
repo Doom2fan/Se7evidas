@@ -8,13 +8,53 @@ actor S7_CasingSpawnerBase {
 }
 
 actor S7_CasingBase {
+    height 2
+    radius 2
     speed 6
-    +doomBounce -noGravity +windThrust +clientsideOnly
+    bounceType "doom"
+    +windThrust +clientsideOnly +ghost +canBounceWater
     +moveWithSector +missile +noBlockmap -dropOff
-    +noTeleport +forceXYBillboard +ghost
+    +noTeleport +forceXYBillboard -noGravity
+    states {
+    Delaying:
+        "----" A 0 a_jumpIf (acs_namedexecutewithresult ("S7_GetCasingDelay") == 1, "Delay.Shorter")
+        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 2, "Delay.EvenShorter")
+        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 3, "Delay.ShortAsFuck")
+        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 4, "Delay.DearLordDoYouHaveAFuckingToaster")
+        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 5, "Delay.MeinFuckingGott")
+        "----" A 0 a_jumpIf (acs_namedexecutewithresult ("S7_GetCasingDelay") == 6, "Delay.DearLordGoBuyANewComputerRightMotherfuckingNow")
+        "----" A 5000
+        goto Fade
+    Delay.Shorter:
+        "----" A 2500
+        goto Fade
+    Delay.EvenShorter:
+        "----" A 1250
+        goto Fade
+    Delay.ShortAsFuck:
+        "----" A 625
+        goto Fade
+    Delay.DearLordDoYouHaveAFuckingToaster:
+        "----" A 313
+        goto Fade
+    Delay.MeinFuckingGott:
+        "----" A 157
+        goto Fade
+    Delay.DearLordGoBuyANewComputerRightMotherfuckingNow:
+        "----" A 70
+        goto Fade
+    
+    Fade:
+        "----" A 3 a_fadeOut (0.03)
+        loop
+    }
 }
 
-// Shotgun Casing
+//-------------------------------------------------------------------------------------------
+//
+// Shotgun Shell
+//
+//-------------------------------------------------------------------------------------------
 actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
@@ -25,49 +65,55 @@ actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_ShellCasing : S7_CasingBase {
-    height 12
-    radius 9
     seeSound "Weapons/shell"
     scale 0.2
     states {
     Spawn:
-        TNT1 A 0
         CAS0 ABCDEFGH 2 // a_spawnItem ("S7_ShotSmokeTrail")
         loop
     Death:
         TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
         goto Rest1
     Rest1:
-        CAS0 A 1000
-        goto Fade
+        CAS0 A 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest2:
-        CAS0 B 1000
-        goto Fade
+        CAS0 B 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest3:
-        CAS0 C 1000
-        goto Fade
+        CAS0 C 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest4:
-        CAS0 D 1000
-        goto Fade
+        CAS0 D 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest5:
-        CAS0 E 1000
-        goto Fade
+        CAS0 E 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest6:
-        CAS0 F 1000
-        goto Fade
+        CAS0 F 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest7:
-        CAS0 G 1000
-        goto Fade
+        CAS0 G 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest8:
-        CAS0 H 1000
-        goto Fade
-    Fade:
-        "----" A 3 a_fadeOut (0.03)
-        loop
+        CAS0 H 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
 // 9mm Casing
+//
+//-------------------------------------------------------------------------------------------
 actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
@@ -77,47 +123,118 @@ actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
     }
 }
 
-actor S7_9mmCasingSpawn2 : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0
-        TNT1 A 0 a_customMissile ("S7_9mmCasing", -5, 0, random (80, 100), 2, random (45, 80))
-        stop
-    }
-}
-
 actor S7_9mmCasing : S7_CasingBase {
-    height 2
-    radius 2
     scale 0.5
     seeSound "Weapons/casing"
     states {
     Spawn:
         TNT1 A 0
-        CAS2 ABCD 2 a_spawnItem ("S7_ShotSmokeTrail")
+        CAS1 ABCDEFGH 2 a_spawnItem ("S7_ShotSmokeTrail")
         loop
     Death:
-        TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4")
+        TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
         goto Rest1
     Rest1:
-        CAS2 A 1000
-        goto Fade
+        CAS1 A 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest2:
-        CAS2 B 1000
-        goto Fade
+        CAS1 B 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest3:
-        CAS2 C 1000
-        goto Fade
+        CAS1 C 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest4:
-        CAS2 D 1000
-        goto Fade
-    Fade:
-        "----" A 3 a_fadeOut (0.03)
-        loop
+        CAS1 D 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest5:
+        CAS1 E 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest6:
+        CAS1 F 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest7:
+        CAS1 G 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest8:
+        CAS1 H 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Revolver Casing
+//
+//-------------------------------------------------------------------------------------------
+actor S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
+    bounceFactor 1.0
+    states {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 a_customMissile ("S7_RevolverCasing", -5, 0, 0, 2, -90)
+        stop
+    }
+}
+
+actor S7_RevolverCasing : S7_CasingBase {
+    scale 0.5
+    seeSound "Weapons/casing"
+    states {
+    Spawn:
+        TNT1 A 0
+        CAS2 ABCDEFGH 2 a_spawnItem ("S7_ShotSmokeTrail")
+        loop
+    Death:
+        TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
+        goto Rest1
+    Rest1:
+        CAS2 A 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest2:
+        CAS2 B 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest3:
+        CAS2 C 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest4:
+        CAS2 D 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest5:
+        CAS2 E 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest6:
+        CAS2 F 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest7:
+        CAS2 G 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    Rest8:
+        CAS2 H 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Rifle Casing
+//
+//-------------------------------------------------------------------------------------------
 actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
@@ -128,8 +245,6 @@ actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_RifleCasing : S7_CasingBase {
-    height 2
-    radius 2
     scale .5
     seeSound "Weapons/casing"
     states {
@@ -141,25 +256,28 @@ actor S7_RifleCasing : S7_CasingBase {
         TNT1 A 0 a_jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6")
         goto Rest1
     Rest1:
-        CAS3 A 1000
-        goto Fade
+        CAS3 A 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest2:
-        CAS3 B 1000
-        goto Fade
+        CAS3 B 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest3:
-        CAS3 C 1000
-        goto Fade
+        CAS3 C 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest4:
-        CAS3 D 1000
-        goto Fade
+        CAS3 D 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest5:
-        CAS3 E 1000
-        goto Fade
+        CAS3 E 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     Rest6:
-        CAS3 F 1000
-        goto Fade
-    Fade:
-        "----" A 3 a_fadeOut (0.03)
-        loop
+        CAS3 F 0
+        "----" A 0 a_jump (256, "Delaying")
+        wait
     }
 }

@@ -5,6 +5,16 @@
 // Monsters: a_customMissile (tracerName, verticalOffset, horizontalOffset, fRandom (-, horizontalSpread), 0, fRandom (-, verticalSpread))
 
 /*** Base ***/
+actor S7_TracerEffectsBase {
+	height 2
+	radius 2
+    alpha 1.0
+    scale 0.025
+    renderStyle add
+    +noBlockmap +noGravity +noTeleport +cannotPush
+    +noInteraction +clientsideOnly +forceXYBillboard
+}
+
 actor S7_BaseTracer : fastProjectile {
     alpha 1.0
     renderStyle add
@@ -13,7 +23,8 @@ actor S7_BaseTracer : fastProjectile {
     speed 25
     Health 75
     projectile
-    +bloodSplatter +noExtremeDeath +noDamageThrust
+    +bloodSplatter +noExtremeDeath +noDamageThrust +puffGetsOwner
+    +forceXYBillboard
     scale 0.025
     damage (random (1, 3) * 4)
     missileType "S7_TracerSpawner"
@@ -26,6 +37,7 @@ actor S7_BaseTracer : fastProjectile {
         wait
     Death:
     Crash:
+        TNT1 A 0 a_faceTarget
         TNT1 A 0 a_spawnItemEx ("S7_BulletPuff")
         stop
     XDeath:
@@ -44,12 +56,7 @@ actor S7_TracerSpawner {
     }
 }
 
-actor S7_TracerTrail {
-    alpha 1.0
-    renderStyle add
-    +noBlockmap +noGravity +noTeleport +cannotPush
-    +noInteraction +clientsideOnly
-    scale 0.025
+actor S7_TracerTrail : S7_TracerEffectsBase {
     states {
     Spawn:
         SPRK A 1 bright a_fadeOut (0.3)
@@ -57,11 +64,34 @@ actor S7_TracerTrail {
     }
 }
 
-actor S7_BulletPuff {
+actor S7_BulletPuff : S7_TracerEffectsBase replaces BulletPuff {
+    -clientsideOnly
+    states {
+    Spawn:
+        TNT1 A 0
+        TNT1 AAAAA 0 a_spawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, frandom (0.0, 2.0), frandom (-2.0, 2.0), frandom (0.0, 3.0), 0, SXF_Clientside)
+        SPRK A 1 bright a_spawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, frandom (0.0, 2.0), frandom (-2.0, 2.0), frandom (0.0, 3.0), 0, SXF_Clientside)
+        stop
+    }
+}
+
+actor S7_BulletPuffSparks : S7_TracerEffectsBase {
+    mass 1
+	damage 0
+	+missile +dropOff +ghost +dontSplash
+    -doomBounce -noGravity -noInteraction
+	speed 10
+	gravity 1.0
+    states {
+    Spawn:
+        SPRK A 1 bright
+        SPRK A 1 bright a_fadeOut (0.05)
+        wait
+    }
 }
 
 /*** Tracers ***/
-actor S7_RaptorTracer : S7_BaseTracer { damage (random (1, 3) * 7) }
+actor S7_RaptorTracer : S7_BaseTracer { damage (random (1, 3) * 10) }
 actor S7_RevolverTracer : S7_BaseTracer { damage (random (1, 3) * 40) health 95 }
-actor S7_TEC9Tracer : S7_BaseTracer { damage (random (1, 3) * random (3, 4)) }
-actor S7_SSGTracer : S7_BaseTracer { damage (random (1, 3) * 6) }
+actor S7_TEC9Tracer : S7_BaseTracer { damage (random (1, 3) * 9) health 80}
+actor S7_SSGTracer : S7_BaseTracer { damage (random (1, 3) * 6) health 85}

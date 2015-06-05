@@ -13,5 +13,4 @@
 
 script "S7_RunningInZDoom" (void) {
         SetResultValue (1);
-        printBold (s:"S7_RunningInZDoom: 1/ZDoom");
 }

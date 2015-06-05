@@ -9,8 +9,8 @@ actor S7_Medikit : customInventory replaces medikit 32001 {
         MEDI A -1
         stop
     Use:
-        TNT1 A 0 a_jumpIf (health >= acs_ExecuteWithResult (S7_GetMaxHealth), "Failed")
-        TNT1 A 0 acs_ExecuteAlways (S7_MedikitScript, 0)
+        TNT1 A 0 a_jumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed")
+        TNT1 A 0 acs_NamedExecuteAlways ("S7_MedikitScript")
         stop
     Failed:
         TNT1 A 0
@@ -29,8 +29,8 @@ actor S7_Stimpack : customInventory replaces stimpack 32002 {
         STIM A -1
         stop
     Use:
-        TNT1 A 0 a_jumpIf (health >= acs_ExecuteWithResult (S7_GetMaxHealth), "Failed")
-        TNT1 A 0 acs_ExecuteAlways (S7_StimpackScript, 0)
+        TNT1 A 0 a_jumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed")
+        TNT1 A 0 acs_NamedExecuteAlways ("S7_StimpackScript")
         stop
     Failed:
         TNT1 A 0

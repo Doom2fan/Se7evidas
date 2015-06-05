@@ -1,0 +1,59 @@
+actor S7_AMGMag : ammo {
+    inventory.MaxAmount 41
+    ammo.BackpackMaxAmount 41
+    +ignoreSkill
+}
+
+actor S7_AMG : S7_BaseWeapon replaces superShotgun 30003 {
+    inventory.PickupMessage "$AMG"
+    tag "$AMG"
+    weapon.AmmoType1 "S7_AMGMag"
+    weapon.AmmoType2 "S7_Clip"
+    weapon.AmmoUse 1
+    weapon.AmmoGive 12
+    states {
+    Spawn:
+        AMGG Z -1
+        stop
+    
+    Ready:
+    Ready2:
+        TNT1 A 0 a_jumpIfInventory ("S7_Reloading", 1, "Reload")
+        TNT1 A 0 a_jumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 a_takeInventory ("S7_ChangeFireMode", 1)
+        AMGG A 1 a_weaponReady
+        loop
+    
+    Fire:
+        goto Ready2
+    
+    DryFire:
+        TNT1 A 0 a_playSound ("Weapons/Misc/Dryfire", 7)
+        AMGG A 3
+    
+    Reload:
+        TNT1 A 0 a_clearRefire
+        TNT1 A 0 a_takeInventory ("S7_Reloading", 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_AMGMag", 0, "Ready2")
+        TNT1 A 0 a_jumpIfInventory ("S7_Clip", 1, "TrueReload")
+        goto Ready2
+    TrueReload:
+        TNT1 A 0 a_jumpIfInventory ("S7_AMGMag", 0, "ReloadFinish")
+        TNT1 A 0 a_jumpIfInventory ("S7_Clip", 1, 1)
+        goto ReloadFinish
+        TNT1 A 0 a_giveInventory ("S7_AMGMag", 1)
+        TNT1 A 0 a_takeInventory ("S7_Clip", 1)
+        loop
+    ReloadFinish:
+        AMGR ABC 3
+        TNT1 A 0 a_playSound ("Weapons/AMG/Out", CHAN_Weapon)
+        AMGR DEFGH 3
+        AMGR I 3
+        TNT1 A 0 a_playSound ("Weapons/AMG/In", CHAN_Weapon)
+        AMGR JK 3
+        TNT1 A 0 a_playSound ("Weapons/AMG/Tap", CHAN_Weapon)
+        AMGR LMN 3
+        AMGG A 3
+        goto Ready2
+    }
+}

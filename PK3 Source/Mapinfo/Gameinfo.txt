@@ -15,4 +15,5 @@ gameinfo {
     gibFactor = 0.5
     dimcolor = "00 33 CC"
     dimamount = 0.2
+    playerClasses = "S7_ScoutPlayer"
 }

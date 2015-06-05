@@ -97,12 +97,12 @@ function int shopSystem_BuyStuff (str inventory, int price, int amount) {
     int cash = checkInventory ("Energy");
     
     if (checkInventory (inventory) >= checkInventoryMax (inventory)) {
-        ACS_Execute (S7_ShopSystem_NoSpace, 0);
+        acs_NamedExecuteAlways ("S7_ShopSystem_NoSpace", 0);
         
         return -1;
     } else {
         if (cash < price) {
-            ACS_Execute (S7_ShopSystem_NoCash, 0);
+            acs_NamedExecuteAlways ("S7_ShopSystem_NoCash", 0);
             
             return -2;
         } else {
@@ -198,7 +198,7 @@ script S7_ShopSystem (void) {
 
         if (CurrentPage == 0) { // Main
             if (shopSystem_BasicButton ("M_BACK_D", "M_BACK_D", 8, 6, 8, 6, BACKBUTTON) == 1)
-                ACS_Execute (S7_ShopSystem_ToggleShopSystem, 0);
+                acs_NamedExecuteAlways ("S7_ShopSystem_ToggleShopSystem", 0);
             
             if (Counter < 1) {
                 if (shopSystem_BasicButton ("Graphics/ShopSystem/Runes.png", "Graphics/ShopSystem/RunesClicked.png", 394, 60, 50, 50, SHOPBUTTONS) == 1) {
@@ -251,7 +251,7 @@ script S7_ShopSystem_ToggleShopSystem (void) NET {
         mouseY [PlayerNumber ()] = SCREEN_HEIGHT / 2;
         setFont ("Graphics/ShopSystem/Background.png");
         hudMessage (s:"A"; HUDMSG_PLAIN, SHOPBACKGROUNDID, CR_UNTRANSLATED, 0.1, 0.1, 0.0);
-        ACS_Execute (S7_ShopSystem, 0);
+        acs_NamedExecuteAlways ("S7_ShopSystem", 0);
         delay (1);
         setPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
         terminate;

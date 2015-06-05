@@ -1,36 +1,36 @@
 sprite RPTMB0, 191, 124 {
     offset -21, -101
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTMC0, 191, 124 {
     offset -70, -80
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTMD0, 191, 124 {
     offset -110, -63
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTME0, 191, 124 {
     offset -140, -63
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTMF0, 191, 124 {
     offset -180, -63
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTMG0, 191, 124 {
     offset -230, -93
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTMH0, 191, 124 {
     offset -260, -123
-    patch RPTMA0, -30, 0
+    patch RPTMA0, 0, 0
 }
 
 sprite RPTRA0, 320, 200 {

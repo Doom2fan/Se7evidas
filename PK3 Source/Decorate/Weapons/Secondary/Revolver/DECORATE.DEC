@@ -61,6 +61,12 @@ actor S7_Revolver : S7_BaseWeapon {
         TNT1 A 0 a_playSound ("Weapons/Revolver/Open", CHAN_Weapon)
         REVR ABCDEFG 1
         TNT1 A 0 a_playSound ("Weapons/Revolver/Eject", CHAN_Weapon)
+        TNT1 A 0 a_fireCustomMissile ("S7_RevolverCasingSpawn", 0, 0, 8, -2)
+        TNT1 A 0 a_fireCustomMissile ("S7_RevolverCasingSpawn", 0, 0, 9, -2)
+        TNT1 A 0 a_fireCustomMissile ("S7_RevolverCasingSpawn", 0, 0, 10, -2)
+        TNT1 A 0 a_fireCustomMissile ("S7_RevolverCasingSpawn", 0, 0, 8, -3)
+        TNT1 A 0 a_fireCustomMissile ("S7_RevolverCasingSpawn", 0, 0, 9, -3)
+        TNT1 A 0 a_fireCustomMissile ("S7_RevolverCasingSpawn", 0, 0, 10, -3)
         REVR HIJKLMNOPQR 1
         TNT1 A 0 a_playSound ("Weapons/Revolver/In", CHAN_Weapon)
         REVR STUV 1
