@@ -1,7 +1,7 @@
 [default enu en]
 /** Primary Weapons **/
 AMG                             = "ShadowFyre A28 Assault Rifle (7.62x39mm) \"Mars\"";
-SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun (12ga) \"Lucifer\"";
+SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun (20ga) \"Lucifer\"";
 IONCANNON                       = "Thor Inc. Prototype GTX-2 Ion Cannon Mk V \"Mjolnir\"";
 
 /** Secondary Weapons **/
