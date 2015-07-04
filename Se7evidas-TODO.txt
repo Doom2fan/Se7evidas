@@ -1,6 +1,8 @@
-*** High priority ***
-- Add more weapons.
-- Convert inventory hacks to uservars.
-- Shop system.
-- Fucking monsters. (Maybe literally too...)
-- Storage system.
+TODO: (in no particular order)
+1. Add more weapons
+2. Convert inventory hacks to uservars
+3. Shop system
+4. Fucking monsters (Maybe literally too...)
+5. Storage system
+6. Grenades
+7. Player customizable weapon slots
