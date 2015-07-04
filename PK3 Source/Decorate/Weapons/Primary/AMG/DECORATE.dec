@@ -4,7 +4,7 @@ actor S7_AMGMag : ammo {
     +ignoreSkill
 }
 
-actor S7_AMG : S7_BaseWeapon replaces superShotgun 30003 {
+actor S7_AMG : S7_BaseWeapon 30002 {
     inventory.PickupMessage "$AMG"
     tag "$AMG"
     weapon.AmmoType1 "S7_AMGMag"

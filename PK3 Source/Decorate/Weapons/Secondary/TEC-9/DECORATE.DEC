@@ -7,7 +7,7 @@ actor S7_TEC9Clip : ammo {
 actor S7_TEC9_Flash : counter { inventory.MaxAmount 2 }
 actor S7_TEC9_Burst : boolean { }
 
-actor S7_TEC9 : S7_BaseWeapon 30002 {
+actor S7_TEC9 : S7_BaseWeapon {
     inventory.PickupMessage "$TEC9"
     tag "$TEC9"
     weapon.AmmoType1 "S7_TEC9Clip"

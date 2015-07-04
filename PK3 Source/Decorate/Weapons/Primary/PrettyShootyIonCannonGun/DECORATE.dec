@@ -1,4 +1,4 @@
-actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
+actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
     inventory.PickupMessage "$IONCANNON"
     tag "$IONCANNON"
     //weapon.AmmoType1 "S7_PrettyShootyIonCannonGunMag"

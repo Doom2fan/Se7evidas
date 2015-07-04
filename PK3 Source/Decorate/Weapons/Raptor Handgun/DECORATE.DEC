@@ -6,7 +6,7 @@ actor S7_RaptorClip : ammo {
 
 actor S7_RaptorRefire : boolean { }
 
-actor S7_Raptor : S7_BaseWeapon 30000 {
+actor S7_Raptor : S7_BaseWeapon {
     //$Category Se7evidas - Weapons
     //$Title Raptor
     //$Sprite RPTPA0
