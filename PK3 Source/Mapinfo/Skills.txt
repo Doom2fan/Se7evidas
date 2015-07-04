@@ -6,7 +6,7 @@ skill S7_Baby {
     spawnFilter = Baby
     name = "$SKILLS_BABY"
     mustConfirm = "$SKILLS_BABYTEXT"
-    key = "H"
+    key = "I"
 }
 
 skill S7_Easy {
@@ -14,22 +14,30 @@ skill S7_Easy {
     spawnFilter = Easy
     name = "$SKILLS_EASY"
     mustConfirm = "$SKILLS_EASYTEXT"
-    key = "P"
+    key = "G"
 }
 
 skill S7_Normal {
     spawnFilter = Normal
     name = "$SKILLS_NORMAL"
     mustConfirm = "$SKILLS_NORMALTEXT"
-    key = "D"
+    key = "B"
+}
+
+skill S7_Hard {
+    spawnFilter = Hard
+    name = "$SKILLS_HARD"
+    mustConfirm = "$SKILLS_HARDTEXT"
+    defaultSkill
+    key = "H"
 }
 
 skill S7_Harder {
     spawnFilter = Hard
     name = "$SKILLS_HARDER"
     mustConfirm = "$SKILLS_HARDERTEXT"
-    defaultSkill
-    key = "F"
+    damageFactor = 1.25
+    key = "I"
 }
 
 skill S7_VeryHard {
@@ -37,7 +45,7 @@ skill S7_VeryHard {
     spawnFilter = Hard
     name = "$SKILLS_HARDSPEED"
     mustConfirm = "$SKILLS_HARDSPEEDTEXT"
-    key = "L"
+    key = "R"
 }
 
 skill S7_Nightmare {
@@ -47,7 +55,7 @@ skill S7_Nightmare {
     spawnFilter = Nightmare
     name = "$SKILLS_NIGHTMARE"
     mustConfirm = "$SKILLS_NIGHTMARETEXT"
-    key = "B"
+    key = "E"
 }
 
 skill S7_Brutal {
@@ -60,7 +68,7 @@ skill S7_Brutal {
     spawnFilter = Nightmare
     name = "$SKILLS_SE7EVIDAS"
     mustConfirm = "$SKILLS_SE7EVIDASTEXT"
-    key = "I"
+    key = "S"
 }
 
 Skill S7_IAmGod {
