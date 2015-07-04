@@ -8,7 +8,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     inventory.PickupMessage "$AMG"
     tag "$AMG"
     weapon.AmmoType1 "S7_AMGMag"
-    weapon.AmmoType2 "S7_Clip"
+    weapon.AmmoType2 "S7_762x39Cartridges"
     weapon.AmmoUse 1
     weapon.AmmoGive 12
     states {
@@ -43,14 +43,14 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     Reload:
         TNT1 A 0 a_takeInventory ("S7_Reloading", 1)
         TNT1 A 0 a_jumpIfInventory ("S7_AMGMag", 0, "Ready2")
-        TNT1 A 0 a_jumpIfInventory ("S7_Clip", 1, "TrueReload")
+        TNT1 A 0 a_jumpIfInventory ("S7_762x39Cartridges", 1, "TrueReload")
         goto Ready2
     TrueReload:
         TNT1 A 0 a_jumpIfInventory ("S7_AMGMag", 0, "ReloadFinish")
-        TNT1 A 0 a_jumpIfInventory ("S7_Clip", 1, 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_762x39Cartridges", 1, 1)
         goto ReloadFinish
         TNT1 A 0 a_giveInventory ("S7_AMGMag", 1)
-        TNT1 A 0 a_takeInventory ("S7_Clip", 1)
+        TNT1 A 0 a_takeInventory ("S7_762x39Cartridges", 1)
         loop
     ReloadFinish:
         AMGG A 2

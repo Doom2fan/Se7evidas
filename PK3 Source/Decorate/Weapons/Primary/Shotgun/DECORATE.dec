@@ -15,7 +15,7 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
     inventory.PickupMessage "$SHOTGUN"
     tag "$SHOTGUN"
     weapon.AmmoType1 "S7_ShotgunMag"
-    weapon.AmmoType2 "S7_Shells"
+    weapon.AmmoType2 "S7_20gaShells"
     weapon.AmmoUse 0
     weapon.AmmoGive 12
     states {
@@ -110,7 +110,7 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A 0 a_jumpIfInventory ("S7_Reloading", 1, 1)
         goto DontReload
         TNT1 A 0 a_jumpIfInventory ("S7_ShotgunMag", 0, "DontReload")
-        TNT1 A 0 a_jumpIfInventory ("S7_Shells", 2, 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_20gaShells", 2, 1)
         goto DontReload
         SSGR A 5
         TNT1 A 0 a_jumpIfInventory ("S7_ShotgunLoaded", 2, "InsertShells")
@@ -121,10 +121,10 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A 0 a_jumpIfInventory ("S7_Reloading", 1, 1)
         goto Reloaded
         TNT1 A 0 a_jumpIfInventory ("S7_ShotgunMag", 0, "Reloaded")
-        TNT1 A 0 a_jumpIfInventory ("S7_Shells", 2, 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_20gaShells", 2, 1)
         goto Reloaded
         TNT1 A 0 a_giveInventory ("S7_ShotgunMag", 2)
-        TNT1 A 0 a_takeInventory ("S7_Shells", 2)
+        TNT1 A 0 a_takeInventory ("S7_20gaShells", 2)
         TNT1 A 0 a_playSound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
         DSGR ABCCCCBA 1
         TNT1 A 0 a_playSound ("Weapons/Shotgun/ShellIn", 5)
@@ -135,10 +135,10 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A 0 a_jumpIfInventory ("S7_Reloading", 1, 1)
         goto Reloaded
         TNT1 A 0 a_jumpIfInventory ("S7_ShotgunMag", 0, "Reloaded")
-        TNT1 A 0 a_jumpIfInventory ("S7_Shells", 2, 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_20gaShells", 2, 1)
         goto Reloaded
         TNT1 A 0 a_giveInventory ("S7_ShotgunMag", 2)
-        TNT1 A 0 a_takeInventory ("S7_Shells", 2)
+        TNT1 A 0 a_takeInventory ("S7_20gaShells", 2)
         TNT1 A 0 a_playSound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
         DSGR ABCCCCBA 1
         TNT1 A 0 a_playSound ("Weapons/Shotgun/ShellIn", 5)
@@ -153,8 +153,8 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
     
     InsertShells.Pump:
         TNT1 A 0 a_jumpIfInventory ("S7_ShotgunMag", 2, "InsertShells.PumpLoad")
-        TNT1 A 0 a_jumpIfInventory ("S7_Shells", 0, "InsertShells.Pump2")
-        TNT1 A 0 a_giveInventory ("S7_Shells", 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_20gaShells", 0, "InsertShells.Pump2")
+        TNT1 A 0 a_giveInventory ("S7_20gaShells", 1)
     
     InsertShells.Pump2:
         

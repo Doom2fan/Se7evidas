@@ -12,7 +12,7 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     // Give Items/Weapons/Ammo
     player.StartItem S7_TEC9
     player.StartItem S7_TEC9Clip, 32
-    player.StartItem S7_Clip, 64
+    player.StartItem S7_9mmCartridges, 64
     player.StartItem S7_MeleeKey
     player.StartItem S7_ReloadKey
     player.StartItem S7_FiringModeKey

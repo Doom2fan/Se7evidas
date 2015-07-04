@@ -13,7 +13,7 @@ actor S7_Raptor : S7_BaseWeapon {
     inventory.PickupMessage "$RAPTORHANDGUN"
     tag "$RAPTORHANDGUN"
     weapon.AmmoType1 "S7_RaptorClip"
-    weapon.AmmoType2 "S7_Clip"
+    weapon.AmmoType2 "S7_9mmCartridges"
     weapon.AmmoUse 1
     weapon.AmmoGive 12
     states {
@@ -83,15 +83,15 @@ actor S7_Raptor : S7_BaseWeapon {
     Reload:
         TNT1 A 0 a_takeInventory ("S7_Reloading", 1)
         TNT1 A 0 a_jumpIfInventory ("S7_RaptorClip", 0, "Ready2")
-        TNT1 A 0 a_jumpIfInventory ("S7_Clip", 1, "TrueReload")
+        TNT1 A 0 a_jumpIfInventory ("S7_9mmCartridges", 1, "TrueReload")
         goto Ready2
     TrueReload:
         TNT1 A 0 a_takeInventory ("S7_RaptorRefire", 1)
         TNT1 A 0 a_jumpIfInventory ("S7_RaptorClip", 0, "ReloadFinish")
-        TNT1 A 0 a_jumpIfInventory ("S7_Clip", 1, 1)
+        TNT1 A 0 a_jumpIfInventory ("S7_9mmCartridges", 1, 1)
         goto ReloadFinish
         TNT1 A 0 a_giveInventory ("S7_RaptorClip", 1)
-        TNT1 A 0 a_takeInventory ("S7_Clip", 1)
+        TNT1 A 0 a_takeInventory ("S7_9mmCartridges", 1)
         loop
     ReloadFinish:
         RPTR FGGH 1
