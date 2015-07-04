@@ -50,12 +50,13 @@ actor S7_Shotgun : S7_BaseWeapon replaces superShotgun 30001 {
         TNT1 A 0 a_playSound ("Weapons/Shotgun/Fire", CHAN_Weapon)
         TNT1 A 0 a_alertMonsters
         TNT1 A 0 a_takeInventory ("S7_ShotgunLoaded", 2)
-        SSGF AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
-        SSGF AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
-        SSGF AAAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 2, -1, 0, fRandom (-4.3, 4.3))
-        SSGF AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 3, -1, 0, fRandom (-4.3, 4.3))
-        SSGF A 2 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 3, -1, 0, fRandom (-4.3, 4.3))
-        SSGF EFG 1 a_setPitch (pitch - 1.5)
+        TNT1 AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
+        TNT1 AAAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 2, -1, 0, fRandom (-4.3, 4.3))
+        TNT1 AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 3, -1, 0, fRandom (-4.3, 4.3))
+        TNT1 A 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 3, -1, 0, fRandom (-4.3, 4.3))
+        SSGF AAE 1 a_setPitch (pitch - 1.5)
+        SSGF FG 1
         SSGR A 6
         goto Ready2
     
@@ -67,10 +68,11 @@ actor S7_Shotgun : S7_BaseWeapon replaces superShotgun 30001 {
         TNT1 A 0 a_playSound ("Weapons/Shotgun/AltFire", 5)
         TNT1 A 0 a_alertMonsters
         TNT1 A 0 a_takeInventory ("S7_ShotgunLoaded", 1)
-        SSGF BB 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
-        SSGF BBBBBBBB 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 2, -1, 0, fRandom (-4.3, 4.3))
-        SSGF B 2 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 2, -1, 0, fRandom (-4.3, 4.3))
-        SSGF FG 1 a_setPitch (pitch - 0.75)
+        TNT1 AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
+        TNT1 AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 2, -1, 0, fRandom (-4.3, 4.3))
+        TNT1 A 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 2, -1, 0, fRandom (-4.3, 4.3))
+        SSGF BB 1 a_setPitch (pitch - 0.75)
+        SSGF FG 1
         SSGR A 3
         goto Ready2
     
@@ -78,10 +80,11 @@ actor S7_Shotgun : S7_BaseWeapon replaces superShotgun 30001 {
         TNT1 A 0 a_playSound ("Weapons/Shotgun/AltFire", 6)
         TNT1 A 0 a_alertMonsters
         TNT1 A 0 a_takeInventory ("S7_ShotgunLoaded", 1)
-        SSGF CC 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
-        SSGF CCCCCCCC 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 3, -1, 0, fRandom (-4.3, 4.3))
-        SSGF C 2 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 3, -1, 0, fRandom (-4.3, 4.3))
-        SSGF FG 1 a_setPitch (pitch - 0.75)
+        TNT1 AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 3, -1, 0, fRandom (-4.3, 4.3))
+        TNT1 A 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 3, -1, 0, fRandom (-4.3, 4.3))
+        SSGF CC 1 a_setPitch (pitch - 0.75)
+        SSGF FG 1
         SSGR A 3
         goto Ready2
     

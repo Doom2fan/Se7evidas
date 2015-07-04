@@ -34,16 +34,16 @@ script "S7_WaterScript" ENTER {
 }
 
 script "S7_Keys" ENTER {
-	// Not needed or desired in TitleMaps.
-	if (gameType () == Game_Title_Map)
-		terminate;
-	
-	while (TRUE) {
-		if (keyPressed (BT_RELOAD))
-			useInventory ("S7_ReloadKey");
-		
-		delay (1);
-	}
+    // Not needed or desired in TitleMaps.
+    if (gameType () == Game_Title_Map)
+        terminate;
+    
+    while (TRUE) {
+        if (keyPressed (BT_RELOAD))
+            useInventory ("S7_ReloadKey");
+        
+        delay (1);
+    }
 }
 
 script "S7_BrutalDoomCompatibility" ENTER {

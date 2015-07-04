@@ -181,7 +181,11 @@ actor S7_ReloadKey : customInventory {
     +inventory.Undroppable -inventory.InvBar
     states {
     Use:
+        TNT1 A 0 a_jumpIfInventory ("S7_Reloading", 1, "Take")
         TNT1 A 0 a_giveInventory ("S7_Reloading", 1)
+        fail
+    Take:
+        TNT1 A 0 a_takeInventory ("S7_Reloading", 1)
         fail
     }
 }
