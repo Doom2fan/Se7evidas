@@ -6,3 +6,4 @@ Weapon sprites by ScubaSteve, Uboa
 Edited by Alex_Mercer
 
 Sounds:
+Fire and mag (in, out and tap) by NightmareMutant

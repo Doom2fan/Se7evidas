@@ -1,0 +1,133 @@
+sprite AMGGD0, 320, 200 {
+    patch AMGGA0, 141, 70
+}
+
+sprite AMGRA0, 320, 200 {
+    patch AMGGA0, 143, 64
+}
+
+sprite AMGRB0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 116, 90
+    patch "graphics/Weapons/AMG/Frame1.png", 153, 51
+}
+
+sprite AMGRC0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 123, 108
+    patch "graphics/Weapons/AMG/Frame1.png", 157, 51
+}
+
+sprite AMGRD0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 119, 120
+    patch "graphics/Weapons/AMG/Frame4.png", 173, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 175, 16
+}
+
+sprite AMGRE0, 320, 200 {
+    patch "graphics/Hands/Hand-002.png", 131, 124
+    patch "graphics/Weapons/AMG/Frame4.png", 177, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRF0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame3.png", 141, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRG0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame3.png", 133, 111
+    patch "graphics/Weapons/AMG/Frame2.png", 177, 18
+}
+
+sprite AMGRH0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame3.png", 113, 124
+    patch "graphics/Weapons/AMG/Frame2.png", 175, 20
+}
+
+sprite AMGRI0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame3.png", 91, 138
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRJ0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame3.png", 71, 149
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRK0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame3.png", 46, 159
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRL0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRM0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame5.png", 70, 155
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRN0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame5.png", 89, 139
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRO0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame5.png", 111, 126
+    patch "graphics/Weapons/AMG/Frame2.png", 173, 22
+}
+
+sprite AMGRP0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame5.png", 131, 113
+    patch "graphics/Weapons/AMG/Frame2.png", 175, 20
+}
+
+sprite AMGRQ0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame5.png", 139, 105
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRR0, 320, 200 {
+    patch "graphics/Hands/Hand-002.png", 131, 124
+    patch "graphics/Weapons/AMG/Frame6.png", 175, 105
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRS0, 320, 200 {
+    patch "graphics/Weapons/AMG/Frame5.png", 141, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRT0, 320, 200 {
+    patch "graphics/Hands/Hand-002.png", 131, 124
+    patch "graphics/Weapons/AMG/Frame6.png", 177, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRU0, 320, 200 {
+    patch "graphics/Hands/Hand-002.png", 122, 106
+    patch "graphics/Weapons/AMG/Frame6.png", 177, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRV0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 110, 89
+    patch "graphics/Weapons/AMG/Frame6.png", 177, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 179, 16
+}
+
+sprite AMGRW0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 123, 62
+    patch "graphics/Weapons/AMG/Frame6.png", 173, 103
+    patch "graphics/Weapons/AMG/Frame2.png", 175, 16
+}
+
+sprite AMGRX0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 121, 79
+    patch "graphics/Weapons/AMG/Frame7.png", 157, 51
+}
+
+sprite AMGRY0, 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 117, 79
+    patch "graphics/Weapons/AMG/Frame7.png", 153, 51
+}
