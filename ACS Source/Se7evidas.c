@@ -3,6 +3,7 @@
 
 // Defines
 #LIBDEFINE MAXPLAYERS 64
+#DEFINE PLN PlayerNumber()
 
 // Includes
 #INCLUDE "commonFuncs.h"
@@ -14,19 +15,15 @@
 #INCLUDE "Se7evidas/HUD.h"
 #INCLUDE "Se7evidas/Bank System.h"
 
-// Defines
-
 // Highest script num ID: 921
 // Highest global var ID: 5
 
-#LIBDEFINE S7_Enter 906
-script S7_Enter ENTER {
+script "S7_Enter" ENTER {
     setActorProperty (0, APROP_SPEED, 1.0);
     S7_SR_StaminaEmpty [playerNumber ()] = 0;
 }
 
-#LIBDEFINE S7_Respawn 907
-script S7_Respawn RESPAWN {
+script "S7_Respawn" RESPAWN {
     setActorProperty (0, APROP_SPEED, 1.0);
     S7_SR_StaminaEmpty [playerNumber ()] = 0;
 }

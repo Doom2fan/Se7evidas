@@ -98,7 +98,8 @@ actor S7_TEC9 : S7_BaseWeapon {
     DryFire:
         TNT1 A 0 a_playSound ("Weapons/Misc/Dryfire", 7)
         TEC9 A 3
-        goto Reload
+        TNT1 A 0 a_jumpIf (callACS ("S7_GetAutoReloading"), "Reload")
+        goto Ready2
     Reload:
         TNT1 A 0 a_clearRefire
         TNT1 A 0 a_takeInventory ("S7_Reloading", 1)

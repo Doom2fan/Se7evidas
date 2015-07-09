@@ -1,0 +1,7 @@
+// Server CVars
+
+// User CVars
+user bool S7_MsgsOn                 = true;
+user bool S7_LogLVLUpMsgs           = true;
+user bool S7_AutoReloading          = false;
+user bool S7_HeartbeatsOn           = true;

@@ -28,7 +28,7 @@ script "S7_WaterScript" ENTER {
         else if (getActorProperty(0, APROP_WATERLEVEL) <= 2) // if not underwater
             takeInventory ("S7_IsUnderwater", 1); // take S7_IsUnderwater
             
-        setInventory ("S7_AirTime", getAirSupply (playerNumber ()));
+        setInventory ("S7_AirTime", getAirSupply (PLN));
         delay (1);
     }
 }
@@ -46,7 +46,7 @@ script "S7_Keys" ENTER {
     }
 }
 
-script "S7_BrutalDoomCompatibility" ENTER {
+script "S7_BrutalDoomCompatibility" OPEN {
     // Not needed or desired in TitleMaps.
     if (gameType () == game_Title_Map)
         terminate;
@@ -135,7 +135,7 @@ script S7_GetCVar (int CVar) {
 }
 #LIBDEFINE S7_GetUserCVar 917
 script S7_GetUserCVar (int CVar) {
-    int CVarValue = GetUserCVar (playerNumber (), S7_CVars [CVar]);
+    int CVarValue = GetUserCVar (PLN, S7_CVars [CVar]);
     if (CVar > S7_CVars_Count - 1 || CVar < 0)
         setResultValue (-1);
     setResultValue (CVarValue);
@@ -143,7 +143,7 @@ script S7_GetUserCVar (int CVar) {
 
 #LIBDEFINE S7_GetCVarClientside 918
 script S7_GetCVarClientside (int CVar) CLIENTSIDE {
-    int CVarValue = GetUserCVar (playerNumber (), S7_CVars [CVar]);
+    int CVarValue = GetUserCVar (PLN, S7_CVars [CVar]);
     if (CVar > S7_CVars_Count - 1 || CVar < 0)
         setResultValue (-1);
     setResultValue (CVarValue);

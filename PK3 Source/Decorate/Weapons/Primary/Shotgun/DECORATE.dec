@@ -103,6 +103,8 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
     DryFire:
         TNT1 A 0 a_playSound ("Weapons/Misc/Dryfire", 7)
         SSGR A 3
+        TNT1 A 0 a_jumpIf (callACS ("S7_GetAutoReloading"), "DryReload")
+        goto Ready2
     
     DryReload:
         TNT1 A 0 a_giveInventory ("S7_Reloading", 1)

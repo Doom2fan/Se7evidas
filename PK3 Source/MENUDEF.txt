@@ -33,10 +33,16 @@ listMenu "MainMenu" {
 
 optionMenu "S7Settings" {
     title "SE7EVIDAS"
+    staticText "Clientside Options"
+    staticText " "
+    staticText " "
     staticText "Visual Options"
-    option "Mod messages on",                                                                    "S7_MsgsOn",       "OnOff"
-    option "Log level up messages",                                                              "S7_LogLVLUpMsgs", "OnOff"
+    option "Mod messages on",                                                                       "S7_MsgsOn",                "OnOff"
+    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",          "OnOff"
+    staticText " "
+    staticText "Gameplay Options"
+    option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
     staticText " "
     staticText "Audio Options"
-    option "Heartbeats on",                                                                      "S7_HeartbeatsOn", "OnOff"
+    option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
 }

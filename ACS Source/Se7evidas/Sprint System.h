@@ -7,28 +7,28 @@ script "S7_SprintSystem" ENTER {
     
     int tics = 0;
     while (TRUE) {
-        if (checkWeapon ("S7_SprintWeapon") && S7_SS_Sprinting [playerNumber ()] == 0) {
-            setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [playerNumber ()]);
-            S7_SS_Sprinting [playerNumber ()] = 0;
+        if (checkWeapon ("S7_SprintWeapon") && S7_SS_Sprinting [PLN] == 0) {
+            setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [PLN]);
+            S7_SS_Sprinting [PLN] = 0;
             tics = 0;
             disableWeapon ("S7_SprintWeapon", "S7_Sprinting");
         }
         if (keyDown (BT_USER1) &&
-            S7_SS_Sprinting [playerNumber ()] == 0 &&
+            S7_SS_Sprinting [PLN] == 0 &&
             checkInventory ("S7_Stamina") >= 5 && !CheckInventory ("S7_Dying") &&
-            !S7_SR_StaminaEmpty [playerNumber ()]
+            !S7_SR_StaminaEmpty [PLN]
             ) {
-            S7_SS_Sprinting [playerNumber ()] = 1;
-            S7_SS_OldSpeed [playerNumber ()] = getActorProperty (0, APROP_SPEED);
+            S7_SS_Sprinting [PLN] = 1;
+            S7_SS_OldSpeed [PLN] = getActorProperty (0, APROP_SPEED);
             disableWeapon ("S7_SprintWeapon", "S7_Sprinting");
         }
-        if (keyUp (BT_USER1) && S7_SS_Sprinting [playerNumber ()] && !S7_SR_StaminaEmpty [playerNumber ()]) {
-            setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [playerNumber ()]);
-            S7_SS_Sprinting [playerNumber ()] = 0;
+        if (keyUp (BT_USER1) && S7_SS_Sprinting [PLN] && !S7_SR_StaminaEmpty [PLN]) {
+            setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [PLN]);
+            S7_SS_Sprinting [PLN] = 0;
             tics = 0;
             disableWeapon ("S7_SprintWeapon", "S7_Sprinting");
         }
-        if (checkInventory ("S7_Sprinting") && S7_SS_Sprinting [playerNumber ()]) {
+        if (checkInventory ("S7_Sprinting") && S7_SS_Sprinting [PLN]) {
             if (checkInventory ("S7_Stamina") >= 5) {
                 if (checkInventory ("S7_Sprinting") && tics >= 5) {
                     tics = 0;
@@ -36,9 +36,9 @@ script "S7_SprintSystem" ENTER {
                         takeInventory ("S7_Stamina", 5);
                 }
                 if (checkInventory ("S7_Stamina") < 5 || CheckInventory ("S7_Dying")) {
-                    setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [playerNumber ()]);
-                    S7_SS_Sprinting [playerNumber ()] = 0;
-                    S7_SR_StaminaEmpty [playerNumber ()] = 1;
+                    setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [PLN]);
+                    S7_SS_Sprinting [PLN] = 0;
+                    S7_SR_StaminaEmpty [PLN] = 1;
                     disableWeapon ("S7_SprintWeapon", "S7_Sprinting");
                     restart;
                 }
@@ -47,13 +47,13 @@ script "S7_SprintSystem" ENTER {
                 else if (checkInventory ("S7_Sprinting") && !((abs (getPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (getPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
                     setActorProperty (0, APROP_SPEED, 6.0);
                 else if (!checkInventory ("S7_Sprinting"))
-                    setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [playerNumber ()]);
+                    setActorProperty (0, APROP_SPEED, S7_SS_OldSpeed [PLN]);
             }
         }
         
         delay (1);
         
-        if (S7_SS_Sprinting [playerNumber ()])
+        if (S7_SS_Sprinting [PLN])
             tics++;
     }
 }

@@ -18,8 +18,8 @@ function str classifyInventory (int index) {
 
 /*script "retard" (int HUE, int HURR, int DURR, int BURR) {
     if (HUE == 1) {
-        print (s:classifyInventory (readInventory (playerNumber (), HURR, DURR)));
+        print (s:classifyInventory (readInventory (PLN, HURR, DURR)));
     } else {
-        writeInventory (playerNumber (), HURR, DURR, BURR);
+        writeInventory (PLN, HURR, DURR, BURR);
     }
 }*/

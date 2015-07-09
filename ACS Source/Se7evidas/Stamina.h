@@ -7,7 +7,6 @@ script "S7_StaminaRegeneration" ENTER {
     if (gameType () == game_Title_Map)
         terminate;
     
-    int pln = playerNumber ();
     int staminaTics = 0;
     int staminaAmount, health;
     
@@ -25,8 +24,8 @@ script "S7_StaminaRegeneration" ENTER {
         }
         if (staminaTics > 0 && staminaAmount == MAXSTAMINA || staminaTics > 0 && checkWeapon ("S7_SprintWeapon"))
             staminaTics = 0;            
-        if (S7_SR_StaminaEmpty [playerNumber ()] == 1 && staminaAmount >= 50)
-            S7_SR_StaminaEmpty [playerNumber ()] = 0;
+        if (S7_SR_StaminaEmpty [PLN] == 1 && staminaAmount >= 50)
+            S7_SR_StaminaEmpty [PLN] = 0;
         
         delay(1);
         if (staminaAmount != MAXSTAMINA)

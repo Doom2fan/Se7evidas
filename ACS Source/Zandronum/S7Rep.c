@@ -3,6 +3,7 @@
 
 // Defines
 #LIBDEFINE MAXPLAYERS 64
+#DEFINE CPLN consolePlayerNumber()
 
 // Includes
 #INCLUDE "../commonFuncs.h"

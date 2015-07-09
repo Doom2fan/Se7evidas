@@ -17,12 +17,12 @@ actor S7_CasingBase {
     +noTeleport +forceXYBillboard -noGravity
     states {
     Delaying:
-        "----" A 0 a_jumpIf (acs_namedexecutewithresult ("S7_GetCasingDelay") == 1, "Delay.Shorter")
-        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 2, "Delay.EvenShorter")
-        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 3, "Delay.ShortAsFuck")
-        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 4, "Delay.DearLordDoYouHaveAFuckingToaster")
-        "----" A 0 a_jumpIf (callACS ("S7_GetCasingDelay") == 5, "Delay.MeinFuckingGott")
-        "----" A 0 a_jumpIf (acs_namedexecutewithresult ("S7_GetCasingDelay") == 6, "Delay.DearLordGoBuyANewComputerRightMotherfuckingNow")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsStayTime") == 1, "Delay.Shorter")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsStayTime") == 2, "Delay.EvenShorter")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsStayTime") == 3, "Delay.ShortAsFuck")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsStayTime") == 4, "Delay.DearLordDoYouHaveAFuckingToaster")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsStayTime") == 5, "Delay.MeinFuckingGott")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsStayTime") == 6, "Delay.DearLordGoBuyANewComputerRightMotherfuckingNow")
         "----" A 5000
         goto Fade
     Delay.Shorter:
@@ -45,8 +45,36 @@ actor S7_CasingBase {
         goto Fade
     
     Fade:
+    Fade.Looper:
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsFadeSpeed") == 1, "Fade.Faster")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsFadeSpeed") == 2, "Fade.EvenFaster")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsFadeSpeed") == 3, "Fade.FastAsFuck")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsFadeSpeed") == 4, "Fade.TheFlash")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsFadeSpeed") == 5, "Fade.InTheTimeItTakesForYourComputerToProcessATicThisWouldAlreadyBeGoneInANormalComputer")
+        "----" A 0 a_jumpIf (callACS ("S7_GetEffectsFadeSpeed") == 6, "Fade.DearLordGoBuyANewComputerRightMotherfuckingNow")
+        goto Fade.Normal
+    
+    Fade.Normal:
         "----" A 3 a_fadeOut (0.03)
-        loop
+        goto Fade.Looper
+    Fade.Faster:
+        "----" A 3 a_fadeOut (0.06)
+        goto Fade.Looper
+    Fade.EvenFaster:
+        "----" A 2 a_fadeOut (0.09)
+        goto Fade.Looper
+    Fade.Fasterer:
+        "----" A 1 a_fadeOut (0.12)
+        goto Fade.Looper
+    Fade.TheFlash:
+        "----" A 1 a_fadeOut (0.15)
+        goto Fade.Looper
+    Fade.InTheTimeItTakesForYourComputerToProcessATicThisWouldAlreadyBeGoneInANormalComputer:
+        "----" A 1 a_fadeOut (0.18)
+        goto Fade.Looper
+    Fade.DearLordGoBuyANewComputerRightMotherfuckingNow:
+        "----" A 1 a_fadeOut (2.0)
+        goto Fade.Looper
     }
 }
 
@@ -66,7 +94,7 @@ actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
 
 actor S7_ShellCasing : S7_CasingBase {
     seeSound "Weapons/shell"
-    scale 0.2
+    scale .2
     states {
     Spawn:
         CAS0 ABCDEFGH 2 // a_spawnItem ("S7_ShotSmokeTrail")
@@ -124,7 +152,7 @@ actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_9mmCasing : S7_CasingBase {
-    scale 0.5
+    scale .5
     seeSound "Weapons/casing"
     states {
     Spawn:
@@ -185,7 +213,7 @@ actor S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_RevolverCasing : S7_CasingBase {
-    scale 0.5
+    scale .5
     seeSound "Weapons/casing"
     states {
     Spawn:
@@ -245,7 +273,7 @@ actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_RifleCasing : S7_CasingBase {
-    scale .5
+    scale .2
     seeSound "Weapons/casing"
     states {
     Spawn:

@@ -30,7 +30,7 @@ function int getWeaponName (void) {
 function void lastWeapon (int mode) {
     int weaponNumber = 0;
     if (mode != 0) {
-        weaponNumber = S7_LastWeapon [playerNumber ()];
+        weaponNumber = S7_LastWeapon [PLN];
         if (weaponNumber < 0 || weaponNumber > S7_WEAPONMAX - 1)
             return;
         setWeapon (S7_WeaponName [weaponNumber]);
@@ -39,7 +39,7 @@ function void lastWeapon (int mode) {
         if (weaponNumber < 0 || weaponNumber > S7_WEAPONMAX - 1)
             return;
         else
-            S7_LastWeapon [playerNumber ()] = weaponNumber;
+            S7_LastWeapon [PLN] = weaponNumber;
     }
 }
 
@@ -86,4 +86,11 @@ script "S7_SynthFireAllowChange" (void) {
 
 script "S7_QuickMelee" (void) {
     disableWeapon ("S7_QuickMelee", "None");
+}
+
+script "S7_GetAutoReloading" (void) {
+    if (getUserCVar (PLN, "S7_AutoReloading") == false)
+        setResultValue (0);
+    else
+        setResultValue (1);
 }

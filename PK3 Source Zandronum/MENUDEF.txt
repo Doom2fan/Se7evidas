@@ -33,10 +33,40 @@ listMenu "MainMenu" {
 
 optionMenu "S7Settings" {
     title "SE7EVIDAS"
+    staticText "Clientside Options"
+    staticText " "
+    staticText " "
     staticText "Visual Options"
-    option "Mod messages on",                                                                    "S7_MsgsOn",       "OnOff"
-    option "Log level up messages",                                                              "S7_LogLVLUpMsgs", "OnOff"
+    option "Mod messages on",                                                                       "S7_MsgsOn",                "OnOff"
+    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",          "OnOff"
+    staticText " "
+    staticText "Gameplay Options"
+    option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
     staticText " "
     staticText "Audio Options"
-    option "Heartbeats on",                                                                      "S7_HeartbeatsOn", "OnOff"
+    option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
+    staticText " "
+    staticText "Toaster Options"
+    option "Effects stay time",                                                                     "S7_EffectStayTime",        "EffectsStayTimeOptions"
+    option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",       "EffectsFadeSpeedOptions"
+}
+
+optionValue EffectsStayTimeOptions {
+    0, "Normal (5000 tics)"
+    1, "Shorter (2500 tics)"
+    2, "Even shorter (1250 tics)"
+    3, "Short as fuck (625 tics)"
+    4, "Dear lord. Do you have a fucking toaster? (313 tics)"
+    5, "MEIN FUCKING GOTT (157 tics)"
+    6, "DEAR LORD. Go buy a new computer right-motherfucking-now. (70 tics)"
+}
+
+optionValue EffectsFadeSpeedOptions {
+    0, "Normal (.03 each 3 tics)"
+    1, "Faster (.06 each 3 tics)"
+    2, "Even faster (.09 each 2 tics)"
+    3, "Fasterer (.12 each tic)"
+    4, "The Flash (.15 each tic)"
+    5, "In the time it takes for your computer to process a tic, this would already be gone in a normal computer (.18 each tic)"
+    6, "DEAR LORD. Go buy a new computer right-motherfucking-now. (Instant)"
 }

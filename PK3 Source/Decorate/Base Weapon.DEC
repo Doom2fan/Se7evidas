@@ -1,4 +1,8 @@
 actor S7_BaseWeapon : weapon {
+    weapon.BobRangeX 0.3
+	weapon.BobRangeY 0.5
+	weapon.BobStyle InverseSmooth
+	weapon.BobSpeed 2.0
     inventory.PickupSound "misc/gunpickup"
     weapon.Kickback 100
     +weapon.Ammo_Optional +weapon.NoAutoFire +inventory.Undroppable
@@ -11,6 +15,7 @@ actor S7_BaseWeapon : weapon {
         wait
     DryFire:
         TNT1 A 0 a_playSound ("Weapons/DryFire", CHAN_Weapon)
+        TNT1 A 0 a_jumpIf (callACS ("S7_GetAutoReloading"), "Reload")
         TNT1 A 0 a_jump (256, "Ready2")
         wait
         
