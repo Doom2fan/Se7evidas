@@ -1,8 +1,8 @@
 @ECHO OFF
 SETLOCAL
 
-SET PROG_ACC="C:/Users/Chronos Ouroboros/Games/Doom/GDCC/gdcc-acc.exe"
-SET PROG_LD="C:/Users/Chronos Ouroboros/Games/Doom/GDCC/gdcc-ld.exe"
+SET PROG_ACC="./Tools/GDCC/gdcc-acc.exe"
+SET PROG_LD="./Tools/GDCC/gdcc-ld.exe"
 SET ACSSOURCE="./ACS Source"
 SET ACS_TEMP="./ACS Source/Temp"
 SET ACS_DEST="./PK3 Source/acs"
