@@ -94,3 +94,11 @@ script "S7_GetAutoReloading" (void) {
     else
         setResultValue (1);
 }
+
+script "S7_RecoilPitch" (fixed offset) { // Called like this in code: TNT1 A 0 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+    fixed oldPitch = getActorPitch (0);
+    fixed scaledoffset = scaleValueFixed (offset, -90.0, 90.0, -0.25, 0.25);
+    fixed newPitch = clamp (oldPitch - scaledoffset, -0.25, 0.25);
+    
+    setActorPitch (0, newPitch);
+}

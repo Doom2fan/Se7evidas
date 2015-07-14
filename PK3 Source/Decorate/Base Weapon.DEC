@@ -10,7 +10,7 @@ actor S7_BaseWeapon : weapon {
     states {
     QuickMelee:
         TNT1 A 0 a_takeInventory ("S7_DoMelee", 1)
-        TNT1 A 1 acs_NamedExecuteAlways ("S7_QuickMelee")
+        TNT1 A 1 acs_namedExecuteAlways ("S7_QuickMelee")
         TNT1 A 1 a_weaponReady (WRF_NoBob | WRF_NoFire)
         wait
     DryFire:

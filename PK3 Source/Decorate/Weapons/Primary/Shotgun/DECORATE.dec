@@ -55,7 +55,7 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 AAAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 2, -1, 0, fRandom (-4.3, 4.3))
         TNT1 AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 3, -1, 0, fRandom (-4.3, 4.3))
         TNT1 A 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 3, -1, 0, fRandom (-4.3, 4.3))
-        SSGF AAE 1 a_setPitch (pitch - 1.5)
+        SSGF AAE 1 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 1.5 * 65536)
         SSGF FG 1
         SSGR A 6
         goto Ready2
@@ -71,7 +71,7 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
         TNT1 AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 2, -1, 0, fRandom (-4.3, 4.3))
         TNT1 A 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 2, -1, 0, fRandom (-4.3, 4.3))
-        SSGF BB 1 a_setPitch (pitch - 0.75)
+        SSGF BB 1 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.75 * 65536)
         SSGF FG 1
         SSGR A 3
         goto Ready2
@@ -83,7 +83,7 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 AA 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
         TNT1 AAAAAAAA 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 0, 3, -1, 0, fRandom (-4.3, 4.3))
         TNT1 A 0 a_fireCustomMissile ("S7_SSGTracer", fRandom (-3.8, 3.8), 1, 3, -1, 0, fRandom (-4.3, 4.3))
-        SSGF CC 1 a_setPitch (pitch - 0.75)
+        SSGF CC 1 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.75 * 65536)
         SSGF FG 1
         SSGR A 3
         goto Ready2

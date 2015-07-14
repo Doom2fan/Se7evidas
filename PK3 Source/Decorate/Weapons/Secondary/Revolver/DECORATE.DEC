@@ -36,8 +36,8 @@ actor S7_Revolver : S7_BaseWeapon {
         TNT1 A 0 a_alertMonsters
         TNT1 A 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 5)
         TNT1 A 0 a_fireCustomMissile ("S7_RevolverTracer", fRandom (-1.8, 1.8), 1, 5, 3, 0, fRandom (-2.7, 2.7))
-        RVLV B 1 bright a_setPitch (pitch - 0.8)
-        RVLV C 1 a_setPitch (pitch - 0.8)
+        RVLV B 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.8 * 65536)
+        RVLV C 1 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.8 * 65536)
         RVLV DEF 1
         RVLV A 15
         goto Ready2

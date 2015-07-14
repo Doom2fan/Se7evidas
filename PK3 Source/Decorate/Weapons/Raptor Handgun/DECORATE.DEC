@@ -47,8 +47,8 @@ actor S7_Raptor : S7_BaseWeapon {
         TNT1 A 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 5, 4)
         TNT1 AA 0 a_fireCustomMissile ("S7_9mmCasingSpawn", 0, 0, 7, -2)
         TNT1 AA 0 a_fireCustomMissile ("S7_RaptorTracer", fRandom (-2.8, 2.8), 1, 3, 2, 0, fRandom (-3.7, 3.7))
-        RPTN B 1 bright a_setPitch (pitch - 0.4)
-        RPTN C 1 a_setPitch (pitch - 0.4)
+        RPTN B 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.4 * 65536)
+        RPTN C 1 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.4 * 65536)
         RPTN DAA 1
         TNT1 A 0 a_giveInventory ("S7_RaptorRefire", 1)
         RPTN AAA 1 a_refire
@@ -63,8 +63,8 @@ actor S7_Raptor : S7_BaseWeapon {
         TNT1 A 0 a_fireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 5, 4)
         TNT1 AA 0 a_fireCustomMissile ("S7_9mmCasingSpawn", 0, 0, 7, -2)
         TNT1 AA 0 a_fireCustomMissile ("S7_RaptorTracer", fRandom (-2.8, 2.8), 1, 3, 2, 0, fRandom (-3.7, 3.7))
-        RPTN B 1 bright a_setPitch (pitch - 0.4)
-        RPTN C 1 a_setPitch (pitch - 0.4)
+        RPTN B 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.4 * 65536)
+        RPTN C 1 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.4 * 65536)
         RPTN DAA 1
         RPTN A 7
         goto Ready2
