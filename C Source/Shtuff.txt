@@ -1,0 +1,10 @@
+[04:03.07 PM] <marrub> Print("butts %d %f\n", 10, 400.04);
+
+[04:03.35 PM] <marrub> HudMessage(look at the god damn prototype there's like 50 arguments, "butts %d %f\n", 10, 400.04);
+                        HudMessage (flags, id, color, x, y, hold, opt1, opt2, opt3, /text (printf Syntax)/...)
+
+
+    // Not needed or desired in TitleMaps.
+    if (ACS_GameType () == GAME_TITLE_MAP)
+        return;
+ACS_
