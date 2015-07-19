@@ -17,9 +17,28 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef MISC_H
-#define MISC_H
+#ifndef INCLUDES_H
+#define INCLUDES_H
 
-#include <ACS_ZDoom.h>
+#include "util.h"
+#include "util_math.h"
+#include "commonFuncs.h"
+
+// Defines
+#define PLN PlayerNumber()
+
+// Script types
+#define UNLOADING [[script ("Unloading") ]]
+#define RETURN [[script ("Return") ]]
+#define RESPAWN [[script ("Respawn") ]]
+
+// Macros
+#define SetInventory(name, amount) \
+  ( \
+   ACS_TakeInventory (name, 0x7FFFFFFF), \
+   ACS_GiveInventory (name, amount) \
+  )
+
+__addrdef extern  __gbl_arr GlobalVar;
 
 #endif

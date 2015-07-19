@@ -1,3 +1,9 @@
+// ========================================================
+//
+//  The code in this file was made by Marrub
+//
+// ========================================================
+
 #ifndef DEFS_H
 #define DEFS_H
 
@@ -17,25 +23,22 @@
 #include <errno.h>
 #include <math.h>
 
-#define MAXPLAYERS 64
-#define PLN PlayerNumber()
-
-#define I_SCRIPT (n) [[address (n), call ("ScriptI") ]]
-#define S_SCRIPT [[call ("ScriptS") ]]
-#define EXTACS [[extern ("ACS") ]]
-#define ACS_I_SCRIPT (n) EXTACS I_SCRIPT (n)
+#define I_SCRIPT(n) [[address(n), call("ScriptI")]]
+#define S_SCRIPT [[call("ScriptS")]]
+#define EXTACS [[extern("ACS")]]
+#define ACS_I_SCRIPT(n) EXTACS I_SCRIPT(n)
 #define ACS_S_SCRIPT EXTACS S_SCRIPT
 #define ACS_SCRIPT EXTACS S_SCRIPT
 
-#define OPEN [[script ("Open") ]]
-#define ENTER [[script ("Enter") ]]
-#define DISCONNECT [[script ("Disconnect") ]]
-#define DEATH [[script ("Death") ]]
-#define NET [[script ("Net") ]]
-#define CLIENTSIDE [[script ("Clientside") ]]
+#define OPEN [[script("Open")]]
+#define ENTER [[script("Enter")]]
+#define DISCONNECT [[script("Disconnect")]]
+#define DEATH [[script("Death")]]
+#define NET [[script("Net")]]
+#define CLIENTSIDE [[script("Clientside")]]
 
-#define ALLOC (n) [[alloc_Loc (n) ]]
-#define OPT_ARGS (n) [[optional_args (n) ]]
+#define ALLOC(n) [[alloc_Loc(n)]]
+#define OPT_ARGS(n) [[optional_args(n)]]
 
 #define Script_C ACS_SCRIPT
 #define Script_L S_SCRIPT
@@ -143,20 +146,5 @@
   )
 
 typedef __str string;
-
-/*
-** By Chronos "phantombeta" Ouroboros
-*/
-// Script types
-#define UNLOADING [[script ("Unloading") ]]
-#define RETURN [[script ("Return") ]]
-#define RESPAWN [[script ("Respawn") ]]
-
-// Macros
-#define SetInventory(name, amount) \
-  ( \
-   ACS_TakeInventory (name, 0x7FFFFFFF), \
-   ACS_GiveInventory (name, amount) \
-  )
 
 #endif
