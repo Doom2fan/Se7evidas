@@ -1,0 +1,36 @@
+# Comments
+"//" LCOMMENT # Line comment
+
+# Identifiers and literals/constants and shit
+"\".*?\"" STRING # String constant
+"[a-zA-Z][a-zA-Z0-9_]*" INTIDENTIFIER # Internal identifier
+"_[a-zA-Z_][a-zA-Z0-9_]*" IDENTIFIER # Identifier
+"[0-9]+\.+[0-9]+" DECIMAL # Decimal value
+"[0-9]+" INTEGER # Integer value
+
+# Operators
+"+=" ADDASSIGN # Addition + assignment operator
+"-=" SUBASSIGN # Subtraction + assignment operator
+"\*=" MULASSIGN # Multiplication + assignment operator
+"/=" DIVASSIGN # Division + assignment operator
+
+# Single characters
+"\{" LBRACE # Open braces
+"\}" RBRACE # Close Braces
+"\(" LPAREN # Open parenthesis
+"\)" RPAREN # Close parenthesis
+"\;" SEMICOLON # Function end
+"\," COMMA # Comma
+":" COLON # Colon
+
+# Single character operators
+"=" ASSIGN # Assignment operator
+"+" ADD # Addition operator
+"-" SUB # Subtraction operator
+"\*" MUL # Multiplication operator
+"/" DIV # Division operator
+
+
+# Whitespace
+"[ \t]+" WHITESPACE # Whitespace
+"\r\n|[\r\n]" NEWLINE # Newline

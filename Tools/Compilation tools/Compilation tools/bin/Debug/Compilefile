@@ -1,0 +1,17 @@
+string _CC = "gdcc-cc";
+string _
+string _incDir = "inc\";
+string _srcDir = "src\";
+string _objDir = "obj\";
+string _ZDIncDir = ""; _ZDIncDir = _incDir + "ZDoom\";
+string _ZDSrcDir = ""; _ZDSrcDir = _srcDir + "ZDoom\";
+string _ZDObjDir = ""; _ZDObjDir = _objDir + "ZDoom\";
+string _ZanIncDir = ""; _ZanIncDir = _incDir + "Zandro\";
+string _ZanSrcDir = ""; _ZanSrcDir = _srcDir + "Zandro\";
+string _ZanObjDir = ""; _ZanObjDir = _objDir + "Zandro\";
+
+rule _main ({
+    string _args = InputFile;
+    _args += " > " + OutputFile;
+        Execute (_CC, _args);
+}

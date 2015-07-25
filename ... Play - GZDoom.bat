@@ -1,6 +1,6 @@
 @ECHO OFF
 SETLOCAL
 
-SET PROG_GZDOOM="../../gzdoom.EXE"
+SET PROG_GZDOOM="%DOOMDIR%\. GZDoom\gzdoom.EXE"
 
 %PROG_GZDOOM% -file "%CD%/PK3 Source" %*
