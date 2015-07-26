@@ -152,7 +152,7 @@ actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_9mmCasing : S7_CasingBase {
-    scale .5
+    scale .2
     seeSound "Weapons/casing"
     states {
     Spawn:
@@ -213,7 +213,7 @@ actor S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_RevolverCasing : S7_CasingBase {
-    scale .5
+    scale .2
     seeSound "Weapons/casing"
     states {
     Spawn:
