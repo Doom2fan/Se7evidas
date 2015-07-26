@@ -6,8 +6,9 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     gibHealth -37
     
     // Movement
-    player.ForwardMove 1.0, 1.0
-    player.SideMove 1.0, 1.0
+    player.ForwardMove 1.2, 1.2
+    player.SideMove 1.2, 1.2
+    player.JumpZ 9.797
     
     // Give Items/Weapons/Ammo
     player.StartItem S7_TEC9
