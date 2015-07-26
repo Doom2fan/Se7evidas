@@ -35,8 +35,8 @@
 // Macros
 #define SetInventory(name, amount) \
   ( \
-   ACS_TakeInventory (name, 0x7FFFFFFF), \
-   ACS_GiveInventory (name, amount) \
+   TakeInventory (name, 0x7FFFFFFF), \
+   GiveInventory (name, amount) \
   )
 
 #define ArraySize(array) sizeof(array) / sizeof(*array)

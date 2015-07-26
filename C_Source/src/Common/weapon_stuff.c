@@ -39,11 +39,11 @@ int GlobalVar LastWeapon [MAX_PLAYERS];
 
 int GetWeaponName () {
     for (int x = 0; x < ArraySize (DummyWeapons); x++)
-        if (ACS_CheckWeapon (DummyWeapons [x])) 
+        if (CheckWeapon (DummyWeapons [x])) 
             return -1;
     
     for (int y = 0; y < ArraySize (WeaponName); y++)
-        if (ACS_CheckWeapon (WeaponName [y]))
+        if (CheckWeapon (WeaponName [y]))
             return y;
     
     return -1;
@@ -55,7 +55,7 @@ void ChangeLastWeapon (bool mode) {
         weaponNumber = LastWeapon [PLN];
         if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
             return;
-        ACS_SetWeapon (WeaponName [weaponNumber]);
+        SetWeapon (WeaponName [weaponNumber]);
     } else {
         weaponNumber = GetWeaponName ();
         if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
@@ -66,13 +66,13 @@ void ChangeLastWeapon (bool mode) {
 }
 
 void DisableWeapon (string meh, string blah) {
-    if (ACS_CheckWeapon (meh)) {
-        ACS_TakeInventory (blah, 99999);
+    if (CheckWeapon (meh)) {
+        TakeInventory (blah, 99999);
         ChangeLastWeapon (1);
         return;
     }
-    ACS_GiveInventory (meh, 1);
-    ACS_SetWeapon (meh);
+    GiveInventory (meh, 1);
+    SetWeapon (meh);
     ChangeLastWeapon (0);
 }
 
@@ -80,27 +80,27 @@ void DisableWeapon (string meh, string blah) {
 // SynthFire stuff
 Script_C void S7_SynthFire () {
     while (TRUE) {
-        if (!ACS_CheckInventory (s"S7_SynthFireActive"))
+        if (!CheckInventory (s"S7_SynthFireActive"))
             return;
         
-        if (KeyDown (BT_ATTACK) && !ACS_CheckInventory (s"S7_SynthFireLeft"))
-            ACS_GiveInventory (s"S7_SynthFireLeft", 1);
+        if (KeyDown (BT_ATTACK) && !CheckInventory (s"S7_SynthFireLeft"))
+            GiveInventory (s"S7_SynthFireLeft", 1);
         
-        if (KeyDown (BT_ALTATTACK) && !ACS_CheckInventory (s"S7_SynthFireRight"))
-            ACS_GiveInventory (s"S7_SynthFireRight", 1);
+        if (KeyDown (BT_ALTATTACK) && !CheckInventory (s"S7_SynthFireRight"))
+            GiveInventory (s"S7_SynthFireRight", 1);
         
-        ACS_Delay (1);
+        Delay (1);
         
-        if (KeyUp (BT_ATTACK) && ACS_CheckInventory (s"S7_SynthFireLeft"))
-            ACS_TakeInventory (s"S7_SynthFireLeft", 1);
+        if (KeyUp (BT_ATTACK) && CheckInventory (s"S7_SynthFireLeft"))
+            TakeInventory (s"S7_SynthFireLeft", 1);
         
-        if (KeyUp (BT_ALTATTACK) && ACS_CheckInventory (s"S7_SynthFireRight"))
-            ACS_TakeInventory (s"S7_SynthFireRight", 1);
+        if (KeyUp (BT_ALTATTACK) && CheckInventory (s"S7_SynthFireRight"))
+            TakeInventory (s"S7_SynthFireRight", 1);
     }
 }
 
 Script_C int S7_SynthFireAllowChange () {
-    if (!ACS_CheckInventory (s"S7_SynthFireRightReloading") || ACS_CheckInventory (s"S7_SynthFireLeftReloading"))
+    if (!CheckInventory (s"S7_SynthFireRightReloading") || CheckInventory (s"S7_SynthFireLeftReloading"))
         return 1;
     else
         return 0;
@@ -111,16 +111,16 @@ Script_C void S7_QuickMelee () {
 }
 
 Script_C int S7_GetAutoReloading () {
-    if (ACS_GetUserCVar (PLN, s"S7_AutoReloading") == false)
+    if (GetUserCVar (PLN, s"S7_AutoReloading") == false)
         return 0;
     else
         return 1;
 }
 
-Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
-    accum oldPitch = ACS_GetActorPitch (0);
+Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+    accum oldPitch = GetActorPitch (0);
     accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
     accum newPitch = ClampAccum (oldPitch - scaledOffset, -0.25k, 0.25k);
     
-    ACS_SetActorPitch (0, newPitch);
+    SetActorPitch (0, newPitch);
 }

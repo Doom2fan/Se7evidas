@@ -20,10 +20,10 @@
 #include "util.h"
 #include "util_math.h"
 #include "commonFuncs.h"
-#undef ACS_SHORT_NAMES
+#undef SHORT_NAMES
 
 int KeyUp (int key) {
-    int buttons = ACS_GetPlayerInput (-1, INPUT_BUTTONS);
+    int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
 
     if (~buttons & key)
         return 1;
@@ -32,7 +32,7 @@ int KeyUp (int key) {
 }
 
 int KeyDown (int key) {
-    int buttons = ACS_GetPlayerInput (-1, INPUT_BUTTONS);
+    int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
 
     if (buttons & key)
         return 1;
@@ -41,8 +41,8 @@ int KeyDown (int key) {
 }
 
 int KeyPressed (int key) {
-    int buttons     = ACS_GetPlayerInput (-1, INPUT_BUTTONS);
-    int oldbuttons  = ACS_GetPlayerInput (-1, INPUT_OLDBUTTONS);
+    int buttons     = GetPlayerInput (-1, INPUT_BUTTONS);
+    int oldbuttons  = GetPlayerInput (-1, INPUT_OLDBUTTONS);
     int newbuttons  = (buttons ^ oldbuttons) & buttons;
 
     if (newbuttons & key)
@@ -60,7 +60,7 @@ int UnusedTID (int start, int end) {
         start ^= end;
     } // good ol' XOR swap
     while (ret++ != end) {
-        if (ACS_ThingCount (0, ret) == 0)
+        if (ThingCount (0, ret) == 0)
             return ret;
     }
     
@@ -68,18 +68,18 @@ int UnusedTID (int start, int end) {
 }
 
 // I dunno who made this...
-int GetVelocity () {
-    int vel;
-    int x = ACS_GetActorVelX (0);
-    int y = ACS_GetActorVelY (0);
-    int angle = ACS_VectorAngle (x, y);
+accum GetVelocity () {
+    accum vel;
+    accum x = GetActorVelX (0);
+    accum y = GetActorVelY (0);
+    accum angle = VectorAngle (x, y);
     
     if (((angle + 0.125k) % 0.5k) > 0.25k)
-        vel = y / ACS_Sin (angle);
+        vel = y / Sin (angle);
     else
-        vel = x / ACS_Cos (angle);
+        vel = x / Cos (angle);
     
-    return vel >> 16;
+    return vel;
 }
 
 int Clamp (int x, int min, int max) {

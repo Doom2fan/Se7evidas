@@ -17,22 +17,6 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef COMMONFUNCS_H
-#define COMMONFUNCS_H
+#include "includes.h"
+#include "cvars.h"
 
-#include <ACS_ZDoom.h>
-
-int KeyUp (int key);
-int KeyDown (int key);
-int KeyPressed (int key);
-
-int UnusedTID (int start, int end);
-
-accum GetVelocity ();
-
-int Clamp (int x, int min, int max);
-accum ClampAccum (accum x, accum min, accum max);
-int ScaleValue (int x, int fromMin, int fromMax, int toMin, int toMax);
-accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
-
-#endif

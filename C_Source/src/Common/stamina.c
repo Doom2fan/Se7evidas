@@ -27,32 +27,32 @@ int GlobalVar StaminaEmpty [MAX_PLAYERS];
 
 Script_C void S7_StaminaRegeneration ENTER () {
     // Not needed or desired in TitleMaps.
-    if (ACS_GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP)
         return;
     
     int staminaTics = 0;
     int staminaAmount, health;
     
     while (TRUE) {
-        staminaAmount = ACS_CheckInventory (s"S7_Stamina");
-        health = ACS_GetActorProperty (0, APROP_Health);
+        staminaAmount = CheckInventory (s"S7_Stamina");
+        health = GetActorProperty (0, APROP_Health);
         
-        if (!ACS_CheckInventory (s"S7_Dying") && staminaTics >= 1 && !ACS_CheckWeapon (s"S7_SprintWeapon")) {
+        if (!CheckInventory (s"S7_Dying") && staminaTics >= 1 && !CheckWeapon (s"S7_SprintWeapon")) {
             staminaTics = 0;
-            ACS_GiveInventory (s"S7_Stamina", 1);
+            GiveInventory (s"S7_Stamina", 1);
         }
-        if (ACS_CheckInventory (s"S7_Dying") && staminaTics >= 3 && !ACS_CheckWeapon (s"S7_SprintWeapon")) {
+        if (CheckInventory (s"S7_Dying") && staminaTics >= 3 && !CheckWeapon (s"S7_SprintWeapon")) {
             staminaTics = 0;
-            ACS_GiveInventory (s"S7_Stamina", 1);
+            GiveInventory (s"S7_Stamina", 1);
         }
-        if (staminaTics > 0 && staminaAmount == MAXSTAMINA || staminaTics > 0 && ACS_CheckWeapon (s"S7_SprintWeapon"))
+        if (staminaTics > 0 && staminaAmount == MAXSTAMINA || staminaTics > 0 && CheckWeapon (s"S7_SprintWeapon"))
             staminaTics = 0;            
         if (StaminaEmpty [PLN] == 1 && staminaAmount >= 50)
             StaminaEmpty [PLN] = 0;
         
-        ACS_Delay(1);
+        Delay(1);
         if (staminaAmount != MAXSTAMINA)
-            if (!ACS_CheckWeapon (s"S7_SprintWeapon"))
+            if (!CheckWeapon (s"S7_SprintWeapon"))
                 staminaTics++;
     }
 }

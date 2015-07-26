@@ -12,14 +12,14 @@ accum AbSine (accum speed, int amplitude) {
     accum amp = 1.0 / amplitude;
     speed = 1 / speed;
 
-    return (AbsA (ACS_Sin ((accum) (ACS_Timer () * speed)))) * amp;
+    return (AbsA (Sin ((accum) (Timer () * speed)))) * amp;
 }
 
 accum SineA (accum speed, int amplitude) {
     accum amp = 1.0 / amplitude;
     speed = 1 / speed;
 
-    return (ACS_Sin (((accum) (ACS_Timer () * speed)))) * amp;
+    return (Sin (((accum) (Timer () * speed)))) * amp;
 }
 
 int RoundA (accum x) {
@@ -27,13 +27,13 @@ int RoundA (accum x) {
 }
 
 int IDistance (int tid1, int tid2) {
-    return ACS_VectorLength (ACS_GetActorZ (tid1) - ACS_GetActorZ (tid2),
-                             ACS_VectorLength (ACS_GetActorX (tid1) - ACS_GetActorX (tid2),
-                                               ACS_GetActorY (tid1) - ACS_GetActorY (tid2)));
+    return VectorLength (GetActorZ (tid1) - GetActorZ (tid2),
+                             VectorLength (GetActorX (tid1) - GetActorX (tid2),
+                                               GetActorY (tid1) - GetActorY (tid2)));
 }
 
 accum Distance (int tid1, int tid2) {
-    return ACS_VectorLength (ACS_GetActorZ (tid1) - ACS_GetActorZ (tid2), ACS_VectorLength (ACS_GetActorX (tid1) - ACS_GetActorX (tid2), ACS_GetActorY (tid1) - ACS_GetActorY (tid2)));
+    return VectorLength (GetActorZ (tid1) - GetActorZ (tid2), VectorLength (GetActorX (tid1) - GetActorX (tid2), GetActorY (tid1) - GetActorY (tid2)));
 }
 
 int Percent (int x, int max) {
@@ -80,19 +80,19 @@ int SRandom (int x, int y, unsigned int s) {
 accum MagA (accum x, accum y, accum z) {
     accum len, ang;
 
-    ang = ACS_VectorAngle (x, y);
+    ang = VectorAngle (x, y);
 
     if (((ang + 0.125k) % 0.5k) > 0.25k)
-        len = y / ACS_Sin (ang);
+        len = y / Sin (ang);
     else
-        len = x, ACS_Cos (ang);
+        len = x, Cos (ang);
 
-    ang = ACS_VectorAngle (len, z);
+    ang = VectorAngle (len, z);
 
     if (((ang + 0.125k) % 0.5k) > 0.25k)
-        len = z, ACS_Sin (ang);
+        len = z, Sin (ang);
     else
-        len = len / ACS_Cos (ang);
+        len = len / Cos (ang);
 
     return len;
 }

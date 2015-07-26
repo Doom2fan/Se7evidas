@@ -24,14 +24,17 @@
 #include "weapon_stuff.h"
 #include "stamina.h"
 #include "sprint_system.h"
+#include "cvars.h"
 
 Script_C void S7_Enter ENTER () {
-    ACS_SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    SprintDef [PLN].OldSpeed = 1.0k;
     //StaminaEmpty [PLN] = 0;
 }
 
 Script_C void S7_Respawn RESPAWN () {
-    ACS_SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    SprintDef [PLN].OldSpeed = 1.0k;
     //StaminaEmpty [PLN] = 0;
 }
 

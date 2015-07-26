@@ -25,40 +25,40 @@
 
 Script_C void S7_MedikitScript () {
     Print ("Applying Medikit");
-    ACS_Thing_Stop (0);
-    ACS_SetPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
-    ACS_Delay (35 * 2);
-    ACS_SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
+    Thing_Stop (0);
+    SetPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
+    Delay (35 * 2);
+    SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
     
     if (MEDIKITHEALTH - (100 - GetActorProperty (0, APROP_Health)) >= STIMPACKHEALTH)
-        if (ACS_CheckInventory (s"S7_Stimpack") < 8)
-            ACS_GiveInventory (s"S7_Stimpack", 1);
+        if (CheckInventory (s"S7_Stimpack") < 8)
+            GiveInventory (s"S7_Stimpack", 1);
         else
-            ACS_Spawn (s"S7_Stimpack", ACS_GetActorX (0), ACS_GetActorY (0), ACS_GetActorZ (0));
+            Spawn (s"S7_Stimpack", GetActorX (0), GetActorY (0), GetActorZ (0));
     
-    ACS_HealThing (MEDIKITHEALTH);
+    HealThing (MEDIKITHEALTH);
 }
 
 Script_C void S7_StimpackScript () {
     Print ("Applying Stimpack");
-    ACS_Thing_Stop (0);
-    ACS_SetPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
-    ACS_Delay (35 * 1);
-    ACS_HealThing (STIMPACKHEALTH);
-    ACS_SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
+    Thing_Stop (0);
+    SetPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
+    Delay (35 * 1);
+    HealThing (STIMPACKHEALTH);
+    SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
 }
 
 Script_C void S7_HeartbeatScript ENTER CLIENTSIDE () {
     // Not needed or desired in TitleMaps.
-    if (ACS_GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP)
         return;
     
     int health;
     int heartbeatTics = 0;
     
     while (TRUE) {
-        if (ACS_GetUserCVar (PLN, s"S7_HeartbeatsOn")) {
-            health = ACS_GetActorProperty (0, APROP_Health);
+        if (GetUserCVar (PLN, s"S7_HeartbeatsOn")) {
+            health = GetActorProperty (0, APROP_Health);
             
             if ((health <= 25 && health > 15 && heartbeatTics >= 89) ||
                 (health <= 15 && health > 10 && heartbeatTics >= 71) ||
@@ -66,17 +66,17 @@ Script_C void S7_HeartbeatScript ENTER CLIENTSIDE () {
                 (health <= 5  && health > 2  && heartbeatTics >= 35) ||
                 (health <= 2  && health > 0  && heartbeatTics >= 18)) {
                 heartbeatTics = 0;
-                ACS_LocalAmbientSound (s"Player/Heartbeat", 127);
+                LocalAmbientSound (s"Player/Heartbeat", 127);
             } else if (health > 25)
                 heartbeatTics = 0;
             else
                 heartbeatTics++;
         }
             
-        ACS_Delay (1);
+        Delay (1);
     }
 }
 
 Script_C int S7_GetMaxHealth () {
-    return ACS_GetActorProperty (0, APROP_SpawnHealth);
+    return GetActorProperty (0, APROP_SpawnHealth);
 }

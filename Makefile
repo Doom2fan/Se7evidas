@@ -9,7 +9,7 @@ OBJDIR = $(SOURCEDIRECTORY)/obj
 ZDACSDIR = PK3_Source_GZDoom/acs
 ZANDROACSDIR = PK3_Source_Zandronum/acs
 
-all: $(OBJDIR) $(OBJDIR)/Common $(OBJDIR)/ZDoom $(OBJDIR)/Zandronum $(OBJDIR)/libGDCC $(OBJDIR)/libC $(ZDACSDIR) $(ZANDROACSDIR) $(ZDACSDIR)/Se7evidas.bin
+all: $(OBJDIR) $(OBJDIR)/Common $(OBJDIR)/ZDoom $(OBJDIR)/Zandronum $(OBJDIR)/libGDCC $(OBJDIR)/libC $(ZDACSDIR) $(ZANDROACSDIR) $(ZDACSDIR)/Se7evidas.bin $(ZANDROACSDIR)/Se7evidas.bin
 
 clean:
 	rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
@@ -38,6 +38,13 @@ $(ZDACSDIR):
 $(ZANDROACSDIR):
 	@mkdir "$(ZANDROACSDIR)"
 
+## ===========================================
+##
+## Se7evidas.o
+##
+## ===========================================
+
+## Common ##
 Common_INC = -i$(INCDIR)/Common
 Common_O = \
    $(OBJDIR)/Common/commonFuncs.o \
@@ -49,31 +56,49 @@ Common_O = \
    $(OBJDIR)/Common/util_math.o \
    $(OBJDIR)/Common/weapon_stuff.o
 
-ZDoom_INC = -i$(INCDIR)/ZDoom $(Common_INC)
-ZDoom_O = \
-   $(OBJDIR)/ZDoom/main.o
+#   $(OBJDIR)/Common/xp_system.o
 
 $(Common_O) : $(OBJDIR)/Common/%.o : $(SRCDIR)/Common/%.c
 	$(CC) --bc-target=ZDoom $(Common_INC) $< $@
 
-$(ZDoom_O) : $(OBJDIR)/ZDoom/%.o : $(SRCDIR)/ZDoom/%.c
-	$(CC) --bc-target=ZDoom $(ZDoom_INC) $< $@
-
 $(OBJDIR)/Common.ir: $(Common_O)
 	$(LD) -co$@ $^
+
+## ZDoom ##
+ZDoom_INC = -i$(INCDIR)/ZDoom $(Common_INC)
+ZDoom_O = \
+   $(OBJDIR)/ZDoom/main.o \
+   $(OBJDIR)/ZDoom/cvars.o
+
+$(ZDoom_O) : $(OBJDIR)/ZDoom/%.o : $(SRCDIR)/ZDoom/%.c
+	$(CC) --bc-target=ZDoom $(ZDoom_INC) $< $@
 
 $(OBJDIR)/ZDoom.ir: $(ZDoom_O)
 	$(LD) -co$@ $^
 
-# $(OBJDIR)/Zandro $(OBJDIR)/libGDCC $(OBJDIR)/libC $(INCDIR)/ZDoom/%.h
-
 $(ZDACSDIR)/Se7evidas.bin: $(OBJDIR)/libGDCC.ir $(OBJDIR)/libC.ir $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir
 	$(LD) --bc-target=ZDoom -o$@ $^
 
-#$(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
+## Zandronum ##
+Zandronum_INC = -i$(INCDIR)/Zandronum $(Common_INC)
+Zandronum_O = \
+   $(OBJDIR)/Zandronum/main.o \
+   $(OBJDIR)/Zandronum/cvars.o
+
+$(Zandronum_O) : $(OBJDIR)/Zandronum/%.o : $(SRCDIR)/Zandronum/%.c
+	$(CC) --bc-target=ZDoom $(Zandronum_INC) $< $@
+
+$(OBJDIR)/Zandronum.ir: $(Zandronum_O)
+	$(LD) -co$@ $^
+
+$(ZANDROACSDIR)/Se7evidas.bin: $(OBJDIR)/libGDCC.ir $(OBJDIR)/libC.ir $(OBJDIR)/Common.ir $(OBJDIR)/Zandronum.ir
+	$(LD) --bc-target=ZDoom -o$@ $^
+
+## ===========================================
 ##
 ## libGDCC
 ##
+## ===========================================
 
 libGDCC_IR_AS = \
    $(OBJDIR)/libGDCC/libGDCC_AddF.ir \
@@ -103,9 +128,11 @@ $(libGDCC_IR_AS) : $(OBJDIR)/libGDCC/libGDCC_%.ir :
 $(libGDCC_IR_CC) : $(OBJDIR)/libGDCC/libGDCC_%.ir :
 	$(CC) --bc-target=ZDoom -o$@ --sys-source libGDCC/$*.c
 
+## ===========================================
 ##
-## libc
+## libC
 ##
+## ===========================================
 
 libc_IR_AS = \
    $(OBJDIR)/libC/libc_approx.ir \

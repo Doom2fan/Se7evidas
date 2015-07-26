@@ -17,22 +17,27 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef COMMONFUNCS_H
-#define COMMONFUNCS_H
+#include "includes.h"
+#include "health.h"
+#include "hud.h"
+#include "misc.h"
+#include "weapon_stuff.h"
+#include "stamina.h"
+#include "sprint_system.h"
+#include "cvars.h"
 
-#include <ACS_ZDoom.h>
+Script_C void S7_Enter ENTER () {
+    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    SprintDef [PLN].OldSpeed = 1.0k;
+    //StaminaEmpty [PLN] = 0;
+}
 
-int KeyUp (int key);
-int KeyDown (int key);
-int KeyPressed (int key);
+Script_C void S7_Respawn RESPAWN () {
+    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    SprintDef [PLN].OldSpeed = 1.0k;
+    //StaminaEmpty [PLN] = 0;
+}
 
-int UnusedTID (int start, int end);
-
-accum GetVelocity ();
-
-int Clamp (int x, int min, int max);
-accum ClampAccum (accum x, accum min, accum max);
-int ScaleValue (int x, int fromMin, int fromMax, int toMin, int toMax);
-accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
-
-#endif
+Script_C int S7_RunningInZDoom () {
+    return 0;
+}
