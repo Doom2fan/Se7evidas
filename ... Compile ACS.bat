@@ -1,4 +1,5 @@
 @ECHO OFF
 SETLOCAL
 
-make
+make cleanSe7evidas.bin
+make all

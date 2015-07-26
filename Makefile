@@ -11,8 +11,11 @@ ZANDROACSDIR = PK3_Source_Zandronum/acs
 
 all: $(OBJDIR) $(OBJDIR)/Common $(OBJDIR)/ZDoom $(OBJDIR)/Zandronum $(OBJDIR)/libGDCC $(OBJDIR)/libC $(ZDACSDIR) $(ZANDROACSDIR) $(ZDACSDIR)/Se7evidas.bin $(ZANDROACSDIR)/Se7evidas.bin
 
-clean:
+cleanall:
 	rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
+
+cleanSe7evidas.bin:
+	rm -rf $(OBJDIR)/Common $(OBJDIR)/ZDoom $(OBJDIR)/Zandronum $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir $(OBJDIR)/Zandronum.ir $(ZDACSDIR) $(ZANDROACSDIR)
 
 $(OBJDIR):
 	@mkdir "$(OBJDIR)"
