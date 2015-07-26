@@ -21,5 +21,6 @@
 #define CVARS_H
 
 #include <ACS_ZDoom.h>
+#include <ACS_Zandronum.h>
 
 #endif

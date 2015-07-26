@@ -17,14 +17,11 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
-#include "includes_zandro.h"
-#include "cvars.h"
+#ifndef INCLUDES_ZANDRO_H
+#define INCLUDES_ZANDRO_H
 
-Script_C int S7_GetEffectsStayTime () {
-    return GetUserCVar (CPLN, s"S7_EffectStayTime");
-}
+#include <ACS_Zandronum.h>
 
-Script_C int S7_GetEffectsFadeSpeed () {
-    return GetUserCVar (CPLN, s"S7_EffectFadeSpeed");
-}
+#define CPLN ConsolePlayerNumber ()
+
+#endif

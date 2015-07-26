@@ -20,3 +20,10 @@
 #include "includes.h"
 #include "cvars.h"
 
+Script_C int S7_GetEffectsStayTime () {
+    return 0;
+}
+
+Script_C int S7_GetEffectsFadeSpeed () {
+    return 0;
+}
