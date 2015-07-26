@@ -1,4 +1,5 @@
 gameinfo {
+    titleMusic = "music/TITLEMAP.spc"
     titlePage = "TITLEPIC"
     creditPage = "CREDIT"
     titleTime = 8
