@@ -66,7 +66,26 @@ namespace Compilation_tools {
         }*/
 
         public static int Main (string [] args) {
-            byte errorLevel = 0;
+            MemoryStream stream = new MemoryStream ();
+            BinaryWriter writer = new BinaryWriter (stream);
+
+            writer.Write (1163084609);
+            writer.Close ();
+            writer.Dispose ();
+
+            byte [] shite = stream.ToArray ();
+
+            stream.Close ();
+            stream.Dispose ();
+
+            Console.WriteLine (1163084609);
+            for (int i = 0; i < shite.Length; i++) {
+                Console.Write (shite [i]);
+                Console.Write (" ");
+            }
+            Console.ReadKey ();
+            
+            /*byte errorLevel = 0;
 
             string compilefileFilename = "Compilefile";
             string ruleToRun = "_main";
@@ -97,9 +116,9 @@ namespace Compilation_tools {
 
             if (!string.IsNullOrEmpty (ruleToRun) && !string.IsNullOrWhiteSpace (ruleToRun))
                 if (_rules.ContainsKey (ruleToRun))
-                    _rules [ruleToRun].Run ();
+                    _rules [ruleToRun].Run ();*/
 
-            return errorLevel;
+            return 0;// errorLevel;
         }
 
         private static byte ParseCompilefile (string file) {

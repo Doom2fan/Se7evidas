@@ -74,7 +74,7 @@ set CFLAGS1=-iinc
 goto build
 
 :make.bin
-set TO_BUILD="C:\Users\Chronos Ouroboros\Games\Doom\_ MEIN OWN FEKIN' MODS\Se7evidas\PK3 Source\acs\%OUTFILE%.o"
+set TO_BUILD="C:\Users\Chronos Ouroboros\Games\Doom\.. MEIN OWN FEKIN' MODS\Se7evidas\PK3_Source_GZDoom\acs\%OUTFILE%.o"
 set FILES=bin\*.ir bin\libgdcc\*.ir
 set EXECUTABLE=%LD%
 set BUILD_RETURN=end

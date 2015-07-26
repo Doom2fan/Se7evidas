@@ -19,7 +19,7 @@
 
 #include "includes.h"
 #include "health.h"
-#include "HUD.h"
+#include "hud.h"
 #include "misc.h"
 #include "weapon_stuff.h"
 #include "stamina.h"

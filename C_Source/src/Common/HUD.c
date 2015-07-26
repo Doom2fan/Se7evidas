@@ -18,7 +18,7 @@
 */
 
 #include "includes.h"
-#include "HUD.h"
+#include "hud.h"
 
 Script_C void S7_HudWeapons ENTER CLIENTSIDE () { // HUD icons and stuff...
     // Not needed or desired in TitleMaps.

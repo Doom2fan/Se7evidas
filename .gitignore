@@ -17,6 +17,8 @@ acs.err
 *.o
 *.PK3
 /Editing/
-/Se7evidas_Zandy.PK3
+/C_Source/obj/
+/PK3_Source_GZDoom/acs
+/PK3_Source_Zandronum/acs
 *... Play - Dis.bat
 *.7z

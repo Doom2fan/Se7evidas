@@ -9,17 +9,27 @@ OBJDIR = $(SOURCEDIRECTORY)/obj
 ZDACSDIR = PK3_Source_GZDoom/acs
 ZANDROACSDIR = PK3_Source_Zandronum/acs
 
-all: $(OBJDIR) $(ZDACSDIR)/Se7evidas.bin
+all: $(OBJDIR) $(OBJDIR)/Common $(OBJDIR)/ZDoom $(OBJDIR)/Zandronum $(OBJDIR)/libGDCC $(OBJDIR)/libC $(ZDACSDIR) $(ZANDROACSDIR) $(ZDACSDIR)/Se7evidas.bin
 
 clean:
 	rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
 
 $(OBJDIR):
 	@mkdir "$(OBJDIR)"
+
+$(OBJDIR)/Common:
 	@mkdir "$(OBJDIR)/Common"
+
+$(OBJDIR)/ZDoom:
 	@mkdir "$(OBJDIR)/ZDoom"
+
+$(OBJDIR)/Zandronum:
 	@mkdir "$(OBJDIR)/Zandronum"
+
+$(OBJDIR)/libGDCC:
 	@mkdir "$(OBJDIR)/libGDCC"
+
+$(OBJDIR)/libC:
 	@mkdir "$(OBJDIR)/libC"
 
 $(ZDACSDIR):
@@ -28,23 +38,37 @@ $(ZDACSDIR):
 $(ZANDROACSDIR):
 	@mkdir "$(ZANDROACSDIR)"
 
-$(OBJDIR)/Common/%.o: $(INCDIR)/Common/%.h $(SRCDIR)/Common/%.c
-	$(CC) --bc-target=ZDoom $@ $<
+Common_INC = -i$(INCDIR)/Common
+Common_O = \
+   $(OBJDIR)/Common/commonFuncs.o \
+   $(OBJDIR)/Common/hud.o \
+   $(OBJDIR)/Common/health.o \
+   $(OBJDIR)/Common/misc.o \
+   $(OBJDIR)/Common/sprint_system.o \
+   $(OBJDIR)/Common/stamina.o \
+   $(OBJDIR)/Common/util_math.o \
+   $(OBJDIR)/Common/weapon_stuff.o
 
-$(OBJDIR)/ZDoom/%.o: $(SRCDIR)/ZDoom/%.c
-	$(CC) --bc-target=ZDoom $@ $^
+ZDoom_INC = -i$(INCDIR)/ZDoom $(Common_INC)
+ZDoom_O = \
+   $(OBJDIR)/ZDoom/main.o
 
-$(OBJDIR)/Common.ir: $(OBJDIR)/Common/%.o
+$(Common_O) : $(OBJDIR)/Common/%.o : $(SRCDIR)/Common/%.c
+	$(CC) --bc-target=ZDoom $(Common_INC) $< $@
+
+$(ZDoom_O) : $(OBJDIR)/ZDoom/%.o : $(SRCDIR)/ZDoom/%.c
+	$(CC) --bc-target=ZDoom $(ZDoom_INC) $< $@
+
+$(OBJDIR)/Common.ir: $(Common_O)
 	$(LD) -co$@ $^
 
-$(OBJDIR)/ZDoom.ir: $(OBJDIR)/ZDoom/%.o
+$(OBJDIR)/ZDoom.ir: $(ZDoom_O)
 	$(LD) -co$@ $^
 
-#$(OBJDIR)/Zandro $(OBJDIR)/libGDCC $(OBJDIR)/libC
-# $(INCDIR)/ZDoom/%.h
+# $(OBJDIR)/Zandro $(OBJDIR)/libGDCC $(OBJDIR)/libC $(INCDIR)/ZDoom/%.h
 
-$(ZDACSDIR)/Se7evidas.bin: $(OBJDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir
-	$(LD) -co$@ $^
+$(ZDACSDIR)/Se7evidas.bin: $(OBJDIR)/libGDCC.ir $(OBJDIR)/libC.ir $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir
+	$(LD) --bc-target=ZDoom -o$@ $^
 
 #$(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
 ##
@@ -105,7 +129,7 @@ libc_IR_CC = \
 libc_IR = $(libc_IR_AS) $(libc_IR_CC)
 
 $(OBJDIR)/libc.ir: $(libc_IR)
-	$(LD) -co$@ $^
+	$(LD) --bc-target=ZDoom -co$@ $^
 
 $(libc_IR_AS) : $(OBJDIR)/libC/libc_%.ir :
 	$(AS) --bc-target=ZDoom -o$@ --sys-source libc/ZDACS/$*.asm
