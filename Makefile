@@ -58,7 +58,6 @@ Common_O = \
    $(OBJDIR)/Common/stamina.o \
    $(OBJDIR)/Common/util_math.o \
    $(OBJDIR)/Common/weapon_stuff.o
-
 #   $(OBJDIR)/Common/xp_system.o
 
 $(Common_O) : $(OBJDIR)/Common/%.o : $(SRCDIR)/Common/%.c

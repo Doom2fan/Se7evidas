@@ -29,6 +29,7 @@
 Script_C void S7_Enter ENTER () {
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
     SprintDef [PLN].OldSpeed = 1.0k;
+    HudMessage (HUDMSG_FADEINOUT|HUDMSG_LOG, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "Beretta upgraded.\nBurstfire(press %LK to change firing modes)", s"+altfire");
     //StaminaEmpty [PLN] = 0;
 }
 
