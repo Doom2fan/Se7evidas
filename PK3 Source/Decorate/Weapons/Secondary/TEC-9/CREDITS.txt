@@ -1,10 +1,10 @@
 Decorate:
-Decorate by Alex_Mercer
+Decorate by Chronos "phantombeta" Ouroboros
 
 Sprites:
 Weapon sprites by Captain J and TheMightyHeracross
-Edited by Alex_Mercer
+Edited by Chronos "phantombeta" Ouroboros
 
 Sounds:
-Firing and mag tap by Alex_Mercer. Made from sounds by NightmareMutant from GAMEBANANA
+Firing and mag tap by Chronos "phantombeta" Ouroboros. Made from sounds by NightmareMutant from GAMEBANANA
 Mag in/out by NightmareMutant from GAMEBANANA

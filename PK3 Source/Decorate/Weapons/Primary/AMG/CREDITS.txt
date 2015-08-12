@@ -1,9 +1,9 @@
 Decorate:
-Decorate by Alex_Mercer
+Decorate by Chronos "phantombeta" Ouroboros
 
 Sprites:
 Weapon sprites by ScubaSteve, Uboa
-Edited by Alex_Mercer
+Edited by Chronos "phantombeta" Ouroboros
 
 Sounds:
 Fire and mag (in, out and tap) by NightmareMutant

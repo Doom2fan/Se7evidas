@@ -1,4 +1,4 @@
-// By Jekyll Grim Payne/zer0, edited by Alex_Mercer
+// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_ShotSmoke {
     +noInteraction +forceXYBillboard +noTimeFreeze
     vSpeed 2
@@ -40,7 +40,7 @@ actor S7_BlackSmokeTrail : S7_ShotSmokeTrail {
     alpha 0.08
 }
 
-actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Alex_Mercer
+actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ouroboros
     -noGravity
     speed 12
     gravity 0.7
@@ -62,7 +62,7 @@ actor S7_SmokingPieceSmoke : S7_ShotSmokeTrail {
     alpha 0.5
 }
 
-actor S7_ShotSmoke_2_Spawner { // By wildweasel, edited by Alex_Mercer
+actor S7_ShotSmoke_2_Spawner { // By wildweasel, edited by Chronos "phantombeta" Ouroboros
     radius 1
     height 1
     speed 10
@@ -78,7 +78,7 @@ actor S7_ShotSmoke_2_Spawner { // By wildweasel, edited by Alex_Mercer
     }
 }
 
-// DECORATE by Alex_Mercer. I dunno who made the sprites.
+// DECORATE by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
 actor S7_ShotSmoke_2 {
     +noInteraction +forceXYBillboard +noTimeFreeze
     renderStyle add

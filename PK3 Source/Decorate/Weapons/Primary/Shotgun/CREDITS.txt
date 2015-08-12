@@ -1,9 +1,9 @@
 Decorate:
-Decorate by Alex_Mercer
+Decorate by Chronos "phantombeta" Ouroboros
 
 Sprites:
 Weapon sprites by Scuba Steve, Snarboo, Xaser, Cory Whittle, Marty Kirra
-Edited by Alex_Mercer
+Edited by Chronos "phantombeta" Ouroboros
 
 Sounds:
 Firing sound by TerminusEst13

@@ -1,6 +1,6 @@
 Decorate:
 Decorate by Mor'ladim
-Edited by Alex_Mercer
+Edited by Chronos "phantombeta" Ouroboros
 
 Sounds:
 Melee sounds by Mor'ladim
@@ -9,4 +9,4 @@ Firing and Reloading sounds by NightmareMutant
 Sprites:
 Weapon sprites by Mor'ladim
 Melee hit sprites by Biomechanical Toy
-Rehanded by Alex_Mercer
+Rehanded by Chronos "phantombeta" Ouroboros

@@ -1,4 +1,4 @@
-DECORATE: Alex_Mercer
-Sprites: Pisstepank, Alex_Mercer
+DECORATE: Chronos "phantombeta" Ouroboros
+Sprites: Pisstepank, Chronos "phantombeta" Ouroboros
 Sounds: Action Half-Life, Killing Floor IJC Weapon Pack, WildWeasel, [Dredile, ajoyce86 and bennychico11 from Freesound.org]
-Sounds edited by Alex_Mercer
+Sounds edited by Chronos "phantombeta" Ouroboros

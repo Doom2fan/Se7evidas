@@ -1,5 +1,5 @@
 model S7_TeleportFog {
-    path models/Teleport // Model and textures by Alex_Mercer
+    path models/Teleport // Model and textures by Chronos "phantombeta" Ouroboros
     model 0 Teleport.md3
     skin 0 Teleport.png
     interpolateDoubledFrames

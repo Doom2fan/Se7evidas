@@ -1,5 +1,5 @@
 // Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
-// Casing sprites by CaptainJ. Edited by Alex_Mercer
+// Casing sprites by CaptainJ. Edited by Chronos "phantombeta" Ouroboros
 
 actor S7_CasingSpawnerBase {
     speed 20
