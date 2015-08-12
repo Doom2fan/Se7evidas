@@ -4,15 +4,31 @@
 //
 //===========================================================================
 Actor S7_Empress replaces Cyberdemon {
-	States {
-	Spawn:
-		HRFR A 10 A_Look
-		Loop
-	See:
-		HRFR ABCD 3 A_Chase
-		Loop
-	Pain:
-		HRFR G 10 A_Pain
-		Goto See    
-	}
+    health 4000
+    radius 40
+    height 110
+    mass 1000
+    speed 20
+    painChance 20
+    monster
+    minMissileChance 160
+    obituary "$OB_CYBORG"
+    seeSound "cyber/sight"
+    painSound "cyber/pain"
+    deathSound "cyber/death"
+    activeSound "cyber/active"
+    
+    +Boss +MissileMore +FloorClip +NoRadiusDMG
+    +DontMorph +BossDeath
+    States {
+    Spawn:
+        HRFR A 10 A_Look
+        Loop
+    See:
+        HRFR AABBCCDD 4 A_Chase
+        Loop
+    Pain:
+        HRFR G 10 A_Pain
+        Goto See
+    }
 }
