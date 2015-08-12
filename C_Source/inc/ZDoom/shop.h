@@ -22,7 +22,7 @@
 
 #include <ACS_ZDoom.h>
 
-typedef struct ShopDef_t ShopDef_t;
+/*typedef struct ShopDef_t ShopDef_t;
 
 struct ShopDef_t {
     bool open;
@@ -30,6 +30,6 @@ struct ShopDef_t {
     int item;
 };
 
-extern ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];
+extern ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];*/
 
 #endif

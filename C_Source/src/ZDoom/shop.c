@@ -24,7 +24,7 @@
     return 0;
 }*/
 
-ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];
+/*ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];
 
 void SS_Movement () {
 }
@@ -34,4 +34,4 @@ Script_C void S7_ShopSystem () {
         if (keyDown)
         ACS_Delay (1);
     }
-}
+}*/
