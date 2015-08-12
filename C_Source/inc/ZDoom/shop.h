@@ -17,29 +17,19 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
-#include "health.h"
-#include "hud.h"
-#include "misc.h"
-#include "weapon_stuff.h"
-#include "stamina.h"
-#include "sprint_system.h"
-#include "cvars.h"
-#include "shop.h"
+#ifndef SHOP_H
+#define SHOP_H
 
-Script_C void S7_Enter ENTER () {
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    SprintDef [PLN].OldSpeed = 1.0k;
-    HudMessage (HUDMSG_FADEINOUT|HUDMSG_LOG, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "Beretta upgraded.\nBurstfire(press %LK to change firing modes)", s"+altfire");
-    //StaminaEmpty [PLN] = 0;
-}
+#include <ACS_ZDoom.h>
 
-Script_C void S7_Respawn RESPAWN () {
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    SprintDef [PLN].OldSpeed = 1.0k;
-    //StaminaEmpty [PLN] = 0;
-}
+typedef struct ShopDef_t ShopDef_t;
 
-Script_C int S7_RunningInZDoom () {
-    return 1;
-}
+struct ShopDef_t {
+    bool open;
+    int page;
+    int item;
+};
+
+extern ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];
+
+#endif

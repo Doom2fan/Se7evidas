@@ -1,0 +1,18 @@
+//===========================================================================
+//
+// Empress (Female Heresiarch)
+//
+//===========================================================================
+Actor S7_Empress replaces Cyberdemon {
+	States {
+	Spawn:
+		HRFR A 10 A_Look
+		Loop
+	See:
+		HRFR ABCD 3 A_Chase
+		Loop
+	Pain:
+		HRFR G 10 A_Pain
+		Goto See    
+	}
+}

@@ -9,38 +9,38 @@ actor S7_BaseWeapon : weapon {
     +weapon.NoAlert
     states {
     QuickMelee:
-        TNT1 A 0 a_takeInventory ("S7_DoMelee", 1)
+        TNT1 A 0 A_TakeInventory ("S7_DoMelee", 1)
         TNT1 A 1 acs_namedExecuteAlways ("S7_QuickMelee")
-        TNT1 A 1 a_weaponReady (WRF_NoBob | WRF_NoFire)
+        TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
         wait
     DryFire:
-        TNT1 A 0 a_playSound ("Weapons/DryFire", CHAN_Weapon)
-        TNT1 A 0 a_jumpIf (callACS ("S7_GetAutoReloading"), "Reload")
-        TNT1 A 0 a_jump (256, "Ready2")
+        TNT1 A 0 A_PlaySound ("Weapons/DryFire", CHAN_Weapon)
+        TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
+        TNT1 A 0 A_Jump (256, "Ready2")
         wait
         
     Ready:
-        TNT1 A 1 a_weaponReady
+        TNT1 A 1 A_WeaponReady
         loop
     Fire:
         TNT1 A 1
         goto Ready
     
     Select:
-        TNT1 A 0 a_jump (256, "TrueSelect")
+        TNT1 A 0 A_Jump (256, "TrueSelect")
         wait
     TrueSelect:
-        TNT1 A 0 a_raise
+        TNT1 A 0 A_Raise
         wait
     Deselect:
-        TNT1 A 0 a_jumpIfHealthLower (1, "Deselect.DEAD")
-        TNT1 A 0 a_jump (256, "TrueDeselect")
+        TNT1 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
+        TNT1 A 0 A_Jump (256, "TrueDeselect")
         wait
     TrueDeselect:
-        TNT1 A 0 a_lower
+        TNT1 A 0 A_Lower
         wait
     Deselect.DEAD:
-        TNT1 A 1 a_lower
+        TNT1 A 1 A_Lower
         wait
     }
 }
@@ -62,7 +62,7 @@ actor S7_MeleePuffStrong : S7_MeleePuff {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 0 a_spawnItem ("S7_ShotSmoke")
+        TNT1 A 0 A_SpawnItem ("S7_ShotSmoke")
         stop
     }
 }

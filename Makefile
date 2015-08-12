@@ -57,7 +57,7 @@ Common_O = \
    $(OBJDIR)/Common/sprint_system.o \
    $(OBJDIR)/Common/stamina.o \
    $(OBJDIR)/Common/util_math.o \
-   $(OBJDIR)/Common/weapon_stuff.o
+   $(OBJDIR)/Common/weapon_stuff.o \
 #   $(OBJDIR)/Common/xp_system.o
 
 $(Common_O) : $(OBJDIR)/Common/%.o : $(SRCDIR)/Common/%.c
@@ -70,7 +70,8 @@ $(OBJDIR)/Common.ir: $(Common_O)
 ZDoom_INC = -i$(INCDIR)/ZDoom $(Common_INC)
 ZDoom_O = \
    $(OBJDIR)/ZDoom/main.o \
-   $(OBJDIR)/ZDoom/cvars.o
+   $(OBJDIR)/ZDoom/cvars.o \
+   $(OBJDIR)/ZDoom/shop.o
 
 $(ZDoom_O) : $(OBJDIR)/ZDoom/%.o : $(SRCDIR)/ZDoom/%.c
 	$(CC) --bc-target=ZDoom $(ZDoom_INC) $< $@
