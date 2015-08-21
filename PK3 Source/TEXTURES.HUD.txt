@@ -1,0 +1,7 @@
+graphic HELMBTML, 94, 15 {
+    patch HELMBTMR, 0, 0 {
+		flipX
+	}
+}
+
+graphic HOLOBR01, 114, 9 { }
