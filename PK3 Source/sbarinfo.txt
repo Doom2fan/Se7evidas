@@ -4,5 +4,5 @@ lowerHealthCap false;
 //monospacefonts true, "0";
 
 #include "SBARINFO/Fullscreen HUD.TXT"
-#include "SBARINFO/Normal HUD.TXT"
+//#include "SBARINFO/Normal HUD.TXT"
 //#include "SBARINFO/Popup Lists.TXT"

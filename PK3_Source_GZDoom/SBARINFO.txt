@@ -1,0 +1,24 @@
+// Code: Chronos "phantombeta" Ouroboros
+// Sprites: Nintendo/Retro Studios, Patrik, LanHikariDS, Chronos "phantombeta" Ouroboros
+
+Resolution 320, 200;
+statusBar fullscreen, forceScaled, fullscreenOffsets {
+    // Helmet parts
+    drawImage "HELMTOP", -129 + center, 0;
+    drawImage "HELMBTML", 31, -15;
+    drawImage "HELMBTMR", -125, -15;
+    
+    // Holo stuff
+    drawImage "graphics/HUD/Fullscreen/HOLOBARSNONE.png", -67 + center, 27;
+    ifHealth 75% {
+        drawImage "graphics/HUD/Fullscreen/HOLOBARSGREEN.png", -18 + center, 29;
+    } else ifHealth 50% {
+        drawImage "graphics/HUD/Fullscreen/HOLOBARSYELLOW.png", -18 + center, 29;
+    } else ifHealth 25% {
+        drawImage "graphics/HUD/Fullscreen/HOLOBARSORANGE.png", -18 + center, 29;
+    } else {
+        drawImage "graphics/HUD/Fullscreen/HOLOBARSRED.png", -18 + center, 29;
+    }
+    
+    drawBar "HOLOBR00", "HOLOBR01", health, horizontal , -57 + center, 39;
+}

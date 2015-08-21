@@ -1,65 +1,14 @@
-statusBar fullscreen, fullscreenOffsets {
-    drawImage "STATBARS", 20, -272; // 10 = a, -2 = b; health is drawn at a+26 and b-17, Armor at a+6 and b-17
+// Code: Chronos "phantombeta" Ouroboros
+// Sprites: Nintendo/Retro Studios, Patrik, LanHikariDS, Chronos "phantombeta" Ouroboros
+
+Resolution 320, 200;
+statusBar fullscreen, forceScaled, fullscreenOffsets {
+    // Helmet parts
+    drawImage "HELMTOP", -129 + center, 0;
+    drawImage "HELMBTML", 31, -15;
+    drawImage "HELMBTMR", -125, -15;
     
-    // Health
-    drawBar "S7HPBAR", "S7SBEMPT", health, vertical, 56, -239;
-    drawNumber 3, BIGFONT, red, health, drawShadow, 80, -24;
-    
-    // Armor
-    drawBar "S7ARMBR", "S7SBEMPT", armor, vertical, 26, -239;
-    drawNumber 3, BIGFONT, green, armor, drawShadow, whenNotZero, 48, -24;
-    
-    // Inventory
-    drawSelectedInventory centerBottom, drawShadow, INDEXFONT, -14, -100, -26, -105, untranslated;
-    
-    // Stamina
-    drawImage "S7STBRBG", 5, -270;
-    drawBar "S7STBRFG", "S7STBRBK", S7_Stamina, horizontal, 6, -268;
-    
-    // Invulnerability
-    inInventory PowerInvulnerable {
-        drawBar "S7INVBAR", "S7SBEMP2", powerupTime InvulnerabilitySphere, vertical, 56, -239;
-    }
-    
-    // Air supply
-    inInventory S7_IsUnderwater {
-        drawBar "S7AIRBAR", "S7AIRBCK", airTime, vertical, -32, -280;
-        // Radiation Suit
-        inInventory PowerIronFeet {
-            drawBar "S7RADBAR", "S7RADBCK", powerupTime RadSuit, vertical, -32, -280;
-        }
-    } inInventory Not S7_IsUnderwater {
-        // Radiation Suit
-        inInventory PowerIronFeet {
-            drawBar "S7AIRBAR", "S7AIRBCK", airTime, vertical, -32, -280;
-            drawBar "S7RADBAR", "S7RADBCK", powerupTime RadSuit, vertical, -32, -280;
-        }
-    }
-    
-    // Weapon Tag
-    drawString SMALLFONT, white, weaponTag, -6, -10, 0, alignment (right);
-    
-    /*
-    **  3 ammo counters
-    **  drawImage "AMMOCNT3", -85, -88;
-    **  drawNumber 8, BIGFONT, untranslated, ammo <ammo3>, drawShadow, -10, -82;
-    **  drawNumber 8, BIGFONT, untranslated, ammo2, drawShadow, -10, -59;
-    **  drawNumber 8, BIGFONT, untranslated, ammo1, drawShadow, -10, -35;
-    */
-    // Ammo
-    usesAmmo {
-        // Secondary ammo
-        usesSecondaryAmmo {
-            drawImage "AMMOCNT2", -85, -65;
-            drawNumber 8, BIGFONT, untranslated, ammo2, drawShadow, -10, -59;
-            drawNumber 8, BIGFONT, untranslated, ammo1, drawShadow, -10, -35;
-        } usesSecondaryAmmo not {
-            drawImage "AMMOCONT", -85, -41;
-            drawNumber 8, BIGFONT, untranslated, ammo1, drawShadow, -10, -35;
-        }
-    }
-    
-    gameMode deathmatch {
-        drawNumber 4, BIGFONT, untranslated, frags, drawShadow, -3, 1;
-    }
+    // Holo stuff
+    drawImage "HOLOBARS", -67 + center, 27;
+    drawBar "HOLOBR00", "HOLOBR01", health, horizontal , -57 + center, 39;
 }
