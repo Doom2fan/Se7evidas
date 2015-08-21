@@ -1,8 +1,14 @@
-TODO: (in no particular order)
+(in no particular order)
+This shit has to be done before any official /beta/ releases:
+1. New fonts
+2. Shop system
+
+This shit HAS to be done before any official stable release:
 1. Add more weapons
 2. Convert inventory hacks to uservars
-3. Shop system
-4. Fucking monsters (Maybe literally too...)
-5. Storage system
-6. Grenades
-7. Player customizable weapon slots
+3. Fucking monsters (Maybe literally too...)
+4. Storage system
+5. Grenades
+
+Would be nice:
+1. Player customizable weapon slots
