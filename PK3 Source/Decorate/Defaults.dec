@@ -9,6 +9,17 @@ actor Counter : inventory {
     +inventory.Undroppable -inventory.InvBar
 }
 
+// By Chronos "phantombeta" Ouroboros
+actor S7_ActionRunnerBase : CustomInventory {
+    inventory.MaxAmount 1
+    +inventory.AutoActivate +inventory.AlwaysPickup +inventory.Quiet
+    states {
+    Spawn:
+        TNT1 A 0
+        stop
+    }
+}
+
 // By Jekyll Grim Payne "Aka" zer0
 actor S7_DebrisGeneral {
     radius 1

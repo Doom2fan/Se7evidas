@@ -3,13 +3,15 @@
 // Empress (Female Heresiarch)
 //
 //===========================================================================
-Actor S7_Empress replaces Cyberdemon {
+actor S7_IsEmpress : boolean { }
+actor S7_EmpressBalls : counter { inventory.MaxAmount 4 }
+actor S7_Empress replaces cyberdemon {
     health 4000
     radius 40
     height 110
     mass 1000
     speed 20
-    painChance 20
+    painChance 15
     monster
     minMissileChance 160
     obituary "$OB_CYBORG"
@@ -18,17 +20,100 @@ Actor S7_Empress replaces Cyberdemon {
     deathSound "cyber/death"
     activeSound "cyber/active"
     
-    +Boss +MissileMore +FloorClip +NoRadiusDMG
-    +DontMorph +BossDeath
-    States {
+    +boss +missileMore +floorClip +noRadiusDMG
+    +noTarget +dontMorph +bossDeath
+    states {
     Spawn:
+        TNT1 A 0 noDelay A_GiveInventory ("S7_IsEmpress", 1)
+    Idle:
         HRFR A 10 A_Look
-        Loop
+        loop
     See:
         HRFR AABBCCDD 4 A_Chase
-        Loop
+        loop
+    Missile:
+        TNT1 A 0 A_Jump (64, "ShieldsUp") //"MissileAttack", "ShieldsUp")
+        wait
+    ShieldsUp:
+        TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
+        TNT1 A 0 A_ChangeFlag ("noPain", 1)
+        HRFR EEEEEFFFFFFFFFF 1 A_FaceTarget
+        TNT1 A 0 A_ChangeFlag ("noBlood", 1)
+        TNT1 A 0 A_ChangeFlag ("reflective", 1)
+        TNT1 A 0 A_GiveInventory ("S7_EmpressProtection", 1)
+        HRFR FFFF 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 55.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        /*HRFR F 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 55.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        HRFR F 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter2", 64.0, 0.0, 55.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        HRFR F 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter3", 64.0, 0.0, 55.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        HRFR F 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter4", 64.0, 0.0, 55.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)*/
+        TNT1 A 0 A_ChangeFlag ("noPain", 0)
+        goto See
     Pain:
-        HRFR G 10 A_Pain
-        Goto See
+        HRFR G 8 A_Pain
+        goto See
+    Pain.Empress_BallExploded:
+        HRFR G 13 A_Pain
+        goto See
+    }
+}
+
+actor S7_EmpressProtection : PowerProtection {
+    damageFactor "Normal", 0.0
+    damageFactor "Empress_BallExploded", 1.0
+}
+
+actor S7_EmpressInvulnOrbiter {
+    health 100
+    radius 20
+    renderStyle Add
+    +isMonster +shootable +noTeleport +noBlood
+    +noTargetSwitch +noGravity
+    
+    var int user_angle;
+    var int user_countdown;
+    var int user_loop;
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_RearrangePointers (AAPTR_Master, AAPTR_Default, AAPTR_Master)
+        TNT1 A 0 A_JumpIfInventory ("S7_IsEmpress", 1, "Initialize", AAPTR_Master)
+        TNT1 A 0 A_Die
+        goto Death
+    
+    Initialize:
+        TNT1 A 0 A_GiveInventory ("S7_EmpressBalls", 1, AAPTR_Master)
+        TNT1 A 0 A_SetUserVar ("user_countdown", 35 * 15)
+        TNT1 A 0 A_ChangeFlag ("isMonster", 0)
+    
+    Idle:
+        BAL1 A 1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 55.0, user_angle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
+        TNT1 A 0 A_SetUserVar ("user_countdown", user_countdown - 1)
+        TNT1 A 0 A_SetUserVar ("user_angle", user_angle + 18)
+        TNT1 A 0 A_JumpIf (user_countdown > 0, "Idle")
+        TNT1 A 0 A_Die
+        TNT1 A 0 A_Jump (256, "Death")
+        wait
+    
+    Death:
+        TNT1 A 1 A_GiveInventory ("S7_EmpressInvulnOrbiterDeath", 1, AAPTR_Master)
+        TNT1 A 0 A_DamageMaster (Random (1, 8) * 8, "Empress_BallExploded") // That's gotta hurt.
+        // Explosion here
+        stop
+    }
+}
+
+actor S7_EmpressInvulnOrbiterDeath : S7_ActionRunnerBase {
+    states {
+    Use:
+        TNT1 A 0 A_JumpIfInventory ("S7_IsEmpress", 1, "IsEmpress")
+        goto Finish
+    IsEmpress:
+        TNT1 A 0 A_TakeInventory ("S7_EmpressBalls", 1) // Ouch.
+        TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, "Finish")
+        TNT1 A 0 A_ChangeFlag ("noBlood", 0)
+        TNT1 A 0 A_ChangeFlag ("reflective", 0)
+        TNT1 A 0 A_TakeInventory ("S7_EmpressProtection", 1)
+    Finish:
+        TNT1 A 0 A_RailWait
+        stop
     }
 }
