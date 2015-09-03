@@ -10,8 +10,8 @@ actor S7_Raptor : S7_BaseWeapon {
     //$Category Se7evidas - Weapons
     //$Title Raptor
     //$Sprite RPTPA0
-    inventory.PickupMessage "$RAPTORHANDGUN"
-    tag "$RAPTORHANDGUN"
+    inventory.PickupMessage "$RAPTOR"
+    tag "$RAPTOR"
     weapon.AmmoType1 "S7_RaptorClip"
     weapon.AmmoType2 "S7_9mmCartridges"
     weapon.AmmoUse 1

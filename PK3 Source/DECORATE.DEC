@@ -52,6 +52,6 @@
 #INCLUDE "Decorate/Weapons/Primary/AMG/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/PrettyShootyIonCannonGun/DECORATE.DEC"
 // Secondary
-#INCLUDE "Decorate/Weapons/Raptor Handgun/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Secondary/Raptor/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/TEC-9/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/Revolver/DECORATE.DEC"
