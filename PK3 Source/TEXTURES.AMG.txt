@@ -1,4 +1,8 @@
-sprite AMGGD0, 320, 200 {
+sprite AMGGB0, 320, 200 {
+    patch AMGGA0, 143, 72
+}
+
+sprite AMGGC0, 320, 200 {
     patch AMGGA0, 141, 70
 }
 
