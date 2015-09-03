@@ -5,6 +5,6 @@ SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun (20ga) \"Lucifer\
 IONCANNON                       = "Thor Inc. Prototype GTX-2 Ion Cannon Mk V \"Mjolnir\"";
 
 /** Secondary Weapons **/
-RAPTORHANDGUN                   = "Cronus Corps R16 Pistol (9mm) \"Raptor\"";
+RAPTOR                          = "Cronus Corps R16 Pistol (9mm) \"Raptor\"";
 TEC9                            = "Cronus Corps S18 SMG (9mm) \"Kronos\"";
 REVOLVER                        = "ShadowFyre Omega-Sigma Revolver (.44M) \"Deathbringer\"";
