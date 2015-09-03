@@ -1,0 +1,14 @@
+$RANDOM Weapons/Raptor/Fire {
+    Weapons/Raptor/Fire1
+    Weapons/Raptor/Fire2
+    Weapons/Raptor/Fire3
+}
+Weapons/Raptor/Fire1            "sounds/Weapons/Secondary/Raptor/Fire1.ogg" // By NightmareMutant from GAMEBANANA
+Weapons/Raptor/Fire2            "sounds/Weapons/Secondary/Raptor/Fire2.ogg" // Ditto
+Weapons/Raptor/Fire3            "sounds/Weapons/Secondary/Raptor/Fire3.ogg" // Ditto
+
+Weapons/Raptor/Melee            "sounds/Weapons/Secondary/Raptor/Melee.ogg" // By Mor'ladim
+Weapons/Raptor/Melee/Hit        "sounds/Weapons/Secondary/Raptor/MeleeHit.ogg" // By Mor'ladim
+Weapons/Raptor/Melee/Wall       "sounds/Weapons/Secondary/Raptor/MeleeWall.ogg" // By Mor'ladim
+Weapons/Raptor/Out              "sounds/Weapons/Secondary/Raptor/Out.ogg" // By NightmareMutant from GAMEBANANA
+Weapons/Raptor/In               "sounds/Weapons/Secondary/Raptor/In.ogg"// By NightmareMutant from GAMEBANANA
