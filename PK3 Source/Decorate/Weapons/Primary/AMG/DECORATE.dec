@@ -66,7 +66,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         goto Ready2
     
     Flash:
-        AMGF AA 1 bright
+        AMGF AB 1 bright
         stop
     
     ChangeFireMode:
