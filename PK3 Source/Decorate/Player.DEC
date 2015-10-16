@@ -30,7 +30,7 @@ actor S7_BasePlayer : playerPawn {
     // Weapon Slots
     player.WeaponSlot 1, S7_Raptor, S7_TEC9, S7_Revolver
     player.WeaponSlot 2, S7_Shotgun, S7_AMG
-    player.WeaponSlot 4, S7_PrettyShootyIonCannonGun
+    player.WeaponSlot 4, S7_PrettyShootyIonCannonGun, S7_PlasmaGun
     
     // Misc
     radius 16

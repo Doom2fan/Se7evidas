@@ -1,0 +1,40 @@
+actor S7_PlasmaGun : S7_BaseWeapon 30002 {
+    inventory.PickupMessage "$PLASMAGUN"
+    tag "$PLASMAGUN"
+    //weapon.AmmoType1 "S7_PlasmaGunMag"
+    //weapon.AmmoType2 "S7_Cells"
+    weapon.AmmoUse 0
+    weapon.AmmoGive 0
+    states {
+    Spawn:
+        PLSG Z -1
+        stop
+    
+    Ready:
+    Ready2:
+        //TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
+        TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
+        PLSG A 1 A_WeaponReady
+        loop
+    
+    Fire:
+        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
+        TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon)
+        PLSG B 1 offset (4, 36) A_GunFlash
+        PLSG E 2 offset (3, 35)
+        PLSG D 2 offset (2, 34)
+        PLSG C 1 offset (1, 33)
+        PLSG A 1 A_Refire
+        goto Ready2
+
+    AltFire:
+        PLSG B 1 offset (8, 40) A_GunFlash
+        PLSG E 1 offset (6, 38)
+        PLSG G 1 offset (4, 36)
+        PLSG G 1 offset (2, 34)
+        PLSG G 6
+        PLSG FEDCA 2
+        goto Ready2
+    }
+}
