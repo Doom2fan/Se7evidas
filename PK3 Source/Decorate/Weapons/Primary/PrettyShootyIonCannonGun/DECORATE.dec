@@ -29,7 +29,7 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
     
     Fire:
         TNT1 A 0 A_FireCustomMissile ("S7_IonCannonProjectile")
-        TNT1 AAA 0 A_FireCustomMissile ("S7_IonCannonRail", fRandom (-3.0, 3.0), 0, 1, -5, 0, fRandom (-3.0, 3.0))
+        TNT1 AAA 0 A_FireCustomMissile ("S7_IonCannonRail", fRandom [weaponSpread] (-3.0, 3.0), 0, 1, -5, 0, fRandom [weaponSpread] (-3.0, 3.0))
         PIC1 DDEEF 1
         PIC1 GHIJKLMNGHIJKLMNGHIJKLMNG 2
         PIC1 FEEDD 1
@@ -42,7 +42,7 @@ actor S7_IonCannonProjectile : fastProjectile {
     projectile
     renderStyle add
     scale 0.25
-    damage (450 / random (1, 8))
+    damage (450 / random [weaponDamage] (1, 8))
     
     +SeekerMissile +ScreenSeeker
     
@@ -65,7 +65,7 @@ actor S7_IonCannonRail : fastProjectile {
     renderStyle add
     +noDamageThrust
     scale 0.05
-    damage (random (1, 5) * 16)
+    damage (random [weaponDamage] (1, 5) * 16)
     missileType "S7_IonCannonRailEffectSpawner"
     decal Bullet
     alpha 0.5
@@ -84,7 +84,7 @@ actor S7_IonCannonRailEffectSpawner {
     states {
     Spawn:
         TNT1 A 0
-        TNT1 A 1 A_SpawnItemEx ("S7_IonCannonRailEffect", 0.0 + fRandom (-2.5, 2.5), 0.0 + fRandom (-2.5, 2.5), 8.0 + fRandom (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 1 A_SpawnItemEx ("S7_IonCannonRailEffect", 0.0 + fRandom [sfx] (-2.5, 2.5), 0.0 + fRandom [sfx] (-2.5, 2.5), 8.0 + fRandom [sfx] (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside)
         Stop
     }
 }
@@ -97,7 +97,7 @@ actor S7_IonCannonRailEffect {
     states {
     Spawn:
         PICF A 2 bright
-        TNT1 A 0 A_ChangeVelocity (fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), CVF_Replace | CVF_Relative)
+        TNT1 A 0 A_ChangeVelocity (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), CVF_Replace | CVF_Relative)
         PICF A 1 bright A_FadeOut (0.05)
         wait
     }

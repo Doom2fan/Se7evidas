@@ -95,17 +95,17 @@ actor S7_BasePlayer : playerPawn {
         stop
     Death.Plasma:
         TNT1 A 0 thing_SetTranslation (0, 7)
-        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
         PLAY H 10 A_PlayerScream
-        PLAY I 10 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY I 10 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
         PLAY J 10 A_NoBlocking
-        PLAY K 10 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY K 10 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
         PLAY L 10 A_PlaySound ("Misc/Body", CHAN_BODY)
-        PLAY M 10 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
-        PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ("S7_BlackSmoke", random (-16, 16), random (-16, 16), random (8, 16), 0, 0, 1)
+        PLAY M 10 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
+        PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1)
         PLAY N -1
         stop
     }

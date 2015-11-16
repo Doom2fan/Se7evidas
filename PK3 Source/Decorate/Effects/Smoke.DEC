@@ -1,6 +1,28 @@
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
+actor S7_WhiteSmoke {
+    +noInteraction +forceXYBillboard
+    renderStyle add
+    alpha 0.3
+    scale 0.1
+    states {
+    Spawn:
+        SMOK ABCDEFGHIJKLMNOPQ 1
+        stop
+    }
+}
+
+actor S7_BlackSmoke : S7_WhiteSmoke {
+    renderStyle translucent
+    alpha 0.15
+    states {
+    Spawn:
+        SMOK ABCDEFGHIJKLMNOPQ 1
+        stop
+    }
+}
+
 actor S7_ShotSmoke {
-    +noInteraction +forceXYBillboard +noTimeFreeze
+    +noInteraction +forceXYBillboard
     vSpeed 2
     renderStyle add
     alpha 0.3
@@ -23,19 +45,18 @@ actor S7_ShotSmokeTrail : S7_ShotSmoke {
     }
 }
 
-actor S7_BlackSmoke : S7_ShotSmoke {
+actor S7_BlackShotSmoke : S7_ShotSmoke {
     renderStyle translucent
     alpha 0.15
     states {
     Spawn:
         TNT1 A 0
-        SMOK ABCDEFGHIJKLMNOPQ 1 A_SpawnItem ("S7_BlackSmokeTrail")
-        SMOK Q 1 A_FadeOut (0.02)
-        wait
+        SMOK ABCDEFGHIJKLMNOPQ 1 A_SpawnItem ("S7_BlackShotSmokeTrail")
+        stop
     }
 }
 
-actor S7_BlackSmokeTrail : S7_ShotSmokeTrail {
+actor S7_BlackShotSmokeTrail : S7_ShotSmokeTrail {
     renderStyle translucent
     alpha 0.08
 }
@@ -80,7 +101,7 @@ actor S7_ShotSmoke_2_Spawner { // By wildweasel, edited by Chronos "phantombeta"
 
 // DECORATE by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
 actor S7_ShotSmoke_2 {
-    +noInteraction +forceXYBillboard +noTimeFreeze
+    +noInteraction +forceXYBillboard
     renderStyle add
     alpha 0.3
     scale 0.1

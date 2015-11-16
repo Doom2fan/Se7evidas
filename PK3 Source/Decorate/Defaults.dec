@@ -12,7 +12,7 @@ actor Counter : inventory {
 // By Chronos "phantombeta" Ouroboros
 actor S7_ActionRunnerBase : CustomInventory {
     inventory.MaxAmount 1
-    +inventory.AutoActivate +inventory.AlwaysPickup +inventory.Quiet
+    +inventory.AutoActivate +inventory.Quiet
     states {
     Spawn:
         TNT1 A 0

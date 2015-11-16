@@ -10,11 +10,10 @@ actor S7_TeleportFog {
     }
 }
 
-actor S7_TeleportFogSpawner replaces teleportFog {
+actor S7_TeleportFogSpawner : teleportFog replaces teleportFog {
     states {
     Spawn:
-        TNT1 A 0
-        TNT1 A 0 A_SpawnItemEx ("S7_TeleportFog", 0.0, 15.0)
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_TeleportFog", 0.0, 0.0)
         stop
     }
 }
