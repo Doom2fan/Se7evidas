@@ -4,38 +4,31 @@ sprite PLSGA0, 231, 83 {
     patch "graphics/Weapons/PlasmaGun/Body.png", 0, 20
 }
 
-sprite PLSGB0, 231, 84 {
-    offset -65, -89
-    patch "graphics/Weapons/PlasmaGun/Muzzle.png", 100, 1
-    patch "graphics/Weapons/PlasmaGun/Body.png", 0, 21
-    patch "graphics/Weapons/PlasmaGun/Flash.png", 104, 0
-}
-
-sprite PLSGC0, 231, 83 {
+sprite PLSGB0, 231, 83 {
     offset -65, -90
     patch "graphics/Weapons/PlasmaGun/Muzzle.png", 102, 2
     patch "graphics/Weapons/PlasmaGun/Body.png", 0, 20
 }
 
-sprite PLSGD0, 231, 83 {
+sprite PLSGC0, 231, 83 {
     offset -65, -90
     patch "graphics/Weapons/PlasmaGun/Muzzle.png", 104, 4
     patch "graphics/Weapons/PlasmaGun/Body.png", 0, 20
 }
 
-sprite PLSGE0, 231, 83 {
+sprite PLSGD0, 231, 83 {
     offset -65, -90
     patch "graphics/Weapons/PlasmaGun/Muzzle.png", 106, 6
     patch "graphics/Weapons/PlasmaGun/Body.png", 0, 20
 }
 
-sprite PLSGF0, 231, 83 {
+sprite PLSGE0, 231, 83 {
     offset -65, -90
     patch "graphics/Weapons/PlasmaGun/Muzzle.png", 108, 8
     patch "graphics/Weapons/PlasmaGun/Body.png", 0, 20
 }
 
-sprite PLSGG0, 231, 83 {
+sprite PLSGF0, 231, 83 {
     offset -65, -90
     patch "graphics/Weapons/PlasmaGun/Muzzle.png", 110, 10
     patch "graphics/Weapons/PlasmaGun/Body.png", 0, 20
