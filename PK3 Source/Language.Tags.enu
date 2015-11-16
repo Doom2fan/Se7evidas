@@ -8,3 +8,6 @@ IONCANNON                       = "Thor Inc. Prototype GTX-2 Ion Cannon Mk V \"M
 RAPTOR                          = "Cronus Corps R16 Pistol (9mm) \"Raptor\"";
 TEC9                            = "Cronus Corps S18 SMG (9mm) \"Kronos\"";
 REVOLVER                        = "ShadowFyre Omega-Sigma Revolver (.44M) \"Deathbringer\"";
+
+/** Special Weapons **/
+PLASMAGUN                       = "Mobius Labs Prototype Plasma Machine Gun Mk III";
