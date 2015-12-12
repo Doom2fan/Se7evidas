@@ -1,4 +1,4 @@
 Weapon:
 DECORATE: Chronos "phantombeta" Ouroboros
 Sprites: 3D Realms, Chronos "phantombeta" Ouroboros, Blox
-Sounds: ???
+Sounds: icytux, Chronos "phantombeta" Ouroboros
