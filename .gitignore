@@ -16,7 +16,6 @@ acs.err
 (1)Log.txt
 *.o
 *.PK3
-/Editing/
 /C_Source/obj/
 /PK3_Source_GZDoom/acs
 /PK3_Source_Zandronum/acs
