@@ -17,7 +17,7 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
+/*#include "includes.h"
 #include "xp_system.h"
 
 //-------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ void LevelUp (int level) {
     SetFont (s"DBIGFONT");
     
     if (GetUserCVar (PLN, s"S7_MsgsOn"))
-        HudMessage ("You reached level ", d:level, s:"."; HUDMSG_FADEINOUT|GetUserCVar (PLN, "S7_LogLVLUpMsgs") * HUDMSG_LOG, 10000, CR_UNTRANSLATED, 0.5, 0.5, 3.0, 0.3, 0.3);
+        HudMessage (s"You reached level ", d:level, s:"."; HUDMSG_FADEINOUT|GetUserCVar (PLN, s"S7_LogLVLUpMsgs") * HUDMSG_LOG, 10000, CR_UNTRANSLATED, 0.5, 0.5, 3.0, 0.3, 0.3);
     
     PlaySound (0, s"Player/LevelUp", CHAN_UI);
     GiveInventory (s"S7_XP_System_Level", 1);
@@ -71,7 +71,7 @@ Script_C void S7_XP_System ENTER {
 //-------------------------------------------------------------------------------------------
 
 // strength
-/*int S7_StrengthStat (fixed baseDamage, fixed multiplier) {
+int S7_StrengthStat (fixed baseDamage, fixed multiplier) {
     fixed strengthStat = CheckInventory (s"S7_Stats_System_Strength");
     fixed result = baseDamage * (1.0 + (multiplier * strengthStat));
     

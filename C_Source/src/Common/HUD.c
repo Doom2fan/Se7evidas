@@ -20,6 +20,11 @@
 #include "includes.h"
 #include "hud.h"
 
+string S7_HW_2ModeWpns [] [4] = {
+    { s"S7_TEC9", s"S7_TEC9_Burst", s"BrstFire", s"FullAuto" },
+    { s"S7_AMG",  s"S7_AMG_Burst",  s"BrstFire", s"FullAuto" }
+};
+
 Script_C void S7_HudWeapons ENTER CLIENTSIDE () { // HUD icons and stuff...
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
@@ -28,24 +33,19 @@ Script_C void S7_HudWeapons ENTER CLIENTSIDE () { // HUD icons and stuff...
     while (TRUE) {
         if (GetCVar (s"screenblocks") <= 11) { // if HUD shown...
             /* Firing modes */
-            if (CheckWeapon (s"S7_TEC9")) { // if using the TEC-9...
-                if (CheckInventory (s"S7_TEC9_Burst")) { // if in Burst mode...
-                    SetFont (s"BrstFire"); // Display Burst icon
-                } else { // if in full auto mode
-                    SetFont (s"FullAuto"); // Display Full Auto icon
-                }
-            } else if (CheckWeapon (s"S7_AMG")) { // if using the AMG...
-                if (CheckInventory (s"S7_AMG_Burst")) { // if in Burst mode...
-                    SetFont (s"BrstFire"); // Display Burst icon
-                } else { // if in full auto mode
-                    SetFont (s"FullAuto"); // Display Full Auto icon
-                }
-            } else
-                SetFont (s"TNT1A0");
-        } else
             SetFont (s"TNT1A0");
-        
-        HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
+            for (int x = 0; x < (sizeof (S7_HW_2ModeWpns) / sizeof (S7_HW_2ModeWpns [0])); x++) {
+                if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
+                    if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
+                        SetFont (S7_HW_2ModeWpns [x] [2]);
+                    else
+                        SetFont (S7_HW_2ModeWpns [x] [3]);
+
+                    break;
+                }
+            }
+            HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
+        }
         Delay (1);
     }
 }
