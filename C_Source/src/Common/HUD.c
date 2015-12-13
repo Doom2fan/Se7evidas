@@ -25,27 +25,33 @@ string S7_HW_2ModeWpns [] [4] = {
     { s"S7_AMG",  s"S7_AMG_Burst",  s"BrstFire", s"FullAuto" }
 };
 
+void HW_SetFont (string font) {
+    if (GetCVar (s"screenblocks") <= 11) // if the HUD shown...
+        SetFont (font);
+    else
+        SetFont (s"TNT1A0");
+}
+
 Script_C void S7_HudWeapons ENTER CLIENTSIDE () { // HUD icons and stuff...
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
     
     while (TRUE) {
-        if (GetCVar (s"screenblocks") <= 11) { // if HUD shown...
-            /* Firing modes */
-            SetFont (s"TNT1A0");
-            for (int x = 0; x < (sizeof (S7_HW_2ModeWpns) / sizeof (S7_HW_2ModeWpns [0])); x++) {
-                if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
-                    if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
-                        SetFont (S7_HW_2ModeWpns [x] [2]);
-                    else
-                        SetFont (S7_HW_2ModeWpns [x] [3]);
+        /* Firing modes */
+        SetFont (s"TNT1A0");
+        for (int x = 0; x < (sizeof (S7_HW_2ModeWpns) / sizeof (S7_HW_2ModeWpns [0])); x++) {
+            if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
+                if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
+                    HW_SetFont (S7_HW_2ModeWpns [x] [2]);
+                else
+                    HW_SetFont (S7_HW_2ModeWpns [x] [3]);
 
-                    break;
-                }
+                break;
             }
-            HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
         }
+        HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
+
         Delay (1);
     }
 }
