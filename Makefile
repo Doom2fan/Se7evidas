@@ -2,7 +2,7 @@ CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
 COM_FLAGS = --bc-target=ZDoom
-CC_FLAGS = $(COMFLAGS) -DDEBUG
+CC_FLAGS = $(COM_FLAGS) -DDEBUG
 
 SOURCEDIRECTORY = C_Source
 
