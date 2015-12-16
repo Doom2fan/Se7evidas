@@ -52,6 +52,13 @@
 				"sprites"
 			],
 			"path": "PK3_Source_Zandronum"
+		},
+		{
+			"folder_exclude_patterns":
+			[
+				"obj"
+			],
+			"path": "C_Source"
 		}
 	],
 	"settings":
