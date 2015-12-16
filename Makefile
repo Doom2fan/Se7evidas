@@ -2,6 +2,7 @@ CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
 COM_FLAGS = --bc-target=ZDoom
+CC_FLAGS = $(COMFLAGS) -DDEBUG
 
 SOURCEDIRECTORY = C_Source
 
@@ -57,7 +58,7 @@ Common_SRC = $(wildcard $(Common_SRCDIR)/*.c)
 Common_OBJ = $(Common_SRC:$(Common_SRCDIR)/%.c=$(Common_OBJDIR)/%.ir)
 
 $(Common_OBJDIR)/%.ir: $(Common_SRCDIR)/%.c
-	$(CC) $(COM_FLAGS) -i$(Common_INCDIR) -i$(Common_SRCDIR) -c $< -o $@
+	$(CC) $(CC_FLAGS) -i$(Common_INCDIR) -i$(Common_SRCDIR) -c $< -o $@
 
 $(OBJDIR)/Common.ir: $(Common_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
@@ -70,7 +71,7 @@ ZDoom_SRC = $(wildcard $(ZDoom_SRCDIR)/*.c)
 ZDoom_OBJ = $(ZDoom_SRC:$(ZDoom_SRCDIR)/%.c=$(ZDoom_OBJDIR)/%.ir)
 
 $(ZDoom_OBJDIR)/%.ir: $(ZDoom_SRCDIR)/%.c
-	$(CC) $(COM_FLAGS) -i$(ZDoom_INCDIR) -i$(Common_INCDIR) -i$(ZDoom_SRCDIR) -c $< -o $@
+	$(CC) $(CC_FLAGS) -i$(ZDoom_INCDIR) -i$(Common_INCDIR) -i$(ZDoom_SRCDIR) -c $< -o $@
 
 $(OBJDIR)/ZDoom.ir: $(ZDoom_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
@@ -86,7 +87,7 @@ Zandronum_SRC = $(wildcard $(Zandronum_SRCDIR)/*.c)
 Zandronum_OBJ = $(Zandronum_SRC:$(Zandronum_SRCDIR)/%.c=$(Zandronum_OBJDIR)/%.ir)
 
 $(Zandronum_OBJDIR)/%.ir: $(Zandronum_SRCDIR)/%.c
-	$(CC) $(COM_FLAGS) -i$(Zandronum_INCDIR) -i$(Common_INCDIR) -i$(Zandronum_SRCDIR) -c $< -o $@
+	$(CC) $(CC_FLAGS) -i$(Zandronum_INCDIR) -i$(Common_INCDIR) -i$(Zandronum_SRCDIR) -c $< -o $@
 
 $(OBJDIR)/Zandronum.ir: $(Zandronum_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
