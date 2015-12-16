@@ -8,6 +8,7 @@ actor S7_BasePlayer : playerPawn {
     // Damage
     gibHealth -50
     painChance 255
+    painChance "SoulLanceSelfDamage", 0
     
     // Movement
     player.ForwardMove 0.8, 0.8
