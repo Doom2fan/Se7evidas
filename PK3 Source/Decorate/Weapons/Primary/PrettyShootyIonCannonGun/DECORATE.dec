@@ -44,7 +44,7 @@ actor S7_IonCannonProjectile : fastProjectile {
     scale 0.25
     damage (450 / random [weaponDamage] (1, 8))
     
-    +SeekerMissile +ScreenSeeker
+    +seekerMissile +screenSeeker +forceXYBillboard
     
     states {
     Spawn:
@@ -63,7 +63,7 @@ actor S7_IonCannonRail : fastProjectile {
     health 125
     projectile
     renderStyle add
-    +noDamageThrust
+    +noDamageThrust +forceXYBillboard
     scale 0.05
     damage (random [weaponDamage] (1, 5) * 16)
     missileType "S7_IonCannonRailEffectSpawner"
@@ -93,7 +93,7 @@ actor S7_IonCannonRailEffect {
     renderStyle add
     scale 0.05
     +noBlockmap +noGravity +noTeleport +cannotPush
-    +noInteraction +clientsideOnly
+    +noInteraction +forceXYBillboard +clientsideOnly
     states {
     Spawn:
         PICF A 2 bright
