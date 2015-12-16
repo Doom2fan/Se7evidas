@@ -83,18 +83,16 @@ actor S7_PlasmaGunRail : fastProjectile {
     health 180
     projectile
     renderStyle add
-    +noDamageThrust
+    +noDamageThrust +forceXYBillboard
     scale 0.015
     damage (random [weaponDamage] (1, 5) * 13)
     missileType "S7_PlasmaGunRailEffectSpawner"
     decal Bullet
     alpha 0.5
 
-    var int user_ticCount;
-
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (1.0 / speed)
+        TNT1 AA 0 A_ScaleVelocity (1.0 / (25 * 1.0))
         TNT1 A 0 A_ScaleVelocity (health)
     Idle:
         PLGF A 1 bright
@@ -141,7 +139,7 @@ actor S7_PlasmaGunRailTrail {
     renderStyle add
     scale 0.015
     +noBlockmap +noGravity +noTeleport +cannotPush
-    +noInteraction +clientsideOnly
+    +noInteraction +forceXYBillboard +clientsideOnly
     states {
     Spawn:
         PLGF A 2 bright
