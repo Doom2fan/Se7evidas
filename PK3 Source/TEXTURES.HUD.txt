@@ -4,4 +4,4 @@ graphic HELMBTML, 94, 15 {
 	}
 }
 
-graphic HOLOBR01, 114, 9 { }
+graphic HOLOBR01, 114, 5 { }

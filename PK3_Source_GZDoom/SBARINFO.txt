@@ -20,5 +20,10 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         drawImage "graphics/HUD/Fullscreen/HOLOBARSRED.png", -18 + center, 29;
     }
     
-    drawBar "HOLOBR00", "HOLOBR01", health, horizontal , -57 + center, 39;
+    drawBar "HOLOBR00", "HOLOBR01", health, horizontal, interpolate (8), -57 + center, 39;
+    drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), -57 + center, 44;
+    drawNumber 4, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -53 + center, 50;
+    drawNumber 4, FSCREENHUDFONT, HUD_Armour, armor, interpolate (8), alignment (right), whennotzero, 53 + center, 50;
+
+    
 }
