@@ -150,24 +150,30 @@ Script_C void S7_BrutalDoomCompatibility OPEN () {
 #endif
 
 #ifdef DEBUG
-Script_C void S7_DebugVelocity (int time) {
-    int timeAbs = abs (time);
-    int t = 0;
-    int bleh = 1;
+Script_C void S7_DebugVelocity () {
     accum x = 0, y = 0, z = 0,
         angle = 0, speed = 0;
-
-    if (timeAbs == 0) {
-        t = INT_MAX;
-        bleh = -1;
-    }
-
-    for (int i = 0; i < t; i + bleh) {
+    while (true) {
         x = GetActorVelX (0);
         y = GetActorVelY (0);
         z = GetActorVelZ (0);
         speed = x * x + y * y + z * z;
         Print ("Velocity: %k\n", FixedSqrt (speed));
+        
+        Delay (1);
+    }
+}
+
+Script_C void S7_DebugVelocityInKmH () {
+    accum x = 0, y = 0, z = 0,
+        speed = 0, speed2;
+    while (true) {
+        x = GetActorVelX (0);
+        y = GetActorVelY (0);
+        z = GetActorVelZ (0);
+        speed = x * x + y * y + z * z;
+        speed2 = 3.6k * ((FixedSqrt (speed) * 35.0k) / 64.0k);
+        Print ("Velocity: %k km/h\n", speed2);
         
         Delay (1);
     }

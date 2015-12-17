@@ -19,6 +19,11 @@
 ** Inventory: 32003
 */
 
+/* Some random units:
+** 32 XY mapunits = 1 meter
+** 38.4 Z mapunits = 1 meter
+*/
+
 #INCLUDE "Decorate/Constants.DEC"
 #INCLUDE "Decorate/Defaults.DEC"
 
