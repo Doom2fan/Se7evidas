@@ -69,6 +69,7 @@ Script_C void S7_Keys ENTER () {
     }
 }
 
+#ifndef DISABLEBDCCOMPAT
 Script_C void S7_BrutalDoomCompatibility OPEN () {
     // Not needed or desired in Titlemaps.
     if (GameType () == GAME_TITLE_MAP)
@@ -146,3 +147,50 @@ Script_C void S7_BrutalDoomCompatibility OPEN () {
             delayer = 0;
     }
 }
+#endif
+
+#ifdef S7DEBUG
+Script_C void S7_DebugVelocity (int time) {
+    int timeAbs = abs (time);
+    int t = 0;
+    int bleh = 1;
+    accum x = 0, y = 0, angle = 0;
+
+    if (timeAbs == 0) {
+        t = INT_MAX;
+        bleh = -1;
+    }
+
+    for (int i = 0; i < t; i + bleh) {
+        x = GetActorVelX (0);
+        y = GetActorVelY (0);
+        angle = VectorAngle (x, y);
+        Print (s"Velocity: %k\n", angle);
+        
+        Delay (1);
+    }
+}
+
+Script_C void S7_DebugVelocity3D (int time) {
+    int timeAbs = abs (time);
+    int t = 0;
+    int bleh = 1;
+    accum x = 0, y = 0, z = 0,
+        angle = 0, speed = 0;
+
+    if (timeAbs == 0) {
+        t = INT_MAX;
+        bleh = -1;
+    }
+
+    for (int i = 0; i < t; i + bleh) {
+        x = GetActorVelX (0);
+        y = GetActorVelY (0);
+        z = GetActorVelZ (0);
+        speed = x * x + y * y + z * z;
+        Print (s"3D Velocity: %f\n", FixedSqrt (speed));
+        
+        Delay (1);
+    }
+}
+#endif

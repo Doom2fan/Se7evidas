@@ -1,0 +1,89 @@
+        DrawButton ("Zombieman", 8000,
+                    PackXY (0, 0),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.1);
+
+        DrawButton ("Shotgun Guy", 8001,
+                    PackXY (0, 1),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.15);
+
+        DrawButton ("Chaingun Guy", 8002,
+                    PackXY (0, 2),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.2);
+
+        DrawButton ("DoomImp", 8003,
+                    PackXY (0, 3),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.25);
+
+        DrawButton ("Demon", 8004,
+                    PackXY (0, 4),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.3);
+
+        DrawButton ("Spectre", 8005,
+                    PackXY (0, 5),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.35);
+
+        DrawButton ("Lost Soul", 8006,
+                    PackXY (0, 6),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.4);
+
+        DrawButton ("Cacodemon", 8007,
+                    PackXY (0, 7),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.45);
+
+        DrawButton ("Hell Knight", 8008,
+                    PackXY (0, 8),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.5);
+
+        DrawButton ("BaronOfHell", 8009,
+                    PackXY (0, 9),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.55);
+
+        DrawButton ("Arachnotron", 8010,
+                    PackXY (0, 10),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.6);
+
+        DrawButton ("Pain Elemental", 8011,
+                    PackXY (0, 11),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.65);
+
+        DrawButton ("Revenant", 8012,
+                    PackXY (0, 12),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.7);
+
+        DrawButton ("Fatso", 8013,
+                    PackXY (0, 13),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.75);
+
+        DrawButton ("Archvile", 8014,
+                    PackXY (0, 14),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.8);
+
+        DrawButton ("Spider Mastermind", 8015,
+                    PackXY (0, 15),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.85);
+
+        DrawButton ("Cyberdemon", 8016,
+                    PackXY (0, 16),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.9);
+
+        DrawButton ("Wolfenstein SS", 8017,
+                    PackXY (0, 17),
+                    PackXY (selectionX, selectionY),
+                    0.2, 0.95);
