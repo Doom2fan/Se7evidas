@@ -24,3 +24,4 @@ acs.err
 *... Play - ZDoom ReShade.bat
 *... Play - GZDoom QEffectsGL.bat
 *.sublime-workspace
+*._ignore_.*
