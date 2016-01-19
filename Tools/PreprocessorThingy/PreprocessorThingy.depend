@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1453006481 source:e:\... chronos' stuff\doom\... my own fucking mods\se7evidas\tools\preprocessorthingy\hello.d
+	<std/stdio.d>
+
+1453046761 source:e:\... chronos' stuff\doom\... my own fucking mods\se7evidas\tools\preprocessorthingy\stack.d
+
+1453047675 source:e:\... chronos' stuff\doom\... my own fucking mods\se7evidas\tools\preprocessorthingy\main.d
+	<std/stdio.d>
+	<stack.d>
+
+1453046761 e:\... chronos' stuff\doom\... my own fucking mods\se7evidas\tools\preprocessorthingy\stack.d
+
