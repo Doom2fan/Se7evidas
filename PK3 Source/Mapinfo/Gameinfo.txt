@@ -6,9 +6,6 @@ gameinfo {
     advisoryTime = 6
     pageTime = 5
     chatSound = "misc/chat"
-    finaleMusic = "D_READ_2"
-    finaleFlat = "SLIME16"
-    finalePage = "CREDIT"
     infoPage = "HELP", "CREDIT"
     quitSound = "menu/quit2"
     defKickback = 100
