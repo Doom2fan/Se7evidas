@@ -4,4 +4,6 @@ graphic HELMBTML, 94, 15 {
 	}
 }
 
-graphic HOLOBR01, 114, 5 { }
+// Empty graphics for bars
+graphic HOLOBR01, 114, 5  { }
+graphic PRFLPMTB, 9, 80   { }

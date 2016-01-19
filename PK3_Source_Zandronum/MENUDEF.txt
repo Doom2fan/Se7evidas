@@ -58,7 +58,7 @@ optionValue EffectsStayTimeOptions {
     3, "Short as fuck (625 tics)"
     4, "Dear lord. Do you have a fucking toaster? (313 tics)"
     5, "MEIN FUCKING GOTT (157 tics)"
-    6, "DEAR LORD. Go buy a new computer right-motherfucking-now. (70 tics)"
+    6, "Stop trying to run this on a 386. (70 tics)"
 }
 
 optionValue EffectsFadeSpeedOptions {
@@ -68,5 +68,5 @@ optionValue EffectsFadeSpeedOptions {
     3, "Fasterer (.12 each tic)"
     4, "The Flash (.15 each tic)"
     5, "In the time it takes for your computer to process a tic, this would already be gone in a normal computer (.18 each tic)"
-    6, "DEAR LORD. Go buy a new computer right-motherfucking-now. (Instant)"
+    6, "Stop trying to run this on a 386. (Instant)"
 }

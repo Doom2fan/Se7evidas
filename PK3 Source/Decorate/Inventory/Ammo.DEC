@@ -57,3 +57,18 @@ actor S7_20gaShells : ammo 31003 {
         stop
     }
 }
+
+actor S7_Cells : ammo 31004 {
+    tag "$CELLS"
+    inventory.PickupMessage "$CELLS"
+    inventory.Amount 18
+    inventory.MaxAmount 216
+    ammo.BackpackMaxAmount 288
+    inventory.Icon "CELLA0"
+    inventory.PickupSound "misc/ammopickup"
+    states {
+    Spawn:
+        CELL A -1
+        stop
+    }
+}
