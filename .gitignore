@@ -13,6 +13,9 @@ thumbs.db
 *.user
 acs.err
 *.lnk
+*.*.save
+*/bin/
+*/obj/
 (1)Log.txt
 *.o
 *.PK3
