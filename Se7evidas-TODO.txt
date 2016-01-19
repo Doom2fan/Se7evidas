@@ -1,14 +1,15 @@
 (in no particular order)
 This shit has to be done before any official /beta/ releases:
-1. New fonts
-2. Shop system
+    Shop system
 
 This shit HAS to be done before any official stable release:
-1. Add more weapons
-2. Convert inventory hacks to uservars
-3. Fucking monsters (Maybe literally too...)
-4. Storage system
-5. Grenades
+    Add more weapons
+    Convert inventory hacks to uservars
+    Fucking monsters (Maybe literally too...)
+    Storage system
+    Grenades
 
 Would be nice:
-1. Player customizable weapon slots
+    Heretic support (Maybe Hexen too?)
+    Chex Quest support
+    Player customizable weapon slots
