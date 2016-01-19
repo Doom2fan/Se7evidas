@@ -20,9 +20,25 @@
 #include "includes.h"
 #include "hud.h"
 
-string S7_HW_2ModeWpns [] [4] = {
-    { s"S7_TEC9", s"S7_TEC9_Burst", s"BrstFire", s"FullAuto" },
-    { s"S7_AMG",  s"S7_AMG_Burst",  s"BrstFire", s"FullAuto" }
+const string S7_HW_2ModeWpns [] [4] = {
+    {
+        s"S7_TEC9",
+        s"S7_TEC9_Burst",
+        s"BrstFire",
+        s"FullAuto"
+    },
+    {
+        s"S7_AMG",
+        s"S7_AMG_Burst",
+        s"BrstFire",
+        s"FullAuto"
+    },
+    {
+        s"S7_PlasmaGun",
+        s"S7_PlasmaGun_Semi",
+        s"SemiAuto",
+        s"FullAuto"
+    }
 };
 
 void HW_SetFont (string font) {
@@ -40,7 +56,7 @@ Script_C void S7_HudWeapons ENTER CLIENTSIDE () { // HUD icons and stuff...
     while (TRUE) {
         /* Firing modes */
         SetFont (s"TNT1A0");
-        for (int x = 0; x < (sizeof (S7_HW_2ModeWpns) / sizeof (S7_HW_2ModeWpns [0])); x++) {
+        for (int x = 0; x < ArraySize (S7_HW_2ModeWpns); x++) {
             if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
                 if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
                     HW_SetFont (S7_HW_2ModeWpns [x] [2]);
