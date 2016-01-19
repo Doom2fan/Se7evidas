@@ -18,26 +18,17 @@
 */
 
 #include "includes.h"
-#include "health.h"
-#include "hud.h"
-#include "misc.h"
-#include "weapon_stuff.h"
 #include "stamina.h"
 #include "sprint_system.h"
-#include "cvars.h"
-#include "shop.h"
 
 Script_C void S7_Enter ENTER () {
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
     SprintDef [PLN].OldSpeed = 1.0k;
-    HudMessage (HUDMSG_FADEINOUT|HUDMSG_LOG, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "Beretta upgraded.\nBurstfire(press %LK to change firing modes)", s"+altfire");
-    //StaminaEmpty [PLN] = 0;
 }
 
 Script_C void S7_Respawn RESPAWN () {
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
     SprintDef [PLN].OldSpeed = 1.0k;
-    //StaminaEmpty [PLN] = 0;
 }
 
 Script_C int S7_RunningInZDoom () {
