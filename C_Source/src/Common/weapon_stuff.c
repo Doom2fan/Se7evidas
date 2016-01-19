@@ -21,8 +21,9 @@
 #include "weapon_stuff.h"
 
 string WeaponName [] = {
-    s"S7_AMG",
     s"S7_PrettyShootyIonCannonGun",
+    s"S7_PlasmaGun",
+    s"S7_AMG",
     s"S7_Shotgun",
     s"S7_Raptor",
     s"S7_Revolver",
