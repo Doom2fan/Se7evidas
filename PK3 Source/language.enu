@@ -44,11 +44,10 @@
     STSTR_NCOFF                     = "After a while you start to miss being able to touch things.";
     STSTR_BEHOLD                    = "Invuln (V), Inviso (I), Rad (R), Allmap (A), Lite-amp (L), Str (S)";
     STSTR_BEHOLDX                   = "Powerup dispensed";
-    STSTR_CHOPPERS                  = "NEIN -AM";
+    STSTR_CHOPPERS                  = "NEIN -CO";
     STSTR_CLEV                      = "Changing Level...\n";
 
 // STARTUP*
-    STSTR_CLEV                      = "Changing Level...\n";
     STARTUP1                        = "Tell phantombeta on the forums or on the IRC channel if you find any errors, bugs, glitches or crashes.";
 
 // Levels
@@ -96,5 +95,5 @@
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";
-    TXT_YES                         = "Yes";
-    TXT_NO                          = "No";
+    TXT_YES                         = "Yep";
+    TXT_NO                          = "Nope";
