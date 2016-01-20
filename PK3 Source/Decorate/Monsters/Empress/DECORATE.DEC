@@ -4,7 +4,7 @@
 //
 //===========================================================================
 actor S7_IsEmpress : boolean { }
-actor S7_EmpressBalls : counter { inventory.MaxAmount 4 }
+actor S7_EmpressBalls : counter { inventory.maxAmount 4 }
 actor S7_Empress replaces cyberdemon {
     health 4000
     radius 40
@@ -23,6 +23,7 @@ actor S7_Empress replaces cyberdemon {
     
     +boss +missileMore +floorClip +noRadiusDMG
     +noTarget +dontMorph +bossDeath
+
     states {
     Spawn:
         TNT1 A 0 noDelay A_GiveInventory ("S7_IsEmpress", 1)
@@ -60,7 +61,8 @@ actor S7_EmpressInvulnOrbiter {
     health 100
     radius 20
     height 100
-    renderStyle Add
+    renderStyle add
+
     +isMonster +shootable +noTeleport +noBlood
     +noTargetSwitch +noGravity +forceXYBillboard +forcePain
     +foilInvul
@@ -68,6 +70,7 @@ actor S7_EmpressInvulnOrbiter {
     var int user_angle;
     var int user_countdown;
     var int user_loop;
+    
     states {
     Spawn:
         TNT1 A 0 noDelay A_RearrangePointers (AAPTR_Master, AAPTR_Default, AAPTR_Master)
@@ -109,7 +112,8 @@ actor S7_EmpressInvulnOrbiter {
 }
 
 actor S7_EmpressInvulnOrbiterDeath : S7_ActionRunnerBase {
-    inventory.MaxAmount 4
+    inventory.maxAmount 4
+    
     states {
     Pickup:
         TNT1 A 0 A_JumpIfInventory ("S7_IsEmpress", 1, "IsEmpress")

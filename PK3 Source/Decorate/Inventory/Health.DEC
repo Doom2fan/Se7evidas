@@ -1,16 +1,18 @@
 actor S7_Medikit : customInventory replaces medikit 32001 {
-    +inventory.InvBar
-    inventory.MaxAmount 4
-    inventory.PickupMessage "$GOTMEDIKIT" // "Picked up a medikit."
-    inventory.Icon "ARTIMEDI"
     tag "Medikit"
+    inventory.maxAmount 4
+    inventory.pickupMessage "$GOTMEDIKIT"
+    inventory.icon "ARTIMEDI"
+
+    +inventory.invBar
+
     states {
     Spawn:
         MEDI A -1
         stop
     Use:
         TNT1 A 0 A_JumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed")
-        TNT1 A 0 acs_namedExecuteAlways ("S7_MedikitScript")
+        TNT1 A 0 ACS_NamedExecuteAlways ("S7_MedikitScript")
         stop
     Failed:
         TNT1 A 0
@@ -19,18 +21,20 @@ actor S7_Medikit : customInventory replaces medikit 32001 {
 }
 
 actor S7_Stimpack : customInventory replaces stimpack 32002 {
-    +inventory.InvBar
-    inventory.MaxAmount 8
-    inventory.PickupMessage "$GOTSTIM" // "Picked up a stimpack."
-    inventory.Icon "ARTISTIM"
     tag "Stimpack"
+    inventory.maxAmount 8
+    inventory.pickupMessage "$GOTSTIM"
+    inventory.icon "ARTISTIM"
+
+    +inventory.invBar
+
     states {
     Spawn:
         STIM A -1
         stop
     Use:
         TNT1 A 0 A_JumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed")
-        TNT1 A 0 acs_namedExecuteAlways ("S7_StimpackScript")
+        TNT1 A 0 ACS_NamedExecuteAlways ("S7_StimpackScript")
         stop
     Failed:
         TNT1 A 0

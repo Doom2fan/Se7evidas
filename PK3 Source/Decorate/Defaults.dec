@@ -1,18 +1,24 @@
 // From Samsara
 actor Boolean : inventory {
-    inventory.MaxAmount 1
-    +inventory.Undroppable -inventory.InvBar
+    inventory.maxAmount 1
+
+    +inventory.undroppable
+    -inventory.invBar
 }
 
 actor Counter : inventory {
-    inventory.MaxAmount 0x7FFFFFFF
-    +inventory.Undroppable -inventory.InvBar
+    inventory.maxAmount 0x7FFFFFFF
+
+    +inventory.undroppable
+    -inventory.invBar
 }
 
 // By Chronos "phantombeta" Ouroboros
 actor S7_ActionRunnerBase : CustomInventory {
-    inventory.MaxAmount 1
-    +inventory.AutoActivate +inventory.Quiet
+    inventory.maxAmount 1
+
+    +inventory.autoActivate +inventory.quiet
+
     states {
     Spawn:
         TNT1 A 0
@@ -26,6 +32,7 @@ actor S7_DebrisGeneral {
     height 1
     mass 1
     damage 0
+    
     +missile +noBlockmap +noGravity +dropOff
     +noTeleport +forceXYBillboard +ghost
 }

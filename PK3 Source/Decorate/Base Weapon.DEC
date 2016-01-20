@@ -1,16 +1,18 @@
 actor S7_BaseWeapon : weapon {
-    weapon.BobRangeX 0.3
-	weapon.BobRangeY 0.5
-	weapon.BobStyle InverseSmooth
-	weapon.BobSpeed 2.0
-    inventory.PickupSound "misc/gunpickup"
-    weapon.Kickback 100
-    +weapon.Ammo_Optional +weapon.NoAutoFire +inventory.Undroppable
-    +weapon.NoAlert
+    inventory.pickupSound "misc/gunpickup"
+    weapon.bobRangeX 0.3
+	weapon.bobRangeY 0.5
+	weapon.bobSpeed 2.0
+    weapon.bobStyle inverseSmooth
+    weapon.kickback 100
+
+    +inventory.undroppable
+    +weapon.ammo_Optional +weapon.noAutoFire +weapon.noAlert
+
     states {
     QuickMelee:
         TNT1 A 0 A_TakeInventory ("S7_DoMelee", 1)
-        TNT1 A 1 acs_namedExecuteAlways ("S7_QuickMelee")
+        TNT1 A 1 ACS_NamedExecuteAlways ("S7_QuickMelee")
         TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
         wait
     DryFire:
@@ -47,18 +49,22 @@ actor S7_BaseWeapon : weapon {
 
 // By Jekyll Grim Payne/zer0, edited by Alex_Mercer
 actor S7_MeleePuff {
-    +noBlockmap +noGravity +puffOnActors -allowParticles
-    +noExtremeDeath
     damageType Kick
     attackSound "Weapons/Kick/HitWall"
     activeSound "Weapons/Kick/Swing"
+
+    +noBlockmap +noGravity +puffOnActors +noExtremeDeath
+    -allowParticles
 }
 
 actor S7_MeleePuffStrong : S7_MeleePuff {
     decal FistScorch
     attackSound "Weapons/Kick/Strong"
     activeSound "Weapons/Kick/Swing"
-    -noExtremeDeath +extremeDeath
+
+    +extremeDeath
+    -noExtremeDeath
+    
     states {
     Spawn:
         TNT1 A 0 noDelay A_SpawnItem ("S7_ShotSmoke")

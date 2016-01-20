@@ -1,18 +1,20 @@
 actor S7_AMGMag : ammo {
-    inventory.MaxAmount 41
-    ammo.BackpackMaxAmount 41
+    inventory.maxAmount 41
+    ammo.backpackMaxAmount 41
+
     +ignoreSkill
 }
 
 actor S7_AMG_Burst : boolean { }
 
 actor S7_AMG : S7_BaseWeapon 30002 {
-    inventory.PickupMessage "$AMG"
     tag "$AMG"
-    weapon.AmmoType1 "S7_AMGMag"
-    weapon.AmmoType2 "S7_762x39Cartridges"
-    weapon.AmmoUse 1
-    weapon.AmmoGive 41
+    inventory.pickupMessage "$AMG"
+    weapon.ammoType1 "S7_AMGMag"
+    weapon.ammoType2 "S7_762x39Cartridges"
+    weapon.ammoUse 1
+    weapon.ammoGive 0
+
     states {
     Spawn:
         AMGG Z -1
@@ -35,7 +37,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
         AMGG C 1
         AMGG C 1 A_Refire
         goto Ready2
@@ -46,7 +48,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
         AMGG C 1
         TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
         TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
@@ -55,7 +57,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
         AMGG C 1
         TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
         TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
@@ -64,7 +66,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright acs_namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
         AMGG CC 1
         goto Ready2
     

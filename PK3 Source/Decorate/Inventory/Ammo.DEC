@@ -1,11 +1,12 @@
 actor S7_9mmCartridges : ammo 31000 {
     tag "$9MM"
-    inventory.PickupMessage "$9MM"
-    inventory.Amount 15
-    inventory.MaxAmount 90
-    ammo.BackpackMaxAmount 120
-    inventory.Icon "CLIPA0"
-    inventory.PickupSound "misc/ammopickup"
+    inventory.pickupMessage "$9MM"
+    inventory.amount 15
+    inventory.maxAmount 90
+    ammo.backpackMaxAmount 120
+    inventory.icon "CLIPA0"
+    inventory.pickupSound "misc/ammopickup"
+
     states {
     Spawn:
         CLIP A -1
@@ -15,12 +16,12 @@ actor S7_9mmCartridges : ammo 31000 {
 
 actor S7_44MCartridges : ammo 31001 {
     tag "$44M"
-    inventory.PickupMessage "$44M"
-    inventory.Amount 6
-    inventory.MaxAmount 36
-    ammo.BackpackMaxAmount 48
-    inventory.Icon "CLIPA0"
-    inventory.PickupSound "misc/ammopickup"
+    inventory.pickupMessage "$44M"
+    inventory.amount 6
+    inventory.maxAmount 36
+    ammo.backpackMaxAmount 48
+    inventory.icon "CLIPA0"
+    inventory.pickupSound "misc/ammopickup"
     states {
     Spawn:
         CLIP A -1
@@ -30,12 +31,13 @@ actor S7_44MCartridges : ammo 31001 {
 
 actor S7_762x39Cartridges : ammo 31002 {
     tag "$762X39"
-    inventory.PickupMessage "$762X39"
-    inventory.Amount 41
-    inventory.MaxAmount 246
-    ammo.BackpackMaxAmount 328
-    inventory.Icon "CLIPA0"
-    inventory.PickupSound "misc/ammopickup"
+    inventory.pickupMessage "$762X39"
+    inventory.amount 41
+    inventory.maxAmount 246
+    ammo.backpackMaxAmount 328
+    inventory.icon "CLIPA0"
+    inventory.pickupSound "misc/ammopickup"
+
     states {
     Spawn:
         CLIP A -1
@@ -45,12 +47,13 @@ actor S7_762x39Cartridges : ammo 31002 {
 
 actor S7_20gaShells : ammo 31003 {
     tag "$20GA"
-    inventory.PickupMessage "$20GA"
-    inventory.Amount 8
-    inventory.MaxAmount 60
-    ammo.BackpackMaxAmount 80
-    inventory.Icon "SHELA0"
-    inventory.PickupSound "misc/ammopickup"
+    inventory.pickupMessage "$20GA"
+    inventory.amount 8
+    inventory.maxAmount 60
+    ammo.backpackMaxAmount 80
+    inventory.icon "SHELA0"
+    inventory.pickupSound "misc/ammopickup"
+
     states {
     Spawn:
         SHEL A -1
@@ -60,12 +63,13 @@ actor S7_20gaShells : ammo 31003 {
 
 actor S7_Cells : ammo 31004 {
     tag "$CELLS"
-    inventory.PickupMessage "$CELLS"
-    inventory.Amount 18
-    inventory.MaxAmount 216
-    ammo.BackpackMaxAmount 288
-    inventory.Icon "CELLA0"
-    inventory.PickupSound "misc/ammopickup"
+    inventory.pickupMessage "$CELLS"
+    inventory.amount 18
+    inventory.maxAmount 216
+    ammo.backpackMaxAmount 288
+    inventory.icon "CELLA0"
+    inventory.pickupSound "misc/ammopickup"
+    
     states {
     Spawn:
         CELL A -1

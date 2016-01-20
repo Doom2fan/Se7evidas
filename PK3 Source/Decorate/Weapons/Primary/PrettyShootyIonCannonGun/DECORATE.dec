@@ -1,10 +1,11 @@
 actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
-    inventory.PickupMessage "$IONCANNON"
     tag "$IONCANNON"
-    //weapon.AmmoType1 "S7_PrettyShootyIonCannonGunMag"
-    //weapon.AmmoType2 "S7_Cells"
-    weapon.AmmoUse 0
-    weapon.AmmoGive 0
+    inventory.pickupMessage "$IONCANNON"
+    //weapon.ammoType1 "S7_PrettyShootyIonCannonGunMag"
+    //weapon.ammoType2 "S7_Cells"
+    weapon.ammoUse 0
+    weapon.ammoGive 0
+
     states {
     Spawn:
         PIC1 Z -1
@@ -63,12 +64,14 @@ actor S7_IonCannonRail : fastProjectile {
     health 125
     projectile
     renderStyle add
-    +noDamageThrust +forceXYBillboard
     scale 0.05
     damage (random [weaponDamage] (1, 5) * 16)
     missileType "S7_IonCannonRailEffectSpawner"
     decal Bullet
     alpha 0.5
+
+    +noDamageThrust +forceXYBillboard
+
     states {
     Spawn:
         TNT1 AA 0 A_ScaleVelocity (1.0 / (25 * 1.0))
@@ -81,10 +84,10 @@ actor S7_IonCannonRail : fastProjectile {
 
 actor S7_IonCannonRailEffectSpawner {
     +noBlockmap +noGravity +noTeleport
+
     states {
     Spawn:
-        TNT1 A 0
-        TNT1 A 1 A_SpawnItemEx ("S7_IonCannonRailEffect", 0.0 + fRandom [sfx] (-2.5, 2.5), 0.0 + fRandom [sfx] (-2.5, 2.5), 8.0 + fRandom [sfx] (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_IonCannonRailEffect", 0.0 + fRandom [sfx] (-2.5, 2.5), 0.0 + fRandom [sfx] (-2.5, 2.5), 8.0 + fRandom [sfx] (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside)
         Stop
     }
 }
@@ -92,8 +95,10 @@ actor S7_IonCannonRailEffectSpawner {
 actor S7_IonCannonRailEffect {
     renderStyle add
     scale 0.05
+    
     +noBlockmap +noGravity +noTeleport +cannotPush
     +noInteraction +forceXYBillboard +clientsideOnly
+
     states {
     Spawn:
         PICF A 2 bright

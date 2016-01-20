@@ -1,9 +1,11 @@
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_WhiteSmoke {
-    +noInteraction +forceXYBillboard
     renderStyle add
     alpha 0.3
     scale 0.1
+
+    +noInteraction +forceXYBillboard
+
     states {
     Spawn:
         SMOK ABCDEFGHIJKLMNOPQ 1
@@ -14,6 +16,7 @@ actor S7_WhiteSmoke {
 actor S7_BlackSmoke : S7_WhiteSmoke {
     renderStyle translucent
     alpha 0.15
+
     states {
     Spawn:
         SMOK ABCDEFGHIJKLMNOPQ 1
@@ -22,11 +25,13 @@ actor S7_BlackSmoke : S7_WhiteSmoke {
 }
 
 actor S7_ShotSmoke {
-    +noInteraction +forceXYBillboard
     vSpeed 2
     renderStyle add
     alpha 0.3
     scale 0.1
+
+    +noInteraction +forceXYBillboard
+
     states {
     Spawn:
         TNT1 A 0
@@ -38,6 +43,7 @@ actor S7_ShotSmoke {
 actor S7_ShotSmokeTrail : S7_ShotSmoke {
     vSpeed 0
     alpha 0.15
+
     states {
     Spawn:
         SMOK CDEFGHIJKLMNOPQ 1
@@ -48,6 +54,7 @@ actor S7_ShotSmokeTrail : S7_ShotSmoke {
 actor S7_BlackShotSmoke : S7_ShotSmoke {
     renderStyle translucent
     alpha 0.15
+
     states {
     Spawn:
         TNT1 A 0
@@ -62,13 +69,14 @@ actor S7_BlackShotSmokeTrail : S7_ShotSmokeTrail {
 }
 
 actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ouroboros
-    -noGravity
     speed 12
     gravity 0.7
+
+    -noGravity
+
     states {
     Spawn:
-        TNT1 A 0
-        TNT1 A 0 A_JumpIf (waterLevel >= 1, "Water")
+        TNT1 A 0 noDelay A_JumpIf (waterLevel >= 1, "Water")
         TNT1 A 1
         TNT1 A 1 A_SpawnItem ("S7_SmokingPieceSmoke")
         loop
@@ -87,7 +95,8 @@ actor S7_ShotSmoke_2_Spawner { // By wildweasel, edited by Chronos "phantombeta"
     radius 1
     height 1
     speed 10
-    Projectile
+    projectile
+
     states {
     Spawn:
         TNT1 A 1
@@ -101,10 +110,12 @@ actor S7_ShotSmoke_2_Spawner { // By wildweasel, edited by Chronos "phantombeta"
 
 // DECORATE by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
 actor S7_ShotSmoke_2 {
-    +noInteraction +forceXYBillboard
     renderStyle add
     alpha 0.3
     scale 0.1
+
+    +noInteraction +forceXYBillboard
+    
     states {
     Spawn:
         SMKS ABCDEFGHIJKLMNOPQRSTUVW 1

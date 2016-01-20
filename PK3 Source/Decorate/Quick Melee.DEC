@@ -4,13 +4,14 @@ actor S7_KickMelee    : boolean { } // Credits: Sprites: ???, Alex_Mercer
 
 actor S7_QuickMelee : S7_BaseWeapon {
     tag " "
+    
     states {
     Ready:
         TNT1 A 0 A_JumpIfInventory ("S7_DaggerMelee", 1, "DaggerMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_Dagger2Melee", 1, "Dagger2Melee")
         TNT1 A 0 A_JumpIfInventory ("S7_KickMelee", 1, "KickMelee")
-        TNT1 A 1
-        goto MeleeDone
+        TNT1 A 0 A_Jump (256, "KickMelee")
+        wait
     
     /*Select:
         TNT1 A 0 A_Raise
@@ -52,7 +53,7 @@ actor S7_QuickMelee : S7_BaseWeapon {
         goto MeleeDone
     
     MeleeDone:
-        TNT1 A 1 acs_namedExecuteAlways ("S7_QuickMelee")
+        TNT1 A 1 ACS_NamedExecuteAlways ("S7_QuickMelee")
         TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
         wait
     }

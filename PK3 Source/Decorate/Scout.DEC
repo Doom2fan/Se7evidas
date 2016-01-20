@@ -1,26 +1,26 @@
 actor S7_ScoutPlayer : S7_BasePlayer {
     // Damage
     health 75
-    player.MaxHealth 75
-    player.MugShotMaxHealth 75
+    player.maxHealth 75
+    player.mugShotMaxHealth 75
     gibHealth -37
     
     // Movement
-    player.ForwardMove 1.2, 1.2
-    player.SideMove 1.2, 1.2
-    player.JumpZ 9.797
+    player.forwardMove 1.2, 1.2
+    player.sideMove 1.2, 1.2
+    player.jumpZ 9.797
     
     // Give Items/Weapons/Ammo
-    player.StartItem S7_TEC9
-    player.StartItem S7_TEC9Clip, 32
-    player.StartItem S7_9mmCartridges, 64
-    player.StartItem S7_MeleeKey
-    player.StartItem S7_ReloadKey
-    player.StartItem S7_FiringModeKey
-    player.StartItem S7_StaminaRegen
-    player.StartItem S7_Stamina, 150
-    player.StartItem S7_DaggerMelee
+    player.startItem S7_TEC9
+    player.startItem S7_TEC9Clip, 32
+    player.startItem S7_9mmCartridges, 64
+    player.startItem S7_MeleeKey
+    player.startItem S7_ReloadKey
+    player.startItem S7_FiringModeKey
+    player.startItem S7_StaminaRegen
+    player.startItem S7_Stamina, 150
+    player.startItem S7_DaggerMelee
     
     // Class stuff
-    player.DisplayName "Scout"
+    player.displayName "Scout"
 }
