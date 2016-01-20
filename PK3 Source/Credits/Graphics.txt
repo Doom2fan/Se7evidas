@@ -4,7 +4,7 @@ graphics/
         S7INVBAR was made by Chronos "phantombeta" Ouroboros with a texture by DrDoctor.
         S7AIRBAR, S7SBEMPT, S7HPBAR, STATBARS, AMMOCONT, AMMOCNT*, S7STBRBG and S7RADBAR were made by Chronos "phantombeta" Ouroboros with textures from Doom II.
         S7ARMBR was made by Chronos "phantombeta" Ouroboros with a texture by DrDoctor and a texture from Doom II.
-        HUDIconsFullAutoFire, HUDIconsBurstFire, HUDIconsSemiAutoFire and HUDIconsBuckshot were made by Marrub.
+        FullAuto, BrstFire, SemiAuto, Buckshot and Slug were made by Marrub and edited by Chronos "phantombeta" Ouroboros.
 sprites/
     Effects/
         Flares/
