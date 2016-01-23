@@ -1,0 +1,87 @@
+actor S7_ManxCarbineClip : ammo {
+    inventory.maxAmount 23
+    ammo.backpackMaxAmount 23
+
+    +ignoreSkill
+}
+
+actor S7_ManxCarbine_Burst : boolean { }
+
+actor S7_ManxCarbine : S7_BaseWeapon {
+    tag "$MANXCARBINE"
+    inventory.pickupMessage "$MANXCARBINE"
+    weapon.ammoType1 "S7_ManxCarbineClip"
+    weapon.ammoType2 "S7_9mmCartridges"
+    weapon.ammoUse 1
+    weapon.ammoGive 12
+    
+    states {
+    Spawn:
+        MANX Z -1
+        loop
+
+    Ready:
+    Ready2:
+        TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
+        TNT1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
+        MANX A 1 A_WeaponReady
+        loop
+    
+    Fire:
+        TNT1 A 0 A_JumpIfInventory ("S7_ManxCarbine_Burst", 1, "Fire.Burst")
+        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
+        TNT1 A 0 A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_GunFlash
+        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.5, 4.5)
+        TNT1 A 0 A_FireCustomMissile ("S7_9mmCasingSpawn", 0, 0, 13, -3)
+        TNT1 A 0 A_FireCustomMissile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-3.2, 3.2), 1, 6, 1, 0, fRandom [weaponSpread] (-2.4, 2.4))
+        MANX AB 1 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.8 * 65536)
+        MANX A 2
+        MANX A 1 A_Refire
+        MANX A 3
+        goto Ready2
+
+    ChangeFireMode:
+        TNT1 A 0 A_PlaySound ("Weapons/ModeChange", CHAN_Weapon)
+        TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 99999)
+        TNT1 A 0 A_JumpIfInventory ("S7_ManxCarbine_Burst", 1, "ToFullAuto")
+        MANX A 5 A_GiveInventory ("S7_ManxCarbine_Burst", 1)
+        goto Ready2
+    ToFullAuto:
+        MANX A 5 A_TakeInventory ("S7_ManxCarbine_Burst", 99999)
+        goto Ready2
+
+    DryFire:
+        MANX A 3 A_PlaySound ("Weapons/Misc/Dryfire", 7)
+        TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
+        goto Ready2
+
+    Reload:
+        TNT1 A 0 A_ClearRefire
+        TNT1 A 0 A_TakeInventory ("S7_Reloading", 1)
+        TNT1 A 0 A_JumpIfInventory ("S7_ManxCarbineClip", 0, "Ready2")
+        TNT1 A 0 A_JumpIfInventory ("S7_9mmCartridges", 1, "TrueReload")
+        goto Ready2
+    TrueReload:
+        TNT1 A 0 A_JumpIfInventory ("S7_ManxCarbineClip", 0, "ReloadFinish")
+        TNT1 A 0 A_JumpIfInventory ("S7_9mmCartridges", 1, 1)
+        goto ReloadFinish
+        TNT1 A 0 A_GiveInventory ("S7_ManxCarbineClip", 1)
+        TNT1 A 0 A_TakeInventory ("S7_9mmCartridges", 1)
+        loop
+    ReloadFinish:
+        MANX CDEFG 2
+        MANX HIJ 1
+        MANX K 1 A_PlaySound ("Weapons/ManxCarbine/In", CHAN_Weapon)
+        MANX L 1
+        MANX MNOPCA 2
+        goto Ready2
+    
+    // Muzzle flashes
+    Flash:
+        MNXF A 1 bright
+        stop
+    }
+}

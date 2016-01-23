@@ -112,6 +112,10 @@ actor S7_SSGTracer              : S7_BaseTracer {
     damage (random [weaponDamage] (1, 3) * 6)
     health 125
 }
+actor S7_ManxCarbineTracer      : S7_BaseTracer {
+    damage (random [weaponDamage] (1, 3) * 10)
+    health 95
+}
 
 /*** Secondary ***/
 actor S7_RaptorTracer           : S7_BaseTracer {

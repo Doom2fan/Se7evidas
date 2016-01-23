@@ -1,0 +1,85 @@
+sprite MANXB0, 380, 200 {
+    offset 17, 0
+    patch MANXA0, 200, 78
+}
+
+sprite MANXC0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 161, 107
+    patch "graphics/Weapons/ManxCarbine/Frame1.png", 189, 76
+}
+
+sprite MANXD0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 156, 110
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 192, 69
+}
+
+sprite MANXE0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 146, 116
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 195, 62
+}
+
+sprite MANXF0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 135, 123
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+}
+
+sprite MANXG0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 115, 148
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+}
+
+sprite MANXH0, 355, 200 {
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+}
+
+sprite MANXI0, 355, 200 {
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 218, 163
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 259, 105
+}
+
+sprite MANXJ0, 355, 200 {
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 226, 155
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 259, 105
+}
+
+sprite MANXK0, 355, 200 {
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 235, 148
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 259, 105
+}
+
+sprite MANXL0, 355, 200 {
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 241, 138
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 259, 105
+}
+
+sprite MANXM0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 115, 148
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 241, 138
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 259, 105
+}
+
+sprite MANXN0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 135, 123
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 200, 55
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 241, 138
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 259, 105
+}
+
+sprite MANXO0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 146, 116
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 195, 62
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 236, 145
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 254, 112
+}
+
+sprite MANXP0, 355, 200 {
+    patch "graphics/Hands/Hand-001.png", 156, 110
+    patch "graphics/Weapons/ManxCarbine/Frame2.png", 192, 69
+    patch "graphics/Weapons/ManxCarbine/Frame3.png", 233, 152
+    patch "graphics/Weapons/ManxCarbine/Part1.png", 251, 119
+}
