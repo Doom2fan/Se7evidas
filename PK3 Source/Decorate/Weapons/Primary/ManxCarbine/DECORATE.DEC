@@ -73,7 +73,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
         loop
     ReloadFinish:
         MANX CDEFG 2
-        MANX HIJ 1
+        MANX HHHHHHIJ 1
         MANX K 1 A_PlaySound ("Weapons/ManxCarbine/In", CHAN_Weapon)
         MANX L 1
         MANX MNOPCA 2
