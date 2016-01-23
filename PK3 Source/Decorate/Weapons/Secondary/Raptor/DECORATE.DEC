@@ -31,13 +31,7 @@ actor S7_Raptor : S7_BaseWeapon {
         TNT1 A 0 A_TakeInventory ("S7_RaptorRefire", 1)
         RPTN A 1 A_WeaponReady
         loop
-    /*Deselect:
-        TNT1 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
-        TNT1 A 0 A_Lower
-        wait
-    Select:
-        TNT1 A 0 A_Raise
-        wait*/
+    
     Fire:
         TNT1 A 0 A_JumpIfInventory ("S7_RaptorRefire", 1, "Fire2")
         TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
@@ -76,8 +70,7 @@ actor S7_Raptor : S7_BaseWeapon {
         RPTN A 1
         goto Ready2
     DryFire:
-        TNT1 A 0 A_PlaySound ("Weapons/Misc/Dryfire", 7)
-        RPTN A 3
+        RPTN A 3 A_PlaySound ("Weapons/Misc/Dryfire", 7)
         TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
         goto Ready2
     Reload:
@@ -96,7 +89,7 @@ actor S7_Raptor : S7_BaseWeapon {
     ReloadFinish:
         RPTR FGGH 1
         RPTR I 4
-        RPTR I 25 A_PlaySound ("Weapons/Raptor/Out", CHAN_Weapon)
+        RPTR I 23 A_PlaySound ("Weapons/Raptor/Out", CHAN_Weapon)
         RPTR I 1 A_PlaySound ("Weapons/Raptor/In", CHAN_Weapon)
         RPTR JDD 1
         RPTR BA 1

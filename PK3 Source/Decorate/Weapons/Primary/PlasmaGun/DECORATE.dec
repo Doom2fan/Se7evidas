@@ -62,8 +62,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
     
     DryFire:
         TNT1 A 0 A_PlaySound ("Weapons/Misc/Dryfire", 7)
-        TNT1 A 0 A_WeaponReady (WRF_NoBob | WRF_NoFire | WRF_NoSwitch)
-        PLSG A 3
+        PLSG A 3 A_WeaponReady (WRF_NoBob | WRF_NoFire | WRF_NoSwitch)
         TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
         goto Ready2
     Reload:
@@ -109,8 +108,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         stop
 
     AltFire:
-        TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_Charge", 0, "Ready2")
-        PLSG A 5
+        PLSG A 5 A_JumpIfInventory ("S7_PlasmaGun_Charge", 0, "Ready2")
         PLSG A 1 A_Refire ("Charge")
         goto Ready2
     Charge:

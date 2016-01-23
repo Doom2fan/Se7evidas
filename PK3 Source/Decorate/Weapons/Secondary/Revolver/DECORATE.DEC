@@ -15,8 +15,9 @@ actor S7_Revolver : S7_BaseWeapon {
 
     states {
     Spawn:
-        RPTP A -1
+        RVLV Z -1
         loop
+
     Ready:
     Ready2:
         TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
@@ -24,13 +25,7 @@ actor S7_Revolver : S7_BaseWeapon {
         TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 1)
         RVLV A 1 A_WeaponReady
         loop
-    /*Deselect:
-        TNT1 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
-        TNT1 A 0 A_Lower
-        wait
-    Select:
-        TNT1 A 0 A_Raise
-        wait*/
+    
     Fire:
         TNT1 A 0 A_JumpIfInventory ("S7_RevolverClip", 1, 1)
         goto DryFire
@@ -42,6 +37,7 @@ actor S7_Revolver : S7_BaseWeapon {
         RVLV DEF 1
         RVLV A 15
         goto Ready2
+
     DryFire:
         RVLV A 3 A_PlaySound ("Weapons/Revolver/Dryfire", 7)
         TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
