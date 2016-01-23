@@ -3,7 +3,7 @@ $RANDOM Weapons/Shell {
     Weapons/Shell2
     Weapons/Shell3
 }
-Weapons/Shell1 "sounds/Effects/Casings/Shell1.ogg" // Shell1-3 are from Doom 3
+Weapons/Shell1 "sounds/Effects/Casings/Shell1.ogg"      // Shell1-3 are from Doom 3
 Weapons/Shell2 "sounds/Effects/Casings/Shell2.ogg"
 Weapons/Shell3 "sounds/Effects/Casings/Shell3.ogg"
 
@@ -12,7 +12,7 @@ $RANDOM Weapons/Casing {
     Weapons/Casing2
     Weapons/Casing3
 }
-Weapons/Casing1 "sounds/Effects/Casings/Casing1.ogg" // Casing1-2 are by SmartWentCody from Freesound.org
+Weapons/Casing1 "sounds/Effects/Casings/Casing1.ogg"    // Casing1-2 are by SmartWentCody from Freesound.org
 Weapons/Casing2 "sounds/Effects/Casings/Casing2.ogg"
 Weapons/Casing3 "sounds/Effects/Casings/Casing3.ogg"
 $LIMIT Weapons/Casing 5
