@@ -23,6 +23,8 @@ actor S7_BasePlayer : playerPawn {
     player.startItem S7_FiringModeKey
     player.startItem S7_StaminaRegen
     player.startItem S7_Stamina, 150
+    player.startItem S7_ManaRegen
+    player.startItem S7_Mana, 250
     player.startItem S7_KickMelee
     
     // Class stuff
@@ -143,7 +145,7 @@ actor S7_NullWeapon : weapon {
     }
 }
 
-actor S7_Sprinting : boolean { }
+actor S7_Sprinting    : boolean { }
 actor S7_SprintWeapon : S7_NullWeapon {
     states {
     Ready:
@@ -166,7 +168,7 @@ actor S7_SprintWeapon : S7_NullWeapon {
 }
 
 // Kicking
-actor S7_DoMelee : boolean { }
+actor S7_DoMelee  : boolean { }
 actor S7_MeleeKey : customInventory {
     inventory.amount 1
     inventory.maxAmount 1
@@ -203,7 +205,7 @@ actor S7_ReloadKey : customInventory {
 
 // Reload
 actor S7_ChangeFireMode : boolean { }
-actor S7_FiringModeKey : customInventory {
+actor S7_FiringModeKey  : customInventory {
     inventory.amount 1
     inventory.maxAmount 1
 
@@ -233,9 +235,13 @@ actor S7_DropWeaponKey : customInventory {
     }
 }
 
-// Stamina Regeneration
+// Stamina
 actor S7_StaminaRegen : boolean { }
-actor S7_Stamina      : counter { inventory.maxAmount 150 }
+actor S7_Stamina      : ammo    { inventory.maxAmount 150 +inventory.undroppable -inventory.invBar }
+
+// Mana
+actor S7_ManaRegen    : boolean { }
+actor S7_Mana         : ammo    { inventory.maxAmount 250 +inventory.undroppable -inventory.invBar }
 
 // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 actor GETTHATSHITOUTTAHERE {
