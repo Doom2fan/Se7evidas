@@ -22,4 +22,6 @@
 
 #include <ACS_ZDoom.h>
 
+void HudWeapons ();
+
 #endif

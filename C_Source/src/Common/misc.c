@@ -20,53 +20,25 @@
 #include "includes.h"
 #include "misc.h"
 
-Script_C void S7_SpeedScript ENTER () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
-    int health;
-    
-    while (true) {
-        health = GetActorProperty (0, APROP_Health);
-        
-        if (health <= 20)
-            GiveInventory (s"S7_Dying", 9999999);
-        else
-            TakeInventory (s"S7_Dying", 9999999);
-        
-        Delay(1);
-    }
+void SpeedScript (PlayerData_t *player) {
+    if (player->health <= 20)
+        GiveInventory (s"S7_Dying", 9999999);
+    else
+        TakeInventory (s"S7_Dying", 9999999);
 }
 
-Script_C void S7_WaterScript ENTER () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
-    while (true) {
-        if (GetActorProperty(0, APROP_Waterlevel) > 2) // if underwater...
-            GiveInventory (s"S7_IsUnderwater", 1); // give S7_IsUnderwater
+void WaterScript (PlayerData_t *player) {
+    if (player->waterlevel > 2) // if underwater...
+        GiveInventory (s"S7_IsUnderwater", 1); // give S7_IsUnderwater
+    else if (player->waterlevel <= 2) // if not underwater
+        TakeInventory (s"S7_IsUnderwater", 1); // take S7_IsUnderwater
 
-        else if (GetActorProperty(0, APROP_Waterlevel) <= 2) // if not underwater
-            TakeInventory (s"S7_IsUnderwater", 1); // take S7_IsUnderwater
-            
-        SetInventory (s"S7_AirTime", GetAirSupply (PLN));
-        Delay (1);
-    }
+    SetInventory (s"S7_AirTime", GetAirSupply (PLN));
 }
 
-Script_C void S7_Keys ENTER () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
-    while (true) {
-        if (KeyPressed (BT_RELOAD))
-            UseInventory (s"S7_ReloadKey");
-        
-        Delay (1);
-    }
+void KeysScript () {
+    if (KeyPressed (BT_RELOAD))
+        UseInventory (s"S7_ReloadKey");
 }
 
 #ifndef DISABLEBDCCOMPAT
@@ -80,18 +52,17 @@ Script_C void S7_BrutalDoomCompatibility OPEN () {
     int delayer = 0;
     
     while (true) {
-        if (Spawn (s"Brutal_Blood", 0.0k, 0.0k, 0.0k, tid) ||
-            Spawn (s"BrutalPistol", 0.0k, 0.0k, 0.0k, tid)) {
+        if (Spawn (s"Brutal_Blood", 0.0k, 0.0k, 0.0k, tid) || Spawn (s"BrutalPistol", 0.0k, 0.0k, 0.0k, tid)) {
             Thing_Remove (tid);
             ACTIVATE = 1;
         }
-        
+
         if (ACTIVATE) {
             int randomizer = Random (0, 2);
             int randomizer2 = 0;
             int i = 0;
             int actionCount = 0;
-            
+
             if (delayer == 0) {
                 if (randomizer == 0) { // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
                     delayer = 35 * Random (10, 20);
@@ -141,10 +112,12 @@ Script_C void S7_BrutalDoomCompatibility OPEN () {
         }
         
         Delay (1);
-        if (delayer > 0)
+
+        if (delayer > 0) {
             delayer--;
-        if (delayer < 0)
+        } else if (delayer < 0) {
             delayer = 0;
+        }
     }
 }
 #endif

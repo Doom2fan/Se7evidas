@@ -24,6 +24,7 @@ string WeaponName [] = {
     s"S7_PrettyShootyIonCannonGun",
     s"S7_PlasmaGun",
     s"S7_AMG",
+    s"S7_ManxCarbine",
     s"S7_Shotgun",
     s"S7_Raptor",
     s"S7_Revolver",
@@ -35,8 +36,6 @@ string DummyWeapons [] = {
     s"S7_SprintWeapon",
     s"S7_QuickMelee"
 };
-
-int GlobalVar LastWeapon [MAX_PLAYERS];
 
 int GetWeaponName () {
     for (int x = 0; x < ArraySize (DummyWeapons); x++)
@@ -50,10 +49,10 @@ int GetWeaponName () {
     return -1;
 }
 
-void ChangeLastWeapon (bool mode) {
+void ChangeLastWeapon (bool mode, PlayerData_t *player) {
     int weaponNumber = 0;
     if (mode) {
-        weaponNumber = LastWeapon [PLN];
+        weaponNumber = player->lastWeapon;
         if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
             return;
         SetWeapon (WeaponName [weaponNumber]);
@@ -62,19 +61,19 @@ void ChangeLastWeapon (bool mode) {
         if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
             return;
         else
-            LastWeapon [PLN] = weaponNumber;
+            player->lastWeapon = weaponNumber;
     }
 }
 
-void DisableWeapon (string meh, string blah) {
+void DisableWeapon (string meh, string blah, PlayerData_t *player) {
     if (CheckWeapon (meh)) {
         TakeInventory (blah, 99999);
-        ChangeLastWeapon (1);
+        ChangeLastWeapon (1, player);
         return;
     }
     GiveInventory (meh, 1);
     SetWeapon (meh);
-    ChangeLastWeapon (0);
+    ChangeLastWeapon (0, player);
 }
 
 // Scripts
@@ -108,7 +107,7 @@ Script_C int S7_SynthFireAllowChange () {
 }
 
 Script_C void S7_QuickMelee () {
-    DisableWeapon (s"S7_QuickMelee", s"None");
+    DisableWeapon (s"S7_QuickMelee", s"None", &PlayerData [PLN]);
 }
 
 Script_C int S7_GetAutoReloading () {
@@ -118,7 +117,7 @@ Script_C int S7_GetAutoReloading () {
         return 1;
 }
 
-Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 namedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
     accum oldPitch = GetActorPitch (0);
     accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
     accum newPitch = ClampAccum (oldPitch - scaledOffset, -0.25k, 0.25k);

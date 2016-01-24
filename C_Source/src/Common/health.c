@@ -48,32 +48,19 @@ Script_C void S7_StimpackScript () {
     SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
 }
 
-Script_C void S7_HeartbeatScript ENTER CLIENTSIDE () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
-    int health;
-    int heartbeatTics = 0;
-    
-    while (TRUE) {
-        if (GetUserCVar (PLN, s"S7_HeartbeatsOn")) {
-            health = GetActorProperty (0, APROP_Health);
-            
-            if ((health <= 25 && health > 15 && heartbeatTics >= 89) ||
-                (health <= 15 && health > 10 && heartbeatTics >= 71) ||
-                (health <= 10 && health > 5  && heartbeatTics >= 53) ||
-                (health <= 5  && health > 2  && heartbeatTics >= 35) ||
-                (health <= 2  && health > 0  && heartbeatTics >= 18)) {
-                heartbeatTics = 0;
-                LocalAmbientSound (s"Player/Heartbeat", 127);
-            } else if (health > 25)
-                heartbeatTics = 0;
-            else
-                heartbeatTics++;
-        }
-            
-        Delay (1);
+void HeartbeatScript (PlayerData_t *player, int *heartbeatTics) {
+    if (GetUserCVar (PLN, s"S7_HeartbeatsOn")) {
+        if ((player->health <= 25 && player->health > 15 && *heartbeatTics >= 89) ||
+            (player->health <= 15 && player->health > 10 && *heartbeatTics >= 71) ||
+            (player->health <= 10 && player->health > 5  && *heartbeatTics >= 53) ||
+            (player->health <= 5  && player->health > 2  && *heartbeatTics >= 35) ||
+            (player->health <= 2  && player->health > 0  && *heartbeatTics >= 18)) {
+            *heartbeatTics = 0;
+            LocalAmbientSound (s"Player/Heartbeat", 127);
+        } else if (player->health > 25)
+            *heartbeatTics = 0;
+        else
+            (*heartbeatTics)++;
     }
 }
 

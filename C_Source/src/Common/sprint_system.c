@@ -22,8 +22,6 @@
 #include "stamina.h"
 #include "sprint_system.h"
 
-SprintDef_t GlobalVar SprintDef [MAX_PLAYERS];
-
 Script_C void S7_SprintSystem ENTER () {
     Start:
     // Not needed or desired in TitleMaps.
@@ -31,28 +29,30 @@ Script_C void S7_SprintSystem ENTER () {
         return;
     
     int tics = 0;
+    PlayerData_t *player = &PlayerData [PLN];
+
     while (TRUE) {
-        if (CheckWeapon (s"S7_SprintWeapon") && !SprintDef [PLN].Sprinting) {
-            SetActorPropertyFixed (0, APROP_Speed, SprintDef [PLN].OldSpeed);
-            SprintDef [PLN].Sprinting = FALSE;
+        if (CheckWeapon (s"S7_SprintWeapon") && !player->SprintDef.Sprinting) {
+            SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
+            player->SprintDef.Sprinting = FALSE;
             tics = 0;
-            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting");
+            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
         }
         if (KeyDown (BT_USER1) &&
-            !SprintDef [PLN].Sprinting &&
+            !player->SprintDef.Sprinting &&
             CheckInventory (s"S7_Stamina") >= 5 && !CheckInventory (s"S7_Dying") &&
-            !StaminaEmpty [PLN]) {
-            SprintDef [PLN].Sprinting = TRUE;
-            SprintDef [PLN].OldSpeed = GetActorPropertyFixed (0, APROP_Speed);
-            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting");
+            !player->staminaEmpty) {
+            player->SprintDef.Sprinting = TRUE;
+            player->SprintDef.OldSpeed = GetActorPropertyFixed (0, APROP_Speed);
+            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
         }
-        if (KeyUp (BT_USER1) && SprintDef [PLN].Sprinting && !StaminaEmpty [PLN]) {
-            SetActorPropertyFixed (0, APROP_Speed, SprintDef [PLN].OldSpeed);
-            SprintDef [PLN].Sprinting = FALSE;
+        if (KeyUp (BT_USER1) && player->SprintDef.Sprinting && !player->staminaEmpty) {
+            SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
+            player->SprintDef.Sprinting = FALSE;
             tics = 0;
-            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting");
+            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
         }
-        if (CheckInventory (s"S7_Sprinting") && SprintDef [PLN].Sprinting) {
+        if (CheckInventory (s"S7_Sprinting") && player->SprintDef.Sprinting) {
             if (CheckInventory (s"S7_Stamina") >= 5) {
                 if (CheckInventory (s"S7_Sprinting") && tics >= 5 &&
                     ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 0) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 0))) {
@@ -61,10 +61,10 @@ Script_C void S7_SprintSystem ENTER () {
                         TakeInventory (s"S7_Stamina", 5);
                 }
                 if (CheckInventory (s"S7_Stamina") < 5 || CheckInventory (s"S7_Dying")) {
-                    SetActorPropertyFixed (0, APROP_Speed, SprintDef [PLN].OldSpeed);
-                    SprintDef [PLN].Sprinting = FALSE;
-                    StaminaEmpty [PLN] = 1;
-                    DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting");
+                    SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
+                    player->SprintDef.Sprinting = FALSE;
+                    player->staminaEmpty = 1;
+                    DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
                     goto Start;
                 }
                 if (CheckInventory (s"S7_Sprinting") && ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
@@ -72,13 +72,13 @@ Script_C void S7_SprintSystem ENTER () {
                 else if (CheckInventory (s"S7_Sprinting") && !((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
                     SetActorPropertyFixed (0, APROP_Speed, 6.0k);
                 else if (!CheckInventory (s"S7_Sprinting"))
-                    SetActorPropertyFixed (0, APROP_Speed, SprintDef [PLN].OldSpeed);
+                    SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             }
         }
         
         Delay (1);
         
-        if (SprintDef [PLN].Sprinting)
+        if (player->SprintDef.Sprinting)
             tics++;
     }
 }

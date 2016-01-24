@@ -22,13 +22,4 @@
 
 #include <ACS_ZDoom.h>
 
-typedef struct SprintDef_t SprintDef_t;
-
-struct SprintDef_t {
-    accum OldSpeed;
-    bool Sprinting;
-};
-
-extern SprintDef_t GlobalVar SprintDef [MAX_PLAYERS];
-
 #endif

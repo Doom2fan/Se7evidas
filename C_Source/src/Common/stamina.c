@@ -23,36 +23,26 @@
 
 #define MAXSTAMINA 150
 
-int GlobalVar StaminaEmpty [MAX_PLAYERS];
+void StaminaRegenerationPart1 (PlayerData_t *player) {
+    if (!CheckInventory (s"S7_Dying") && player->staminaTics >= 1 && !CheckWeapon (s"S7_SprintWeapon")) {
+        player->staminaTics = 0;
+        GiveInventory (s"S7_Stamina", 1);
+    } else if (CheckInventory (s"S7_Dying") && player->staminaTics >= 3 && !CheckWeapon (s"S7_SprintWeapon")) {
+        player->staminaTics = 0;
+        GiveInventory (s"S7_Stamina", 1);
+    }
+    if (player->staminaTics > 0 && player->stamina == MAXSTAMINA || player->staminaTics > 0 && CheckWeapon (s"S7_SprintWeapon")) {
+        player->staminaTics = 0;
+    }
+    if (player->staminaEmpty == 1 && player->stamina >= 50) {
+        player->staminaEmpty = 0;
+    }
+}
 
-Script_C void S7_StaminaRegeneration ENTER () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
-    int staminaTics = 0;
-    int staminaAmount, health;
-    
-    while (TRUE) {
-        staminaAmount = CheckInventory (s"S7_Stamina");
-        health = GetActorProperty (0, APROP_Health);
-        
-        if (!CheckInventory (s"S7_Dying") && staminaTics >= 1 && !CheckWeapon (s"S7_SprintWeapon")) {
-            staminaTics = 0;
-            GiveInventory (s"S7_Stamina", 1);
+void StaminaRegenerationPart2 (PlayerData_t *player) {
+    if (player->stamina != MAXSTAMINA) {
+        if (!CheckWeapon (s"S7_SprintWeapon")) {
+            player->staminaTics++;
         }
-        if (CheckInventory (s"S7_Dying") && staminaTics >= 3 && !CheckWeapon (s"S7_SprintWeapon")) {
-            staminaTics = 0;
-            GiveInventory (s"S7_Stamina", 1);
-        }
-        if (staminaTics > 0 && staminaAmount == MAXSTAMINA || staminaTics > 0 && CheckWeapon (s"S7_SprintWeapon"))
-            staminaTics = 0;            
-        if (StaminaEmpty [PLN] == 1 && staminaAmount >= 50)
-            StaminaEmpty [PLN] = 0;
-        
-        Delay(1);
-        if (staminaAmount != MAXSTAMINA)
-            if (!CheckWeapon (s"S7_SprintWeapon"))
-                staminaTics++;
     }
 }

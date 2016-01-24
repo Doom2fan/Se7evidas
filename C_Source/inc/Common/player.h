@@ -17,24 +17,47 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
-#include "stamina.h"
-#include "sprint_system.h"
+#ifndef PLAYER_H
+#define PLAYER_H
 
-Script_C void S7_Enter ENTER () {
-    PlayerData_t *player = &PlayerData [PLN];
+#include <ACS_ZDoom.h>
+
+struct SprintDef_t {
+    accum OldSpeed;
+    bool Sprinting;
+};
+typedef struct SprintDef_t SprintDef_t;
+
+struct PlayerData_t {
+    // Position and velocity
+    accum x; accum y; accum z;
+    accum velX; accum velY; accum velZ;
+
+    // Health and stamina
+    int health;
+    int maxHealth;
+    int stamina;
+
+    // XP system stuff
+    int level;
+    int experience;
+    int attrPoints;
+    int strengthLVL;
+    int staminaLVL;
     
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    player->SprintDef.OldSpeed = 1.0k;
-}
+    // Misc
+    int waterlevel;
 
-Script_C void S7_Respawn RESPAWN () {
-    PlayerData_t *player = &PlayerData [PLN];
+    // Script data
+    int lastWeapon;
+    SprintDef_t SprintDef;
+    bool staminaEmpty;
+    int staminaTics;
+};
+typedef struct PlayerData_t PlayerData_t;
 
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    player->SprintDef.OldSpeed = 1.0k;
-}
+extern PlayerData_t PlayerData [MAX_PLAYERS];
 
-Script_C int S7_RunningInZDoom () {
-    return 0;
-}
+void UpdatePlayerData (PlayerData_t *player);
+
+#endif

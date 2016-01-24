@@ -48,26 +48,18 @@ void HW_SetFont (string font) {
         SetFont (s"TNT1A0");
 }
 
-Script_C void S7_HudWeapons ENTER CLIENTSIDE () { // HUD icons and stuff...
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
-    while (TRUE) {
-        /* Firing modes */
-        SetFont (s"TNT1A0");
-        for (int x = 0; x < ArraySize (S7_HW_2ModeWpns); x++) {
-            if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
-                if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
-                    HW_SetFont (S7_HW_2ModeWpns [x] [2]);
-                else
-                    HW_SetFont (S7_HW_2ModeWpns [x] [3]);
+void HudWeapons () { // HUD icons and stuff...
+    /* Firing modes */
+    SetFont (s"TNT1A0");
+    for (int x = 0; x < ArraySize (S7_HW_2ModeWpns); x++) {
+        if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
+            if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
+                HW_SetFont (S7_HW_2ModeWpns [x] [2]);
+            else
+                HW_SetFont (S7_HW_2ModeWpns [x] [3]);
 
-                break;
-            }
+            break;
         }
-        HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
-
-        Delay (1);
     }
+    HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
 }

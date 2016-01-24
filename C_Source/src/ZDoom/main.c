@@ -18,17 +18,19 @@
 */
 
 #include "includes.h"
-#include "stamina.h"
-#include "sprint_system.h"
 
 Script_C void S7_Enter ENTER () {
+    PlayerData_t *player = &PlayerData [PLN];
+    
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    SprintDef [PLN].OldSpeed = 1.0k;
+    player->SprintDef.OldSpeed = 1.0k;
 }
 
 Script_C void S7_Respawn RESPAWN () {
+    PlayerData_t *player = &PlayerData [PLN];
+
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    SprintDef [PLN].OldSpeed = 1.0k;
+    player->SprintDef.OldSpeed = 1.0k;
 }
 
 Script_C int S7_RunningInZDoom () {

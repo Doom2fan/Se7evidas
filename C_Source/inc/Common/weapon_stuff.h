@@ -23,9 +23,7 @@
 #include <ACS_ZDoom.h>
 
 int GetWeaponName ();
-void ChangeLastWeapon (bool mode);
-void DisableWeapon (string meh, string blah);
-
-extern int GlobalVar LastWeapon [MAX_PLAYERS];
+void ChangeLastWeapon (bool mode, PlayerData_t *player);
+void DisableWeapon (string meh, string blah, PlayerData_t *player);
 
 #endif

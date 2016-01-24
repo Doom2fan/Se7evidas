@@ -22,4 +22,6 @@
 
 #include <ACS_ZDoom.h>
 
+void HeartbeatScript (PlayerData_t *player, int *heartbeatTics);
+
 #endif

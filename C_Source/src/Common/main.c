@@ -18,23 +18,46 @@
 */
 
 #include "includes.h"
-#include "stamina.h"
+#include "health.h"
+#include "HUD.h"
+#include "misc.h"
 #include "sprint_system.h"
+#include "stamina.h"
+#include "weapon_stuff.h"
 
-Script_C void S7_Enter ENTER () {
+Script_C void S7_ServersideEnter ENTER () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+
     PlayerData_t *player = &PlayerData [PLN];
-    
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    player->SprintDef.OldSpeed = 1.0k;
+
+    while (TRUE) {
+        UpdatePlayerData (player);
+        StaminaRegenerationPart1 (player);
+        SpeedScript (player);
+        WaterScript (player);
+        KeysScript ();
+
+        Delay (1);
+
+        StaminaRegenerationPart2 (player);
+    }
+
 }
 
-Script_C void S7_Respawn RESPAWN () {
+Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+
     PlayerData_t *player = &PlayerData [PLN];
+    int heartbeatTics = 0;
 
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    player->SprintDef.OldSpeed = 1.0k;
-}
+    while (TRUE) {
+        HudWeapons ();
+        HeartbeatScript (player, &heartbeatTics);
 
-Script_C int S7_RunningInZDoom () {
-    return 0;
+        Delay (1);
+    }
 }

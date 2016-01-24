@@ -14,7 +14,7 @@ LIBDIR = $(OBJDIR)/lib
 ZDACSDIR = PK3_Source_GZDoom/acs
 ZANDROACSDIR = PK3_Source_Zandronum/acs
 
-all: $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR) $(ZDACSDIR)/Se7evidas.bin $(ZANDROACSDIR)/Se7evidas.bin
+all: $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR) $(ZDACSDIR)/S7Stuff.bin $(ZANDROACSDIR)/S7Stuff.bin
 
 cleanall:
 	rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
@@ -46,7 +46,7 @@ $(LIBDIR)/libGDCC.ir:
 
 ## ===========================================
 ##
-## Se7evidas.bin
+## S7Stuff.bin
 ##
 ## ===========================================
 
@@ -76,7 +76,7 @@ $(ZDoom_OBJDIR)/%.ir: $(ZDoom_SRCDIR)/%.c
 $(OBJDIR)/ZDoom.ir: $(ZDoom_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
 
-$(ZDACSDIR)/Se7evidas.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir
+$(ZDACSDIR)/S7Stuff.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir
 	$(LD) $(COM_FLAGS) $^ -o $@
 
 ## Zandronum ##
@@ -92,5 +92,5 @@ $(Zandronum_OBJDIR)/%.ir: $(Zandronum_SRCDIR)/%.c
 $(OBJDIR)/Zandronum.ir: $(Zandronum_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
 
-$(ZANDROACSDIR)/Se7evidas.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/Zandronum.ir
+$(ZANDROACSDIR)/S7Stuff.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/Zandronum.ir
 	$(LD) $(COM_FLAGS) $^ -o $@
