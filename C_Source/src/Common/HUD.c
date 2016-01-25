@@ -38,6 +38,12 @@ const string S7_HW_2ModeWpns [] [4] = {
         s"S7_PlasmaGun_Semi",
         s"SemiAuto",
         s"FullAuto"
+    },
+    {
+        s"S7_ManxCarbine",
+        s"S7_ManxCarbine_Semi",
+        s"SemiAuto",
+        s"FullAuto"
     }
 };
 
