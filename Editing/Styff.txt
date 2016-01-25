@@ -1,2 +1,9 @@
 Muzzle flash:
-    Use "S7MuzzleFlash" gradient and burn the edges twice.
+    Draw and make the muzzleflash a single colour.
+    Make a new layer and set it as an adjustment layer on the muzzleflash layer.
+    Use the "S7MuzzleFlash" gradient and burn the edges.
+    Duplicate the adjustment layer.
+    Set the new layer as an adjustment layer too.
+    Crystallize the new layer with cell size set to 3.
+    Set the new layer's opacity to 65%.
+Done.
