@@ -1,0 +1,5 @@
+DECORATE: ???
+Sprites:
+    HUD Sprites: ID Software, Captain J
+    Pickup Sprites: Eriance, DoomNukem, Chronos "phantombeta" Ouroboros
+Sounds: ???
