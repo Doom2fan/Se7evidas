@@ -14,12 +14,12 @@ thumbs.db
 acs.err
 *.lnk
 *.*.save
-*/bin/
-*/obj/
 (1)Log.txt
 *.o
 *.PK3
 /C_Source/obj/
+/Tools/PreprocessorThingy/obj/
+/Tools/PreprocessorThingy/bin/
 /PK3_Source_GZDoom/acs
 /PK3_Source_Zandronum/acs
 *... Play - Dis.bat
