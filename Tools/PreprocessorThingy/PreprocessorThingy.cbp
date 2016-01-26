@@ -23,10 +23,14 @@
 				<Option compiler="dmd" />
 				<Compiler>
 					<Add option="-O" />
+					<Add option="-w" />
 				</Compiler>
 			</Target>
 		</Build>
-		<Unit filename="hello.d" />
+		<Unit filename="main.d" />
+		<Unit filename="stack.d">
+			<Option weight="0" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

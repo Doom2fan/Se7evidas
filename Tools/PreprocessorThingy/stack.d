@@ -26,9 +26,15 @@ public struct Stack (T) {
         _index = 0;
     }
 
-    void Push (T value) {
-        _index++;
-        _stackArray [_index] = value;
+
+    bool Push (T value) {
+        if (_index < _max - 1) {
+            _index++;
+            _stackArray [_index] = value;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     T Peek () {
