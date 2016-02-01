@@ -37,7 +37,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright A_SetPitch (pitch - 1.5, SPF_Interpolate)
         AMGG C 1
         AMGG C 1 A_Refire
         goto Ready2
@@ -48,7 +48,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright A_SetPitch (pitch - 2.05, SPF_Interpolate)
         AMGG C 1
         TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
         TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
@@ -57,7 +57,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright A_SetPitch (pitch - 2.05, SPF_Interpolate)
         AMGG C 1
         TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
         TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
@@ -66,7 +66,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+        AMGG BB 1 bright A_SetPitch (pitch - 2.05, SPF_Interpolate)
         AMGG CC 1
         goto Ready2
     

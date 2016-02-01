@@ -1,13 +1,14 @@
 [default enu en]
 /** Primary Weapons **/
-AMG                             = "ShadowFyre A28 Assault Rifle (7.62x39mm) \"Mars\"";
-SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun (20ga) \"Lucifer\"";
-IONCANNON                       = "Thor Inc. Prototype GTX-2 Ion Cannon Mk V \"Mjolnir\"";
+AMG                             = "ShadowFyre A28 Assault Rifle \"Mars\"";                  // (7.62x39mm)
+SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun \"Lucifer\"";                // (20ga)
+MANXCARBINE                     = "Cronus Corps C23 Selective-fire Carbine \"Manx\"";       // (9x19mm)
 
 /** Secondary Weapons **/
-RAPTOR                          = "Cronus Corps R16 Pistol (9mm) \"Raptor\"";
-TEC9                            = "Cronus Corps S18 SMG (9mm) \"Kronos\"";
-REVOLVER                        = "ShadowFyre Omega-Sigma Revolver (.44M) \"Deathbringer\"";
+RAPTOR                          = "Cronus Corps R16 Pistol \"Raptor\"";                     // (9x19mm)
+TEC9                            = "Cronus Corps S18 SMG \"Kronos\"";                        // (9x19mm)
+REVOLVER                        = "ShadowFyre Omega-Sigma Revolver \"Deathbringer\"";       // (.44M)
 
 /** Special Weapons **/
 PLASMAGUN                       = "Mobius Labs Prototype Plasma Machine Gun Mk III";
+IONCANNON                       = "Thor Inc. Prototype GTX-2 Ion Cannon Mk V \"Mjolnir\"";

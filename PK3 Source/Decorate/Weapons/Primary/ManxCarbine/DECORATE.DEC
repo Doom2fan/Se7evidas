@@ -37,7 +37,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.5, 4.5)
         TNT1 A 0 A_FireCustomMissile ("S7_9mmCasingSpawn", 0, 0, 13, -3)
         TNT1 A 0 A_FireCustomMissile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-3.2, 3.2), 1, 6, 1, 0, fRandom [weaponSpread] (-2.4, 2.4))
-        MANX AB 1 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.8 * 65536)
+        MANX AB 1 A_SetPitch (pitch - 0.7, SPF_Interpolate)
         MANX A 2
         MANX A 1 A_Refire
         MANX A 3
@@ -51,7 +51,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.5, 4.5)
         TNT1 A 0 A_FireCustomMissile ("S7_9mmCasingSpawn", 0, 0, 13, -3)
         TNT1 A 0 A_FireCustomMissile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-2.9, 2.9), 1, 6, 1, 0, fRandom [weaponSpread] (-2.1, 2.1))
-        MANX AB 1 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.8 * 65536)
+        MANX AB 1 A_SetPitch (pitch - 0.7, SPF_Interpolate)
         MANX A 1
         MANX AAA 1 A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_NoSwitch)
         MANX A 2
