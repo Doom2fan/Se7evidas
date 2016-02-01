@@ -17,21 +17,13 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
-#include "shop.h"
+#ifndef PARKOUR_H
+#define PARKOUR_H
 
-/*Script_C int S7_GetEffectsStayTime () {
-    return 0;
-}*/
+#include <ACS_ZDoom.h>
 
-/*ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];
+void DodgeScriptP1 (PlayerData_t *player);
+void DodgeScriptP2 (PlayerData_t *player);
+void MultiJumpScript (PlayerData_t *player);
 
-void SS_Movement () {
-}
-
-Script_C void S7_ShopSystem () {
-    while (TRUE) {
-        if (keyDown)
-        ACS_Delay (1);
-    }
-}*/
+#endif

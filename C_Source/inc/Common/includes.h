@@ -23,9 +23,13 @@
 #include "util.h"
 #include "util_math.h"
 #include "commonFuncs.h"
+#ifndef SERVER_C
+#include "server.h"
+#endif
 #ifndef PLAYER_C
 #include "player.h"
 #endif
+
 
 // Defines
 #define PLN PlayerNumber()

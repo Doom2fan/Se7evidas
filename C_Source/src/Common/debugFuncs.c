@@ -24,7 +24,7 @@
 Script_C void S7_DebugVelocity () {
     accum x = 0, y = 0, z = 0,
         angle = 0, speed = 0;
-    while (true) {
+    while (TRUE) {
         x = GetActorVelX (0);
         y = GetActorVelY (0);
         z = GetActorVelZ (0);
@@ -38,7 +38,7 @@ Script_C void S7_DebugVelocity () {
 Script_C void S7_DebugVelocityInKmH () {
     accum x = 0, y = 0, z = 0,
         speed = 0, speed2;
-    while (true) {
+    while (TRUE) {
         x = GetActorVelX (0);
         y = GetActorVelY (0);
         z = GetActorVelZ (0);

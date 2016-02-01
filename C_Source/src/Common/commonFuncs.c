@@ -51,6 +51,15 @@ int KeyPressed (int key) {
     return 0;
 }
 
+int KeyPressed2 (int buttons, int oldbuttons, int key) {
+    int newbuttons  = (buttons ^ oldbuttons) & buttons;
+
+    if (newbuttons & key)
+        return 1;
+    
+    return 0;
+}
+
 int UnusedTID (int start, int end) {
     int ret = start - 1;
     int tidNum;

@@ -57,8 +57,10 @@ Script_C void S7_SprintSystem ENTER () {
                 if (CheckInventory (s"S7_Sprinting") && tics >= 5 &&
                     ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 0) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 0))) {
                     tics = 0;
-                    if (GetVelocity () > 0.0k)
+                    if (GetVelocity () > 0.0k) {
                         TakeInventory (s"S7_Stamina", 5);
+                        player->stamina = CheckInventory (s"S7_Stamina");
+                    }
                 }
                 if (CheckInventory (s"S7_Stamina") < 5 || CheckInventory (s"S7_Dying")) {
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);

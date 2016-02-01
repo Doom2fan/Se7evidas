@@ -23,36 +23,54 @@
 #include <ACS_ZDoom.h>
 
 struct SprintDef_t {
-    accum OldSpeed;
-    bool Sprinting;
+    accum OldSpeed; // The player's old speed
+    bool Sprinting; // Is the player sprinting?
 };
 typedef struct SprintDef_t SprintDef_t;
 
+struct ParkourDef_t {
+    /* Dodging */
+    int dodgeCooldown; // The cooldown before you can dodge again
+
+    /* Multi-jumping */
+    bool mjumpOnGround;
+    int mjumpCount;
+    int mjumpMax;
+};
+typedef struct ParkourDef_t ParkourDef_t;
+
 struct PlayerData_t {
-    // Position and velocity
-    accum x; accum y; accum z;
-    accum velX; accum velY; accum velZ;
+    // Position, velocity, etc
+    accum x; accum y; accum z;          // XYZ coordinates
+    accum velX; accum velY; accum velZ; // XYZ velocities
+    accum angle;                        // Angle
+    accum velAngle;                     // Movement angle
+    accum floorZ; accum ceilZ;
+    accum relativeZ;
+    accum jumpZ;
 
     // Health and stamina
-    int health;
-    int maxHealth;
-    int stamina;
+    int health;    // Health
+    int maxHealth; // Max health
+    int stamina;   // Stamina
 
     // XP system stuff
-    int level;
-    int experience;
-    int attrPoints;
-    int strengthLVL;
-    int staminaLVL;
+    int level;       // Current level
+    int experience;  // Amount of experience
+    int attrPoints;  // Attribute points
+    int strengthLVL; // Strength level
+    int staminaLVL;  // Stamina level
     
     // Misc
-    int waterlevel;
+    int waterlevel;  // How deep in water the player is
+    bool dying;      // Is the player dying?
 
     // Script data
-    int lastWeapon;
-    SprintDef_t SprintDef;
-    bool staminaEmpty;
-    int staminaTics;
+    int lastWeapon;        // The last weapon the player selected
+    SprintDef_t SprintDef; // Sprint system stuff
+    bool staminaEmpty;     // Did the player run out of stamina?
+    int staminaTics;       // Used for the stamina regeneration
+    ParkourDef_t parkourDef;   // Dodging system stuff
 };
 typedef struct PlayerData_t PlayerData_t;
 

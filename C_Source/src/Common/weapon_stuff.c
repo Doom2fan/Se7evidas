@@ -111,12 +111,13 @@ Script_C void S7_QuickMelee () {
 }
 
 Script_C int S7_GetAutoReloading () {
-    if (GetUserCVar (PLN, s"S7_AutoReloading") == false)
+    if (GetUserCVar (PLN, s"S7_AutoReloading") == TRUE)
         return 0;
     else
         return 1;
 }
 
+/*
 Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
     accum oldPitch = GetActorPitch (0);
     accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
@@ -124,3 +125,4 @@ Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 
     
     SetActorPitch (0, newPitch);
 }
+*/

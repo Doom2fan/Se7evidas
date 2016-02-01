@@ -21,28 +21,32 @@
 #include "misc.h"
 
 void SpeedScript (PlayerData_t *player) {
-    if (player->health <= 20)
-        GiveInventory (s"S7_Dying", 9999999);
-    else
-        TakeInventory (s"S7_Dying", 9999999);
+    if (player->health <= 20) { // if the player's health is less than 20...
+        GiveInventory (s"S7_Dying", 9999999); // Give "S7_Dying"
+        player->dying = TRUE; // Set "dying" to TRUE
+    } else { // if not
+        TakeInventory (s"S7_Dying", 9999999); // Take "S7_Dying"
+        player->dying = TRUE; // Set "dying" to TRUE
+    }
 }
 
 void WaterScript (PlayerData_t *player) {
-    if (player->waterlevel > 2) // if underwater...
+    if (player->waterlevel > 2) { // if underwater...
         GiveInventory (s"S7_IsUnderwater", 1); // give S7_IsUnderwater
-    else if (player->waterlevel <= 2) // if not underwater
+    } else if (player->waterlevel <= 2) { // if not underwater
         TakeInventory (s"S7_IsUnderwater", 1); // take S7_IsUnderwater
+    }
 
-    SetInventory (s"S7_AirTime", GetAirSupply (PLN));
+    SetInventory (s"S7_AirTime", GetAirSupply (PLN)); // Set "S7_AirTime" to the amount of air the player has left
 }
 
 void KeysScript () {
-    if (KeyPressed (BT_RELOAD))
-        UseInventory (s"S7_ReloadKey");
+    if (KeyPressed (BT_RELOAD)) // if the native reload key is pressed...
+        UseInventory (s"S7_ReloadKey"); // Use the mod's reload key
 }
 
 #ifndef DISABLEBDCCOMPAT
-Script_C void S7_BrutalDoomCompatibility OPEN () {
+Script_C void S7_BrutalDoomCompatibility OPEN () { // Not gonna comment this one.
     // Not needed or desired in Titlemaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
@@ -51,7 +55,7 @@ Script_C void S7_BrutalDoomCompatibility OPEN () {
     bool tid = UnusedTID (-37000, -47000);
     int delayer = 0;
     
-    while (true) {
+    while (TRUE) {
         if (Spawn (s"Brutal_Blood", 0.0k, 0.0k, 0.0k, tid) || Spawn (s"BrutalPistol", 0.0k, 0.0k, 0.0k, tid)) {
             Thing_Remove (tid);
             ACTIVATE = 1;

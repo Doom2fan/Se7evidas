@@ -21,27 +21,49 @@
 #include "health.h"
 #include "HUD.h"
 #include "misc.h"
+#include "parkour.h"
 #include "sprint_system.h"
 #include "stamina.h"
 #include "weapon_stuff.h"
+
+Script_C void S7_ServersideOpen OPEN () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+    
+    SetAirControl (0.1k);
+
+    while (TRUE) {
+        UpdateServerData ();
+
+        Delay (1);
+    }
+}
 
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
 
-    PlayerData_t *player = &PlayerData [PLN];
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
-    while (TRUE) {
-        UpdatePlayerData (player);
-        StaminaRegenerationPart1 (player);
-        SpeedScript (player);
-        WaterScript (player);
+    while (TRUE) { // Loop forever
+        UpdatePlayerData (player); // Update the player's data 
+        if (player->health > 0) {
+            StaminaRegenerationPart1 (player);
+            MultiJumpScript (player);
+            DodgeScriptP1 (player);
+            SpeedScript (player);
+            WaterScript (player);
+        }
         KeysScript ();
 
-        Delay (1);
+        Delay (1); // Wait for a tic
 
-        StaminaRegenerationPart2 (player);
+        if (player->health > 0) {
+            StaminaRegenerationPart2 (player);
+            DodgeScriptP2 (player);
+        }
     }
 
 }
@@ -51,13 +73,32 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     if (GameType () == GAME_TITLE_MAP)
         return;
 
-    PlayerData_t *player = &PlayerData [PLN];
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     int heartbeatTics = 0;
 
-    while (TRUE) {
+    while (TRUE) { // Loop forever
         HudWeapons ();
         HeartbeatScript (player, &heartbeatTics);
 
-        Delay (1);
+        Delay (1); // Wait for a tic
     }
+}
+
+void ResetStuff (PlayerData_t *player) {
+    player->waterlevel = 0;
+    player->dying = FALSE;
+    player->staminaEmpty = FALSE;
+    player->staminaTics = 0;
+    player->parkourDef.dodgeCooldown = 0;
+    player->parkourDef.mjumpCount = 0;
+}
+
+Script_C void S7_ServersideRespawn RESPAWN () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    ResetStuff (player);
 }

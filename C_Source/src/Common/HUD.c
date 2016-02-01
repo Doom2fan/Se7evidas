@@ -48,24 +48,24 @@ const string S7_HW_2ModeWpns [] [4] = {
 };
 
 void HW_SetFont (string font) {
-    if (GetCVar (s"screenblocks") <= 11) // if the HUD shown...
-        SetFont (font);
-    else
-        SetFont (s"TNT1A0");
+    if (GetCVar (s"screenblocks") <= 11) // if the HUD is shown...
+        SetFont (font); // Set the font to "font"
+    else // If not
+        SetFont (s"TNT1A0"); // Set the font to TNT1A0
 }
 
 void HudWeapons () { // HUD icons and stuff...
     /* Firing modes */
-    SetFont (s"TNT1A0");
-    for (int x = 0; x < ArraySize (S7_HW_2ModeWpns); x++) {
-        if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) {
-            if (CheckInventory (S7_HW_2ModeWpns [x] [1]))
-                HW_SetFont (S7_HW_2ModeWpns [x] [2]);
-            else
-                HW_SetFont (S7_HW_2ModeWpns [x] [3]);
+    SetFont (s"TNT1A0"); // Set the font to TNT1A0
+    for (int x = 0; x < ArraySize (S7_HW_2ModeWpns); x++) { // Loop through everything in the weapons array
+        if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) { // If the player is using this weapon
+            if (CheckInventory (S7_HW_2ModeWpns [x] [1])) // If the player has the specified item
+                HW_SetFont (S7_HW_2ModeWpns [x] [2]); // Set the font to the first image
+            else // If not
+                HW_SetFont (S7_HW_2ModeWpns [x] [3]); // Set the font to the second image
 
-            break;
+            break; // Break from the loop
         }
     }
-    HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A");
+    HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A"); // Display the HUD message
 }

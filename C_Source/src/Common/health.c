@@ -49,18 +49,18 @@ Script_C void S7_StimpackScript () {
 }
 
 void HeartbeatScript (PlayerData_t *player, int *heartbeatTics) {
-    if (GetUserCVar (PLN, s"S7_HeartbeatsOn")) {
-        if ((player->health <= 25 && player->health > 15 && *heartbeatTics >= 89) ||
-            (player->health <= 15 && player->health > 10 && *heartbeatTics >= 71) ||
-            (player->health <= 10 && player->health > 5  && *heartbeatTics >= 53) ||
-            (player->health <= 5  && player->health > 2  && *heartbeatTics >= 35) ||
-            (player->health <= 2  && player->health > 0  && *heartbeatTics >= 18)) {
-            *heartbeatTics = 0;
-            LocalAmbientSound (s"Player/Heartbeat", 127);
-        } else if (player->health > 25)
-            *heartbeatTics = 0;
-        else
-            (*heartbeatTics)++;
+    if (GetUserCVar (PLN, s"S7_HeartbeatsOn")) { // If the player has heartbeats enabled...
+        if ((player->health <= 25 && player->health > 15 && *heartbeatTics >= 89) || // If health is less than or equal to 25 but greater than 15 and heartbeatTics is greater than or equal to 89...
+            (player->health <= 15 && player->health > 10 && *heartbeatTics >= 71) || // OR health is less than or equal to 15 but greater than 10 and heartbeatTics is greater than or equal to 71...
+            (player->health <= 10 && player->health > 5  && *heartbeatTics >= 53) || // OR health is less than or equal to 10 but greater than 5  and heartbeatTics is greater than or equal to 53...
+            (player->health <= 5  && player->health > 2  && *heartbeatTics >= 35) || // OR health is less than or equal to 5  but greater than 2  and heartbeatTics is greater than or equal to 35...
+            (player->health <= 2  && player->health > 0  && *heartbeatTics >= 18)) { // OR health is less than or equal to 2  but greater than 0  and heartbeatTics is greater than or equal to 18...
+            *heartbeatTics = 0; // Set heartbeatTics to 0
+            LocalAmbientSound (s"Player/Heartbeat", 127); // Play the heartbeat sound
+        } else if (player->health > 25) // If health is greater than 25...
+            *heartbeatTics = 0; // Set heartbeatTics to 0
+        else // if neither...
+            (*heartbeatTics)++; // Add one to heartbeatTics
     }
 }
 
