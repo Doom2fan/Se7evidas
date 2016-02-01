@@ -1,4 +1,6 @@
 // Server CVars
+server int   S7_DodgeCooldown       = 35;
+server float S7_MultiJumpZMul       = 1.0;
 
 // User CVars
 user bool S7_MsgsOn                 = true;

@@ -26,6 +26,7 @@ actor S7_BasePlayer : playerPawn {
     player.startItem S7_ManaRegen
     player.startItem S7_Mana, 250
     player.startItem S7_KickMelee
+    player.startItem S7_MultiJump_Max, 1
     
     // Class stuff
     player.displayName "Player"
@@ -236,12 +237,15 @@ actor S7_DropWeaponKey : customInventory {
 }
 
 // Stamina
-actor S7_StaminaRegen : boolean { }
-actor S7_Stamina      : ammo    { inventory.maxAmount 150 +inventory.undroppable -inventory.invBar }
+actor S7_StaminaRegen  : boolean { }
+actor S7_Stamina       : ammo    { inventory.maxAmount 150 +inventory.undroppable -inventory.invBar }
 
 // Mana
-actor S7_ManaRegen    : boolean { }
-actor S7_Mana         : ammo    { inventory.maxAmount 250 +inventory.undroppable -inventory.invBar }
+actor S7_ManaRegen     : boolean { }
+actor S7_Mana          : ammo    { inventory.maxAmount 250 +inventory.undroppable -inventory.invBar }
+
+// Multijumping
+actor S7_MultiJump_Max : counter { }
 
 // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 actor GETTHATSHITOUTTAHERE {

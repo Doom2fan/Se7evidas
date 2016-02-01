@@ -1,11 +1,22 @@
 model S7_TeleportFog {
-    path models/Teleport // Model and textures by Chronos "phantombeta" Ouroboros
-    model 0 Teleport.md3
-    skin 0 Teleport.png
+    path "models/Teleport" // Model and textures by Chronos "phantombeta" Ouroboros
+    model 0 "Teleport.md3"
+    skin 0 "Teleport.png"
     interpolateDoubledFrames
     //rotating
     //rotation-Speed 2.0
     scale 2.0 2.0 2.0
 
     frameIndex TFOG A 0 0
+}
+
+model S7_MultiJump_Marker {
+    path "models/FlatModel"
+    model 0 "FlatFloor.md3" // Model by ??? (Revilution/Zanieon?)
+    skin 0 "MultiJumpMarker.png" // Textures by Chronos "phantombeta" Ouroboros
+    model 1 "FlatCeil.md3"
+    skin 1 "MultiJumpMarker.png" // Textures by Chronos "phantombeta" Ouroboros
+    scale 32.0 32.0 32.0
+
+    frameIndex MJMP A 0 0
 }

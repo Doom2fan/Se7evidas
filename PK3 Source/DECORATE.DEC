@@ -27,14 +27,15 @@
 #INCLUDE "Decorate/Constants.DEC"
 #INCLUDE "Decorate/Defaults.DEC"
 
-// Common stuff
-#INCLUDE "Decorate/Bullets.DEC"
-
 // Effects
 #INCLUDE "Decorate/Effects/Smoke.DEC"
 #INCLUDE "Decorate/Effects/Casings.DEC"
 #INCLUDE "Decorate/Effects/Blood.DEC"
 #INCLUDE "Decorate/Effects/Teleport.DEC"
+#INCLUDE "Decorate/Effects/Parkour.DEC"
+
+// Common stuff
+#INCLUDE "Decorate/Bullets.DEC"
 
 // Monsters
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"

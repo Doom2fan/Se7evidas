@@ -19,7 +19,10 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     player.startItem S7_FiringModeKey
     player.startItem S7_StaminaRegen
     player.startItem S7_Stamina, 150
+    player.startItem S7_ManaRegen
+    player.startItem S7_Mana, 250
     player.startItem S7_DaggerMelee
+    player.startItem S7_MultiJump_Max, 2
     
     // Class stuff
     player.displayName "Scout"

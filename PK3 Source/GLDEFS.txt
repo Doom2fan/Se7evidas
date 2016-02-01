@@ -1,0 +1,4 @@
+pointlight MJMPMARKER {
+    color 1.0 0.2 0.2
+    size 32
+}
