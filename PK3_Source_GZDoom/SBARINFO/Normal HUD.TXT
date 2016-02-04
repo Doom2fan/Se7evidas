@@ -11,7 +11,16 @@ statusBar normal, forceScaled, fullscreenOffsets {
     
     // Holo stuff
     alpha 0.75 {
-        drawImage "HOLOBARS", -67 + center, 27;
+        drawImage "graphics/HUD/Fullscreen/HOLOBARSNONE.png", -67 + center, 27;
+        ifHealth 75% {
+            drawImage "graphics/HUD/Fullscreen/HOLOBARSGREEN.png", -18 + center, 29;
+        } else ifHealth 50% {
+            drawImage "graphics/HUD/Fullscreen/HOLOBARSYELLOW.png", -18 + center, 29;
+        } else ifHealth 25% {
+            drawImage "graphics/HUD/Fullscreen/HOLOBARSORANGE.png", -18 + center, 29;
+        } else {
+            drawImage "graphics/HUD/Fullscreen/HOLOBARSRED.png", -18 + center, 29;
+        }
 
         //#include "bitchy shit"
 
@@ -37,9 +46,9 @@ statusBar normal, forceScaled, fullscreenOffsets {
         }
         
         drawBar "HOLOBR00", "HOLOBR01", health, horizontal, interpolate (8), -57 + center, 36;
-        drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), -57 + center, 41;
-        drawNumber 4, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -32 + center, 50;
-        drawNumber 4, FSCREENHUDFONT, HUD_Armour, armor, interpolate (8), alignment (right), whennotzero, 32 + center, 50;
+        drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), reverse, -57 + center, 41;
+        drawNumber 5, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -34 + center, 50;
+        drawNumber 5, FSCREENHUDFONT, HUD_Armour, armor, interpolate (8), alignment (right), whennotzero, 33 + center, 50;
     }
     
 }

@@ -1,0 +1,7 @@
+// Code: Chronos "phantombeta" Ouroboros
+// Sprites: Chronos "phantombeta" Ouroboros
+
+monospaceFonts true, "0";
+statusBar fullscreen, forceScaled, fullscreenOffsets {
+    
+}
