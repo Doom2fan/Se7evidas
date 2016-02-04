@@ -1,8 +1,6 @@
 // Code: Chronos "phantombeta" Ouroboros
 // Graphics: Nintendo/Retro Studios, Patrik, LanHikariDS, Chronos "phantombeta" Ouroboros
 
-resolution 320, 200;
-monospaceFonts true, "0";
 statusBar normal, forceScaled, fullscreenOffsets {
     // Helmet parts
     drawImage "HELMTOP", -129 + center, 0;

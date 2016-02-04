@@ -7,3 +7,5 @@ graphic HELMBTML, 94, 15 {
 // Empty graphics for bars
 graphic HOLOBR01, 114, 8  { }
 graphic PRFLPMTB, 9, 82   { }
+graphic S7BARBK0, 50, 3   { }
+graphic PRFPMTB2, 9, 80   { }

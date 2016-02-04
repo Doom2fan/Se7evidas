@@ -53,9 +53,10 @@ Script_C void S7_ServersideEnter ENTER () {
             StaminaRegenerationPart1 (player);
             MultiJumpScript (player);
             DodgeScriptP1 (player);
-            SpeedScript (player);
-            WaterScript (player);
         }
+        SpeedScript (player);
+        WaterScript (player);
+        AmmoCountersScript (player);
         KeysScript ();
 
         Delay (1); // Wait for a tic

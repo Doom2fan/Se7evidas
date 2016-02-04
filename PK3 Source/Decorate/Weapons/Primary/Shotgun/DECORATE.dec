@@ -1,3 +1,10 @@
+actor S7_ShotgunMagCounter : ammo {
+    inventory.maxAmount 10
+    ammo.backpackMaxAmount 10
+
+    +ignoreSkill
+}
+
 actor S7_ShotgunMag : ammo {
     inventory.maxAmount 8
     ammo.backpackMaxAmount 8

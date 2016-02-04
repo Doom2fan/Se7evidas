@@ -1,0 +1,12 @@
+{
+    "weaponName": "S7_TEC9",
+    "max": 32,
+    "inventoryName": "S7_TEC9Clip",
+    "graphicString": "graphics/HUD/Cartridges/S7H9MM.png",
+    "initialX": -10,
+    "xStep": -3,
+    "y": [
+        "-20",
+        "-18"
+    ]
+}

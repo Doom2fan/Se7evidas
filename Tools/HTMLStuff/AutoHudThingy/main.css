@@ -1,0 +1,39 @@
+.BorderedDiv {
+    border-style: solid;
+    border-width: 0.3em;
+    border-radius: 1em;
+    border-color: #20C020;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.textArea {
+    border-style: solid;
+    border-width: 0.3em;
+    border-radius: 1em;
+    border-color: #20C020;
+    padding: 0.5em 0.5em 0.5em 0.5em;
+
+    overflow: auto;
+    word-wrap: normal;
+    outline: none;
+
+    position: absolute;
+}
+
+#inArea {
+    left: 3%;
+    top: 3.5%;
+    min-width: 45%;
+    min-height: 85%;
+    max-width: 45%;
+    max-height: 85%;
+}
+
+#outArea {
+    right: 3%;
+    top: 3.5%;
+    min-width: 45%;
+    min-height: 85%;
+    max-width: 45%;
+    max-height: 85%;
+}

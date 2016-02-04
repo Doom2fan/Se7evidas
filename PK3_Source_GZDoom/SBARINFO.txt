@@ -1,3 +1,9 @@
-#include "SBARINFO/Fullscreen HUD.TXT"
+resolution 320, 200;
+height 0;
+completeborder true;
+lowerHealthCap true;
+//monospacefonts true, "0";
+
 #include "SBARINFO/Normal HUD.TXT"
+#include "SBARINFO/Fullscreen HUD.TXT"
 //#include "SBARINFO/Popup Lists.TXT"

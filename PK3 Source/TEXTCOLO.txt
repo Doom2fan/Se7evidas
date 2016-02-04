@@ -1,0 +1,16 @@
+HUD_Health {
+    #00e980 #00e980
+}
+HUD_Armour {
+    #0080e9 #0080e9
+}
+
+FSHUD_Health {
+    #d70000 #d70000
+}
+FSHUD_Armour {
+    #67df5f #67df5f
+}
+FSHUD_Stamina {
+    #0069cb #0069cb
+}

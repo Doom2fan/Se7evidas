@@ -22,14 +22,15 @@
 #include "stamina.h"
 #include "parkour.h"
 
+#define DODGESTAMINA 30
 void DodgeScriptP1 (PlayerData_t *player) { // player->staminaEmpty = 1;
     if (player->parkourDef.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
         if (player->parkourDef.dodgeCooldown < 0) // If dodgeCooldown is less than 0...
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
-        // If the player is trying to move backwards, tapped user4, isn't sprinting and has at least 10 stamina...
-        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER4)) && !(player->SprintDef.Sprinting) && (player->stamina >= 10)) {
-            TakeInventory (s"S7_Stamina", 10); // Take 10 stamina
+        // If the player is trying to move backwards, tapped user4, isn't sprinting and has at least DODGESTAMINA stamina...
+        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER4)) && !(player->SprintDef.Sprinting) && (player->stamina >= DODGESTAMINA)) {
+            TakeInventory (s"S7_Stamina", DODGESTAMINA); // Take DODGESTAMINA stamina
             player->stamina = CheckInventory (s"S7_Stamina"); // Update player data
             ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
             int byteAngle = (player->angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
