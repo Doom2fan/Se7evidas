@@ -106,6 +106,44 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_RevolverClip, 6 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -46, -23; }
     }
 
+    isSelected S7_AMG {
+        inInventory S7_AMGMag,  1 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -11, -27; }
+        inInventory S7_AMGMag,  2 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -15, -26; }
+        inInventory S7_AMGMag,  3 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -19, -25; }
+        inInventory S7_AMGMag,  4 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -23, -27; }
+        inInventory S7_AMGMag,  5 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -27, -26; }
+        inInventory S7_AMGMag,  6 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -31, -25; }
+        inInventory S7_AMGMag,  7 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -35, -27; }
+        inInventory S7_AMGMag,  8 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -39, -26; }
+        inInventory S7_AMGMag,  9 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -43, -25; }
+        inInventory S7_AMGMag, 10 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -47, -27; }
+        inInventory S7_AMGMag, 11 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -51, -26; }
+        inInventory S7_AMGMag, 12 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -55, -25; }
+        inInventory S7_AMGMag, 13 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -59, -27; }
+        inInventory S7_AMGMag, 14 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -63, -26; }
+        inInventory S7_AMGMag, 15 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -67, -25; }
+        inInventory S7_AMGMag, 16 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -71, -27; }
+        inInventory S7_AMGMag, 17 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -75, -26; }
+        inInventory S7_AMGMag, 18 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -79, -25; }
+        inInventory S7_AMGMag, 19 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -83, -27; }
+        inInventory S7_AMGMag, 20 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -87, -26; }
+        inInventory S7_AMGMag, 21 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -91, -25; }
+        inInventory S7_AMGMag, 22 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -95, -27; }
+        inInventory S7_AMGMag, 23 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -99, -26; }
+        inInventory S7_AMGMag, 24 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -103, -25; }
+        inInventory S7_AMGMag, 25 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -107, -27; }
+        inInventory S7_AMGMag, 26 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -111, -26; }
+        inInventory S7_AMGMag, 27 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -115, -25; }
+        inInventory S7_AMGMag, 28 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -119, -27; }
+        inInventory S7_AMGMag, 29 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -123, -26; }
+        inInventory S7_AMGMag, 30 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -127, -25; }
+        inInventory S7_AMGMag, 31 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -131, -27; }
+        inInventory S7_AMGMag, 32 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -135, -26; }
+        inInventory S7_AMGMag, 33 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -139, -25; }
+        inInventory S7_AMGMag, 34 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -143, -27; }
+        inInventory S7_AMGMag, 35 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -147, -26; }
+    }
+
     isSelected S7_ManxCarbine {
         inInventory S7_ManxCarbineClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
         inInventory S7_ManxCarbineClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
