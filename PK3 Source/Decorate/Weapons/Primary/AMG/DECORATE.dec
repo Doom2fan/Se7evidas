@@ -1,6 +1,6 @@
 actor S7_AMGMag : ammo {
-    inventory.maxAmount 41
-    ammo.backpackMaxAmount 41
+    inventory.maxAmount 35
+    ammo.backpackMaxAmount 35
 
     +ignoreSkill
 }
