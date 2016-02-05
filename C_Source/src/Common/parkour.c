@@ -47,6 +47,7 @@ void DodgeScriptP2 (PlayerData_t *player) {
     }
 }
 
+#define MJUMPMINDIFF 15
 void MultiJumpScript (PlayerData_t *player) {
     accum force = 40.0k * ServerData.mjumpZMul;
     if (player->relativeZ == 0) { // If the player is on the ground...
@@ -59,7 +60,7 @@ void MultiJumpScript (PlayerData_t *player) {
 
     // If the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump counter isn't equal to their multijump max, the player pressed
     // jump and the sv_nojump CVAR isn't TRUE...
-    if (player->velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < player->parkourDef.mjumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
+    if (abs (player->relativeZ) >= MJUMPMINDIFF && player->velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < player->parkourDef.mjumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
         SpawnForced (s"S7_MultiJump_Marker", player->x, player->y, player->z, 0, player->angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
         player->parkourDef.mjumpCount++; // Increment the jump counter by 1
