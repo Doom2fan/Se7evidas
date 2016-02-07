@@ -20,9 +20,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     drawNumber 5, FSHUDFNT, White,      armor, interpolate (8), alignment (left), 81, -36;
     drawNumber 5, FSHUDFNT, White, S7_Stamina, interpolate (8), alignment (left), 81, -53;
 
-
-
     isSelected S7_PlasmaGun {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         drawBar "PRFLPMT2", "PRFPMTB2", S7_PlasmaGun_Charge, vertical, interpolate (8), 125 + center, 64;
         inInventory S7_PlasmaGun_ChargingLevel,  1 { drawImage "PRCHRG00", -17 + center, -16 + center;
                                                      drawImage "PRCHRG01", -17 + center, -16 + center; }
@@ -43,7 +43,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
     }
 
-    isSelected S7_Raptor {
+    else isSelected S7_Raptor {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         inInventory S7_RaptorClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -10, -20; }
         inInventory S7_RaptorClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -15, -18; }
         inInventory S7_RaptorClip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -20, -20; }
@@ -62,7 +64,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_RaptorClip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -85, -18; }
     }
 
-    isSelected S7_TEC9 {
+    else isSelected S7_TEC9 {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         inInventory S7_TEC9Clip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
         inInventory S7_TEC9Clip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
         inInventory S7_TEC9Clip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -18, -20; }
@@ -97,7 +101,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_TEC9Clip, 32 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -134, -18; }
     }
 
-    isSelected S7_Revolver {
+    else isSelected S7_Revolver {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         inInventory S7_RevolverClip, 1 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -11, -23; }
         inInventory S7_RevolverClip, 2 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -18, -23; }
         inInventory S7_RevolverClip, 3 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -25, -23; }
@@ -106,7 +112,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_RevolverClip, 6 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -46, -23; }
     }
 
-    isSelected S7_AMG {
+    else isSelected S7_AMG {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         inInventory S7_AMGMag,  1 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -11, -27; }
         inInventory S7_AMGMag,  2 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -15, -26; }
         inInventory S7_AMGMag,  3 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -19, -25; }
@@ -144,7 +152,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_AMGMag, 35 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -147, -26; }
     }
 
-    isSelected S7_ManxCarbine {
+    else isSelected S7_ManxCarbine {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         inInventory S7_ManxCarbineClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
         inInventory S7_ManxCarbineClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
         inInventory S7_ManxCarbineClip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -18, -20; }
@@ -170,7 +180,9 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_ManxCarbineClip, 23 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -98, -20; }
     }
 
-    isSelected S7_Shotgun {
+    else isSelected S7_Shotgun {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
         inInventory S7_ShotgunMagCounter,  1 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -16, -32; }
         inInventory S7_ShotgunMagCounter,  2 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -24, -31; }
         inInventory S7_ShotgunMagCounter,  3 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -32, -32; }
@@ -181,5 +193,15 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_ShotgunMagCounter,  8 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -72, -31; }
         inInventory S7_ShotgunMagCounter,  9 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -80, -32; }
         inInventory S7_ShotgunMagCounter, 10 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -88, -31; }
+    }
+
+    else isSelected S7_Thumper {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -45;
+        drawstring FSHUDFNT, White, "Pool:      ", -6, -45, 0, alignment (right);
+        inInventory S7_ThumperMagCounter, 1 { drawImage "graphics/HUD/Cartridges/S7H50MM.png",  -26, -46; }
+        inInventory S7_ThumperMagCounter, 2 { drawImage "graphics/HUD/Cartridges/S7H50MM.png",  -69, -46; }
+        inInventory S7_ThumperMagCounter, 3 { drawImage "graphics/HUD/Cartridges/S7H50MM.png", -112, -46; }
+        inInventory S7_ThumperMagCounter, 4 { drawImage "graphics/HUD/Cartridges/S7H50MM.png", -155, -46; }
+        inInventory S7_ThumperMagCounter, 5 { drawImage "graphics/HUD/Cartridges/S7H50MM.png", -198, -46; }
     }
 }
