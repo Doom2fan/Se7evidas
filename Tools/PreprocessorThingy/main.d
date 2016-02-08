@@ -15,7 +15,8 @@ enum ExitCodes {
 
 enum Options {
     NoStdOut = 1 << 1,
-    //OutputStdOut = 1 << 2,
+    FromStdIn = 1 << 2,
+    //OutputStdOut = 1 << 3,
 }
 
 string[] HelpLines = [
@@ -52,6 +53,9 @@ int main (string [] args) {
             case "--q":
                 options |= Options.NoStdOut;
                 break;
+            case "--stdin":
+                options |= Options.FromStdIn;
+                break;
             case "--help":
             case "-h":
                 foreach (line; HelpLines)
@@ -66,27 +70,63 @@ int main (string [] args) {
         }
     }
 
-    File stream = null;
-    if (inputFilePath == null || inputFilePath == "") {
+    if (!(options & Options.FromStdIn) && inputFilePath == null || inputFilePath == "") {
         stdoutWrite ("Error: No input file specified.", options);
         stderr.writeln ("ARG|No input file specified", options);
+        return ExitCodes.ArgumentError;
+    }
+
+    if (outputFilePath == null || outputFilePath == "") {
+        stdoutWrite ("Error: No output file specified.", options);
+        stderr.writeln ("ARG|No output file specified", options);
+        return ExitCodes.ArgumentError;
     }
 
     string tmpInputPath;
     tmpInputPath = cast(string) asAbsolutePath (asNormalizedPath (inputFilePath).array).array;
     inputFilePath = tmpInputPath;
 
-    if (!exists (inputFilePath)) {
-    } else if (!isFile (inputFilePath)) {
+    string tmpOutputPath;
+    tmpOutputPath = cast(string) asAbsolutePath (asNormalizedPath (outputFilePath).array).array;
+    outputFilePath = tmpOutputPath;
+
+    if (!(options & Options.FromStdIn) && !exists (inputFilePath)) {
+        stdoutWrite ("Error: Input file does not exist.", options);
+        stderr.writeln ("ARG|Input file does not exist", options);
+        return ExitCodes.ArgumentError;
+    } else if (!(options & Options.FromStdIn) && !isFile (inputFilePath)) {
+        stdoutWrite ("Error: Input file specified is not a file.", options);
+        stderr.writeln ("ARG|Input file specified is not a file", options);
+        return ExitCodes.ArgumentError;
+    }
+    if (exists (outputFilePath)) {
+        stdoutWrite ("Error: Output file already exists.", options);
+        stderr.writeln ("ARG|Output file already exists", options);
+        return ExitCodes.ArgumentError;
     }
 
-    ParseStream (stream, options);
+    File input;
+    if (!(options & Options.FromStdIn)) {
+        input = File (inputFilePath, "r");
+    } else {
+        input = stdin;
+    }
+    auto output = File (outputFilePath, "w");
+
+    ParseStream (input, output, options);
 
 	return ExitCodes.Success;
 }
 
-void ParseStream (File stream, BitFlags!Options options) {
+void ParseStream (File input, File output, BitFlags!Options options) {
+    auto includeR = Regex!(r"#include \"(.+)\"", "g");
+    auto writer = output.lockingTextWriter ();
 
+    foreach (string line; lines (input)) {
+        foreach (matchStr; matchAll (line, includeR)) {
+
+        }
+    }
 }
 
 void stdoutWrite (lazy string msg, BitFlags!(Options) options) {
