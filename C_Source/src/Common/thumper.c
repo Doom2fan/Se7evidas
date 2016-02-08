@@ -146,25 +146,45 @@ Script_C int S7_ThumperGiveShell (int type, int amount) {
 
 void Thumper_Script (PlayerData_t *player) {
     int unifiedPool = Thumper_GetUnifiedPool ();
-    if (CheckInventory (s"S7_Thumper_PUnified") != unifiedPool) {
-        SetInventory (s"S7_Thumper_PUnified", unifiedPool);
+    int currentAmount = CheckInventory (s"S7_Thumper_PUnified");
+    if (currentAmount != unifiedPool) {
+        if (currentAmount > unifiedPool)
+            TakeInventory (s"S7_Thumper_PUnified", currentAmount - unifiedPool);
+        else if (currentAmount < unifiedPool)
+            GiveInventory (s"S7_Thumper_PUnified", unifiedPool - currentAmount);
     }
 }
 
 void Thumper_ScriptClientside (PlayerData_t *player) {
-    int i = 1;
-    for (; i <= player->thumperDef.magIndex; i++) {
-        string mag = StrParam ("S7_ThumperMag%d", i);
+    int magN = 1;
+    for (int i = 0; i <= player->thumperDef.magIndex; i++) {
+        string mag = StrParam ("S7_ThumperMag%d", magN);
+        magN++;
 
-        if (CheckInventory (mag) != player->thumperDef.magShells [i]) {
-            SetInventory (mag, player->thumperDef.magShells [i]);
+        int currentValue = CheckInventory (mag);
+        if (currentValue != player->thumperDef.magShells [i]) {
+            if (currentValue > player->thumperDef.magShells [i])
+                TakeInventory (mag, currentValue - player->thumperDef.magShells [i]);
+            else if (currentValue < player->thumperDef.magShells [i])
+                GiveInventory (mag, player->thumperDef.magShells [i] - currentValue);
         }
     }
-    string chamber = StrParam ("S7_ThumperMag%d", i);
-    i++;
-    for (int j = i; j <= 5; j++) {
-        string mag = StrParam ("S7_ThumperMag%d", i);
+    string chamber = StrParam ("S7_ThumperMag%d", magN);
+    int currentValue = CheckInventory (chamber);
+    if (currentValue != player->thumperDef.currentShell) {
+        if (currentValue > player->thumperDef.currentShell)
+            TakeInventory (chamber, currentValue - player->thumperDef.currentShell);
+        else if (currentValue < player->thumperDef.currentShell)
+            GiveInventory (chamber, player->thumperDef.currentShell - currentValue);
+    }
+    magN++;
+    if (magN < 6) {
+        for (int j = magN - 1; j <= 5; j++) {
+            string mag = StrParam ("S7_ThumperMag%d", magN);
+            magN++;
 
-        TakeInventory (mag, 999);
+            if (mag != S7_TH_None)
+                TakeInventory (mag, 999);
+        }
     }
 }

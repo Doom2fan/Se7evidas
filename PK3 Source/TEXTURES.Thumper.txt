@@ -1,0 +1,3 @@
+sprite THMPA0, 354, 200 {
+    patch "graphics/Weapons/Thumper/Frame1.png", 191, 85
+}

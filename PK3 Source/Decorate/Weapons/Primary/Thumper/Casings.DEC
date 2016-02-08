@@ -1,0 +1,177 @@
+// Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
+// Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
+
+// Explosive/Normal
+actor S7_50mmCasingSpawn : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasing", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasing : S7_CasingBase {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C501 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    Death:
+        "----" A 0 A_Jump (256, "Rest1", "Rest2", "Rest3", "Rest4", "Rest5", "Rest6", "Rest7", "Rest8")
+        goto Rest1
+    Rest1:
+        "####" A 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest2:
+        "####" B 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest3:
+        "####" C 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest4:
+        "####" D 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest5:
+        "####" E 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest6:
+        "####" F 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest7:
+        "####" G 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    Rest8:
+        "####" H 0
+        "----" A 0 A_Jump (256, "Delaying")
+        wait
+    }
+}
+
+// Fragmentation
+actor S7_50mmCasingSpawnFrag : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasingFrag", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasingFrag : S7_50mmCasing {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C502 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    }
+}
+
+// Thermite
+actor S7_50mmCasingSpawnTherm : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasingTherm", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasingTherm : S7_50mmCasing {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C503 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    }
+}
+
+// Flare
+actor S7_50mmCasingSpawnFlare : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasingFlare", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasingFlare : S7_50mmCasing {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C504 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    }
+}
+
+// Clusterbomb
+actor S7_50mmCasingSpawnCluster : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasingCluster", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasingCluster : S7_50mmCasing {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C504 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    }
+}
+
+// Nailbomb
+actor S7_50mmCasingSpawnNail : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasingNail", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasingNail : S7_50mmCasing {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C502 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    }
+}
+
+// Nerve Gas
+actor S7_50mmCasingSpawnNGas : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_50mmCasingNGas", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        stop
+    }
+}
+
+actor S7_50mmCasingNGas : S7_50mmCasing {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        C502 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        loop
+    }
+}
