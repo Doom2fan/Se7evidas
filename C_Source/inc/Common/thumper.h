@@ -17,38 +17,15 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef THUMPER_H
+#define THUMPER_H
 
-#include "util.h"
-#include "util_math.h"
-#include "commonFuncs.h"
-#include "enum.h"
-#ifndef SERVER_C
-#include "server.h"
-#endif
-#ifndef PLAYER_C
-#include "player.h"
-#endif
+#include <ACS_ZDoom.h>
 
-
-// Defines
-#define PLN PlayerNumber()
-
-// Script types
-#define UNLOADING [[script ("Unloading") ]]
-#define RETURN [[script ("Return") ]]
-#define RESPAWN [[script ("Respawn") ]]
-
-// Macros
-#define SetInventory(name, amount) \
-  ( \
-   TakeInventory (name, 0x7FFFFFFF), \
-   GiveInventory (name, amount) \
-  )
-
-#define ArraySize(array) sizeof(array) / sizeof(*array)
-
-__addrdef extern  __gbl_arr GlobalVar;
+int Thumper_GetUnifiedPool ();
+int Thumper_GetUnifiedPoolMax ();
+int Thumper_GiveShell (int typeI, int amount);
+void Thumper_Script (PlayerData_t *player);
+void Thumper_ScriptClientside (PlayerData_t *player);
 
 #endif

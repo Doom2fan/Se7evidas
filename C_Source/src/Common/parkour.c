@@ -58,8 +58,8 @@ void MultiJumpScript (PlayerData_t *player) {
         player->parkourDef.mjumpOnGround = FALSE; // Set mjumpOnGround to FALSE
     }
 
-    // If the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump counter isn't equal to their multijump max, the player pressed
-    // jump and the sv_nojump CVAR isn't TRUE...
+    // If the player's floor-relative Z is greater than MJUMPMINDIFF, the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump
+    // counter isn't equal to their multijump max, the player pressed jump and the sv_nojump CVAR isn't TRUE...
     if (abs (player->relativeZ) >= MJUMPMINDIFF && player->velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < player->parkourDef.mjumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
         SpawnForced (s"S7_MultiJump_Marker", player->x, player->y, player->z, 0, player->angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up

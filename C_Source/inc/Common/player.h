@@ -39,7 +39,16 @@ struct ParkourDef_t {
 };
 typedef struct ParkourDef_t ParkourDef_t;
 
+struct ThumperDef_t {
+    int magShells [4];
+    int currentShell;
+    int magIndex;
+};
+typedef struct ThumperDef_t ThumperDef_t;
+
 struct PlayerData_t {
+    bool initialized;
+    
     // Position, velocity, etc
     accum x; accum y; accum z;          // XYZ coordinates
     accum velX; accum velY; accum velZ; // XYZ velocities
@@ -66,11 +75,12 @@ struct PlayerData_t {
     bool dying;      // Is the player dying?
 
     // Script data
-    int lastWeapon;        // The last weapon the player selected
-    SprintDef_t SprintDef; // Sprint system stuff
-    bool staminaEmpty;     // Did the player run out of stamina?
-    int staminaTics;       // Used for the stamina regeneration
-    ParkourDef_t parkourDef;   // Dodging system stuff
+    int lastWeapon;          // The last weapon the player selected
+    SprintDef_t SprintDef;   // Sprint system stuff
+    bool staminaEmpty;       // Did the player run out of stamina?
+    int staminaTics;         // Used for the stamina regeneration
+    ParkourDef_t parkourDef; // Dodging system stuff
+    ThumperDef_t thumperDef; // Thumper stuff
 };
 typedef struct PlayerData_t PlayerData_t;
 

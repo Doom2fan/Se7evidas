@@ -14,7 +14,7 @@
 */
 
 /* Highest DoomEdNums:
-** Weapons: 30004
+** Weapons: 30005
 ** Ammo: 31005
 ** Inventory: 32003
 */
@@ -59,6 +59,7 @@
 #INCLUDE "Decorate/Weapons/Primary/ManxCarbine/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/PrettyShootyIonCannonGun/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/PlasmaGun/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Primary/Thumper/DECORATE.DEC"
 // Secondary
 #INCLUDE "Decorate/Weapons/Secondary/Raptor/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/TEC-9/DECORATE.DEC"

@@ -32,9 +32,9 @@ actor S7_44MCartridges : ammo 31001 {
 actor S7_762x39Cartridges : ammo 31002 {
     tag "$762X39"
     inventory.pickupMessage "$762X39"
-    inventory.amount 41
-    inventory.maxAmount 246
-    ammo.backpackMaxAmount 328
+    inventory.amount 35
+    inventory.maxAmount 210
+    ammo.backpackMaxAmount 280
     inventory.icon "CLIPA0"
     inventory.pickupSound "misc/ammopickup"
 
@@ -76,3 +76,15 @@ actor S7_Cells : ammo 31004 {
         stop
     }
 }
+
+
+
+// Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+actor S7_Thumper_PExp     : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PFrag    : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PTherm   : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PFlare   : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PCluster : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PNail    : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PNGas    : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PUnified : counter { inventory.maxAmount 40 +ignoreSkill }

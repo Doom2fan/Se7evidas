@@ -24,6 +24,7 @@
 #include "parkour.h"
 #include "sprint_system.h"
 #include "stamina.h"
+#include "thumper.h"
 #include "weapon_stuff.h"
 
 Script_C void S7_ServersideOpen OPEN () {
@@ -47,6 +48,11 @@ Script_C void S7_ServersideEnter ENTER () {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
+    if (!player->initialized) {
+        player->thumperDef.magIndex = -1;
+        player->initialized = TRUE;
+    }
+
     while (TRUE) { // Loop forever
         UpdatePlayerData (player); // Update the player's data 
         if (player->health > 0) {
@@ -54,6 +60,7 @@ Script_C void S7_ServersideEnter ENTER () {
             MultiJumpScript (player);
             DodgeScriptP1 (player);
         }
+        Thumper_Script (player);
         SpeedScript (player);
         WaterScript (player);
         AmmoCountersScript (player);
@@ -80,6 +87,7 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     while (TRUE) { // Loop forever
         HudWeapons ();
         HeartbeatScript (player, &heartbeatTics);
+        Thumper_ScriptClientside (player);
 
         Delay (1); // Wait for a tic
     }
@@ -102,4 +110,51 @@ Script_C void S7_ServersideRespawn RESPAWN () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     ResetStuff (player);
+}
+
+Script_C void S7_ServersideDisconnect DISCONNECT () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    player->initialized = FALSE;
+    // Position, velocity, etc
+    player->x = 0.0k; player->y = 0.0k; player->z = 0.0k;
+    player->velX = 0.0k; player->velY = 0.0k; player->velZ = 0.0k;
+    player->angle = 0.0k;
+    player->velAngle = 0.0k;
+    player->floorZ = 0.0k; player->ceilZ = 0.0k;
+    player->relativeZ = 0.0k;
+    player->jumpZ = 0.0k;
+
+    // Health and stamina
+    player->health = 0;
+    player->maxHealth = 0;
+    player->stamina = 0;
+
+    // XP system stuff
+    player->level = 0;
+    player->experience = 0;
+    player->attrPoints = 0;
+    player->strengthLVL = 0;
+    player->staminaLVL = 0;
+    
+    // Misc
+    player->waterlevel = 0;
+    player->dying = FALSE;
+
+    // Script data
+    player->lastWeapon = 0;
+    player->SprintDef.OldSpeed = 1.0k;
+    player->SprintDef.Sprinting = FALSE;
+    player->staminaEmpty = FALSE;
+    player->staminaTics = 0;
+    player->parkourDef.dodgeCooldown = 0;
+    player->parkourDef.mjumpOnGround = TRUE;
+    player->parkourDef.mjumpCount = 0;
+    player->parkourDef.mjumpMax = 1;
+    player->thumperDef.currentShell = 0;
+    player->thumperDef.magIndex = 0;
 }

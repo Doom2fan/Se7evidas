@@ -17,38 +17,18 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef INCLUDES_H
-#define INCLUDES_H
+#ifndef ENUM_H
+#define ENUM_H
 
-#include "util.h"
-#include "util_math.h"
-#include "commonFuncs.h"
-#include "enum.h"
-#ifndef SERVER_C
-#include "server.h"
-#endif
-#ifndef PLAYER_C
-#include "player.h"
-#endif
-
-
-// Defines
-#define PLN PlayerNumber()
-
-// Script types
-#define UNLOADING [[script ("Unloading") ]]
-#define RETURN [[script ("Return") ]]
-#define RESPAWN [[script ("Respawn") ]]
-
-// Macros
-#define SetInventory(name, amount) \
-  ( \
-   TakeInventory (name, 0x7FFFFFFF), \
-   GiveInventory (name, amount) \
-  )
-
-#define ArraySize(array) sizeof(array) / sizeof(*array)
-
-__addrdef extern  __gbl_arr GlobalVar;
+enum {
+    S7_TH_None      = 0,
+    S7_TH_Exp       = 1,
+    S7_TH_Frag      = 2,
+    S7_TH_Therm     = 3,
+    S7_TH_Flare     = 4,
+    S7_TH_Cluster   = 5,
+    S7_TH_Nail      = 6,
+    S7_TH_NGas      = 7,
+};
 
 #endif

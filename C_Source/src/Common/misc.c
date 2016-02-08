@@ -37,7 +37,8 @@ void WaterScript (PlayerData_t *player) {
         TakeInventory (s"S7_IsUnderwater", 1); // take S7_IsUnderwater
     }
 
-    SetInventory (s"S7_AirTime", GetAirSupply (PLN)); // Set "S7_AirTime" to the amount of air the player has left
+    if (CheckInventory (s"S7_AirTime") != GetAirSupply (PLN)) // If S7_AirTime is not equal to the air supply...
+        SetInventory (s"S7_AirTime", GetAirSupply (PLN)); // Set "S7_AirTime" to the amount of air the player has left
 }
 
 void KeysScript () {
