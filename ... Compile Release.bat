@@ -2,6 +2,8 @@
 SETLOCAL
 
 REM ACS Stuff
+MAKE cleanall
+MAKE all
 
 REM 7z stuff
 SET MAIN_7Z=%CD%
