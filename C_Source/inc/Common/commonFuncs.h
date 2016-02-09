@@ -34,5 +34,6 @@ int Clamp (int x, int min, int max);
 accum ClampAccum (accum x, accum min, accum max);
 int ScaleValue (int x, int fromMin, int fromMax, int toMin, int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
+bool SetInventory (string name, int amount);
 
 #endif

@@ -41,7 +41,7 @@
 #define RESPAWN [[script ("Respawn") ]]
 
 // Macros
-#define SetInventory(name, amount) \
+#define SetInventoryForced(name, amount) \
   ( \
    TakeInventory (name, 0x7FFFFFFF), \
    GiveInventory (name, amount) \

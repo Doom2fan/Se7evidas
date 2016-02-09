@@ -132,3 +132,16 @@ int ScaleValue (int x, int fromMin, int fromMax, int toMin, int toMax) {
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax) {
     return (x - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin;
 }
+
+bool SetInventory (string name, int amount) {
+    int currentAmount = CheckInventory (name);
+
+    if (currentAmount == amount) {
+        return FALSE;
+    } else if (currentAmount > amount)
+        TakeInventory (name, currentAmount - amount);
+    else if (currentAmount < amount)
+        GiveInventory (name, amount - currentAmount);
+    
+    return TRUE;
+}
