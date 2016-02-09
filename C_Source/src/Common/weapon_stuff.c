@@ -112,9 +112,9 @@ Script_C void S7_QuickMelee () {
 
 Script_C int S7_GetAutoReloading () {
     if (GetUserCVar (PLN, s"S7_AutoReloading") == TRUE)
-        return 0;
+        return TRUE;
     else
-        return 1;
+        return FALSE;
 }
 
 /*
