@@ -132,17 +132,19 @@
    __nprintf(__VA_ARGS__), \
    EndLog() \
   )
+// PlayerName fixed by Chronos "phantombeta" Ouroboros
 #define PlayerName(num) \
   ( \
    ACS_BeginPrint(), \
    ACS_PrintName(num), \
-   ACS_EndString() \
+   EndPrint() \
   )
+// StrToACS fixed by Chronos "phantombeta" Ouroboros
 #define StrToACS(s) \
   ( \
-   ACS_BeginPrint(), \
+   BeginStrParam(), \
    __nprintf("%s", s), \
-   ACS_EndString() \
+   EndStrParam() \
   )
 
 typedef __str string;

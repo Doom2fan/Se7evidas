@@ -22,8 +22,9 @@
 
 #include <ACS_ZDoom.h>
 
-void DodgeScriptP1 (PlayerData_t *player);
-void DodgeScriptP2 (PlayerData_t *player);
+// Prototypes
+void DodgeScriptP1   (PlayerData_t *player);
+void DodgeScriptP2   (PlayerData_t *player);
 void MultiJumpScript (PlayerData_t *player);
 
 #endif

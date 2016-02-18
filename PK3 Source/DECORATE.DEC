@@ -15,8 +15,8 @@
 
 /* Highest DoomEdNums:
 ** Weapons: 30005
-** Ammo: 31005
-** Inventory: 32003
+** Ammo: 31006
+** Inventory: 32004
 */
 
 /* Some random units:
@@ -30,18 +30,26 @@
 // Effects
 #INCLUDE "Decorate/Effects/Smoke.DEC"
 #INCLUDE "Decorate/Effects/Casings.DEC"
+#INCLUDE "Decorate/Effects/Shrapnel.DEC"
 #INCLUDE "Decorate/Effects/Blood.DEC"
 #INCLUDE "Decorate/Effects/Teleport.DEC"
 #INCLUDE "Decorate/Effects/Parkour.DEC"
 
 // Common stuff
 #INCLUDE "Decorate/Bullets.DEC"
+#INCLUDE "Decorate/Base Actors.DEC"
+
+// Systems
+#INCLUDE "Decorate/RPG Systems/Shop System.DEC"
 
 // Monsters
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/BlackPanther/DECORATE.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"
+#INCLUDE "Decorate/Inventory/Keys.DEC"
+#INCLUDE "Decorate/Inventory/Loot.DEC"
 
 // Player stuff
 #INCLUDE "Decorate/Player.DEC"
@@ -52,7 +60,6 @@
 
 // Weapons
 #INCLUDE "Decorate/Base Weapon.DEC"
-#INCLUDE "Decorate/Quick Melee.DEC"
 // Primary
 #INCLUDE "Decorate/Weapons/Primary/Shotgun/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/AMG/DECORATE.DEC"
@@ -60,6 +67,7 @@
 #INCLUDE "Decorate/Weapons/Primary/PrettyShootyIonCannonGun/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/PlasmaGun/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/Thumper/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Primary/Hitter/DECORATE.DEC"
 // Secondary
 #INCLUDE "Decorate/Weapons/Secondary/Raptor/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/TEC-9/DECORATE.DEC"

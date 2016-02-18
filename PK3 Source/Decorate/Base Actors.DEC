@@ -1,0 +1,37 @@
+//-------------------------------------------------------------------------------------------
+//
+// Projectile bases
+//
+//-------------------------------------------------------------------------------------------
+actor S7_FireballBase {
+    radius 6
+    height 16
+    speed 15
+    fastSpeed 20
+    damage 8
+    projectile
+    renderStyle add
+    alpha 1.0
+    seeSound "baron/attack"
+    deathSound "baron/shotx"
+    decal "BaronScorch"
+
+    +randomize
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Monster bases
+//
+//-------------------------------------------------------------------------------------------
+actor S7_HellNobleBase {
+    health 1000
+    radius 24
+    height 64
+    mass 1000
+    speed 8
+    painChance 50
+    monster
+    
+    +floorClip
+}

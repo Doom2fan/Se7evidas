@@ -11,7 +11,11 @@ sprites/
             PICFA0 and PLGFA0 were made by Chronos "phantombeta" Ouroboros.
         Misc/
             SSHK?0: I dunno who made these.
+            FRG2?0 is from wildweasel's ww-stranger and was apparently made by 3D Realms.
+            
         Smoke/
             SMKS?0 and SMOK?0: I dunno who made these.
             
         SPRKA0: I dunno who made this.
+    Explosions/
+        XPL1?0 was made by Eriance

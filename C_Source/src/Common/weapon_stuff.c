@@ -28,13 +28,16 @@ string WeaponName [] = {
     s"S7_Shotgun",
     s"S7_Raptor",
     s"S7_Revolver",
-    s"S7_TEC9"
+    s"S7_TEC9",
+    s"S7_SoulLance",
+    s"S7_Thumper",
+    s"S7_HitterSMG",
 };
 
 string DummyWeapons [] = {
     s"S7_NullWeapon",
-    s"S7_SprintWeapon",
-    s"S7_QuickMelee"
+    SPRINTWEAPON,
+    QUICKMELEEWEAPON
 };
 
 int GetWeaponName () {
@@ -50,6 +53,11 @@ int GetWeaponName () {
 }
 
 void ChangeLastWeapon (bool mode, PlayerData_t *player) {
+    if (!player) {
+        Log ("\\cgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+    
     int weaponNumber = 0;
     if (mode) {
         weaponNumber = player->lastWeapon;
@@ -66,6 +74,11 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
 }
 
 void DisableWeapon (string meh, string blah, PlayerData_t *player) {
+    if (!player) {
+        Log ("\\cgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+    
     if (CheckWeapon (meh)) {
         TakeInventory (blah, 99999);
         ChangeLastWeapon (1, player);
@@ -106,17 +119,6 @@ Script_C int S7_SynthFireAllowChange () {
         return 0;
 }
 
-Script_C void S7_QuickMelee () {
-    DisableWeapon (s"S7_QuickMelee", s"None", &PlayerData [PLN]);
-}
-
-Script_C int S7_GetAutoReloading () {
-    if (GetUserCVar (PLN, s"S7_AutoReloading") == TRUE)
-        return TRUE;
-    else
-        return FALSE;
-}
-
 /*
 Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
     accum oldPitch = GetActorPitch (0);
@@ -128,6 +130,9 @@ Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 
 */
 
 void AmmoCountersScript (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     if (CheckInventory (s"S7_ShotgunMagCounter") != (CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded")))
         SetInventory (s"S7_ShotgunMagCounter", CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded"));
 }

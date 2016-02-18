@@ -24,28 +24,32 @@
 #define MAXSTAMINA 150
 
 void StaminaRegenerationPart1 (PlayerData_t *player) {
-    if (!(player->dying) && player->staminaTics >= 1 && !CheckWeapon (s"S7_SprintWeapon")) {
+    if (!player)
+        return;
+    
+    if (!(player->dying) && player->staminaTics >= 1 && !CheckWeapon (SPRINTWEAPON)) {
         player->staminaTics = 0;
-        GiveInventory (s"S7_Stamina", 1);
-        player->stamina = CheckInventory (s"S7_Stamina");
-    } else if ((player->dying) && player->staminaTics >= 3 && !CheckWeapon (s"S7_SprintWeapon")) {
+        GiveInventory (STAMINATOKEN, 1);
+        player->stamina = CheckInventory (STAMINATOKEN);
+    } else if ((player->dying) && player->staminaTics >= 3 && !CheckWeapon (SPRINTWEAPON)) {
         player->staminaTics = 0;
-        GiveInventory (s"S7_Stamina", 1);
-        player->stamina = CheckInventory (s"S7_Stamina");
+        GiveInventory (STAMINATOKEN, 1);
+        player->stamina = CheckInventory (STAMINATOKEN);
     }
-    if (player->staminaTics > 0 && player->stamina == MAXSTAMINA || player->staminaTics > 0 && CheckWeapon (s"S7_SprintWeapon")) {
+    if (player->staminaTics > 0 && player->stamina == MAXSTAMINA || player->staminaTics > 0 && CheckWeapon (SPRINTWEAPON)) {
         player->staminaTics = 0;
     }
     if (player->staminaEmpty == TRUE && player->stamina >= 50) {
         player->staminaEmpty = FALSE;
     }
-
-
 }
 
 void StaminaRegenerationPart2 (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     if (player->stamina != MAXSTAMINA) {
-        if (!CheckWeapon (s"S7_SprintWeapon")) {
+        if (!CheckWeapon (SPRINTWEAPON)) {
             player->staminaTics++;
         }
     }

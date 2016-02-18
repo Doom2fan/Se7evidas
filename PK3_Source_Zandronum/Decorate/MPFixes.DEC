@@ -1,0 +1,18 @@
+// Blame Zandronum's netcode
+actor S7_ThumperGrenadeCluster_ZandroMPFix : S7_ThumperGrenadeCluster Replaces S7_ThumperGrenadeCluster {
+    damage (random [weaponDamage] (1, 6) * 18)
+    translation "112:127=200:207"
+
+    var int user_angle;
+
+    states {
+    ActualLoople:
+        TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0),   0, SXF_TransferPointers | SXF_NoCheckPosition)
+        TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0),  60, SXF_TransferPointers | SXF_NoCheckPosition)
+        TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0), 120, SXF_TransferPointers | SXF_NoCheckPosition)
+        TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0), 180, SXF_TransferPointers | SXF_NoCheckPosition)
+        TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0), 240, SXF_TransferPointers | SXF_NoCheckPosition)
+        TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0), 300, SXF_TransferPointers | SXF_NoCheckPosition)
+        goto Finish
+    }
+}

@@ -1,12 +1,9 @@
-Decorate:
-Decorate by Mor'ladim
-Edited by Chronos "phantombeta" Ouroboros
-
-Sounds:
-Melee sounds by Mor'ladim
-Firing and Reloading sounds by NightmareMutant
+DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-Weapon sprites by Mor'ladim
-Melee hit sprites by Biomechanical Toy
-Rehanded by Chronos "phantombeta" Ouroboros
+    HUD Sprites: Mor'ladim, Chronos "phantombeta" Ouroboros (Rehanding and stuff)
+    Pickup Sprites: Mor'ladim
+    Melee hit sprites: Biomechanical Toy
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

@@ -33,8 +33,8 @@ void LevelUp (int level) {
         HudMessage (s"You reached level ", d:level, s:"."; HUDMSG_FADEINOUT|GetUserCVar (PLN, s"S7_LogLVLUpMsgs") * HUDMSG_LOG, 10000, CR_UNTRANSLATED, 0.5, 0.5, 3.0, 0.3, 0.3);
     
     PlaySound (0, s"Player/LevelUp", CHAN_UI);
-    GiveInventory (s"S7_XP_System_Level", 1);
-    GiveInventory (s"S7_XP_System_Experience", Random (4, 6));
+    GiveInventory (XPS_LEVELTOKEN, 1);
+    GiveInventory (XPS_EXPTOKEN, Random (4, 6));
 }
 
 Script_C void S7_XP_System ENTER {
@@ -46,8 +46,8 @@ Script_C void S7_XP_System ENTER {
     int logMessages = GetUserCVar (PLN, s"S7_LogLVLUpMsgs");
     
     while (TRUE) {
-        currentLVL = CheckInventory (s"S7_XP_System_Level");
-        currentXP = CheckInventory (s"S7_XP_System_Experience");
+        currentLVL = CheckInventory (XPS_LEVELTOKEN);
+        currentXP = CheckInventory (XPS_EXPTOKEN);
         logMessages = GetUserCVar (PLN, s"S7_LogLVLUpMsgs");
         
         if (currentXP >= 1000 && currentLVL == 0) {
@@ -72,7 +72,7 @@ Script_C void S7_XP_System ENTER {
 
 // strength
 int S7_StrengthStat (fixed baseDamage, fixed multiplier) {
-    fixed strengthStat = CheckInventory (s"S7_Stats_System_Strength");
+    fixed strengthStat = CheckInventory (XPS_STRENGTHTOKEN);
     fixed result = baseDamage * (1.0 + (multiplier * strengthStat));
     
     return result >> 16;

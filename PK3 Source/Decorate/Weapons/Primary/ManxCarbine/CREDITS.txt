@@ -1,3 +1,7 @@
-Decorate: Chronos "phantombeta" Ouroboros
-Sprites: Uboa, MidoriMan, Ravage, Mike12, Chronos "phantombeta" Ouroboros
-Sounds: Counter-Strike: Condition Zero (Turtle Rock Studios and Valve Software), Per Kristian, kannoe (from GAMEBANANA), Chronos "phantombeta" Ouroboros
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    HUD and Pickup Sprites: Uboa, MidoriMan, Ravage, Mike12, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

@@ -22,6 +22,7 @@
 
 #define MEDIKITHEALTH 40
 #define STIMPACKHEALTH MEDIKITHEALTH / 2
+#define STIMPACKITEM s"S7_Stimpack"
 
 Script_C void S7_MedikitScript () {
     Print ("Applying Medikit");
@@ -31,10 +32,10 @@ Script_C void S7_MedikitScript () {
     SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
     
     if (MEDIKITHEALTH - (100 - GetActorProperty (0, APROP_Health)) >= STIMPACKHEALTH)
-        if (CheckInventory (s"S7_Stimpack") < 8)
-            GiveInventory (s"S7_Stimpack", 1);
+        if (CheckInventory (STIMPACKITEM) < 8)
+            GiveInventory (STIMPACKITEM, 1);
         else
-            Spawn (s"S7_Stimpack", GetActorX (0), GetActorY (0), GetActorZ (0));
+            Spawn (STIMPACKITEM, GetActorX (0), GetActorY (0), GetActorZ (0));
     
     HealThing (MEDIKITHEALTH);
 }
@@ -49,6 +50,9 @@ Script_C void S7_StimpackScript () {
 }
 
 void HeartbeatScript (PlayerData_t *player, int *heartbeatTics) {
+    if (!player)
+        return;
+    
     if (GetUserCVar (PLN, s"S7_HeartbeatsOn")) { // If the player has heartbeats enabled...
         if ((player->health <= 25 && player->health > 15 && *heartbeatTics >= 89) || // If health is less than or equal to 25 but greater than 15 and heartbeatTics is greater than or equal to 89...
             (player->health <= 15 && player->health > 10 && *heartbeatTics >= 71) || // OR health is less than or equal to 15 but greater than 10 and heartbeatTics is greater than or equal to 71...

@@ -1,4 +1,42 @@
-pointlight MJMPMARKER {
+#include "GLDefs/Brightmaps/Projectiles.TXT"
+
+pointLight MJMPMARKER {
     color 1.0 0.2 0.2
     size 32
+}
+
+pointLight TGFlare1 {
+    color 0.45098 0.73333 1.0
+    size 64
+    // secondarySize 56
+}
+
+pointLight TGFlare2 {
+    color 0.45098 0.73333 1.0
+    size 48
+    // secondarySize 42
+}
+
+pointLight TGFlare3 {
+    color 0.45098 0.73333 1.0
+    size 32
+    // secondarySize 28
+}
+
+pointLight TGFlare4 {
+    color 0.45098 0.73333 1.0
+    size 24
+    // secondarySize 21
+}
+
+pointLight TGFlare5 {
+    color 0.45098 0.73333 1.0
+    size 16
+    // secondarySize 14
+}
+
+pointLight TGFlare6 {
+    color 0.45098 0.73333 1.0
+    size 8
+    // secondarySize 7
 }

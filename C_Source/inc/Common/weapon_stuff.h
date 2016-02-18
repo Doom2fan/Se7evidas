@@ -22,7 +22,8 @@
 
 #include <ACS_ZDoom.h>
 
-int GetWeaponName ();
+// Prototypes
+int  GetWeaponName ();
 void ChangeLastWeapon (bool mode, PlayerData_t *player);
 void DisableWeapon (string meh, string blah, PlayerData_t *player);
 void AmmoCountersScript (PlayerData_t *player);

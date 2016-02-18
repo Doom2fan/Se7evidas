@@ -27,6 +27,8 @@
 #include "thumper.h"
 #include "weapon_stuff.h"
 
+void ShopSystem_Script (PlayerData_t *player);
+
 Script_C void S7_ServersideOpen OPEN () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
@@ -48,10 +50,13 @@ Script_C void S7_ServersideEnter ENTER () {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
-    if (!player->initialized) {
-        player->thumperDef.magIndex = -1;
-        player->initialized = TRUE;
+    if (!player) {
+        Log ("\\cgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
     }
+    
+    if (!player->initialized)
+        InitializePlayer (player);
 
     while (TRUE) { // Loop forever
         UpdatePlayerData (player); // Update the player's data 
@@ -60,6 +65,7 @@ Script_C void S7_ServersideEnter ENTER () {
             MultiJumpScript (player);
             DodgeScriptP1 (player);
         }
+        ShopSystem_Script (player);
         Thumper_Script (player);
         SpeedScript (player);
         WaterScript (player);
@@ -76,24 +82,36 @@ Script_C void S7_ServersideEnter ENTER () {
 
 }
 
-Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
+Script_C void S7_ClientsideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\\cgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
     int heartbeatTics = 0;
 
     while (TRUE) { // Loop forever
         HudWeapons ();
         HeartbeatScript (player, &heartbeatTics);
         Thumper_ScriptClientside (player);
+        ShowPop1 (player);
 
         Delay (1); // Wait for a tic
     }
 }
 
 void ResetStuff (PlayerData_t *player) {
+    if (!player) {
+        Log ("\\cgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+    
     player->waterlevel = 0;
     player->dying = FALSE;
     player->staminaEmpty = FALSE;
@@ -109,52 +127,26 @@ Script_C void S7_ServersideRespawn RESPAWN () {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
+    if (!player) {
+        Log ("\\cgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
     ResetStuff (player);
 }
 
-Script_C void S7_ServersideDisconnect DISCONNECT () {
+Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
 
-    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-
-    player->initialized = FALSE;
-    // Position, velocity, etc
-    player->x = 0.0k; player->y = 0.0k; player->z = 0.0k;
-    player->velX = 0.0k; player->velY = 0.0k; player->velZ = 0.0k;
-    player->angle = 0.0k;
-    player->velAngle = 0.0k;
-    player->floorZ = 0.0k; player->ceilZ = 0.0k;
-    player->relativeZ = 0.0k;
-    player->jumpZ = 0.0k;
-
-    // Health and stamina
-    player->health = 0;
-    player->maxHealth = 0;
-    player->stamina = 0;
-
-    // XP system stuff
-    player->level = 0;
-    player->experience = 0;
-    player->attrPoints = 0;
-    player->strengthLVL = 0;
-    player->staminaLVL = 0;
+    PlayerData_t *player = &PlayerData [num]; // Get the player's PlayerData_t struct
     
-    // Misc
-    player->waterlevel = 0;
-    player->dying = FALSE;
+    Log ("%d", num);
+    if (!player) {
+        Log ("\\cgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
+        return;
+    }
 
-    // Script data
-    player->lastWeapon = 0;
-    player->SprintDef.OldSpeed = 1.0k;
-    player->SprintDef.Sprinting = FALSE;
-    player->staminaEmpty = FALSE;
-    player->staminaTics = 0;
-    player->parkourDef.dodgeCooldown = 0;
-    player->parkourDef.mjumpOnGround = TRUE;
-    player->parkourDef.mjumpCount = 0;
-    player->parkourDef.mjumpMax = 1;
-    player->thumperDef.currentShell = 0;
-    player->thumperDef.magIndex = 0;
+    DisconnectPlayer (player);
 }

@@ -22,6 +22,7 @@
 
 #include <ACS_ZDoom.h>
 
+// Prototypes
 void StaminaRegenerationPart1 (PlayerData_t *player);
 void StaminaRegenerationPart2 (PlayerData_t *player);
 

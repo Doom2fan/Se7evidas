@@ -1,0 +1,19 @@
+[default enu en]
+POP_TH_ALL                      = "All";
+POP_TH_EXP                      = "Explosive";
+POP_TH_FRAG                     = "Frag";
+POP_TH_THRM                     = "Thermite";
+POP_TH_FLRE                     = "Flare";
+POP_TH_CLST                     = "Clusterbomb";
+POP_TH_NAIL                     = "Nailbomb";
+POP_TH_NGAS                     = "Nerve gas";
+
+POP_CARTRIDGES                  = "Cartridges";
+POP_BATTERIES                   = "Energy Cells";
+POP_THGRENADES                  = "50mm Grenades";
+POP_PRI                         = "Primary";
+POP_SEC                         = "Secondary";
+POP_SP                          = "Special";
+POP_WEAPON                      = "Weapons";
+POP_AMMO                        = "Ammo";
+POP_LOOT                        = "Loot";

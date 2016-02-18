@@ -8,6 +8,8 @@ actor S7_PlasmaGunMag            : ammo {
     +ignoreSkill
 }
 
+actor S7_PlasmaGun_AltfireLock : boolean { }
+
 actor S7_PlasmaGun : S7_BaseWeapon 30003 {
     tag "$PLASMAGUN"
     inventory.pickupMessage "$PLASMAGUN"
@@ -15,6 +17,8 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
     weapon.ammoType2 "S7_Cells"
     weapon.ammoUse 1
     weapon.ammoGive 0
+
+    +weapon.noAutoFire
 
     states {
     Spawn:
@@ -28,7 +32,11 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
         PLSG A 1 A_WeaponReady
+        TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_AltfireLock", 999)
         loop
+    Ready2Derp:
+        PLSG A 2
+        goto Ready2
 
     TrueDeselect:
         //PLSG ZYX 1
@@ -63,7 +71,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
     DryFire:
         TNT1 A 0 A_PlaySound ("Weapons/Misc/Dryfire", 7)
         PLSG A 3 A_WeaponReady (WRF_NoBob | WRF_NoFire | WRF_NoSwitch)
-        TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
+        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
         goto Ready2
     Reload:
         PLSG A 1 A_TakeInventory ("S7_Reloading", 1)
@@ -108,44 +116,37 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         stop
 
     AltFire:
-        PLSG A 5 A_JumpIfInventory ("S7_PlasmaGun_Charge", 0, "Ready2")
-        PLSG A 1 A_Refire ("Charge")
-        goto Ready2
-    Charge:
-        TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_ChargingLevel", 0, "ChargingFinished")
-        TNT1 A 0 A_Jump (256, "ChargeA", "ChargeB", "ChargeC", "ChargeD", "ChargeE")
-        wait
-    ChargeA:
         PLSG A 1
-        goto ChargeContinue
-    ChargeB:
-        PLSG G 1
-        goto ChargeContinue
-    ChargeC:
-        PLSG H 1
-        goto ChargeContinue
-    ChargeD:
-        PLSG I 1
-        goto ChargeContinue
-    ChargeE:
-        PLSG J 1
+        PLSG A 1 A_JumpIfInventory ("S7_PlasmaGun_AltfireLock", 1, "Ready2")
+        PLSG A 3 A_JumpIfInventory ("S7_PlasmaGun_Charge", 4, "Ready2Derp")
+        PLSG A 1 A_Refire ("Charge")
+        goto Ready2Derp
+    Charge:
+        TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_ChargingLevel", 16, "ChargingFinished")
+        PLSG A 1
         goto ChargeContinue
     ChargeContinue:
         TNT1 A 0 A_GiveInventory ("S7_PlasmaGun_ChargingLevel", 1)
         PLSG A 1 A_Refire ("Charge")
+        PLSG A 1
         goto CancelCharging
     CancelCharging:
-        PLSG A 1
+        TNT1 A 0 A_GiveInventory ("S7_PlasmaGun_AltfireLock", 1)
+        PLSG A 1 A_ClearRefire
+        TNT1 A 0 A_ClearRefire
+        TNT1 A 0 A_ClearRefire
         TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_ChargingLevel", 1)
         TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_ChargingLevel", 1, "CancelCharging")
-        goto Ready2
+        goto Ready2Derp
     ChargingFinished:
+        TNT1 A 0 A_GiveInventory ("S7_PlasmaGun_AltfireLock", 1)
+        TNT1 A 0 A_SetBlend ("10 6B DA", 0.25, 5)
         TNT1 A 0 A_TakeInventory ("S7_PlasmaGunMag", 5, TIF_NoTakeInfinite)
         TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_ChargingLevel", 0x7FFFFFFF)
         TNT1 A 0 A_GiveInventory ("S7_PlasmaGun_Charge", 1)
         TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/ChargeFinish")
-        PLSG A 5 A_SetBlend ("10 6B DA", 0.25, 5)
-        goto Ready2
+        PLSG AAAAA 1 A_ClearRefire
+        goto Ready2Derp
 
     Flash.Charged:
         PLSF B 1 bright offset (8, 40)

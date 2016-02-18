@@ -1,7 +1,11 @@
 // Add Keys
-addKeySection Se7evidas, Se7evidas
-addMenuKey "Reload" "Use S7_ReloadKey"
-addMenuKey "Firing mode" "Use S7_FiringModeKey"
-addMenuKey "Quick Melee" "Use S7_MeleeKey"
-addMenuKey "Sprint" +user1
-addMenuKey "Drop Weapon" "Use S7_DropWeaponKey"
+//addKeySection "Se7evidas (Essentials)" "Se7evidas_Essentials"
+//addMenuKey    "Firing mode (Press)"         "Use S7_FiringModeKey"
+//addMenuKey    "Sprint (Hold)"               +user1
+//addMenuKey    "Buy Menu Toggle (Press)"     "Use S7_BuyMenuKey"
+//addMenuKey    "Quick Melee (Press)"         "Use S7_MeleeKey"
+
+//addKeySection "Se7evidas (Optional)" "Se7evidas_Optional"
+//addMenuKey    "Reload (Press)"              "Use S7_ReloadKey"
+//addMenuKey    "Dodge (Press)"               +user4
+//addMenuKey    "Drop Weapon (Press)"         "Use S7_DropWeaponKey"

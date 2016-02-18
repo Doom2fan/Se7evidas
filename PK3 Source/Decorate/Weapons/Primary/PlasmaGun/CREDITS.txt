@@ -1,4 +1,8 @@
-Weapon:
 DECORATE: Chronos "phantombeta" Ouroboros
-Sprites: 3D Realms, Chronos "phantombeta" Ouroboros, Blox
-Sounds: icytux, Chronos "phantombeta" Ouroboros
+
+Sprites:
+    HUD Sprites: 3D Realms, Chronos "phantombeta" Ouroboros, Blox
+    Pickup Sprites: 3D Realms, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

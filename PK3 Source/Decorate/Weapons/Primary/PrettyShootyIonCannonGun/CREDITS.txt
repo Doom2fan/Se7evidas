@@ -1,4 +1,7 @@
-Weapon:
 DECORATE: Chronos "phantombeta" Ouroboros
-Sprites: Westwood Studios (Original model), Chronos "phantombeta" Ouroboros (Sprite ripping and edits)
-Sounds: ???
+
+Sprites:
+    HUD Sprites: Westwood Studios (Original model), Chronos "phantombeta" Ouroboros (Model ripping and edits)
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: None yet :P

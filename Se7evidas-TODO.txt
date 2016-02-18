@@ -1,10 +1,10 @@
-(in no particular order)
+(In no particular order) (Stuff with an X are done)
 This shit has to be done before any official /beta/ releases:
-    Shop system
+    Shop system (WIP)
 
 This shit HAS to be done before any official stable release:
     Add more weapons
-    Convert inventory hacks to uservars
+    X Convert inventory hacks to uservars (I converted what I could)
     Fucking monsters (Maybe literally too...)
     Storage system
     Grenades

@@ -48,7 +48,7 @@ actor S7_762x39Cartridges : ammo 31002 {
 actor S7_20gaShells : ammo 31003 {
     tag "$20GA"
     inventory.pickupMessage "$20GA"
-    inventory.amount 8
+    inventory.amount 10
     inventory.maxAmount 60
     ammo.backpackMaxAmount 80
     inventory.icon "SHELA0"
@@ -77,6 +77,21 @@ actor S7_Cells : ammo 31004 {
     }
 }
 
+actor S7_45ACPCartridges : ammo 31005 {
+    tag "$45ACP"
+    inventory.pickupMessage "$45ACP"
+    inventory.amount 62
+    inventory.maxAmount 372
+    ammo.backpackMaxAmount 496
+    inventory.icon "CLIPA0"
+    inventory.pickupSound "misc/ammopickup"
+
+    states {
+    Spawn:
+        CLIP A -1
+        stop
+    }
+}
 
 
 // Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

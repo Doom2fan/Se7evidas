@@ -21,11 +21,14 @@
 #define SERVER_H
 
 #include <ACS_ZDoom.h>
+
+// Structs
 struct ServerData_t {
     int dodgeCooldown;
     accum mjumpZMul;
 } ServerData;
 
+// Prototypes
 void UpdateServerData ();
 
 #endif

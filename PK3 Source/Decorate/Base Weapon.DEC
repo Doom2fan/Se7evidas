@@ -1,3 +1,7 @@
+actor S7_DaggerMelee  : boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
+actor S7_Dagger2Melee : boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
+actor S7_KickMelee    : boolean { } // Credits: Sprites: ???, Chronos "phantombeta" Ouroboros
+
 actor S7_BaseWeapon : weapon {
     inventory.pickupSound "misc/gunpickup"
     weapon.bobRangeX 0.3
@@ -10,14 +14,9 @@ actor S7_BaseWeapon : weapon {
     +weapon.ammo_Optional +weapon.noAutoFire +weapon.noAlert
 
     states {
-    QuickMelee:
-        TNT1 A 0 A_TakeInventory ("S7_DoMelee", 1)
-        TNT1 A 1 ACS_NamedExecuteAlways ("S7_QuickMelee")
-        TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
-        wait
     DryFire:
         TNT1 A 0 A_PlaySound ("Weapons/DryFire", CHAN_Weapon)
-        TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
+        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
         TNT1 A 0 A_Jump (256, "Ready2")
         wait
         
@@ -44,10 +43,52 @@ actor S7_BaseWeapon : weapon {
     Deselect.DEAD:
         TNT1 A 1 A_Lower
         wait
+
+    QuickMelee:
+        TNT1 A 0 A_TakeInventory ("S7_DoMelee", 1)
+        TNT1 A 0 A_JumpIfInventory ("S7_DaggerMelee", 1, "DaggerMelee")
+        TNT1 A 0 A_JumpIfInventory ("S7_Dagger2Melee", 1, "Dagger2Melee")
+        TNT1 A 0 A_JumpIfInventory ("S7_KickMelee", 1, "KickMelee")
+        TNT1 A 1 A_Jump (256, "KickMelee")
+        wait
+
+    DaggerMelee:
+        DAG1 AB 1
+    DaggerMelee.Mid:
+        TNT1 A 0 A_JumpIfInventory ("PowerStrength", 1, "DaggerMelee.Berserk")
+        TNT1 A 0 A_CustomPunch (random [weaponDamage] (1, 5) * 10, 1, 0, "S7_MeleePuff")
+        goto DaggerMelee.End
+    DaggerMelee.Berserk:
+        TNT1 A 0 A_CustomPunch (3 * random [weaponDamage] (1, 5) * 10, 1, 0, "S7_MeleePuff")
+        goto DaggerMelee.End
+    DaggerMelee.End:
+        DAG1 CDE 1
+        goto MeleeDone
+    
+    Dagger2Melee:
+        goto MeleeDone
+    
+    KickMelee:
+        KICK BCD 1
+    KickMelee.Mid:
+        TNT1 A 0 A_JumpIfInventory ("PowerStrength", 1, "KickMelee.Berserk")
+        TNT1 A 0 A_CustomPunch (random [weaponDamage] (1, 5) * 13, 1, 0, "S7_MeleePuff")
+        goto KickMelee.End
+    KickMelee.Berserk:
+        TNT1 A 0 A_CustomPunch (3 * random [weaponDamage] (1, 5) * 13, 1, 0, "S7_MeleePuffStrong")
+        goto KickMelee.End
+    KickMelee.End:
+        KICK H 4
+        KICK IGFEDCBA 1
+        goto MeleeDone
+
+    MeleeDone:
+        TNT1 A 1 A_Jump (256, "Ready")
+        wait
     }
 }
 
-// By Jekyll Grim Payne/zer0, edited by Alex_Mercer
+// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_MeleePuff {
     damageType Kick
     attackSound "Weapons/Kick/HitWall"

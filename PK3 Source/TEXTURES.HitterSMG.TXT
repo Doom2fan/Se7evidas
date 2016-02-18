@@ -1,0 +1,176 @@
+sprite SR20A0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+}
+
+sprite SR20B0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 176, 76
+    patch "graphics/Hands/Hand-004.png", 180, 117
+    patch "graphics/Weapons/HitterSMG/Part3.png", 199, 90
+}
+
+sprite SR20C0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 178, 77
+    patch "graphics/Hands/Hand-004.png", 182, 118
+    patch "graphics/Weapons/HitterSMG/Part4.png", 201, 91
+}
+
+sprite SR20D0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 178, 77
+    patch "graphics/Hands/Hand-004.png", 182, 118
+    patch "graphics/Weapons/HitterSMG/Part5.png", 201, 91
+}
+
+sprite SR20E0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 178, 77
+    patch "graphics/Hands/Hand-004.png", 182, 118
+    patch "graphics/Weapons/HitterSMG/Part6.png", 201, 91
+}
+
+sprite SR20F0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 175, 73
+    patch "graphics/Hands/Hand-004.png", 179, 114
+    patch "graphics/Weapons/HitterSMG/Part2.png", 198, 87
+}
+
+sprite SR20G0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 173, 77
+    patch "graphics/Hands/Hand-004.png", 177, 118
+    patch "graphics/Weapons/HitterSMG/Part2.png", 196, 91
+}
+
+sprite SR20H0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 170, 85
+    patch "graphics/Hands/Hand-004.png", 174, 126
+    patch "graphics/Weapons/HitterSMG/Part2.png", 193, 99
+}
+
+sprite SR20I0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 165, 91
+    patch "graphics/Hands/Hand-004.png", 169, 132
+    patch "graphics/Weapons/HitterSMG/Part2.png", 188, 105
+}
+
+sprite SR20J0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 169, 84
+    patch "graphics/Hands/Hand-004.png", 173, 125
+    patch "graphics/Weapons/HitterSMG/Part2.png", 192, 98
+}
+
+sprite SR20K0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 59, 161 {
+        flipX
+    }
+}
+
+sprite SR20L0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 71, 149 {
+        flipX
+    }
+}
+
+sprite SR20M0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 92, 131 {
+        flipX
+    }
+}
+
+sprite SR20N0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 118, 110 {
+        flipX
+    }
+}
+
+sprite SR20O0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 137, 102 {
+        flipX
+    }
+}
+
+sprite SR20P0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part2.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 152, 104 {
+        flipX
+    }
+}
+
+sprite SR20Q0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
+    patch "graphics/Hands/Hand-004.png", 178, 116
+    patch "graphics/Weapons/HitterSMG/Part3.png", 197, 89
+    patch "graphics/Hands/Hand-005.png", 157, 107 {
+        flipX
+    }
+}
+
+sprite SR20R0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 178, 78
+    patch "graphics/Hands/Hand-004.png", 182, 119
+    patch "graphics/Weapons/HitterSMG/Part4.png", 201, 92
+    patch "graphics/Hands/Hand-005.png", 164, 111 {
+        flipX
+    }
+}
+
+sprite SR20S0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 186, 84
+    patch "graphics/Hands/Hand-004.png", 190, 125
+    patch "graphics/Weapons/HitterSMG/Part5.png", 209, 98
+    patch "graphics/Hands/Hand-005.png", 177, 122 {
+        flipX
+    }
+}
+
+sprite SR20T0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 198, 90
+    patch "graphics/Hands/Hand-004.png", 202, 131
+    patch "graphics/Weapons/HitterSMG/Part6.png", 221, 104
+    patch "graphics/Hands/Hand-005.png", 199, 132 {
+        flipX
+    }
+}
+
+sprite SR20U0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 196, 88
+    patch "graphics/Hands/Hand-004.png", 200, 129
+    patch "graphics/Weapons/HitterSMG/Part5.png", 219, 102
+    patch "graphics/Hands/Hand-005.png", 209, 139 {
+        flipX
+    }
+}
+
+sprite SR20V0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 187, 81
+    patch "graphics/Hands/Hand-004.png", 191, 122
+    patch "graphics/Weapons/HitterSMG/Part4.png", 210, 95
+    patch "graphics/Hands/Hand-005.png", 224, 150 {
+        flipX
+    }
+}
+
+sprite SR20W0, 320, 200 {
+    patch "graphics/Weapons/HitterSMG/Part1.png", 182, 79
+    patch "graphics/Hands/Hand-004.png", 186, 120
+    patch "graphics/Weapons/HitterSMG/Part3.png", 205, 93
+    patch "graphics/Hands/Hand-005.png", 251, 163 {
+        flipX
+    }
+}

@@ -95,7 +95,7 @@ function int getVelocity (void) {
     return vel >> 16;
 }
 
-// by Alex_mercer
+// by Chronos "phantombeta" Ouroboros
 // Health Boost
 function void healthBoost (int HP) {
     int currentHP = getActorProperty (0, APROP_SPAWNHEALTH);
@@ -115,7 +115,7 @@ function void setInventory (str actorName, int amount) {
 }
 
 // Player move speed script made by DoomRater
-// turned into a function by Alex_Mercer
+// turned into a function by Chronos "phantombeta" Ouroboros
 function void playerSpeed (int movespeed) {
     setActorProperty (0, APROP_SPEED, movespeed * 65535 / 100);
 }

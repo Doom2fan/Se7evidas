@@ -1,5 +1,8 @@
-DECORATE: ???
+DECORATE: Chronos "phantombeta" Ouroboros
+
 Sprites:
     HUD Sprites: ID Software, Captain J
     Pickup Sprites: Eriance, DoomNukem, Chronos "phantombeta" Ouroboros
-Sounds: ???
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

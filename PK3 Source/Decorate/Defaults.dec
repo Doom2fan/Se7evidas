@@ -14,7 +14,7 @@ actor Counter : inventory {
 }
 
 // By Chronos "phantombeta" Ouroboros
-actor S7_ActionRunnerBase : CustomInventory {
+actor S7_ActionRunnerBase : customInventory {
     inventory.maxAmount 1
 
     +inventory.autoActivate +inventory.quiet
@@ -24,6 +24,14 @@ actor S7_ActionRunnerBase : CustomInventory {
         TNT1 A 0
         stop
     }
+}
+
+actor S7_CustomKey : customInventory {
+    inventory.amount 1
+    inventory.maxAmount 1
+
+    +inventory.undroppable
+    -inventory.invBar
 }
 
 // By Jekyll Grim Payne "Aka" zer0

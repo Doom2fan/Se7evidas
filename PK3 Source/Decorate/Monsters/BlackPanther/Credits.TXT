@@ -1,0 +1,7 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_BlackPanther: Id Software, IMX, Chronos "phantombeta" Ouroboros
+    S7_BlackPantherBall: Midway Entertainment, Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

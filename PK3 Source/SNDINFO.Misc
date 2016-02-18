@@ -15,12 +15,60 @@ $RANDOM Misc/Body {
     Misc/Body8
     Misc/Body9
 }
-Misc/Body1                    "sounds/Misc/BODY01.ogg"
-Misc/Body2                    "sounds/Misc/BODY02.ogg"
-Misc/Body3                    "sounds/Misc/BODY03.ogg"
-Misc/Body4                    "sounds/Misc/BODY04.ogg"
-Misc/Body5                    "sounds/Misc/BODY05.ogg"
-Misc/Body6                    "sounds/Misc/BODY06.ogg"
-Misc/Body7                    "sounds/Misc/BODY07.ogg"
-Misc/Body8                    "sounds/Misc/BODY08.ogg"
-Misc/Body9                    "sounds/Misc/BODY09.ogg"
+Misc/Body1                      "sounds/Misc/BODY01.ogg"
+Misc/Body2                      "sounds/Misc/BODY02.ogg"
+Misc/Body3                      "sounds/Misc/BODY03.ogg"
+Misc/Body4                      "sounds/Misc/BODY04.ogg"
+Misc/Body5                      "sounds/Misc/BODY05.ogg"
+Misc/Body6                      "sounds/Misc/BODY06.ogg"
+Misc/Body7                      "sounds/Misc/BODY07.ogg"
+Misc/Body8                      "sounds/Misc/BODY08.ogg"
+Misc/Body9                      "sounds/Misc/BODY09.ogg"
+
+// Fire
+Fire/Small                      "sounds/Effects/Fire/Fire_Small.ogg" // From Quake 4
+Fire/Flare                      "sounds/Effects/Fire/Flare.ogg"      // Ditto
+
+// Footsteps
+$RANDOM Footsteps/Large {
+    Footsteps/Large1
+    Footsteps/Large2
+    Footsteps/Large3
+}
+Footsteps/Large1                "sounds/Footsteps/Large1.ogg" // From Quake 4
+Footsteps/Large2                "sounds/Footsteps/Large2.ogg" // Ditto
+Footsteps/Large3                "sounds/Footsteps/Large3.ogg" // Ditto
+
+// Explosions
+$RANDOM Explosions/Explosion1 {
+    Explosions/Explosion1_1
+    Explosions/Explosion1_2
+    Explosions/Explosion1_3
+    Explosions/Explosion1_4
+}
+Explosions/Explosion1_1         "sounds/Effects/Explosions/Explode1_1.ogg"
+Explosions/Explosion1_2         "sounds/Effects/Explosions/Explode1_2.ogg"
+Explosions/Explosion1_3         "sounds/Effects/Explosions/Explode1_3.ogg"
+Explosions/Explosion1_4         "sounds/Effects/Explosions/Explode1_4.ogg"
+
+$RANDOM Explosions/Explosion2 {
+    Explosions/Explosion2_1
+    Explosions/Explosion2_2
+    Explosions/Explosion2_3
+}
+Explosions/Explosion2_1         "sounds/Effects/Explosions/Explode2_1.ogg"
+Explosions/Explosion2_2         "sounds/Effects/Explosions/Explode2_2.ogg"
+Explosions/Explosion2_3         "sounds/Effects/Explosions/Explode2_3.ogg"
+
+// Bounces
+Bounce/MetalSmall               "sounds/Effects/Misc/BounceMetalSmall.ogg" // From Heretic
+
+// Misc
+$RANDOM Steam/Burst {
+    Steam/Burst1
+    Steam/Burst2
+    Steam/Burst3
+}
+Steam/Burst1                    "sounds/Effects/Misc/Steam1.ogg" // Made by Chronos "phantombeta" Ouroboros with sounds from Quake 4
+Steam/Burst2                    "sounds/Effects/Misc/Steam2.ogg" // Ditto
+Steam/Burst3                    "sounds/Effects/Misc/Steam3.ogg" // Ditto

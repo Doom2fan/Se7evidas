@@ -19,19 +19,30 @@
 
 #include "includes.h"
 #include "shop.h"
+#include "shop_items.h"
+#include "shop_process.h"
+#include "shop_render.h"
 
-/*Script_C int S7_GetEffectsStayTime () {
-    return 0;
-}*/
+#ifndef SHOP_C
+#define SHOP_C
+        
+void ShopSystem_Script (PlayerData_t *player) {
+    if (!player)
+        return;
+    
+    SS_ProcessToggle (player); // Process the menu toggling
+    if (player->shopDef.open) {
+        // Processing
+        SS_Movement (player); // Process the movement
 
-/*ShopDef_t GlobalVar ShopDef [MAX_PLAYERS];
-
-void SS_Movement () {
+        // Rendering
+        if (player->shopDef.page && player->shopDef.page->renderer)
+            player->shopDef.page->renderer (player);
+        else if (player->shopDef.shop && player->shopDef.shop->renderer)
+            player->shopDef.shop->renderer (player);
+        else
+            SS_Render (player);
+    }
 }
 
-Script_C void S7_ShopSystem () {
-    while (TRUE) {
-        if (keyDown)
-        ACS_Delay (1);
-    }
-}*/
+#endif

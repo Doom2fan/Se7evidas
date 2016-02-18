@@ -35,6 +35,28 @@
 // Defines
 #define PLN PlayerNumber()
 
+// Actor names
+// Spriting system
+#define STAMINATOKEN s"S7_Stamina"
+#define SPRINTWEAPON s"S7_SprintWeapon"
+#define SPRINTINGTOKEN s"S7_Sprinting"
+// XP System
+#define XPS_LEVELTOKEN s"S7_XP_System_Level"
+#define XPS_EXPTOKEN s"S7_XP_System_Experience"
+#define XPS_ATTRPOINTSTOKEN s"S7_XP_System_AttributePoints"
+#define XPS_STRENGTHTOKEN s"S7_Stats_System_Strength"
+#define XPS_STAMINATOKEN s"S7_Stats_System_Stamina"
+// Shop system
+#define CASHTOKEN s"S7_Cash"
+// Weapon stuff
+#define QUICKMELEEWEAPON s"S7_QuickMelee"
+// Misc
+#define DYINGTOKEN s"S7_Dying"
+#define UNDERWATERTOKEN s"S7_IsUnderwater"
+#define AIRTIMETOKEN s"S7_AirTime"
+#define MJUMP_MAXTOKEN s"S7_MultiJump_Max"
+
+
 // Script types
 #define UNLOADING [[script ("Unloading") ]]
 #define RETURN [[script ("Return") ]]
@@ -50,5 +72,8 @@
 #define ArraySize(array) sizeof(array) / sizeof(*array)
 
 __addrdef extern  __gbl_arr GlobalVar;
+
+// Misc
+#define TNT1A0 s"TNT1A0"
 
 #endif

@@ -31,49 +31,54 @@ Script_C void S7_SprintSystem ENTER () {
     int tics = 0;
     PlayerData_t *player = &PlayerData [PLN];
 
+    if (!player) {
+        Log ("\\cgScript S7_SprintSystem: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
     while (TRUE) {
-        if (CheckWeapon (s"S7_SprintWeapon") && !player->SprintDef.Sprinting) {
+        if (CheckWeapon (SPRINTWEAPON) && !player->SprintDef.Sprinting) {
             SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             player->SprintDef.Sprinting = FALSE;
             tics = 0;
-            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
+            DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
         }
         if (KeyDown (BT_USER1) &&
             !player->SprintDef.Sprinting &&
-            CheckInventory (s"S7_Stamina") >= 5 && !CheckInventory (s"S7_Dying") &&
+            CheckInventory (STAMINATOKEN) >= 5 && !CheckInventory (DYINGTOKEN) &&
             !player->staminaEmpty) {
             player->SprintDef.Sprinting = TRUE;
             player->SprintDef.OldSpeed = GetActorPropertyFixed (0, APROP_Speed);
-            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
+            DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
         }
         if (KeyUp (BT_USER1) && player->SprintDef.Sprinting && !player->staminaEmpty) {
             SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             player->SprintDef.Sprinting = FALSE;
             tics = 0;
-            DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
+            DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
         }
-        if (CheckInventory (s"S7_Sprinting") && player->SprintDef.Sprinting) {
-            if (CheckInventory (s"S7_Stamina") >= 5) {
-                if (CheckInventory (s"S7_Sprinting") && tics >= 5 &&
+        if (CheckInventory (SPRINTINGTOKEN) && player->SprintDef.Sprinting) {
+            if (CheckInventory (STAMINATOKEN) >= 5) {
+                if (CheckInventory (SPRINTINGTOKEN) && tics >= 5 &&
                     ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 0) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 0))) {
                     tics = 0;
                     if (GetVelocity () > 0.0k) {
-                        TakeInventory (s"S7_Stamina", 5);
-                        player->stamina = CheckInventory (s"S7_Stamina");
+                        TakeInventory (STAMINATOKEN, 5);
+                        player->stamina = CheckInventory (STAMINATOKEN);
                     }
                 }
-                if (CheckInventory (s"S7_Stamina") < 5 || CheckInventory (s"S7_Dying")) {
+                if (CheckInventory (STAMINATOKEN) < 5 || CheckInventory (DYINGTOKEN)) {
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
                     player->SprintDef.Sprinting = FALSE;
                     player->staminaEmpty = 1;
-                    DisableWeapon (s"S7_SprintWeapon", s"S7_Sprinting", player);
+                    DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
                     goto Start;
                 }
-                if (CheckInventory (s"S7_Sprinting") && ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
+                if (CheckInventory (SPRINTINGTOKEN) && ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
                     SetActorPropertyFixed (0, APROP_Speed, 3.0k);
-                else if (CheckInventory (s"S7_Sprinting") && !((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
+                else if (CheckInventory (SPRINTINGTOKEN) && !((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
                     SetActorPropertyFixed (0, APROP_Speed, 6.0k);
-                else if (!CheckInventory (s"S7_Sprinting"))
+                else if (!CheckInventory (SPRINTINGTOKEN))
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             }
         }

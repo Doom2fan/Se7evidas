@@ -18,11 +18,21 @@
 */
 
 #include "includes.h"
+#include "includes_zandro.h"
 #include "stamina.h"
 #include "sprint_system.h"
 
+Script_C void S7_Open OPEN () {
+    ConsoleCommand (s"compat_clientssendfullbuttoninfo TRUE");
+}
+
 Script_C void S7_Enter ENTER () {
     PlayerData_t *player = &PlayerData [PLN];
+    
+    if (!player) {
+        Log ("\\cgScript S7_Enter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
     
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
     player->SprintDef.OldSpeed = 1.0k;
@@ -31,6 +41,11 @@ Script_C void S7_Enter ENTER () {
 Script_C void S7_Respawn RESPAWN () {
     PlayerData_t *player = &PlayerData [PLN];
 
+    if (!player) {
+        Log ("\\cgScript S7_Respawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
     player->SprintDef.OldSpeed = 1.0k;
 }

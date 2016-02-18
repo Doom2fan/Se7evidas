@@ -1,8 +1,8 @@
-//===========================================================================
+//-------------------------------------------------------------------------------------------
 //
 // Empress (Female Heresiarch)
 //
-//===========================================================================
+//-------------------------------------------------------------------------------------------
 actor S7_IsEmpress : boolean { }
 actor S7_EmpressBalls : counter { inventory.maxAmount 4 }
 actor S7_Empress replaces cyberdemon {
@@ -31,7 +31,10 @@ actor S7_Empress replaces cyberdemon {
         HRFR A 10 A_Look
         loop
     See:
-        HRFR AABBCCDD 4 A_Chase
+        TNT1 A 0 A_PlaySound ("Footsteps/Large", 5)
+        HRFR AABB 4 A_Chase
+        TNT1 A 0 A_PlaySound ("Footsteps/Large", 6)
+        HRFR CCDD 4 A_Chase
         loop
     Missile:
         TNT1 A 0 A_Jump (64, "ShieldsUp") //"MissileAttack", "ShieldsUp")

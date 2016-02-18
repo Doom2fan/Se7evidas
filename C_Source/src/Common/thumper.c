@@ -25,22 +25,20 @@
 // help
 // ;-;
 
-string Thumper_PoolNames [] = {
-    s"____Error____-Report-this",
-    s"S7_Thumper_PExp",
-    s"S7_Thumper_PFrag",
-    s"S7_Thumper_PTherm",
-    s"S7_Thumper_PFlare",
-    s"S7_Thumper_PCluster",
-    s"S7_Thumper_PNail",
-    s"S7_Thumper_PNGas"
-};
+#define SELPOOLTOKEN s"S7_ThumperSelectedPool"
+#define CHAMBEREDTOKEN s"S7_ThumperChambered"
+#define CURRENTSHELLTOKEN s"S7_ThumperCurrentShell"
 
 /* Mag scripts */
 
 Script_C bool S7_ThumperFull () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
+    if (!player) {
+        Log ("\\cgScript S7_ThumperFull: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return FALSE;
+    }
+    
     if (player->thumperDef.magIndex == 3) // If the current mag index is 3 (the max)...
         return TRUE; // Return true
     else // If not...
@@ -49,6 +47,11 @@ Script_C bool S7_ThumperFull () {
 
 Script_C int S7_ThumperGetNext () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+    
+    if (!player) {
+        Log ("\\cgScript S7_ThumperGetNext: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return S7_TH_None;
+    }
     
     if (player->thumperDef.magIndex == -1) // If there's no ammo left in the mag...
         return S7_TH_None; // Return none
@@ -61,51 +64,94 @@ Script_C int S7_ThumperGetNext () {
 Script_C int S7_ThumperGetChamber () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
+    if (!player) {
+        Log ("\\cgScript S7_ThumperGetChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return S7_TH_None;
+    }
+    
     return player->thumperDef.currentShell; // Return the current shell
 }
 
 Script_C void S7_ThumperConsumeChamber () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
+    if (!player) {
+        Log ("\\cgScript S7_ThumperConsumeChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
     player->thumperDef.currentShell = S7_TH_None; // Set the current shell to none
-    TakeInventory (s"S7_ThumperChambered", 1); // Take 1 S7_ThumperChambered/Consume the shell in the chamber
+    TakeInventory (CHAMBEREDTOKEN, 1); // Take 1 CHAMBEREDTOKEN/Consume the shell in the chamber
 }
 
 Script_C void S7_ThumperPump () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
+    if (!player) {
+        Log ("\\cgScript S7_ThumperPump: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
     player->thumperDef.currentShell = player->thumperDef.magShells [player->thumperDef.magIndex]; // Set the current shell to the next shell in the mag
     player->thumperDef.magShells [player->thumperDef.magIndex] = S7_TH_None; // Set the next shell in the mag to none
     player->thumperDef.magIndex--; // Decrement the mag index by 1
-    GiveInventory (s"S7_ThumperChambered", 1); // Give 1 S7_ThumperChambered/Chamber the gun
+    GiveInventory (CHAMBEREDTOKEN, 1); // Give 1 CHAMBEREDTOKEN/Chamber the gun
+    SetInventory (CURRENTSHELLTOKEN, player->thumperDef.currentShell); // Set CURRENTSHELLTOKEN to the current shell
 }
 
 /* Ammo pool scripts */
 
 Script_C int S7_ThumperNextPool () {
-    return CheckInventory (Thumper_PoolNames [CheckInventory (s"S7_ThumperSelectedPool") + 1]); // Return the amount of grenades in the currently selected pool
+    return CheckInventory (Thumper_PoolNames [CheckInventory (SELPOOLTOKEN) + 1]); // Return the amount of grenades in the currently selected pool
 }
 
-Script_C void S7_ThumperCyclePools () {
-    int currentPool = CheckInventory (s"S7_ThumperSelectedPool") + 1; // Get the selected pool
+int ThumperCyclePools_DoCycle (int current) {
+    bool looped = FALSE;
+    int i = current + 1;
+    while (TRUE) {
+        if (CheckInventory (Thumper_PoolNames [i]) > 0)
+            return i;
 
-    if (currentPool >= 7) // If the current pool is the last one...
-        TakeInventory (s"S7_ThumperSelectedPool", 999); // Take all S7_ThumperSelectedPool
-    else // If not...
-        GiveInventory (s"S7_ThumperSelectedPool", 1); // Give 1 S7_ThumperSelectedPool
+        if (i == current && looped)
+            return -1;
+        else if (i >= ArraySize (Thumper_PoolNames)) {
+            if (!looped) {
+                i = 0;
+                looped = TRUE;
+            } else
+                return -1;
+        }
+
+        i++;
+    }
+
+    return -1;
+}
+
+Script_C bool S7_ThumperCyclePools () {
+    int currentPool = CheckInventory (SELPOOLTOKEN) + 1; // Get the selected pool
+
+    int nextPool = ThumperCyclePools_DoCycle (currentPool);
+
+    if (nextPool < 1)
+        return FALSE;
+    else {
+        SetInventory (SELPOOLTOKEN, nextPool - 1);
+        return TRUE;
+    }
 }
 
 Script_C void S7_ThumperPerformReload () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
-    int currentPool = CheckInventory (s"S7_ThumperSelectedPool") + 1; // Get the selected pool
+    if (!player) {
+        Log ("\\cgScript S7_ThumperPerformReload: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
+    int currentPool = CheckInventory (SELPOOLTOKEN) + 1; // Get the selected pool
     if (currentPool > 7) // If the selected pool is greater than 7...
         currentPool = 7; // Set it to 7
-
-    if (S7_ThumperNextPool () < 1) { // If there's less than 1 grenade left in the ammo pool...
-        Log ("S7_ThumperPerformReload: Something went wrong. Please report this and the steps to reproduce it."); // Log it
-        return; // Return
-    }
 
     player->thumperDef.magIndex++; // Increment the mag index by 1
     player->thumperDef.magShells [player->thumperDef.magIndex] = currentPool; // Set the next shell in the mag to the same as the selected pool
@@ -115,9 +161,8 @@ Script_C void S7_ThumperPerformReload () {
 int Thumper_GetUnifiedPool () {
     int unifiedPool;
 
-    for (int i = 1; i < ArraySize (Thumper_PoolNames); i++) {
+    for (int i = 1; i < ArraySize (Thumper_PoolNames); i++)
         unifiedPool += CheckInventory (Thumper_PoolNames [i]);
-    }
 
     return unifiedPool;
 }
@@ -129,54 +174,45 @@ int Thumper_GetUnifiedPoolMax () {
         return 30;
 }
 
-int Thumper_GiveShell (int typeI, int amount) {
+void Thumper_GiveShell (int typeI, int amount) {
     string type = Thumper_PoolNames [typeI];
 
-    if (Thumper_GetUnifiedPool () + amount > Thumper_GetUnifiedPoolMax ()) {
-        return FALSE;
-    } else {
-        GiveInventory (type, amount);
-        return TRUE;
-    }
+    if (Thumper_GetUnifiedPool () + amount > Thumper_GetUnifiedPoolMax ())
+        return;
+
+    GiveInventory (type, amount);
 }
 
-Script_C int S7_ThumperGiveShell (int type, int amount) {
-    return Thumper_GiveShell (type, amount);
+void Thumper_TakeShell (int typeI, int amount) {
+    string type = Thumper_PoolNames [typeI];
+
+    TakeInventory (type, amount);
+}
+
+Script_C void S7_ThumperGiveShell (int type, int amount) {
+    Thumper_GiveShell (type, amount);
 }
 
 void Thumper_Script (PlayerData_t *player) {
-    int unifiedPool = Thumper_GetUnifiedPool ();
-    int currentAmount = CheckInventory (s"S7_Thumper_PUnified");
-    if (currentAmount != unifiedPool) {
-        if (currentAmount > unifiedPool)
-            TakeInventory (s"S7_Thumper_PUnified", currentAmount - unifiedPool);
-        else if (currentAmount < unifiedPool)
-            GiveInventory (s"S7_Thumper_PUnified", unifiedPool - currentAmount);
-    }
+    if (!player)
+        return;
+    
+    SetInventory (s"S7_Thumper_PUnified", Thumper_GetUnifiedPool ());
 }
 
 void Thumper_ScriptClientside (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     int magN = 1;
     for (int i = 0; i <= player->thumperDef.magIndex; i++) {
         string mag = StrParam ("S7_ThumperMag%d", magN);
         magN++;
 
-        int currentValue = CheckInventory (mag);
-        if (currentValue != player->thumperDef.magShells [i]) {
-            if (currentValue > player->thumperDef.magShells [i])
-                TakeInventory (mag, currentValue - player->thumperDef.magShells [i]);
-            else if (currentValue < player->thumperDef.magShells [i])
-                GiveInventory (mag, player->thumperDef.magShells [i] - currentValue);
-        }
+        SetInventory (mag, player->thumperDef.magShells [i]);
     }
     string chamber = StrParam ("S7_ThumperMag%d", magN);
-    int currentValue = CheckInventory (chamber);
-    if (currentValue != player->thumperDef.currentShell) {
-        if (currentValue > player->thumperDef.currentShell)
-            TakeInventory (chamber, currentValue - player->thumperDef.currentShell);
-        else if (currentValue < player->thumperDef.currentShell)
-            GiveInventory (chamber, player->thumperDef.currentShell - currentValue);
-    }
+    SetInventory (chamber, player->thumperDef.currentShell);
     magN++;
     if (magN < 6) {
         for (int j = magN - 1; j <= 5; j++) {
@@ -184,7 +220,7 @@ void Thumper_ScriptClientside (PlayerData_t *player) {
             magN++;
 
             if (mag != S7_TH_None)
-                TakeInventory (mag, 999);
+                SetInventory (mag, 0);
         }
     }
 }

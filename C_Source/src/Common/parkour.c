@@ -23,15 +23,18 @@
 #include "parkour.h"
 
 #define DODGESTAMINA 30
-void DodgeScriptP1 (PlayerData_t *player) { // player->staminaEmpty = 1;
+void DodgeScriptP1 (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     if (player->parkourDef.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
         if (player->parkourDef.dodgeCooldown < 0) // If dodgeCooldown is less than 0...
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
-        // If the player is trying to move backwards, tapped user4, isn't sprinting and has at least DODGESTAMINA stamina...
-        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER4)) && !(player->SprintDef.Sprinting) && (player->stamina >= DODGESTAMINA)) {
-            TakeInventory (s"S7_Stamina", DODGESTAMINA); // Take DODGESTAMINA stamina
-            player->stamina = CheckInventory (s"S7_Stamina"); // Update player data
+        // If the player is trying to move backwards, tapped user2, isn't sprinting and has at least DODGESTAMINA stamina...
+        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER2)) && !(player->SprintDef.Sprinting) && (player->stamina >= DODGESTAMINA)) {
+            TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
+            player->stamina = CheckInventory (STAMINATOKEN); // Update player data
             ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
             int byteAngle = (player->angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
             ThrustThing (byteAngle + 128, 18, 1, 0); // Thrust the player backwards
@@ -42,6 +45,9 @@ void DodgeScriptP1 (PlayerData_t *player) { // player->staminaEmpty = 1;
 }
 
 void DodgeScriptP2 (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     if (player->parkourDef.dodgeCooldown > 0) { // If dodgeCooldown is greater than 0...
         player->parkourDef.dodgeCooldown--; // Decrement dodgeCooldown by 1
     }
@@ -49,6 +55,9 @@ void DodgeScriptP2 (PlayerData_t *player) {
 
 #define MJUMPMINDIFF 15
 void MultiJumpScript (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     accum force = 40.0k * ServerData.mjumpZMul;
     if (player->relativeZ == 0) { // If the player is on the ground...
         player->parkourDef.mjumpOnGround = TRUE; // Set mjumpOnGround to TRUE

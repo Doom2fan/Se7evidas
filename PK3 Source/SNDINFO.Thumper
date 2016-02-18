@@ -1,3 +1,13 @@
-Weapons/Thumper/Fire             "sounds/Weapons/Primary/Thumper/Fire.ogg"      // By Chronos "phantombeta" Ouroboros. Made from sounds from Quake 4 and Wolfenstein: Enemy Territory.
-Weapons/Thumper/Pump             "sounds/Weapons/Primary/Thumper/Pump.ogg"      // From Quake 4. Edited by Chronos "phantombeta" Ouroboros.
-Weapons/Thumper/ShellIn          "sounds/Weapons/Primary/Thumper/In.ogg"        // ???
+Weapons/Thumper/Fire             "sounds/Weapons/Primary/Thumper/Fire.ogg"          // By Chronos "phantombeta" Ouroboros. Made from sounds from Quake 4 and Wolfenstein: Enemy Territory.
+Weapons/Thumper/Pump             "sounds/Weapons/Primary/Thumper/Pump.ogg"          // From Quake 4. Edited by Chronos "phantombeta" Ouroboros.
+
+$RANDOM Weapons/Thumper/ShellIn {
+    Weapons/Thumper/ShellIn1
+    Weapons/Thumper/ShellIn2
+    Weapons/Thumper/ShellIn3
+    Weapons/Thumper/ShellIn4
+}
+Weapons/Thumper/ShellIn1          "sounds/Weapons/Primary/Thumper/ShellIn1.ogg"      // From Doom 3
+Weapons/Thumper/ShellIn2          "sounds/Weapons/Primary/Thumper/ShellIn2.ogg"      // Ditto
+Weapons/Thumper/ShellIn3          "sounds/Weapons/Primary/Thumper/ShellIn3.ogg"      // Ditto
+Weapons/Thumper/ShellIn4          "sounds/Weapons/Primary/Thumper/ShellIn4.ogg"      // Ditto

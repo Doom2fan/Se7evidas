@@ -1,0 +1,36 @@
+[ptb]
+SS_BUYMODE                      = "Comprar";
+SS_SELLMODE                     = "Vender";
+SS_BACK                         = "Voltar";
+// Page names
+SS_MAIN                         = "Loja";
+
+SS_WEAPONS                      = "Armas";
+
+SS_AMMO                         = "Municao";
+SS_BULLETS                      = "Cartuchos";
+SS_BATTERIES                    = "Celulas de ener.";
+SS_BATTERIESLINK                = "Celulas de energia";
+SS_THGRENADES                   = "Granadas 50mm";
+
+SS_LOOT                         = "Saque";
+
+// Names
+// 50mm grenades
+SS_TH_ALL                       = "Todas";
+SS_TH_EXP                       = "Explosiva";
+SS_TH_FRAG                      = "Fragmentacao";
+SS_TH_THRM                      = "Thermite";
+SS_TH_FLRE                      = "Flare";
+SS_TH_CLST                      = "Clusterbomb";
+SS_TH_NAIL                      = "Nailbomb";
+SS_TH_NGAS                      = "Nerve gas";
+
+// Descriptions
+// Cartridges
+SS_9MMDESC                      = "Caixa com 30 cartuchos 9x19mm";
+SS_44MDESC                      = "Speedloader .44 Magnum";
+SS_762X39DESC                   = "Carregador 7.62x39mm";
+SS_20GADESC                     = "Bandoleira com 10 cartuchos calibre 20";
+// Batteries/Cells
+SS_CELLSDESC                    = "Duas celulas de energia Tipo A";

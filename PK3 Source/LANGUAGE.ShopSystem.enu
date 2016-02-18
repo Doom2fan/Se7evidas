@@ -1,0 +1,36 @@
+[default enu en]
+SS_BUYMODE                      = "Buy";
+SS_SELLMODE                     = "Sell";
+SS_BACK                         = "Back";
+// Page names
+SS_MAIN                         = "Shop menu";
+
+SS_WEAPONS                      = "Weapons";
+
+SS_AMMO                         = "Ammo";
+SS_BULLETS                      = "Cartridges";
+SS_BATTERIES                    = "Energy cells";
+SS_BATTERIESLINK                = "Energy cells";
+SS_THGRENADES                   = "50mm grenades";
+
+SS_LOOT                         = "Loot";
+
+// Names
+// 50mm grenades
+SS_TH_ALL                       = "All";
+SS_TH_EXP                       = "Explosive";
+SS_TH_FRAG                      = "Frag";
+SS_TH_THRM                      = "Thermite";
+SS_TH_FLRE                      = "Flare";
+SS_TH_CLST                      = "Clusterbomb";
+SS_TH_NAIL                      = "Nailbomb";
+SS_TH_NGAS                      = "Nerve gas";
+
+// Descriptions
+// Cartridges
+SS_9MMDESC                      = "Box of 30 9x19mm cartridges";
+SS_44MDESC                      = ".44 Magnum speedloader";
+SS_762X39DESC                   = "7.62x39mm magazine";
+SS_20GADESC                     = "Bandolier with 10 20ga shells";
+// Batteries/Cells
+SS_CELLSDESC                    = "Two Type A energy cells";

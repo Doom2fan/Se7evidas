@@ -1,1 +1,3 @@
 Weapons/ModeChange                                    "sounds/Weapons/Misc/ModeChange.ogg"
+Weapons/DryFirePistol                                 "sounds/Weapons/Misc/DryFirePistol.ogg" // From Quake 4
+Weapons/DryFireRifle                                  "sounds/Weapons/Misc/DryFireRifle.ogg"  // From Counter-Strike: Condition Zero

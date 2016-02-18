@@ -1,10 +1,7 @@
-Decorate:
-Decorate by Chronos "phantombeta" Ouroboros
+DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-Weapon sprites by Captain J and TheMightyHeracross
-Edited by Chronos "phantombeta" Ouroboros
+    HUD and Pickup Sprites: Captain J, TheMightyHeracross, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
 
-Sounds:
-Firing and mag tap by Chronos "phantombeta" Ouroboros. Made from sounds by NightmareMutant from GAMEBANANA
-Mag in/out by NightmareMutant from GAMEBANANA
+Sounds: Credits in the SNDINFO file

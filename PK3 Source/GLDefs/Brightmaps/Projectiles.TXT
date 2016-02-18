@@ -1,0 +1,9 @@
+brightmap sprite THGRA4A6 {
+    map "Brightmaps/Projectiles/THGRA4A6.png"
+    disableFullBright
+}
+
+brightmap sprite THGRA5 {
+    map "Brightmaps/Projectiles/THGRA5.png"
+    disableFullBright
+}

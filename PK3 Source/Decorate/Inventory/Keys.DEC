@@ -1,0 +1,39 @@
+// Keycard credits:
+//  DECORATE: Chronos "phantombeta" Ouroboros
+//  Sprites: Blue Shadow
+
+actor S7_RedKeycard : redCard replaces redCard {
+    inventory.icon "HUDKYRED"
+    species RedCard
+    scale 0.6
+
+    states {
+    Spawn:
+        S7KR A -1
+        stop
+    }
+}
+
+actor S7_BlueKeycard : blueCard replaces blueCard {
+    inventory.icon "HUDKYBLU"
+    species BlueCard
+    scale 0.6
+
+    states {
+    Spawn:
+        S7KB A -1
+        stop
+    }
+}
+
+actor S7_YellowKeycard : yellowCard replaces yellowCard {
+    inventory.icon "HUDKYYLW"
+    species YellowCard
+    scale 0.6
+
+    states {
+    Spawn:
+        S7KY A -1
+        stop
+    }
+}

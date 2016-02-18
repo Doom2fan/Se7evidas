@@ -1,2 +1,6 @@
 DECORATE: Chronos "phantombeta" Ouroboros
-Sprites: Raven Software, mazmon
+
+Sprites:
+    S7_Empress: Raven Software, mazmon
+
+Sounds: None yet :P

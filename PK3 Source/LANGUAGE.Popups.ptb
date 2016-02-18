@@ -1,0 +1,19 @@
+[ptb]
+POP_TH_ALL                      = "Todas";
+POP_TH_EXP                      = "Explosiva";
+POP_TH_FRAG                     = "Fragmentacao";
+POP_TH_THRM                     = "Thermite";
+POP_TH_FLRE                     = "Flare";
+POP_TH_CLST                     = "Clusterbomb";
+POP_TH_NAIL                     = "Nailbomb";
+POP_TH_NGAS                     = "Nerve gas";
+
+POP_CARTRIDGES                  = "Cartuchos";
+POP_BATTERIES                   = "Celulas de energia";
+POP_THGRENADES                  = "Granadas 50mm";
+POP_PRI                         = "Primarias";
+POP_SEC                         = "Secundarias";
+POP_SP                          = "Especiais";
+POP_WEAPON                      = "Armas";
+POP_AMMO                        = "Municao";
+POP_LOOT                        = "Saque";

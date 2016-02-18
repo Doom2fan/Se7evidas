@@ -1,9 +1,7 @@
-Decorate:
-Decorate by Chronos "phantombeta" Ouroboros
+DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-Weapon sprites by ScubaSteve, Uboa
-Edited by Chronos "phantombeta" Ouroboros
+    HUD Sprites: ScubaSteve, Uboa, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
 
-Sounds:
-Fire and mag (in, out and tap) by NightmareMutant
+Sounds: Credits in the SNDINFO file

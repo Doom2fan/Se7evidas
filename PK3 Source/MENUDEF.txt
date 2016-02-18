@@ -11,7 +11,7 @@ defaultListMenu {
 
 listMenu "MainMenu" {
     font "DBIGFONT", "Untranslated"
-    staticText 17, 8, "Final Duel"
+    staticText 17, 8, "Se7evidas"
     
     font "Smallfont", "Untranslated"
     position 37, 62
@@ -27,7 +27,7 @@ listMenu "MainMenu" {
 
 //-------------------------------------------------------------------------------------------
 //
-// Final Duel Options
+// Se7evidas Options
 //
 //-------------------------------------------------------------------------------------------
 
@@ -45,4 +45,100 @@ optionMenu "S7Settings" {
     staticText " "
     staticText "Audio Options"
     option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Controls Menu
+//
+//-------------------------------------------------------------------------------------------
+
+optionMenu "CustomizeControls" {
+    title       "CUSTOMIZE CONTROLS"
+    scrollTop   2
+    staticTextSwitchable    "ENTER to change, BACKSPACE to clear", "Press new key for control, ESC to cancel", "ControlMessage"
+
+    staticText  ""
+    staticText  "Main Controls", 1
+    staticText  "Bind these if you want to be able to play the game", 1
+
+    staticText  ""
+    staticText  "Movement", 1
+    control     "Move/Menu Forward",                    "+forward"
+    control     "Move/Menu Backward",                   "+back"
+    control     "Strafe / Menu Left",                   "+moveleft"
+    control     "Strafe / Menu Right",                  "+moveright"
+    control     "Jump",                                 "+jump"
+    control     "Crouch",                               "+crouch"
+    control     "Sprint",                               "+user1"
+    control     "Dodge",                                "+user2"
+    control     "Use / Open",                           "+use"
+
+    staticText  ""
+    staticText  "Combat", 1
+    control     "Fire",                                 "+attack"
+    control     "Secondary Fire",                       "+altattack"
+    control     "Firing Mode",                          "Use S7_FiringModeKey"
+    control     "Weapon Reload",                        "+reload"
+    control     "Weapon Zoom",                          "+zoom"
+    control     "Quick Melee",                          "Use S7_MeleeKey"
+    control     "Next Weapon",                          "weapnext"
+    control     "Previous Weapon",                      "weapprev"
+    control     "Weapon Slot 1",                        "slot 1"
+    control     "Weapon Slot 2",                        "slot 2"
+    control     "Weapon Slot 3",                        "slot 3"
+    control     "Weapon Slot 4",                        "slot 4"
+    control     "Weapon Slot 5",                        "slot 5"
+
+    staticText  ""
+    staticText  "Inventory", 1
+    control     "Shop Menu",                            "+user3"
+    control     "Activate Item",                        "invuse"
+    control     "Activate All Items",                   "invuseall"
+    control     "Next Item",                            "invnext"
+    control     "Previous Item",                        "invprev"
+    control     "Drop Item",                            "invdrop"
+    control     "Query Item",                           "invquery"
+    control     "Drop Weapon",                          "Use S7_DropWeaponKey"
+
+    staticText  ""
+    staticText  "Info Screens", 1
+    control     "Full inventory list",                  "Use S7_ShowPop1Key"
+    //control     "Mission Objectives",                   "showpop 1"
+    //control     "Keys List",                            "showpop 2"
+    
+    staticText  ""
+    staticText  ""
+    staticText  "The Rest", 1
+
+    staticText  ""
+    control     "Turn Left",                            "+left"
+    control     "Turn Right",                           "+right"
+    control     "Crouch Toggle",                        "crouch"
+    control     "Fly / Swim Up",                        "+moveup"
+    control     "Fly / Swim Down",                      "+movedown"
+    control     "Stop Flying",                          "land"
+    control     "Mouse Look",                           "+mlook"
+    control     "Keyboard Look",                        "+klook"
+    control     "Look Up",                              "+lookup"
+    control     "Look Down",                            "+lookdown"
+    control     "Center View",                          "centerview"
+    control     "Run",                                  "+speed"
+    control     "Toggle Run",                           "toggle cl_run"
+    control     "Strafe",                               "+strafe"
+    control     "Show Scoreboard",                      "+showscores"
+    control     "Toggle Scoreboard",                    "togglescoreboard"
+
+    staticText  ""
+    staticText  "Chat", 1
+    control     "Say",                                  "messagemode"
+    control     "Team say",                             "messagemode2"
+
+    staticText  ""
+    staticText  "Other", 1
+    control     "Toggle Automap",                       "togglemap"
+    control     "Chasecam",                             "chase"
+    control     "Coop Spy",                             "spynext"
+    control     "Screenshot",                           "screenshot"
+    control     "Open Console",                         "toggleconsole"
 }

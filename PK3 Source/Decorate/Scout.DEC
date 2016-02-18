@@ -17,6 +17,7 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     player.startItem S7_MeleeKey
     player.startItem S7_ReloadKey
     player.startItem S7_FiringModeKey
+    player.startItem S7_ShowPop1Key
     player.startItem S7_StaminaRegen
     player.startItem S7_Stamina, 150
     player.startItem S7_ManaRegen

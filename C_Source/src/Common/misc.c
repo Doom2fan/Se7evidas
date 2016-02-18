@@ -21,24 +21,30 @@
 #include "misc.h"
 
 void SpeedScript (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     if (player->health <= 20) { // if the player's health is less than 20...
-        GiveInventory (s"S7_Dying", 9999999); // Give "S7_Dying"
+        GiveInventory (DYINGTOKEN, 9999999); // Give "S7_Dying"
         player->dying = TRUE; // Set "dying" to TRUE
     } else { // if not
-        TakeInventory (s"S7_Dying", 9999999); // Take "S7_Dying"
+        TakeInventory (DYINGTOKEN, 9999999); // Take "S7_Dying"
         player->dying = TRUE; // Set "dying" to TRUE
     }
 }
 
 void WaterScript (PlayerData_t *player) {
+    if (!player)
+        return;
+    
     if (player->waterlevel > 2) { // if underwater...
-        GiveInventory (s"S7_IsUnderwater", 1); // give S7_IsUnderwater
+        GiveInventory (UNDERWATERTOKEN, 1); // give S7_IsUnderwater
     } else if (player->waterlevel <= 2) { // if not underwater
-        TakeInventory (s"S7_IsUnderwater", 1); // take S7_IsUnderwater
+        TakeInventory (UNDERWATERTOKEN, 1); // take S7_IsUnderwater
     }
 
-    if (CheckInventory (s"S7_AirTime") != GetAirSupply (PLN)) // If S7_AirTime is not equal to the air supply...
-        SetInventory (s"S7_AirTime", GetAirSupply (PLN)); // Set "S7_AirTime" to the amount of air the player has left
+    if (CheckInventory (AIRTIMETOKEN) != GetAirSupply (PLN)) // If S7_AirTime is not equal to the air supply...
+        SetInventory (AIRTIMETOKEN, GetAirSupply (PLN)); // Set "S7_AirTime" to the amount of air the player has left
 }
 
 void KeysScript () {

@@ -22,6 +22,8 @@
 
 #include <ACS_ZDoom.h>
 
+// Prototypes
 void HudWeapons ();
+void ShowPop1 (PlayerData_t *player);
 
 #endif

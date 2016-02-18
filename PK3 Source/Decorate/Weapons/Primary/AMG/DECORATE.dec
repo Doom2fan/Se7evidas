@@ -85,8 +85,8 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         goto Ready2
     
     DryFire:
-        AMGG A 3 A_PlaySound ("Weapons/Misc/Dryfire", 7)
-        TNT1 A 0 A_JumpIf (callACS ("S7_GetAutoReloading"), "Reload")
+        AMGG A 3 A_PlaySound ("Weapons/DryFireRifle", 7)
+        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
         goto Ready2
     
     Reload:

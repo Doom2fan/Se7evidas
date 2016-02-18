@@ -12,18 +12,21 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     drawImage "S7BARFR0", 28, -35;
     drawImage "S7BARFR0", 28, -52;
     // Bars
-    drawBar "S7HLTHBR", "S7BARBK0",     health, horizontal, interpolate (8), 29, -16;
-    drawBar "S7ARMRBR", "S7BARBK0",      armor, horizontal, interpolate (8), 29, -34;
-    drawBar "S7STMNBR", "S7BARBK0", S7_Stamina, horizontal, interpolate (8), 29, -51;
+    drawBar "S7HLTHBR", "S7BARBK0",     health, horizontal, interpolate (13), 29, -16;
+    drawBar "S7ARMRBR", "S7BARBK0",      armor, horizontal, interpolate (13), 29, -34;
+    drawBar "S7STMNBR", "S7BARBK0", S7_Stamina, horizontal, interpolate (13), 29, -51;
+    // Strings
+    drawString FSHUDFNT, White, "Cash: ", 11, -66, 0, alignment (left);
     // Numbers
-    drawNumber 5, FSHUDFNT, White,     health, interpolate (8), alignment (left), 81, -18;
-    drawNumber 5, FSHUDFNT, White,      armor, interpolate (8), alignment (left), 81, -36;
-    drawNumber 5, FSHUDFNT, White, S7_Stamina, interpolate (8), alignment (left), 81, -53;
+    drawNumber  5, FSHUDFNT, White,     health, interpolate        (13), alignment  (left), 81, -18;
+    drawNumber  5, FSHUDFNT, White,      armor, interpolate        (13), alignment  (left), 81, -36;
+    drawNumber  5, FSHUDFNT, White, S7_Stamina, interpolate        (13), alignment  (left), 81, -53;
+    drawNumber 10, FSHUDFNT, White,    S7_Cash, interpolate (268435456), alignment (right), 77, -66;
 
     isSelected S7_PlasmaGun {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
-        drawBar "PRFLPMT2", "PRFPMTB2", S7_PlasmaGun_Charge, vertical, interpolate (8), 125 + center, 64;
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+        drawBar "PRFLPMT2", "PRFPMTB2", S7_PlasmaGun_Charge, vertical, interpolate (13), 125 + center, 64;
         inInventory S7_PlasmaGun_ChargingLevel,  1 { drawImage "PRCHRG00", -17 + center, -16 + center;
                                                      drawImage "PRCHRG01", -17 + center, -16 + center; }
         inInventory S7_PlasmaGun_ChargingLevel,  2 { drawImage "PRCHRG02", -17 + center, -16 + center; }
@@ -44,8 +47,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     }
 
     else isSelected S7_Raptor {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
         inInventory S7_RaptorClip,  1 { drawImage "S7H9MM", -10, -20; }
         inInventory S7_RaptorClip,  2 { drawImage "S7H9MM", -15, -18; }
         inInventory S7_RaptorClip,  3 { drawImage "S7H9MM", -20, -20; }
@@ -65,8 +68,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     }
 
     else isSelected S7_TEC9 {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
         inInventory S7_TEC9Clip,  1 { drawImage "S7H9MM",  -10, -20; }
         inInventory S7_TEC9Clip,  2 { drawImage "S7H9MM",  -14, -18; }
         inInventory S7_TEC9Clip,  3 { drawImage "S7H9MM",  -18, -20; }
@@ -102,8 +105,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     }
 
     else isSelected S7_Revolver {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
         inInventory S7_RevolverClip, 1 { drawImage "S7H44M", -11, -23; }
         inInventory S7_RevolverClip, 2 { drawImage "S7H44M", -18, -23; }
         inInventory S7_RevolverClip, 3 { drawImage "S7H44M", -25, -23; }
@@ -113,8 +116,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     }
 
     else isSelected S7_AMG {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
         inInventory S7_AMGMag,  1 { drawImage "S7H762MM",  -11, -27; }
         inInventory S7_AMGMag,  2 { drawImage "S7H762MM",  -15, -26; }
         inInventory S7_AMGMag,  3 { drawImage "S7H762MM",  -19, -25; }
@@ -153,8 +156,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     }
 
     else isSelected S7_ManxCarbine {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
         inInventory S7_ManxCarbineClip,  1 { drawImage "S7H9MM",  -10, -20; }
         inInventory S7_ManxCarbineClip,  2 { drawImage "S7H9MM",  -14, -18; }
         inInventory S7_ManxCarbineClip,  3 { drawImage "S7H9MM",  -18, -20; }
@@ -181,8 +184,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
     }
 
     else isSelected S7_Shotgun {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
         inInventory S7_ShotgunMagCounter,  1 { drawImage "S7H20GA", -16, -32; }
         inInventory S7_ShotgunMagCounter,  2 { drawImage "S7H20GA", -24, -31; }
         inInventory S7_ShotgunMagCounter,  3 { drawImage "S7H20GA", -32, -32; }
@@ -195,48 +198,115 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         inInventory S7_ShotgunMagCounter, 10 { drawImage "S7H20GA", -88, -31; }
     }
 
+    else isSelected S7_HitterSMG {
+        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+        inInventory S7_HitterSMGClip,  1 { drawImage "S7H45ACP",  -10, -20; }
+        inInventory S7_HitterSMGClip,  2 { drawImage "S7H45ACP",  -12, -19; }
+        inInventory S7_HitterSMGClip,  3 { drawImage "S7H45ACP",  -14, -18; }
+        inInventory S7_HitterSMGClip,  4 { drawImage "S7H45ACP",  -16, -20; }
+        inInventory S7_HitterSMGClip,  5 { drawImage "S7H45ACP",  -18, -19; }
+        inInventory S7_HitterSMGClip,  6 { drawImage "S7H45ACP",  -20, -18; }
+        inInventory S7_HitterSMGClip,  7 { drawImage "S7H45ACP",  -22, -20; }
+        inInventory S7_HitterSMGClip,  8 { drawImage "S7H45ACP",  -24, -19; }
+        inInventory S7_HitterSMGClip,  9 { drawImage "S7H45ACP",  -26, -18; }
+        inInventory S7_HitterSMGClip, 10 { drawImage "S7H45ACP",  -28, -20; }
+        inInventory S7_HitterSMGClip, 11 { drawImage "S7H45ACP",  -30, -19; }
+        inInventory S7_HitterSMGClip, 12 { drawImage "S7H45ACP",  -32, -18; }
+        inInventory S7_HitterSMGClip, 13 { drawImage "S7H45ACP",  -34, -20; }
+        inInventory S7_HitterSMGClip, 14 { drawImage "S7H45ACP",  -36, -19; }
+        inInventory S7_HitterSMGClip, 15 { drawImage "S7H45ACP",  -38, -18; }
+        inInventory S7_HitterSMGClip, 16 { drawImage "S7H45ACP",  -40, -20; }
+        inInventory S7_HitterSMGClip, 17 { drawImage "S7H45ACP",  -42, -19; }
+        inInventory S7_HitterSMGClip, 18 { drawImage "S7H45ACP",  -44, -18; }
+        inInventory S7_HitterSMGClip, 19 { drawImage "S7H45ACP",  -46, -20; }
+        inInventory S7_HitterSMGClip, 20 { drawImage "S7H45ACP",  -48, -19; }
+        inInventory S7_HitterSMGClip, 21 { drawImage "S7H45ACP",  -50, -18; }
+        inInventory S7_HitterSMGClip, 22 { drawImage "S7H45ACP",  -52, -20; }
+        inInventory S7_HitterSMGClip, 23 { drawImage "S7H45ACP",  -54, -19; }
+        inInventory S7_HitterSMGClip, 24 { drawImage "S7H45ACP",  -56, -18; }
+        inInventory S7_HitterSMGClip, 25 { drawImage "S7H45ACP",  -58, -20; }
+        inInventory S7_HitterSMGClip, 26 { drawImage "S7H45ACP",  -60, -19; }
+        inInventory S7_HitterSMGClip, 27 { drawImage "S7H45ACP",  -62, -18; }
+        inInventory S7_HitterSMGClip, 28 { drawImage "S7H45ACP",  -64, -20; }
+        inInventory S7_HitterSMGClip, 29 { drawImage "S7H45ACP",  -66, -19; }
+        inInventory S7_HitterSMGClip, 30 { drawImage "S7H45ACP",  -68, -18; }
+        inInventory S7_HitterSMGClip, 31 { drawImage "S7H45ACP",  -70, -20; }
+        inInventory S7_HitterSMGClip, 32 { drawImage "S7H45ACP",  -72, -19; }
+        inInventory S7_HitterSMGClip, 33 { drawImage "S7H45ACP",  -74, -18; }
+        inInventory S7_HitterSMGClip, 34 { drawImage "S7H45ACP",  -76, -20; }
+        inInventory S7_HitterSMGClip, 35 { drawImage "S7H45ACP",  -78, -19; }
+        inInventory S7_HitterSMGClip, 36 { drawImage "S7H45ACP",  -80, -18; }
+        inInventory S7_HitterSMGClip, 37 { drawImage "S7H45ACP",  -82, -20; }
+        inInventory S7_HitterSMGClip, 38 { drawImage "S7H45ACP",  -84, -19; }
+        inInventory S7_HitterSMGClip, 39 { drawImage "S7H45ACP",  -86, -18; }
+        inInventory S7_HitterSMGClip, 40 { drawImage "S7H45ACP",  -88, -20; }
+        inInventory S7_HitterSMGClip, 41 { drawImage "S7H45ACP",  -90, -19; }
+        inInventory S7_HitterSMGClip, 42 { drawImage "S7H45ACP",  -92, -18; }
+        inInventory S7_HitterSMGClip, 43 { drawImage "S7H45ACP",  -94, -20; }
+        inInventory S7_HitterSMGClip, 44 { drawImage "S7H45ACP",  -96, -19; }
+        inInventory S7_HitterSMGClip, 45 { drawImage "S7H45ACP",  -98, -18; }
+        inInventory S7_HitterSMGClip, 46 { drawImage "S7H45ACP", -100, -20; }
+        inInventory S7_HitterSMGClip, 47 { drawImage "S7H45ACP", -102, -19; }
+        inInventory S7_HitterSMGClip, 48 { drawImage "S7H45ACP", -104, -18; }
+        inInventory S7_HitterSMGClip, 49 { drawImage "S7H45ACP", -106, -20; }
+        inInventory S7_HitterSMGClip, 50 { drawImage "S7H45ACP", -108, -19; }
+        inInventory S7_HitterSMGClip, 51 { drawImage "S7H45ACP", -110, -18; }
+        inInventory S7_HitterSMGClip, 52 { drawImage "S7H45ACP", -112, -20; }
+        inInventory S7_HitterSMGClip, 53 { drawImage "S7H45ACP", -114, -19; }
+        inInventory S7_HitterSMGClip, 54 { drawImage "S7H45ACP", -116, -18; }
+        inInventory S7_HitterSMGClip, 55 { drawImage "S7H45ACP", -118, -20; }
+        inInventory S7_HitterSMGClip, 56 { drawImage "S7H45ACP", -120, -19; }
+        inInventory S7_HitterSMGClip, 57 { drawImage "S7H45ACP", -122, -18; }
+        inInventory S7_HitterSMGClip, 58 { drawImage "S7H45ACP", -124, -20; }
+        inInventory S7_HitterSMGClip, 59 { drawImage "S7H45ACP", -126, -19; }
+        inInventory S7_HitterSMGClip, 60 { drawImage "S7H45ACP", -128, -18; }
+        inInventory S7_HitterSMGClip, 61 { drawImage "S7H45ACP", -130, -20; }
+        inInventory S7_HitterSMGClip, 62 { drawImage "S7H45ACP", -132, -19; }
+    }
+
 
 
     // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
     // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
     // something better to define HUDs with because SBARINFO is terrible and annoying.
     else isSelected S7_Thumper {
-        drawNumber 5, FSHUDFNT, White, S7_Thumper_PUnified, interpolate (8), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Black, S7_Thumper_PNGas, interpolate (8), alignment (right), -6, -57;
+        drawNumber 5, FSHUDFNT, White, S7_Thumper_PUnified, interpolate (13), alignment (right), -6, -50;
+        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+        drawNumber 5, FSHUDFNT, Black, S7_Thumper_PNGas, interpolate (13), alignment (right), -6, -57;
         drawString FSHUDFNT, Black, "Nerve Gas:      ", -6, -57, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Yellow, S7_Thumper_PNail, interpolate (8), alignment (right), -6, -64;
+        drawNumber 5, FSHUDFNT, Yellow, S7_Thumper_PNail, interpolate (13), alignment (right), -6, -64;
         drawString FSHUDFNT, Yellow, "Nailbomb:      ", -6, -64, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Blue, S7_Thumper_PCluster, interpolate (8), alignment (right), -6, -71;
+        drawNumber 5, FSHUDFNT, Blue, S7_Thumper_PCluster, interpolate (13), alignment (right), -6, -71;
         drawString FSHUDFNT, Blue, "Clusterbomb:      ", -6, -71, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, White, S7_Thumper_PFlare, interpolate (8), alignment (right), -6, -78;
+        drawNumber 5, FSHUDFNT, White, S7_Thumper_PFlare, interpolate (13), alignment (right), -6, -78;
         drawString FSHUDFNT, White, "Flare:      ", -6, -78, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, DarkRed, S7_Thumper_PTherm, interpolate (8), alignment (right), -6, -85;
+        drawNumber 5, FSHUDFNT, DarkRed, S7_Thumper_PTherm, interpolate (13), alignment (right), -6, -85;
         drawString FSHUDFNT, DarkRed, "Thermite:      ", -6, -85, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Green, S7_Thumper_PFrag, interpolate (8), alignment (right), -6, -92;
+        drawNumber 5, FSHUDFNT, Green, S7_Thumper_PFrag, interpolate (13), alignment (right), -6, -92;
         drawString FSHUDFNT, Green, "Fragmentation:      ", -6, -92, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Orange, S7_Thumper_PExp, interpolate (8), alignment (right), -6, -99;
+        drawNumber 5, FSHUDFNT, Orange, S7_Thumper_PExp, interpolate (13), alignment (right), -6, -99;
         drawString FSHUDFNT, Orange, "Explosive/Normal:      ", -6, -99, 0, alignment (right);
         inInventory S7_ThumperSelectedPool, 6 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNGas, interpolate (8), alignment (right), -6, -57;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNGas, interpolate (13), alignment (right), -6, -57;
             drawString FSHUDFNT, Red, ">Nerve Gas:      ", -6, -57, 0, alignment (right);
         } else inInventory S7_ThumperSelectedPool, 5 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNail, interpolate (8), alignment (right), -6, -64;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNail, interpolate (13), alignment (right), -6, -64;
             drawString FSHUDFNT, Red, ">Nailbomb:      ", -6, -64, 0, alignment (right);
         } else inInventory S7_ThumperSelectedPool, 4 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PCluster, interpolate (8), alignment (right), -6, -71;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PCluster, interpolate (13), alignment (right), -6, -71;
             drawString FSHUDFNT, Red, ">Clusterbomb:      ", -6, -71, 0, alignment (right);
         } else inInventory S7_ThumperSelectedPool, 3 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFlare, interpolate (8), alignment (right), -6, -78;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFlare, interpolate (13), alignment (right), -6, -78;
             drawString FSHUDFNT, Red, ">Flare:      ", -6, -78, 0, alignment (right);
         } else inInventory S7_ThumperSelectedPool, 2 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PTherm, interpolate (8), alignment (right), -6, -85;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PTherm, interpolate (13), alignment (right), -6, -85;
             drawString FSHUDFNT, Red, ">Thermite:      ", -6, -85, 0, alignment (right);
         } else inInventory S7_ThumperSelectedPool, 1 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFrag, interpolate (8), alignment (right), -6, -92;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFrag, interpolate (13), alignment (right), -6, -92;
             drawString FSHUDFNT, Red, ">Fragmentation:      ", -6, -92, 0, alignment (right);
         } else {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PExp, interpolate (8), alignment (right), -6, -99;
+            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PExp, interpolate (13), alignment (right), -6, -99;
             drawString FSHUDFNT, Red, ">Explosive/Normal:      ", -6, -99, 0, alignment (right);
         }
 
@@ -330,5 +400,11 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
                 drawImage "S7H50M1", -114, -17;
             }
         }
+    }
+
+    gameMode deathmatch {
+        drawNumber 2147483647, FSHUDFNT, untranslated, frags, drawShadow, -3, 1;
+    } else {
+        drawKeyBar 100, vertical, reverseRows, auto, -10, 2, 0, 3, auto;
     }
 }

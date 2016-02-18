@@ -22,6 +22,7 @@
 
 #include <ACS_Zandronum.h>
 
+// Defines
 #define CPLN ConsolePlayerNumber ()
 
 #endif

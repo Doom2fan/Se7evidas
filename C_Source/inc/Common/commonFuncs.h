@@ -22,17 +22,18 @@
 
 #include <ACS_ZDoom.h>
 
-int KeyUp (int key);
-int KeyDown (int key);
+// Prototypes
+int KeyUp      (int key);
+int KeyDown    (int key);
 int KeyPressed (int key);
 
 int UnusedTID (int start, int end);
 
 accum GetVelocity ();
 
-int Clamp (int x, int min, int max);
+int   Clamp      (int x, int min, int max);
 accum ClampAccum (accum x, accum min, accum max);
-int ScaleValue (int x, int fromMin, int fromMax, int toMin, int toMax);
+int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
 bool SetInventory (string name, int amount);
 

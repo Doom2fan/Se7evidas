@@ -1,10 +1,7 @@
-Decorate:
-Decorate by Chronos "phantombeta" Ouroboros
+DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-Weapon sprites by Scuba Steve, Snarboo, Xaser, Cory Whittle, Marty Kirra
-Edited by Chronos "phantombeta" Ouroboros
+    HUD Sprites: Scuba Steve, Snarboo, Xaser, Cory Whittle, Marty Kirra, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
 
-Sounds:
-Firing sound by TerminusEst13
-Pumping and shell insert sounds by M-Productions from GameBanana
+Sounds: Credits in the SNDINFO file

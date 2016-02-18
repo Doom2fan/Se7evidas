@@ -63,10 +63,6 @@
         
     // Ammo
         GOTBACKPACK                 = "Backpack";
-        9MM                         = "9mm";
-        44M                         = "44M";
-        20GA                        = "20ga";
-        762X39                      = "7.62x39mm";
 
 // Weapon Pickups
     // Primary
@@ -92,6 +88,9 @@
     
     // Misc
         OB_SHRAPNEL                 = "%o was hit by a piece of shrapnel";
+// MvP
+    OBBPANTHER_MELEE                = "%o had %h guts torn out and eaten by a Black Panther.";
+    OBBPANTHER                      = "%o was torn apart by a Black Panther";
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";

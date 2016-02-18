@@ -1,4 +1,4 @@
-[default ptb ptb]
+[ptb]
 // Dificulty Settings
     //SKILLS_BABY                     = "It hurts (I)";
         SKILLS_BABYTEXT                 = "Serio? Voce deve ser horrivel nisso.";
@@ -63,10 +63,6 @@
         
     // Ammo
         GOTBACKPACK                 = "Mochila";
-        9MM                         = "9mm";
-        44M                         = "44M";
-        20GA                        = "20ga";
-        762X39                      = "7.62x39mm";
 
 // Weapon Pickups
     // Primary
