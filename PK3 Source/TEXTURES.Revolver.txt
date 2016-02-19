@@ -1,11 +1,11 @@
-sprite RVLVD0, 320, 200 {
+sprite RVLVC0, 320, 200 {
     patch "sprites/Weapons/Secondary/Revolver/RVLVA0.PNG", 207, 75
 }
 
-sprite RVLVE0, 320, 200 {
+sprite RVLVD0, 320, 200 {
     patch "sprites/Weapons/Secondary/Revolver/RVLVA0.PNG", 205, 73
 }
 
-sprite RVLVF0, 320, 200 {
+sprite RVLVE0, 320, 200 {
     patch "sprites/Weapons/Secondary/Revolver/RVLVA0.PNG", 203, 71
 }

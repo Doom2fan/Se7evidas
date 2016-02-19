@@ -1,3 +1,10 @@
+// Fire
+sprite RPTNB0, 91, 86 {
+    offset -185, -86
+    patch RPTNA0, 0, 0
+}
+
+// Alt-fire
 sprite RPTMB0, 191, 124 {
     offset -21, -101
     patch RPTMA0, 0, 0
@@ -33,6 +40,7 @@ sprite RPTMH0, 191, 124 {
     patch RPTMA0, 0, 0
 }
 
+// Reloading
 sprite RPTRA0, 320, 200 {
     patch RPTNA0, 182, 90
 }
