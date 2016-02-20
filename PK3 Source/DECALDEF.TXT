@@ -1,0 +1,79 @@
+// Ion Cannon Rail
+decal S7_IonCannonRailScorch {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 0.3
+    y-Scale 0.3
+
+    randomFlipX
+    randomFlipY
+}
+
+decal S7_IonCannonRailLightning1 {
+    pic BFGLITE1
+    shade "5b 5b c1"
+    x-Scale 0.3
+    y-Scale 0.3
+    fullBright
+    animator GoAway2
+    lowerDecal S7_IonCannonRailScorch
+
+    randomFlipX
+}
+
+decal S7_IonCannonRailLightning2 {
+    pic BFGLITE2
+    shade "5b 5b c1"
+    x-Scale 0.3
+    y-Scale 0.3
+    fullBright
+    animator GoAway2
+    lowerDecal S7_IonCannonRailScorch
+
+    randomFlipY
+}
+
+decalGroup S7_IonCannonRail {
+    S7_IonCannonRailLightning1   1
+    S7_IonCannonRailLightning2   1
+}
+
+// Ion Cannon
+decal S7_IonCannonScorch {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 1.0
+    y-Scale 1.0
+
+    randomFlipX
+    randomFlipY
+}
+
+decal S7_IonCannonLightning1 {
+    pic BFGLITE1
+    shade "5b 5b c1"
+    x-Scale 1.0
+    y-Scale 1.0
+    fullBright
+    animator GoAway2
+    lowerDecal S7_IonCannonScorch
+
+    randomFlipX
+}
+
+decal S7_IonCannonLightning2 {
+    pic BFGLITE2
+    shade "5b 5b c1"
+    x-Scale 1.0
+    y-Scale 1.0
+    fullBright
+    animator GoAway2
+    lowerDecal S7_IonCannonScorch
+
+    randomFlipY
+}
+
+decalGroup S7_IonCannon {
+    S7_IonCannonLightning1   1
+    S7_IonCannonLightning2   1
+}

@@ -13,6 +13,17 @@ actor Counter : inventory {
     -inventory.invBar
 }
 
+// By Jekyll Grim Payne "Aka" zer0
+actor S7_DebrisGeneral {
+    radius 1
+    height 1
+    mass 1
+    damage 0
+    
+    +missile +noBlockmap +noGravity +dropOff
+    +noTeleport +forceXYBillboard +ghost
+}
+
 // By Chronos "phantombeta" Ouroboros
 actor S7_ActionRunnerBase : customInventory {
     inventory.maxAmount 1
@@ -34,13 +45,50 @@ actor S7_CustomKey : customInventory {
     -inventory.invBar
 }
 
-// By Jekyll Grim Payne "Aka" zer0
-actor S7_DebrisGeneral {
-    radius 1
-    height 1
-    mass 1
+actor S7_DistanceTestPuff {
     damage 0
-    
-    +missile +noBlockmap +noGravity +dropOff
-    +noTeleport +forceXYBillboard +ghost
+    damageType TesterProjectile
+    alpha 0.0
+    scale 0.0
+    decal None
+
+    +bloodlessImpact +painless +noPain +puffGetsOwner
+
+    states {
+    Spawn:
+    Death:
+    Crash:
+    Crush:
+        TNT1 A 1 A_Jump (256, "RunStuff")
+        wait
+    RunStuff:
+        TNT1 A 2
+        stop
+    }
+}
+
+actor S7_DistanceTestProjectile : fastProjectile {
+    speed 25
+    projectile
+    damage 0
+    damageType TesterProjectile
+    alpha 0.0
+    scale 0.0
+    decal None
+
+    +bloodlessImpact +painless +noPain
+
+    states {
+    Death:
+    Spawn:
+        TNT1 A 2
+        stop
+    }
+}
+
+// Damage types
+damageType TesterProjectile {
+    factor 0.0
+
+    noArmor
 }
