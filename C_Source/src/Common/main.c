@@ -60,7 +60,7 @@ Script_C void S7_ServersideEnter ENTER () {
 
     while (TRUE) { // Loop forever
         UpdatePlayerData (player); // Update the player's data 
-        if (player->health > 0) {
+        if (player->health.health > 0) {
             StaminaRegenerationPart1 (player);
             MultiJumpScript (player);
             DodgeScriptP1 (player);
@@ -74,7 +74,7 @@ Script_C void S7_ServersideEnter ENTER () {
 
         Delay (1); // Wait for a tic
 
-        if (player->health > 0) {
+        if (player->health.health > 0) {
             StaminaRegenerationPart2 (player);
             DodgeScriptP2 (player);
         }
@@ -112,10 +112,10 @@ void ResetStuff (PlayerData_t *player) {
         return;
     }
     
-    player->waterlevel = 0;
-    player->dying = FALSE;
-    player->staminaEmpty = FALSE;
-    player->staminaTics = 0;
+    player->misc.waterlevel = 0;
+    player->misc.dying = FALSE;
+    player->scriptData.staminaEmpty = FALSE;
+    player->scriptData.staminaTics = 0;
     player->parkourDef.dodgeCooldown = 0;
     player->parkourDef.mjumpCount = 0;
 }

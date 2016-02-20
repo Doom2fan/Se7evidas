@@ -17,26 +17,20 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef COMMONFUNCS_H
-#define COMMONFUNCS_H
+#include "includes.h"
+#include "save.h"
 
-#include <ACS_ZDoom.h>
+void GetSaveDataToPointer (int playerNum, SavedData_t *data) {
+    
+}
 
-// Prototypes
-int KeyUp      (int key);
-int KeyDown    (int key);
-int KeyPressed (int key);
+SavedData_t GetSaveData (int playerNum) {
+    SavedData_t data;
 
-int UnusedTID (int start, int end);
+    GetSaveDataToPointer (playerNum, &data);
 
-accum GetVelocity ();
+    return data;
+}
+void SetSaveData (int playerNum, SavedData_t *data) {
 
-int   Clamp      (int x, int min, int max);
-accum ClampAccum (accum x, accum min, accum max);
-int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
-accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
-bool SetInventory (string name, int amount);
-accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
-                 accum actor2X, accum actor2Y, accum actor2Z);
-
-#endif
+}

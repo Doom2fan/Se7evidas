@@ -32,11 +32,11 @@ void DodgeScriptP1 (PlayerData_t *player) {
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
         // If the player is trying to move backwards, tapped user2, isn't sprinting and has at least DODGESTAMINA stamina...
-        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER2)) && !(player->SprintDef.Sprinting) && (player->stamina >= DODGESTAMINA)) {
+        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER2)) && !(player->SprintDef.Sprinting) && (player->health.stamina >= DODGESTAMINA)) {
             TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
-            player->stamina = CheckInventory (STAMINATOKEN); // Update player data
+            player->health.stamina = CheckInventory (STAMINATOKEN); // Update player data
             ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
-            int byteAngle = (player->angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
+            int byteAngle = (player->physics.angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
             ThrustThing (byteAngle + 128, 18, 1, 0); // Thrust the player backwards
             ThrustThingZ (0, 32, 0, TRUE); // Thrust the player up
             player->parkourDef.dodgeCooldown = ServerData.dodgeCooldown; // Set the dodgeCooldown to 1 second
@@ -59,7 +59,7 @@ void MultiJumpScript (PlayerData_t *player) {
         return;
     
     accum force = 40.0k * ServerData.mjumpZMul;
-    if (player->relativeZ == 0) { // If the player is on the ground...
+    if (player->physics.relativeZ == 0) { // If the player is on the ground...
         player->parkourDef.mjumpOnGround = TRUE; // Set mjumpOnGround to TRUE
         if (player->parkourDef.mjumpCount > 0) // If the player has multijumped at least once...
             player->parkourDef.mjumpCount = 0; // Reset the counter to 0
@@ -69,8 +69,8 @@ void MultiJumpScript (PlayerData_t *player) {
 
     // If the player's floor-relative Z is greater than MJUMPMINDIFF, the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump
     // counter isn't equal to their multijump max, the player pressed jump and the sv_nojump CVAR isn't TRUE...
-    if (abs (player->relativeZ) >= MJUMPMINDIFF && player->velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < player->parkourDef.mjumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
-        SpawnForced (s"S7_MultiJump_Marker", player->x, player->y, player->z, 0, player->angle); // Spawn a multijump marker
+    if (abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < player->parkourDef.mjumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
+        SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
         player->parkourDef.mjumpCount++; // Increment the jump counter by 1
     }

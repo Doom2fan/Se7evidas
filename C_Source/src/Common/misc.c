@@ -24,12 +24,12 @@ void SpeedScript (PlayerData_t *player) {
     if (!player)
         return;
     
-    if (player->health <= 20) { // if the player's health is less than 20...
+    if (player->health.health <= 20) { // if the player's health is less than 20...
         GiveInventory (DYINGTOKEN, 9999999); // Give "S7_Dying"
-        player->dying = TRUE; // Set "dying" to TRUE
+        player->misc.dying = TRUE; // Set "dying" to TRUE
     } else { // if not
         TakeInventory (DYINGTOKEN, 9999999); // Take "S7_Dying"
-        player->dying = TRUE; // Set "dying" to TRUE
+        player->misc.dying = TRUE; // Set "dying" to TRUE
     }
 }
 
@@ -37,9 +37,9 @@ void WaterScript (PlayerData_t *player) {
     if (!player)
         return;
     
-    if (player->waterlevel > 2) { // if underwater...
+    if (player->misc.waterlevel > 2) { // if underwater...
         GiveInventory (UNDERWATERTOKEN, 1); // give S7_IsUnderwater
-    } else if (player->waterlevel <= 2) { // if not underwater
+    } else if (player->misc.waterlevel <= 2) { // if not underwater
         TakeInventory (UNDERWATERTOKEN, 1); // take S7_IsUnderwater
     }
 

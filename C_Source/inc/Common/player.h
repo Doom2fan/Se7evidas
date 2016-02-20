@@ -32,6 +32,12 @@
 typedef struct SS_Item_t SS_Item_t;
 typedef struct SS_Page_t SS_Page_t;
 typedef struct SS_Shop_t SS_Shop_t;
+typedef struct SavedData_t SavedData_t;
+
+// Blerghled Prototypes
+void        GetSaveDataToPointer (int playerNum, SavedData_t *data);
+SavedData_t GetSaveData          (int playerNum);
+void        SetSaveData          (int playerNum, SavedData_t *data);
 
 // Structs
 typedef struct SS_Pos_t {
@@ -69,10 +75,7 @@ typedef struct ThumperDef_t {
     int currentShell;
 } ThumperDef_t;
 
-typedef struct PlayerData_t {
-    bool initialized;
-    
-    // Position, velocity, etc
+typedef struct PD_Physics_t {
     accum x, y, z;                      // XYZ coordinates
     accum velX, velY, velZ;             // XYZ velocities
     accum angle;                        // Angle
@@ -80,37 +83,70 @@ typedef struct PlayerData_t {
     accum floorZ, ceilZ;                // Sector Z coordinates
     accum relativeZ;                    // Z coordinate relative to sector floor
     accum jumpZ;                        // Jump height/velocity?
+} PD_Physics_t;
 
-    // Health and stamina
+typedef struct PD_Health_t {
     int health;                         // Health
     int maxHealth;                      // Max health
     int stamina;                        // Stamina
+} PD_Health_t;
 
-    // XP system stuff
+typedef struct PD_XPSystem_t {
     int level;                          // Current level
     int experience;                     // Amount of experience
     int attrPoints;                     // Attribute points
     int strengthLVL;                    // Strength level
     int staminaLVL;                     // Stamina level
+} PD_XPSystem_t;
 
-    // Shop system stuff
+typedef struct PD_Misc_t {
+    int waterlevel;                     // How deep in water the player is
+    bool dying;                         // Is the player dying?
+} PD_Misc_t;
+
+typedef struct PD_ScriptData_t {
+    int lastWeapon;                     // The last weapon the player selected
+    bool staminaEmpty;                  // Did the player run out of stamina?
+    int staminaTics;                    // Used for the stamina regeneration
+    int popupNum;                       // Current popup
+    int pPageNum;                       // Current popup page
+} PD_ScriptData_t;
+
+typedef struct PlayerData_t {
+    bool initialized;                   // Player is initialized
+    
+    // Position, velocity, etc
+    PD_Physics_t physics;               // Physics related stuff
+
+    // Health and stamina
+    PD_Health_t health;                 // Health related stuff
+
+    // RPG system stuff
+    PD_XPSystem_t xpSystem;             // Level system stuff
     int cash;                           // Cash
     
     // Misc
-    int waterlevel;                     // How deep in water the player is
-    bool dying;                         // Is the player dying?
+    PD_Misc_t misc;
 
     // Script data
-    int lastWeapon;                     // The last weapon the player selected
+    PD_ScriptData_t scriptData;         // Misc script data
     SprintDef_t SprintDef;              // Sprint system stuff
-    bool staminaEmpty;                  // Did the player run out of stamina?
-    int staminaTics;                    // Used for the stamina regeneration
     ParkourDef_t parkourDef;            // Dodging system stuff
     ThumperDef_t thumperDef;            // Thumper stuff
     ShopDef_t shopDef;                  // Shop system stuff
-    int popupNum;                       // Current popup
-    int pPageNum;                       // Current popup page
 } PlayerData_t;
+
+struct SavedData_t {
+    string name;
+    PD_Health_t health;                 // Health and stamina
+    PD_XPSystem_t xpSystem;             // Level system stuff
+    int cash;                           // Cash
+    PD_Misc_t misc;                     // Misc stuff
+
+    // Script data
+    PD_ScriptData_t scriptData;         // Misc script data
+    ThumperDef_t thumperDef;            // Thumper stuff
+};
 
 // Prototypes
 void TakeCash (PlayerData_t *player, int amount);

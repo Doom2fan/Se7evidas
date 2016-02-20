@@ -46,12 +46,12 @@ Script_C void S7_SprintSystem ENTER () {
         if (KeyDown (BT_USER1) &&
             !player->SprintDef.Sprinting &&
             CheckInventory (STAMINATOKEN) >= 5 && !CheckInventory (DYINGTOKEN) &&
-            !player->staminaEmpty) {
+            !player->scriptData.staminaEmpty) {
             player->SprintDef.Sprinting = TRUE;
             player->SprintDef.OldSpeed = GetActorPropertyFixed (0, APROP_Speed);
             DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
         }
-        if (KeyUp (BT_USER1) && player->SprintDef.Sprinting && !player->staminaEmpty) {
+        if (KeyUp (BT_USER1) && player->SprintDef.Sprinting && !player->scriptData.staminaEmpty) {
             SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             player->SprintDef.Sprinting = FALSE;
             tics = 0;
@@ -64,13 +64,13 @@ Script_C void S7_SprintSystem ENTER () {
                     tics = 0;
                     if (GetVelocity () > 0.0k) {
                         TakeInventory (STAMINATOKEN, 5);
-                        player->stamina = CheckInventory (STAMINATOKEN);
+                        player->health.stamina = CheckInventory (STAMINATOKEN);
                     }
                 }
                 if (CheckInventory (STAMINATOKEN) < 5 || CheckInventory (DYINGTOKEN)) {
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
                     player->SprintDef.Sprinting = FALSE;
-                    player->staminaEmpty = 1;
+                    player->scriptData.staminaEmpty = 1;
                     DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
                     goto Start;
                 }

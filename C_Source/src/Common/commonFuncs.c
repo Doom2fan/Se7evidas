@@ -76,8 +76,7 @@ int UnusedTID (int start, int end) {
     return -1;
 }
 
-// I dunno who made this...
-accum GetVelocity () {
+accum GetVelocity () { // I dunno who made this...
     accum vel;
     accum x = GetActorVelX (0);
     accum y = GetActorVelY (0);
@@ -144,4 +143,9 @@ bool SetInventory (string name, int amount) {
         GiveInventory (name, amount - currentAmount);
     
     return TRUE;
+}
+
+accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
+                 accum actor2X, accum actor2Y, accum actor2Z) {
+    return VectorLength (actor1Z - actor2Z, VectorLength (actor1X - actor2X, actor1Y - actor2Y));
 }
