@@ -77,7 +77,7 @@
 // Self-Kills
     OB_SUICIDE                      = "%o ate %p gun.";
     OB_KILLEDSELF                   = "%o receives a Darwin Award.";
-    OB_VOODOO                       = "%o killed his doppelganger without considering the consequences.";
+    OB_VOODOO                       = "%o killed %h doppelganger without considering the consequences.";
 
 // PvP
     // Primary
