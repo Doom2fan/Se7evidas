@@ -17,8 +17,7 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "util.h"
-#include "util_math.h"
+#include "includes.h"
 #include "commonFuncs.h"
 #undef SHORT_NAMES
 
@@ -148,4 +147,64 @@ bool SetInventory (string name, int amount) {
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
                  accum actor2X, accum actor2Y, accum actor2Z) {
     return VectorLength (actor1Z - actor2Z, VectorLength (actor1X - actor2X, actor1Y - actor2Y));
+}
+
+int StrToInt (string source) {
+    int length = StrLen (source);
+    int ret = 0;
+    string strArr;
+    int j = 0;
+    bool negative = FALSE;
+
+    for (int i = length - 1; i >= 0; i--) {
+        string curChar = StrMid (source, i, 1);
+        
+        if (i == 0 && StrCmp (curChar, s"-") == 0) {
+            negative = TRUE;
+        } else if (i == 0 && StrCmp (curChar, s"+") == 0) {
+            negative = FALSE;
+        } else {
+            strArr = StrParam ("%S%S", strArr, curChar);
+            j++;
+        }
+    }
+
+    for (int i = 0; i < j; i++) {
+        string numStr = StrMid (strArr, i, 1);
+        int mul = 1;
+        int num = 0;
+
+        for (int k = 1; k <= i; k++)
+            mul *= 10;
+
+        if (StrCmp (numStr, s"1") == 0)
+            num = 1;
+        else if (StrCmp (numStr, s"2") == 0)
+            num = 2;
+        else if (StrCmp (numStr, s"3") == 0)
+            num = 3;
+        else if (StrCmp (numStr, s"4") == 0)
+            num = 4;
+        else if (StrCmp (numStr, s"5") == 0)
+            num = 5;
+        else if (StrCmp (numStr, s"6") == 0)
+            num = 6;
+        else if (StrCmp (numStr, s"7") == 0)
+            num = 7;
+        else if (StrCmp (numStr, s"8") == 0)
+            num = 8;
+        else if (StrCmp (numStr, s"9") == 0)
+            num = 9;
+        else if (StrCmp (numStr, s"0") == 0)
+            num = 0;
+        else
+            return 0;
+
+        ret += (num * mul);
+    }
+
+    if (negative)
+        ret = -ret;
+
+    return ret;
 }

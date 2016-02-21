@@ -22,8 +22,14 @@
 #undef PLAYER_C
 #include "player.h"
 
+// Forward declarations
+void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
+Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData);
+
+// Arrays
 PlayerData_t PlayerData [MAX_PLAYERS];
 
+// Functions
 void UpdatePlayerData (PlayerData_t *player) {
     if (!player) {
         Log ("\\cgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
@@ -89,9 +95,67 @@ void InitializePlayer (PlayerData_t *player) {
         Log ("\\cgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     player->thumperDef.magIndex = -1;
+
+    SavedData_t saveData = {
+        .isInvalid = TRUE,
+    };
+    
+    if (!(ServerData.noSaveLoading) && GetUserCVar (PLN, s"S7_LoadSaveDataOnNewGame")) {
+        saveData = LoadSaveData (PLN);
+        if (!(saveData.isInvalid))
+            PD_DoLoadSave (player, &saveData);
+    }
+
+    RunIntro (player, &saveData);
     player->initialized = TRUE;
+}
+
+void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
+    if (!player) {
+        Log ("\\cgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
+        return;
+    } else if (!saveData || saveData->isInvalid) {
+        Log ("\\cgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
+        return;
+    }
+
+    // XP System
+    SetInventory (XPS_LEVELTOKEN,      saveData->xpSystem.level);
+    SetInventory (XPS_EXPTOKEN,        saveData->xpSystem.experience);
+    SetInventory (XPS_ATTRPOINTSTOKEN, saveData->xpSystem.attrPoints);
+    SetInventory (XPS_STRENGTHTOKEN,   saveData->xpSystem.strengthLVL);
+    SetInventory (XPS_STAMINATOKEN,    saveData->xpSystem.staminaLVL);
+    SetInventory (CASHTOKEN,           saveData->cash);
+
+    // Script Data
+    player->scriptData = saveData->scriptData;
+    player->thumperDef = saveData->thumperDef;
+}
+
+Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
+    string name = s"";
+    int gender = 0;
+
+    if (saveData->isInvalid) {
+        name = StrParam ("%tS", PLN);
+        gender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
+    } else {
+        name = saveData->name;
+        gender = saveData->gender;
+    }
+
+    player->shopDef.disableOpen = TRUE;
+    SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
+    FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 1.0k, TicsToSecs (9));
+    Delay (10);
+    FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
+
+    if (!GetUserCVar (PLN, s"S7_NoIntro"))
+        return;
+
+    
 }
 
 void DisconnectPlayer (PlayerData_t *player) {
@@ -142,7 +206,7 @@ void DisconnectPlayer (PlayerData_t *player) {
     for (int i = 0; i < ArraySize (player->thumperDef.magShells); i++)
         player->thumperDef.magShells [i] = 0;
     player->thumperDef.currentShell = 0;
-    player->thumperDef.magIndex = 0;
+    player->thumperDef.magIndex = -1;
     // Shop system stuff
     player->shopDef.open = FALSE;
     player->shopDef.disableOpen = FALSE;

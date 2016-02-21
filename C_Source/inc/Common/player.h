@@ -24,9 +24,22 @@
 
 // Defines
 #define SS_ITEMSMAX \
-   ( \
-    (ArraySize (player->shopDef.items)) \
-   )
+( \
+ (ArraySize (player->shopDef.items)) \
+)
+
+#define Gender_Male 0
+#define Gender_Fem 1
+#define Gender_Other 2
+#define Gender_Herm 3
+
+// Stuff
+string PD_Gender [] = {
+    s"GEN_MALE",
+    s"GEN_FEM",
+    s"GEN_OTHER",
+    s"GEN_HERM",
+};
 
 // Typedefs
 typedef struct SS_Item_t SS_Item_t;
@@ -35,9 +48,9 @@ typedef struct SS_Shop_t SS_Shop_t;
 typedef struct SavedData_t SavedData_t;
 
 // Blerghled Prototypes
-void        GetSaveDataToPointer (int playerNum, SavedData_t *data);
-SavedData_t GetSaveData          (int playerNum);
-void        SetSaveData          (int playerNum, SavedData_t *data);
+bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
+SavedData_t LoadSaveData          (int playerNum);
+void        SaveSaveData          (int playerNum, SavedData_t *data);
 
 // Structs
 typedef struct SS_Pos_t {
@@ -137,11 +150,11 @@ typedef struct PlayerData_t {
 } PlayerData_t;
 
 struct SavedData_t {
+    bool isInvalid;
     string name;
-    PD_Health_t health;                 // Health and stamina
+    int gender;
     PD_XPSystem_t xpSystem;             // Level system stuff
     int cash;                           // Cash
-    PD_Misc_t misc;                     // Misc stuff
 
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data

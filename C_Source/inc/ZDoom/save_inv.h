@@ -17,22 +17,21 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
-#include "save.h"
+#ifndef SAVE_INV_H
+#define SAVE_INV_H
 
-bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
-    return FALSE;
-}
+#include <ACS_ZDoom.h>
 
-SavedData_t LoadSaveData (int playerNum) {
-    SavedData_t data;
+// Defines
+#define INVCVARCOUNT 25
 
-    if (!LoadSaveDataToPointer (playerNum, &data))
-        data.isInvalid = TRUE;
+// Structs
+typedef struct SaveInv_InvInfo {
+    string name;
+    int amount;
+} SaveInv_InvInfo;
 
-    return data;
-}
+// Prototypes
+bool SaveSys_SaveInventory (int playerNum, SavedData_t *data);
 
-void SaveSaveData (int playerNum, SavedData_t *data) {
-
-}
+#endif

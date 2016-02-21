@@ -19,12 +19,15 @@
 
 #include "includes.h"
 #include "CSC.h"
+
 enum {
     CSC_OP_RAW      = 0x02, // (int amount)
     CSC_OP_DUP      = 0x05, // (int amount)
     CSC_OP_PTR      = 0x06, // (int pointer)
     CSC_OP_NUL      = 0xF0, // (void)
 };
+
+#define CSC_BUFFERSIZE 1024
 
 #define HARDOUTLIMIT 5000
 string CSC_CompressString (string data) {
@@ -101,9 +104,12 @@ string CSC_CompressString (string data) {
 
 string CSC_DecompressFILE (FILE *file) {
     string derp = s"";
+    char *buffer [BUFSIZ];
 
     while (feof (file)) {
-
+        fread (buffer, 1, CSC_BUFFERSIZE, file);
+        PrintBold ("derp: %S; buffer: %s; derp2: %S;", derp, buffer, StrParam ("%S%s", derp, buffer));
+        derp = StrParam ("%S%s", derp, buffer);
     }
 
     return derp;

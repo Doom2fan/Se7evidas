@@ -40,3 +40,9 @@ EMPTTHGRPICK                    = "Used 50mm grenade";
 20GA                            = "20ga";
 762X39                          = "7.62x39mm";
 CELLS                           = "Type A Energy Cells";
+
+// Genders
+GEN_MALE                        = "Male";
+GEN_FEM                         = "Female";
+GEN_OTHER                       = "Other";
+GEN_HERM                        = "Herm";

@@ -23,8 +23,8 @@
 #include <ACS_ZDoom.h>
 
 // Prototypes
-void        GetSaveDataToPointer (int playerNum, SavedData_t *data);
-SavedData_t GetSaveData          (int playerNum);
-void        SetSaveData          (int playerNum, SavedData_t *data);
+bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
+SavedData_t LoadSaveData          (int playerNum);
+void        SaveSaveData          (int playerNum, SavedData_t *data);
 
 #endif
