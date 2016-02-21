@@ -74,7 +74,7 @@ Script_C void S7_ShowPop1 () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ShowPop1: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ShowPop1: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 

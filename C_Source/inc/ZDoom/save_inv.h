@@ -25,13 +25,18 @@
 // Defines
 #define INVCVARCOUNT 25
 
+// Typedefs
+typedef struct SaveInv_InvInfo SaveInv_InvInfo;
+
 // Structs
-typedef struct SaveInv_InvInfo {
+struct SaveInv_InvInfo {
     string name;
     int amount;
-} SaveInv_InvInfo;
+    SaveInv_InvInfo *next;
+};
 
 // Prototypes
 bool SaveSys_SaveInventory (int playerNum, SavedData_t *data);
+bool SaveSys_LoadInventory (int playerNum, SavedData_t *data);
 
 #endif

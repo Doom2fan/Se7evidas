@@ -36,42 +36,68 @@ string SaveSys_ReadStr (string s, int *offset, int length) {
     return ret;
 }
 
-#define SaveSys_FailLoad(s, length, lastOffLength) \
- if (StrLen (s) != length) return FALSE;
+#ifdef DEBUG
+#define SaveSys_UIError Log ("\CgSave system: Load failed: Couldn't read user info.\n\Cg\t(Debug info: file: %s; line: %d;)", __FILE__, __LINE__) \
+
+#define SaveSys_FailLoad(s, length) \
+if (StrLen (s) != length) { \
+    Log ("\CgSave system: Load failed: Couldn't read save data.\n\Cg\t(Debug info: file: %s; line: %d;)", __FILE__, __LINE__); \
+    return FALSE; \
+}
+#else
+#define SaveSys_UIError Log ("\CgSave system: Load failed: Couldn't read user info.")
+
+#define SaveSys_FailLoad(s, length) \
+if (StrLen (s) != length) { \
+    Log ("\CgSave system: Load failed: Couldn't read save data."); \
+    return FALSE; \
+}
+#endif
+
 bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     SavedData_t tmpData;
-    int *offset;
-    *offset = 0;
+    int *offset; *offset = 0;
 
     // Info
     string infoStr = GetUserCVarString (playerNum, SD_INFO);
-    if (StrLen (infoStr) < 1)
+    if (StrLen (infoStr) < 1) {
+        SaveSys_UIError;
         return FALSE;
+    }
     int version = SaveSys_ReadInt (infoStr, offset, 5);
-    if (version != SAVESYS_SAVEVERSION) 
+    if (version != SAVESYS_SAVEVERSION) {
+        if (version < SAVESYS_SAVEVERSION)
+            Log ("\CgSave system: Load failed: Save from an older version. (Save: %d, Mod: %d)", version, SAVESYS_SAVEVERSION);
+        if (version > SAVESYS_SAVEVERSION)
+            Log ("\CgSave system: Load failed: Save from a newer version. (Save: %d, Mod: %d)", version, SAVESYS_SAVEVERSION);
+
         return FALSE;
+    }
     int nameLen = SaveSys_ReadInt (infoStr, offset, 4);
     tmpData.name = SaveSys_ReadStr (infoStr, offset, nameLen);
-    if (StrLen (tmpData.name) != nameLen)
+    if (StrLen (tmpData.name) != nameLen) {
+        SaveSys_UIError;
         return FALSE;
+    }
     tmpData.gender = SaveSys_ReadInt (infoStr, offset, 4);
 
     *offset = 0;
-    // XP System
-    string xpSysStr = GetUserCVarString (playerNum, SD_XPSYSTEM);
-    tmpData.xpSystem.level = SaveSys_ReadInt (xpSysStr, offset, 6);
-    tmpData.xpSystem.experience = SaveSys_ReadInt (xpSysStr, offset, 7);
-    tmpData.xpSystem.attrPoints = SaveSys_ReadInt (xpSysStr, offset, 11);
-    tmpData.xpSystem.strengthLVL = SaveSys_ReadInt (xpSysStr, offset, 3);
-    tmpData.xpSystem.staminaLVL = SaveSys_ReadInt (xpSysStr, offset, 3);
-    tmpData.cash = SaveSys_ReadInt (xpSysStr, offset, 11);
-    SaveSys_FailLoad (xpSysStr, *offset, 11);
+    // RPG Systems
+    string rpgSysStr = GetUserCVarString (playerNum, SD_RPGSYSTEM);
+    tmpData.xpSystem.level = SaveSys_ReadInt (rpgSysStr, offset, 6);
+    tmpData.xpSystem.experience = SaveSys_ReadInt (rpgSysStr, offset, 7);
+    tmpData.xpSystem.attrPoints = SaveSys_ReadInt (rpgSysStr, offset, 11);
+    tmpData.xpSystem.strengthLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
+    tmpData.xpSystem.staminaLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
+    tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 11);
+    tmpData.ammoMax = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    SaveSys_FailLoad (rpgSysStr, *offset);
 
     *offset = 0;
     // Script Data
     string scriptDataStr = GetUserCVarString (playerNum, SD_SCRIPTDATA);
     tmpData.scriptData.lastWeapon = SaveSys_ReadInt (scriptDataStr, offset, 6);
-    SaveSys_FailLoad (scriptDataStr, *offset, 6);
+    SaveSys_FailLoad (scriptDataStr, *offset);
 
     *offset = 0;
     // ThumperDef
@@ -80,7 +106,13 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
         tmpData.thumperDef.magShells [i] = SaveSys_ReadInt (thumperDefStr, offset, 4);
     tmpData.thumperDef.magIndex = SaveSys_ReadInt (thumperDefStr, offset, 4);
     tmpData.thumperDef.currentShell = SaveSys_ReadInt (thumperDefStr, offset, 4);
-    SaveSys_FailLoad (thumperDefStr, *offset, 4);
+    SaveSys_FailLoad (thumperDefStr, *offset);
+
+    // Inventory
+    if (!SaveSys_LoadInventory (playerNum, data)) {
+        Log ("\CgSave system: Load failed: Couldn't load inventory.");
+        return FALSE;
+    }
 
     *data = tmpData;
 
@@ -101,9 +133,9 @@ void SaveSaveData (int playerNum, SavedData_t *data) {
     string infoStr = StrParam ("%+.4d%+.3d%S%+.3d", SAVESYS_SAVEVERSION, StrLen (data->name), data->name, data->gender);
     SetUserCVarString (playerNum, SD_INFO, infoStr);
 
-    // XP System
-    string xpSysStr = StrParam ("%+.5d%+.6d%+.10d%+.2d%+.2d%+.10d", data->xpSystem.level, data->xpSystem.experience, data->xpSystem.attrPoints, data->xpSystem.strengthLVL, data->xpSystem.staminaLVL, data->cash);
-    SetUserCVarString (playerNum, SD_XPSYSTEM, xpSysStr);
+    // RPG Systems
+    string rpgSysStr = StrParam ("%+.5d%+.6d%+.10d%+.2d%+.2d%+.10d%+.3d", data->xpSystem.level, data->xpSystem.experience, data->xpSystem.attrPoints, data->xpSystem.strengthLVL, data->xpSystem.staminaLVL, data->cash, data->ammoMax);
+    SetUserCVarString (playerNum, SD_RPGSYSTEM, rpgSysStr);
 
     // Script Data
     string scriptDataStr = StrParam ("%+.5d", data->scriptData.lastWeapon);
@@ -145,9 +177,9 @@ Script_C void saveTest () {
     // Script data
     saveData.scriptData = player->scriptData; // Misc script data
     saveData.thumperDef = player->thumperDef; // Thumper stuff
-    PrintBold ("%S", GetActorPropertyString (0, APROP_NameTag));
 
     SaveSaveData (PLN, &saveData);
+    PrintBold ("%S", GetActorPropertyString (0, APROP_NameTag));
 }
 
 Script_C void loadTest () {

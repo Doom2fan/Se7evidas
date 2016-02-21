@@ -136,10 +136,11 @@ bool SetInventory (string name, int amount) {
 
     if (currentAmount == amount) {
         return FALSE;
-    } else if (currentAmount > amount)
+    } else if (currentAmount > amount) {
         TakeInventory (name, currentAmount - amount);
-    else if (currentAmount < amount)
+    } else if (currentAmount < amount) {
         GiveInventory (name, amount - currentAmount);
+    }
     
     return TRUE;
 }

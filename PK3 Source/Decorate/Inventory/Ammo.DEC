@@ -14,6 +14,22 @@ actor S7_9mmCartridges : ammo 31000 {
     }
 }
 
+actor S7_45ACPCartridges : ammo 31005 {
+    tag "$45ACP"
+    inventory.pickupMessage "$45ACP"
+    inventory.amount 62
+    inventory.maxAmount 372
+    ammo.backpackMaxAmount 496
+    inventory.icon "CLIPA0"
+    inventory.pickupSound "misc/ammopickup"
+
+    states {
+    Spawn:
+        CLIP A -1
+        stop
+    }
+}
+
 actor S7_44MCartridges : ammo 31001 {
     tag "$44M"
     inventory.pickupMessage "$44M"
@@ -76,23 +92,6 @@ actor S7_Cells : ammo 31004 {
         stop
     }
 }
-
-actor S7_45ACPCartridges : ammo 31005 {
-    tag "$45ACP"
-    inventory.pickupMessage "$45ACP"
-    inventory.amount 62
-    inventory.maxAmount 372
-    ammo.backpackMaxAmount 496
-    inventory.icon "CLIPA0"
-    inventory.pickupSound "misc/ammopickup"
-
-    states {
-    Spawn:
-        CLIP A -1
-        stop
-    }
-}
-
 
 // Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 actor S7_Thumper_PExp     : counter { inventory.maxAmount 40 +ignoreSkill }

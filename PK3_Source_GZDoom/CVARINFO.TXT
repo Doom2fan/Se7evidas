@@ -4,7 +4,7 @@ user bool S7_LoadSaveDataOnNewGame      = TRUE;
 
 // Save data
 user string S7_SaveData_Info            = "";
-user string S7_SaveData_XPSystem        = "";
+user string S7_SaveData_RPGSystem       = "";
 user string S7_SaveData_ScriptData      = "";
 user string S7_SaveData_ThumperDef      = "";
 user string S7_SaveData_Inv1            = "";

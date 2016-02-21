@@ -32,7 +32,7 @@ PlayerData_t PlayerData [MAX_PLAYERS];
 // Functions
 void UpdatePlayerData (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -70,9 +70,20 @@ void UpdatePlayerData (PlayerData_t *player) {
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
 }
 
+void UpdateAmmoMax (PlayerData_t *player) {
+    if (player->ammoMax < 1)
+        player->ammoMax = 6;
+    
+    for (int i = 0; i < ArraySize (PD_AmmoTypes); i++) {
+        int maxAmount = PD_AmmoTypes [i].magSize * player->ammoMax;
+        if (GetAmmoCapacity (PD_AmmoTypes [i].name) != maxAmount)
+            SetAmmoCapacity (PD_AmmoTypes [i].name, maxAmount);
+    }
+}
+
 void TakeCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\\cgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -82,7 +93,7 @@ void TakeCash (PlayerData_t *player, int amount) {
 
 void GiveCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\\cgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -92,11 +103,12 @@ void GiveCash (PlayerData_t *player, int amount) {
 
 void InitializePlayer (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
 
     player->thumperDef.magIndex = -1;
+    player->ammoMax = 6;
 
     SavedData_t saveData = {
         .isInvalid = TRUE,
@@ -104,8 +116,10 @@ void InitializePlayer (PlayerData_t *player) {
     
     if (!(ServerData.noSaveLoading) && GetUserCVar (PLN, s"S7_LoadSaveDataOnNewGame")) {
         saveData = LoadSaveData (PLN);
-        if (!(saveData.isInvalid))
+        if (!(saveData.isInvalid)) {
             PD_DoLoadSave (player, &saveData);
+            UpdateAmmoMax (player);
+        }
     }
 
     RunIntro (player, &saveData);
@@ -114,20 +128,21 @@ void InitializePlayer (PlayerData_t *player) {
 
 void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     if (!player) {
-        Log ("\\cgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
         return;
     } else if (!saveData || saveData->isInvalid) {
-        Log ("\\cgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
+        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
         return;
     }
 
-    // XP System
+    // RPG Systems
     SetInventory (XPS_LEVELTOKEN,      saveData->xpSystem.level);
     SetInventory (XPS_EXPTOKEN,        saveData->xpSystem.experience);
     SetInventory (XPS_ATTRPOINTSTOKEN, saveData->xpSystem.attrPoints);
     SetInventory (XPS_STRENGTHTOKEN,   saveData->xpSystem.strengthLVL);
     SetInventory (XPS_STAMINATOKEN,    saveData->xpSystem.staminaLVL);
     SetInventory (CASHTOKEN,           saveData->cash);
+    player->ammoMax = saveData->ammoMax;
 
     // Script Data
     player->scriptData = saveData->scriptData;
@@ -153,14 +168,15 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
 
     if (!GetUserCVar (PLN, s"S7_NoIntro"))
-        return;
+        goto FinishIntro;
 
-    
+    FinishIntro:
+        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
 
 void DisconnectPlayer (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
     

@@ -35,7 +35,7 @@ Script_C bool S7_ThumperFull () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ThumperFull: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ThumperFull: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return FALSE;
     }
     
@@ -49,7 +49,7 @@ Script_C int S7_ThumperGetNext () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
     if (!player) {
-        Log ("\\cgScript S7_ThumperGetNext: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ThumperGetNext: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return S7_TH_None;
     }
     
@@ -65,7 +65,7 @@ Script_C int S7_ThumperGetChamber () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
     if (!player) {
-        Log ("\\cgScript S7_ThumperGetChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ThumperGetChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return S7_TH_None;
     }
     
@@ -76,7 +76,7 @@ Script_C void S7_ThumperConsumeChamber () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
     if (!player) {
-        Log ("\\cgScript S7_ThumperConsumeChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ThumperConsumeChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -88,7 +88,7 @@ Script_C void S7_ThumperPump () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ThumperPump: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ThumperPump: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -114,7 +114,7 @@ int ThumperCyclePools_DoCycle (int current) {
 
         if (i == current && looped)
             return -1;
-        else if (i >= ArraySize (Thumper_PoolNames)) {
+        else if (i >= TH_POOLNAMES_MAX) {
             if (!looped) {
                 i = 0;
                 looped = TRUE;
@@ -133,7 +133,7 @@ Script_C bool S7_ThumperCyclePools () {
 
     int nextPool = ThumperCyclePools_DoCycle (currentPool);
 
-    if (nextPool < 1)
+    if (nextPool < 1 || currentPool == nextPool - 1)
         return FALSE;
     else {
         SetInventory (SELPOOLTOKEN, nextPool - 1);
@@ -145,7 +145,7 @@ Script_C void S7_ThumperPerformReload () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ThumperPerformReload: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ThumperPerformReload: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -161,17 +161,21 @@ Script_C void S7_ThumperPerformReload () {
 int Thumper_GetUnifiedPool () {
     int unifiedPool;
 
-    for (int i = 1; i < ArraySize (Thumper_PoolNames); i++)
+    for (int i = 1; i <= TH_POOLNAMES_MAX; i++)
         unifiedPool += CheckInventory (Thumper_PoolNames [i]);
 
     return unifiedPool;
 }
 
 int Thumper_GetUnifiedPoolMax () {
-    if (CheckInventory (s"Backpack"))
-        return 40;
-    else
-        return 30;
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript Thumper_GetUnifiedPoolMax: Fatal error: Invalid or NULL player struct.");
+        return NULL;
+    }
+
+    return 5 * player->ammoMax;
 }
 
 void Thumper_GiveShell (int typeI, int amount) {

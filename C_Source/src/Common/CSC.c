@@ -20,6 +20,8 @@
 #include "includes.h"
 #include "CSC.h"
 
+// Gotta figure out a way to make this work without NULLs/0x00... Ugh...
+
 enum {
     CSC_OP_RAW      = 0x02, // (int amount)
     CSC_OP_DUP      = 0x05, // (int amount)

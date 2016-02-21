@@ -51,7 +51,7 @@ Script_C void S7_ServersideEnter ENTER () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -59,7 +59,8 @@ Script_C void S7_ServersideEnter ENTER () {
         InitializePlayer (player);
 
     while (TRUE) { // Loop forever
-        UpdatePlayerData (player); // Update the player's data 
+        UpdatePlayerData (player); // Update the player's data
+        UpdateAmmoMax (player);
         if (player->health.health > 0) {
             StaminaRegenerationPart1 (player);
             MultiJumpScript (player);
@@ -90,7 +91,7 @@ Script_C void S7_ClientsideEnter ENTER () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -108,7 +109,7 @@ Script_C void S7_ClientsideEnter ENTER () {
 
 void ResetStuff (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -128,7 +129,7 @@ Script_C void S7_ServersideRespawn RESPAWN () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -144,7 +145,7 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     
     Log ("%d", num);
     if (!player) {
-        Log ("\\cgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
+        Log ("\CgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
         return;
     }
 

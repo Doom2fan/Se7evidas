@@ -26,7 +26,7 @@
 #define SAVESYS_SAVEVERSION 1
 
 #define SD_INFO       s"S7_SaveData_Info"
-#define SD_XPSYSTEM   s"S7_SaveData_XPSystem"
+#define SD_RPGSYSTEM  s"S7_SaveData_RPGSystem"
 #define SD_SCRIPTDATA s"S7_SaveData_ScriptData"
 #define SD_THUMPERDEF s"S7_SaveData_ThumperDef"
 #define SD_INV        s"S7_SaveData_Inv"
@@ -60,5 +60,7 @@
 bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
 SavedData_t LoadSaveData          (int playerNum);
 void        SaveSaveData          (int playerNum, SavedData_t *data);
+int         SaveSys_ReadInt       (string s, int *offset, int length);
+string      SaveSys_ReadStr       (string s, int *offset, int length);
 
 #endif
