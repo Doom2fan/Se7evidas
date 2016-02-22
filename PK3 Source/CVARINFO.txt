@@ -8,3 +8,4 @@ user bool S7_LogLVLUpMsgs           = TRUE;
 user bool S7_AutoReloading          = TRUE;
 user bool S7_HeartbeatsOn           = TRUE;
 user bool S7_NoIntro                = FALSE;
+user bool S7_NoIntroOnMP            = FALSE;

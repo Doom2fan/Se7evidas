@@ -169,7 +169,7 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
     Delay (10);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
 
-    if (!GetUserCVar (PLN, s"S7_NoIntro"))
+    if (!GetUserCVar (PLN, s"S7_NoIntro") || (!GetUserCVar (PLN, s"S7_NoIntroOnMP") && GameType () != GAME_SINGLE_PLAYER))
         goto FinishIntro;
 
 FinishIntro:
