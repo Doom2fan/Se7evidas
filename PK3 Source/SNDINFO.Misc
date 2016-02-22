@@ -63,6 +63,10 @@ Explosions/Explosion2_3         "sounds/Effects/Explosions/Explode2_3.ogg"
 // Bounces
 Bounce/MetalSmall               "sounds/Effects/Misc/BounceMetalSmall.ogg" // From Heretic
 
+// Computers/UIs
+Comp/Access                     "sounds/Effects/Computers/Access.ogg" // From Submachine. Ripped by Chronos "phantombeta" Ouroboros (Ripped from Sub6: The Root)
+Comp/Ok                         "sounds/Effects/Computers/Ok.ogg"     // Ditto
+
 // Misc
 $RANDOM Steam/Burst {
     Steam/Burst1
