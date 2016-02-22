@@ -40,6 +40,7 @@ SaveInv_InvInfo InvInfo [] = {
     { .name = s"S7_Thumper_PCluster",           },
     { .name = s"S7_Thumper_PNail",              },
     { .name = s"S7_Thumper_PNGas",              },
+    { .name = s"S7_BackpackToken",              },
     // Weapons and etc weapon info
     { .name = s"S7_AMG",                        }, // Mars Assault Rifle
     { .name = s"S7_AMGMag",                     },
