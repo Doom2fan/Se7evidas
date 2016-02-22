@@ -71,9 +71,11 @@ void UpdatePlayerData (PlayerData_t *player) {
 }
 
 void UpdateAmmoMax (PlayerData_t *player) {
-    if (player->ammoMax < 1)
-        player->ammoMax = 6;
-    
+    player->ammoMax = BASEAMMOMAX;
+
+    if (CheckInventory (s"S7_BackpackToken"))
+        player->ammoMax += 2;
+
     for (int i = 0; i < ArraySize (PD_AmmoTypes); i++) {
         int maxAmount = PD_AmmoTypes [i].magSize * player->ammoMax;
         if (GetAmmoCapacity (PD_AmmoTypes [i].name) != maxAmount)

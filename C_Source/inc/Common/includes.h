@@ -32,14 +32,23 @@
 #include "player.h"
 #endif
 
-// Defines
+// Defines/Macros
 #define PLN PlayerNumber()
 // The size is actually this minus the length of "<cvar name>="
 #define MAXCVARSIZ 253
+
 #define TICSINSEC 35.7142
 #define TICSINSECA 35.7142k
+
 #define TICUNIT 0.028
 #define TICUNITA 0.028k
+
+#define Gender_Male  0
+#define Gender_Fem   1
+#define Gender_Other 2
+#define Gender_Herm  3
+
+#define BASEAMMOMAX 6
 
 // Actor names
 // Spriting system

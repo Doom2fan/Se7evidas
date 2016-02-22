@@ -22,16 +22,11 @@
 
 #include <ACS_ZDoom.h>
 
-// Defines
+// Macros
 #define SS_ITEMSMAX \
 ( \
  (ArraySize (player->shopDef.items)) \
 )
-
-#define Gender_Male  0
-#define Gender_Fem   1
-#define Gender_Other 2
-#define Gender_Herm  3
 
 // Typedefs
 typedef struct PD_AmmoType_t    PD_AmmoType_t;
