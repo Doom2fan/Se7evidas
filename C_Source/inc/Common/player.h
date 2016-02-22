@@ -22,57 +22,47 @@
 
 #include <ACS_ZDoom.h>
 
-// Defines
+// Macros
 #define SS_ITEMSMAX \
-   ( \
-    (ArraySize (player->shopDef.items)) \
-   )
+( \
+ (ArraySize (player->shopDef.items)) \
+)
 
 // Typedefs
-typedef struct SS_Item_t SS_Item_t;
-typedef struct SS_Page_t SS_Page_t;
-typedef struct SS_Shop_t SS_Shop_t;
+typedef struct PD_AmmoType_t    PD_AmmoType_t;
+// Player data
+typedef struct PD_Physics_t     PD_Physics_t;   // Physics
+typedef struct PD_Health_t      PD_Health_t;    // Health
+// RPG Systems
+typedef struct PD_XPSystem_t    PD_XPSystem_t;  // XP System
+// Misc
+typedef struct PD_Misc_t        PD_Misc_t;
+// Script Data
+// Shop system
+typedef struct PD_ScriptData_t  PD_ScriptData_t;
+typedef struct SS_Item_t        SS_Item_t;
+typedef struct SS_Page_t        SS_Page_t;
+typedef struct SS_Shop_t        SS_Shop_t;
+typedef struct SS_Pos_t         SS_Pos_t;
+typedef struct ShopDef_t        ShopDef_t;
+typedef struct SprintDef_t      SprintDef_t;
+typedef struct ParkourDef_t     ParkourDef_t;
+typedef struct ThumperDef_t     ThumperDef_t;
+// Save system
+typedef struct SavedData_t      SavedData_t;
+
+// Blerghled Prototypes
+bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
+SavedData_t LoadSaveData          (int playerNum);
+void        SaveSaveData          (int playerNum, SavedData_t *data);
 
 // Structs
-typedef struct SS_Pos_t {
-    int x, y;
-} SS_Pos_t;
+struct PD_AmmoType_t {
+    string name;
+    int    magSize;
+};
 
-typedef struct ShopDef_t {
-    bool open, disableOpen;
-    SS_Shop_t *shop;
-    SS_Page_t *page;
-    SS_Item_t *items [100];
-    int itemsLength;
-    SS_Pos_t position;
-    int moveDelay, moveSpeed;
-    bool sellMode;
-} ShopDef_t;
-
-typedef struct SprintDef_t {
-    accum OldSpeed; // The player's old speed
-    bool Sprinting; // Is the player sprinting?
-} SprintDef_t;
-
-typedef struct ParkourDef_t {
-    /* Dodging */
-    int dodgeCooldown; // The cooldown before you can dodge again
-
-    /* Multi-jumping */
-    bool mjumpOnGround;
-    int mjumpCount, mjumpMax;
-} ParkourDef_t;
-
-typedef struct ThumperDef_t {
-    int magShells [4];
-    int magIndex;
-    int currentShell;
-} ThumperDef_t;
-
-typedef struct PlayerData_t {
-    bool initialized;
-    
-    // Position, velocity, etc
+struct PD_Physics_t {
     accum x, y, z;                      // XYZ coordinates
     accum velX, velY, velZ;             // XYZ velocities
     accum angle;                        // Angle
@@ -80,37 +70,172 @@ typedef struct PlayerData_t {
     accum floorZ, ceilZ;                // Sector Z coordinates
     accum relativeZ;                    // Z coordinate relative to sector floor
     accum jumpZ;                        // Jump height/velocity?
+};
 
-    // Health and stamina
+struct PD_Health_t {
     int health;                         // Health
     int maxHealth;                      // Max health
     int stamina;                        // Stamina
+};
 
-    // XP system stuff
+struct PD_XPSystem_t {
     int level;                          // Current level
     int experience;                     // Amount of experience
     int attrPoints;                     // Attribute points
     int strengthLVL;                    // Strength level
     int staminaLVL;                     // Stamina level
+};
 
-    // Shop system stuff
-    int cash;                           // Cash
+typedef struct PD_Misc_t {
+    int  waterlevel;                    // How deep in water the player is
+    bool dying;                         // Is the player dying?
+};
+
+struct PD_ScriptData_t {
+    int  lastWeapon;                    // The last weapon the player selected
+    bool staminaEmpty;                  // Did the player run out of stamina?
+    int  staminaTics;                   // Used for the stamina regeneration
+    int  popupNum;                      // Current popup
+    int  pPageNum;                      // Current popup page
+};
+
+struct SprintDef_t {
+    accum OldSpeed;                     // The player's old speed
+    bool  Sprinting;                    // Is the player sprinting?
+};
+
+struct ParkourDef_t {
+    /* Dodging */
+    int  dodgeCooldown;                 // The cooldown before you can dodge again
+
+    /* Multi-jumping */
+    bool mjumpOnGround;                 // Is the player on the ground?
+    int  mjumpCount, mjumpMax;          // Count and max
+};
+
+struct ThumperDef_t {
+    int magShells [4];                  // Loaded shells in mag
+    int magIndex;                       // Current shell in mag
+    int currentShell;                   // Loaded shell in chamber
+};
+
+struct SS_Pos_t {
+    int x, y;
+};
+
+struct ShopDef_t {
+    bool       open, disableOpen;
+    SS_Shop_t *shop;
+    SS_Page_t *page;
+    SS_Item_t *items [100];
+    int        itemsLength;
+    SS_Pos_t   position;
+    int        moveDelay, moveSpeed;
+    bool       sellMode;
+};
+
+typedef struct PlayerData_t {
+    bool            initialized;        // Player is initialized
+    
+    // Position, velocity, etc
+    PD_Physics_t    physics;            // Physics related stuff
+
+    // Health and stamina
+    PD_Health_t     health;             // Health related stuff
+
+    // RPG system stuff
+    PD_XPSystem_t   xpSystem;           // Level system stuff
+    int             cash;               // Cash
+    int             ammoMax;            // Ammo max mul
     
     // Misc
-    int waterlevel;                     // How deep in water the player is
-    bool dying;                         // Is the player dying?
+    PD_Misc_t       misc;               // Misc stuff
 
     // Script data
-    int lastWeapon;                     // The last weapon the player selected
-    SprintDef_t SprintDef;              // Sprint system stuff
-    bool staminaEmpty;                  // Did the player run out of stamina?
-    int staminaTics;                    // Used for the stamina regeneration
-    ParkourDef_t parkourDef;            // Dodging system stuff
-    ThumperDef_t thumperDef;            // Thumper stuff
-    ShopDef_t shopDef;                  // Shop system stuff
-    int popupNum;                       // Current popup
-    int pPageNum;                       // Current popup page
+    PD_ScriptData_t scriptData;         // Misc script data
+    SprintDef_t     SprintDef;          // Sprint system stuff
+    ParkourDef_t    parkourDef;         // Dodging system stuff
+    ThumperDef_t    thumperDef;         // Thumper stuff
+    ShopDef_t       shopDef;            // Shop system stuff
 } PlayerData_t;
+
+struct SavedData_t {
+    bool            isInvalid;          // Is the save data invalid?
+    string          name;               // Player name
+    int             gender;             // Player gender
+
+    // RPG Systems
+    PD_XPSystem_t   xpSystem;           // Level system stuff
+    int             cash;               // Cash
+    int             ammoMax;            // Ammo max mul
+
+    // Script data
+    PD_ScriptData_t scriptData;         // Misc script data
+    ThumperDef_t    thumperDef;         // Thumper stuff
+};
+
+// Stuff
+string PD_Gender [] = {
+    s"GEN_MALE",
+    s"GEN_FEM",
+    s"GEN_OTHER",
+    s"GEN_HERM",
+};
+
+PD_AmmoType_t PD_AmmoTypes [] = {
+    {
+        .name = s"S7_9mmCartridges",
+        .magSize = 15,
+    },
+    {
+        .name = s"S7_45ACPCartridges",
+        .magSize = 62,
+    },
+    {
+        .name = s"S7_44MCartridges",
+        .magSize = 6,
+    },
+    {
+        .name = s"S7_762x39Cartridges",
+        .magSize = 35,
+    },
+    {
+        .name = s"S7_20gaShells",
+        .magSize = 10,
+    },
+    {
+        .name = s"S7_Cells",
+        .magSize = 36,
+    },
+    {
+        .name = s"S7_Thumper_PExp",
+        .magSize = 5,
+    },
+    {
+        .name = s"S7_Thumper_PFrag",
+        .magSize = 5,
+    },
+    {
+        .name = s"S7_Thumper_PTherm",
+        .magSize = 5,
+    },
+    {
+        .name = s"S7_Thumper_PFlare",
+        .magSize = 5,
+    },
+    {
+        .name = s"S7_Thumper_PCluster",
+        .magSize = 5,
+    },
+    {
+        .name = s"S7_Thumper_PNail",
+        .magSize = 5,
+    },
+    {
+        .name = s"S7_Thumper_PNGas",
+        .magSize = 5,
+    },
+};
 
 // Prototypes
 void TakeCash (PlayerData_t *player, int amount);
@@ -118,6 +243,7 @@ void GiveCash (PlayerData_t *player, int amount);
 void InitializePlayer (PlayerData_t *player);
 void DisconnectPlayer (PlayerData_t *player);
 void UpdatePlayerData (PlayerData_t *player);
+void UpdateAmmoMax    (PlayerData_t *player);
 
 // Externs
 extern PlayerData_t PlayerData [MAX_PLAYERS];

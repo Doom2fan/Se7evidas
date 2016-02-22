@@ -13,7 +13,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
     weapon.ammoType1 "S7_ManxCarbineClip"
     weapon.ammoType2 "S7_9mmCartridges"
     weapon.ammoUse 1
-    weapon.ammoGive 12
+    weapon.ammoGive 0
     
     states {
     Spawn:

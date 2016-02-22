@@ -20,6 +20,7 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
+// Includes
 #include "util.h"
 #include "util_math.h"
 #include "commonFuncs.h"
@@ -31,9 +32,23 @@
 #include "player.h"
 #endif
 
-
-// Defines
+// Defines/Macros
 #define PLN PlayerNumber()
+// The size is actually this minus the length of "<cvar name>="
+#define MAXCVARSIZ 253
+
+#define TICSINSEC 35.7142
+#define TICSINSECA 35.7142k
+
+#define TICUNIT 0.028
+#define TICUNITA 0.028k
+
+#define Gender_Male  0
+#define Gender_Fem   1
+#define Gender_Other 2
+#define Gender_Herm  3
+
+#define BASEAMMOMAX 6
 
 // Actor names
 // Spriting system
@@ -56,20 +71,10 @@
 #define AIRTIMETOKEN s"S7_AirTime"
 #define MJUMP_MAXTOKEN s"S7_MultiJump_Max"
 
-
 // Script types
 #define UNLOADING [[script ("Unloading") ]]
 #define RETURN [[script ("Return") ]]
 #define RESPAWN [[script ("Respawn") ]]
-
-// Macros
-#define SetInventoryForced(name, amount) \
-  ( \
-   TakeInventory (name, 0x7FFFFFFF), \
-   GiveInventory (name, amount) \
-  )
-
-#define ArraySize(array) sizeof(array) / sizeof(*array)
 
 __addrdef extern  __gbl_arr GlobalVar;
 

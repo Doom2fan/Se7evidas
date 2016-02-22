@@ -74,18 +74,18 @@ Script_C void S7_ShowPop1 () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ShowPop1: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ShowPop1: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
-    if (player->popupNum == 1) {
-        if (player->pPageNum < 2)
-            player->pPageNum++;
+    if (player->scriptData.popupNum == 1) {
+        if (player->scriptData.pPageNum < 2)
+            player->scriptData.pPageNum++;
         else
-            player->popupNum = 0;
+            player->scriptData.popupNum = 0;
     } else {
-        player->pPageNum = 0;
-        player->popupNum = 1;
+        player->scriptData.pPageNum = 0;
+        player->scriptData.popupNum = 1;
     }
 }
 
@@ -189,15 +189,15 @@ void ShowPop1 (PlayerData_t *player) {
 
     SetHudSize (320, 200, FALSE);
     int id = SP1BASEID;
-    if (player->popupNum == 1) {
+    if (player->scriptData.popupNum == 1) {
         SetFont (s"FSHUDFNT");
-        if (player->pPageNum == 0) {
+        if (player->scriptData.pPageNum == 0) {
             accum x = 10.0k; accum y = 12.0k;
             SPopPrintSwitchList (s"POP_WEAPON", WeaponsList, &id, &x, &y);
-        } else if (player->pPageNum == 1) {
+        } else if (player->scriptData.pPageNum == 1) {
             accum x = 10.0k; accum y = 12.0k;
             SPopPrintList (s"POP_AMMO", AmmoList, &id, &x, &y, 106.0k);
-        } else if (player->pPageNum == 2) {
+        } else if (player->scriptData.pPageNum == 2) {
             accum x = 10.0k; accum y = 12.0k;
             SPopPrintList (s"POP_LOOT", LootList, &id, &x, &y, 126.0k);
         }

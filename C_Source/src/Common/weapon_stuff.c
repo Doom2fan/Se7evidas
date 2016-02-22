@@ -54,13 +54,13 @@ int GetWeaponName () {
 
 void ChangeLastWeapon (bool mode, PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
         return;
     }
     
     int weaponNumber = 0;
     if (mode) {
-        weaponNumber = player->lastWeapon;
+        weaponNumber = player->scriptData.lastWeapon;
         if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
             return;
         SetWeapon (WeaponName [weaponNumber]);
@@ -69,13 +69,13 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
         if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
             return;
         else
-            player->lastWeapon = weaponNumber;
+            player->scriptData.lastWeapon = weaponNumber;
     }
 }
 
 void DisableWeapon (string meh, string blah, PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -136,3 +136,28 @@ void AmmoCountersScript (PlayerData_t *player) {
     if (CheckInventory (s"S7_ShotgunMagCounter") != (CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded")))
         SetInventory (s"S7_ShotgunMagCounter", CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded"));
 }
+
+/*#define PSICGFIREBOOL s"S7_PSICG_CanFire"
+Script_C void S7_PSICG_FireTest () {
+    accum puffX, puffY, puffZ;
+    accum shooterX, shooterY, shooterZ;
+    accum diff;
+
+    puffX = GetActorX (0);
+    puffY = GetActorY (0);
+    puffZ = GetActorZ (0);
+
+    SetActivator (0, AAPTR_TARGET);
+
+    shooterX = GetActorX (0);
+    shooterY = GetActorY (0);
+    shooterZ = GetActorZ (0);
+
+    diff = Distance2 (puffX, puffY, puffZ,
+                      shooterX, shooterY, shooterZ);
+
+    if (abs (diff) > 192)
+        GiveInventory (PSICGFIREBOOL, 1);
+    else
+        TakeInventory (PSICGFIREBOOL, 0x7FFFFFFF);
+}*/

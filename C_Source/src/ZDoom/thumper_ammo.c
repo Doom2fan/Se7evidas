@@ -24,10 +24,10 @@
 // Thumper grenades buy callback
 int SS_TH_BuyItem (PlayerData_t *player, SS_Item_t *item) {
     if (!player) {
-        Log ("\\cgFunction SS_TH_BuyItem: Fatal error: Invalid or NULL player struct");
+        Log ("\CFunction SS_TH_BuyItem: Fatal error: Invalid or NULL player struct");
         return BC_InvalidPlayer;
     } else if (!item) {
-        Log ("\\cgFunction SS_TH_BuyItem: Fatal error: Invalid or NULL item struct");
+        Log ("\CFunction SS_TH_BuyItem: Fatal error: Invalid or NULL item struct");
         return BC_InvalidItem;
     }
     
@@ -44,10 +44,10 @@ int SS_TH_BuyItem (PlayerData_t *player, SS_Item_t *item) {
 // Thumper grenades sell callback
 int SS_TH_SellItem (PlayerData_t *player, SS_Item_t *item) {
     if (!player) {
-        Log ("\\cgFunction SS_TH_SellItem: Fatal error: Invalid or NULL player struct");
+        Log ("\CFunction SS_TH_SellItem: Fatal error: Invalid or NULL player struct");
         return SC_InvalidPlayer;
     } else if (!item) {
-        Log ("\\cgFunction SS_TH_SellItem: Fatal error: Invalid or NULL item struct");
+        Log ("\CFunction SS_TH_SellItem: Fatal error: Invalid or NULL item struct");
         return SC_InvalidItem;
     }
     

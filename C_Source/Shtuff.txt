@@ -16,14 +16,14 @@ if (!player)
     
 ======================================================================================================================================================================================
 if (!player) {
-        Log ("\\cgFunction : Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgFunction : Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
     
 ======================================================================================================================================================================================
 if (!player) {
-        Log ("\\cgScript : Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript : Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     

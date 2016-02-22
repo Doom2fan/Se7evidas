@@ -1,15 +1,134 @@
+actor S7_BackpackToken : boolean { }
+actor S7_Backpack      : customInventory replaces Backpack 31006 {
+    height 26
+    tag "$BACKPACK"
+    inventory.pickupMessage "$BACKPACK"
+    inventory.amount 1
+    inventory.maxAmount 0
+
+    states {
+    Spawn:
+        BPAK A -1
+        stop
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("S7_BackpackToken", 1, "GotOne")
+        TNT1 A 0 A_GiveInventory ("S7_BackpackToken", 1)
+        goto GiveAmmo
+    GotOne:
+        TNT1 A 0 A_DropItem ("S7_BackpackNoAmmo")
+        goto GiveAmmo
+
+    GiveAmmo:
+        TNT1 A 0 A_Jump (256, "Give9mm", "Give45ACP")
+        wait
+    Give9mm:
+        TNT1 A 0 A_JumpIfInventory ("S7_9mmCartridges", 0, "No9mm")
+        TNT1 A 0 A_GiveInventory ("S7_9mmCartridges", 15 * 2)
+        goto GiveAmmoP2
+    No9mm:
+        TNT1 AA 0 A_DropItem ("S7_9mmCartridges")
+        goto GiveAmmoP2
+    Give45ACP:
+        TNT1 A 0 A_JumpIfInventory ("S7_45ACPCartridges", 0, "No45ACP")
+        TNT1 A 0 A_GiveInventory ("S7_45ACPCartridges", 62 * 2)
+        goto GiveAmmoP2
+    No45ACP:
+        TNT1 AA 0 A_DropItem ("S7_45ACPCartridges")
+        goto GiveAmmoP2
+
+    GiveAmmoP2:
+        TNT1 A 0 A_Jump (256, "Give44M", "GiveShells")
+        wait
+    Give44M:
+        TNT1 A 0 A_JumpIfInventory ("S7_44MCartridges", 0, "No44M")
+        TNT1 A 0 A_GiveInventory ("S7_44MCartridges", 6 * 2)
+        goto GiveAmmoP3
+    No44M:
+        TNT1 AA 0 A_DropItem ("S7_44MCartridges")
+        goto GiveAmmoP3
+    GiveShells:
+        TNT1 A 0 A_JumpIfInventory ("S7_20gaShells", 0, "NoShells")
+        TNT1 A 0 A_GiveInventory ("S7_20gaShells", 10 * 2)
+        goto GiveAmmoP3
+    NoShells:
+        TNT1 AA 0 A_DropItem ("S7_20gaShells")
+        goto GiveAmmoP3
+
+    GiveAmmoP3:
+        TNT1 A 0 A_Jump (256, "Give762x39", "GiveCells")
+        wait
+    Give762x39:
+        TNT1 A 0 A_JumpIfInventory ("S7_762x39Cartridges", 0, "No762x39")
+        TNT1 A 0 A_GiveInventory ("S7_762x39Cartridges", 35 * 2)
+        goto EndSuccess
+    No762x39:
+        TNT1 AA 0 A_DropItem ("S7_762x39Cartridges")
+        goto EndSuccess
+    GiveCells:
+        TNT1 A 0 A_JumpIfInventory ("S7_Cells", 0, "NoCells")
+        TNT1 A 0 A_GiveInventory ("S7_Cells", (18 * 2) * 2)
+        goto EndSuccess
+    NoCells:
+        TNT1 AA 0 A_DropItem ("S7_Cells")
+        goto EndSuccess
+
+
+    EndSuccess:
+        TNT1 A 0 A_RailWait
+        stop
+    EndFail:
+        TNT1 A 0 A_RailWait
+        fail
+    }
+}
+
+actor S7_BackpackNoAmmo : S7_Backpack 31007 {
+    tag "$EMPTBACKPACK"
+    inventory.pickupMessage "$EMPTBACKPACK"
+    inventory.amount 1
+    inventory.maxAmount 0
+
+    +inventory.alwaysPickup
+
+    states {
+    Spawn:
+        BPAK A -1
+        stop
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("S7_BackpackToken", 1, "EndFail")
+        TNT1 A 0 A_GiveInventory ("S7_BackpackToken", 1)
+        goto EndSuccess
+    }
+}
+
 actor S7_9mmCartridges : ammo 31000 {
     tag "$9MM"
     inventory.pickupMessage "$9MM"
     inventory.amount 15
     inventory.maxAmount 90
-    ammo.backpackMaxAmount 120
+    // ammo.backpackMaxAmount 120
     inventory.icon "CLIPA0"
     inventory.pickupSound "misc/ammopickup"
 
     states {
     Spawn:
         CLIP A -1
+        stop
+    }
+}
+
+actor S7_45ACPCartridges : ammo 31005 {
+    tag "$45ACP"
+    inventory.pickupMessage "$45ACP"
+    inventory.amount 62
+    inventory.maxAmount 372
+    // ammo.backpackMaxAmount 496
+    inventory.icon "CLIPA0"
+    inventory.pickupSound "misc/ammopickup"
+
+    states {
+    Spawn:
+        CLIP C -1
         stop
     }
 }
@@ -19,12 +138,12 @@ actor S7_44MCartridges : ammo 31001 {
     inventory.pickupMessage "$44M"
     inventory.amount 6
     inventory.maxAmount 36
-    ammo.backpackMaxAmount 48
+    // ammo.backpackMaxAmount 48
     inventory.icon "CLIPA0"
     inventory.pickupSound "misc/ammopickup"
     states {
     Spawn:
-        CLIP A -1
+        44MP A -1
         stop
     }
 }
@@ -34,13 +153,13 @@ actor S7_762x39Cartridges : ammo 31002 {
     inventory.pickupMessage "$762X39"
     inventory.amount 35
     inventory.maxAmount 210
-    ammo.backpackMaxAmount 280
+    // ammo.backpackMaxAmount 280
     inventory.icon "CLIPA0"
     inventory.pickupSound "misc/ammopickup"
 
     states {
     Spawn:
-        CLIP A -1
+        CLIP E -1
         stop
     }
 }
@@ -50,7 +169,7 @@ actor S7_20gaShells : ammo 31003 {
     inventory.pickupMessage "$20GA"
     inventory.amount 10
     inventory.maxAmount 60
-    ammo.backpackMaxAmount 80
+    // ammo.backpackMaxAmount 80
     inventory.icon "SHELA0"
     inventory.pickupSound "misc/ammopickup"
 
@@ -66,7 +185,7 @@ actor S7_Cells : ammo 31004 {
     inventory.pickupMessage "$CELLS"
     inventory.amount 18
     inventory.maxAmount 216
-    ammo.backpackMaxAmount 288
+    // ammo.backpackMaxAmount 288
     inventory.icon "CELLA0"
     inventory.pickupSound "misc/ammopickup"
     
@@ -77,29 +196,12 @@ actor S7_Cells : ammo 31004 {
     }
 }
 
-actor S7_45ACPCartridges : ammo 31005 {
-    tag "$45ACP"
-    inventory.pickupMessage "$45ACP"
-    inventory.amount 62
-    inventory.maxAmount 372
-    ammo.backpackMaxAmount 496
-    inventory.icon "CLIPA0"
-    inventory.pickupSound "misc/ammopickup"
-
-    states {
-    Spawn:
-        CLIP A -1
-        stop
-    }
-}
-
-
 // Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-actor S7_Thumper_PExp     : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PFrag    : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PTherm   : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PFlare   : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PCluster : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PNail    : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PNGas    : counter { inventory.maxAmount 40 +ignoreSkill }
-actor S7_Thumper_PUnified : counter { inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PExp     : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PFrag    : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PTherm   : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PFlare   : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PCluster : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PNail    : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PNGas    : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }
+actor S7_Thumper_PUnified : ammo { inventory.amount 0 inventory.maxAmount 40 +ignoreSkill }

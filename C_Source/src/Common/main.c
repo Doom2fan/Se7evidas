@@ -51,7 +51,7 @@ Script_C void S7_ServersideEnter ENTER () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -59,8 +59,9 @@ Script_C void S7_ServersideEnter ENTER () {
         InitializePlayer (player);
 
     while (TRUE) { // Loop forever
-        UpdatePlayerData (player); // Update the player's data 
-        if (player->health > 0) {
+        UpdatePlayerData (player); // Update the player's data
+        UpdateAmmoMax (player);
+        if (player->health.health > 0) {
             StaminaRegenerationPart1 (player);
             MultiJumpScript (player);
             DodgeScriptP1 (player);
@@ -74,7 +75,7 @@ Script_C void S7_ServersideEnter ENTER () {
 
         Delay (1); // Wait for a tic
 
-        if (player->health > 0) {
+        if (player->health.health > 0) {
             StaminaRegenerationPart2 (player);
             DodgeScriptP2 (player);
         }
@@ -90,7 +91,7 @@ Script_C void S7_ClientsideEnter ENTER () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -108,14 +109,14 @@ Script_C void S7_ClientsideEnter ENTER () {
 
 void ResetStuff (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
         return;
     }
     
-    player->waterlevel = 0;
-    player->dying = FALSE;
-    player->staminaEmpty = FALSE;
-    player->staminaTics = 0;
+    player->misc.waterlevel = 0;
+    player->misc.dying = FALSE;
+    player->scriptData.staminaEmpty = FALSE;
+    player->scriptData.staminaTics = 0;
     player->parkourDef.dodgeCooldown = 0;
     player->parkourDef.mjumpCount = 0;
 }
@@ -128,7 +129,7 @@ Script_C void S7_ServersideRespawn RESPAWN () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\\cgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     
@@ -144,7 +145,7 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     
     Log ("%d", num);
     if (!player) {
-        Log ("\\cgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
+        Log ("\CgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
         return;
     }
 

@@ -17,34 +17,14 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef THUMPER_H
-#define THUMPER_H
+#ifndef SAVE_H
+#define SAVE_H
 
 #include <ACS_ZDoom.h>
 
 // Prototypes
-int  Thumper_GetUnifiedPool    ();
-int  Thumper_GetUnifiedPoolMax ();
-void Thumper_GiveShell (int typeI, int amount);
-void Thumper_TakeShell (int typeI, int amount);
-void Thumper_Script           (PlayerData_t *player);
-void Thumper_ScriptClientside (PlayerData_t *player);
-
-// Variables/Stuff
-#define TH_POOLNAMES_MAX 7
-string Thumper_PoolNames [] = {
-    s"____Error____-Report-this",
-    s"S7_Thumper_PExp",
-    s"S7_Thumper_PFrag",
-    s"S7_Thumper_PTherm",
-    s"S7_Thumper_PFlare",
-    s"S7_Thumper_PCluster",
-    s"S7_Thumper_PNail",
-    s"S7_Thumper_PNGas",
-    s"____Error____-Report-this",
-    s"____Error____-Report-this",
-    s"____Error____-Report-this",
-    s"____Error____-Report-this",
-};
+bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
+SavedData_t LoadSaveData          (int playerNum);
+void        SaveSaveData          (int playerNum, SavedData_t *data);
 
 #endif

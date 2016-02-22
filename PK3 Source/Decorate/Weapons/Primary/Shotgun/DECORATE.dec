@@ -26,7 +26,7 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
     weapon.ammoType1 "S7_ShotgunMag"
     weapon.ammoType2 "S7_20gaShells"
     weapon.ammoUse 0
-    weapon.ammoGive 12
+    weapon.ammoGive 0
 
     states {
     Spawn:

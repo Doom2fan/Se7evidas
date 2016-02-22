@@ -27,20 +27,20 @@ void StaminaRegenerationPart1 (PlayerData_t *player) {
     if (!player)
         return;
     
-    if (!(player->dying) && player->staminaTics >= 1 && !CheckWeapon (SPRINTWEAPON)) {
-        player->staminaTics = 0;
+    if (!(player->misc.dying) && player->scriptData.staminaTics >= 1 && !CheckWeapon (SPRINTWEAPON)) {
+        player->scriptData.staminaTics = 0;
         GiveInventory (STAMINATOKEN, 1);
-        player->stamina = CheckInventory (STAMINATOKEN);
-    } else if ((player->dying) && player->staminaTics >= 3 && !CheckWeapon (SPRINTWEAPON)) {
-        player->staminaTics = 0;
+        player->health.stamina = CheckInventory (STAMINATOKEN);
+    } else if ((player->misc.dying) && player->scriptData.staminaTics >= 3 && !CheckWeapon (SPRINTWEAPON)) {
+        player->scriptData.staminaTics = 0;
         GiveInventory (STAMINATOKEN, 1);
-        player->stamina = CheckInventory (STAMINATOKEN);
+        player->health.stamina = CheckInventory (STAMINATOKEN);
     }
-    if (player->staminaTics > 0 && player->stamina == MAXSTAMINA || player->staminaTics > 0 && CheckWeapon (SPRINTWEAPON)) {
-        player->staminaTics = 0;
+    if (player->scriptData.staminaTics > 0 && player->health.stamina == MAXSTAMINA || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON)) {
+        player->scriptData.staminaTics = 0;
     }
-    if (player->staminaEmpty == TRUE && player->stamina >= 50) {
-        player->staminaEmpty = FALSE;
+    if (player->scriptData.staminaEmpty == TRUE && player->health.stamina >= 50) {
+        player->scriptData.staminaEmpty = FALSE;
     }
 }
 
@@ -48,9 +48,9 @@ void StaminaRegenerationPart2 (PlayerData_t *player) {
     if (!player)
         return;
     
-    if (player->stamina != MAXSTAMINA) {
+    if (player->health.stamina != MAXSTAMINA) {
         if (!CheckWeapon (SPRINTWEAPON)) {
-            player->staminaTics++;
+            player->scriptData.staminaTics++;
         }
     }
 }

@@ -1,0 +1,34 @@
+server noArchive bool S7_NoSaveLoading  = FALSE;
+
+user bool S7_LoadSaveDataOnNewGame      = TRUE;
+
+// Save data
+user string S7_SaveData_Info            = "";
+user string S7_SaveData_RPGSystem       = "";
+user string S7_SaveData_ScriptData      = "";
+user string S7_SaveData_ThumperDef      = "";
+user string S7_SaveData_Inv1            = "";
+user string S7_SaveData_Inv2            = "";
+user string S7_SaveData_Inv3            = "";
+user string S7_SaveData_Inv4            = "";
+user string S7_SaveData_Inv5            = "";
+user string S7_SaveData_Inv6            = "";
+user string S7_SaveData_Inv7            = "";
+user string S7_SaveData_Inv8            = "";
+user string S7_SaveData_Inv9            = "";
+user string S7_SaveData_Inv10           = "";
+user string S7_SaveData_Inv11           = "";
+user string S7_SaveData_Inv12           = "";
+user string S7_SaveData_Inv13           = "";
+user string S7_SaveData_Inv14           = "";
+user string S7_SaveData_Inv15           = "";
+user string S7_SaveData_Inv16           = "";
+user string S7_SaveData_Inv17           = "";
+user string S7_SaveData_Inv18           = "";
+user string S7_SaveData_Inv19           = "";
+user string S7_SaveData_Inv20           = "";
+user string S7_SaveData_Inv21           = "";
+user string S7_SaveData_Inv22           = "";
+user string S7_SaveData_Inv23           = "";
+user string S7_SaveData_Inv24           = "";
+user string S7_SaveData_Inv25           = "";

@@ -22,40 +22,46 @@
 #undef PLAYER_C
 #include "player.h"
 
+// Forward declarations
+void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
+Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData);
+
+// Arrays
 PlayerData_t PlayerData [MAX_PLAYERS];
 
+// Functions
 void UpdatePlayerData (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
         return;
     }
     
     // Position and velocity
-    player->x = GetActorX (0); player->y = GetActorY (0); player->z = GetActorZ (0); // Get the XYZ coordinates
-    player->velX = GetActorVelX (0); player->velY = GetActorVelY (0); player->velZ = GetActorVelZ (0); // Get the XYZ velocities
-    player->angle = GetActorAngle (0); // Get the player's angle
-    player->velAngle = VectorAngle (player->velX, player->velZ); // Get the player's movement angle
-    player->floorZ = GetActorFloorZ (0); player->ceilZ = GetActorCeilingZ (0); // Sector Z coordinates
-    player->relativeZ = player->z - player->floorZ; // Z coordinate relative to sector floor
-    player->jumpZ = GetActorPropertyFixed (0, APROP_JumpZ); // Jump height/velocity?
+    player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0); // Get the XYZ coordinates
+    player->physics.velX = GetActorVelX (0); player->physics.velY = GetActorVelY (0); player->physics.velZ = GetActorVelZ (0); // Get the XYZ velocities
+    player->physics.angle = GetActorAngle (0); // Get the player's angle
+    player->physics.velAngle = VectorAngle (player->physics.velX, player->physics.velZ); // Get the player's movement angle
+    player->physics.floorZ = GetActorFloorZ (0); player->physics.ceilZ = GetActorCeilingZ (0); // Sector Z coordinates
+    player->physics.relativeZ = player->physics.z - player->physics.floorZ; // Z coordinate relative to sector floor
+    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ); // Jump height/velocity?
 
     // Health and stamina
-    player->health = GetActorProperty (0, APROP_Health); // Get the health
-    player->maxHealth = GetActorProperty (0, APROP_SpawnHealth); // Get the max health
-    player->stamina = CheckInventory (STAMINATOKEN); // Get the stamina
+    player->health.health = GetActorProperty (0, APROP_Health); // Get the health
+    player->health.maxHealth = GetActorProperty (0, APROP_SpawnHealth); // Get the max health
+    player->health.stamina = CheckInventory (STAMINATOKEN); // Get the stamina
 
     // Shop system stuff
     player->cash = CheckInventory (CASHTOKEN);
 
     // XP system stuff
-    player->level = CheckInventory (XPS_LEVELTOKEN); // Get the current level
-    player->experience = CheckInventory (XPS_EXPTOKEN); // Get the experience
-    player->attrPoints = CheckInventory (XPS_ATTRPOINTSTOKEN); // Get the attribute points
-    player->strengthLVL = CheckInventory (XPS_STRENGTHTOKEN); // Get the strength level
-    player->staminaLVL = CheckInventory (XPS_STAMINATOKEN); // Get the stamina level
+    player->xpSystem.level = CheckInventory (XPS_LEVELTOKEN); // Get the current level
+    player->xpSystem.experience = CheckInventory (XPS_EXPTOKEN); // Get the experience
+    player->xpSystem.attrPoints = CheckInventory (XPS_ATTRPOINTSTOKEN); // Get the attribute points
+    player->xpSystem.strengthLVL = CheckInventory (XPS_STRENGTHTOKEN); // Get the strength level
+    player->xpSystem.staminaLVL = CheckInventory (XPS_STAMINATOKEN); // Get the stamina level
 
     // Misc
-    player->waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
+    player->misc.waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
 
     // Script data
     player->parkourDef.mjumpMax = CheckInventory (MJUMP_MAXTOKEN);
@@ -64,9 +70,22 @@ void UpdatePlayerData (PlayerData_t *player) {
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
 }
 
+void UpdateAmmoMax (PlayerData_t *player) {
+    player->ammoMax = BASEAMMOMAX;
+
+    if (CheckInventory (s"S7_BackpackToken"))
+        player->ammoMax += 2;
+
+    for (int i = 0; i < ArraySize (PD_AmmoTypes); i++) {
+        int maxAmount = PD_AmmoTypes [i].magSize * player->ammoMax;
+        if (GetAmmoCapacity (PD_AmmoTypes [i].name) != maxAmount)
+            SetAmmoCapacity (PD_AmmoTypes [i].name, maxAmount);
+    }
+}
+
 void TakeCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\\cgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -76,7 +95,7 @@ void TakeCash (PlayerData_t *player, int amount) {
 
 void GiveCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\\cgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
     
@@ -86,53 +105,116 @@ void GiveCash (PlayerData_t *player, int amount) {
 
 void InitializePlayer (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     player->thumperDef.magIndex = -1;
+    player->ammoMax = 6;
+
+    SavedData_t saveData = {
+        .isInvalid = TRUE,
+    };
+    
+    if (!(ServerData.noSaveLoading) && GetUserCVar (PLN, s"S7_LoadSaveDataOnNewGame")) {
+        saveData = LoadSaveData (PLN);
+        if (!(saveData.isInvalid)) {
+            PD_DoLoadSave (player, &saveData);
+            UpdateAmmoMax (player);
+        }
+    }
+
+    RunIntro (player, &saveData);
     player->initialized = TRUE;
+}
+
+void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
+    if (!player) {
+        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
+        return;
+    } else if (!saveData || saveData->isInvalid) {
+        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
+        return;
+    }
+
+    // RPG Systems
+    SetInventory (XPS_LEVELTOKEN,      saveData->xpSystem.level);
+    SetInventory (XPS_EXPTOKEN,        saveData->xpSystem.experience);
+    SetInventory (XPS_ATTRPOINTSTOKEN, saveData->xpSystem.attrPoints);
+    SetInventory (XPS_STRENGTHTOKEN,   saveData->xpSystem.strengthLVL);
+    SetInventory (XPS_STAMINATOKEN,    saveData->xpSystem.staminaLVL);
+    SetInventory (CASHTOKEN,           saveData->cash);
+    player->ammoMax = saveData->ammoMax;
+
+    // Script Data
+    player->scriptData = saveData->scriptData;
+    player->thumperDef = saveData->thumperDef;
+}
+
+Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
+    string name = s"";
+    int gender = 0;
+
+    if (saveData->isInvalid) {
+        name = StrParam ("%tS", PLN);
+        gender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
+    } else {
+        name = saveData->name;
+        gender = saveData->gender;
+    }
+
+    player->shopDef.disableOpen = TRUE;
+    SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
+    FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 1.0k, TicsToSecs (9));
+    Delay (10);
+    FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
+
+    if (!GetUserCVar (PLN, s"S7_NoIntro"))
+        goto FinishIntro;
+
+    FinishIntro:
+        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
 
 void DisconnectPlayer (PlayerData_t *player) {
     if (!player) {
-        Log ("\\cgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
     
     player->initialized = FALSE;
     // Position, velocity, etc
-    player->x = 0.0k; player->y = 0.0k; player->z = 0.0k;
-    player->velX = 0.0k; player->velY = 0.0k; player->velZ = 0.0k;
-    player->angle = 0.0k;
-    player->velAngle = 0.0k;
-    player->floorZ = 0.0k; player->ceilZ = 0.0k;
-    player->relativeZ = 0.0k;
-    player->jumpZ = 0.0k;
+    player->physics.x = 0.0k; player->physics.y = 0.0k; player->physics.z = 0.0k;
+    player->physics.velX = 0.0k; player->physics.velY = 0.0k; player->physics.velZ = 0.0k;
+    player->physics.angle = 0.0k;
+    player->physics.velAngle = 0.0k;
+    player->physics.floorZ = 0.0k; player->physics.ceilZ = 0.0k;
+    player->physics.relativeZ = 0.0k;
+    player->physics.jumpZ = 0.0k;
 
     // Health and stamina
-    player->health = 0;
-    player->maxHealth = 0;
-    player->stamina = 0;
+    player->health.health = 0;
+    player->health.maxHealth = 0;
+    player->health.stamina = 0;
 
     // XP system stuff
-    player->level = 0;
-    player->experience = 0;
-    player->attrPoints = 0;
-    player->strengthLVL = 0;
-    player->staminaLVL = 0;
+    player->xpSystem.level = 0;
+    player->xpSystem.experience = 0;
+    player->xpSystem.attrPoints = 0;
+    player->xpSystem.strengthLVL = 0;
+    player->xpSystem.staminaLVL = 0;
     
     // Misc
-    player->waterlevel = 0;
-    player->dying = FALSE;
+    player->misc.waterlevel = 0;
+    player->misc.dying = FALSE;
 
     // Script data
-    player->lastWeapon = 0;
+    player->scriptData.lastWeapon = 0;
     // Sprint system stuff
     player->SprintDef.OldSpeed = 1.0k;
     player->SprintDef.Sprinting = FALSE;
-    player->staminaEmpty = FALSE;
-    player->staminaTics = 0;
+    player->scriptData.staminaEmpty = FALSE;
+    player->scriptData.staminaTics = 0;
     // Parkour system stuff
     player->parkourDef.dodgeCooldown = 0;
     player->parkourDef.mjumpOnGround = TRUE;
@@ -142,7 +224,7 @@ void DisconnectPlayer (PlayerData_t *player) {
     for (int i = 0; i < ArraySize (player->thumperDef.magShells); i++)
         player->thumperDef.magShells [i] = 0;
     player->thumperDef.currentShell = 0;
-    player->thumperDef.magIndex = 0;
+    player->thumperDef.magIndex = -1;
     // Shop system stuff
     player->shopDef.open = FALSE;
     player->shopDef.disableOpen = FALSE;

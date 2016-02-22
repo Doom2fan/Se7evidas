@@ -22,6 +22,22 @@
 
 #include <ACS_ZDoom.h>
 
+// Macros
+#define TicsToSecs(tics) (TICUNITA * tics)
+
+#define SetInventoryForced(name, amount) \
+( \
+ TakeInventory (name, 0x7FFFFFFF), \
+ GiveInventory (name, amount) \
+)
+
+#define FormatStr(strIn, format, ...) \
+( \
+ vsprintf ((char *) strIn, (char const *) format, __VA_ARGS__) \
+)
+
+#define ArraySize(array) sizeof (array) / sizeof (*array)
+
 // Prototypes
 int KeyUp      (int key);
 int KeyDown    (int key);
@@ -36,5 +52,8 @@ accum ClampAccum (accum x, accum min, accum max);
 int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
 bool SetInventory (string name, int amount);
+accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
+                 accum actor2X, accum actor2Y, accum actor2Z);
+int StrToInt (string source);
 
 #endif

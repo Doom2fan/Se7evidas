@@ -26,4 +26,7 @@ void UpdateServerData () {
     // Parkour stuff
     ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
     ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
+
+    // Save system stuff
+    ServerData.noSaveLoading = GetCVar      (s"S7_NoSaveLoading");
 }
