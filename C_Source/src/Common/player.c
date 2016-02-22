@@ -172,8 +172,9 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
     if (!GetUserCVar (PLN, s"S7_NoIntro"))
         goto FinishIntro;
 
-    FinishIntro:
-        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
+FinishIntro:
+    player->shopDef.disableOpen = FALSE;
+    SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
 
 void DisconnectPlayer (PlayerData_t *player) {
