@@ -31,28 +31,6 @@ listMenu "MainMenu" {
 //
 //-------------------------------------------------------------------------------------------
 
-optionMenu "S7Settings" {
-    title "SE7EVIDAS"
-    staticText "Client/User Options"
-    staticText " "
-    staticText " "
-    staticText "Visual Options"
-    option "Mod messages on",                                                                       "S7_MsgsOn",                "OnOff"
-    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",          "OnOff"
-    staticText " "
-    staticText "Gameplay Options"
-    option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
-    option "No intro on new game",                                                                  "S7_NoIntro",               "OnOff"
-    option "No intro on new game (Multiplayer only)",                                               "S7_NoIntroOnMP",           "OnOff"
-    staticText " "
-    staticText "Audio Options"
-    option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
-    staticText " "
-    staticText "Toaster Options"
-    option "Effects stay time",                                                                     "S7_EffectStayTime",        "EffectsStayTimeOptions"
-    option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",       "EffectsFadeSpeedOptions"
-}
-
 optionValue EffectsStayTimeOptions {
     0, "Normal (5000 tics)"
     1, "Shorter (2500 tics)"
@@ -71,6 +49,43 @@ optionValue EffectsFadeSpeedOptions {
     4, "The Flash (.15 each tic)"
     5, "In the time it takes for your computer to process a tic, this would already be gone in a normal computer (.18 each tic)"
     6, "Stop trying to run this on a 386. (Instant)"
+}
+
+optionMenu "S7Settings" {
+    title "SE7EVIDAS"
+
+    subMenu "Server Options",       "S7Settings_Server"
+    subMenu "Client Options",       "S7Settings_User"
+}
+
+optionMenu "S7Settings_Server" {
+    title "Server Options"
+
+    staticText "Gameplay Options", 1
+    option "Force intro",                                                                           "S7_ForceIntro",            "OnOff"
+    slider "Dodge cooldown (In tics)",                                                              "S7_DodgeCooldown", 0, 525, 1
+    slider "Multijump Z speed multiplier",                                                          "S7_MultiJumpZMul", 0.5, 2.5, 0.1
+    staticText " "
+}
+
+optionMenu "S7Settings_User" {
+    title "Client Options"
+
+    staticText "Visual Options", 1
+    option "Mod messages on",                                                                       "S7_MsgsOn",                "OnOff"
+    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",          "OnOff"
+    staticText " "
+    staticText "Gameplay Options", 1
+    option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
+    option "No newgame intro",                                                                      "S7_NoIntro",               "OnOff"
+    option "No newgame intro (MP only)",                                                            "S7_NoIntroOnMP",           "OnOff"
+    staticText " "
+    staticText "Audio Options", 1
+    option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
+    staticText " "
+    staticText "Toaster Options", 1
+    option "Effects stay time",                                                                     "S7_EffectStayTime",        "EffectsStayTimeOptions"
+    option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",       "EffectsFadeSpeedOptions"
 }
 
 //-------------------------------------------------------------------------------------------

@@ -33,19 +33,34 @@ listMenu "MainMenu" {
 
 optionMenu "S7Settings" {
     title "SE7EVIDAS"
-    staticText "Client/User Options"
+
+    subMenu "Arbitrator Options",   "S7Settings_Server"
+    subMenu "User Options",         "S7Settings_User"
+}
+
+optionMenu "S7Settings_Server" {
+    title "Arbitrator Options"
+
+    staticText "Gameplay Options", 1
+    option "Force intro",                                                                           "S7_ForceIntro",            "OnOff"
+    slider "Dodge cooldown (In tics)",                                                              "S7_DodgeCooldown", 0, 525, 1
+    slider "Multijump Z speed multiplier",                                                          "S7_MultiJumpZMul", 0.5, 2.5, 0.1
     staticText " "
-    staticText " "
-    staticText "Visual Options"
+}
+
+optionMenu "S7Settings_User" {
+    title "User Options"
+
+    staticText "Visual Options", 1
     option "Mod messages on",                                                                       "S7_MsgsOn",                "OnOff"
     option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",          "OnOff"
     staticText " "
-    staticText "Gameplay Options"
+    staticText "Gameplay Options", 1
     option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
-    option "No intro on new game",                                                                  "S7_NoIntro",               "OnOff"
-    option "No intro on new game (Multiplayer only)",                                               "S7_NoIntroOnMP",           "OnOff"
+    option "No newgame intro",                                                                      "S7_NoIntro",               "OnOff"
+    option "No newgame intro (MP only)",                                                            "S7_NoIntroOnMP",           "OnOff"
     staticText " "
-    staticText "Audio Options"
+    staticText "Audio Options", 1
     option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
 }
 
@@ -57,6 +72,7 @@ optionMenu "S7Settings" {
 
 optionMenu "CustomizeControls" {
     title       "CUSTOMIZE CONTROLS"
+
     scrollTop   2
     staticTextSwitchable    "ENTER to change, BACKSPACE to clear", "Press new key for control, ESC to cancel", "ControlMessage"
 
