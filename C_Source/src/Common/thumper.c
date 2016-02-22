@@ -133,7 +133,7 @@ Script_C bool S7_ThumperCyclePools () {
 
     int nextPool = ThumperCyclePools_DoCycle (currentPool);
 
-    if (nextPool < 1 || currentPool == nextPool - 1)
+    if (nextPool < 1 || currentPool == nextPool)
         return FALSE;
     else {
         SetInventory (SELPOOLTOKEN, nextPool - 1);
