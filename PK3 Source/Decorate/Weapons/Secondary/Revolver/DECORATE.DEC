@@ -11,7 +11,7 @@ actor S7_Revolver : S7_BaseWeapon {
     weapon.ammoType1 "S7_RevolverClip"
     weapon.ammoType2 "S7_44MCartridges"
     weapon.ammoUse 1
-    weapon.ammoGive 6
+    weapon.ammoGive 0
 
     states {
     Spawn:
