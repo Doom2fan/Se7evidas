@@ -166,11 +166,16 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
     player->shopDef.disableOpen = TRUE;
     SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 1.0k, TicsToSecs (9));
-    Delay (10);
+    Delay (17);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
 
-    if (!GetUserCVar (PLN, s"S7_NoIntro") || (!GetUserCVar (PLN, s"S7_NoIntroOnMP") && GameType () != GAME_SINGLE_PLAYER))
-        goto FinishIntro;
+    if (!GetUserCVar (PLN, s"S7_NoIntro") ||
+        (!GetUserCVar (PLN, s"S7_NoIntroOnMP") && GameType () != GAME_SINGLE_PLAYER)) {
+        if (!GetCVar (s"S7_ForceIntro"))
+            goto FinishIntro;
+    }
+
+    
 
 FinishIntro:
     player->shopDef.disableOpen = FALSE;
