@@ -33,7 +33,7 @@ listMenu "MainMenu" {
 
 optionMenu "S7Settings" {
     title "SE7EVIDAS"
-    staticText "Clientside Options"
+    staticText "Client/User Options"
     staticText " "
     staticText " "
     staticText "Visual Options"
@@ -42,6 +42,8 @@ optionMenu "S7Settings" {
     staticText " "
     staticText "Gameplay Options"
     option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
+    option "No intro on new game",                                                                  "S7_NoIntro",               "OnOff"
+    option "No intro on new game (Multiplayer only)",                                               "S7_NoIntroOnMP",           "OnOff"
     staticText " "
     staticText "Audio Options"
     option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
