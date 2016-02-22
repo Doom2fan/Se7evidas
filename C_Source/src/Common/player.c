@@ -121,6 +121,7 @@ void InitializePlayer (PlayerData_t *player) {
         if (!(saveData.isInvalid)) {
             PD_DoLoadSave (player, &saveData);
             UpdateAmmoMax (player);
+            PrintBold ("Test");
         }
     }
 
@@ -151,33 +152,60 @@ void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     player->thumperDef = saveData->thumperDef;
 }
 
+#define BASEINTROID 12000
+#define RIntPrintText(id, x, y, color, duration, ...) \
+( \
+ SetFont (s"FSHUDFONT"), \
+ HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, duration, 0.0, 0.0, 0.0, __VA_ARGS__) \
+)
 Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
-    string name = s"";
-    int gender = 0;
+    string  curName = StrParam ("%tS", PLN);
+    int     curGender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
+    string  savedName = s"";
+    int     savedGender = 0;
+    int     id = BASEINTROID;
+    int     xMul = 0;
 
     if (saveData->isInvalid) {
-        name = StrParam ("%tS", PLN);
-        gender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
+        savedName = StrParam ("%tS", PLN);
+        savedGender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
     } else {
-        name = saveData->name;
-        gender = saveData->gender;
+        savedName = saveData->name;
+        savedGender = saveData->gender;
     }
 
     player->shopDef.disableOpen = TRUE;
     SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 1.0k, TicsToSecs (9));
     Delay (17);
-    FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
 
-    if (!GetUserCVar (PLN, s"S7_NoIntro") ||
-        (!GetUserCVar (PLN, s"S7_NoIntroOnMP") && GameType () != GAME_SINGLE_PLAYER)) {
+    if (GetUserCVar (PLN, s"S7_NoIntro") ||
+        (GetUserCVar (PLN, s"S7_NoIntroOnMP") && GameType () != GAME_SINGLE_PLAYER)) {
         if (!GetCVar (s"S7_ForceIntro"))
             goto FinishIntro;
     }
 
-    
+    SetHudSize (320, 200, 0);
 
+    ActivatorSound (s"Comp/Access", 127);
+    Delay (8);
+    string nameMsg, genderMsg;
+    if (StrCmp (savedName, curName) != 0) nameMsg = StrParam ("Name: %S, formerly %S.", savedName, curName);
+    else                                  nameMsg = StrParam ("Name: %S.", savedName);
+
+    if (savedGender != curGender) nameMsg = StrParam ("Name: %LS, formerly %LS.", PD_Gender [curGender], PD_Gender [savedGender]);
+    else                          nameMsg = StrParam ("Name: %LS.", PD_Gender [curGender]);
+
+    ActivatorSound (s"Comp/Ok", 127);
+    RIntPrintText (id++, 0.0 + (10.0k * xMul++), 6.0k, CR_GREEN, 0.0k, "%S", nameMsg);
+    Delay (3);
+    ActivatorSound (s"Comp/Ok", 127);
+    RIntPrintText (id++, 0.0 + (10.0k * xMul++), 6.0k, CR_GREEN, 0.0k, "%S", genderMsg);
+    Delay (3);
+
+    SetHudSize (0, 0, 0);
 FinishIntro:
+    FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
     player->shopDef.disableOpen = FALSE;
     SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
