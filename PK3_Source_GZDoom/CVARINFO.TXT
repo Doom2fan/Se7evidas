@@ -1,12 +1,13 @@
-server noArchive bool S7_NoSaveLoading  = FALSE;
-
-user bool S7_LoadSaveDataOnNewGame      = TRUE;
-
 // Save data
 user string S7_SaveData_Info            = "";
 user string S7_SaveData_RPGSystem       = "";
 user string S7_SaveData_ScriptData      = "";
 user string S7_SaveData_ThumperDef      = "";
+user string S7_SaveData_ImportantInv1   = "";
+user string S7_SaveData_ImportantInv2   = "";
+user string S7_SaveData_ImportantInv3   = "";
+user string S7_SaveData_ImportantInv4   = "";
+user string S7_SaveData_ImportantInv5   = "";
 user string S7_SaveData_Inv1            = "";
 user string S7_SaveData_Inv2            = "";
 user string S7_SaveData_Inv3            = "";

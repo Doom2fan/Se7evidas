@@ -1,12 +1,16 @@
 // Server CVars
-server int   S7_DodgeCooldown       = 35;
-server float S7_MultiJumpZMul       = 1.0;
-server bool  S7_ForceIntro          = FALSE;
+server int   S7_DodgeCooldown           = 35;
+server float S7_MultiJumpZMul           = 1.0;
+server bool  S7_ForceIntro              = FALSE;
+server noArchive bool S7_NoSaveLoading  = FALSE;
 
 // User CVars
-user bool S7_MsgsOn                 = TRUE;
-user bool S7_LogLVLUpMsgs           = TRUE;
-user bool S7_AutoReloading          = TRUE;
-user bool S7_HeartbeatsOn           = TRUE;
-user bool S7_NoIntro                = FALSE;
-user bool S7_NoIntroOnMP            = FALSE;
+user bool S7_MsgsOn                     = TRUE;
+user bool S7_LogLVLUpMsgs               = TRUE;
+user bool S7_AutoReloading              = TRUE;
+user bool S7_HeartbeatsOn               = TRUE;
+user bool S7_NoIntro                    = FALSE;
+user bool S7_NoIntroOnMP                = FALSE;
+user bool S7_LoadSaveDataOnNewGame      = TRUE;
+
+user string S7_TestData                 = "";
