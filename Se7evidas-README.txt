@@ -1,13 +1,14 @@
-==============================================================================
+==================================================================================
 Advanced engine needed  : GZDoom 2.x+ or Zandronum 3.x+
-==============================================================================
+==================================================================================
 Name                    : Se7evidas
-Main author             : Chronos "phantombeta" Ouroboros
+Publisher               : Dark Realm
+Creator                 : Chronos "phantombeta" Ouroboros
 Email Address           : doom2.fan@gmail.com
 Misc. Author Info       : Likes herms/futas and dickgirls
 
 Description             : <insert description here>
-==============================================================================
+==================================================================================
 * What is included *
 
 GDCC-CC usage
@@ -19,7 +20,8 @@ Recoil
 Reloading
 Alt-fires
 Quick meleeing
-Shop system
+Shop system (currently GZDoom only)
+Save system (currently GZDoom only)
 AWESUM SPECIAL EFFECTZORZ
 Empress butts
 Empress tits
@@ -28,8 +30,9 @@ Empress titty milk
 
 * Play Information *
 
-Game                    : Doom
-Map #                   : 1
+Game                    : Doom (Ultimate, II, Plutonia, TNT, etc.), maybe Heretic
+                          too someday
+Map #                   : None (Addon maps might be released someday)
 Single Player           : Designed for
 Cooperative 2-4 Player  : Designed for?
 Deathmatch 2-4 Player   : Maybe, probably not
@@ -39,7 +42,33 @@ Difficulty Settings     : Yes, kinda
 
 * Construction *
 
-Build Time              : MAX_INT
-Editor(s) used          : Notepad, Notepad++, SLADE, Sublime Text 2, SmartGit
-                          Photoshop CS6, GIMP, Code::Blocks, Visual Studio
-                          7-Zip, GDCC, lots of other editors
+Build Time              : UINT64_MAX
+==================================================================================
+Programs used          : Notepad, Notepad++, SLADE 3, Sublime Text 2, SmartGit,
+                         Photoshop CS6, GIMP, Code::Blocks, Visual Studio, 7-Zip,
+                         GDCC, lots of other editors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Empress titty milk <3
