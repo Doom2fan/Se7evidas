@@ -3,6 +3,7 @@ LD = gdcc-ld
 ML = gdcc-makelib
 COM_FLAGS = --bc-target=ZDoom
 CC_FLAGS = $(COM_FLAGS) -DDEBUG
+LD_LIB_FLAGS = $(COM_FLAGS) -lS7Stuff
 
 SOURCEDIRECTORY = C_Source
 
@@ -77,7 +78,7 @@ $(OBJDIR)/ZDoom.ir: $(ZDoom_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
 
 $(ZDACSDIR)/S7Stuff.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/ZDoom.ir
-	$(LD) $(COM_FLAGS) $^ -o $@
+	$(LD) $(LD_LIB_FLAGS) $^ -o $@
 
 ## Zandronum ##
 Zandronum_INCDIR = $(INCDIR)/Zandronum
@@ -93,4 +94,4 @@ $(OBJDIR)/Zandronum.ir: $(Zandronum_OBJ)
 	$(LD) $(COM_FLAGS) $^ -co $@
 
 $(ZANDROACSDIR)/S7Stuff.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/Common.ir $(OBJDIR)/Zandronum.ir
-	$(LD) $(COM_FLAGS) $^ -o $@
+	$(LD) $(LD_LIB_FLAGS) $^ -o $@
