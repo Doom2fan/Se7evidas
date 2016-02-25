@@ -1,1 +1,0 @@
-Credit everyone for what they did if you use anything from here.
