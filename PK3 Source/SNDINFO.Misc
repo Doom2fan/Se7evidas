@@ -64,8 +64,9 @@ Explosions/Explosion2_3         "sounds/Effects/Explosions/Explode2_3.ogg"
 Bounce/MetalSmall               "sounds/Effects/Misc/BounceMetalSmall.ogg" // From Heretic
 
 // Computers/UIs
-Comp/Access                     "sounds/Effects/Computers/Access.ogg" // From Submachine. Ripped by Chronos "phantombeta" Ouroboros (Ripped from Sub6: The Root)
+Comp/Access                     "sounds/Effects/Computers/Access.ogg" // From Submachine. Ripped by Chronos "phantombeta" Ouroboros (Ripped from Sub 6: The Root)
 Comp/Ok                         "sounds/Effects/Computers/Ok.ogg"     // Ditto
+Comp/Err                        "sounds/Effects/Computers/Error.ogg"  // From Team Fortress 2/Source Filmmaker
 
 // Misc
 $RANDOM Steam/Burst {

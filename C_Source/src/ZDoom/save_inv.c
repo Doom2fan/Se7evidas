@@ -22,125 +22,92 @@
 #include "save.h"
 #include "save_inv.h"
 
-#define INVCVARMAXLEN (MAXCVARSIZ) - 18
-#define INVINFOSIZE (ArraySize (InvInfo))
+void InvUpdAmmoMax (int playerNum) {
+    PlayerData_t *player = &PlayerData [playerNum]; // Get the player's PlayerData_t struct
 
-SaveInv_InvInfo InvInfo [] = {
-    // Ammo
-    { .name = s"S7_9mmCartridges",              },
-    { .name = s"S7_45ACPCartridges",            },
-    { .name = s"S7_44MCartridges",              },
-    { .name = s"S7_762x39Cartridges",           },
-    { .name = s"S7_20gaShells",                 },
-    { .name = s"S7_Cells",                      },
-    { .name = s"S7_Thumper_PExp",               },
-    { .name = s"S7_Thumper_PFrag",              },
-    { .name = s"S7_Thumper_PTherm",             },
-    { .name = s"S7_Thumper_PFlare",             },
-    { .name = s"S7_Thumper_PCluster",           },
-    { .name = s"S7_Thumper_PNail",              },
-    { .name = s"S7_Thumper_PNGas",              },
-    { .name = s"S7_BackpackToken",              },
-    // Weapons and etc weapon info
-    { .name = s"S7_AMG",                        }, // Mars Assault Rifle
-    { .name = s"S7_AMGMag",                     },
-    { .name = s"S7_HitterSMG",                  }, // Hitter SMG
-    { .name = s"S7_HitterSMGClip",              },
-    { .name = s"S7_HitterSMGUpperJammed",       },
-    { .name = s"S7_HitterSMGLowerJammed",       },
-    { .name = s"S7_ManxCarbine",                }, // Manx Carbine
-    { .name = s"S7_ManxCarbineClip",            },
-    { .name = s"S7_PlasmaGun",                  }, // Plasma MG
-    { .name = s"S7_PlasmaGunMag",               },
-    { .name = s"S7_PlasmaGun_Charge",           },
-    { .name = s"S7_PrettyShootyIonCannonGun",   }, // Mjolnir Ion Cannon
-    { .name = s"S7_Shotgun",                    }, // Lucifer Combat Shotgun
-    { .name = s"S7_ShotgunMag",                 },
-    { .name = s"S7_ShotgunLoaded",              },
-    { .name = s"S7_Thumper",                    }, // Thumper 50mm GL
-    { .name = s"S7_ThumperSelectedPool",        },
-    { .name = s"S7_ThumperChambered",           },
-    { .name = s"S7_Raptor",                     }, // Raptor
-    { .name = s"S7_RaptorClip",                 },
-    { .name = s"S7_Revolver",                   }, // Deathbringer
-    { .name = s"S7_RevolverClip",               },
-    { .name = s"S7_TEC9",                       }, // Kronos
-    { .name = s"S7_TEC9Clip",                   },
-    // Health
-    { .name = s"S7_Medikit",                    },
-    { .name = s"S7_Stimpack",                   },
-    // Loot
-    { .name = s"S7_Thumper_Used",               },
-};
+    if (!player) {
+        Log ("\CgFunction InvUpdAmmoMax: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+    
+    UpdatePlayerData (player);
+    UpdateAmmoMax (player);
+}
 
-bool SaveSys_SaveInventory (int playerNum, SavedData_t *data) {
+bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef) {
     string output = s"";
-    for (int i = 0; i < INVINFOSIZE; i++) {
-        output = StrParam ("%S%+.5d%+.10d", output, i, CheckInventory (InvInfo [i].name));
+    for (int i = 0; i < invDef->invArrSize; i++) {
+        PrintBold ("%d", i);
+        output = StrParam ("%S%+.5d%+.10d", output, i, CheckInventory (invDef->invInfoArr [i].name));
     }
 
-    string outputArr [INVCVARCOUNT];
+    string outputArr [255];
+    for (int i = 0; i < 255; i++)
+        outputArr [i] = s"";
 
-    // Add compression to this later
+    // Add compression to this someday maybe
     int index = 1;
-    outputArr [0] = StrMid (output, 0, INVCVARMAXLEN);
-    output = StrMid (output, INVCVARMAXLEN, StrLen (output) + INVCVARMAXLEN);
+    outputArr [0] = StrMid (output, 0, invDef->cvarMaxLen);
+    output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
     while (TRUE) {
-        if (StrLen (output) < INVCVARMAXLEN)
+        if (StrLen (output) < invDef->cvarMaxLen)
             break;
-        if (index >= INVCVARCOUNT)
+        if (index >= invDef->maxCVars)
             return FALSE;
 
-        outputArr [index] = StrMid (output, 0, INVCVARMAXLEN);
-        output = StrMid (output, INVCVARMAXLEN, StrLen (output) + INVCVARMAXLEN);
+        outputArr [index] = StrMid (output, 0, invDef->cvarMaxLen);
+        output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
         index++;
     }
     if (StrLen (output) > 1) {
-        if (index >= INVCVARCOUNT)
+        if (index >= invDef->maxCVars)
             return FALSE;
 
-        outputArr [index] = StrMid (output, 0, INVCVARMAXLEN);
-        output = StrMid (output, INVCVARMAXLEN, StrLen (output) + INVCVARMAXLEN);
+        outputArr [index] = StrMid (output, 0, invDef->cvarMaxLen);
+        output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
         index++;
     }
 
     int i = 0;
-    for (; i < INVCVARCOUNT; i++) {
-        SetUserCVarString (playerNum, StrParam ("%S%d", SD_INV, i + 1), outputArr [i]);
+    for (; i < invDef->maxCVars; i++) {
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, i + 1), outputArr [i]);
     }
-    for (; i < INVCVARCOUNT; i++) {
-        SetUserCVarString (playerNum, StrParam ("%S%d", SD_INV, i + 1), s"");
+    for (; i < invDef->maxCVars; i++) {
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, i + 1), s"");
     }
 
     return TRUE;
 }
 
 #define INV_ENTRY_LEN (6 + 11)
-bool SaveSys_LoadInventory (int playerNum, SavedData_t *data) {
+bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef) {
     string           input = s""; // Define input and initialize it to ""
     SaveInv_InvInfo *prev  = NULL;
     SaveInv_InvInfo *cur   = NULL;
     int             *offset; *offset = 0;
 
-    for (int i = 0; i < INVCVARCOUNT; i++) // Loop through the inventory data CVars
-        input = StrParam ("%S%S", input, GetUserCVarString (playerNum, StrParam ("%S%d", SD_INV, i + 1)));
+    for (int i = 0; i < invDef->maxCVars; i++) // Loop through the inventory data CVars
+        input = StrParam ("%S%S", input, GetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, i + 1)));
 
     int length = StrLen (input);
     int count = length / INV_ENTRY_LEN;
 
-    if (length % INV_ENTRY_LEN > 0)
+    if (length % INV_ENTRY_LEN > 0) {
+        PrintBold ("Mod: %d; Div: %d;", length % INV_ENTRY_LEN, length / INV_ENTRY_LEN);
         return FALSE;
+    }
 
     for (int i = 0; i < count; i++) {
         int type = SaveSys_ReadInt (input, offset, 6);
         int amount = SaveSys_ReadInt (input, offset, 11);
 
-        if (type < 0 || type > INVINFOSIZE)
+        if (type < 0 || type > invDef->invArrSize)
             return FALSE;
 
         SaveInv_InvInfo *inv = malloc (sizeof (SaveInv_InvInfo)); // Define inv pointer and point it to a new memory area
-        inv->name = InvInfo [type].name;
+        inv->name = invDef->invInfoArr [type].name;
         inv->amount = amount;
+        inv->callback = invDef->invInfoArr [type].callback;
         inv->next = prev;
         prev = inv;
     }
@@ -151,6 +118,8 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data) {
             break;
 
         SetInventory (cur->name, cur->amount);
+        if (cur->callback)
+            cur->callback (playerNum);
         // Update prev and cur
         prev = cur;
         cur = cur->next;

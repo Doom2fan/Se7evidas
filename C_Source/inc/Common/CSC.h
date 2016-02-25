@@ -23,7 +23,7 @@
 #include <ACS_ZDoom.h>
 
 // Prototypes
-string CSC_CompressString (string data);
-string CSC_DecompressFILE (FILE *file);
+string CSC_CompressString   (string data);
+string CSC_DecompressString (string data);
 
 #endif

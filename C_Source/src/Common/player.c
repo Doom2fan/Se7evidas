@@ -23,7 +23,7 @@
 #include "player.h"
 
 // Forward declarations
-void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
+bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
 Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData);
 
 // Arrays
@@ -64,6 +64,7 @@ void UpdatePlayerData (PlayerData_t *player) {
     player->misc.waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
 
     // Script data
+    player->scriptData.disableHUD = CheckInventory (DISABLEHUDTOKEN);
     player->parkourDef.mjumpMax = CheckInventory (MJUMP_MAXTOKEN);
 
     // Non struct data
@@ -110,7 +111,7 @@ void InitializePlayer (PlayerData_t *player) {
     }
 
     player->thumperDef.magIndex = -1;
-    player->ammoMax = 6;
+    player->ammoMax = BASEAMMOMAX;
 
     SavedData_t saveData = {
         .isInvalid = TRUE,
@@ -120,22 +121,23 @@ void InitializePlayer (PlayerData_t *player) {
         saveData = LoadSaveData (PLN);
         if (!(saveData.isInvalid)) {
             PD_DoLoadSave (player, &saveData);
-            UpdateAmmoMax (player);
-            PrintBold ("Test");
         }
     }
+
+    UpdatePlayerData (player);
+    UpdateAmmoMax (player);
 
     RunIntro (player, &saveData);
     player->initialized = TRUE;
 }
 
-void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
+bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     if (!player) {
         Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
-        return;
+        return FALSE;
     } else if (!saveData || saveData->isInvalid) {
         Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
-        return;
+        return FALSE;
     }
 
     // RPG Systems
@@ -145,36 +147,56 @@ void PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     SetInventory (XPS_STRENGTHTOKEN,   saveData->xpSystem.strengthLVL);
     SetInventory (XPS_STAMINATOKEN,    saveData->xpSystem.staminaLVL);
     SetInventory (CASHTOKEN,           saveData->cash);
-    player->ammoMax = saveData->ammoMax;
 
     // Script Data
     player->scriptData = saveData->scriptData;
     player->thumperDef = saveData->thumperDef;
+
+    return TRUE;
+}
+
+bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData) {
+    if (!PD_DoLoadSave (player, saveData))
+        return FALSE;
+
+    UpdatePlayerData (player);
+    UpdateAmmoMax (player);
+    return TRUE;
 }
 
 #define BASEINTROID 12000
 #define RIntPrintText(id, x, y, color, duration, ...) \
 ( \
- SetFont (s"FSHUDFONT"), \
+ SetFont (s"SMALLFNT"), \
  HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, duration, 0.0, 0.0, 0.0, __VA_ARGS__) \
 )
+cstr RInt_CorruptNone [] = {
+    (cstr) "None",
+    (cstr) "Negligible",
+};
+cstr RInt_SpinnyThing [] = {
+    (cstr) "|",
+    (cstr) "/",
+    (cstr) "-",
+    (cstr) "\\",
+};
 Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
     string  curName = StrParam ("%tS", PLN);
     int     curGender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
     string  savedName = s"";
     int     savedGender = 0;
-    int     id = BASEINTROID;
-    int     xMul = 0;
+    int     corruptIndex = Random (0, ArraySize (RInt_CorruptNone) - 1);
 
     if (saveData->isInvalid) {
-        savedName = StrParam ("%tS", PLN);
-        savedGender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
+        savedName = curName;
+        savedGender = curGender;
     } else {
         savedName = saveData->name;
         savedGender = saveData->gender;
     }
 
     player->shopDef.disableOpen = TRUE;
+    GiveInventory (DISABLEHUDTOKEN, 1);
     SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 1.0k, TicsToSecs (9));
     Delay (17);
@@ -185,26 +207,59 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
             goto FinishIntro;
     }
 
-    SetHudSize (320, 200, 0);
-
     ActivatorSound (s"Comp/Access", 127);
-    Delay (8);
-    string nameMsg, genderMsg;
-    if (StrCmp (savedName, curName) != 0) nameMsg = StrParam ("Name: %S, formerly %S.", savedName, curName);
-    else                                  nameMsg = StrParam ("Name: %S.", savedName);
+    Delay (16);
 
-    if (savedGender != curGender) nameMsg = StrParam ("Name: %LS, formerly %LS.", PD_Gender [curGender], PD_Gender [savedGender]);
-    else                          nameMsg = StrParam ("Name: %LS.", PD_Gender [curGender]);
+    RIntPrintText (BASEINTROID,     -0.125k, -0.150k, CR_GREEN, 0.0k, "Nanomachines: |");
+    Delay (2);
+    RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Cybernetic enhancements: |");
+    Delay (2);
+    RIntPrintText (BASEINTROID + 2, -0.125k, -0.200k, CR_GREEN, 0.0k, "Corruption: |");
+    Delay (2);
+    RIntPrintText (BASEINTROID + 3, -0.125k, -0.225k, CR_GREEN, 0.0k, "ECM/ECCM: |");
+    Delay (2);
 
+    for (int i = 0, j = 0; i < (8 + 5); i++, j++) {
+        if (j >= ArraySize (RInt_SpinnyThing)) j = 0;
+        RIntPrintText (BASEINTROID,     -0.125k, -0.150k, CR_GREEN, 0.0k, "Nanomachines: %s",            i > (8 + 1) ? "Operational"                   : RInt_SpinnyThing [j]);
+        RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Cybernetic enhancements: %s", i > (8 + 2) ? "Working"                       : RInt_SpinnyThing [j]);
+        RIntPrintText (BASEINTROID + 2, -0.125k, -0.200k, CR_GREEN, 0.0k, "Corruption: %s",              i > (8 + 3) ? RInt_CorruptNone [corruptIndex] : RInt_SpinnyThing [j]);
+        RIntPrintText (BASEINTROID + 3, -0.125k, -0.225k, CR_GREEN, 0.0k, "ECM/ECCM: %s", RInt_SpinnyThing [j]);
+        Delay (3);
+    }
+
+    RIntPrintText (BASEINTROID + 3, -0.125k, -0.225k, CR_GREEN, 0.0k, "ECM/ECCM: Ok");
     ActivatorSound (s"Comp/Ok", 127);
-    RIntPrintText (id++, 0.0 + (10.0k * xMul++), 6.0k, CR_GREEN, 0.0k, "%S", nameMsg);
-    Delay (3);
-    ActivatorSound (s"Comp/Ok", 127);
-    RIntPrintText (id++, 0.0 + (10.0k * xMul++), 6.0k, CR_GREEN, 0.0k, "%S", genderMsg);
-    Delay (3);
+    Delay (35 + 17);
 
-    SetHudSize (0, 0, 0);
+    for (int i = 0; i < 35; i++)
+        ClearMessage (BASEINTROID + i);
+
+    bool nameEqual = StrCmp (savedName, curName) == 0 ? TRUE : FALSE;
+    bool genderEqual = curGender == savedGender ? TRUE : FALSE;
+    ActivatorSound (s"Comp/Access", 127);
+    RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: %S", curName);
+    RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: %LS", PD_Gender [curGender]);
+    if (!nameEqual || !genderEqual) {
+        Delay (17);
+        ActivatorSound (s"Comp/Err", 127);
+        Delay (19);
+        if (!nameEqual)   RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: <Rechecking user database>");
+        if (!genderEqual) RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: <Rechecking user database>");
+        ActivatorSound (s"Comp/Ok", 127);
+        Delay (24);
+        if (!nameEqual)   RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: %S, formerly %S", curName, savedName);
+        if (!genderEqual) RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: %LS, formerly %LS", PD_Gender [curGender], PD_Gender [savedGender]);
+    } else {
+        Delay (7);
+    }
+    ActivatorSound (s"Comp/Ok", 127);
+    Delay (45);
+
 FinishIntro:
+    for (int i = 0; i < 35; i++)
+        ClearMessage (BASEINTROID + i);
+    TakeInventory (DISABLEHUDTOKEN, 9999);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
     player->shopDef.disableOpen = FALSE;
     SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);

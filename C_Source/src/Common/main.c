@@ -98,10 +98,12 @@ Script_C void S7_ClientsideEnter ENTER () {
     int heartbeatTics = 0;
 
     while (TRUE) { // Loop forever
-        HudWeapons ();
         HeartbeatScript (player, &heartbeatTics);
         Thumper_ScriptClientside (player);
-        ShowPop1 (player);
+        if (!player->scriptData.disableHUD) {
+            HudWeapons ();
+            ShowPop1 (player);
+        }
 
         Delay (1); // Wait for a tic
     }

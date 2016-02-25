@@ -54,7 +54,7 @@ typedef struct SavedData_t      SavedData_t;
 // Blerghled Prototypes
 bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
 SavedData_t LoadSaveData          (int playerNum);
-void        SaveSaveData          (int playerNum, SavedData_t *data);
+bool        SaveSaveData          (int playerNum, SavedData_t *data);
 
 // Structs
 struct PD_AmmoType_t {
@@ -92,6 +92,7 @@ typedef struct PD_Misc_t {
 };
 
 struct PD_ScriptData_t {
+    bool disableHUD;                    // Disable HUD
     int  lastWeapon;                    // The last weapon the player selected
     bool staminaEmpty;                  // Did the player run out of stamina?
     int  staminaTics;                   // Used for the stamina regeneration
@@ -167,7 +168,6 @@ struct SavedData_t {
     // RPG Systems
     PD_XPSystem_t   xpSystem;           // Level system stuff
     int             cash;               // Cash
-    int             ammoMax;            // Ammo max mul
 
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data
@@ -244,6 +244,8 @@ void InitializePlayer (PlayerData_t *player);
 void DisconnectPlayer (PlayerData_t *player);
 void UpdatePlayerData (PlayerData_t *player);
 void UpdateAmmoMax    (PlayerData_t *player);
+bool PD_DoLoadSave  (PlayerData_t *player, SavedData_t *saveData);
+bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData);
 
 // Externs
 extern PlayerData_t PlayerData [MAX_PLAYERS];

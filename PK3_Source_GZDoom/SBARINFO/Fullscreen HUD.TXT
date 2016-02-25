@@ -2,409 +2,411 @@
 // Graphics: Chronos "phantombeta" Ouroboros
 
 statusBar fullscreen, forceScaled, fullscreenOffsets {
-    /*** Left ***/
-    // Icons
-    drawImage "graphics/HUD/Fullscreen/S7HLTH.png", 11, -22;
-    drawImage "graphics/HUD/Fullscreen/S7ARMR.png", 11, -39;
-    drawImage "graphics/HUD/Fullscreen/S7STMN.png", 11, -57;
-    // Bar frames
-    drawImage "graphics/HUD/Fullscreen/S7BARFR0.png", 28, -17;
-    drawImage "graphics/HUD/Fullscreen/S7BARFR0.png", 28, -35;
-    drawImage "graphics/HUD/Fullscreen/S7BARFR0.png", 28, -52;
-    // Bars
-    drawBar "graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0",     health, horizontal, interpolate (13), 29, -16;
-    drawBar "graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0",      armor, horizontal, interpolate (13), 29, -34;
-    drawBar "graphics/HUD/Fullscreen/S7STMNBR.png", "S7BARBK0", S7_Stamina, horizontal, interpolate (13), 29, -51;
-    // Strings
-    drawString FSHUDFNT, White, "Cash: ", 11, -66, 0, alignment (left);
-    // Numbers
-    drawNumber  5, FSHUDFNT, White,     health, interpolate        (13), alignment  (left), 81, -18;
-    drawNumber  5, FSHUDFNT, White,      armor, interpolate        (13), alignment  (left), 81, -36;
-    drawNumber  5, FSHUDFNT, White, S7_Stamina, interpolate        (13), alignment  (left), 81, -53;
-    drawNumber 10, FSHUDFNT, White,    S7_Cash, interpolate (268435456), alignment (right), 77, -66;
+    inInventory not S7_DisableHud {
+        /*** Left ***/
+        // Icons
+        drawImage "graphics/HUD/Fullscreen/S7HLTH.png", 11, -22;
+        drawImage "graphics/HUD/Fullscreen/S7ARMR.png", 11, -39;
+        drawImage "graphics/HUD/Fullscreen/S7STMN.png", 11, -57;
+        // Bar frames
+        drawImage "graphics/HUD/Fullscreen/S7BARFR0.png", 28, -17;
+        drawImage "graphics/HUD/Fullscreen/S7BARFR0.png", 28, -35;
+        drawImage "graphics/HUD/Fullscreen/S7BARFR0.png", 28, -52;
+        // Bars
+        drawBar "graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0",     health, horizontal, interpolate (13), 29, -16;
+        drawBar "graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0",      armor, horizontal, interpolate (13), 29, -34;
+        drawBar "graphics/HUD/Fullscreen/S7STMNBR.png", "S7BARBK0", S7_Stamina, horizontal, interpolate (13), 29, -51;
+        // Strings
+        drawString FSHUDFNT, White, "Cash: ", 11, -66, 0, alignment (left);
+        // Numbers
+        drawNumber  5, FSHUDFNT, White,     health, interpolate        (13), alignment  (left), 81, -18;
+        drawNumber  5, FSHUDFNT, White,      armor, interpolate        (13), alignment  (left), 81, -36;
+        drawNumber  5, FSHUDFNT, White, S7_Stamina, interpolate        (13), alignment  (left), 81, -53;
+        drawNumber 10, FSHUDFNT, White,    S7_Cash, interpolate (268435456), alignment (right), 77, -66;
 
-    isSelected S7_PlasmaGun {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        drawBar "PRFLPMT2", "PRFPMTB2", S7_PlasmaGun_Charge, vertical, interpolate (13), 125 + center, 64;
-        inInventory S7_PlasmaGun_ChargingLevel,  1 { drawImage "PRCHRG00", -17 + center, -16 + center;
-                                                     drawImage "PRCHRG01", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  2 { drawImage "PRCHRG02", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  3 { drawImage "PRCHRG03", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  4 { drawImage "PRCHRG04", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  5 { drawImage "PRCHRG05", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  6 { drawImage "PRCHRG06", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  7 { drawImage "PRCHRG07", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  8 { drawImage "PRCHRG08", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel,  9 { drawImage "PRCHRG09", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 10 { drawImage "PRCHRG10", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 11 { drawImage "PRCHRG11", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 12 { drawImage "PRCHRG12", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 13 { drawImage "PRCHRG13", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 14 { drawImage "PRCHRG14", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 15 { drawImage "PRCHRG15", -17 + center, -16 + center; }
-        inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
-    }
+        isSelected S7_PlasmaGun {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            drawBar "PRFLPMT2", "PRFPMTB2", S7_PlasmaGun_Charge, vertical, interpolate (13), 125 + center, 64;
+            inInventory S7_PlasmaGun_ChargingLevel,  1 { drawImage "PRCHRG00", -17 + center, -16 + center;
+                                                         drawImage "PRCHRG01", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  2 { drawImage "PRCHRG02", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  3 { drawImage "PRCHRG03", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  4 { drawImage "PRCHRG04", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  5 { drawImage "PRCHRG05", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  6 { drawImage "PRCHRG06", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  7 { drawImage "PRCHRG07", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  8 { drawImage "PRCHRG08", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel,  9 { drawImage "PRCHRG09", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 10 { drawImage "PRCHRG10", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 11 { drawImage "PRCHRG11", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 12 { drawImage "PRCHRG12", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 13 { drawImage "PRCHRG13", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 14 { drawImage "PRCHRG14", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 15 { drawImage "PRCHRG15", -17 + center, -16 + center; }
+            inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
+        }
 
-    else isSelected S7_Raptor {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_RaptorClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -10, -20; }
-        inInventory S7_RaptorClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -15, -18; }
-        inInventory S7_RaptorClip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -20, -20; }
-        inInventory S7_RaptorClip,  4 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -25, -18; }
-        inInventory S7_RaptorClip,  5 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -30, -20; }
-        inInventory S7_RaptorClip,  6 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -35, -18; }
-        inInventory S7_RaptorClip,  7 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -40, -20; }
-        inInventory S7_RaptorClip,  8 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -45, -18; }
-        inInventory S7_RaptorClip,  9 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -50, -20; }
-        inInventory S7_RaptorClip, 10 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -55, -18; }
-        inInventory S7_RaptorClip, 11 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -60, -20; }
-        inInventory S7_RaptorClip, 12 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -65, -18; }
-        inInventory S7_RaptorClip, 13 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -70, -20; }
-        inInventory S7_RaptorClip, 14 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -75, -18; }
-        inInventory S7_RaptorClip, 15 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -80, -20; }
-        inInventory S7_RaptorClip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -85, -18; }
-    }
+        else isSelected S7_Raptor {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_RaptorClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -10, -20; }
+            inInventory S7_RaptorClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -15, -18; }
+            inInventory S7_RaptorClip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -20, -20; }
+            inInventory S7_RaptorClip,  4 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -25, -18; }
+            inInventory S7_RaptorClip,  5 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -30, -20; }
+            inInventory S7_RaptorClip,  6 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -35, -18; }
+            inInventory S7_RaptorClip,  7 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -40, -20; }
+            inInventory S7_RaptorClip,  8 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -45, -18; }
+            inInventory S7_RaptorClip,  9 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -50, -20; }
+            inInventory S7_RaptorClip, 10 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -55, -18; }
+            inInventory S7_RaptorClip, 11 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -60, -20; }
+            inInventory S7_RaptorClip, 12 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -65, -18; }
+            inInventory S7_RaptorClip, 13 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -70, -20; }
+            inInventory S7_RaptorClip, 14 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -75, -18; }
+            inInventory S7_RaptorClip, 15 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -80, -20; }
+            inInventory S7_RaptorClip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -85, -18; }
+        }
 
-    else isSelected S7_TEC9 {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_TEC9Clip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
-        inInventory S7_TEC9Clip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
-        inInventory S7_TEC9Clip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -18, -20; }
-        inInventory S7_TEC9Clip,  4 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -22, -18; }
-        inInventory S7_TEC9Clip,  5 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -26, -20; }
-        inInventory S7_TEC9Clip,  6 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -30, -18; }
-        inInventory S7_TEC9Clip,  7 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -34, -20; }
-        inInventory S7_TEC9Clip,  8 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -38, -18; }
-        inInventory S7_TEC9Clip,  9 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -42, -20; }
-        inInventory S7_TEC9Clip, 10 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -46, -18; }
-        inInventory S7_TEC9Clip, 11 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -50, -20; }
-        inInventory S7_TEC9Clip, 12 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -54, -18; }
-        inInventory S7_TEC9Clip, 13 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -58, -20; }
-        inInventory S7_TEC9Clip, 14 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -62, -18; }
-        inInventory S7_TEC9Clip, 15 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -66, -20; }
-        inInventory S7_TEC9Clip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -70, -18; }
-        inInventory S7_TEC9Clip, 17 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -74, -20; }
-        inInventory S7_TEC9Clip, 18 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -78, -18; }
-        inInventory S7_TEC9Clip, 19 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -82, -20; }
-        inInventory S7_TEC9Clip, 20 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -86, -18; }
-        inInventory S7_TEC9Clip, 21 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -90, -20; }
-        inInventory S7_TEC9Clip, 22 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -94, -18; }
-        inInventory S7_TEC9Clip, 23 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -98, -20; }
-        inInventory S7_TEC9Clip, 24 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -102, -18; }
-        inInventory S7_TEC9Clip, 25 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -106, -20; }
-        inInventory S7_TEC9Clip, 26 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -110, -18; }
-        inInventory S7_TEC9Clip, 27 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -114, -20; }
-        inInventory S7_TEC9Clip, 28 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -118, -18; }
-        inInventory S7_TEC9Clip, 29 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -122, -20; }
-        inInventory S7_TEC9Clip, 30 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -126, -18; }
-        inInventory S7_TEC9Clip, 31 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -130, -20; }
-        inInventory S7_TEC9Clip, 32 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -134, -18; }
-    }
+        else isSelected S7_TEC9 {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_TEC9Clip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
+            inInventory S7_TEC9Clip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
+            inInventory S7_TEC9Clip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -18, -20; }
+            inInventory S7_TEC9Clip,  4 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -22, -18; }
+            inInventory S7_TEC9Clip,  5 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -26, -20; }
+            inInventory S7_TEC9Clip,  6 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -30, -18; }
+            inInventory S7_TEC9Clip,  7 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -34, -20; }
+            inInventory S7_TEC9Clip,  8 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -38, -18; }
+            inInventory S7_TEC9Clip,  9 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -42, -20; }
+            inInventory S7_TEC9Clip, 10 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -46, -18; }
+            inInventory S7_TEC9Clip, 11 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -50, -20; }
+            inInventory S7_TEC9Clip, 12 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -54, -18; }
+            inInventory S7_TEC9Clip, 13 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -58, -20; }
+            inInventory S7_TEC9Clip, 14 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -62, -18; }
+            inInventory S7_TEC9Clip, 15 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -66, -20; }
+            inInventory S7_TEC9Clip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -70, -18; }
+            inInventory S7_TEC9Clip, 17 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -74, -20; }
+            inInventory S7_TEC9Clip, 18 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -78, -18; }
+            inInventory S7_TEC9Clip, 19 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -82, -20; }
+            inInventory S7_TEC9Clip, 20 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -86, -18; }
+            inInventory S7_TEC9Clip, 21 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -90, -20; }
+            inInventory S7_TEC9Clip, 22 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -94, -18; }
+            inInventory S7_TEC9Clip, 23 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -98, -20; }
+            inInventory S7_TEC9Clip, 24 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -102, -18; }
+            inInventory S7_TEC9Clip, 25 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -106, -20; }
+            inInventory S7_TEC9Clip, 26 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -110, -18; }
+            inInventory S7_TEC9Clip, 27 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -114, -20; }
+            inInventory S7_TEC9Clip, 28 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -118, -18; }
+            inInventory S7_TEC9Clip, 29 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -122, -20; }
+            inInventory S7_TEC9Clip, 30 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -126, -18; }
+            inInventory S7_TEC9Clip, 31 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -130, -20; }
+            inInventory S7_TEC9Clip, 32 { drawImage "graphics/HUD/Cartridges/S7H9MM.png", -134, -18; }
+        }
 
-    else isSelected S7_Revolver {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_RevolverClip, 1 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -11, -23; }
-        inInventory S7_RevolverClip, 2 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -18, -23; }
-        inInventory S7_RevolverClip, 3 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -25, -23; }
-        inInventory S7_RevolverClip, 4 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -32, -23; }
-        inInventory S7_RevolverClip, 5 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -39, -23; }
-        inInventory S7_RevolverClip, 6 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -46, -23; }
-    }
+        else isSelected S7_Revolver {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_RevolverClip, 1 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -11, -23; }
+            inInventory S7_RevolverClip, 2 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -18, -23; }
+            inInventory S7_RevolverClip, 3 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -25, -23; }
+            inInventory S7_RevolverClip, 4 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -32, -23; }
+            inInventory S7_RevolverClip, 5 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -39, -23; }
+            inInventory S7_RevolverClip, 6 { drawImage "graphics/HUD/Cartridges/S7H44M.png", -46, -23; }
+        }
 
-    else isSelected S7_AMG {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_AMGMag,  1 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -11, -27; }
-        inInventory S7_AMGMag,  2 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -15, -26; }
-        inInventory S7_AMGMag,  3 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -19, -25; }
-        inInventory S7_AMGMag,  4 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -23, -27; }
-        inInventory S7_AMGMag,  5 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -27, -26; }
-        inInventory S7_AMGMag,  6 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -31, -25; }
-        inInventory S7_AMGMag,  7 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -35, -27; }
-        inInventory S7_AMGMag,  8 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -39, -26; }
-        inInventory S7_AMGMag,  9 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -43, -25; }
-        inInventory S7_AMGMag, 10 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -47, -27; }
-        inInventory S7_AMGMag, 11 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -51, -26; }
-        inInventory S7_AMGMag, 12 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -55, -25; }
-        inInventory S7_AMGMag, 13 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -59, -27; }
-        inInventory S7_AMGMag, 14 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -63, -26; }
-        inInventory S7_AMGMag, 15 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -67, -25; }
-        inInventory S7_AMGMag, 16 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -71, -27; }
-        inInventory S7_AMGMag, 17 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -75, -26; }
-        inInventory S7_AMGMag, 18 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -79, -25; }
-        inInventory S7_AMGMag, 19 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -83, -27; }
-        inInventory S7_AMGMag, 20 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -87, -26; }
-        inInventory S7_AMGMag, 21 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -91, -25; }
-        inInventory S7_AMGMag, 22 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -95, -27; }
-        inInventory S7_AMGMag, 23 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -99, -26; }
-        inInventory S7_AMGMag, 24 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -103, -25; }
-        inInventory S7_AMGMag, 25 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -107, -27; }
-        inInventory S7_AMGMag, 26 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -111, -26; }
-        inInventory S7_AMGMag, 27 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -115, -25; }
-        inInventory S7_AMGMag, 28 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -119, -27; }
-        inInventory S7_AMGMag, 29 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -123, -26; }
-        inInventory S7_AMGMag, 30 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -127, -25; }
-        inInventory S7_AMGMag, 31 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -131, -27; }
-        inInventory S7_AMGMag, 32 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -135, -26; }
-        inInventory S7_AMGMag, 33 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -139, -25; }
-        inInventory S7_AMGMag, 34 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -143, -27; }
-        inInventory S7_AMGMag, 35 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -147, -26; }
-    }
+        else isSelected S7_AMG {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_AMGMag,  1 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -11, -27; }
+            inInventory S7_AMGMag,  2 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -15, -26; }
+            inInventory S7_AMGMag,  3 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -19, -25; }
+            inInventory S7_AMGMag,  4 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -23, -27; }
+            inInventory S7_AMGMag,  5 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -27, -26; }
+            inInventory S7_AMGMag,  6 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -31, -25; }
+            inInventory S7_AMGMag,  7 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -35, -27; }
+            inInventory S7_AMGMag,  8 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -39, -26; }
+            inInventory S7_AMGMag,  9 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -43, -25; }
+            inInventory S7_AMGMag, 10 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -47, -27; }
+            inInventory S7_AMGMag, 11 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -51, -26; }
+            inInventory S7_AMGMag, 12 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -55, -25; }
+            inInventory S7_AMGMag, 13 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -59, -27; }
+            inInventory S7_AMGMag, 14 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -63, -26; }
+            inInventory S7_AMGMag, 15 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -67, -25; }
+            inInventory S7_AMGMag, 16 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -71, -27; }
+            inInventory S7_AMGMag, 17 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -75, -26; }
+            inInventory S7_AMGMag, 18 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -79, -25; }
+            inInventory S7_AMGMag, 19 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -83, -27; }
+            inInventory S7_AMGMag, 20 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -87, -26; }
+            inInventory S7_AMGMag, 21 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -91, -25; }
+            inInventory S7_AMGMag, 22 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -95, -27; }
+            inInventory S7_AMGMag, 23 { drawImage "graphics/HUD/Cartridges/S7H762MM.png",  -99, -26; }
+            inInventory S7_AMGMag, 24 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -103, -25; }
+            inInventory S7_AMGMag, 25 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -107, -27; }
+            inInventory S7_AMGMag, 26 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -111, -26; }
+            inInventory S7_AMGMag, 27 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -115, -25; }
+            inInventory S7_AMGMag, 28 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -119, -27; }
+            inInventory S7_AMGMag, 29 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -123, -26; }
+            inInventory S7_AMGMag, 30 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -127, -25; }
+            inInventory S7_AMGMag, 31 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -131, -27; }
+            inInventory S7_AMGMag, 32 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -135, -26; }
+            inInventory S7_AMGMag, 33 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -139, -25; }
+            inInventory S7_AMGMag, 34 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -143, -27; }
+            inInventory S7_AMGMag, 35 { drawImage "graphics/HUD/Cartridges/S7H762MM.png", -147, -26; }
+        }
 
-    else isSelected S7_ManxCarbine {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_ManxCarbineClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
-        inInventory S7_ManxCarbineClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
-        inInventory S7_ManxCarbineClip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -18, -20; }
-        inInventory S7_ManxCarbineClip,  4 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -22, -18; }
-        inInventory S7_ManxCarbineClip,  5 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -26, -20; }
-        inInventory S7_ManxCarbineClip,  6 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -30, -18; }
-        inInventory S7_ManxCarbineClip,  7 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -34, -20; }
-        inInventory S7_ManxCarbineClip,  8 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -38, -18; }
-        inInventory S7_ManxCarbineClip,  9 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -42, -20; }
-        inInventory S7_ManxCarbineClip, 10 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -46, -18; }
-        inInventory S7_ManxCarbineClip, 11 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -50, -20; }
-        inInventory S7_ManxCarbineClip, 12 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -54, -18; }
-        inInventory S7_ManxCarbineClip, 13 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -58, -20; }
-        inInventory S7_ManxCarbineClip, 14 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -62, -18; }
-        inInventory S7_ManxCarbineClip, 15 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -66, -20; }
-        inInventory S7_ManxCarbineClip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -70, -18; }
-        inInventory S7_ManxCarbineClip, 17 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -74, -20; }
-        inInventory S7_ManxCarbineClip, 18 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -78, -18; }
-        inInventory S7_ManxCarbineClip, 19 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -82, -20; }
-        inInventory S7_ManxCarbineClip, 20 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -86, -18; }
-        inInventory S7_ManxCarbineClip, 21 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -90, -20; }
-        inInventory S7_ManxCarbineClip, 22 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -94, -18; }
-        inInventory S7_ManxCarbineClip, 23 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -98, -20; }
-    }
+        else isSelected S7_ManxCarbine {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_ManxCarbineClip,  1 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -10, -20; }
+            inInventory S7_ManxCarbineClip,  2 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -14, -18; }
+            inInventory S7_ManxCarbineClip,  3 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -18, -20; }
+            inInventory S7_ManxCarbineClip,  4 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -22, -18; }
+            inInventory S7_ManxCarbineClip,  5 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -26, -20; }
+            inInventory S7_ManxCarbineClip,  6 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -30, -18; }
+            inInventory S7_ManxCarbineClip,  7 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -34, -20; }
+            inInventory S7_ManxCarbineClip,  8 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -38, -18; }
+            inInventory S7_ManxCarbineClip,  9 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -42, -20; }
+            inInventory S7_ManxCarbineClip, 10 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -46, -18; }
+            inInventory S7_ManxCarbineClip, 11 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -50, -20; }
+            inInventory S7_ManxCarbineClip, 12 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -54, -18; }
+            inInventory S7_ManxCarbineClip, 13 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -58, -20; }
+            inInventory S7_ManxCarbineClip, 14 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -62, -18; }
+            inInventory S7_ManxCarbineClip, 15 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -66, -20; }
+            inInventory S7_ManxCarbineClip, 16 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -70, -18; }
+            inInventory S7_ManxCarbineClip, 17 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -74, -20; }
+            inInventory S7_ManxCarbineClip, 18 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -78, -18; }
+            inInventory S7_ManxCarbineClip, 19 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -82, -20; }
+            inInventory S7_ManxCarbineClip, 20 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -86, -18; }
+            inInventory S7_ManxCarbineClip, 21 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -90, -20; }
+            inInventory S7_ManxCarbineClip, 22 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -94, -18; }
+            inInventory S7_ManxCarbineClip, 23 { drawImage "graphics/HUD/Cartridges/S7H9MM.png",  -98, -20; }
+        }
 
-    else isSelected S7_Shotgun {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_ShotgunMagCounter,  1 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -16, -32; }
-        inInventory S7_ShotgunMagCounter,  2 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -24, -31; }
-        inInventory S7_ShotgunMagCounter,  3 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -32, -32; }
-        inInventory S7_ShotgunMagCounter,  4 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -40, -31; }
-        inInventory S7_ShotgunMagCounter,  5 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -48, -32; }
-        inInventory S7_ShotgunMagCounter,  6 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -56, -31; }
-        inInventory S7_ShotgunMagCounter,  7 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -64, -32; }
-        inInventory S7_ShotgunMagCounter,  8 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -72, -31; }
-        inInventory S7_ShotgunMagCounter,  9 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -80, -32; }
-        inInventory S7_ShotgunMagCounter, 10 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -88, -31; }
-    }
+        else isSelected S7_Shotgun {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_ShotgunMagCounter,  1 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -16, -32; }
+            inInventory S7_ShotgunMagCounter,  2 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -24, -31; }
+            inInventory S7_ShotgunMagCounter,  3 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -32, -32; }
+            inInventory S7_ShotgunMagCounter,  4 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -40, -31; }
+            inInventory S7_ShotgunMagCounter,  5 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -48, -32; }
+            inInventory S7_ShotgunMagCounter,  6 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -56, -31; }
+            inInventory S7_ShotgunMagCounter,  7 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -64, -32; }
+            inInventory S7_ShotgunMagCounter,  8 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -72, -31; }
+            inInventory S7_ShotgunMagCounter,  9 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -80, -32; }
+            inInventory S7_ShotgunMagCounter, 10 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -88, -31; }
+        }
 
-    else isSelected S7_HitterSMG {
-        drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        inInventory S7_HitterSMGClip,  1 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -10, -20; }
-        inInventory S7_HitterSMGClip,  2 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -12, -19; }
-        inInventory S7_HitterSMGClip,  3 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -14, -18; }
-        inInventory S7_HitterSMGClip,  4 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -16, -20; }
-        inInventory S7_HitterSMGClip,  5 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -18, -19; }
-        inInventory S7_HitterSMGClip,  6 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -20, -18; }
-        inInventory S7_HitterSMGClip,  7 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -22, -20; }
-        inInventory S7_HitterSMGClip,  8 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -24, -19; }
-        inInventory S7_HitterSMGClip,  9 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -26, -18; }
-        inInventory S7_HitterSMGClip, 10 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -28, -20; }
-        inInventory S7_HitterSMGClip, 11 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -30, -19; }
-        inInventory S7_HitterSMGClip, 12 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -32, -18; }
-        inInventory S7_HitterSMGClip, 13 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -34, -20; }
-        inInventory S7_HitterSMGClip, 14 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -36, -19; }
-        inInventory S7_HitterSMGClip, 15 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -38, -18; }
-        inInventory S7_HitterSMGClip, 16 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -40, -20; }
-        inInventory S7_HitterSMGClip, 17 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -42, -19; }
-        inInventory S7_HitterSMGClip, 18 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -44, -18; }
-        inInventory S7_HitterSMGClip, 19 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -46, -20; }
-        inInventory S7_HitterSMGClip, 20 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -48, -19; }
-        inInventory S7_HitterSMGClip, 21 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -50, -18; }
-        inInventory S7_HitterSMGClip, 22 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -52, -20; }
-        inInventory S7_HitterSMGClip, 23 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -54, -19; }
-        inInventory S7_HitterSMGClip, 24 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -56, -18; }
-        inInventory S7_HitterSMGClip, 25 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -58, -20; }
-        inInventory S7_HitterSMGClip, 26 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -60, -19; }
-        inInventory S7_HitterSMGClip, 27 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -62, -18; }
-        inInventory S7_HitterSMGClip, 28 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -64, -20; }
-        inInventory S7_HitterSMGClip, 29 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -66, -19; }
-        inInventory S7_HitterSMGClip, 30 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -68, -18; }
-        inInventory S7_HitterSMGClip, 31 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -70, -20; }
-        inInventory S7_HitterSMGClip, 32 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -72, -19; }
-        inInventory S7_HitterSMGClip, 33 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -74, -18; }
-        inInventory S7_HitterSMGClip, 34 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -76, -20; }
-        inInventory S7_HitterSMGClip, 35 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -78, -19; }
-        inInventory S7_HitterSMGClip, 36 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -80, -18; }
-        inInventory S7_HitterSMGClip, 37 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -82, -20; }
-        inInventory S7_HitterSMGClip, 38 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -84, -19; }
-        inInventory S7_HitterSMGClip, 39 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -86, -18; }
-        inInventory S7_HitterSMGClip, 40 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -88, -20; }
-        inInventory S7_HitterSMGClip, 41 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -90, -19; }
-        inInventory S7_HitterSMGClip, 42 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -92, -18; }
-        inInventory S7_HitterSMGClip, 43 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -94, -20; }
-        inInventory S7_HitterSMGClip, 44 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -96, -19; }
-        inInventory S7_HitterSMGClip, 45 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -98, -18; }
-        inInventory S7_HitterSMGClip, 46 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -100, -20; }
-        inInventory S7_HitterSMGClip, 47 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -102, -19; }
-        inInventory S7_HitterSMGClip, 48 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -104, -18; }
-        inInventory S7_HitterSMGClip, 49 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -106, -20; }
-        inInventory S7_HitterSMGClip, 50 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -108, -19; }
-        inInventory S7_HitterSMGClip, 51 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -110, -18; }
-        inInventory S7_HitterSMGClip, 52 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -112, -20; }
-        inInventory S7_HitterSMGClip, 53 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -114, -19; }
-        inInventory S7_HitterSMGClip, 54 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -116, -18; }
-        inInventory S7_HitterSMGClip, 55 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -118, -20; }
-        inInventory S7_HitterSMGClip, 56 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -120, -19; }
-        inInventory S7_HitterSMGClip, 57 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -122, -18; }
-        inInventory S7_HitterSMGClip, 58 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -124, -20; }
-        inInventory S7_HitterSMGClip, 59 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -126, -19; }
-        inInventory S7_HitterSMGClip, 60 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -128, -18; }
-        inInventory S7_HitterSMGClip, 61 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -130, -20; }
-        inInventory S7_HitterSMGClip, 62 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -132, -19; }
-    }
+        else isSelected S7_HitterSMG {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_HitterSMGClip,  1 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -10, -20; }
+            inInventory S7_HitterSMGClip,  2 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -12, -19; }
+            inInventory S7_HitterSMGClip,  3 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -14, -18; }
+            inInventory S7_HitterSMGClip,  4 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -16, -20; }
+            inInventory S7_HitterSMGClip,  5 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -18, -19; }
+            inInventory S7_HitterSMGClip,  6 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -20, -18; }
+            inInventory S7_HitterSMGClip,  7 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -22, -20; }
+            inInventory S7_HitterSMGClip,  8 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -24, -19; }
+            inInventory S7_HitterSMGClip,  9 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -26, -18; }
+            inInventory S7_HitterSMGClip, 10 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -28, -20; }
+            inInventory S7_HitterSMGClip, 11 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -30, -19; }
+            inInventory S7_HitterSMGClip, 12 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -32, -18; }
+            inInventory S7_HitterSMGClip, 13 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -34, -20; }
+            inInventory S7_HitterSMGClip, 14 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -36, -19; }
+            inInventory S7_HitterSMGClip, 15 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -38, -18; }
+            inInventory S7_HitterSMGClip, 16 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -40, -20; }
+            inInventory S7_HitterSMGClip, 17 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -42, -19; }
+            inInventory S7_HitterSMGClip, 18 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -44, -18; }
+            inInventory S7_HitterSMGClip, 19 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -46, -20; }
+            inInventory S7_HitterSMGClip, 20 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -48, -19; }
+            inInventory S7_HitterSMGClip, 21 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -50, -18; }
+            inInventory S7_HitterSMGClip, 22 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -52, -20; }
+            inInventory S7_HitterSMGClip, 23 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -54, -19; }
+            inInventory S7_HitterSMGClip, 24 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -56, -18; }
+            inInventory S7_HitterSMGClip, 25 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -58, -20; }
+            inInventory S7_HitterSMGClip, 26 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -60, -19; }
+            inInventory S7_HitterSMGClip, 27 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -62, -18; }
+            inInventory S7_HitterSMGClip, 28 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -64, -20; }
+            inInventory S7_HitterSMGClip, 29 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -66, -19; }
+            inInventory S7_HitterSMGClip, 30 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -68, -18; }
+            inInventory S7_HitterSMGClip, 31 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -70, -20; }
+            inInventory S7_HitterSMGClip, 32 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -72, -19; }
+            inInventory S7_HitterSMGClip, 33 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -74, -18; }
+            inInventory S7_HitterSMGClip, 34 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -76, -20; }
+            inInventory S7_HitterSMGClip, 35 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -78, -19; }
+            inInventory S7_HitterSMGClip, 36 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -80, -18; }
+            inInventory S7_HitterSMGClip, 37 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -82, -20; }
+            inInventory S7_HitterSMGClip, 38 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -84, -19; }
+            inInventory S7_HitterSMGClip, 39 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -86, -18; }
+            inInventory S7_HitterSMGClip, 40 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -88, -20; }
+            inInventory S7_HitterSMGClip, 41 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -90, -19; }
+            inInventory S7_HitterSMGClip, 42 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -92, -18; }
+            inInventory S7_HitterSMGClip, 43 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -94, -20; }
+            inInventory S7_HitterSMGClip, 44 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -96, -19; }
+            inInventory S7_HitterSMGClip, 45 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png",  -98, -18; }
+            inInventory S7_HitterSMGClip, 46 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -100, -20; }
+            inInventory S7_HitterSMGClip, 47 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -102, -19; }
+            inInventory S7_HitterSMGClip, 48 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -104, -18; }
+            inInventory S7_HitterSMGClip, 49 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -106, -20; }
+            inInventory S7_HitterSMGClip, 50 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -108, -19; }
+            inInventory S7_HitterSMGClip, 51 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -110, -18; }
+            inInventory S7_HitterSMGClip, 52 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -112, -20; }
+            inInventory S7_HitterSMGClip, 53 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -114, -19; }
+            inInventory S7_HitterSMGClip, 54 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -116, -18; }
+            inInventory S7_HitterSMGClip, 55 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -118, -20; }
+            inInventory S7_HitterSMGClip, 56 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -120, -19; }
+            inInventory S7_HitterSMGClip, 57 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -122, -18; }
+            inInventory S7_HitterSMGClip, 58 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -124, -20; }
+            inInventory S7_HitterSMGClip, 59 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -126, -19; }
+            inInventory S7_HitterSMGClip, 60 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -128, -18; }
+            inInventory S7_HitterSMGClip, 61 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -130, -20; }
+            inInventory S7_HitterSMGClip, 62 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -132, -19; }
+        }
 
 
 
-    // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
-    // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
-    // something better to define HUDs with because SBARINFO is terrible and annoying.
-    else isSelected S7_Thumper {
-        drawNumber 5, FSHUDFNT, White, S7_Thumper_PUnified, interpolate (13), alignment (right), -6, -50;
-        drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-        drawNumber 5, FSHUDFNT, Black, S7_Thumper_PNGas, interpolate (13), alignment (right), -6, -57;
-        drawString FSHUDFNT, Black, "Nerve Gas:      ", -6, -57, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Yellow, S7_Thumper_PNail, interpolate (13), alignment (right), -6, -64;
-        drawString FSHUDFNT, Yellow, "Nailbomb:      ", -6, -64, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Blue, S7_Thumper_PCluster, interpolate (13), alignment (right), -6, -71;
-        drawString FSHUDFNT, Blue, "Clusterbomb:      ", -6, -71, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, White, S7_Thumper_PFlare, interpolate (13), alignment (right), -6, -78;
-        drawString FSHUDFNT, White, "Flare:      ", -6, -78, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, DarkRed, S7_Thumper_PTherm, interpolate (13), alignment (right), -6, -85;
-        drawString FSHUDFNT, DarkRed, "Thermite:      ", -6, -85, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Green, S7_Thumper_PFrag, interpolate (13), alignment (right), -6, -92;
-        drawString FSHUDFNT, Green, "Fragmentation:      ", -6, -92, 0, alignment (right);
-        drawNumber 5, FSHUDFNT, Orange, S7_Thumper_PExp, interpolate (13), alignment (right), -6, -99;
-        drawString FSHUDFNT, Orange, "Explosive/Normal:      ", -6, -99, 0, alignment (right);
-        inInventory S7_ThumperSelectedPool, 6 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNGas, interpolate (13), alignment (right), -6, -57;
-            drawString FSHUDFNT, Red, ">Nerve Gas:      ", -6, -57, 0, alignment (right);
-        } else inInventory S7_ThumperSelectedPool, 5 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNail, interpolate (13), alignment (right), -6, -64;
-            drawString FSHUDFNT, Red, ">Nailbomb:      ", -6, -64, 0, alignment (right);
-        } else inInventory S7_ThumperSelectedPool, 4 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PCluster, interpolate (13), alignment (right), -6, -71;
-            drawString FSHUDFNT, Red, ">Clusterbomb:      ", -6, -71, 0, alignment (right);
-        } else inInventory S7_ThumperSelectedPool, 3 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFlare, interpolate (13), alignment (right), -6, -78;
-            drawString FSHUDFNT, Red, ">Flare:      ", -6, -78, 0, alignment (right);
-        } else inInventory S7_ThumperSelectedPool, 2 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PTherm, interpolate (13), alignment (right), -6, -85;
-            drawString FSHUDFNT, Red, ">Thermite:      ", -6, -85, 0, alignment (right);
-        } else inInventory S7_ThumperSelectedPool, 1 {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFrag, interpolate (13), alignment (right), -6, -92;
-            drawString FSHUDFNT, Red, ">Fragmentation:      ", -6, -92, 0, alignment (right);
+        // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
+        // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
+        // something better to define HUDs with because SBARINFO is terrible and annoying.
+        else isSelected S7_Thumper {
+            drawNumber 5, FSHUDFNT, White, S7_Thumper_PUnified, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            drawNumber 5, FSHUDFNT, Black, S7_Thumper_PNGas, interpolate (13), alignment (right), -6, -57;
+            drawString FSHUDFNT, Black, "Nerve Gas:      ", -6, -57, 0, alignment (right);
+            drawNumber 5, FSHUDFNT, Yellow, S7_Thumper_PNail, interpolate (13), alignment (right), -6, -64;
+            drawString FSHUDFNT, Yellow, "Nailbomb:      ", -6, -64, 0, alignment (right);
+            drawNumber 5, FSHUDFNT, Blue, S7_Thumper_PCluster, interpolate (13), alignment (right), -6, -71;
+            drawString FSHUDFNT, Blue, "Clusterbomb:      ", -6, -71, 0, alignment (right);
+            drawNumber 5, FSHUDFNT, White, S7_Thumper_PFlare, interpolate (13), alignment (right), -6, -78;
+            drawString FSHUDFNT, White, "Flare:      ", -6, -78, 0, alignment (right);
+            drawNumber 5, FSHUDFNT, DarkRed, S7_Thumper_PTherm, interpolate (13), alignment (right), -6, -85;
+            drawString FSHUDFNT, DarkRed, "Thermite:      ", -6, -85, 0, alignment (right);
+            drawNumber 5, FSHUDFNT, Green, S7_Thumper_PFrag, interpolate (13), alignment (right), -6, -92;
+            drawString FSHUDFNT, Green, "Fragmentation:      ", -6, -92, 0, alignment (right);
+            drawNumber 5, FSHUDFNT, Orange, S7_Thumper_PExp, interpolate (13), alignment (right), -6, -99;
+            drawString FSHUDFNT, Orange, "Explosive/Normal:      ", -6, -99, 0, alignment (right);
+            inInventory S7_ThumperSelectedPool, 6 {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNGas, interpolate (13), alignment (right), -6, -57;
+                drawString FSHUDFNT, Red, ">Nerve Gas:      ", -6, -57, 0, alignment (right);
+            } else inInventory S7_ThumperSelectedPool, 5 {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PNail, interpolate (13), alignment (right), -6, -64;
+                drawString FSHUDFNT, Red, ">Nailbomb:      ", -6, -64, 0, alignment (right);
+            } else inInventory S7_ThumperSelectedPool, 4 {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PCluster, interpolate (13), alignment (right), -6, -71;
+                drawString FSHUDFNT, Red, ">Clusterbomb:      ", -6, -71, 0, alignment (right);
+            } else inInventory S7_ThumperSelectedPool, 3 {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFlare, interpolate (13), alignment (right), -6, -78;
+                drawString FSHUDFNT, Red, ">Flare:      ", -6, -78, 0, alignment (right);
+            } else inInventory S7_ThumperSelectedPool, 2 {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PTherm, interpolate (13), alignment (right), -6, -85;
+                drawString FSHUDFNT, Red, ">Thermite:      ", -6, -85, 0, alignment (right);
+            } else inInventory S7_ThumperSelectedPool, 1 {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PFrag, interpolate (13), alignment (right), -6, -92;
+                drawString FSHUDFNT, Red, ">Fragmentation:      ", -6, -92, 0, alignment (right);
+            } else {
+                drawNumber 5, FSHUDFNT, Red, S7_Thumper_PExp, interpolate (13), alignment (right), -6, -99;
+                drawString FSHUDFNT, Red, ">Explosive/Normal:      ", -6, -99, 0, alignment (right);
+            }
+
+            inInventory S7_ThumperMag1, 1 {
+                drawImage "graphics/HUD/Cartridges/S7H50M0.png", -26, -43;
+                inInventory S7_ThumperMag1, 7 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M7.png", -26, -17;
+                } else inInventory S7_ThumperMag1, 6 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M6.png", -26, -17;
+                } else inInventory S7_ThumperMag1, 5 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M5.png", -26, -17;
+                } else inInventory S7_ThumperMag1, 4 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M4.png", -26, -17;
+                } else inInventory S7_ThumperMag1, 3 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M3.png", -26, -17;
+                } else inInventory S7_ThumperMag1, 2 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M2.png", -26, -17;
+                } else inInventory S7_ThumperMag1, 1 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M1.png", -26, -17;
+                }
+            }
+            inInventory S7_ThumperMag2, 1 {
+                drawImage "graphics/HUD/Cartridges/S7H50M0.png", -48, -43;
+                inInventory S7_ThumperMag2, 7 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M7.png", -48, -17;
+                } else inInventory S7_ThumperMag2, 6 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M6.png", -48, -17;
+                } else inInventory S7_ThumperMag2, 5 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M5.png", -48, -17;
+                } else inInventory S7_ThumperMag2, 4 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M4.png", -48, -17;
+                } else inInventory S7_ThumperMag2, 3 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M3.png", -48, -17;
+                } else inInventory S7_ThumperMag2, 2 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M2.png", -48, -17;
+                } else inInventory S7_ThumperMag2, 1 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M1.png", -48, -17;
+                }
+            }
+            inInventory S7_ThumperMag3, 1 {
+                drawImage "graphics/HUD/Cartridges/S7H50M0.png", -70, -43;
+                inInventory S7_ThumperMag3, 7 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M7.png", -70, -17;
+                } else inInventory S7_ThumperMag3, 6 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M6.png", -70, -17;
+                } else inInventory S7_ThumperMag3, 5 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M5.png", -70, -17;
+                } else inInventory S7_ThumperMag3, 4 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M4.png", -70, -17;
+                } else inInventory S7_ThumperMag3, 3 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M3.png", -70, -17;
+                } else inInventory S7_ThumperMag3, 2 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M2.png", -70, -17;
+                } else inInventory S7_ThumperMag3, 1 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M1.png", -70, -17;
+                }
+            }
+            inInventory S7_ThumperMag4, 1 {
+                drawImage "graphics/HUD/Cartridges/S7H50M0.png", -92, -43;
+                inInventory S7_ThumperMag4, 7 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M7.png", -92, -17;
+                } else inInventory S7_ThumperMag4, 6 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M6.png", -92, -17;
+                } else inInventory S7_ThumperMag4, 5 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M5.png", -92, -17;
+                } else inInventory S7_ThumperMag4, 4 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M4.png", -92, -17;
+                } else inInventory S7_ThumperMag4, 3 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M3.png", -92, -17;
+                } else inInventory S7_ThumperMag4, 2 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M2.png", -92, -17;
+                } else inInventory S7_ThumperMag4, 1 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M1.png", -92, -17;
+                }
+            }
+            inInventory S7_ThumperMag5, 1 {
+                drawImage "graphics/HUD/Cartridges/S7H50M0.png", -114, -43;
+                inInventory S7_ThumperMag5, 7 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M7.png", -114, -17;
+                } else inInventory S7_ThumperMag5, 6 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M6.png", -114, -17;
+                } else inInventory S7_ThumperMag5, 5 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M5.png", -114, -17;
+                } else inInventory S7_ThumperMag5, 4 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M4.png", -114, -17;
+                } else inInventory S7_ThumperMag5, 3 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M3.png", -114, -17;
+                } else inInventory S7_ThumperMag5, 2 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M2.png", -114, -17;
+                } else inInventory S7_ThumperMag5, 1 {
+                    drawImage "graphics/HUD/Cartridges/S7H50M1.png", -114, -17;
+                }
+            }
+        }
+
+        gameMode deathmatch {
+            drawNumber 2147483647, FSHUDFNT, untranslated, frags, drawShadow, -3, 1;
         } else {
-            drawNumber 5, FSHUDFNT, Red, S7_Thumper_PExp, interpolate (13), alignment (right), -6, -99;
-            drawString FSHUDFNT, Red, ">Explosive/Normal:      ", -6, -99, 0, alignment (right);
+            drawKeyBar 100, vertical, reverseRows, auto, -10, 2, 0, 3, auto;
         }
-
-        inInventory S7_ThumperMag1, 1 {
-            drawImage "graphics/HUD/Cartridges/S7H50M0.png", -26, -43;
-            inInventory S7_ThumperMag1, 7 {
-                drawImage "graphics/HUD/Cartridges/S7H50M7.png", -26, -17;
-            } else inInventory S7_ThumperMag1, 6 {
-                drawImage "graphics/HUD/Cartridges/S7H50M6.png", -26, -17;
-            } else inInventory S7_ThumperMag1, 5 {
-                drawImage "graphics/HUD/Cartridges/S7H50M5.png", -26, -17;
-            } else inInventory S7_ThumperMag1, 4 {
-                drawImage "graphics/HUD/Cartridges/S7H50M4.png", -26, -17;
-            } else inInventory S7_ThumperMag1, 3 {
-                drawImage "graphics/HUD/Cartridges/S7H50M3.png", -26, -17;
-            } else inInventory S7_ThumperMag1, 2 {
-                drawImage "graphics/HUD/Cartridges/S7H50M2.png", -26, -17;
-            } else inInventory S7_ThumperMag1, 1 {
-                drawImage "graphics/HUD/Cartridges/S7H50M1.png", -26, -17;
-            }
-        }
-        inInventory S7_ThumperMag2, 1 {
-            drawImage "graphics/HUD/Cartridges/S7H50M0.png", -48, -43;
-            inInventory S7_ThumperMag2, 7 {
-                drawImage "graphics/HUD/Cartridges/S7H50M7.png", -48, -17;
-            } else inInventory S7_ThumperMag2, 6 {
-                drawImage "graphics/HUD/Cartridges/S7H50M6.png", -48, -17;
-            } else inInventory S7_ThumperMag2, 5 {
-                drawImage "graphics/HUD/Cartridges/S7H50M5.png", -48, -17;
-            } else inInventory S7_ThumperMag2, 4 {
-                drawImage "graphics/HUD/Cartridges/S7H50M4.png", -48, -17;
-            } else inInventory S7_ThumperMag2, 3 {
-                drawImage "graphics/HUD/Cartridges/S7H50M3.png", -48, -17;
-            } else inInventory S7_ThumperMag2, 2 {
-                drawImage "graphics/HUD/Cartridges/S7H50M2.png", -48, -17;
-            } else inInventory S7_ThumperMag2, 1 {
-                drawImage "graphics/HUD/Cartridges/S7H50M1.png", -48, -17;
-            }
-        }
-        inInventory S7_ThumperMag3, 1 {
-            drawImage "graphics/HUD/Cartridges/S7H50M0.png", -70, -43;
-            inInventory S7_ThumperMag3, 7 {
-                drawImage "graphics/HUD/Cartridges/S7H50M7.png", -70, -17;
-            } else inInventory S7_ThumperMag3, 6 {
-                drawImage "graphics/HUD/Cartridges/S7H50M6.png", -70, -17;
-            } else inInventory S7_ThumperMag3, 5 {
-                drawImage "graphics/HUD/Cartridges/S7H50M5.png", -70, -17;
-            } else inInventory S7_ThumperMag3, 4 {
-                drawImage "graphics/HUD/Cartridges/S7H50M4.png", -70, -17;
-            } else inInventory S7_ThumperMag3, 3 {
-                drawImage "graphics/HUD/Cartridges/S7H50M3.png", -70, -17;
-            } else inInventory S7_ThumperMag3, 2 {
-                drawImage "graphics/HUD/Cartridges/S7H50M2.png", -70, -17;
-            } else inInventory S7_ThumperMag3, 1 {
-                drawImage "graphics/HUD/Cartridges/S7H50M1.png", -70, -17;
-            }
-        }
-        inInventory S7_ThumperMag4, 1 {
-            drawImage "graphics/HUD/Cartridges/S7H50M0.png", -92, -43;
-            inInventory S7_ThumperMag4, 7 {
-                drawImage "graphics/HUD/Cartridges/S7H50M7.png", -92, -17;
-            } else inInventory S7_ThumperMag4, 6 {
-                drawImage "graphics/HUD/Cartridges/S7H50M6.png", -92, -17;
-            } else inInventory S7_ThumperMag4, 5 {
-                drawImage "graphics/HUD/Cartridges/S7H50M5.png", -92, -17;
-            } else inInventory S7_ThumperMag4, 4 {
-                drawImage "graphics/HUD/Cartridges/S7H50M4.png", -92, -17;
-            } else inInventory S7_ThumperMag4, 3 {
-                drawImage "graphics/HUD/Cartridges/S7H50M3.png", -92, -17;
-            } else inInventory S7_ThumperMag4, 2 {
-                drawImage "graphics/HUD/Cartridges/S7H50M2.png", -92, -17;
-            } else inInventory S7_ThumperMag4, 1 {
-                drawImage "graphics/HUD/Cartridges/S7H50M1.png", -92, -17;
-            }
-        }
-        inInventory S7_ThumperMag5, 1 {
-            drawImage "graphics/HUD/Cartridges/S7H50M0.png", -114, -43;
-            inInventory S7_ThumperMag5, 7 {
-                drawImage "graphics/HUD/Cartridges/S7H50M7.png", -114, -17;
-            } else inInventory S7_ThumperMag5, 6 {
-                drawImage "graphics/HUD/Cartridges/S7H50M6.png", -114, -17;
-            } else inInventory S7_ThumperMag5, 5 {
-                drawImage "graphics/HUD/Cartridges/S7H50M5.png", -114, -17;
-            } else inInventory S7_ThumperMag5, 4 {
-                drawImage "graphics/HUD/Cartridges/S7H50M4.png", -114, -17;
-            } else inInventory S7_ThumperMag5, 3 {
-                drawImage "graphics/HUD/Cartridges/S7H50M3.png", -114, -17;
-            } else inInventory S7_ThumperMag5, 2 {
-                drawImage "graphics/HUD/Cartridges/S7H50M2.png", -114, -17;
-            } else inInventory S7_ThumperMag5, 1 {
-                drawImage "graphics/HUD/Cartridges/S7H50M1.png", -114, -17;
-            }
-        }
-    }
-
-    gameMode deathmatch {
-        drawNumber 2147483647, FSHUDFNT, untranslated, frags, drawShadow, -3, 1;
-    } else {
-        drawKeyBar 100, vertical, reverseRows, auto, -10, 2, 0, 3, auto;
     }
 }

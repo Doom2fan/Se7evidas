@@ -209,3 +209,15 @@ int StrToInt (string source) {
 
     return ret;
 }
+
+bool *StrToBool (string source) {
+    bool *ret;
+    if (StrICmp (source, s"true") || StrICmp (source, s"t") || StrCmp (source, s"1"))
+        *ret = TRUE;
+    else if (StrICmp (source, s"false") || StrICmp (source, s"f") || StrCmp (source, s"0"))
+        *ret = FALSE;
+    else
+        ret = NULL;
+
+    return ret;
+}

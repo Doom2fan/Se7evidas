@@ -17,35 +17,15 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SAVE_INV_H
-#define SAVE_INV_H
+#ifndef SAVE_INVDATA_H
+#define SAVE_INVDATA_H
 
 #include <ACS_ZDoom.h>
-#include "save_invdata.h"
+#include "save.h"
+#include "save_inv.h"
 
-// Typedefs
-typedef struct SaveInv_InvInfo SaveInv_InvInfo;
-typedef struct SaveInv_InvDef  SaveInv_InvDef;
-
-// Structs
-struct SaveInv_InvInfo {
-    string name;
-    int amount;
-    void (*callback) (int playerNum);
-    SaveInv_InvInfo *next;
-};
-
-struct SaveInv_InvDef {
-    string cvarName;
-    int maxCVars;
-    int cvarMaxLen;
-    int invArrSize;
-    SaveInv_InvInfo *invInfoArr;
-};
-
-// Prototypes
-void InvUpdAmmoMax (int playerNum);
-bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef);
-bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef);
+// Externs
+extern struct SaveInv_InvDef importantInv;
+extern struct SaveInv_InvDef normalInv;
 
 #endif

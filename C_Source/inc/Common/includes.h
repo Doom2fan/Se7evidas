@@ -32,6 +32,9 @@
 #include "player.h"
 #endif
 
+// Typedefs
+typedef char * cstr;
+
 // Defines/Macros
 #define PLN PlayerNumber()
 // The size is actually this minus the length of "<cvar name>="
@@ -69,6 +72,7 @@
 #define DYINGTOKEN s"S7_Dying"
 #define UNDERWATERTOKEN s"S7_IsUnderwater"
 #define AIRTIMETOKEN s"S7_AirTime"
+#define DISABLEHUDTOKEN s"S7_DisableHud"
 #define MJUMP_MAXTOKEN s"S7_MultiJump_Max"
 
 // Script types
@@ -80,5 +84,8 @@ __addrdef extern  __gbl_arr GlobalVar;
 
 // Misc
 #define TNT1A0 s"TNT1A0"
+
+// Variables and constants
+char CorruptionCharList [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-=!@#$%%&*()_+[]{}\\,.;/|<>:?";
 
 #endif

@@ -1,7 +1,22 @@
 // By Chronos "phantombeta" Ouroboros
-actor S7_IsUnderwater : boolean { }
-actor S7_Dying : boolean { }
+/** Inventory tokens **/
+actor S7_IsUnderwater  : boolean { }
+actor S7_Dying         : boolean { }
+actor S7_AutoReloading : boolean { }
+actor S7_DisableHud    : boolean { }
+// Weapon slot tokens
+actor S7_Slot1Taken : boolean { }
+actor S7_Slot2Taken : boolean { }
+actor S7_Slot3Taken : boolean { }
+actor S7_Slot4Taken : boolean { }
+actor S7_Slot5Taken : boolean { }
+actor S7_Slot6Taken : boolean { }
+actor S7_Slot7Taken : boolean { }
+actor S7_Slot8Taken : boolean { }
+actor S7_Slot9Taken : boolean { }
+actor S7_Slot0Taken : boolean { }
 
+/** Counters **/
 actor S7_AirTime : counter { inventory.maxAmount 700 }
 
 actor S7_BasePlayer : playerPawn {
@@ -180,7 +195,6 @@ actor S7_MeleeKey : S7_CustomKey {
 }
 
 // Reload
-actor S7_AutoReloading : boolean { }
 actor S7_Reloading     : boolean { }
 actor S7_ReloadKey     : S7_CustomKey {
     states {
@@ -300,15 +314,3 @@ actor GETTHATSHITOUTTAHERETRACER : fastProjectile {
         stop
     }
 }
-
-// Weapon slot tokens
-actor S7_Slot1Taken : boolean { }
-actor S7_Slot2Taken : boolean { }
-actor S7_Slot3Taken : boolean { }
-actor S7_Slot4Taken : boolean { }
-actor S7_Slot5Taken : boolean { }
-actor S7_Slot6Taken : boolean { }
-actor S7_Slot7Taken : boolean { }
-actor S7_Slot8Taken : boolean { }
-actor S7_Slot9Taken : boolean { }
-actor S7_Slot0Taken : boolean { }

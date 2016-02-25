@@ -54,6 +54,7 @@ accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum
 bool SetInventory (string name, int amount);
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
                  accum actor2X, accum actor2Y, accum actor2Z);
-int StrToInt (string source);
+int   StrToInt  (string source);
+bool *StrToBool (string source);
 
 #endif

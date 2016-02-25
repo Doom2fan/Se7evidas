@@ -6,38 +6,39 @@ statusBar normal, forceScaled, fullscreenOffsets {
     drawImage "HELMTOP", -129 + center, 0;
     drawImage "HELMBTML", 31, -15;
     drawImage "HELMBTMR", -125, -15;
-    
-    // Holo stuff
-    alpha 0.75 {
-        drawImage "HOLOBARS", -67 + center, 27;
 
-        //#include "bitchy shit"
+    inInventory not S7_DisableHud {
+        // Holo stuff
+        alpha 0.75 {
+            drawImage "HOLOBARS", -67 + center, 27;
 
-        isSelected S7_PlasmaGun {
-            drawBar "PRFLPMTR", "PRFLPMTB", S7_PlasmaGun_Charge, vertical, interpolate (8), 125 + center, 64;
-            inInventory S7_PlasmaGun_ChargingLevel,  1 { drawImage "PRCHRG00", -17 + center, -16 + center;
-                                                         drawImage "PRCHRG01", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  2 { drawImage "PRCHRG02", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  3 { drawImage "PRCHRG03", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  4 { drawImage "PRCHRG04", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  5 { drawImage "PRCHRG05", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  6 { drawImage "PRCHRG06", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  7 { drawImage "PRCHRG07", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  8 { drawImage "PRCHRG08", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel,  9 { drawImage "PRCHRG09", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 10 { drawImage "PRCHRG10", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 11 { drawImage "PRCHRG11", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 12 { drawImage "PRCHRG12", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 13 { drawImage "PRCHRG13", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 14 { drawImage "PRCHRG14", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 15 { drawImage "PRCHRG15", -17 + center, -16 + center; }
-            inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
+            //#include "bitchy shit"
+
+            isSelected S7_PlasmaGun {
+                drawBar "PRFLPMTR", "PRFLPMTB", S7_PlasmaGun_Charge, vertical, interpolate (8), 125 + center, 64;
+                inInventory S7_PlasmaGun_ChargingLevel,  1 { drawImage "PRCHRG00", -17 + center, -16 + center;
+                                                             drawImage "PRCHRG01", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  2 { drawImage "PRCHRG02", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  3 { drawImage "PRCHRG03", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  4 { drawImage "PRCHRG04", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  5 { drawImage "PRCHRG05", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  6 { drawImage "PRCHRG06", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  7 { drawImage "PRCHRG07", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  8 { drawImage "PRCHRG08", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel,  9 { drawImage "PRCHRG09", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 10 { drawImage "PRCHRG10", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 11 { drawImage "PRCHRG11", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 12 { drawImage "PRCHRG12", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 13 { drawImage "PRCHRG13", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 14 { drawImage "PRCHRG14", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 15 { drawImage "PRCHRG15", -17 + center, -16 + center; }
+                inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
+            }
+            
+            drawBar "HOLOBR00", "HOLOBR01", health, horizontal, interpolate (8), -57 + center, 36;
+            drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), -57 + center, 41;
+            drawNumber 4, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -32 + center, 50;
+            drawNumber 4, FSCREENHUDFONT, HUD_Armour, armor, interpolate (8), alignment (right), whennotzero, 32 + center, 50;
         }
-        
-        drawBar "HOLOBR00", "HOLOBR01", health, horizontal, interpolate (8), -57 + center, 36;
-        drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), -57 + center, 41;
-        drawNumber 4, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -32 + center, 50;
-        drawNumber 4, FSCREENHUDFONT, HUD_Armour, armor, interpolate (8), alignment (right), whennotzero, 32 + center, 50;
     }
-    
 }

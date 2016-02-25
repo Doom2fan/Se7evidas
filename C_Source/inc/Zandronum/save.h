@@ -25,6 +25,6 @@
 // Prototypes
 bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
 SavedData_t LoadSaveData          (int playerNum);
-void        SaveSaveData          (int playerNum, SavedData_t *data);
+bool        SaveSaveData          (int playerNum, SavedData_t *data);
 
 #endif

@@ -33,6 +33,6 @@ SavedData_t LoadSaveData (int playerNum) {
     return data;
 }
 
-void SaveSaveData (int playerNum, SavedData_t *data) {
-
+bool SaveSaveData (int playerNum, SavedData_t *data) {
+    return FALSE;
 }

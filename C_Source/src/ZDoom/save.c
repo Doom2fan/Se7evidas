@@ -37,11 +37,11 @@ string SaveSys_ReadStr (string s, int *offset, int length) {
 }
 
 #ifdef DEBUG
-#define SaveSys_UIError Log ("\CgSave system: Load failed: Couldn't read user info.\n\Cg\t(Debug info: file: %s; line: %d;)", __FILE__, __LINE__) \
+#define SaveSys_UIError Log ("\CgSave system: Load failed: Couldn't read user info.\n\Cg    (Debug info: file: %s; line: %d;)", __FILE__, __LINE__) \
 
 #define SaveSys_FailLoad(s, length) \
 if (StrLen (s) != length) { \
-    Log ("\CgSave system: Load failed: Couldn't read save data.\n\Cg\t(Debug info: file: %s; line: %d;)", __FILE__, __LINE__); \
+    Log ("\CgSave system: Load failed: Couldn't read save data.\n\Cg    (Debug info: file: %s; line: %d;)", __FILE__, __LINE__); \
     return FALSE; \
 }
 #else
@@ -55,8 +55,15 @@ if (StrLen (s) != length) { \
 #endif
 
 bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
-    SavedData_t tmpData;
-    int *offset; *offset = 0;
+    PlayerData_t *player = &PlayerData [playerNum]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgFunction LoadSaveDataToPointer: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
+        return FALSE;
+    }
+
+    SavedData_t  tmpData;
+    int         *offset; *offset = 0;
 
     // Info
     string infoStr = GetUserCVarString (playerNum, SD_INFO);
@@ -90,7 +97,6 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     tmpData.xpSystem.strengthLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
     tmpData.xpSystem.staminaLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
     tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 11);
-    tmpData.ammoMax = SaveSys_ReadInt (rpgSysStr, offset, 4);
     SaveSys_FailLoad (rpgSysStr, *offset);
 
     *offset = 0;
@@ -102,14 +108,14 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     *offset = 0;
     // ThumperDef
     string thumperDefStr = GetUserCVarString (playerNum, SD_THUMPERDEF);
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
         tmpData.thumperDef.magShells [i] = SaveSys_ReadInt (thumperDefStr, offset, 4);
     tmpData.thumperDef.magIndex = SaveSys_ReadInt (thumperDefStr, offset, 4);
     tmpData.thumperDef.currentShell = SaveSys_ReadInt (thumperDefStr, offset, 4);
     SaveSys_FailLoad (thumperDefStr, *offset);
 
     // Inventory
-    if (!SaveSys_LoadInventory (playerNum, data)) {
+    if (!SaveSys_LoadInventory (playerNum, data, &importantInv) || !SaveSys_LoadInventory (playerNum, data, &normalInv)) {
         Log ("\CgSave system: Load failed: Couldn't load inventory.");
         return FALSE;
     }
@@ -128,45 +134,43 @@ SavedData_t LoadSaveData (int playerNum) {
     return data;
 }
 
-void SaveSaveData (int playerNum, SavedData_t *data) {
+bool SaveSaveData (int playerNum, SavedData_t *data) {
     // Info
     string infoStr = StrParam ("%+.4d%+.3d%S%+.3d", SAVESYS_SAVEVERSION, StrLen (data->name), data->name, data->gender);
     SetUserCVarString (playerNum, SD_INFO, infoStr);
 
     // RPG Systems
-    string rpgSysStr = StrParam ("%+.5d%+.6d%+.10d%+.2d%+.2d%+.10d%+.3d", data->xpSystem.level, data->xpSystem.experience, data->xpSystem.attrPoints, data->xpSystem.strengthLVL, data->xpSystem.staminaLVL, data->cash, data->ammoMax);
+    string rpgSysStr = StrParam ("%+.5d%+.6d%+.10d%+.2d%+.2d%+.10d", data->xpSystem.level, data->xpSystem.experience, data->xpSystem.attrPoints, data->xpSystem.strengthLVL, data->xpSystem.staminaLVL, data->cash);
     SetUserCVarString (playerNum, SD_RPGSYSTEM, rpgSysStr);
 
     // Script Data
     string scriptDataStr = StrParam ("%+.5d", data->scriptData.lastWeapon);
     SetUserCVarString (playerNum, SD_SCRIPTDATA, scriptDataStr);
     string thumperDefMagStr = s"";
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 4; i++)
         thumperDefMagStr = StrParam ("%S%+.3d", thumperDefMagStr, data->thumperDef.magShells [i]);
     string thumperDefStr = StrParam ("%S%+.3d%+.3d", thumperDefMagStr, data->thumperDef.magIndex, data->thumperDef.currentShell);
     SetUserCVarString (playerNum, SD_THUMPERDEF, thumperDefStr);
 
     // Inventory
-    SaveSys_SaveInventory (playerNum, data);
+    if (!SaveSys_SaveInventory (playerNum, data, &importantInv) || !SaveSys_SaveInventory (playerNum, data, &normalInv)) {
+        Log ("\CgSave system: Save failed: Couldn't save inventory.");
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
-Script_C void compressTest () {
-    string sds = s"fdfdf0000000000000d0000,,,,,,,,,,,,d,,,,,,,,,dfdfd,,,,,,,,,,,,,,,,,,,,888d888888845619";
-    string compressedSds = CSC_CompressString (sds);
-
-    SetUserCVarString (PLN, s"S7_SaveData", compressedSds);
-}
-
-Script_C void decompressTest () {
-    string derpStr =  s"\0x05\0x00\0x00\0x00\0x1F6\0x02\0x00\0x00\0x00\0x0C891981981981";
-
-    string derpcompressed = s"";//CSC_DecompressFILE (derp);
-
-    SetUserCVarString (PLN, s"S7_SaveData", derpcompressed);
-}
+#ifdef DEBUG
 
 Script_C void saveTest () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript saveTest: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
     SavedData_t saveData;
 
     saveData.name = s"Cutie herm deer girl <3";
@@ -183,5 +187,16 @@ Script_C void saveTest () {
 }
 
 Script_C void loadTest () {
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
+    if (!player) {
+        Log ("\CgScript loadTest: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
+    SavedData_t saveData = LoadSaveData (PLN);
+
+    PD_PerformLoad (player, &saveData);
 }
+
+#endif
