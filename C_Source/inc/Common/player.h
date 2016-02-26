@@ -114,8 +114,9 @@ struct ParkourDef_t {
     int  mjumpCount, mjumpMax;          // Count and max
 };
 
+#define THUMPERMAGSIZE 4
 struct ThumperDef_t {
-    int magShells [4];                  // Loaded shells in mag
+    int magShells [THUMPERMAGSIZE];     // Loaded shells in mag
     int magIndex;                       // Current shell in mag
     int currentShell;                   // Loaded shell in chamber
 };

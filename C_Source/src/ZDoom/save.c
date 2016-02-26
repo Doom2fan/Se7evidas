@@ -68,7 +68,6 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     // Info
     string infoStr = GetUserCVarString (playerNum, SD_INFO);
     if (StrLen (infoStr) < 1) {
-        SaveSys_UIError;
         return FALSE;
     }
     int version = SaveSys_ReadInt (infoStr, offset, 5);
@@ -108,19 +107,15 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     *offset = 0;
     // ThumperDef
     string thumperDefStr = GetUserCVarString (playerNum, SD_THUMPERDEF);
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < THUMPERMAGSIZE; i++)
         tmpData.thumperDef.magShells [i] = SaveSys_ReadInt (thumperDefStr, offset, 4);
     tmpData.thumperDef.magIndex = SaveSys_ReadInt (thumperDefStr, offset, 4);
     tmpData.thumperDef.currentShell = SaveSys_ReadInt (thumperDefStr, offset, 4);
     SaveSys_FailLoad (thumperDefStr, *offset);
 
-    // Inventory
-    if (!SaveSys_LoadInventory (playerNum, data, &importantInv) || !SaveSys_LoadInventory (playerNum, data, &normalInv)) {
-        Log ("\CgSave system: Load failed: Couldn't load inventory.");
-        return FALSE;
-    }
-
     *data = tmpData;
+
+    player = NULL;
 
     return TRUE;
 }
@@ -128,8 +123,9 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
 SavedData_t LoadSaveData (int playerNum) {
     SavedData_t data;
 
-    if (!LoadSaveDataToPointer (playerNum, &data))
+    if (!LoadSaveDataToPointer (playerNum, &data)) {
         data.isInvalid = TRUE;
+    }
 
     return data;
 }
@@ -147,7 +143,7 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     string scriptDataStr = StrParam ("%+.5d", data->scriptData.lastWeapon);
     SetUserCVarString (playerNum, SD_SCRIPTDATA, scriptDataStr);
     string thumperDefMagStr = s"";
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < THUMPERMAGSIZE; i++)
         thumperDefMagStr = StrParam ("%S%+.3d", thumperDefMagStr, data->thumperDef.magShells [i]);
     string thumperDefStr = StrParam ("%S%+.3d%+.3d", thumperDefMagStr, data->thumperDef.magIndex, data->thumperDef.currentShell);
     SetUserCVarString (playerNum, SD_THUMPERDEF, thumperDefStr);
@@ -159,6 +155,65 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     }
 
     return TRUE;
+}
+
+Script_C void S7_ClearSaveData NET () {
+    int playerNum = PLN;
+
+    SetUserCVarString (playerNum, SD_INFO,       s"");
+    SetUserCVarString (playerNum, SD_RPGSYSTEM,  s"");
+    SetUserCVarString (playerNum, SD_SCRIPTDATA, s"");
+    SetUserCVarString (playerNum, SD_THUMPERDEF, s"");
+    for (int i = 0; i < importantInv.maxCVars; i++)
+        SetUserCVarString (playerNum, StrParam ("%S%d", importantInv.cvarName, i + 1), s"");
+    for (int i = 0; i < normalInv.maxCVars; i++)
+        SetUserCVarString (playerNum, StrParam ("%S%d", normalInv.cvarName, i + 1), s"");
+}
+
+Script_C void S7_SaveSysSave NET () {
+    int playerNum = PLN; // Get the player's number
+    PlayerData_t *player = &PlayerData [playerNum]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript S7_SaveSysSave: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
+        return;
+    }
+
+    SavedData_t saveData = SavedData_t_new ();
+
+    saveData.name = StrParam ("%tS", playerNum);
+    saveData.gender = GetPlayerInfo (playerNum, PLAYERINFO_GENDER);
+    saveData.xpSystem = player->xpSystem;     // Level system stuff
+    saveData.cash = player->cash;             // Cash
+
+    // Script data
+    saveData.scriptData = player->scriptData; // Misc script data
+    saveData.thumperDef = player->thumperDef; // Thumper stuff
+
+    SaveSaveData (playerNum, &saveData);
+
+    player = NULL;
+}
+
+Script_C void S7_SaveSysLoad NET () {
+    int playerNum = PLN; // Get the player's number
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript S7_SaveSysLoad: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
+        return;
+    }
+
+    SavedData_t saveData = LoadSaveData (playerNum);
+
+    if (!(saveData.isInvalid) && PD_PerformLoad (player, &saveData)) {
+        if (!SaveSys_LoadInventory (playerNum, &saveData, &importantInv) || !SaveSys_LoadInventory (playerNum, &saveData, &normalInv)) {
+            Log ("\CgSave system: Load failed: Couldn't load inventory.");
+            return;
+        }
+    }
+
+    player = NULL;
 }
 
 #ifdef DEBUG
@@ -184,6 +239,8 @@ Script_C void saveTest () {
 
     SaveSaveData (PLN, &saveData);
     PrintBold ("%S", GetActorPropertyString (0, APROP_NameTag));
+
+    player = NULL;
 }
 
 Script_C void loadTest () {
@@ -195,8 +252,15 @@ Script_C void loadTest () {
     }
 
     SavedData_t saveData = LoadSaveData (PLN);
+    
+    if (PD_PerformLoad (player, &saveData)) {
+        if (!SaveSys_LoadInventory (PLN, &saveData, &importantInv) || !SaveSys_LoadInventory (PLN, &saveData, &normalInv)) {
+            Log ("\CgSave system: Load failed: Couldn't load inventory.");
+            return;
+        }
+    }
 
-    PD_PerformLoad (player, &saveData);
+    player = NULL;
 }
 
 #endif

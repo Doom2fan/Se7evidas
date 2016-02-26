@@ -37,17 +37,12 @@ void InvUpdAmmoMax (int playerNum) {
 bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef) {
     string output = s"";
     for (int i = 0; i < invDef->invArrSize; i++) {
-        PrintBold ("%d", i);
         output = StrParam ("%S%+.5d%+.10d", output, i, CheckInventory (invDef->invInfoArr [i].name));
     }
 
-    string outputArr [255];
-    for (int i = 0; i < 255; i++)
-        outputArr [i] = s"";
-
     // Add compression to this someday maybe
     int index = 1;
-    outputArr [0] = StrMid (output, 0, invDef->cvarMaxLen);
+    SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, 1), StrMid (output, 0, invDef->cvarMaxLen));
     output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
     while (TRUE) {
         if (StrLen (output) < invDef->cvarMaxLen)
@@ -55,7 +50,7 @@ bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         if (index >= invDef->maxCVars)
             return FALSE;
 
-        outputArr [index] = StrMid (output, 0, invDef->cvarMaxLen);
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index + 1), StrMid (output, 0, invDef->cvarMaxLen));
         output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
         index++;
     }
@@ -63,17 +58,12 @@ bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         if (index >= invDef->maxCVars)
             return FALSE;
 
-        outputArr [index] = StrMid (output, 0, invDef->cvarMaxLen);
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index + 1), StrMid (output, 0, invDef->cvarMaxLen));
         output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
         index++;
     }
-
-    int i = 0;
-    for (; i < invDef->maxCVars; i++) {
-        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, i + 1), outputArr [i]);
-    }
-    for (; i < invDef->maxCVars; i++) {
-        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, i + 1), s"");
+    for (; index < invDef->maxCVars; index++) {
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index + 1), s"");
     }
 
     return TRUE;
@@ -93,7 +83,6 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
     int count = length / INV_ENTRY_LEN;
 
     if (length % INV_ENTRY_LEN > 0) {
-        PrintBold ("Mod: %d; Div: %d;", length % INV_ENTRY_LEN, length / INV_ENTRY_LEN);
         return FALSE;
     }
 

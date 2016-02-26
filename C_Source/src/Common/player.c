@@ -136,7 +136,7 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
         Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
         return FALSE;
     } else if (!saveData || saveData->isInvalid) {
-        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
+        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct %S", (string) (saveData->isInvalid));
         return FALSE;
     }
 

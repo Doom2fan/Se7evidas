@@ -31,6 +31,7 @@
 #ifndef PLAYER_C
 #include "player.h"
 #endif
+#include "construct.h"
 
 // Typedefs
 typedef char * cstr;
