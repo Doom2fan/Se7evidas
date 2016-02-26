@@ -9,3 +9,7 @@
 //addMenuKey    "Reload (Press)"              "Use S7_ReloadKey"
 //addMenuKey    "Dodge (Press)"               +user4
 //addMenuKey    "Drop Weapon (Press)"         "Use S7_DropWeaponKey"
+
+alias S7_ClearSaveData "pukename \"S7_ClearSaveData\""
+alias S7_SaveSysSave   "pukename \"S7_SaveSysSave\""
+alias S7_SaveSysLoad   "pukename \"S7_SaveSysLoad\""
