@@ -13,7 +13,7 @@ SHORTHITTERSMG                  = "SR20 .45 ACP SMG \"Hitter\"";
 /** Secondary Weapons **/
 RAPTOR                          = "Cronus Corps R16 Pistol \"Raptor\"";                     // (9x19mm)
 TEC9                            = "Cronus Corps S18 SMG \"Kronos\"";                        // (9x19mm)
-REVOLVER                        = "ShadowFyre Omega-Sigma Revolver \"Deathbringer\"";       // (.44M)
+REVOLVER                        = "ShadowFyre Omega-Sigma Revolver \"Deathbringer\"";       // (.44 Magnum)
 // Short
 SHORTRAPTOR                     = "R16 \"Raptor\" Pistol";
 SHORTTEC9                       = "S18 \"Kronos\" SMG";
@@ -41,7 +41,7 @@ EMPTTHGRPICK                    = "Used 50mm grenade";
 762X39                          = "7.62x39mm";
 CELLS                           = "Type A Energy Cells";
 
-// Genders
+/** Genders **/
 GEN_MALE                        = "Male";
 GEN_FEM                         = "Female";
 GEN_OTHER                       = "Other";

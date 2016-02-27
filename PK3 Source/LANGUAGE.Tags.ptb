@@ -13,7 +13,7 @@ SHORTHITTERSMG                  = "Sub-Metralhadora .45 ACP SR20 \"Hitter\"";
 /** Secondary Weapons **/
 RAPTOR                          = "(Cronus Corps) Pistola R16 \"Raptor\"";                          // (9x19mm)
 TEC9                            = "(Cronus Corps) Sub-Metralhadora S18 \"Kronos\"";                 // (9x19mm)
-REVOLVER                        = "(ShadowFyre) Revolver Omega-Sigma \"Deathbringer\"";             // (.44M)
+REVOLVER                        = "(ShadowFyre) Revolver Omega-Sigma \"Deathbringer\"";             // (.44 Magnum)
 // Short
 SHORTRAPTOR                     = "Pistola R16 \"Raptor\"";
 SHORTTEC9                       = "Sub-Metralhadora S18 \"Kronos\"";
