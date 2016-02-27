@@ -1,4 +1,4 @@
-(In no particular order) (Stuff with an X are done)
+(In no particular order) (Stuff with an X is done)
 This shit has to be done before any official /beta/ releases:
     Shop system (WIP)
 
