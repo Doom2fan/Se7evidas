@@ -55,8 +55,12 @@ Script_C void S7_ServersideEnter ENTER () {
         return;
     }
     
-    if (!player->initialized)
+    if (!player->initialized) {
+        #ifdef DEBUG
+        Log ("Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
+        #endif
         InitializePlayer (player);
+    }
 
     while (TRUE) { // Loop forever
         UpdatePlayerData (player); // Update the player's data

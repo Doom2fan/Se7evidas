@@ -54,6 +54,12 @@ typedef char * cstr;
 
 #define BASEAMMOMAX 6
 
+#define MOD_VERSION_CSTR "0.1"
+#define MOD_VERSION_STRING s"0.1"
+#define MOD_VERSION_MAJOR 0
+#define MOD_VERSION_MINOR 1
+#define MOD_VERSION_FLOAT 0.1
+
 // Actor names
 // Spriting system
 #define STAMINATOKEN s"S7_Stamina"
