@@ -41,3 +41,25 @@ actor S7_Stimpack : customInventory replaces stimpack 32002 {
         Fail
     }
 }
+
+actor S7_Canteen : customInventory {
+    tag "Canteen"
+    inventory.maxAmount 2000
+    inventory.pickupMessage "$CANTEEN"
+    inventory.icon "ARTICANT"
+
+    +inventory.invBar
+
+    states {
+    Spawn:
+        CANT A -1
+        stop
+    Use:
+        TNT1 A 0 A_JumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed")
+        TNT1 A 0 ACS_NamedExecuteAlways ("S7_StimpackScript")
+        stop
+    Failed:
+        TNT1 A 0
+        Fail
+    }
+}
