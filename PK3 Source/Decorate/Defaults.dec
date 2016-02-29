@@ -68,6 +68,7 @@ actor S7_DistanceTestPuff {
     decal None
 
     +bloodlessImpact +painless +noPain +puffGetsOwner
+    +noTimeFreeze
 
     states {
     Spawn:
@@ -96,7 +97,7 @@ actor S7_DistanceTestProjectile : fastProjectile {
     scale 0.0
     decal None
 
-    +bloodlessImpact +painless +noPain
+    +bloodlessImpact +painless +noPain +noTimeFreeze
 
     states {
     Death:
