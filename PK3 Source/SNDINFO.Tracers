@@ -1,0 +1,30 @@
+$RANDOM Tracers/PassBy {
+    Tracers/PassBy1
+    Tracers/PassBy2
+    Tracers/PassBy3
+    Tracers/PassBy4
+}
+Tracers/PassBy1               "sounds/Tracers/PassBy1.ogg" // From Quake 4
+Tracers/PassBy2               "sounds/Tracers/PassBy2.ogg" // From Quake 4
+Tracers/PassBy3               "sounds/Tracers/PassBy3.ogg" // From Quake 4
+Tracers/PassBy4               "sounds/Tracers/PassBy4.ogg" // From Quake 4
+
+$RANDOM Tracers/HitWall {
+    Tracers/HitWall1
+    Tracers/HitWall2
+    Tracers/HitWall3
+    Tracers/HitWall4
+}
+Tracers/HitWall1              "sounds/Tracers/Hit/Wall1.ogg" // From Quake 4
+Tracers/HitWall2              "sounds/Tracers/Hit/Wall2.ogg" // From Quake 4
+Tracers/HitWall3              "sounds/Tracers/Hit/Wall3.ogg" // From Quake 4
+Tracers/HitWall4              "sounds/Tracers/Hit/Wall4.ogg" // From Quake 4
+
+$RANDOM Tracers/HitFlesh {
+    Tracers/HitFlesh1
+    Tracers/HitFlesh2
+    Tracers/HitFlesh3
+}
+Tracers/HitFlesh1             "sounds/Tracers/Hit/Flesh1.ogg" // From Quake 4
+Tracers/HitFlesh2             "sounds/Tracers/Hit/Flesh2.ogg" // From Quake 4
+Tracers/HitFlesh3             "sounds/Tracers/Hit/Flesh3.ogg" // From Quake 4
