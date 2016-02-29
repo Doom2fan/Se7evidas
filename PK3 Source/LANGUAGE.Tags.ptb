@@ -29,6 +29,9 @@ SHORTIONCANNON                  = "Canhao de Ions GTX-2 \"Mjolnir\" Mk V";
 SHORTTHUMPER                    = "Lanca Granadas XPL-50 \"Thumper\"";
 
 /** Inventory **/
+// Health
+CANTEEN                         = "Canteen";
+
 // Loot
 EMPTTHGR                        = "Granadas 50mm usadas";
 EMPTTHGRPICK                    = "Granada 50mm usada";

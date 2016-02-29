@@ -71,3 +71,30 @@ void HeartbeatScript (PlayerData_t *player, int *heartbeatTics) {
 Script_C int S7_GetMaxHealth () {
     return GetActorProperty (0, APROP_SpawnHealth);
 }
+
+Script_C void S7_CanteenScript () {
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    int health     = GetActorProperty (0, APROP_Health);
+    int milkAmount = CheckInventory (CANTEENITEM);
+
+    if (health >= player->health.maxHealth || milkAmount < player->health.milkUseRate)
+        return;
+
+    while (TRUE) {
+        if (health >= player->health.maxHealth || milkAmount < player->health.milkUseRate)
+            break;
+
+        SetActorProperty (0, APROP_Health, health + player->health.milkRegenRate);
+        TakeInventory (CANTEENITEM, player->health.milkUseRate);
+        health     = GetActorProperty (0, APROP_Health);
+        milkAmount = CheckInventory (CANTEENITEM);
+    }
+
+    FadeRange (0, 40, 120, 0.5k, 0, 0, 0, 0.0k, 0.4);
+    PlaySound (0, s"Inventory/CanteenUse", CHAN_ITEM);
+}

@@ -76,6 +76,7 @@ typedef char * cstr;
 // Weapon stuff
 #define QUICKMELEEWEAPON s"S7_QuickMelee"
 // Misc
+#define CANTEENITEM s"S7_Canteen"
 #define DYINGTOKEN s"S7_Dying"
 #define UNDERWATERTOKEN s"S7_IsUnderwater"
 #define AIRTIMETOKEN s"S7_AirTime"

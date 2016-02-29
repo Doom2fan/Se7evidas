@@ -29,6 +29,9 @@ SHORTIONCANNON                  = "GTX-2 \"Mjolnir\" Ion Cannon Mk V";
 SHORTTHUMPER                    = "XPL-50 \"Thumper\" Grenade Launcher";
 
 /** Inventory **/
+// Health
+CANTEEN                         = "Canteen";
+
 // Loot
 EMPTTHGR                        = "Used 50mm grenades";
 EMPTTHGRPICK                    = "Used 50mm grenade";

@@ -112,6 +112,8 @@ void InitializePlayer (PlayerData_t *player) {
 
     player->thumperDef.magIndex = -1;
     player->ammoMax = BASEAMMOMAX;
+    player->health.milkRegenRate = 5;
+    player->health.milkUseRate = 25;
 
     SavedData_t saveData = {
         .isInvalid = TRUE,
