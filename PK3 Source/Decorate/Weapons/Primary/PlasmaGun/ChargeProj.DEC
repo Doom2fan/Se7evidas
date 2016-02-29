@@ -1,0 +1,80 @@
+//-------------------------------------------------------------------------------------------
+//
+// Projectiles
+//
+//-------------------------------------------------------------------------------------------
+actor S7_PlasmaGunRailCharge1 : S7_PlasmaGunRail {
+    health 170 scale 0.03 alpha 0.8
+    damage (21 + random [weaponDamage] (-1, 1))
+    missileType "S7_PlasmaGunRailEffectSpawnerCharge1"
+}
+
+actor S7_PlasmaGunRailCharge2 : S7_PlasmaGunRailCharge1 {
+    health 175 scale 0.045 alpha 0.85
+    damage (24 + random [weaponDamage] (-1, 1))
+    missileType "S7_PlasmaGunRailEffectSpawnerCharge2"
+}
+
+actor S7_PlasmaGunRailCharge3 : S7_PlasmaGunRailCharge1 {
+    health 180 scale 0.06 alpha 0.9
+    damage (27 + random [weaponDamage] (-1, 1))
+    missileType "S7_PlasmaGunRailEffectSpawnerCharge3"
+    decal Scorch
+}
+actor S7_PlasmaGunRailCharge4 : S7_PlasmaGunRailCharge3 {
+    health 185 scale 0.075 alpha 0.95
+    damage (30 + random [weaponDamage] (-1, 1))
+    missileType "S7_PlasmaGunRailEffectSpawnerCharge4"
+}
+
+
+//-------------------------------------------------------------------------------------------
+//
+// Effects
+//
+//-------------------------------------------------------------------------------------------
+/** Spawners **/
+actor S7_PlasmaGunRailEffectSpawnerCharge1 : S7_PlasmaGunRailEffectSpawner {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail_Charge1", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 1 A_SpawnItemEx ("S7_PlasmaGunRailSmokeTrail_Charge1", 0.0 + fRandom [sfx] (-0.8, 0.8), 0.0 + fRandom [sfx] (-0.8, 0.8), 8.0 + fRandom [sfx] (-0.8, 0.8), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        stop
+    }
+}
+actor S7_PlasmaGunRailEffectSpawnerCharge2 : S7_PlasmaGunRailEffectSpawner {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail_Charge2", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 1 A_SpawnItemEx ("S7_PlasmaGunRailSmokeTrail_Charge2", 0.0 + fRandom [sfx] (-0.8, 0.8), 0.0 + fRandom [sfx] (-0.8, 0.8), 8.0 + fRandom [sfx] (-0.8, 0.8), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        stop
+    }
+}
+actor S7_PlasmaGunRailEffectSpawnerCharge3 : S7_PlasmaGunRailEffectSpawner {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail_Charge3", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 1 A_SpawnItemEx ("S7_PlasmaGunRailSmokeTrail_Charge3", 0.0 + fRandom [sfx] (-0.8, 0.8), 0.0 + fRandom [sfx] (-0.8, 0.8), 8.0 + fRandom [sfx] (-0.8, 0.8), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        stop
+    }    
+}
+actor S7_PlasmaGunRailEffectSpawnerCharge4 : S7_PlasmaGunRailEffectSpawner {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail_Charge4", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 1 A_SpawnItemEx ("S7_PlasmaGunRailSmokeTrail_Charge4", 0.0 + fRandom [sfx] (-0.8, 0.8), 0.0 + fRandom [sfx] (-0.8, 0.8), 8.0 + fRandom [sfx] (-0.8, 0.8), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        stop
+    }    
+}
+
+/** Trails **/
+actor S7_PlasmaGunRailTrail_Charge1 : S7_PlasmaGunRailTrail { scale 0.03  }
+actor S7_PlasmaGunRailTrail_Charge2 : S7_PlasmaGunRailTrail { scale 0.045 }
+actor S7_PlasmaGunRailTrail_Charge3 : S7_PlasmaGunRailTrail { scale 0.06  }
+actor S7_PlasmaGunRailTrail_Charge4 : S7_PlasmaGunRailTrail { scale 0.075 }
+
+/** Smoke **/
+actor S7_PlasmaGunRailSmokeTrail_Charge1 : S7_PlasmaGunRailSmokeTrail { scale 0.06  alpha 0.8  }
+actor S7_PlasmaGunRailSmokeTrail_Charge2 : S7_PlasmaGunRailSmokeTrail { scale 0.065 alpha 0.85 }
+actor S7_PlasmaGunRailSmokeTrail_Charge3 : S7_PlasmaGunRailSmokeTrail { scale 0.07  alpha 0.9  }
+actor S7_PlasmaGunRailSmokeTrail_Charge4 : S7_PlasmaGunRailSmokeTrail { scale 0.075 alpha 0.95 }
