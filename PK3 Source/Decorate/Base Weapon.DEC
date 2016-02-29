@@ -1,7 +1,17 @@
+//-------------------------------------------------------------------------------------------
+//
+// Melee type tokens
+//
+//-------------------------------------------------------------------------------------------
 actor S7_DaggerMelee  : boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
 actor S7_Dagger2Melee : boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
 actor S7_KickMelee    : boolean { } // Credits: Sprites: ???, Chronos "phantombeta" Ouroboros
 
+//-------------------------------------------------------------------------------------------
+//
+// Base weapon
+//
+//-------------------------------------------------------------------------------------------
 actor S7_BaseWeapon : weapon {
     inventory.pickupSound "misc/gunpickup"
     weapon.bobRangeX 0.3
@@ -88,6 +98,11 @@ actor S7_BaseWeapon : weapon {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Melee puffs
+//
+//-------------------------------------------------------------------------------------------
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_MeleePuff {
     damageType Kick
@@ -113,8 +128,11 @@ actor S7_MeleePuffStrong : S7_MeleePuff {
     }
 }
 
-// SynthFire stuff
-// Synth-Fire|By Xaser
+//-------------------------------------------------------------------------------------------
+//
+// Synth-Fire stuff
+//
+//-------------------------------------------------------------------------------------------
 actor S7_SynthFireActive         : boolean { }
 actor S7_SynthFireLeft           : boolean { }
 actor S7_SynthFireRight          : boolean { }

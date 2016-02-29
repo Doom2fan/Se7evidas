@@ -55,6 +55,11 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Black Panther ball
+//
+//-------------------------------------------------------------------------------------------
 actor S7_BlackPantherBall : S7_FireballBase {
     damage (random [monsterDamage] (1, 4) * 16)
     speed 18

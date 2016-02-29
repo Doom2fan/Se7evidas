@@ -1,10 +1,14 @@
 // By Chronos "phantombeta" Ouroboros
-/** Inventory tokens **/
+//-------------------------------------------------------------------------------------------
+//
+// Inventory tokens
+//
+//-------------------------------------------------------------------------------------------
 actor S7_IsUnderwater  : boolean { }
 actor S7_Dying         : boolean { }
 actor S7_AutoReloading : boolean { }
 actor S7_DisableHud    : boolean { }
-// Weapon slot tokens
+/** Weapon slot tokens **/
 actor S7_Slot1Taken : boolean { }
 actor S7_Slot2Taken : boolean { }
 actor S7_Slot3Taken : boolean { }
@@ -19,6 +23,11 @@ actor S7_Slot0Taken : boolean { }
 /** Counters **/
 actor S7_AirTime : counter { inventory.maxAmount 700 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Base playerpawn
+//
+//-------------------------------------------------------------------------------------------
 actor S7_BasePlayer : playerPawn {
     // Damage
     gibHealth -50
@@ -132,7 +141,11 @@ actor S7_BasePlayer : playerPawn {
     }
 }
 
-// Null Weapon
+//-------------------------------------------------------------------------------------------
+//
+// Null weapon
+//
+//-------------------------------------------------------------------------------------------
 actor S7_NullWeapon : weapon {
     tag "Unarmed"
     height 0
@@ -162,6 +175,11 @@ actor S7_NullWeapon : weapon {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Sprinting null weapon
+//
+//-------------------------------------------------------------------------------------------
 actor S7_Sprinting    : boolean { }
 actor S7_SprintWeapon : S7_NullWeapon {
     states {
@@ -175,7 +193,7 @@ actor S7_SprintWeapon : S7_NullWeapon {
         loop
     Ready3:
         TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob)
-        Loop
+        loop
     Deselect:
         TNT1 AA 1 A_TakeInventory ("S7_Sprinting", 99999)
         TNT1 A 1 A_Lower
@@ -184,7 +202,11 @@ actor S7_SprintWeapon : S7_NullWeapon {
     }
 }
 
-// Kicking
+//-------------------------------------------------------------------------------------------
+//
+// Quick melee key
+//
+//-------------------------------------------------------------------------------------------
 actor S7_DoMelee  : boolean { }
 actor S7_MeleeKey : S7_CustomKey {
     states {
@@ -194,7 +216,11 @@ actor S7_MeleeKey : S7_CustomKey {
     }
 }
 
-// Reload
+//-------------------------------------------------------------------------------------------
+//
+// Reload key
+//
+//-------------------------------------------------------------------------------------------
 actor S7_Reloading     : boolean { }
 actor S7_ReloadKey     : S7_CustomKey {
     states {
@@ -208,7 +234,11 @@ actor S7_ReloadKey     : S7_CustomKey {
     }
 }
 
-// Reload
+//-------------------------------------------------------------------------------------------
+//
+// Change firing mode key
+//
+//-------------------------------------------------------------------------------------------
 actor S7_ChangeFireMode : boolean { }
 actor S7_FiringModeKey  : S7_CustomKey {
     states {
@@ -218,7 +248,11 @@ actor S7_FiringModeKey  : S7_CustomKey {
     }
 }
 
-// Drop Weapon
+//-------------------------------------------------------------------------------------------
+//
+// Drop weapon key
+//
+//-------------------------------------------------------------------------------------------
 actor S7_DropDatWeapon : boolean { }
 actor S7_DropWeaponKey : S7_CustomKey {
     states {
@@ -228,7 +262,11 @@ actor S7_DropWeaponKey : S7_CustomKey {
     }
 }
 
-// Show popup 1 (Full inventory list)
+//-------------------------------------------------------------------------------------------
+//
+// Show popup 1 key (Full inventory list)
+//
+//-------------------------------------------------------------------------------------------
 actor S7_ShowPop1Key : S7_CustomKey {
     states {
     Use:
@@ -237,18 +275,34 @@ actor S7_ShowPop1Key : S7_CustomKey {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
 // Stamina
+//
+//-------------------------------------------------------------------------------------------
 actor S7_StaminaRegen  : boolean { }
 actor S7_Stamina       : ammo    { inventory.maxAmount 150 +inventory.undroppable -inventory.invBar }
 
+//-------------------------------------------------------------------------------------------
+//
 // Mana
+//
+//-------------------------------------------------------------------------------------------
 actor S7_ManaRegen     : boolean { }
 actor S7_Mana          : ammo    { inventory.maxAmount 250 +inventory.undroppable -inventory.invBar }
 
+//-------------------------------------------------------------------------------------------
+//
 // Multijumping
+//
+//-------------------------------------------------------------------------------------------
 actor S7_MultiJump_Max : counter { }
 
+//-------------------------------------------------------------------------------------------
+//
 // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+//
+//-------------------------------------------------------------------------------------------
 actor GETTHATSHITOUTTAHERE {
     health -1
     radius 20

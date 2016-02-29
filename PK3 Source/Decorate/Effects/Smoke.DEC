@@ -1,3 +1,9 @@
+//-------------------------------------------------------------------------------------------
+//
+// Smoke
+//
+//-------------------------------------------------------------------------------------------
+/** White **/
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_WhiteSmoke {
     renderStyle add
@@ -13,6 +19,8 @@ actor S7_WhiteSmoke {
     }
 }
 
+/** Black **/
+// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_BlackSmoke : S7_WhiteSmoke {
     renderStyle translucent
     alpha 0.15
@@ -24,6 +32,8 @@ actor S7_BlackSmoke : S7_WhiteSmoke {
     }
 }
 
+/** Shot smoke (white) **/
+// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_ShotSmoke {
     vSpeed 2
     renderStyle add
@@ -58,7 +68,7 @@ actor S7_ShotSmoke_Spawner { // By wildweasel, edited by Chronos "phantombeta" O
     damage 0
     projectile
 
-    +thruActors
+    +thruactors
 
     states {
     Spawn:
@@ -72,6 +82,8 @@ actor S7_ShotSmoke_Spawner { // By wildweasel, edited by Chronos "phantombeta" O
     }
 }
 
+/** Shot smoke (Black) **/
+// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_BlackShotSmoke : S7_ShotSmoke {
     renderStyle translucent
     alpha 0.15
@@ -97,6 +109,8 @@ actor S7_BlackShotSmoke_Spawner : S7_ShotSmoke_Spawner {
     }
 }
 
+/** Smoking piece **/
+// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ouroboros
     speed 12
     gravity 0.7
@@ -120,6 +134,8 @@ actor S7_SmokingPieceSmoke : S7_ShotSmokeTrail {
     alpha 0.5
 }
 
+/** Shot smoke 2 **/
+// DECORATE by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
 actor S7_ShotSmoke_2_Spawner : S7_ShotSmoke_Spawner {
     states {
     Death:
@@ -128,7 +144,6 @@ actor S7_ShotSmoke_2_Spawner : S7_ShotSmoke_Spawner {
     }
 }
 
-// DECORATE by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
 actor S7_ShotSmoke_2 {
     renderStyle add
     alpha 0.3
@@ -143,7 +158,9 @@ actor S7_ShotSmoke_2 {
     }
 }
 
-Actor S7_HeatSmoke : S7_ShotSmoke { // Modified version of code from Beautiful Doom
+/** Heat smoke/vapour/whatever **/
+// By Jekyll Grim Payne/zer0, modified (a lot) by Chronos "phantombeta" Ouroboros
+actor S7_HeatSmoke : S7_ShotSmoke {
     scale 0.08
     alpha 0.15
 
@@ -155,26 +172,36 @@ Actor S7_HeatSmoke : S7_ShotSmoke { // Modified version of code from Beautiful D
     }
 }
 
-Actor S7_HeatSmokeTrail : S7_HeatSmoke { // Modified version of code from Beautiful Doom
+actor S7_HeatSmokeTrail : S7_HeatSmoke {
     vSpeed 0
     alpha 0.075
 
     states {
     Spawn:
         SMOK HIJKLMNOPQ 1
-        Stop
+        stop
     }
 }
 
-Actor S7_HeatSmokeSpawner : S7_DebrisGeneral { // Modified version of code from Beautiful Doom
+actor S7_HeatSmokeSpawner : S7_DebrisGeneral {
     speed 20
 
     +noClip
 
-    States {
+    states {
     Spawn:
         TNT1 A 0
         TNT1 A 0 A_SpawnItem ("S7_HeatSmoke", 0, 0)
-        Stop
+        stop
+    }
+}
+
+actor S7_HeatSmokeStatic : S7_HeatSmoke {
+    vSpeed 0
+
+    states {
+    Spawn:
+        SMOK EFGHIJKLMNOPQ 1
+        stop
     }
 }

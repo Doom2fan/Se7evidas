@@ -4,7 +4,11 @@
 // Weapons: A_FireCustomMissile (tracerName, fRandom [weaponSpread] (-, horizontalSpread), 1, horizontalOffset, verticalOffset, 0, fRandom [weaponSpread] (-, verticalSpread))
 // Monsters: A_CustomMissile (tracerName, verticalOffset, horizontalOffset, fRandom [monsterSpread] (-, horizontalSpread), 0, fRandom [monsterSpread] (-, verticalSpread))
 
-/*** Base ***/
+//-------------------------------------------------------------------------------------------
+//
+// Base tracer
+//
+//-------------------------------------------------------------------------------------------
 actor S7_TracerEffectsBase {
     height 2
     radius 2
@@ -67,6 +71,11 @@ actor S7_TracerTrail : S7_TracerEffectsBase {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Bullet puff
+//
+//-------------------------------------------------------------------------------------------
 actor S7_BulletPuff : S7_TracerEffectsBase replaces BulletPuff {
     scale 0.05
 
@@ -112,7 +121,11 @@ actor S7_BulletPuffSparks : S7_TracerEffectsBase {
     }
 }
 
-/*** Tracers ***/
+//-------------------------------------------------------------------------------------------
+//
+// Tracers
+//
+//-------------------------------------------------------------------------------------------
 /*** Primary ***/
 actor S7_AMGTracer              : S7_BaseTracer {
     damage (random [weaponDamage] (1, 3) * 9)

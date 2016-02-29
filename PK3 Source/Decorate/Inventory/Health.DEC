@@ -1,3 +1,8 @@
+//-------------------------------------------------------------------------------------------
+//
+// Medikit
+//
+//-------------------------------------------------------------------------------------------
 actor S7_Medikit : customInventory replaces medikit 32001 {
     tag "Medikit"
     inventory.maxAmount 4
@@ -20,6 +25,11 @@ actor S7_Medikit : customInventory replaces medikit 32001 {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Stimpack
+//
+//-------------------------------------------------------------------------------------------
 actor S7_Stimpack : customInventory replaces stimpack 32002 {
     tag "Stimpack"
     inventory.maxAmount 8
@@ -42,6 +52,11 @@ actor S7_Stimpack : customInventory replaces stimpack 32002 {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Canteen
+//
+//-------------------------------------------------------------------------------------------
 actor S7_Canteen : customInventory {
     tag "$CANTEEN"
     inventory.maxAmount 2000

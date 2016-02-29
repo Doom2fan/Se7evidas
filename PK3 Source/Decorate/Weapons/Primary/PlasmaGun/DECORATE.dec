@@ -1,3 +1,8 @@
+//-------------------------------------------------------------------------------------------
+//
+// Plasma Machine Gun Mk III
+//
+//-------------------------------------------------------------------------------------------
 actor S7_PlasmaGun_Semi          : boolean { }
 actor S7_PlasmaGun_Charge        : counter { inventory.maxAmount 4 }
 actor S7_PlasmaGun_ChargingLevel : counter { inventory.maxAmount 16 }

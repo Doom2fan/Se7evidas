@@ -1,7 +1,13 @@
-// Keycard credits:
-//  DECORATE: Chronos "phantombeta" Ouroboros
-//  Sprites: Blue Shadow
+/* Keycard credits:
+** DECORATE: Chronos "phantombeta" Ouroboros
+** Sprites: Blue Shadow
+*/
 
+//-------------------------------------------------------------------------------------------
+//
+// Red keycard
+//
+//-------------------------------------------------------------------------------------------
 actor S7_RedKeycard : redCard replaces redCard {
     inventory.icon "HUDKYRED"
     species RedCard
@@ -14,6 +20,11 @@ actor S7_RedKeycard : redCard replaces redCard {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Blue keycard
+//
+//-------------------------------------------------------------------------------------------
 actor S7_BlueKeycard : blueCard replaces blueCard {
     inventory.icon "HUDKYBLU"
     species BlueCard
@@ -26,6 +37,11 @@ actor S7_BlueKeycard : blueCard replaces blueCard {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Yellow keycard
+//
+//-------------------------------------------------------------------------------------------
 actor S7_YellowKeycard : yellowCard replaces yellowCard {
     inventory.icon "HUDKYYLW"
     species YellowCard

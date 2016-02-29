@@ -25,6 +25,11 @@ actor S7_DebrisGeneral {
 }
 
 // By Chronos "phantombeta" Ouroboros
+//-------------------------------------------------------------------------------------------
+//
+// Action runner item base
+//
+//-------------------------------------------------------------------------------------------
 actor S7_ActionRunnerBase : customInventory {
     inventory.maxAmount 1
 
@@ -37,6 +42,11 @@ actor S7_ActionRunnerBase : customInventory {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Custom key base
+//
+//-------------------------------------------------------------------------------------------
 actor S7_CustomKey : customInventory {
     inventory.amount 1
     inventory.maxAmount 1
@@ -45,6 +55,11 @@ actor S7_CustomKey : customInventory {
     -inventory.invBar
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Distance testing puff
+//
+//-------------------------------------------------------------------------------------------
 actor S7_DistanceTestPuff {
     damage 0
     damageType TesterProjectile
@@ -67,6 +82,11 @@ actor S7_DistanceTestPuff {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Distance testing projectile
+//
+//-------------------------------------------------------------------------------------------
 actor S7_DistanceTestProjectile : fastProjectile {
     speed 25
     projectile
@@ -86,7 +106,11 @@ actor S7_DistanceTestProjectile : fastProjectile {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
 // Damage types
+//
+//-------------------------------------------------------------------------------------------
 damageType TesterProjectile {
     factor 0.0
 
