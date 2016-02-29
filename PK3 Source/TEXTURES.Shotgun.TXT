@@ -48,9 +48,9 @@ sprite DSGRA0, 320, 200 {
 }
 
 sprite DSGRB0, 320, 200 {
-    patch SSGRA0, 140, 93
+    patch SSGRA0, 141, 94
 }
 
 sprite DSGRC0, 320, 200 {
-    patch SSGRA0, 134, 87
+    patch SSGRA0, 139, 92
 }
