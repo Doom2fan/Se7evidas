@@ -43,6 +43,7 @@ Script_C void S7_ServersideOpen OPEN () {
     }
 }
 
+// General stuff
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
@@ -51,16 +52,11 @@ Script_C void S7_ServersideEnter ENTER () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
-        return;
+        player = malloc (sizeof (PlayerData_t));
     }
     
-    if (!player->initialized) {
-        #ifdef DEBUG
-        Log ("Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
-        #endif
+    if (!player->initialized)
         InitializePlayer (player);
-    }
 
     while (TRUE) { // Loop forever
         UpdatePlayerData (player); // Update the player's data
@@ -87,7 +83,8 @@ Script_C void S7_ServersideEnter ENTER () {
 
 }
 
-Script_C void S7_ClientsideEnter ENTER () {
+// Clientside-ish (HUD, popups, heartbeats, etc.) stuff
+Script_C void S7_ServersideEnter2 ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
@@ -111,6 +108,17 @@ Script_C void S7_ClientsideEnter ENTER () {
 
         Delay (1); // Wait for a tic
     }
+}
+
+// Truly clientside stuff
+Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+
+    #ifdef DEBUG
+    Log ("Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
+    #endif
 }
 
 void ResetStuff (PlayerData_t *player) {
