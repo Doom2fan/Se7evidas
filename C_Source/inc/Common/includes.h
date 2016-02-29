@@ -24,14 +24,15 @@
 #include "util.h"
 #include "util_math.h"
 #include "commonFuncs.h"
+#include "types.h"
 #include "enum.h"
+#include "construct.h"
 #ifndef SERVER_C
 #include "server.h"
 #endif
 #ifndef PLAYER_C
 #include "player.h"
 #endif
-#include "construct.h"
 
 // Typedefs
 typedef char * cstr;

@@ -21,6 +21,7 @@
 #define PLAYER_H
 
 #include <ACS_ZDoom.h>
+#include "types.h"
 
 // Macros
 #define SS_ITEMSMAX \
@@ -43,11 +44,11 @@ typedef struct PD_ScriptData_t  PD_ScriptData_t;
 typedef struct SS_Item_t        SS_Item_t;
 typedef struct SS_Page_t        SS_Page_t;
 typedef struct SS_Shop_t        SS_Shop_t;
-typedef struct SS_Pos_t         SS_Pos_t;
 typedef struct ShopDef_t        ShopDef_t;
 typedef struct SprintDef_t      SprintDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct ThumperDef_t     ThumperDef_t;
+typedef struct WeapBinds_t      WeapBinds_t;
 // Save system
 typedef struct SavedData_t      SavedData_t;
 
@@ -123,19 +124,20 @@ struct ThumperDef_t {
     int currentShell;                   // Loaded shell in chamber
 };
 
-struct SS_Pos_t {
-    int x, y;
-};
-
 struct ShopDef_t {
     bool       open, disableOpen;
     SS_Shop_t *shop;
     SS_Page_t *page;
     SS_Item_t *items [100];
     int        itemsLength;
-    SS_Pos_t   position;
+    vec2_i     position;
     int        moveDelay, moveSpeed;
     bool       sellMode;
+};
+
+struct WeapBinds_t {
+    vec2_i curWeap;                     // Current weapon;
+    int    weapBinds [5] [5];           // Weapon bindings array
 };
 
 typedef struct PlayerData_t {
@@ -161,6 +163,7 @@ typedef struct PlayerData_t {
     ParkourDef_t    parkourDef;         // Dodging system stuff
     ThumperDef_t    thumperDef;         // Thumper stuff
     ShopDef_t       shopDef;            // Shop system stuff
+    WeapBinds_t     weapBinds;          // Weapon bindings
 } PlayerData_t;
 
 struct SavedData_t {
@@ -175,6 +178,7 @@ struct SavedData_t {
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data
     ThumperDef_t    thumperDef;         // Thumper stuff
+    WeapBinds_t     weapBinds;          // Weapon bindings
 };
 
 // Stuff

@@ -33,3 +33,5 @@ user string S7_SaveData_Inv22           = "";
 user string S7_SaveData_Inv23           = "";
 user string S7_SaveData_Inv24           = "";
 user string S7_SaveData_Inv25           = "";
+user string S7_SaveData_WBnd1           = "";
+user string S7_SaveData_WBnd2           = "";
