@@ -1,20 +1,24 @@
 ======================================================================================================================================================================================
+Print and HudMessage:
 [04:03.07 PM] <marrub> Print("butts %d %f\n", 10, 400.04);
 
 [04:03.35 PM] <marrub> HudMessage(look at the god damn prototype there's like 50 arguments, "butts %d %f\n", 10, 400.04);
                         HudMessage (flags, id, color, x, y, hold, opt1, opt2, opt3, /text (printf Syntax)/...)
 ======================================================================================================================================================================================
+Don't run on titlemaps:
 // Not needed or desired in TitleMaps.
     if (ACS_GameType () == GAME_TITLE_MAP)
         return;
     
     
 ======================================================================================================================================================================================
+Return on player struct NULL or negative:
 if (!player)
         return;
     
     
 ======================================================================================================================================================================================
+Return on player struct NULL or negative and log the error (function):
 if (!player) {
         Log ("\CgFunction : Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
@@ -22,6 +26,7 @@ if (!player) {
     
     
 ======================================================================================================================================================================================
+Return on player struct NULL or negative and log the error (script):
 if (!player) {
         Log ("\CgScript : Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
@@ -29,6 +34,7 @@ if (!player) {
     
     
 ======================================================================================================================================================================================
+Multi-dimensional array stuff:
 1d to 2d:
     x = (xy / 10)
     y = (xy % 10)
