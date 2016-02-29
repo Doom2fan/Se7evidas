@@ -1,7 +1,7 @@
 // help ;-;
 // Zandronum's netcode fucking sucks.
-#include "Decorate/Weapons/Primary/Thumper/Casings.DEC"
-#include "Decorate/Weapons/Primary/Thumper/Grenades.DEC"
+#INCLUDE "Decorate/Weapons/Primary/Thumper/Casings.DEC"
+#INCLUDE "Decorate/Weapons/Primary/Thumper/Grenades.DEC"
 enum {
     S7_TH_None      = 0,
     S7_TH_Exp       = 1,
