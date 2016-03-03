@@ -10,7 +10,7 @@ actor S7_WhiteSmoke {
     alpha 0.3
     scale 0.1
 
-    +noInteraction +forceXYBillboard
+    +noInteraction +forceXYBillboard +clientsideOnly
 
     states {
     Spawn:
@@ -40,7 +40,7 @@ actor S7_ShotSmoke {
     alpha 0.3
     scale 0.1
 
-    +noInteraction +forceXYBillboard
+    +noInteraction +forceXYBillboard +clientsideOnly
 
     states {
     Spawn:
@@ -68,7 +68,7 @@ actor S7_ShotSmoke_Spawner { // By wildweasel, edited by Chronos "phantombeta" O
     damage 0
     projectile
 
-    +thruactors
+    +thruactors +clientsideOnly
 
     states {
     Spawn:
@@ -115,7 +115,7 @@ actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ou
     speed 12
     gravity 0.7
 
-    -noGravity
+    -noGravity +clientsideOnly
 
     states {
     Spawn:
@@ -149,7 +149,7 @@ actor S7_ShotSmoke_2 {
     alpha 0.3
     scale 0.1
 
-    +noInteraction +forceXYBillboard
+    +noInteraction +forceXYBillboard +clientsideOnly
     
     states {
     Spawn:
