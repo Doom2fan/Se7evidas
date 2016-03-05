@@ -1,3 +1,6 @@
+#include "Decorate/Monsters/Empress/Effects.DEC"
+#include "Decorate/Monsters/Empress/Spawner.DEC"
+
 //-------------------------------------------------------------------------------------------
 //
 // Empress (Female Heresiarch)
@@ -5,7 +8,7 @@
 //-------------------------------------------------------------------------------------------
 actor S7_IsEmpress : boolean { }
 actor S7_EmpressBalls : counter { inventory.maxAmount 4 }
-actor S7_Empress replaces cyberdemon {
+actor S7_Empress {
     health 4000
     radius 40
     height 100
@@ -30,12 +33,14 @@ actor S7_Empress replaces cyberdemon {
     Idle:
         HRFR A 10 A_Look
         loop
+
     See:
         TNT1 A 0 A_PlaySound ("Footsteps/Large", 5)
         HRFR AABB 4 A_Chase
         TNT1 A 0 A_PlaySound ("Footsteps/Large", 6)
         HRFR CCDD 4 A_Chase
         loop
+
     Missile:
         TNT1 A 0 A_Jump (64, "ShieldsUp") //"MissileAttack", "ShieldsUp")
         wait
@@ -48,12 +53,25 @@ actor S7_Empress replaces cyberdemon {
         //TNT1 A 0 A_GiveInventory ("S7_EmpressProtection", 1)
         HRFR FFFF 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
         goto See
+
+    Melee:
+        HRFR A 2 A_JumpIf (callACS ("S7_EmpressSexChecking") == FALSE, "NoSex")
+        TNT1 A 0 A_Jump (256, "BarelyConsensualSex")
+    NoSex:
+        HRFR A 1
+        goto See
+
+    BarelyConsensualSex:
+        
+        goto See
+
     Pain:
         HRFR G 8 A_Pain
         goto See
     Pain.Empress_BallExploded:
         HRFR G 13 A_Pain
         goto See
+
     Death:
         TNT1 A 0 A_KillChildren
         stop
