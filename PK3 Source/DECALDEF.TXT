@@ -77,3 +77,51 @@ decalGroup S7_IonCannon {
     S7_IonCannonLightning1   1
     S7_IonCannonLightning2   1
 }
+
+// Plasma MG Rail
+decal S7_PlasmaGunRail {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 0.05
+    y-Scale 0.05
+
+    randomFlipX
+    randomFlipY
+}
+
+decal S7_PlasmaGunRail_Charge1 {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 0.1
+    y-Scale 0.1
+
+    randomFlipX
+    randomFlipY
+}
+decal S7_PlasmaGunRail_Charge2 {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 0.15
+    y-Scale 0.15
+
+    randomFlipX
+    randomFlipY
+}
+decal S7_PlasmaGunRail_Charge3 {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 0.2
+    y-Scale 0.2
+
+    randomFlipX
+    randomFlipY
+}
+decal S7_PlasmaGunRail_Charge4 {
+    pic SCORCH1
+    shade "00 00 00"
+    x-Scale 0.25
+    y-Scale 0.25
+
+    randomFlipX
+    randomFlipY
+}

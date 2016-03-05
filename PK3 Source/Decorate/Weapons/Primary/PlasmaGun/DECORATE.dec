@@ -186,8 +186,7 @@ actor S7_PlasmaGunRail : fastProjectile {
     scale 0.015
     damage (random [weaponDamage] (1, 5) * 13)
     missileType "S7_PlasmaGunRailEffectSpawner"
-    decal Bullet
-    alpha 0.5
+    decal S7_PlasmaGunRail
 
     +noDamageThrust +forceXYBillboard
 
@@ -210,12 +209,12 @@ actor S7_PlasmaGunRailEffectSpawner {
     states {
     Spawn:
         TNT1 A 0 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside)
-        TNT1 A 1 A_SpawnItemEx ("S7_PlasmaGunRailSmokeTrail", 0.0 + fRandom [sfx] (-0.8, 0.8), 0.0 + fRandom [sfx] (-0.8, 0.8), 8.0 + fRandom [sfx] (-0.8, 0.8), 0.0, 0.0, 0.0, 0, SXF_Clientside)
+        TNT1 A 1
         stop
     }
 }
 
-/** Trail **/
+/** Trails **/
 actor S7_PlasmaGunRailTrail {
     renderStyle add
     scale 0.015
@@ -230,8 +229,5 @@ actor S7_PlasmaGunRailTrail {
         wait
     }
 }
-
-/** Smoke trail **/
-actor S7_PlasmaGunRailSmokeTrail : S7_WhiteSmoke { scale 0.05 alpha 0.6 +noInteraction }
 
 #INCLUDE "Decorate/Weapons/Primary/PlasmaGun/ChargeProj.DEC"
