@@ -300,6 +300,22 @@ actor S7_MultiJump_Max : counter { }
 
 //-------------------------------------------------------------------------------------------
 //
+// Dodging
+//
+//-------------------------------------------------------------------------------------------
+actor S7_PowerDodgeInvuln : PowerInvulnerable {
+    powerup.duration -60
+    inventory.icon ""
+    
+}
+actor S7_PowerDodgeTrail : PowerSpeed {
+    speed 1.0
+    powerup.duration 2
+    inventory.icon ""
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //
 //-------------------------------------------------------------------------------------------

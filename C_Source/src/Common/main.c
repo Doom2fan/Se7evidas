@@ -60,23 +60,25 @@ Script_C void S7_ServersideEnter ENTER () {
 
     while (TRUE) { // Loop forever
         UpdatePlayerData (player); // Update the player's data
-        UpdateAmmoMax (player);
+        UpdateAmmoMax (player); // Update the max ammo
         if (player->health.health > 0) {
-            StaminaRegenerationPart1 (player);
+            StaminaRegenerationPart1 (player); // Regenerate the stamina (Part 1)
             MultiJumpScript (player);
             DodgeScriptP1 (player);
         }
-        ShopSystem_Script (player);
+        ShopSystem_Script (player); // Run the shop system
         Thumper_Script (player);
         SpeedScript (player);
         WaterScript (player);
         AmmoCountersScript (player);
         KeysScript ();
 
+        UpdatePlayerAlpha (player); // Update the alpha
+
         Delay (1); // Wait for a tic
 
         if (player->health.health > 0) {
-            StaminaRegenerationPart2 (player);
+            StaminaRegenerationPart2 (player); // Regenerate the stamina (Part 2)
             DodgeScriptP2 (player);
         }
     }
@@ -132,10 +134,29 @@ void ResetStuff (PlayerData_t *player) {
     player->scriptData.staminaEmpty = FALSE;
     player->scriptData.staminaTics = 0;
     player->parkourDef.dodgeCooldown = 0;
+    player->parkourDef.dodgeInvulnTics = 0;
+    SetInventory (DODGEINVULITEM, 0);
+    SetInventory (DODGETRAILITEM, 0);
+    GiveInventory (s"S7_DodgeGhostOff", 1);
     player->parkourDef.mjumpCount = 0;
 }
 
 Script_C void S7_ServersideRespawn RESPAWN () {
+    // Not needed or desired in TitleMaps.
+    if (GameType () == GAME_TITLE_MAP)
+        return;
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    
+    ResetStuff (player);
+}
+
+Script_C void S7_ServersideUnloading UNLOADING () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP)
         return;

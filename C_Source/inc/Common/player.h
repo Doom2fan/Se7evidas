@@ -95,22 +95,24 @@ typedef struct PD_Misc_t {
 };
 
 struct PD_ScriptData_t {
-    bool disableHUD;                    // Disable HUD
-    int  lastWeapon;                    // The last weapon the player selected
-    bool staminaEmpty;                  // Did the player run out of stamina?
-    int  staminaTics;                   // Used for the stamina regeneration
-    int  popupNum;                      // Current popup
-    int  pPageNum;                      // Current popup page
+    bool  disableHUD;                   // Disable HUD
+    int   lastWeapon;                   // The last weapon the player selected
+    bool  staminaEmpty;                 // Did the player run out of stamina?
+    int   staminaTics;                  // Used for the stamina regeneration
+    int   popupNum;                     // Current popup
+    int   pPageNum;                     // Current popup page
 };
 
 struct SprintDef_t {
     accum OldSpeed;                     // The player's old speed
     bool  Sprinting;                    // Is the player sprinting?
+    bool  disable;                      // Disable sprinting
 };
 
 struct ParkourDef_t {
     /* Dodging */
     int  dodgeCooldown;                 // The cooldown before you can dodge again
+    int  dodgeInvulnTics;               // The time you stay invulnerable
 
     /* Multi-jumping */
     bool mjumpOnGround;                 // Is the player on the ground?
@@ -247,10 +249,11 @@ PD_AmmoType_t PD_AmmoTypes [] = {
 // Prototypes
 void TakeCash (PlayerData_t *player, int amount);
 void GiveCash (PlayerData_t *player, int amount);
-void InitializePlayer (PlayerData_t *player);
-void DisconnectPlayer (PlayerData_t *player);
-void UpdatePlayerData (PlayerData_t *player);
-void UpdateAmmoMax    (PlayerData_t *player);
+void InitializePlayer  (PlayerData_t *player);
+void DisconnectPlayer  (PlayerData_t *player);
+void UpdatePlayerData  (PlayerData_t *player);
+void UpdateAmmoMax     (PlayerData_t *player);
+void UpdatePlayerAlpha (PlayerData_t *player);
 bool PD_DoLoadSave  (PlayerData_t *player, SavedData_t *saveData);
 bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData);
 

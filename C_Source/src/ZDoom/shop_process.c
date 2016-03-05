@@ -164,15 +164,18 @@ void SS_ProcessToggle (PlayerData_t *player) {
     if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressed (BT_USER3) && player->shopDef.page) { // If disableOpen is false, the shop menu is closed, the BT_USER3 key was hit and there is a page set/open...
         SS_ChangePage (player, NULL); // Change the page to NULL
         player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
+        player->SprintDef.disable = FALSE; // Enable sprinting
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
     } else if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressed (BT_USER3)) { // If disableOpen is false, the shop menu is closed and the BT_USER3 key was hit...
         SS_ChangePage (player, &main); // Change the page to main
         player->shopDef.open = TRUE; // Set open to TRUE
+        player->SprintDef.disable = TRUE; // Disable sprinting
         SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN); // Freeze the player
     } else if (player->shopDef.open && KeyPressed (BT_USER3)) {
         SS_ChangePage (player, NULL); // Change the page to NULL
         player->shopDef.open = FALSE; // Set open to FALSE
         player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
+        player->SprintDef.disable = FALSE; // Enable sprinting
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
     }
 }

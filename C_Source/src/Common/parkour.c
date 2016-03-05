@@ -26,20 +26,41 @@
 void DodgeScriptP1 (PlayerData_t *player) {
     if (!player)
         return;
+
+    if (player->parkourDef.dodgeInvulnTics > 0) {
+        (player->parkourDef.dodgeInvulnTics)--;
+        SetInventory (DODGEINVULITEM, 1);
+        SetInventory (DODGETRAILITEM, 1);
+    } else {
+        SetInventory (DODGEINVULITEM, 0);
+        SetInventory (DODGETRAILITEM, 0);
+    }
     
     if (player->parkourDef.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
         if (player->parkourDef.dodgeCooldown < 0) // If dodgeCooldown is less than 0...
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
-        // If the player is trying to move backwards, tapped user2, isn't sprinting and has at least DODGESTAMINA stamina...
-        if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) && (KeyPressed (BT_USER2)) && !(player->SprintDef.Sprinting) && (player->health.stamina >= DODGESTAMINA)) {
-            TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
-            player->health.stamina = CheckInventory (STAMINATOKEN); // Update player data
-            ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
-            int byteAngle = (player->physics.angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
-            ThrustThing (byteAngle + 128, 18, 1, 0); // Thrust the player backwards
-            ThrustThingZ (0, 32, 0, TRUE); // Thrust the player up
-            player->parkourDef.dodgeCooldown = ServerData.dodgeCooldown; // Set the dodgeCooldown to 1 second
+        // If the player tapped user2, isn't sprinting and has at least DODGESTAMINA stamina...
+        if ((KeyPressed (BT_USER2)) && !(player->SprintDef.Sprinting) && (player->health.stamina >= DODGESTAMINA)) {
+            if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) || (GetPlayerInput (-1, INPUT_SIDEMOVE) != 0)) { // If the player is trying to move backwards or sideways...
+                TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
+                player->health.stamina = CheckInventory (STAMINATOKEN); // Update player data
+
+                ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
+
+                int byteAngle = (player->physics.angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
+                if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) // If the player is trying to move backwards...
+                    ThrustThing (byteAngle + 128, 18, 1, 0); // Thrust the player backwards
+                else if (GetPlayerInput (-1, INPUT_SIDEMOVE) < 0) // If the player is trying to move left...
+                    ThrustThing (byteAngle + 64, 18, 1, 0); // Thrust the player left
+                else if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) // If the player is trying to move right...
+                    ThrustThing (byteAngle + 192, 18, 1, 0); // Thrust the player right
+
+                ThrustThingZ (0, 32, 0, TRUE); // Thrust the player up
+
+                player->parkourDef.dodgeCooldown = ServerData.dodgeCooldown; // Set the dodgeCooldown to 1 second
+                player->parkourDef.dodgeInvulnTics = 24; // Set the invuln tics to 16
+            }
         }
     }
 }

@@ -84,6 +84,21 @@ void UpdateAmmoMax (PlayerData_t *player) {
     }
 }
 
+void UpdatePlayerAlpha (PlayerData_t *player) {
+    accum newAlpha = 1.0k;
+    int   newRenderStyle = STYLE_Normal;
+    accum oldAlpha = GetActorPropertyFixed (0, APROP_Alpha);
+    int   oldRenderStyle = GetActorProperty (0, APROP_RenderStyle);
+
+    if (player->parkourDef.dodgeInvulnTics > 0)
+        newRenderStyle = STYLE_Shadow;
+
+    if (newAlpha != oldAlpha)
+        SetActorPropertyFixed (0, APROP_Alpha, newAlpha);
+    if (newRenderStyle != oldRenderStyle)
+        SetActorProperty      (0, APROP_RenderStyle, newRenderStyle);
+}
+
 void TakeCash (PlayerData_t *player, int amount) {
     if (!player) {
         Log ("\CgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
