@@ -3,20 +3,38 @@
 ** Sprites: Blue Shadow
 */
 
+actor S7_KeycardReplacerBase : customInventory {
+    scale 0.3
+    inventory.maxAmount 0
+        
+    states {
+    GotIt:
+        TNT1 A 0 A_RailWait
+        stop
+    Nope:
+        TNT1 A 0 A_RailWait
+        fail
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Red keycard
 //
 //-------------------------------------------------------------------------------------------
-actor S7_RedKeycard : redCard replaces redCard {
-    inventory.icon "HUDKYRED"
-    species RedCard
-    scale 0.6
+actor S7_RedKeycard : S7_KeycardReplacerBase replaces redCard {
+    inventory.pickupMessage "$REDKEY"
 
     states {
     Spawn:
         S7KR A -1
         stop
+
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("redCard", 1, "Nope")
+        TNT1 A 0 A_GiveInventory ("redCard", 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_RedKeycard", 0.0, 0.0, 25.0, 3.5, 0.0, 2.8, 0, SXF_NoCheckPosition)
+        goto GotIt
     }
 }
 
@@ -25,15 +43,19 @@ actor S7_RedKeycard : redCard replaces redCard {
 // Blue keycard
 //
 //-------------------------------------------------------------------------------------------
-actor S7_BlueKeycard : blueCard replaces blueCard {
-    inventory.icon "HUDKYBLU"
-    species BlueCard
-    scale 0.6
+actor S7_BlueKeycard : S7_KeycardReplacerBase replaces blueCard {
+    inventory.pickupMessage "$BLUEKEY"
 
     states {
     Spawn:
         S7KB A -1
         stop
+
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("blueCard", 1, "Nope")
+        TNT1 A 0 A_GiveInventory ("blueCard", 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_BlueKeycard", 0.0, 0.0, 25.0, 3.5, 0.0, 2.8, 0, SXF_NoCheckPosition)
+        goto GotIt
     }
 }
 
@@ -42,14 +64,18 @@ actor S7_BlueKeycard : blueCard replaces blueCard {
 // Yellow keycard
 //
 //-------------------------------------------------------------------------------------------
-actor S7_YellowKeycard : yellowCard replaces yellowCard {
-    inventory.icon "HUDKYYLW"
-    species YellowCard
-    scale 0.6
+actor S7_YellowKeycard : S7_KeycardReplacerBase replaces yellowCard {
+    inventory.pickupMessage "$YELLOWKEY"
 
     states {
     Spawn:
         S7KY A -1
         stop
+
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("yellowCard", 1, "Nope")
+        TNT1 A 0 A_GiveInventory ("yellowCard", 1)
+        TNT1 A 0 A_SpawnItemEx ("S7_YellowKeycard", 0.0, 0.0, 25.0, 3.5, 0.0, 2.8, 0, SXF_NoCheckPosition)
+        goto GotIt
     }
 }

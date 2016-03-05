@@ -32,6 +32,11 @@ SHORTTHUMPER                    = "XPL-50 \"Thumper\" Grenade Launcher";
 // Health
 CANTEEN                         = "Canteen";
 
+// Keys
+REDKEY                          = "\c[Red]Red\c- keycard";
+BLUEKEY                         = "\c[Blue]Blue\c- keycard";
+YELLOWKEY                       = "\c[Yellow]Yellow\c- keycard";
+
 // Loot
 EMPTTHGR                        = "Used 50mm grenades";
 EMPTTHGRPICK                    = "Used 50mm grenade";
