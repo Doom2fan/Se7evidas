@@ -42,10 +42,10 @@ typedef char * cstr;
 // The size is actually this minus the length of "<cvar name>="
 #define MAXCVARSIZ 253
 
-#define TICSINSEC 35.7142
+#define TICSINSEC  35.7142
 #define TICSINSECA 35.7142k
 
-#define TICUNIT 0.028
+#define TICUNIT  0.028
 #define TICUNITA 0.028k
 
 #define Gender_Male  0
@@ -55,39 +55,43 @@ typedef char * cstr;
 
 #define BASEAMMOMAX 6
 
-#define MOD_VERSION_CSTR "0.1"
+#define MOD_VERSION_CSTR    "0.1"
 #define MOD_VERSION_STRING s"0.1"
-#define MOD_VERSION_MAJOR 0
-#define MOD_VERSION_MINOR 1
-#define MOD_VERSION_FLOAT 0.1
+#define MOD_VERSION_MAJOR   0
+#define MOD_VERSION_MINOR   1
+#define MOD_VERSION_FLOAT   0.1
+
+// Actor properties
+#define APROP_NoTarget  19
+#define APROP_NoTrigger 23
 
 // Actor names
 // Spriting system
-#define STAMINATOKEN s"S7_Stamina"
-#define SPRINTWEAPON s"S7_SprintWeapon"
-#define SPRINTINGTOKEN s"S7_Sprinting"
+#define STAMINATOKEN        s"S7_Stamina"
+#define SPRINTWEAPON        s"S7_SprintWeapon"
+#define SPRINTINGTOKEN      s"S7_Sprinting"
 // XP System
-#define XPS_LEVELTOKEN s"S7_XP_System_Level"
-#define XPS_EXPTOKEN s"S7_XP_System_Experience"
+#define XPS_LEVELTOKEN      s"S7_XP_System_Level"
+#define XPS_EXPTOKEN        s"S7_XP_System_Experience"
 #define XPS_ATTRPOINTSTOKEN s"S7_XP_System_AttributePoints"
-#define XPS_STRENGTHTOKEN s"S7_Stats_System_Strength"
-#define XPS_STAMINATOKEN s"S7_Stats_System_Stamina"
+#define XPS_STRENGTHTOKEN   s"S7_Stats_System_Strength"
+#define XPS_STAMINATOKEN    s"S7_Stats_System_Stamina"
 // Shop system
-#define CASHTOKEN s"S7_Cash"
+#define CASHTOKEN           s"S7_Cash"
 // Weapon stuff
-#define QUICKMELEEWEAPON s"S7_QuickMelee"
+#define QUICKMELEEWEAPON    s"S7_QuickMelee"
 // Misc
-#define CANTEENITEM s"S7_Canteen"
-#define DYINGTOKEN s"S7_Dying"
-#define UNDERWATERTOKEN s"S7_IsUnderwater"
-#define AIRTIMETOKEN s"S7_AirTime"
-#define DISABLEHUDTOKEN s"S7_DisableHud"
-#define MJUMP_MAXTOKEN s"S7_MultiJump_Max"
+#define CANTEENITEM         s"S7_Canteen"
+#define DYINGTOKEN          s"S7_Dying"
+#define UNDERWATERTOKEN     s"S7_IsUnderwater"
+#define AIRTIMETOKEN        s"S7_AirTime"
+#define DISABLEHUDTOKEN     s"S7_DisableHud"
+#define MJUMP_MAXTOKEN      s"S7_MultiJump_Max"
 
 // Script types
 #define UNLOADING [[script ("Unloading") ]]
-#define RETURN [[script ("Return") ]]
-#define RESPAWN [[script ("Respawn") ]]
+#define RETURN    [[script ("Return") ]]
+#define RESPAWN   [[script ("Respawn") ]]
 
 __addrdef extern  __gbl_arr GlobalVar;
 
