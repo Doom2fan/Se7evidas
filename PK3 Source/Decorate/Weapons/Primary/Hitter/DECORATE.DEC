@@ -58,7 +58,7 @@ actor S7_HitterSMG : S7_BaseWeapon {
         goto Hold.FireLower
     Hold.FireDryUpper:
         TNT1 A 0 A_JumpIfInventory ("S7_HitterSMGLowerJammed", 1, "DoubleJammed")
-        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", 6)
+        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", CHAN_6)
         goto Hold.FireLower
 
     Hold.FireLower:
@@ -68,7 +68,7 @@ actor S7_HitterSMG : S7_BaseWeapon {
         TNT1 A 0 A_FireCustomMissile ("S7_HitterSMGTracer", fRandom [weaponSpread] (-5.5, 5.5), 1, 2, 2, 0, fRandom [weaponSpread] (-4.5, 4.5))
         goto Hold.ChooseChannel
     Hold.FireDryLower:
-        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", 7)
+        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", CHAN_7)
         goto Hold.ChooseChannel
 
     Hold.ChooseChannel:
@@ -77,7 +77,7 @@ actor S7_HitterSMG : S7_BaseWeapon {
         TNT1 A 0 A_GiveInventory ("S7_HitterSMGChannel5", 1)
         goto Hold.FireEnd
     Hold.Chan5:
-        TNT1 A 0 A_PlaySound ("Weapons/HitterSMG/Fire", 5)
+        TNT1 A 0 A_PlaySound ("Weapons/HitterSMG/Fire", CHAN_5)
         TNT1 A 0 A_TakeInventory ("S7_HitterSMGChannel5", 9999)
         goto Hold.FireEnd
 
@@ -94,12 +94,12 @@ actor S7_HitterSMG : S7_BaseWeapon {
 
     DryFire:
         TNT1 A 0 A_ClearRefire
-        SR20 A 3 A_PlaySound ("Weapons/DryFirePistol", 7)
+        SR20 A 3 A_PlaySound ("Weapons/DryFirePistol", CHAN_7)
         TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
         goto Ready2
     DryFire.Firing:
         TNT1 A 0 A_ClearRefire
-        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", 7)
+        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", CHAN_7)
         SR20 AEDCB 1
         TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
         goto Ready2
@@ -107,7 +107,7 @@ actor S7_HitterSMG : S7_BaseWeapon {
     DoubleJammed:
         TNT1 A 0 A_ClearRefire
     DoubleJammed.Loople:
-        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", 7)
+        TNT1 A 0 A_PlaySound ("Weapons/DryFirePistol", CHAN_7)
         SR20 ACEDCB 1
         SR20 A 1 A_Refire ("DoubleJammed")
         goto Ready2

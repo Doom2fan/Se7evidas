@@ -67,26 +67,27 @@ typedef char * cstr;
 
 // Actor names
 // Spriting system
-#define STAMINATOKEN        s"S7_Stamina"
-#define SPRINTWEAPON        s"S7_SprintWeapon"
-#define SPRINTINGTOKEN      s"S7_Sprinting"
+#define STAMINATOKEN         s"S7_Stamina"
+#define SPRINTWEAPON         s"S7_SprintWeapon"
+#define SPRINTINGTOKEN       s"S7_Sprinting"
 // XP System
-#define XPS_LEVELTOKEN      s"S7_XP_System_Level"
-#define XPS_EXPTOKEN        s"S7_XP_System_Experience"
-#define XPS_ATTRPOINTSTOKEN s"S7_XP_System_AttributePoints"
-#define XPS_STRENGTHTOKEN   s"S7_Stats_System_Strength"
-#define XPS_STAMINATOKEN    s"S7_Stats_System_Stamina"
+#define XPS_LEVELTOKEN       s"S7_XP_System_Level"
+#define XPS_EXPTOKEN         s"S7_XP_System_Experience"
+#define XPS_ATTRPOINTSTOKEN  s"S7_XP_System_AttributePoints"
+#define XPS_STRENGTHTOKEN    s"S7_Stats_System_Strength"
+#define XPS_STAMINATOKEN     s"S7_Stats_System_Stamina"
 // Shop system
-#define CASHTOKEN           s"S7_Cash"
+#define CASHTOKEN            s"S7_Cash"
 // Weapon stuff
-#define QUICKMELEEWEAPON    s"S7_QuickMelee"
+#define QUICKMELEEWEAPON     s"S7_QuickMelee"
 // Misc
-#define CANTEENITEM         s"S7_Canteen"
-#define DYINGTOKEN          s"S7_Dying"
-#define UNDERWATERTOKEN     s"S7_IsUnderwater"
-#define AIRTIMETOKEN        s"S7_AirTime"
-#define DISABLEHUDTOKEN     s"S7_DisableHud"
-#define MJUMP_MAXTOKEN      s"S7_MultiJump_Max"
+#define CANTEENITEM          s"S7_Canteen"
+#define DYINGTOKEN           s"S7_Dying"
+#define UNDERWATERTOKEN      s"S7_IsUnderwater"
+#define AIRTIMETOKEN         s"S7_AirTime"
+#define DISABLEHUDTOKEN      s"S7_DisableHud"
+#define MJUMP_MAXTOKEN       s"S7_MultiJump_Max"
+#define SLANCE_BEAMGRABTOKEN s"S7_SoulLance_BeamGrabbed"
 
 // Script types
 #define UNLOADING [[script ("Unloading") ]]

@@ -20,11 +20,11 @@
 #include "includes.h"
 #include "save_invdata.h"
 
-SaveInv_InvInfo importantInvInfo [] = {
+static SaveInv_InvInfo importantInvInfo [] = {
     { .name = s"S7_BackpackToken", .callback = &InvUpdAmmoMax,  },
 };
 
-SaveInv_InvDef importantInv = {
+static SaveInv_InvDef importantInv = {
     .cvarName = SD_IMPINV,
     .maxCVars = 5,
     .cvarMaxLen = (MAXCVARSIZ) - 24,
@@ -32,7 +32,7 @@ SaveInv_InvDef importantInv = {
     .invInfoArr = &importantInvInfo [0],
 };
 
-SaveInv_InvInfo normalInvInfo [] = {
+static SaveInv_InvInfo normalInvInfo [] = {
     // Ammo
     { .name = s"S7_9mmCartridges",                              },
     { .name = s"S7_45ACPCartridges",                            },
@@ -59,6 +59,8 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_PlasmaGun",                                  }, // Plasma MG
     { .name = s"S7_PlasmaGunMag",                               },
     { .name = s"S7_PlasmaGun_Charge",                           },
+    { .name = s"S7_Fauchard",                                   }, // Fauchard Laser Rifle
+    { .name = s"S7_FauchardMag",                                },
     { .name = s"S7_PrettyShootyIonCannonGun",                   }, // Mjolnir Ion Cannon
     { .name = s"S7_Shotgun",                                    }, // Lucifer Combat Shotgun
     { .name = s"S7_ShotgunMag",                                 },
@@ -79,7 +81,7 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_Thumper_Used",                               },
 };
 
-SaveInv_InvDef normalInv = {
+static SaveInv_InvDef normalInv = {
     .cvarName = SD_INV,
     .maxCVars = 25,
     .cvarMaxLen = (MAXCVARSIZ) - 18,

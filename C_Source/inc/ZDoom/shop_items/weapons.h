@@ -24,7 +24,7 @@
 #include "../shop_process.h"
 #include "externs.h"
 
-/*SS_Item_t weaponsItems [] = {
+/*static SS_Item_t weaponsItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
@@ -43,7 +43,7 @@
     },
 };*/
 
-SS_Page_t weapons = {
+static SS_Page_t weapons = {
     .name       = s"SS_WEAPONS",
     //.items      = &weaponsItems [0],
 };

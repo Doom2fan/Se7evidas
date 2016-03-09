@@ -66,6 +66,7 @@ void UpdatePlayerData (PlayerData_t *player) {
     // Script data
     player->scriptData.disableHUD = CheckInventory (DISABLEHUDTOKEN);
     player->parkourDef.mjumpMax = CheckInventory (MJUMP_MAXTOKEN);
+    player->scriptData.beamGrab = CheckInventory (SLANCE_BEAMGRABTOKEN);
 
     // Non struct data
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
@@ -187,11 +188,11 @@ bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData) {
  SetFont (s"SMALLFNT"), \
  HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, duration, 0.0, 0.0, 0.0, __VA_ARGS__) \
 )
-cstr RInt_CorruptNone [] = {
+static const cstr RInt_CorruptNone [] = {
     (cstr) "None",
     (cstr) "Negligible",
 };
-cstr RInt_SpinnyThing [] = {
+static const cstr RInt_SpinnyThing [] = {
     (cstr) "|",
     (cstr) "/",
     (cstr) "-",

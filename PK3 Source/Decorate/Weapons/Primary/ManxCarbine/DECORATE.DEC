@@ -73,7 +73,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2
 
     DryFire:
-        MANX A 3 A_PlaySound ("Weapons/DryFireRifle", 7)
+        MANX A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7)
         TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
         goto Ready2
 

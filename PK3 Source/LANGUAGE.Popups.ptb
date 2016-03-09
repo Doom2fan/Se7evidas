@@ -1,4 +1,7 @@
 [ptb]
+POP_CELLS                       = "Tipo A";
+POP_FBSYSCELLS                  = "Firebrand Systems";
+
 POP_TH_ALL                      = "Todas";
 POP_TH_EXP                      = "Explosiva";
 POP_TH_FRAG                     = "Fragmentacao";

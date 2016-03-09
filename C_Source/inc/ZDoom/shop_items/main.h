@@ -26,7 +26,7 @@
 #include "ammo.h"
 #include "weapons.h"
 
-SS_Item_t mainItems [] = {
+static SS_Item_t mainItems [] = {
     {
         .name           = s"SS_AMMO",
         .icon           = s"graphics/Menu/Shop/AmmoIcon.png",
@@ -45,7 +45,7 @@ SS_Item_t mainItems [] = {
     },
 };
 
-SS_Page_t main = {
+static SS_Page_t main = {
     .name       = s"SS_MAIN",
     .items      = &mainItems [0],
 };

@@ -78,6 +78,7 @@
     OB_SUICIDE                      = "%o ate %p gun.";
     OB_KILLEDSELF                   = "%o receives a Darwin Award.";
     OB_VOODOO                       = "%o killed %h doppelganger without considering the consequences.";
+    SLANCESELFKILL                  = "%o was too reckless with %p Soul Lance";
 
 // PvP
     // Primary

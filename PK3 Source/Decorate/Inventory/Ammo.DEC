@@ -233,6 +233,27 @@ actor S7_Cells : ammo 31004 {
 
 //-------------------------------------------------------------------------------------------
 //
+// Firebrand Systems Energy Cells
+//
+//-------------------------------------------------------------------------------------------
+actor S7_FBSysCells : ammo 31008 {
+    tag "$FBSYSCELLS"
+    inventory.pickupMessage "$FBSYSCELLS"
+    inventory.amount 23
+    inventory.maxAmount 138
+    // ammo.backpackMaxAmount 184
+    inventory.icon "CELLC0"
+    inventory.pickupSound "misc/ammopickup"
+    
+    states {
+    Spawn:
+        CELL C -1
+        stop
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //
 //-------------------------------------------------------------------------------------------

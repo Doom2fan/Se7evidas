@@ -1,28 +1,30 @@
 [ptb]
 /** Primary Weapons **/
-AMG                             = "(ShadowFyre) Fuzil de Assalto A28 \"Mars\"";                     // (7.62x39mm)
-SHOTGUN                         = "(Sigma BTK) Espingarda dupla AM-10 \"Lucifer\"";                 // (20ga)
-MANXCARBINE                     = "(Cronus Corps) Carabina de Fogo Seletivo C23 \"Manx\"";          // (9x19mm)
-HITTERSMG                       = "(Cronus Corps-Sigma BTK) Sub-Metralhadora .45 ACP SR20 \"Hitter\"";
+AMG                             = "(ShadowFyre) Fuzil de Assalto A28 \"Mars\"";                         // (7.62x39mm)
+SHOTGUN                         = "(Sigma BTK) Espingarda dupla AM-10 \"Lucifer\"";                     // (20ga)
+MANXCARBINE                     = "(Cronus Corps) Carabina de Fogo Seletivo C23 \"Manx\"";              // (9x19mm)
+HITTERSMG                       = "(Cronus Corps-Sigma BTK) Sub-Metralhadora .45 ACP SR20 \"Hitter\"";  // (.45 ACP)
+FAUCHARD                        = "(Firebrand Systems) Rifle Automatico FS/002A Mod 4 \"Fauchard\"";    // (FB Sys. Cells)
 // Short
 SHORTAMG                        = "Fuzil de Assalto A28 \"Mars\"";
 SHORTSHOTGUN                    = "Espingarda de Combate AM-10 \"Lucifer\"";
 SHORTMANXCARBINE                = "Carabina de Fogo Seletivo C23 \"Manx\"";
 SHORTHITTERSMG                  = "Sub-Metralhadora .45 ACP SR20 \"Hitter\"";
+SHORTFAUCHARD                   = "Rifle Automatico FS/002A Mod 4 \"Fauchard\"";
 
 /** Secondary Weapons **/
-RAPTOR                          = "(Cronus Corps) Pistola R16 \"Raptor\"";                          // (9x19mm)
-TEC9                            = "(Cronus Corps) Sub-Metralhadora S18 \"Kronos\"";                 // (9x19mm)
-REVOLVER                        = "(ShadowFyre) Revolver Omega-Sigma \"Deathbringer\"";             // (.44 Magnum)
+RAPTOR                          = "(Cronus Corps) Pistola R16 \"Raptor\"";                              // (9x19mm)
+TEC9                            = "(Cronus Corps) Sub-Metralhadora S18 \"Kronos\"";                     // (9x19mm)
+REVOLVER                        = "(ShadowFyre) Revolver Omega-Sigma \"Deathbringer\"";                 // (.44 Magnum)
 // Short
 SHORTRAPTOR                     = "Pistola R16 \"Raptor\"";
 SHORTTEC9                       = "Sub-Metralhadora S18 \"Kronos\"";
 SHORTREVOLVER                   = "Revolver Omega-Sigma \"Deathbringer\"";
 
 /** Special Weapons **/
-PLASMAGUN                       = "(Mobius Labs) Metralhadora de Plasma Prototipo Mk III";          // (Energy cells)
-IONCANNON                       = "(Thor Inc.) Canhao de Ions GTX-2 Prototipo Mk V \"Mjolnir\"";    // (Energy cells)
-THUMPER                         = "(ShadowFyre) Lanca Granadas XPL-50 \"Thumper\"";                 // (50mm grenades)
+PLASMAGUN                       = "(Mobius Labs) Metralhadora de Plasma Prototipo Mk III";              // (Energy cells)
+IONCANNON                       = "(Thor Inc.) Canhao de Ions GTX-2 Prototipo Mk V \"Mjolnir\"";        // (Energy cells)
+THUMPER                         = "(ShadowFyre) Lanca Granadas XPL-50 \"Thumper\"";                     // (50mm grenades)
 // Short
 SHORTPLASMAGUN                  = "Metralhadora de Plasma Mk III";
 SHORTIONCANNON                  = "Canhao de Ions GTX-2 \"Mjolnir\" Mk V";
@@ -38,4 +40,5 @@ EMPTTHGRPICK                    = "Granada 50mm usada";
 
 // Ammo
 20GA                            = "Calibre 20";
-CELLS                           = "Celula de Energia Tipo A";
+CELLS                           = "Celulas de Energia Tipo A";
+FBSYSCELLS                      = "Celulas de Energia Firebrand Systems";

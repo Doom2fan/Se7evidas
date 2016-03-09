@@ -133,12 +133,15 @@ void ResetStuff (PlayerData_t *player) {
     player->misc.dying = FALSE;
     player->scriptData.staminaEmpty = FALSE;
     player->scriptData.staminaTics = 0;
+    player->scriptData.beamGrab = FALSE;
     player->parkourDef.dodgeCooldown = 0;
     player->parkourDef.dodgeInvulnTics = 0;
+    player->parkourDef.mjumpCount = 0;
     SetInventory (DODGEINVULITEM, 0);
     SetInventory (DODGETRAILITEM, 0);
     GiveInventory (s"S7_DodgeGhostOff", 1);
-    player->parkourDef.mjumpCount = 0;
+
+    SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
 
 Script_C void S7_ServersideRespawn RESPAWN () {

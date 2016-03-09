@@ -40,8 +40,8 @@ void DodgeScriptP1 (PlayerData_t *player) {
         if (player->parkourDef.dodgeCooldown < 0) // If dodgeCooldown is less than 0...
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
-        // If the player tapped user2, isn't sprinting and has at least DODGESTAMINA stamina...
-        if ((KeyPressed (BT_USER2)) && !(player->SprintDef.Sprinting) && (player->health.stamina >= DODGESTAMINA)) {
+        // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least DODGESTAMINA stamina...
+        if (KeyPressed (BT_USER2) && !player->SprintDef.Sprinting && !player->scriptData.beamGrab && player->health.stamina >= DODGESTAMINA) {
             if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) || (GetPlayerInput (-1, INPUT_SIDEMOVE) != 0)) { // If the player is trying to move backwards or sideways...
                 TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
                 player->health.stamina = CheckInventory (STAMINATOKEN); // Update player data
@@ -79,6 +79,10 @@ void MultiJumpScript (PlayerData_t *player) {
     if (!player)
         return;
     
+    int mJumpMax = player->scriptData.beamGrab ? player->parkourDef.mjumpMax / 2 : player->parkourDef.mjumpMax;
+    if (mJumpMax < 1)
+        mJumpMax = 1;
+
     accum force = 40.0k * ServerData.mjumpZMul;
     if (player->physics.relativeZ == 0) { // If the player is on the ground...
         player->parkourDef.mjumpOnGround = TRUE; // Set mjumpOnGround to TRUE
@@ -89,8 +93,8 @@ void MultiJumpScript (PlayerData_t *player) {
     }
 
     // If the player's floor-relative Z is greater than MJUMPMINDIFF, the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump
-    // counter isn't equal to their multijump max, the player pressed jump and the sv_nojump CVAR isn't TRUE...
-    if (abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < player->parkourDef.mjumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
+    // counter isn't equal to mJumpMax, the player pressed jump and the sv_nojump CVAR isn't TRUE...
+    if (abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < mJumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
         SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
         player->parkourDef.mjumpCount++; // Increment the jump counter by 1

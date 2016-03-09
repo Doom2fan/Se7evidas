@@ -32,7 +32,7 @@ void Thumper_ScriptClientside (PlayerData_t *player);
 
 // Variables/Stuff
 #define TH_POOLNAMES_MAX 7
-string Thumper_PoolNames [] = {
+const string Thumper_PoolNames [] = {
     s"____Error____-Report-this",
     s"S7_Thumper_PExp",
     s"S7_Thumper_PFrag",

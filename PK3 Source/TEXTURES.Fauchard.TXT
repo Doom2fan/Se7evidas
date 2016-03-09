@@ -1,0 +1,61 @@
+sprite LSRFA0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 189, 81
+    patch "graphics/Weapons/Fauchard/Part1.png", 154, 102
+}
+
+sprite LSRFB0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 191, 83
+    patch "graphics/Weapons/Fauchard/Part1.png", 156, 104
+}
+
+sprite LSRFC0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 149, 107
+    patch "graphics/Weapons/Fauchard/Frame1.png", 193, 78
+}
+
+sprite LSRFD0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 139, 117
+    patch "graphics/Weapons/Fauchard/Frame1.png", 203, 89
+}
+
+sprite LSRFE0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 119, 132
+    patch "graphics/Weapons/Fauchard/Frame1.png", 219, 105
+}
+
+sprite LSRFF0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 97, 144
+    patch "graphics/Weapons/Fauchard/Frame1.png", 223, 108
+}
+
+sprite LSRFG0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 73, 166
+    patch "graphics/Weapons/Fauchard/Frame1.png", 223, 108
+}
+
+sprite LSRFH0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 223, 108
+}
+
+sprite LSRFI0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 221, 113
+}
+
+sprite LSRFJ0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 215, 123
+}
+
+sprite LSRFK0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 220, 113
+}

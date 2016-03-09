@@ -1,0 +1,2 @@
+Fixed bugs:
+    (Zandronum only) Visual bug: Decals don't appear.

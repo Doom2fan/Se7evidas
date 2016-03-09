@@ -1,4 +1,7 @@
 [default enu en]
+POP_CELLS                       = "Type A";
+POP_FBSYSCELLS                  = "Firebrand Systems";
+
 POP_TH_ALL                      = "All";
 POP_TH_EXP                      = "Explosive";
 POP_TH_FRAG                     = "Frag";

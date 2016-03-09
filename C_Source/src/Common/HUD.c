@@ -18,34 +18,8 @@
 */
 
 #include "includes.h"
+#include "weap_data.h"
 #include "hud.h"
-
-const string S7_HW_2ModeWpns [] [4] = {
-    {
-        s"S7_TEC9",
-        s"S7_TEC9_Burst",
-        s"BrstFire",
-        s"FullAuto"
-    },
-    {
-        s"S7_AMG",
-        s"S7_AMG_Burst",
-        s"BrstFire",
-        s"FullAuto"
-    },
-    {
-        s"S7_PlasmaGun",
-        s"S7_PlasmaGun_Semi",
-        s"SemiAuto",
-        s"FullAuto"
-    },
-    {
-        s"S7_ManxCarbine",
-        s"S7_ManxCarbine_Semi",
-        s"SemiAuto",
-        s"FullAuto"
-    }
-};
 
 void HW_SetFont (string font) {
     if (GetCVar (s"screenblocks") <= 11) // if the HUD is shown...
@@ -140,7 +114,7 @@ void SPopPrintSwitchListFunc (string header, string listArray [] [2], int size, 
     }
 }
 
-string AmmoList [] [2] = {
+static string AmmoList [] [2] = {
     {   s"POP_CARTRIDGES",          s""                         },
     {   s"9MM",                     s"S7_9mmCartridges"         },
     {   s"44M",                     s"S7_44MCartridges"         },
@@ -149,7 +123,8 @@ string AmmoList [] [2] = {
     {   s"",                        s""                         },
 
     {   s"POP_BATTERIES",           s""                         },
-    {   s"CELLS",                   s"S7_Cells"                 },
+    {   s"POP_CELLS",               s"S7_Cells"                 },
+    {   s"POP_FBSYSCELLS",          s"S7_FBSysCells"            },
     {   s"",                        s""                         },
 
     {   s"POP_THGRENADES",          s""                         },
@@ -162,9 +137,11 @@ string AmmoList [] [2] = {
     {   s"POP_TH_NAIL",             s"S7_Thumper_PNail"         },
     {   s"POP_TH_NGAS",             s"S7_Thumper_PNGas"         },
 };
-string WeaponsList [] [2] = {
+static string WeaponsList [] [2] = {
     {   s"POP_PRI",                 s""                             },
     {   s"AMG",                     s"S7_AMG"                       },
+    {   s"FAUCHARD",                s"S7_Fauchard"                  },
+    {   s"HITTERSMG",               s"S7_HitterSMG"                 },
     {   s"MANXCARBINE",             s"S7_ManxCarbine"               },
     {   s"SHOTGUN",                 s"S7_Shotgun"                   },
     {   s"",                        s""                             },
@@ -180,7 +157,7 @@ string WeaponsList [] [2] = {
     {   s"PLASMAGUN",               s"S7_PlasmaGun"                 },
     {   s"IONCANNON",               s"S7_PrettyShootyIonCannonGun"  },
 };
-string LootList [] [2] = {
+static string LootList [] [2] = {
     {   s"EMPTTHGR",                s"S7_Thumper_Used"              },
 };
 void ShowPop1 (PlayerData_t *player) {
@@ -190,6 +167,9 @@ void ShowPop1 (PlayerData_t *player) {
     SetHudSize (320, 200, FALSE);
     int id = SP1BASEID;
     if (player->scriptData.popupNum == 1) {
+        for (int i = 0; i < 35 * 2; i++)
+            ClearMessage (SP1BASEID + 1 + i);
+        
         SetFont (s"FSHUDFNT");
         if (player->scriptData.pPageNum == 0) {
             accum x = 10.0k; accum y = 12.0k;
@@ -202,8 +182,7 @@ void ShowPop1 (PlayerData_t *player) {
             SPopPrintList (s"POP_LOOT", LootList, &id, &x, &y, 126.0k);
         }
     } else {
-        ClearMessage (SP1BASEID);
-        for (int i = 0; i < ArraySize (AmmoList) * 2; i++)
+        for (int i = 0; i < 35 * 2; i++)
             ClearMessage (SP1BASEID + 1 + i);
     }
     SetHudSize (0, 0, FALSE);

@@ -101,6 +101,7 @@ struct PD_ScriptData_t {
     int   staminaTics;                  // Used for the stamina regeneration
     int   popupNum;                     // Current popup
     int   pPageNum;                     // Current popup page
+    bool  beamGrab;                     // Soul lance beam grabbed
 };
 
 struct SprintDef_t {
@@ -184,14 +185,14 @@ struct SavedData_t {
 };
 
 // Stuff
-string PD_Gender [] = {
+static const string PD_Gender [] = {
     s"GEN_MALE",
     s"GEN_FEM",
     s"GEN_OTHER",
     s"GEN_HERM",
 };
 
-PD_AmmoType_t PD_AmmoTypes [] = {
+static const PD_AmmoType_t PD_AmmoTypes [] = {
     {
         .name = s"S7_9mmCartridges",
         .magSize = 15,
@@ -215,6 +216,10 @@ PD_AmmoType_t PD_AmmoTypes [] = {
     {
         .name = s"S7_Cells",
         .magSize = 36,
+    },
+    {
+        .name = s"S7_FBSysCells",
+        .magSize = 23,
     },
     {
         .name = s"S7_Thumper_PExp",

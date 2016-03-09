@@ -18,23 +18,10 @@
 */
 
 #include "includes.h"
+#include "weap_data.h"
 #include "weapon_stuff.h"
 
-string WeaponName [] = {
-    s"S7_PrettyShootyIonCannonGun",
-    s"S7_PlasmaGun",
-    s"S7_AMG",
-    s"S7_ManxCarbine",
-    s"S7_Shotgun",
-    s"S7_Raptor",
-    s"S7_Revolver",
-    s"S7_TEC9",
-    s"S7_SoulLance",
-    s"S7_Thumper",
-    s"S7_HitterSMG",
-};
-
-string DummyWeapons [] = {
+const string DummyWeapons [] = {
     s"S7_NullWeapon",
     SPRINTWEAPON,
     QUICKMELEEWEAPON
@@ -45,8 +32,8 @@ int GetWeaponName () {
         if (CheckWeapon (DummyWeapons [x])) 
             return -1;
     
-    for (int y = 0; y < ArraySize (WeaponName); y++)
-        if (CheckWeapon (WeaponName [y]))
+    for (int y = 0; y < ArraySize (WeaponNames); y++)
+        if (CheckWeapon (WeaponNames [y]))
             return y;
     
     return -1;
@@ -61,12 +48,12 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
     int weaponNumber = 0;
     if (mode) {
         weaponNumber = player->scriptData.lastWeapon;
-        if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
+        if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponNames) - 1)
             return;
-        SetWeapon (WeaponName [weaponNumber]);
+        SetWeapon (WeaponNames [weaponNumber]);
     } else {
         weaponNumber = GetWeaponName ();
-        if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponName) - 1)
+        if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponNames) - 1)
             return;
         else
             player->scriptData.lastWeapon = weaponNumber;
@@ -161,3 +148,47 @@ Script_C void S7_PSICG_FireTest () {
     else
         TakeInventory (PSICGFIREBOOL, 0x7FFFFFFF);
 }*/
+
+Script_C void S7_SLanceBeamGrab () {
+    accum x1 = GetActorX (0), y1 = GetActorY (0), z1 = GetActorZ (0);
+    x1 = GetActorX (0), y1 = GetActorY (0), z1 = GetActorZ (0);
+    accum x2, y2, z2, xDiff, yDiff, zDiff, angel, bitch;
+    int flickerDelay = Random (8, 35 * 2);
+    bool justFlickered = FALSE;
+
+    SetActivatorToTarget (0);
+
+    while (TRUE) {
+        if (!CheckInventory (s"S7_SoulLance_BeamGrabbed"))
+            break;
+
+        if (flickerDelay < 1) {
+            GiveInventory (DISABLEHUDTOKEN, 1);
+            flickerDelay = Random (8, 35 * 2);
+            justFlickered = TRUE;
+        } else {
+            flickerDelay--;
+        }
+
+        x2 = GetActorX (0); y2 = GetActorY (0); z2 = GetActorZ (0);
+        xDiff = x1 - x2; yDiff = y1 - y2; zDiff = z1 - z2;
+        angel = VectorAngle (xDiff, yDiff);
+        bitch = VectorAngle (angel, zDiff);
+        bitch = ScaleValueAccum (bitch, -1.0k, 1.0k, -0.25k, 0.25k);
+        if (bitch > 32768) bitch = 65536 - bitch;
+
+        SetActorAngle (0, angel);
+        SetActorPitch (0, -bitch);
+        PrintBold ("%k", -bitch);
+
+        Delay (1);
+
+        SetActorAngle (0, angel);
+        SetActorPitch (0, -bitch);
+
+        if (justFlickered) {
+            TakeInventory (DISABLEHUDTOKEN, 0x7FFFFFFF);
+            justFlickered = FALSE;
+        }
+    }
+}

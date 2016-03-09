@@ -14,11 +14,11 @@ decal S7_IonCannonRailLightning1 {
     shade "5b 5b c1"
     x-Scale 0.3
     y-Scale 0.3
-    fullBright
     animator GoAway2
     lowerDecal S7_IonCannonRailScorch
 
     randomFlipX
+    fullBright
 }
 
 decal S7_IonCannonRailLightning2 {
@@ -26,11 +26,11 @@ decal S7_IonCannonRailLightning2 {
     shade "5b 5b c1"
     x-Scale 0.3
     y-Scale 0.3
-    fullBright
     animator GoAway2
     lowerDecal S7_IonCannonRailScorch
 
     randomFlipY
+    fullBright
 }
 
 decalGroup S7_IonCannonRail {
@@ -54,11 +54,11 @@ decal S7_IonCannonLightning1 {
     shade "5b 5b c1"
     x-Scale 1.0
     y-Scale 1.0
-    fullBright
     animator GoAway2
     lowerDecal S7_IonCannonScorch
 
     randomFlipX
+    fullBright
 }
 
 decal S7_IonCannonLightning2 {
@@ -66,11 +66,11 @@ decal S7_IonCannonLightning2 {
     shade "5b 5b c1"
     x-Scale 1.0
     y-Scale 1.0
-    fullBright
     animator GoAway2
     lowerDecal S7_IonCannonScorch
 
     randomFlipY
+    fullBright
 }
 
 decalGroup S7_IonCannon {
@@ -124,4 +124,40 @@ decal S7_PlasmaGunRail_Charge4 {
 
     randomFlipX
     randomFlipY
+}
+
+// Laser decal
+decal S7_LaserDecalScorchLower {
+    pic LSFLB0
+    shade "00 00 00"
+    x-Scale 0.01
+    y-Scale 0.01
+}
+decal S7_LaserDecalScorch {
+    pic LSFLA0
+    shade "00 00 00"
+    x-Scale 0.015
+    y-Scale 0.015
+    lowerDecal S7_LaserDecalScorchLower
+}
+
+decal S7_LaserDecalLower {
+    pic LSFLB0
+    x-Scale 0.015
+    y-Scale 0.015
+    animator GoAway
+    lowerDecal S7_LaserDecalScorch
+
+    fullBright
+    add 1.0
+}
+decal S7_LaserDecal {
+    pic LSFLA0
+    x-Scale 0.015
+    y-Scale 0.015
+    animator GoAway
+    lowerDecal S7_LaserDecalLower
+
+    fullBright
+    add 1.0
 }

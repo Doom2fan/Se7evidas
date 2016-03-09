@@ -1,4 +1,6 @@
 thumbs.db
+Se7evidas.7Z
+
 *.backup*
 *.bak*
 *.wad.backup*
@@ -17,13 +19,14 @@ acs.err
 (1)Log.txt
 *.o
 *.PK3
-/C_Source/obj/
-/Tools/PreprocessorThingy/obj/
-/Tools/PreprocessorThingy/bin/
-/PK3_Source_GZDoom/acs
-/PK3_Source_Zandronum/acs
 *... Play - Dis.bat
 *... Play - ZDoom ReShade.bat
 *... Play - GZDoom QEffectsGL.bat
 *.sublime-workspace
 *._ignore_.*
+
+/C_Source/obj/
+/Tools/PreprocessorThingy/obj/
+/Tools/PreprocessorThingy/bin/
+/PK3_Source_GZDoom/acs
+/PK3_Source_Zandronum/acs

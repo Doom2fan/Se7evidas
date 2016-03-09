@@ -1,3 +1,10 @@
+/* Credits:
+** THGR  AB: ???, Chronos "phantombeta" Ouroboros
+** THGR CDE: Id Software, Chronos "phantombeta" Ouroboros
+** THGR   F: Raven Software, Chronos "phantombeta" Ouroboros
+** THGR   G: Raven Software
+*/
+
 //-------------------------------------------------------------------------------------------
 //
 // Normal/Explosive
@@ -97,7 +104,7 @@ actor S7_ThumperGrenadeTherm_Fire {
         wait
     Death:
         TNT1 A 0 A_ChangeFlag ("forceXYBillboard", FALSE)
-        TNT1 A 0 A_PlaySound ("Fire/Small", 7, 0.8, TRUE, 0.5)
+        TNT1 A 0 A_PlaySound ("Fire/Small", CHAN_7, 0.8, TRUE, 0.5)
         TNT1 A 0 A_ChangeFlag ("noBlockmap", FALSE)
     Loople:
         TNT1 A 0 A_CountdownArg (0, "FadeOut")
@@ -133,7 +140,7 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_PlaySound ("Fire/Flare", 7, 0.15, TRUE)
+        TNT1 A 0 noDelay A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
         TNT1 A 0 A_SetUserVar ("user_timesToLoop", random (236, 280))
         TNT1 A 0 A_SetUserVar ("user_moveDir", args [random (0, 1)])
         TNT1 A 0 A_SetUserVar ("user_initialized", 1)
@@ -144,7 +151,7 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     Death:
         TNT1 A 0 A_SetGravity (1.0)
         TNT1 A 0 A_JumpIf (user_initialized, "Loople")
-        TNT1 A 0 A_PlaySound ("Fire/Flare", 7, 0.15, TRUE)
+        TNT1 A 0 A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
         TNT1 A 0 A_SetUserVar ("user_timesToLoop", random (236, 280))
         TNT1 A 0 A_SetUserVar ("user_moveDir", args [random (0, 1)])
         TNT1 A 0 A_SetUserVar ("user_initialized", 1)
