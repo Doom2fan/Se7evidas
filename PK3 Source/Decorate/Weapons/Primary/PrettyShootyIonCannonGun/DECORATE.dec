@@ -66,12 +66,12 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Space check
-        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 1, 5.0)
+        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 6, 3.3)
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Fire
-        TNT1 A        0 A_FireCustomMissile ("S7_IonCannonProjectile", 0.0, 0, 1, 5.0)
-        TNT1 AAA      0 A_FireCustomMissile ("S7_IonCannonRail", fRandom [weaponSpread] (-3.0, 3.0), 0, 1, 5.0, 0, fRandom [weaponSpread] (-3.0, 3.0))
+        TNT1 A        0 A_FireCustomMissile ("S7_IonCannonProjectile", 0.0, 1, 6, -3.3)
+        TNT1 AAA      0 A_FireCustomMissile ("S7_IonCannonRail", fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5))
         TNT1 A        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0)
     Fire.Anim:
         PIC1 A        1 offset (8, 40)
@@ -89,7 +89,7 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
 
     AltFire:
         TNT1 A 0 A_JumpIfInventory ("S7_PSICG_AltFireType2", 1, "AltFire.MainOnly")
-        TNT1 AAAAA    0 A_FireCustomMissile ("S7_IonCannonRail", fRandom [weaponSpread] (-3.0, 3.0), 0, 1, 5.0, 0, fRandom [weaponSpread] (-3.0, 3.0))
+        TNT1 AAAAAAA  0 A_FireCustomMissile ("S7_IonCannonRailAlt", fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5))
         TNT1 A        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0)
         goto Fire.Anim
     AltFire.MainOnly:
@@ -98,11 +98,11 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Space check
-        PIC1 A        2 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 1, 5.0)
+        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 6, 3.3)
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Fire
-        TNT1 A 0 A_FireCustomMissile ("S7_IonCannonProjectileAlt", 0.0, 0, 1, 5.0)
+        TNT1 A 0 A_FireCustomMissile ("S7_IonCannonProjectileAlt", 0.0, 1, 6, -3.3)
         TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0)
         goto Fire.Anim
 
@@ -151,11 +151,11 @@ actor S7_IonCannonProjectile : fastProjectile {
 
     speed 20
     renderStyle add
-    scale 0.25
+    scale 0.235
     damage (user_damage)
     damageType IonCannonMain
     args 3, 7, 96, 256, 128
-    missileType "S7_IonCannonProjectileTrail"
+    //missileType "S7_IonCannonProjectileTrail"
     missileHeight 8
     decal S7_IonCannon
 
@@ -165,7 +165,7 @@ actor S7_IonCannonProjectile : fastProjectile {
     
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (1.0 / (20 * 1.0))
+        PICF AA 0 A_ScaleVelocity (1.0 / (20 * 1.0))
         TNT1 A  0 A_ScaleVelocity (35 * 1.0)
         TNT1 A  0 A_SetUserVar ("user_damage", 280 + (random [weaponDamage] (2, 5) * 80) + (random [weaponDamage] (-3, 3) * 40))
     Idle:
@@ -175,6 +175,8 @@ actor S7_IonCannonProjectile : fastProjectile {
         loop
 
     DieOut:
+        TNT1 A 0 A_Explode (64, 64, 0)
+    DieOut.Loople:
         PICF A 1 bright A_FadeOut (0.8)
         TNT1 A 0 A_SetUserVar ("user_damage", user_damage - 7)
         loop
@@ -188,7 +190,7 @@ actor S7_IonCannonProjectile : fastProjectile {
 
 actor S7_IonCannonProjectileTrail {
     renderStyle add
-    scale 0.25
+    scale 0.235
     
     +noBlockmap +noGravity +noTeleport +cannotPush
     +noInteraction +forceXYBillboard +clientsideOnly
@@ -207,7 +209,17 @@ actor S7_IonCannonProjectileTrail {
     }
 }
 
-actor S7_IonCannonProjectileAlt : S7_IonCannonProjectile { args 4, 11, 144, 384, 192 }
+actor S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
+    args 4, 11, 144, 384, 192
+
+    states {
+    Spawn:
+        PICF AA 0 A_ScaleVelocity (1.0 / (20 * 1.0))
+        TNT1 A  0 A_ScaleVelocity (35 * 1.0)
+        TNT1 A  0 A_SetUserVar ("user_damage", 350 + (random [weaponDamage] (3, 6) * 95) + (random [weaponDamage] (-2, 5) * 53))
+        goto Idle
+    }
+}
 
 //-------------------------------------------------------------------------------------------
 //
@@ -215,6 +227,8 @@ actor S7_IonCannonProjectileAlt : S7_IonCannonProjectile { args 4, 11, 144, 384,
 //
 //-------------------------------------------------------------------------------------------
 actor S7_IonCannonRail : fastProjectile {
+    var int user_damage; // Has to be defined here or it'll error out on start
+
     radius 4
     height 4
     speed 25
@@ -223,21 +237,34 @@ actor S7_IonCannonRail : fastProjectile {
     alpha 1.0
     scale 0.08
     decal S7_IonCannonRail
-    damage (random [weaponDamage] (4, 12))
+    damage (user_damage)
     damageType IonCannonRail
-    missileType "S7_IonCannonRailEffectSpawner"
+    //missileType "S7_IonCannonRailEffectSpawner"
 
     projectile
     +noDamageThrust +forceXYBillboard +ripper +forceRadiusDMG
     +bloodlessImpact
 
+    var int user_distTrav;
+
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (1.0 / (25 * 1.0))
+        PICF AA 0 A_ScaleVelocity (1.0 / (25 * 1.0))
         TNT1 A  0 A_ScaleVelocity (health * 1.0)
-    Idle:
-        PICF A 1 bright
+        TNT1 A  1 A_Jump (256, "Idle")
         wait
+    Idle:
+        TNT1 A 0 A_JumpIf (user_distTrav > 4000, "DieOut")
+        PICF A 1 bright A_SetUserVar ("user_damage", random [weaponDamage] (4, 12))
+        TNT1 A 0 A_SetUserVar ("user_distTrav", user_distTrav + health)
+        loop
+
+    DieOut:
+        TNT1 A 0 A_Explode (24, 24, 0)
+    DieOut.Loople:
+        PICF A 1 bright A_FadeOut (1.15)
+        TNT1 A 0 A_SetUserVar ("user_damage", user_damage - 7)
+        loop
 
     Death:
         TNT1 A 3
@@ -268,5 +295,17 @@ actor S7_IonCannonRailEffect {
         TNT1 A 0 A_ChangeVelocity (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), CVF_Replace | CVF_Relative)
         PICF A 1 bright A_FadeOut (0.1)
         wait
+    }
+}
+
+actor S7_IonCannonRailAlt : S7_IonCannonRail {
+    health 138
+
+    states {
+    Idle:
+        TNT1 A 0 A_JumpIf (user_distTrav > 4500, "DieOut")
+        PICF A 1 bright A_SetUserVar ("user_damage", random [weaponDamage] (8, 16))
+        TNT1 A 0 A_SetUserVar ("user_distTrav", user_distTrav + health)
+        loop
     }
 }
