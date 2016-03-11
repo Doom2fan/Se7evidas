@@ -36,8 +36,9 @@
 #INCLUDE "Decorate/Effects/Parkour.DEC"
 
 // Common stuff
-#INCLUDE "Decorate/Bullets.DEC"
 #INCLUDE "Decorate/Base Actors.DEC"
+#INCLUDE "Decorate/Bullets.DEC"
+#INCLUDE "Decorate/CommonTokens.DEC"
 
 // Systems
 #INCLUDE "Decorate/RPG Systems/Shop System.DEC"
