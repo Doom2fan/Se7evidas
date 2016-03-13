@@ -28,7 +28,7 @@
 #include "batteries_ammo.h"
 #include "thumper_ammo.h"
 
-static SS_Item_t ammoItems [] = {
+SS_Item_t ammoItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
@@ -64,7 +64,7 @@ static SS_Item_t ammoItems [] = {
     
 };
 
-static SS_Page_t ammo = {
+SS_Page_t ammo = {
     .name       = s"SS_AMMO",
     .items      = &ammoItems [0],
 };

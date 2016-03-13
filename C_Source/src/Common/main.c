@@ -103,6 +103,7 @@ Script_C void S7_ServersideEnter2 ENTER () {
     while (TRUE) { // Loop forever
         HeartbeatScript (player, &heartbeatTics);
         Thumper_ScriptClientside (player);
+        EnemyInfoScript (player);
         if (!player->scriptData.disableHUD) {
             HudWeapons ();
             ShowPop1 (player);

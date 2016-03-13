@@ -1,0 +1,93 @@
+//-------------------------------------------------------------------------------------------
+//
+// Empress' invulnerability orbiter
+//
+//-------------------------------------------------------------------------------------------
+damageType NonKilledDeath {
+    factor 0.0
+    noArmor
+}
+
+actor S7_EmpressInvulnOrbiter {
+    health 100
+    radius 20
+    height 100
+    renderStyle add
+    damageFactor "NonKilledDeath", 1.0
+    damageFactor "NerveGas", 0.0
+    species S7Empress
+
+    +isMonster +shootable +noTeleport +noBlood
+    +noTargetSwitch +noGravity +forceXYBillboard +forcePain
+    +foilInvul +thruSpecies
+    
+    var int user_angle;
+    var int user_countdown;
+    var int user_loop;
+    
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_RearrangePointers (AAPTR_Master, AAPTR_Default, AAPTR_Master)
+        TNT1 A 0 A_GiveInventory ("S7_NotRealMonster", 1)
+        TNT1 A 0 A_JumpIfInventory ("S7_IsEmpress", 1, "Initialize", AAPTR_Master)
+        TNT1 A 0 A_Die
+        goto Death
+    
+    Initialize:
+        TNT1 A 0 A_GiveInventory ("S7_EmpressBalls", 1, AAPTR_Master)
+        TNT1 A 0 A_SetUserVar ("user_countdown", 35 * 12)
+        TNT1 A 0 A_ChangeFlag ("isMonster", 0)
+    
+    Idle:
+        BAL1 A 1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 0.0, user_angle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
+        TNT1 A 0 A_SetUserVar ("user_countdown", user_countdown - 1)
+        TNT1 A 0 A_SetUserVar ("user_angle", user_angle + 18)
+    CountdownChecks:
+        TNT1 A 0 A_JumpIf (user_countdown > 0, "Idle")
+        TNT1 A 0 A_Die ("NonKilledDeath")
+        TNT1 A 0 A_Jump (256, "Death.NonKilledDeath")
+        wait
+
+    Death:
+        TNT1 A 1 A_GiveInventory ("S7_EmpressInvulnOrbiterDeath", 1, AAPTR_Master)
+        //TNT1 A 0 A_PrintBold ("S7_EmpressInvulnOrbiter: Line 98")
+        TNT1 A 0 A_DamageMaster (random [miscDamage] (1, 8) * 8, "Empress_BallExploded") // That's gotta hurt.
+        // Explosion here
+        stop
+    Death.NonKilledDeath:
+        BAL1 A 1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 0.0, user_angle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
+        TNT1 A 0 A_SetUserVar ("user_angle", user_angle + 18)
+        TNT1 A 0 A_FadeOut (0.03, 0)
+        TNT1 A 0 A_JumpIf (alpha <= 0, "KILLKILLKILL")
+        loop
+    Death.EmpressDeath:
+        BAL1 A 1 bright A_Stop
+        TNT1 A 0 A_FadeOut (0.03, 0)
+        TNT1 A 0 A_JumpIf (alpha <= 0, "KILLKILLKILL")
+        loop
+    KILLKILLKILL:
+        TNT1 A 1 A_GiveInventory ("S7_EmpressInvulnOrbiterDeath", 1, AAPTR_Master)
+        stop
+    }
+}
+
+actor S7_EmpressInvulnOrbiterDeath : S7_ActionRunnerBase {
+    inventory.maxAmount 4
+    
+    states {
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("S7_IsEmpress", 1, "IsEmpress")
+        goto Finish
+    IsEmpress:
+        //TNT1 A 0 A_PrintBold ("S7_EmpressInvulnOrbiterDeath: Line 121")
+        TNT1 A 0 A_TakeInventory ("S7_EmpressBalls", 1) // Ouch.
+        TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, "Finish")
+        TNT1 A 0 A_ChangeFlag ("noBlood", 0)
+        TNT1 A 0 A_ChangeFlag ("noPain", 0)
+        TNT1 A 0 A_UnsetInvulnerable
+    Use:
+    Finish:
+        TNT1 A 0 A_RailWait
+        stop
+    }
+}

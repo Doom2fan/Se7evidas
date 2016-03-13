@@ -1,2 +1,5 @@
 // Canteen
 Inventory/CanteenUse            "sounds/Inventory/CanteenUse.ogg" // From Team Fortress 2/Source Filmmaker
+Syringe/In                      "sounds/Inventory/SyringeIn.wav"  // Dunno where this is from. Got it from Zen Dynamics (Originally "DSKNHIT3")
+Syringe/Out                     "sounds/Inventory/SyringeOut.wav" // Dunno where this is from. Got it from Zen Dynamics (Originally "DSKNHIT3")
+Berserk/Inject                  "sounds/Inventory/S7Berserk.ogg"  // Dunno where this is from.

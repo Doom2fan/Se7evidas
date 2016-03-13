@@ -92,6 +92,8 @@
 // MvP
     OBBPANTHER_MELEE                = "%o had %h guts torn out and eaten by a Black Panther.";
     OBBPANTHER                      = "%o was torn apart by a Black Panther";
+    OB_EMPRESS                      = "%o was raped by an Empress";
+    OB_EMPRESSFB                    = "%o was incinerated by an Empress";
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";

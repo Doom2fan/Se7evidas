@@ -1,1 +1,3 @@
-actor S7_EvadeNow : boolean { } // Usage: A_RadiusGive ("S7_EvadeNow", <distance>, RGF_Monsters, 1)
+actor S7_EvadeNow       : boolean { } // Usage: A_RadiusGive ("S7_EvadeNow", <distance>, RGF_Monsters, 1)
+actor S7_IsDead         : boolean { }
+actor S7_NotRealMonster : boolean { }

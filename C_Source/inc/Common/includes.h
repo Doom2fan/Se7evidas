@@ -83,6 +83,8 @@ typedef char * cstr;
 // Misc
 #define CANTEENITEM          s"S7_Canteen"
 #define DYINGTOKEN           s"S7_Dying"
+#define ISDEADTOKEN          s"S7_IsDead"
+#define FAKEMONSTOKEN        s"S7_NotRealMonster"
 #define UNDERWATERTOKEN      s"S7_IsUnderwater"
 #define AIRTIMETOKEN         s"S7_AirTime"
 #define DISABLEHUDTOKEN      s"S7_DisableHud"
@@ -90,9 +92,14 @@ typedef char * cstr;
 #define SLANCE_BEAMGRABTOKEN s"S7_SoulLance_BeamGrabbed"
 
 // Script types
-#define UNLOADING [[script ("Unloading") ]]
-#define RETURN    [[script ("Return") ]]
-#define RESPAWN   [[script ("Respawn") ]]
+#define UNLOADING    [[script ("Unloading") ]]
+#define RETURN       [[script ("Return") ]]
+#define RESPAWN      [[script ("Respawn") ]]
+#define IS_SCRIPT(n) [[address(n), call("SScriptI")]]
+#define SS_SCRIPT    [[call("SScriptS")]]
+#define ACS_SS_SCRIPT EXTACS SS_SCRIPT
+#define Script_CS    ACS_SS_SCRIPT
+#define Script_LS    SS_SCRIPT
 
 __addrdef extern  __gbl_arr GlobalVar;
 

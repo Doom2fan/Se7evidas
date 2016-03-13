@@ -1,0 +1,86 @@
+actor S7_Berserk : customInventory {
+    tag "$BERSERK"
+    inventory.icon "BSRKA0"
+    inventory.pickupMessage "$BERSERK"
+    inventory.amount 1
+    inventory.maxAmount 5
+
+    +inventory.invBar
+
+    states {
+    Spawn:
+        BSRK A -1
+        stop
+
+    Use:
+        TNT1 A 0 A_GiveInventory ("S7_BerserkWeap", 1)
+        TNT1 A 0 A_SelectWeapon ("S7_BerserkWeap")
+        stop
+    }
+}
+
+actor S7_BerserkActive : PowerStrength { Powerup.Duration 3 }
+
+actor S7_BerserkWeap : S7_BaseWeapon {
+    tag "$BERSERKWEAP"
+
+    states {
+    Spawn:
+        TNT1 A 0 A_SpawnItemEx ("S7_Berserk", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition)
+        stop
+    
+    Ready:
+        SYR0 ABCDEFGHIJKLMNO 1
+    Ready2:
+        TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 A_TakeInventory ("S7_Reloading",      0x7FFFFFFF)
+        TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF)
+        SYR1 A 1 A_WeaponReady
+        loop
+
+    Deselect:
+        TNT1 AAAA 0 A_TakeInventory ("S7_BerserkWeap", 0x7FFFFFFF)
+        TNT1 A    1 A_Lower
+        loop
+
+    Fire:
+        SYR1 BCDD       3
+        SYR1 EFGHI      1
+        SYR1 J          5
+        SYR1 KL         1
+        SYR1 M          8  A_PlaySound ("Syringe/In", CHAN_5)
+        SYR1 N          2
+        TNT1 A          0  A_PlaySound ("*pain", CHAN_Voice)
+        SYR1 O          2  A_PlaySound ("Berserk/Inject", CHAN_Weapon)
+        SYR1 P          2
+        SYR1 Q          2  // Give stuff here
+        SYR1 QRSTUVWWWX 2
+        SYR1 Y          8
+        SYR1 Z          2
+        SYR2 A          2  A_PlaySound ("Syringe/Out", CHAN_5)
+        SYR2 BCD        2
+        SYR2 E          8
+        SYR2 FG         2
+        SYR2 HIJKL      1
+        TNT1 A          0
+        SYR2 MN         1
+        SYR2 O          1  A_FireCustomMissile ("S7_SpentSyringe", 0, 0, 0, 0)
+        SYR2 PQR        1
+        TNT1 A          8
+        goto Ready2
+    }
+}
+
+actor S7_SpentSyringe : S7_CasingBase {
+    scale 0.1
+    seeSound "Weapons/Shell"
+
+    states {
+    Spawn:
+        SYTR ABCDEFGHIJKLMNOP 1
+        loop
+    Death:
+        "----" A 1 A_Jump (256, "Delaying")
+        wait
+    }
+}

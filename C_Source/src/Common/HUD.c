@@ -18,6 +18,7 @@
 */
 
 #include "includes.h"
+#include "monster_stuff.h"
 #include "weap_data.h"
 #include "hud.h"
 
@@ -185,5 +186,98 @@ void ShowPop1 (PlayerData_t *player) {
         for (int i = 0; i < 35 * 2; i++)
             ClearMessage (SP1BASEID + 1 + i);
     }
+    SetHudSize (0, 0, FALSE);
+}
+
+typedef struct EI_Struct {
+    bool isValid;
+    string name;
+    int health;
+    int maxHealth;
+} EI_Struct;
+
+Script_LS EI_Struct EI_GetInfo (int playerNum, PlayerData_t *player) {
+    EI_Struct ret;
+    ret.isValid = FALSE;
+
+    if (SetActivatorToTarget (ActivatorTID ())) {
+        int actorInfo = ClassifyActor (0);
+        if (actorInfo & ACTOR_MONSTER  && actorInfo & ACTOR_ALIVE && CheckFlag (0, s"shootable") && !(CheckFlag (0, s"noDamage") || CheckFlag (0, s"invulnerable"))) { // Monsters
+            ret.name      = GetActorPropertyString (0, APROP_NameTag);
+
+            if (CheckInventory (EMPIDENT)) {
+                ret.health    = GetUserVariable (0, EMPHPVAR);
+                ret.maxHealth = EMPMHEALTH;
+                ret.isValid = TRUE;
+            } else {
+                ret.health    = GetActorProperty (0, APROP_Health);
+                ret.maxHealth = GetActorProperty (0, APROP_SpawnHealth);
+                ret.isValid   = TRUE;
+            }
+        } else if (actorInfo & ACTOR_PLAYER && actorInfo & ACTOR_ALIVE) { // Players/bots
+            ret.name      = GetCVarString (s"name");
+            ret.health    = GetActorProperty (0, APROP_Health);
+            ret.maxHealth = GetActorProperty (0, APROP_SpawnHealth);
+            ret.isValid   = TRUE;
+            
+            // Hacks to work around player health. Apparently players have a default max health of 0
+            if (ret.maxHealth == 0) {
+                if (ret.health > 100)
+                    ret.maxHealth = ret.health;
+                else
+                    ret.maxHealth = 100;
+            }
+        }
+
+        if (PLN == playerNum || player == &PlayerData [PLN] || CheckInventory (FAKEMONSTOKEN))
+            ret.isValid = FALSE;
+    }
+
+    return ret;
+}
+#define EMBASEID 13000
+void EnemyInfoScript (PlayerData_t *player) {
+    EI_Struct info = EI_GetInfo (PLN, player);
+    int screenblocks = GetCVar (s"screenblocks");
+
+    if (info.isValid && screenblocks <= 11) {
+        SetHudSize (320, 200, FALSE);
+        int    x, y;
+        int    w, h;
+        int    id = EMBASEID;
+        bool   vert = FALSE;
+        string fg; //, bg;
+        if (screenblocks == 11) {
+            x =  59; y =  0;
+            w = 202; h = 16;
+            vert = FALSE;
+            fg = s"ENHPBFG1";
+            //bg = s"";
+        } else if (screenblocks <= 10) {
+            x =  5; y =  50;
+            w = 16; h = 101;
+            vert = TRUE;
+            fg = s"ENHPBFG2";
+            //bg = s"";
+        }
+
+        accum hpPercent = Percent (info.health > 0 ? info.health : 0, info.maxHealth) / 100.0k;
+        if (vert) {
+            h = (int) (hpPercent * h);
+        } else {
+            w = (int) (hpPercent * w);
+        }
+
+        SetHudClipRect (x, y, w, h);
+        PrintSprite (fg, id++ + 1, x * 1.0k + 0.1k, y * 1.0k + 0.1k, 0.1k);
+        SetHudClipRect (0, 0, 0, 0);
+        //PrintSprite (bg, id++, x * 1.0k, y * 1.0k, 0.1k);
+
+        SetFont (s"FSHUDFNT");
+    } else {
+        for (int i = 0; i < 10; i++)
+            ClearMessage (EMBASEID + i);
+    }
+
     SetHudSize (0, 0, FALSE);
 }

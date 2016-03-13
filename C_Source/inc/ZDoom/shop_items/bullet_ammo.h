@@ -24,7 +24,7 @@
 #include "../shop_process.h"
 #include "ammo.h"
 
-static SS_Item_t bulletAmmoItems [] = {
+SS_Item_t bulletAmmoItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
@@ -125,7 +125,7 @@ static SS_Item_t bulletAmmoItems [] = {
     },
 };
 
-static SS_Page_t bulletAmmo = {
+SS_Page_t bulletAmmo = {
     .name       = s"SS_BULLETS",
     .items      = &bulletAmmoItems [0],
 };

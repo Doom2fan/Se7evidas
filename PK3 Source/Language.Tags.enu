@@ -43,6 +43,10 @@ YELLOWKEY                       = "\c[Yellow]Yellow\c- keycard";
 EMPTTHGR                        = "Used 50mm grenades";
 EMPTTHGRPICK                    = "Used 50mm grenade";
 
+// Misc
+BERSERKWEAP                     = "Syringe (Berserk)";
+BERSERK                         = "Berserk";
+
 // Ammo
 9MM                             = "9x19mm";
 45ACP                           = ".45 ACP";

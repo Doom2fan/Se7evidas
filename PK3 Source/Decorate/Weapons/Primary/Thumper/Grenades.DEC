@@ -188,7 +188,7 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         loop
 
     Loopled:
-        TNT1 A 0 A_StopSound (7)
+        TNT1 A 0 A_StopSound (CHAN_7)
         THGR B 2 A_SetAngle (angle + user_moveDir)
         THGR B 2 A_SetAngle (angle + (user_moveDir - (user_moveDir / 10)))
         THGR B 3 A_SetAngle (angle + (user_moveDir - (user_moveDir / 9)))

@@ -25,5 +25,6 @@
 // Prototypes
 void HudWeapons ();
 void ShowPop1 (PlayerData_t *player);
+void EnemyInfoScript (PlayerData_t *player);
 
 #endif

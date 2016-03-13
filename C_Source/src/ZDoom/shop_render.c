@@ -31,7 +31,7 @@ HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.
 SetFont (spr), \
 HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, CR_UNTRANSLATED, (x) + 0.1k, (y) + 0.2k, 0.1, 0.0k, 0.0k, 0.0k, "A") \
 )
-#define SHOPBASEID 83000
+#define SHOPBASEID 9000
 #define VITEMOFF 2
 
 // This probably breaks for pages that reach the limit of 100 but I'm never gonna have pages that big so bleh. You can increase it by something

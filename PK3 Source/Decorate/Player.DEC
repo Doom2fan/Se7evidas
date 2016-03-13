@@ -22,7 +22,7 @@ actor S7_Slot9Taken : boolean { }
 actor S7_Slot0Taken : boolean { }
 
 /** Counters **/
-actor S7_AirTime : counter { inventory.maxAmount 700 }
+actor S7_AirTime  : counter { inventory.maxAmount 700 }
 
 //-------------------------------------------------------------------------------------------
 //

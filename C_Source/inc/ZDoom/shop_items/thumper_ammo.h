@@ -32,7 +32,7 @@ int SS_TH_BuyItem  (PlayerData_t *player, SS_Item_t *item);
 int SS_TH_SellItem (PlayerData_t *player, SS_Item_t *item);
 
 // Items
-static SS_Item_t thumperAmmoItems [] = {
+SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
@@ -155,7 +155,7 @@ static SS_Item_t thumperAmmoItems [] = {
     },
 };
 
-static SS_Page_t thumperAmmo = {
+SS_Page_t thumperAmmo = {
     .name       = s"SS_THGRENADES",
     .items      = &thumperAmmoItems [0],
 };

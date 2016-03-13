@@ -35,3 +35,13 @@ actor S7_HellNobleBase {
     
     +floorClip
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Misc bases
+//
+//-------------------------------------------------------------------------------------------
+actor S7_FastProjTrailBase {
+    +noBlockmap +noGravity +noTeleport +cannotPush
+    +noInteraction +clientsideOnly
+}

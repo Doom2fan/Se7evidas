@@ -155,7 +155,7 @@ actor S7_IonCannonProjectile : fastProjectile {
     damage (user_damage)
     damageType IonCannonMain
     args 3, 7, 96, 256, 128
-    //missileType "S7_IonCannonProjectileTrail"
+    missileType "S7_IonCannonProjectileTrail"
     missileHeight 8
     decal S7_IonCannon
 
@@ -239,7 +239,7 @@ actor S7_IonCannonRail : fastProjectile {
     decal S7_IonCannonRail
     damage (user_damage)
     damageType IonCannonRail
-    //missileType "S7_IonCannonRailEffectSpawner"
+    missileType "S7_IonCannonRailEffectSpawner"
 
     projectile
     +noDamageThrust +forceXYBillboard +ripper +forceRadiusDMG

@@ -25,7 +25,7 @@
 #include "externs.h"
 #include "ammo.h"
 
-static SS_Item_t batteriesAmmoItems [] = {
+SS_Item_t batteriesAmmoItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
@@ -54,7 +54,7 @@ static SS_Item_t batteriesAmmoItems [] = {
     },
 };
 
-static SS_Page_t batteriesAmmo = {
+SS_Page_t batteriesAmmo = {
     .name       = s"SS_BATTERIES",
     .items      = &batteriesAmmoItems [0],
 };

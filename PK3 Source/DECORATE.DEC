@@ -36,9 +36,10 @@
 #INCLUDE "Decorate/Effects/Parkour.DEC"
 
 // Common stuff
-#INCLUDE "Decorate/Base Actors.DEC"
-#INCLUDE "Decorate/Bullets.DEC"
 #INCLUDE "Decorate/CommonTokens.DEC"
+#INCLUDE "Decorate/Base Actors.DEC"
+#INCLUDE "Decorate/Base Weapon.DEC"
+#INCLUDE "Decorate/Bullets.DEC"
 
 // Systems
 #INCLUDE "Decorate/RPG Systems/Shop System.DEC"
@@ -50,6 +51,7 @@
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"
 #INCLUDE "Decorate/Inventory/Keys.DEC"
+#INCLUDE "Decorate/Inventory/Berserk.DEC"
 #INCLUDE "Decorate/Inventory/Loot.DEC"
 
 // Player stuff
@@ -60,7 +62,6 @@
 #INCLUDE "Decorate/Inventory/Ammo.DEC"
 
 // Weapons
-#INCLUDE "Decorate/Base Weapon.DEC"
 // Primary
 #INCLUDE "Decorate/Weapons/Primary/Shotgun/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/AMG/DECORATE.DEC"

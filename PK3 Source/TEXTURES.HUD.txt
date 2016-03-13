@@ -4,6 +4,12 @@ graphic HELMBTML, 94, 15 {
 	}
 }
 
+/*graphic ENHPBRFG2, 16, 202 {
+    patch ENHPBFG1, 0, 0 {
+        rotate -90
+    }
+}*/
+
 // Empty graphics for bars
 graphic HOLOBR01, 114, 8  { }
 graphic PRFLPMTB, 9, 82   { }
