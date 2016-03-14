@@ -276,7 +276,7 @@ void EnemyInfoScript (int *oldScreenblocks) {
             fg = s"ENHPBFG1";
             //bg = s"";
         } else if (screenblocks <= 10) {
-            x =  5; y =  50;
+            x =  5; y =  30;
             w = 16; h = 101;
             vert = TRUE;
             fg = s"ENHPBFG2";
@@ -300,9 +300,9 @@ void EnemyInfoScript (int *oldScreenblocks) {
         if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") > 0) {
             if (vert) {
                 if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 100.0k, 0.1k, 0.0, 0.0, 0.0, s"%d %%", Percent (info.health, info.maxHealth));
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0, 0.0, 0.0, s"%d %%", Percent (info.health, info.maxHealth));
                 } else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 100.0k, 0.1k, 0.0, 0.0, 0.0, s"%d/%d", info.health, info.maxHealth);
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0, 0.0, 0.0, s"%d/%d", info.health, info.maxHealth);
                 }
             } else {
                 if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2) {
@@ -317,7 +317,7 @@ void EnemyInfoScript (int *oldScreenblocks) {
         
         if (GetUserCVar (PLN, s"S7_EnemyHPBar_NametagOn")) {
             if (vert) {
-                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.0k, 110.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.1k,  90.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
             } else {
                 HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k,  19.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
             }
