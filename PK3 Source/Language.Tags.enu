@@ -56,6 +56,9 @@ BERSERK                         = "Berserk";
 CELLS                           = "Type A Energy Cells";
 FBSYSCELLS                      = "Firebrand Systems Energy Cells";
 
+/** Monsters **/
+EMPRESSTAG                      = "Empress";
+
 /** Genders **/
 GEN_MALE                        = "Male";
 GEN_FEM                         = "Female";

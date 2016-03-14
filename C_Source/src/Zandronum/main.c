@@ -22,6 +22,8 @@
 #include "stamina.h"
 #include "sprint_system.h"
 
+bool RunningInZDoom = FALSE;
+
 Script_C void S7_Open OPEN () {
     ConsoleCommand (s"compat_clientssendfullbuttoninfo TRUE");
 }
@@ -50,6 +52,13 @@ Script_C void S7_Respawn RESPAWN () {
     player->SprintDef.OldSpeed = 1.0k;
 }
 
-Script_C int S7_RunningInZDoom () {
-    return 0;
+bool S7_PlayerNumEqualConsolePlayer (int playerNum) {
+    if (playerNum == CPLN)
+        return TRUE;
+    
+    return FALSE;
+}
+
+void PukeScriptFunction (int number, int arg0, int arg1, int arg2) {
+    RequestPukeScript (number, arg0, arg1, arg2);
 }

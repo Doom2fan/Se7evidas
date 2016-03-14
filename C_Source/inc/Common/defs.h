@@ -147,6 +147,49 @@
    EndStrParam() \
   )
 
+// [CO] Added str versions of the above macros
+#define HudMessage_Str(flags, id, color, x, y, hold, opt1, opt2, opt3, ...) \
+  ( \
+   BeginHudMessage(), \
+   __nprintf_str(__VA_ARGS__), \
+   MoreHudMessage(), \
+   OptHudMessage(flags, id, color, x, y, hold), \
+   EndHudMessageXXX(opt1, opt2, opt3) \
+  )
+#define PrintBold_Str(...) \
+  ( \
+   BeginPrintBold(), \
+   __nprintf_str(__VA_ARGS__), \
+   EndPrint() \
+  )
+#define Print_Str(...) \
+  ( \
+   BeginPrint(), \
+   __nprintf_str(_str__VA_ARGS__), \
+   EndPrint() \
+  )
+#define StrParam_Str(...) \
+  ( \
+   BeginStrParam(), \
+   __nprintf_str(__VA_ARGS__), \
+   EndStrParam() \
+  )
+#define PrintSprite_Str(spr, id, x, y, delay) \
+  ( \
+   SetFont(spr), \
+   HudMessage_Str(HUDMSG_PLAIN, id, CR_UNTRANSLATED, x, y, delay, 0.0, 0.0, 0.0, s"A") \
+  )
+#define ClearMessage_Str(id) \
+  ( \
+   HudMessage_Str(HUDMSG_PLAIN, id, CR_UNTRANSLATED, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, s"") \
+  )
+#define Log_Str(...) \
+  ( \
+   BeginLog(), \
+   __nprintf_str(__VA_ARGS__), \
+   EndLog() \
+  )
+
 typedef __str string;
 
 #endif

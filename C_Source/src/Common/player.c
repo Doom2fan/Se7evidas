@@ -344,3 +344,15 @@ void DisconnectPlayer (PlayerData_t *player) {
     player->shopDef.moveSpeed = 0;
     player->shopDef.sellMode = FALSE;
 }
+
+void UpdateClientsideCVars () {
+    /*for (int i = 0; i < ArraySize (ReqClientsideCVars); i++) {
+        SetCVar (ReqClientsideCVars [i] [1], GetCVar (ReqClientsideCVars [i] [0]));
+        SetUserCVar (PLN, ReqClientsideCVars [i] [1], GetCVar (ReqClientsideCVars [i] [0]));
+        PukeScriptFunction (9800, i, PLN, GetCVar (ReqClientsideCVars [i] [0]));
+    }*/
+}
+
+/*ACS_I_SCRIPT (9800) void TakeCVarToServer NET (int number, int playerNum, int value) {
+    SetUserCVar (playerNum, ReqClientsideCVars [number] [1], value);
+}*/

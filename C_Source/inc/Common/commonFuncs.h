@@ -39,6 +39,8 @@
 #define ArraySize(array) sizeof (array) / sizeof (*array)
 
 // Prototypes
+bool S7_PlayerNumEqualConsolePlayer (int playerNum);
+
 int KeyUp      (int key);
 int KeyDown    (int key);
 int KeyPressed (int key);
@@ -47,13 +49,19 @@ int UnusedTID (int start, int end);
 
 accum GetVelocity ();
 
+bool SetInventory (string name, int amount);
+
+// ================ Math ================
+// Clamping
 int   Clamp      (int x, int min, int max);
 accum ClampAccum (accum x, accum min, accum max);
+// Scaling
 int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
-bool SetInventory (string name, int amount);
+// Distance between two XYZ coordinates
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
                  accum actor2X, accum actor2Y, accum actor2Z);
+// String to value conversion
 int   StrToInt  (string source);
 bool *StrToBool (string source);
 

@@ -82,7 +82,6 @@ Script_C void S7_ServersideEnter ENTER () {
             DodgeScriptP2 (player);
         }
     }
-
 }
 
 // Clientside-ish (HUD, popups, heartbeats, etc.) stuff
@@ -98,15 +97,16 @@ Script_C void S7_ServersideEnter2 ENTER () {
         return;
     }
     
+    int oldScreenblocks = 0;
     int heartbeatTics = 0;
 
     while (TRUE) { // Loop forever
         HeartbeatScript (player, &heartbeatTics);
         Thumper_ScriptClientside (player);
-        EnemyInfoScript (player);
         if (!player->scriptData.disableHUD) {
             HudWeapons ();
             ShowPop1 (player);
+            EnemyInfoScript (&oldScreenblocks);
         }
 
         Delay (1); // Wait for a tic
@@ -119,9 +119,21 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     if (GameType () == GAME_TITLE_MAP)
         return;
 
+    if (S7_PlayerNumEqualConsolePlayer (PLN) == FALSE)
+        return;
+
     #ifdef DEBUG
-    Log ("Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
+    if (RunningInZDoom)
+        Log_Str (s"Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
+    else
+        Log_Str (s"Se7evidas version %S", MOD_VERSION_STRING);
     #endif
+
+    while (TRUE) { // Loop forever
+        UpdateClientsideCVars ();
+
+        Delay (1); // Wait for a tic
+    }
 }
 
 void ResetStuff (PlayerData_t *player) {
@@ -140,7 +152,6 @@ void ResetStuff (PlayerData_t *player) {
     player->parkourDef.mjumpCount = 0;
     SetInventory (DODGEINVULITEM, 0);
     SetInventory (DODGETRAILITEM, 0);
-    GiveInventory (s"S7_DodgeGhostOff", 1);
 
     SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
@@ -189,4 +200,8 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     }
 
     DisconnectPlayer (player);
+}
+
+Script_C int S7_RunningInZDoom () {
+    return RunningInZDoom;
 }

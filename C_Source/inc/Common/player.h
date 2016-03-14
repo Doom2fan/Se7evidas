@@ -251,6 +251,10 @@ static const PD_AmmoType_t PD_AmmoTypes [] = {
     },
 };
 
+string ReqClientsideCVars [] [2] = {
+    { s"screenblocks", s"S7_Screenblocks", },
+};
+
 // Prototypes
 void TakeCash (PlayerData_t *player, int amount);
 void GiveCash (PlayerData_t *player, int amount);
@@ -259,6 +263,7 @@ void DisconnectPlayer  (PlayerData_t *player);
 void UpdatePlayerData  (PlayerData_t *player);
 void UpdateAmmoMax     (PlayerData_t *player);
 void UpdatePlayerAlpha (PlayerData_t *player);
+void UpdateClientsideCVars ();
 bool PD_DoLoadSave  (PlayerData_t *player, SavedData_t *saveData);
 bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData);
 

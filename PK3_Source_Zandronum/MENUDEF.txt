@@ -63,30 +63,50 @@ optionMenu "S7Settings_Server" {
     title "Server Options"
 
     staticText "Gameplay Options", 1
-    option "Force intro",                                                                           "S7_ForceIntro",            "OnOff"
+    option "Force intro",                                                                           "S7_ForceIntro",                "OnOff"
     slider "Dodge cooldown (In tics)",                                                              "S7_DodgeCooldown", 0, 525, 1
     slider "Multijump Z speed multiplier",                                                          "S7_MultiJumpZMul", 0.5, 2.5, 0.1
-    staticText " "
+}
+
+optionValue "S7EnemyHPBar_HPDisp_Values" {
+    0, "Off"
+    1, "Exact"
+    2, "Percent"
+}
+optionValue "S7EnemyHPBar_ForceDir_Values" {
+    0, "Off"
+    1, "Horizontal"
+    2, "Vertical"
 }
 
 optionMenu "S7Settings_User" {
     title "Client Options"
 
     staticText "Visual Options", 1
-    option "Mod messages on",                                                                       "S7_MsgsOn",                "OnOff"
-    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",          "OnOff"
+    option "Mod messages on",                                                                       "S7_MsgsOn",                    "OnOff"
+    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",              "OnOff"
+
+    staticText " "
+    staticText "Enemy health bar", 1
+    option "Enemy health bar",                                                                      "S7_EnemyHPBar_On",             "OnOff"
+    option "Numerical health display",                                                              "S7_EnemyHPBar_HPDisp",         "S7EnemyHPBar_HPDisp_Values"
+    option "Nametag",                                                                               "S7_EnemyHPBar_NametagOn",      "OnOff"
+    option "Force Direction",                                                                       "S7_EnemyHPBar_ForceDir",       "S7EnemyHPBar_ForceDir_Values"
+
     staticText " "
     staticText "Gameplay Options", 1
-    option "Auto reloading",                                                                        "S7_AutoReloading",         "OnOff"
-    option "No newgame intro",                                                                      "S7_NoIntro",               "OnOff"
-    option "No newgame intro (MP only)",                                                            "S7_NoIntroOnMP",           "OnOff"
+    option "Auto reloading",                                                                        "S7_AutoReloading",             "OnOff"
+    option "No newgame intro",                                                                      "S7_NoIntro",                   "OnOff"
+    option "No newgame intro (MP only)",                                                            "S7_NoIntroOnMP",               "OnOff"
+
     staticText " "
     staticText "Audio Options", 1
-    option "Heartbeats on",                                                                         "S7_HeartbeatsOn",          "OnOff"
+    option "Heartbeats on",                                                                         "S7_HeartbeatsOn",              "OnOff"
+
     staticText " "
     staticText "Toaster Options", 1
-    option "Effects stay time",                                                                     "S7_EffectStayTime",        "EffectsStayTimeOptions"
-    option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",       "EffectsFadeSpeedOptions"
+    option "Effects stay time",                                                                     "S7_EffectStayTime",            "EffectsStayTimeOptions"
+    option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",           "EffectsFadeSpeedOptions"
 }
 
 optionMenu "S7Settings_SaveSys" {
@@ -99,8 +119,8 @@ optionMenu "S7Settings_SaveSys" {
     staticText "Client Options", 1
     option "Load save on new game",                                                                 "S7_LoadSaveDataOnNewGame",     "OnOff"
 
-    staticText "Commands", 1
     staticText " "
+    staticText "Commands", 1
     safeCommand "Clear save data",  "S7_ClearSaveData"
     command     "Save",             "S7_SaveSysSave"
     command     "Load",             "S7_SaveSysLoad"

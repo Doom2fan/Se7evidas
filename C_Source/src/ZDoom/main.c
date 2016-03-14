@@ -19,6 +19,8 @@
 
 #include "includes.h"
 
+bool RunningInZDoom = TRUE;
+
 Script_C void S7_Enter ENTER () {
     PlayerData_t *player = &PlayerData [PLN];
     
@@ -43,6 +45,10 @@ Script_C void S7_Respawn RESPAWN () {
     player->SprintDef.OldSpeed = 1.0k;
 }
 
-Script_C int S7_RunningInZDoom () {
-    return 1;
+bool S7_PlayerNumEqualConsolePlayer (int playerNum) {
+    return TRUE;
+}
+
+void PukeScriptFunction (int number, int arg0, int arg1, int arg2) {
+    ACS_ExecuteAlways (number, 0, arg0, arg1, arg2);
 }

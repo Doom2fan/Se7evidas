@@ -1,4 +1,5 @@
 #include "util_math.h"
+// [CO] I added the k suffix to some accum/fixed literals just to be sure
 
 accum AbsA (accum x) {
     return x < 0 ? -x : x;
@@ -9,21 +10,21 @@ accum AbsA (accum x) {
  * and the standard functions have one, so I'm going to name these sine*.
  */
 accum AbSine (accum speed, int amplitude) {
-    accum amp = 1.0 / amplitude;
+    accum amp = 1.0k / amplitude;
     speed = 1 / speed;
 
     return (AbsA (Sin ((accum) (Timer () * speed)))) * amp;
 }
 
 accum SineA (accum speed, int amplitude) {
-    accum amp = 1.0 / amplitude;
+    accum amp = 1.0k / amplitude;
     speed = 1 / speed;
 
     return (Sin (((accum) (Timer () * speed)))) * amp;
 }
 
 int RoundA (accum x) {
-    return (int) (x + 0.5);
+    return (int) (x + 0.5k);
 }
 
 int IDistance (int tid1, int tid2) {

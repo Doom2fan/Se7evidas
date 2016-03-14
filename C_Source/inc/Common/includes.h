@@ -101,12 +101,17 @@ typedef char * cstr;
 #define Script_CS    ACS_SS_SCRIPT
 #define Script_LS    SS_SCRIPT
 
-__addrdef extern  __gbl_arr GlobalVar;
+// Externs
+__addrdef extern __gbl_arr GlobalVar;
+extern bool RunningInZDoom;
 
 // Misc
 #define TNT1A0 s"TNT1A0"
 
 // Variables and constants
 char CorruptionCharList [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-=!@#$%%&*()_+[]{}\\,.;/|<>:?";
+
+// Prototypes
+void PukeScriptFunction (int number, int arg0, int arg1, int arg2);
 
 #endif

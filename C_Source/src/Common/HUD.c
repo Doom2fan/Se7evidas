@@ -196,7 +196,7 @@ typedef struct EI_Struct {
     int maxHealth;
 } EI_Struct;
 
-Script_LS EI_Struct EI_GetInfo (int playerNum, PlayerData_t *player) {
+Script_LS EI_Struct EI_GetInfo (int playerNum) {
     EI_Struct ret;
     ret.isValid = FALSE;
 
@@ -214,12 +214,17 @@ Script_LS EI_Struct EI_GetInfo (int playerNum, PlayerData_t *player) {
                 ret.maxHealth = GetActorProperty (0, APROP_SpawnHealth);
                 ret.isValid   = TRUE;
             }
-        } else if (actorInfo & ACTOR_PLAYER && actorInfo & ACTOR_ALIVE) { // Players/bots
-            ret.name      = GetCVarString (s"name");
+        } else if (actorInfo & ACTOR_ALIVE && actorInfo & ACTOR_PLAYER|| actorInfo & ACTOR_BOT || actorInfo & ACTOR_VOODOODOLL) { // Players/bots
+            ret.name      = StrParam ("%tS", playerNum);
             ret.health    = GetActorProperty (0, APROP_Health);
             ret.maxHealth = GetActorProperty (0, APROP_SpawnHealth);
             ret.isValid   = TRUE;
-            
+
+            if (actorInfo & ACTOR_BOT)
+                ret.name  = StrParam ("%S (Bot)", ret.name);
+            if (actorInfo & ACTOR_VOODOODOLL)
+                ret.name  = StrParam ("%S (Voodoo doll)", ret.name);
+
             // Hacks to work around player health. Apparently players have a default max health of 0
             if (ret.maxHealth == 0) {
                 if (ret.health > 100)
@@ -228,23 +233,40 @@ Script_LS EI_Struct EI_GetInfo (int playerNum, PlayerData_t *player) {
                     ret.maxHealth = 100;
             }
         }
+        PrintBold ("%s", ret.name);
 
-        if (PLN == playerNum || player == &PlayerData [PLN] || CheckInventory (FAKEMONSTOKEN))
+        if (PLN == playerNum || CheckInventory (FAKEMONSTOKEN))
             ret.isValid = FALSE;
     }
 
     return ret;
 }
 #define EMBASEID 13000
-void EnemyInfoScript (PlayerData_t *player) {
-    EI_Struct info = EI_GetInfo (PLN, player);
-    int screenblocks = GetCVar (s"screenblocks");
+void EnemyInfoScript (int *oldScreenblocks) {
+    EI_Struct info = EI_GetInfo (PLN);
+    int screenblocks = GetCVar (s"screenblocks"); // GetUserCVar (PLN, s"S7_Screenblocks");
+    int forceDirCvar = GetUserCVar (PLN, s"S7_EnemyHPBar_ForceDir");
 
-    if (info.isValid && screenblocks <= 11) {
+    if (forceDirCvar) {
+        if (forceDirCvar == 1)
+            screenblocks = 11;
+        else if (forceDirCvar >= 2)
+            screenblocks = 10;
+    }
+
+    if (*oldScreenblocks != screenblocks) {
+        for (int i = 0; i < 20; i++)
+            ClearMessage (EMBASEID + i);
+    }
+
+    *oldScreenblocks = screenblocks;
+
+    if (info.isValid && screenblocks <= 11 && GetUserCVar (PLN, s"S7_EnemyHPBar_On")) {
         SetHudSize (320, 200, FALSE);
-        int    x, y;
+        int    x, y,
+                  y2;
         int    w, h;
-        int    id = EMBASEID;
+        int    id = EMBASEID + 20;
         bool   vert = FALSE;
         string fg; //, bg;
         if (screenblocks == 11) {
@@ -263,20 +285,46 @@ void EnemyInfoScript (PlayerData_t *player) {
 
         accum hpPercent = Percent (info.health > 0 ? info.health : 0, info.maxHealth) / 100.0k;
         if (vert) {
-            h = (int) (hpPercent * h);
+            accum thingy = (1.0k - hpPercent) * h;
+            y2 = y + RoundA (thingy);
         } else {
             w = (int) (hpPercent * w);
         }
 
-        SetHudClipRect (x, y, w, h);
-        PrintSprite (fg, id++ + 1, x * 1.0k + 0.1k, y * 1.0k + 0.1k, 0.1k);
+        SetHudClipRect (x, vert ? y2 : y, w, h);
+        PrintSprite_Str (fg, id--, x * 1.0k + 0.1k, y * 1.0k + 0.1k, 0.1k);
         SetHudClipRect (0, 0, 0, 0);
-        //PrintSprite (bg, id++, x * 1.0k, y * 1.0k, 0.1k);
+        //PrintSprite (bg, id--, x * 1.0k, y * 1.0k, 0.1k);
 
-        SetFont (s"FSHUDFNT");
+        SetFont (s"SMALLFNT");
+        if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") > 0) {
+            if (vert) {
+                if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2) {
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 100.0k, 0.1k, 0.0, 0.0, 0.0, s"%d %%", Percent (info.health, info.maxHealth));
+                } else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 100.0k, 0.1k, 0.0, 0.0, 0.0, s"%d/%d", info.health, info.maxHealth);
+                }
+            } else {
+                if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2) {
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"%d %%", Percent (info.health, info.maxHealth));
+                } else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 164.1k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"%d", info.maxHealth);
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"/");
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 156.2k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"%d", info.health);
+                }
+            }
+        }
+        
+        if (GetUserCVar (PLN, s"S7_EnemyHPBar_NametagOn")) {
+            if (vert) {
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.0k, 110.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
+            } else {
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k,  19.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
+            }
+        }
     } else {
-        for (int i = 0; i < 10; i++)
-            ClearMessage (EMBASEID + i);
+        for (int i = 0; i < 20; i++)
+            ClearMessage_Str (EMBASEID + i);
     }
 
     SetHudSize (0, 0, FALSE);
