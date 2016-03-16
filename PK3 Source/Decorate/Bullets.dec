@@ -75,11 +75,12 @@ actor S7_BulletPuff : S7_TracerEffectsBase replaces BulletPuff {
  
     states {
     Spawn:
-        TNT1 AAAAAA 0 noDelay A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (0.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
-        TNT1 AAA 0 A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
-        TNT1 A 0 A_PlaySound ("Tracers/HitWall", CHAN_Body)
-        SPRK A 2 bright
-        SPRK A 2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
+        TNT1 A      0 noDelay A_PlaySound ("Tracers/HitWall", CHAN_Body)
+    NoSound:
+        TNT1 AAAAAA 0 A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (0.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
+        TNT1 AAA    0 A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
+        SPRK A      2 bright
+        SPRK A      2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
         stop
     }
 }
