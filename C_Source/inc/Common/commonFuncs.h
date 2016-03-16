@@ -65,4 +65,6 @@ accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
 int   StrToInt  (string source);
 bool *StrToBool (string source);
 
+long accum LongFixedSqrt (long accum x);
+
 #endif

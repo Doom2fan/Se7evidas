@@ -221,3 +221,21 @@ bool *StrToBool (string source) {
 
     return ret;
 }
+
+long accum LongFixedSqrt (long accum x) {
+    if (x <= 3 && x > 0)
+        return 1.0lk;
+    else if (x < 0)
+        return 0.0lk;
+
+    int oldAns = x >> 1,                     // initial guess
+        newAns = (oldAns + x / oldAns) >> 1; // first iteration
+
+    // main iterative method
+    while(newAns < oldAns) {
+        oldAns = newAns;
+        newAns = (oldAns + x / oldAns) >> 1;
+    }
+
+    return oldAns;
+}

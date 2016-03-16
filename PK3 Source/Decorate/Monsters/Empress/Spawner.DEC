@@ -9,10 +9,9 @@ actor S7_EmpressPreSpawn replaces cyberdemon {
     height 1
     mass 0x7FFFFFFF
 
-    monster
-    +boss +noClip +noTarget +dontMorph
-    +bossDeath +noInteraction +noBlockmap +invisible
-    +noGravity +lookAllAround
+    +isMonster +boss +noClip +noTarget
+    +dontMorph +bossDeath +noInteraction +noBlockmap
+    +invisible +noGravity +lookAllAround -countKill
 
     var int user_loopCount;
 

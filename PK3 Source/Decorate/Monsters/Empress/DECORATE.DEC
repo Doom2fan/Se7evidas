@@ -25,8 +25,8 @@ actor S7_Empress {
     height 100
     speed 0//20
     painChance 15
-    painChance Empress_BallExploded, 255
-    painChance S7_SoulLance_Beam, 255
+    painChance Empress_BallExploded, 256
+    painChance S7_SoulLance_Beam, 256
     minMissileChance 160
     bloodColor "B2 11 DE"
     seeSound "cyber/sight"
@@ -38,7 +38,7 @@ actor S7_Empress {
     
     monster
     +boss +missileMore +floorClip +noRadiusDMG
-    +noTarget +dontMorph +bossDeath +quickToRetaliate
+    +noTarget +dontMorph +bossDeath
 
     var int user_trueHealth;
     var int user_setPain;
@@ -112,15 +112,13 @@ actor S7_Empress {
         HRFR G 13 A_Pain
         goto See
 
-    Pain.S7_SoulLance_Beam:
+    /*Pain.S7_SoulLance_Beam:
         TNT1 A 0 A_Jump (4, "Pain")
         TNT1 A 0 A_JumpIfInTargetLOS ("SLance_BeamGrab", 90.0, JLOSF_AllyNoJump)
         goto See
-
     SLance_BeamGrab:
         TNT1 A 0 A_SetMass (0x7FFFFFFF)
         TNT1 A 0 A_ChangeFlag ("noPain", TRUE)
-        TNT1 A 0 A_ChangeFlag ("quickToRetaliate", FALSE)
         TNT1 A 0 A_GiveToTarget ("S7_SoulLance_BeamGrabbed", 1)
         TNT1 A 0 A_GiveInventory ("S7_SoulLance_BeamGrabbed", 1)
         TNT1 A 0 ACS_NamedExecuteAlways ("S7_SLanceBeamGrab", 0)
@@ -137,32 +135,24 @@ actor S7_Empress {
         goto SLance_BeamLost
     SLance_BeamHold4:
         HRFR E 1
-        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "RunAway")
+        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "SLance_BeamLost")
         goto SLance_BeamHold
     SLance_BeamLost:
         TNT1 A 0 A_SetMass (S7_EmpressMass)
         TNT1 A 0 A_ChangeFlag ("noPain", FALSE)
-        TNT1 A 0 A_ChangeFlag ("quickToRetaliate", TRUE)
         TNT1 A 0 A_TakeFromTarget ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF)
         TNT1 A 0 A_TakeInventory ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF)
         HRFR E 3 A_FaceTarget
-        goto See
-    SLance_BeamLost_ByDeath:
-        TNT1 A 0 A_SetMass (S7_EmpressMass)
-        TNT1 A 0 A_ChangeFlag ("noPain", FALSE)
-        TNT1 A 0 A_ChangeFlag ("quickToRetaliate", TRUE)
-        TNT1 A 0 A_TakeFromTarget ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF)
-        TNT1 A 0 A_TakeInventory ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF)
-        goto Death2
+        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "RunAway")
+        goto See*/
 
     RunAway:
-        TNT1 AAAA 0 A_GiveInventory ("S7_EmpressNormalDeath", 1)
-        TNT1 AAAA 0 A_Die
+        TNT1 AAAAAAAAAAAA 0 A_GiveInventory ("S7_EmpressNormalDeath", 1)
+        TNT1 AAAAAAAAAAAA 0 A_Die
         goto Death
 
     Death:
         TNT1 A 0 A_GiveInventory ("S7_IsDead", 1)
-        TNT1 A 0 A_JumpIfInventory ("S7_EmpressNormalDeath", 1, "Death2")
         TNT1 A 0 A_JumpIfInventory ("S7_SoulLance_BeamGrabbed", 1, "SLance_BeamLost_ByDeath")
     Death2:
         HRFR GGG    13 A_Pain
