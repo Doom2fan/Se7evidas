@@ -52,59 +52,73 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A 0 A_JumpIfInventory ("S7_ShotgunLoaded", 1, "AltFireRight")
         goto Pump
     TrueFire:
-        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/Fire", CHAN_Weapon)
-        TNT1 A 0 A_AlertMonsters
-        TNT1 A 0 A_TakeInventory ("S7_ShotgunLoaded", 2)
-        TNT1 AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
-        TNT1 AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
+        TNT1 A         0 A_JumpIfNoAmmo ("DryFire")
+        TNT1 A         0 A_PlaySound ("Weapons/Shotgun/Fire", CHAN_Weapon)
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_GunFlash ("Flash")
+        TNT1 A         0 A_TakeInventory ("S7_ShotgunLoaded", 2)
+        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
         TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 0, 2, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        TNT1 AAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 0, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        TNT1 A 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 1, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        SSGF AA 1 bright A_SetPitch (pitch - 2.9, SPF_Interpolate)
-        SSGF EE 1
-        SSGF FG 1
-        SSGR A 6
+        SSGF E         1 bright A_SetPitch (pitch - 2.9, SPF_Interpolate)
+        TNT1 AAAAAAAA  0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 0, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
+        TNT1 A         0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 1, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
+        SSGF D         1 bright A_SetPitch (pitch - 2.9, SPF_Interpolate)
+        SSGF DD        1
+        SSGF EF        1
+        SSGR A         6
         goto Ready2
     
     AltFire:
-        TNT1 A 0 A_JumpIfInventory ("S7_ShotgunLoaded", 1, 1)
+        TNT1 A        0 A_JumpIfInventory ("S7_ShotgunLoaded", 1, 1)
         goto Pump
-        TNT1 A 0 A_JumpIfInventory ("S7_ShotgunLoaded", 2, 1)
+        TNT1 A        0 A_JumpIfInventory ("S7_ShotgunLoaded", 2, 1)
         goto AltFireRight
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/AltFire", CHAN_5)
-        TNT1 A 0 A_AlertMonsters
-        TNT1 A 0 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        TNT1 AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
+        TNT1 A        0 A_PlaySound ("Weapons/Shotgun/AltFire", CHAN_5)
+        TNT1 A        0 A_AlertMonsters
+        TNT1 A        0 A_GunFlash ("AltFlash")
+        TNT1 A        0 A_TakeInventory ("S7_ShotgunLoaded", 1)
+        TNT1 AA       0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
         TNT1 AAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 0, 2, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        TNT1 A 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 1, 2, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        SSGF BB 1 bright A_SetPitch (pitch - 1.45, SPF_Interpolate)
-        SSGF FG 1
-        SSGR A 3
+        TNT1 A        0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 1, 2, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
+        SSGF EE       1 bright A_SetPitch (pitch - 1.45, SPF_Interpolate)
+        SSGF EF       1
+        SSGR A        3
         goto Ready2
     
     AltFireRight:
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/AltFire", CHAN_6)
-        TNT1 A 0 A_AlertMonsters
-        TNT1 A 0 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        TNT1 AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 A        0 A_PlaySound ("Weapons/Shotgun/AltFire", CHAN_6)
+        TNT1 A        0 A_AlertMonsters
+        TNT1 A        0 A_GunFlash ("AltFlashRight")
+        TNT1 A        0 A_TakeInventory ("S7_ShotgunLoaded", 1)
+        TNT1 AA       0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
         TNT1 AAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 0, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        TNT1 A 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 1, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
-        SSGF CC 1 bright A_SetPitch (pitch - 1.45, SPF_Interpolate)
-        SSGF FG 1
-        SSGR A 3
+        TNT1 A        0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.8, 3.8), 1, 4, -1, 0, fRandom [weaponSpread] (-4.3, 4.3))
+        SSGF EE       1 bright A_SetPitch (pitch - 1.45, SPF_Interpolate)
+        SSGF EF       1
+        SSGR A        3
         goto Ready2
+
+    Flash:
+        SSGF AC 1 bright
+        stop
+    AltFlash:
+        SSGF A 2 bright
+        stop
+    AltFlashRight:
+        SSGF B 2 bright
+        stop
     
     Pump:
-        TNT1 A 0 A_JumpIfInventory ("S7_ShotgunMag", 1, 1)
+        TNT1 A       0 A_JumpIfInventory ("S7_ShotgunMag", 1, 1)
         goto DryFire
-        TNT1 A 0 A_GiveInventory ("S7_ShotgunLoaded", 2)
-        SSGF G 2 A_TakeInventory ("S7_ShotgunMag", 2)
-        SSGF H 2
-        TNT1 AA 0 A_FireCustomMissile ("S7_ShellCasingSpawn", 0, 0, 6, -3)
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7)
-        SSGF IJKLMN 2
-        SSGF MLKJIH 2
+        TNT1 A       0 A_GiveInventory ("S7_ShotgunLoaded", 2)
+        SSGF F       2 A_TakeInventory ("S7_ShotgunMag", 2)
+        SSGF G       2
+        TNT1 AA      0 A_FireCustomMissile ("S7_ShellCasingSpawn", 0, 0, 6, -3)
+        TNT1 A       0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7)
+        SSGF HIJKLMN 2
+        SSGF MLKJIH  2
         goto Ready2
     
     DryFire:
@@ -126,37 +140,37 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         goto InsertFirstShells
     
     InsertShells:
-        TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, 1)
+        TNT1 A                    0 A_JumpIfInventory ("S7_Reloading", 1, 1)
         goto Reloaded
-        TNT1 A 0 A_JumpIfInventory ("S7_ShotgunMag", 0, "Reloaded")
-        TNT1 A 0 A_JumpIfInventory ("S7_20gaShells", 2, 1)
+        TNT1 A                    0 A_JumpIfInventory ("S7_ShotgunMag", 0, "Reloaded")
+        TNT1 A                    0 A_JumpIfInventory ("S7_20gaShells", 2, 1)
         goto Reloaded
-        TNT1 A 0 A_GiveInventory ("S7_ShotgunMag", 2)
-        TNT1 A 0 A_TakeInventory ("S7_20gaShells", 2)
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
-        DSGR ABCCCCBA 1
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5)
+        TNT1 A                    0 A_GiveInventory ("S7_ShotgunMag", 2)
+        TNT1 A                    0 A_TakeInventory ("S7_20gaShells", 2)
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
+        DSGR ABCCCCBA             1
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5)
         DSGR ABCCCCBAAAAAAAAAAAAA 1
         goto InsertShells
     
     InsertFirstShells:
-        TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, 1)
+        TNT1 A                    0 A_JumpIfInventory ("S7_Reloading", 1, 1)
         goto Reloaded
-        TNT1 A 0 A_JumpIfInventory ("S7_ShotgunMag", 0, "Reloaded")
-        TNT1 A 0 A_JumpIfInventory ("S7_20gaShells", 2, 1)
+        TNT1 A                    0 A_JumpIfInventory ("S7_ShotgunMag", 0, "Reloaded")
+        TNT1 A                    0 A_JumpIfInventory ("S7_20gaShells", 2, 1)
         goto Reloaded
-        TNT1 A 0 A_GiveInventory ("S7_ShotgunMag", 2)
-        TNT1 A 0 A_TakeInventory ("S7_20gaShells", 2)
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
-        DSGR ABCCCCBA 1
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5)
+        TNT1 A                    0 A_GiveInventory ("S7_ShotgunMag", 2)
+        TNT1 A                    0 A_TakeInventory ("S7_20gaShells", 2)
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
+        DSGR ABCCCCBA             1
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5)
         DSGR ABCCCCBAAAAAAAAAAAAA 1
-        TNT1 A 0 A_GiveInventory ("S7_ShotgunLoaded", 2)
-        SSGF G 2 A_TakeInventory ("S7_ShotgunMag", 2)
-        SSGF H 2
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_6)
-        SSGF IJKLMN 2
-        SSGF MLKJIH 2
+        TNT1 A                    0 A_GiveInventory ("S7_ShotgunLoaded", 2)
+        SSGF E                    2 A_TakeInventory ("S7_ShotgunMag", 2)
+        SSGF F                    2
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7)
+        SSGF HIJKLMN              2
+        SSGF MLKJIH               2
         goto InsertShells
     
     InsertShells.Pump:
@@ -167,11 +181,11 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
     InsertShells.Pump2:
         
     InsertShells.PumpAnim:
-        SSGF G 2 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        SSGF H 2
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_Weapon)
-        SSGF IJKLMN 2
-        SSGF MLKJIH 2
+        SSGF E       2 A_TakeInventory ("S7_ShotgunLoaded", 1)
+        SSGF F       2
+        TNT1 A       0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7)
+        SSGF HIJKLMN 2
+        SSGF MLKJIH  2
         goto InsertFirstShells
     
     InsertShells.PumpLoad:
@@ -179,13 +193,13 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         goto InsertShells.PumpLoad2
         TNT1 A 0 A_GiveInventory ("S7_ShotgunDontPump", 1)
     InsertShells.PumpLoad2:
-        TNT1 A 0 A_GiveInventory ("S7_ShotgunLoaded", 2)
-        SSGF G 2 A_TakeInventory ("S7_ShotgunMag", 2)
-        SSGF H 2
-        TNT1 A 0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7)
-        SSGF IJKLMN 2
-        SSGF MLKJIH 2
-        TNT1 A 0 A_JumpIfInventory ("S7_ShotgunDontPump", 1, "InsertShells")
+        TNT1 A       0 A_GiveInventory ("S7_ShotgunLoaded", 2)
+        SSGF E       2 A_TakeInventory ("S7_ShotgunMag", 2)
+        SSGF F       2
+        TNT1 A       0 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7)
+        SSGF HIJKLMN 2
+        SSGF MLKJIH  2
+        TNT1 A       0 A_JumpIfInventory ("S7_ShotgunDontPump", 1, "InsertShells")
         goto InsertFirstShells
     
     Reloaded:
