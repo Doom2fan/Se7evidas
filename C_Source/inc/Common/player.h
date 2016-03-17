@@ -195,7 +195,7 @@ static const string PD_Gender [] = {
 static const PD_AmmoType_t PD_AmmoTypes [] = {
     {
         .name = s"S7_9mmCartridges",
-        .magSize = 15,
+        .magSize = 75,
     },
     {
         .name = s"S7_45ACPCartridges",

@@ -28,8 +28,14 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         stop
 
     Deselect:
-        AMGG A 0 A_TakeInventory ("S7_AMG_ZoomedIn", 0x7FFFFFFF)
+        AMGG A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Deselect.Zoom")
+        AMGG A 0 A_SetCrosshair (0)
         goto Super::Deselect
+    Deselect.Zoom:
+        AMGG A 0 A_TakeInventory ("S7_AMG_ZoomedIn", 0x7FFFFFFF)
+        AMGG A 0 A_ZoomFactor (1.0, ZOOM_Instant)
+        AMGG A 8 A_SetBlend ("00 00 00", 1.0, 8)
+        goto Deselect
     
     Ready:
     Ready2:
@@ -95,13 +101,14 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         "----" A 1 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Zoom.Hold2")
         goto Ready2
     Zoom.Hold2:
-        "----" A 0 A_JumpIfInventory ("S7_ZoomHoldTime", 8, "Unzoom")
+        "----" A 0 A_JumpIfInventory ("S7_ZoomHoldTime", 6, "Unzoom")
         "----" A 1 A_GiveInventory ("S7_ZoomHoldTime", 1)
         goto Ready2
 
     Unzoom:
         TNT1 A 0 A_TakeInventory ("S7_AMG_ZoomedIn", 0x7FFFFFFF)
-        TNT1 A 0 A_ZoomFactor (1.0)
+        TNT1 A 0 A_SetCrosshair (0)
+        TNT1 A 0 A_ZoomFactor (1.0, ZOOM_Instant)
         AMGG A 8 A_SetBlend ("00 00 00", 1.0, 8)
         goto Ready2
     
