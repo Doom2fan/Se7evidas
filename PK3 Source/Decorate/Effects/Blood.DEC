@@ -37,13 +37,12 @@ actor S7_Flying_Blood {
 
     states {
     Spawn:
-        TNT1 A 0
-        BLUD CCCBBBAAA 1 A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_TransferTranslation)
+        BLUD CCCBBBAAA 1 noDelay A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_TransferTranslation)
         loop
     Death:
     Crush:
     Crash:
-        TNT1 A 0
+        TNT1 A 1
         stop
     }
 }

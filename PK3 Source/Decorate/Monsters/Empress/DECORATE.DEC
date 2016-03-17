@@ -58,20 +58,20 @@ actor S7_Empress {
         loop
 
     See:
-        TNT1 A 0 A_TakeInventory ("S7_IsDead", 0x7FFFFFFF)
+        TNT1 A  0 A_TakeInventory ("S7_IsDead", 0x7FFFFFFF)
 
-        TNT1 A 0 A_PlaySound ("Footsteps/Large", CHAN_5)
-        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "RunAway")
+        TNT1 A  0 A_PlaySound ("Footsteps/Large", CHAN_5)
+        TNT1 A  0 A_JumpIf (user_trueHealth < 1, "RunAway")
         HRFR AA 4 A_Chase
 
-        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "RunAway")
+        TNT1 A  0 A_JumpIf (user_trueHealth < 1, "RunAway")
         HRFR BB 4 A_Chase
 
-        TNT1 A 0 A_PlaySound ("Footsteps/Large", CHAN_6)
-        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "RunAway")
+        TNT1 A  0 A_PlaySound ("Footsteps/Large", CHAN_6)
+        TNT1 A  0 A_JumpIf (user_trueHealth < 1, "RunAway")
         HRFR CC 4 A_Chase
 
-        TNT1 A 0 A_JumpIf (user_trueHealth < 1, "RunAway")
+        TNT1 A  0 A_JumpIf (user_trueHealth < 1, "RunAway")
         HRFR DD 4 A_Chase
         loop
 
@@ -84,13 +84,13 @@ actor S7_Empress {
         TNT1 A 0
         goto MissileAttack
     ShieldsUp:
-        TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
-        TNT1 A 0 A_ChangeFlag ("noPain", TRUE)
+        TNT1 A               0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
+        TNT1 A               0 A_ChangeFlag ("noPain", TRUE)
         HRFR EEEEEFFFFFFFFFF 1 A_FaceTarget
-        TNT1 A 0 A_ChangeFlag ("noBlood", TRUE)
-        TNT1 A 0 A_SetInvulnerable
-        //TNT1 A 0 A_GiveInventory ("S7_EmpressProtection", 1)
-        HRFR FFFF 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        TNT1 A               0 A_ChangeFlag ("noBlood", TRUE)
+        TNT1 A               0 A_SetInvulnerable
+        //TNT1 A               0 A_GiveInventory ("S7_EmpressProtection", 1)
+        HRFR FFFF            5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
         goto See
 
     MissileAttack:
@@ -156,13 +156,13 @@ actor S7_Empress {
         TNT1 A 0 A_JumpIfInventory ("S7_SoulLance_BeamGrabbed", 1, "SLance_BeamLost_ByDeath")
     Death2:
         HRFR GGG    13 A_Pain
-        HRFR AAAAAA 1 A_SpawnItemEx ("S7_EmpressDeathSmokeSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
-        HRFR A      2
-        TNT1 A      0 A_SpawnItemEx ("S7_EmpressFlash", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
-        TNT1 A      0 A_NoBlocking
-        TNT1 A      0 A_DamageChildren (0x7FFFFFFF, "NonKilledDeath")
-        TNT1 A      0 A_KillChildren
-        TNT1 A     -1 A_KillMaster
+        HRFR AAAAAA  1 A_SpawnItemEx ("S7_EmpressDeathSmokeSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        HRFR A       2
+        TNT1 A       0 A_SpawnItemEx ("S7_EmpressFlash", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        TNT1 A       0 A_NoBlocking
+        TNT1 A       0 A_DamageChildren (0x7FFFFFFF, "NonKilledDeath")
+        TNT1 A       0 A_KillChildren
+        TNT1 A      -1 A_KillMaster
         stop
     }
 }
@@ -208,10 +208,10 @@ actor S7_EmpressMissile1 : fastProjectile {
         loop
 
     Flight:
-        BAL1 A 1 A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
-        TNT1 A 0 A_ChangeVelocity (user_savedVelX / 65535.0, user_savedVelY / 65535.0, user_savedVelZ / 65535.0, CVF_Replace)
+        BAL1 A    1 A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
+        TNT1 A    0 A_ChangeVelocity (user_savedVelX / 65535.0, user_savedVelY / 65535.0, user_savedVelZ / 65535.0, CVF_Replace)
         TNT1 AAAA 0 A_SeekerMissile (360, 360, SMF_Precise | SMF_CurSpeed)
-        BAL1 A 1
+        BAL1 A    1
         wait
 
     DieOut:

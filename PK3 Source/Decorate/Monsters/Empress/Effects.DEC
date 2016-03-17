@@ -120,7 +120,7 @@ actor S7_EmpressPentagramFire : S7_Empress_FXBase {
     states {
     Spawn:
         EPTF ABCDEFGHIJKLM 3 bright
-        TNT1 A 0 A_CountDown
+        TNT1 A             0 A_CountDown
         loop
 
     Death:

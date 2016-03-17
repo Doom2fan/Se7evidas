@@ -92,8 +92,7 @@ actor S7_BaseWeapon : weapon {
         TNT1 A 0 A_CustomPunch (3 * random [weaponDamage] (1, 5) * 13, 1, 0, "S7_MeleePuffStrong")
         goto KickMelee.End
     KickMelee.End:
-        KICK H 4
-        KICK IGFEDCBA 1
+        KICK HHHHIGFEDCBA 1
         goto MeleeDone
 
     MeleeDone:

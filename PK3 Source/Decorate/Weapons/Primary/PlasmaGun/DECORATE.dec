@@ -49,12 +49,12 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         wait
     
     Fire:
-        TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_Charge", 1, "Fire.Charged")
-        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
-        TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_Semi", 1, "Fire.Semi")
-        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
-        TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon)
-        TNT1 A 0 A_FireCustomMissile ("S7_PlasmaGunRail", fRandom [weaponSpread] (-3.35, 3.35), 1, 6, -4, 0, fRandom [weaponSpread] (-3.35, 3.35))
+        TNT1 A 0                A_JumpIfInventory ("S7_PlasmaGun_Charge", 1, "Fire.Charged")
+        TNT1 A 0                A_JumpIfNoAmmo ("DryFire")
+        TNT1 A 0                A_JumpIfInventory ("S7_PlasmaGun_Semi", 1, "Fire.Semi")
+        TNT1 A 0                A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
+        TNT1 A 0                A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon)
+        TNT1 A 0                A_FireCustomMissile ("S7_PlasmaGunRail", fRandom [weaponSpread] (-3.35, 3.35), 1, 6, -4, 0, fRandom [weaponSpread] (-3.35, 3.35))
         PLSG A 1 offset (4, 36) A_GunFlash ("Flash.Fire")
         PLSG D 1 offset (3, 35)
         PLSG C 1 offset (2, 34)
@@ -63,14 +63,14 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         goto Ready2
 
     Fire.Semi:
-        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
-        TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon)
-        TNT1 A 0 A_FireCustomMissile ("S7_PlasmaGunRail", fRandom [weaponSpread] (-3.35, 3.35), 1, 6, -4, 0, fRandom [weaponSpread] (-3.35, 3.35))
+        TNT1 A 0                A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
+        TNT1 A 0                A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon)
+        TNT1 A 0                A_FireCustomMissile ("S7_PlasmaGunRail", fRandom [weaponSpread] (-3.35, 3.35), 1, 6, -4, 0, fRandom [weaponSpread] (-3.35, 3.35))
         PLSG A 1 offset (4, 36) A_GunFlash ("Flash.Fire")
         PLSG D 1 offset (3, 35)
         PLSG C 1 offset (2, 34)
         PLSG B 1 offset (1, 33)
-        PLSG A 1 A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch)
+        PLSG A 1                A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch)
         goto Ready2
     
     DryFire:
@@ -91,28 +91,28 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         TNT1 A 0 A_FireCustomMissile ("S7_PlasmaGunRailCharge1", 0.0, 1, 6, -4, 0, 0.0)
         goto Fire.Charged.Finish
     Fire.ChargeLevel2:
-        TNT1 A 0 A_SetBlend ("10 6B DA", 0.2333, 8)
+        TNT1 A  0 A_SetBlend ("10 6B DA", 0.2333, 8)
         TNT1 AA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
-        TNT1 A 0 A_FireCustomMissile ("S7_PlasmaGunRailCharge2", 0.0, 1, 6, -4, 0, 0.0)
+        TNT1 A  0 A_FireCustomMissile ("S7_PlasmaGunRailCharge2", 0.0, 1, 6, -4, 0, 0.0)
         goto Fire.Charged.Finish
     Fire.ChargeLevel3:
-        TNT1 A 0 A_SetBlend ("10 6B DA", 0.4666, 8)
+        TNT1 A   0 A_SetBlend ("10 6B DA", 0.4666, 8)
         TNT1 AAA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
-        TNT1 A 0 A_FireCustomMissile ("S7_PlasmaGunRailCharge3", 0.0, 1, 6, -4, 0, 0.0)
+        TNT1 A   0 A_FireCustomMissile ("S7_PlasmaGunRailCharge3", 0.0, 1, 6, -4, 0, 0.0)
         goto Fire.Charged.Finish
     Fire.ChargeLevel4:
-        TNT1 A 0 A_SetBlend ("10 6B DA", 0.7, 8)
+        TNT1 A    0 A_SetBlend ("10 6B DA", 0.7, 8)
         TNT1 AAAA 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
-        TNT1 A 0 A_FireCustomMissile ("S7_PlasmaGunRailCharge4", 0.0, 1, 6, -4, 0, 0.0)
+        TNT1 A    0 A_FireCustomMissile ("S7_PlasmaGunRailCharge4", 0.0, 1, 6, -4, 0, 0.0)
         goto Fire.Charged.Finish
     Fire.Charged.Finish:
-        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
-        TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_Charge", 0x7FFFFFFF)
-        PLSG A 1 offset (8, 40) A_GunFlash ("Flash.Charged")
-        PLSG D 1 offset (6, 38)
-        PLSG F 1 offset (4, 36)
-        PLSG F 1 offset (2, 34)
-        PLSG F 6
+        TNT1 A     0                A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
+        TNT1 A     0                A_TakeInventory ("S7_PlasmaGun_Charge", 0x7FFFFFFF)
+        PLSG A     1 offset (8, 40) A_GunFlash ("Flash.Charged")
+        PLSG D     1 offset (6, 38)
+        PLSG F     1 offset (4, 36)
+        PLSG F     1 offset (2, 34)
+        PLSG F     6
         PLSG EDCBA 1
         goto Ready2
 
@@ -144,12 +144,12 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         TNT1 A 0 A_JumpIfInventory ("S7_PlasmaGun_ChargingLevel", 1, "CancelCharging")
         goto Ready2Derp
     ChargingFinished:
-        TNT1 A 0 A_GiveInventory ("S7_PlasmaGun_AltfireLock", 1)
-        TNT1 A 0 A_SetBlend ("10 6B DA", 0.25, 5)
-        TNT1 A 0 A_TakeInventory ("S7_PlasmaGunMag", 5, TIF_NoTakeInfinite)
-        TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_ChargingLevel", 0x7FFFFFFF)
-        TNT1 A 0 A_GiveInventory ("S7_PlasmaGun_Charge", 1)
-        TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/ChargeFinish")
+        TNT1 A     0 A_GiveInventory ("S7_PlasmaGun_AltfireLock", 1)
+        TNT1 A     0 A_SetBlend ("10 6B DA", 0.25, 5)
+        TNT1 A     0 A_TakeInventory ("S7_PlasmaGunMag", 5, TIF_NoTakeInfinite)
+        TNT1 A     0 A_TakeInventory ("S7_PlasmaGun_ChargingLevel", 0x7FFFFFFF)
+        TNT1 A     0 A_GiveInventory ("S7_PlasmaGun_Charge", 1)
+        TNT1 A     0 A_PlaySound ("Weapons/PlasmaGun/ChargeFinish")
         PLSG AAAAA 1 A_ClearRefire
         goto Ready2Derp
 
@@ -170,7 +170,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         PLSG A 1 offset (3, 35)
         PLSG A 1 offset (2, 34)
         PLSG A 1 offset (1, 33)
-        PLSG A 1 A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch)
+        PLSG A 1                A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch)
         goto Ready2
     }
 }
@@ -193,8 +193,8 @@ actor S7_PlasmaGunRail : fastProjectile {
     states {
     Spawn:
         TNT1 AA 0 A_ScaleVelocity (1.0 / (25 * 1.0))
-        TNT1 A 0 A_ScaleVelocity (health)
-        TNT1 A 0 A_Jump (256, "Idle")
+        TNT1 A  0 A_ScaleVelocity (health)
+        TNT1 A  0 A_Jump (256, "Idle")
         wait
     Idle:
         PLGF A 1 bright
@@ -212,8 +212,7 @@ actor S7_PlasmaGunRailEffectSpawner {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
-        TNT1 A 1
+        TNT1 A 1 noDelay A_SpawnItemEx ("S7_PlasmaGunRailTrail", 0.0, 0.0, 8.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
         stop
     }
 }
@@ -228,7 +227,7 @@ actor S7_PlasmaGunRailTrail {
     
     states {
     Spawn:
-        PLGF A 1 bright
+         PLGF  A 1 bright
         "----" A 1 bright A_FadeOut (0.13)
         wait
     }

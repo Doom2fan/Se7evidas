@@ -14,8 +14,8 @@ actor S7_MultiJump_Marker {
     -noBlockmap
     states {
     Spawn:
-        MJMP A 10 bright light (MJMPMARKER)
-        "----" A 1 bright light (MJMPMARKER) A_FadeOut (0.05)
+         MJMP  A 10 bright light (MJMPMARKER)
+        "----" A  1 bright light (MJMPMARKER) A_FadeOut (0.05)
         wait
     }
 }

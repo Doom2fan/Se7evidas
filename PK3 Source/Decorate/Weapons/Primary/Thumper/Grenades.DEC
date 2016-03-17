@@ -31,10 +31,10 @@ actor S7_ThumperGrenade {
         TNT1 A 0 A_Jump (256, "Loople")
         wait
     Loople:
-        TNT1 A 0 A_ChangeFlag ("forceXYBillboard", TRUE)
-        TNT1 A 0 A_PlaySound ("Explosions/Explosion1")
-        TNT1 A 0 A_Explode (128, 128)
-        XPL1 A 3 bright A_SetScale (0.5)
+        TNT1 A    0        A_ChangeFlag ("forceXYBillboard", TRUE)
+        TNT1 A    0        A_PlaySound ("Explosions/Explosion1")
+        TNT1 A    0        A_Explode (128, 128)
+        XPL1 A    3 bright A_SetScale (0.5)
         XPL1 BCDE 3 bright
         stop
     }
@@ -50,14 +50,14 @@ actor S7_ThumperGrenadeFrag : S7_ThumperGrenade {
 
     states {
     Loople:
-        TNT1 A 0 A_ChangeFlag ("forceXYBillboard", TRUE)
-        TNT1 A 0 A_PlaySound ("Explosions/Explosion1")
-        TNT1 A 0 A_Explode (128, 128)
-        TNT1 A 0 A_Jump (256, 1, 2, 3, 4)
-        TNT1 AAAAAAAAAAAAAAAA 0 A_SpawnItemEx ("S7_Shrapnel", 0.2, fRandom (-0.025, 0.025), 0.25,
-                                               fRandom (0.5, 4.8), 0.0, fRandom (3.2, 8.8), fRandom (0, 359), SXF_TransferPointers | SXF_NoCheckPosition)
-        XPL1 A 3 bright A_SetScale (0.43)
-        XPL1 BCDE 3 bright
+        TNT1 A                0        A_ChangeFlag ("forceXYBillboard", TRUE)
+        TNT1 A                0        A_PlaySound ("Explosions/Explosion1")
+        TNT1 A                0        A_Explode (128, 128)
+        TNT1 A                0        A_Jump (256, 1, 2, 3, 4)
+        TNT1 AAAAAAAAAAAAAAAA 0        A_SpawnItemEx ("S7_Shrapnel", 0.2, fRandom (-0.025, 0.025), 0.25,
+                                                      fRandom (0.5, 4.8), 0.0, fRandom (3.2, 8.8), fRandom (0, 359), SXF_TransferPointers | SXF_NoCheckPosition)
+        XPL1 A                3 bright A_SetScale (0.43)
+        XPL1 BCDE             3 bright
         stop
     }
 }
@@ -73,13 +73,14 @@ actor S7_ThumperGrenadeTherm : S7_ThumperGrenade {
 
     states {
     Loople:
-        TNT1 A 0 A_ChangeFlag ("forceXYBillboard", TRUE)
-        TNT1 A 0 A_PlaySound ("Explosions/Explosion1")
-        TNT1 A 0 A_Explode (80, 80)
-        TNT1 A 0 A_Jump (256, 1, 2, 3, 4)
-        TNT1 AAAAAAA 0 A_SpawnItemEx ("S7_ThumperGrenadeTherm_Fire", fRandom (-0.025, 0.025), fRandom (-0.025, 0.025), 0.25, fRandom (2.8, 3.0), 0.0, fRandom (2.5, 4.0), random (0, 359), SXF_TransferPointers | SXF_NoCheckPosition)
-        XPL1 A 3 bright A_SetScale (0.43)
-        XPL1 BCDE 3 bright
+        TNT1 A       0        A_ChangeFlag ("forceXYBillboard", TRUE)
+        TNT1 A       0        A_PlaySound ("Explosions/Explosion1")
+        TNT1 A       0        A_Explode (80, 80)
+        TNT1 A       0        A_Jump (256, 1, 2, 3, 4)
+        TNT1 AAAAAAA 0        A_SpawnItemEx ("S7_ThumperGrenadeTherm_Fire", fRandom (-0.025, 0.025), fRandom (-0.025, 0.025), 0.25,
+                                             fRandom (2.8, 3.0), 0.0, fRandom (2.5, 4.0), random (0, 359), SXF_TransferPointers | SXF_NoCheckPosition)
+        XPL1 A       3 bright A_SetScale (0.43)
+        XPL1 BCDE    3 bright
         stop
     }
 }
@@ -107,17 +108,17 @@ actor S7_ThumperGrenadeTherm_Fire {
         TNT1 A 0 A_PlaySound ("Fire/Small", CHAN_7, 0.8, TRUE, 0.5)
         TNT1 A 0 A_ChangeFlag ("noBlockmap", FALSE)
     Loople:
-        TNT1 A 0 A_CountdownArg (0, "FadeOut")
-        TNT1 A 0 A_Explode (3, 64)
+        TNT1 A         0 A_CountdownArg (0, "FadeOut")
+        TNT1 A         0 A_Explode (3, 64)
         THGR CDECDECDE 2 bright
         loop
     FadeOut:
-        TNT1 A 0 A_Explode (3, 64)
-        TNT1 A 0 A_SetScale (scaleX - 0.035)
+        TNT1 A   0        A_Explode (3, 64)
+        TNT1 A   0        A_SetScale (scaleX - 0.035)
         THGR CDE 2 bright A_FadeOut (0.08)
-        TNT1 A 0 A_SetScale (scaleX - 0.035)
+        TNT1 A   0        A_SetScale (scaleX - 0.035)
         THGR CDE 2 bright A_FadeOut (0.08)
-        TNT1 A 0 A_SetScale (scaleX - 0.035)
+        TNT1 A   0        A_SetScale (scaleX - 0.035)
         THGR CDE 2 bright A_FadeOut (0.08)
         loop
     }
@@ -141,9 +142,9 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     states {
     Spawn:
         TNT1 A 0 noDelay A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", random (236, 280))
-        TNT1 A 0 A_SetUserVar ("user_moveDir", args [random (0, 1)])
-        TNT1 A 0 A_SetUserVar ("user_initialized", 1)
+        TNT1 A 0         A_SetUserVar ("user_timesToLoop", random (236, 280))
+        TNT1 A 0         A_SetUserVar ("user_moveDir", args [random (0, 1)])
+        TNT1 A 0         A_SetUserVar ("user_initialized", 1)
     Idle:
         THGR A 1 light (TGFlare1)
         loop
@@ -156,34 +157,34 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         TNT1 A 0 A_SetUserVar ("user_moveDir", args [random (0, 1)])
         TNT1 A 0 A_SetUserVar ("user_initialized", 1)
     Loople:
-        TNT1 A 0 A_JumpIf (user_timesToLoop < 150, "Loople2")
-        TNT1 A 0 A_JumpIf (user_timesToLoop <=  0, "Loopled")
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 150, "Loople2")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop <=  0, "Loopled")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare1) A_SetAngle (angle + user_moveDir)
         loop
     Loople2:
-        TNT1 A 0 A_JumpIf (user_timesToLoop < 100, "Loople3")
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 100, "Loople3")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare2) A_SetAngle (angle + user_moveDir)
         loop
     Loople3:
-        TNT1 A 0 A_JumpIf (user_timesToLoop <  50, "Loople4")
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        TNT1 A 0                  A_JumpIf (user_timesToLoop <  50, "Loople4")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare3) A_SetAngle (angle + user_moveDir)
         loop
     Loople4:
-        TNT1 A 0 A_JumpIf (user_timesToLoop <  25, "Loople5")
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        TNT1 A 0                  A_JumpIf (user_timesToLoop <  25, "Loople5")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare4) A_SetAngle (angle + user_moveDir)
         loop
     Loople5:
-        TNT1 A 0 A_JumpIf (user_timesToLoop <  13, "Loople6")
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        TNT1 A 0                  A_JumpIf (user_timesToLoop <  13, "Loople6")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare5) A_SetAngle (angle + user_moveDir)
         loop
     Loople6:
-        TNT1 A 0 A_JumpIf (user_timesToLoop <=  0, "Loopled")
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        TNT1 A 0                  A_JumpIf (user_timesToLoop <=  0, "Loopled")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare6) A_SetAngle (angle + user_moveDir)
         loop
 
@@ -233,7 +234,7 @@ actor S7_ThumperGrenadeCluster : S7_ThumperGrenade {
         goto ActualLoople
 
     Finish:
-        XPL1 A 3 bright A_SetScale (0.43)
+        XPL1 A    3 bright A_SetScale (0.43)
         XPL1 BCDE 3 bright
         stop
 
@@ -260,10 +261,10 @@ actor S7_ThumperGrenadeCluster_Bomb {
         THGR G 1
         loop
     Death:
-        TNT1 A 0 A_ChangeFlag ("noGravity", TRUE)
-        TNT1 A 0 A_PlaySound ("Explosions/Explosion2", CHAN_BODY, 0.25)
-        TNT1 A 0 A_Explode (64, 64)
-        XPL3 A 3 bright A_SetScale (0.2)
+        TNT1 A         0        A_ChangeFlag ("noGravity", TRUE)
+        TNT1 A         0        A_PlaySound ("Explosions/Explosion2", CHAN_BODY, 0.25)
+        TNT1 A         0        A_Explode (64, 64)
+        XPL3 A         3 bright A_SetScale (0.2)
         XPL3 BCDEFGHIJ 3 bright
         stop
     }

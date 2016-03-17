@@ -44,8 +44,7 @@ actor S7_ShotSmoke {
 
     states {
     Spawn:
-        TNT1 A 0
-        SMOK ABCDEFGHIJKLMNOPQ 1 A_SpawnItem ("S7_ShotSmokeTrail")
+        SMOK ABCDEFGHIJKLMNOPQ 1 noDelay A_SpawnItem ("S7_ShotSmokeTrail")
         stop
     }
 }
@@ -90,8 +89,7 @@ actor S7_BlackShotSmoke : S7_ShotSmoke {
 
     states {
     Spawn:
-        TNT1 A 0
-        SMOK ABCDEFGHIJKLMNOPQ 1 A_SpawnItem ("S7_BlackShotSmokeTrail")
+        SMOK ABCDEFGHIJKLMNOPQ 1 noDelay A_SpawnItem ("S7_BlackShotSmokeTrail")
         stop
     }
 }
@@ -124,7 +122,7 @@ actor S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ou
         TNT1 A 1 A_SpawnItem ("S7_SmokingPieceSmoke")
         loop
     Water:
-        TNT1 A 0
+        TNT1 A 1
         stop
     }
 }
@@ -166,8 +164,7 @@ actor S7_HeatSmoke : S7_ShotSmoke {
 
     states {
     Spawn:
-        TNT1 A 0
-        SMOK EFGHIJKLMNOPQ 1 A_SpawnItem ("S7_HeatSmokeTrail")
+        SMOK EFGHIJKLMNOPQ 1 noDelay A_SpawnItem ("S7_HeatSmokeTrail")
         stop
     }
 }
@@ -190,8 +187,7 @@ actor S7_HeatSmokeSpawner : S7_DebrisGeneral {
 
     states {
     Spawn:
-        TNT1 A 0
-        TNT1 A 0 A_SpawnItem ("S7_HeatSmoke", 0, 0)
+        TNT1 A 0 noDelay A_SpawnItem ("S7_HeatSmoke", 0, 0)
         stop
     }
 }

@@ -132,7 +132,7 @@ actor S7_PSICG_FireTester : S7_DistanceTestProjectile {
     Spawn:
         TNT1 AA 0 A_ScaleVelocity (1.0 / (20 * 1.0))
         TNT1 A  2 A_ScaleVelocity (35 * 1.0)
-        TNT1 A 2 A_TakeFromTarget ("S7_PSICG_CantFire", 0x7FFFFFFF)
+        TNT1 A  2 A_TakeFromTarget ("S7_PSICG_CantFire", 0x7FFFFFFF)
         stop
 
     Death:
@@ -169,9 +169,9 @@ actor S7_IonCannonProjectile : fastProjectile {
         TNT1 A  0 A_ScaleVelocity (35 * 1.0)
         TNT1 A  0 A_SetUserVar ("user_damage", 280 + (random [weaponDamage] (2, 5) * 80) + (random [weaponDamage] (-3, 3) * 40))
     Idle:
-        TNT1 A 0 A_JumpIf (user_damage < 75, "DieOut")
+        TNT1 A   0 A_JumpIf (user_damage < 75, "DieOut")
         PICF AAA 1 bright A_Explode (random [weaponDamage] (1, 3) * 7, 96, 0, FALSE, 96)
-        TNT1 A 0 A_SetUserVar ("user_damage", user_damage - 5)
+        TNT1 A   0 A_SetUserVar ("user_damage", user_damage - 5)
         loop
 
     DieOut:
