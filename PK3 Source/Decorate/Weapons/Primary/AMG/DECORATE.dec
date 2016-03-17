@@ -11,6 +11,8 @@ actor S7_AMGMag : ammo {
 }
 
 actor S7_AMG_Burst : boolean { }
+actor S7_AMG_ZoomedIn : counter { inventory.maxAmount 2 }
+actor S7_AMG_BurstCount : counter { inventory.maxAmount 3 }
 
 actor S7_AMG : S7_BaseWeapon 30002 {
     tag "$AMG"
@@ -24,17 +26,88 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     Spawn:
         AMGG Z -1
         stop
+
+    Deselect:
+        AMGG A 0 A_TakeInventory ("S7_AMG_ZoomedIn", 0x7FFFFFFF)
+        goto Super::Deselect
     
     Ready:
     Ready2:
-        TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
-        TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
-        TNT1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
-        AMGG A 1 A_WeaponReady
-        loop
+        AMGG A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Ready2.Zoom")
+        goto Ready2.DoStuff
+    Ready2.Zoom:
+        SCP1 A 0
+        goto Ready2.DoStuff
+    Ready2.DoStuff:
+        "----" A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
+        "----" A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        "----" A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
+        "----" A 0 A_JumpIfInventory ("S7_ReadySequence", 1, "Ready2.P2")
+        goto Ready2.P1
+    Ready2.P1:
+        "----" A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Ready2.P1.Zoom")
+        "----" A 1 A_WeaponReady (WRF_AllowZoom)
+        goto Ready2.P1.End
+    Ready2.P1.Zoom:
+        "----" A 1 A_WeaponReady (WRF_AllowZoom | WRF_NoBob)
+        goto Ready2.P1.End
+    Ready2.P1.End:
+        "----" A 1 A_GiveInventory ("S7_ReadySequence", 1)
+        goto Ready2
+
+    Ready2.P2:
+        "----" A 0 A_TakeInventory ("S7_ReadySequence", 0x7FFFFFFF)
+        "----" A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Ready2.P2.Zoom")
+        "----" A 1 A_WeaponReady (WRF_AllowZoom)
+        goto Ready2.P2.End
+    Ready2.P2.Zoom:
+        "----" A 1 A_WeaponReady (WRF_AllowZoom | WRF_NoBob)
+        goto Ready2.P2.End
+    Ready2.P2.End:
+        "----" A 0 A_TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF)
+        "----" A 0 A_TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF)
+        goto Ready2
+
+    Zoom:
+        "----" A 0 A_JumpIfInventory ("S7_HoldingZoom", 1, "Zoom.Hold")
+        TNT1 A 0 A_GiveInventory ("S7_HoldingZoom", 1)
+        TNT1 A 0 A_SetCrosshair (99)
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 0, "Zoom.Reset")
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Zoom2")
+        TNT1 A 0 A_GiveInventory ("S7_AMG_ZoomedIn", 1)
+        TNT1 A 0 A_ZoomFactor (1.25)
+        SCP1 A 20 A_SetBlend ("00 00 00", 1.0, 20)
+        goto Ready2
+    Zoom2:
+        TNT1 A 0 A_GiveInventory ("S7_AMG_ZoomedIn", 1)
+        TNT1 A 0 A_ZoomFactor (1.5)
+        goto Zoom2.Finish
+    Zoom.Reset:
+        TNT1 A 0 A_TakeInventory ("S7_AMG_ZoomedIn", 0x7FFFFFFF)
+        TNT1 A 0 A_GiveInventory ("S7_AMG_ZoomedIn", 1)
+        TNT1 A 0 A_ZoomFactor (1.25)
+        goto Zoom2.Finish
+    Zoom2.Finish:
+        SCP1 A 6
+        goto Ready2
+
+    Zoom.Hold:
+        "----" A 1 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Zoom.Hold2")
+        goto Ready2
+    Zoom.Hold2:
+        "----" A 0 A_JumpIfInventory ("S7_ZoomHoldTime", 8, "Unzoom")
+        "----" A 1 A_GiveInventory ("S7_ZoomHoldTime", 1)
+        goto Ready2
+
+    Unzoom:
+        TNT1 A 0 A_TakeInventory ("S7_AMG_ZoomedIn", 0x7FFFFFFF)
+        TNT1 A 0 A_ZoomFactor (1.0)
+        AMGG A 8 A_SetBlend ("00 00 00", 1.0, 8)
+        goto Ready2
     
     Fire:
         TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Fire.Zoom")
         TNT1 A 0 A_JumpIfInventory ("S7_AMG_Burst", 1, "Fire.Burst")
         TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
         TNT1 A 0 A_AlertMonsters
@@ -46,55 +119,104 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         AMGG C 1
         AMGG C 1 A_Refire
         goto Ready2
-    Fire.Burst:
+
+    Fire.Zoom:
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_Burst", 1, "Fire.Burst.Zoom")
         TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
         TNT1 A 0 A_AlertMonsters
         TNT1 A 0 A_GunFlash
-        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
-        TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
-        TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright A_SetPitch (pitch - 1.2, SPF_Interpolate)
-        AMGG C 1
-        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
-        TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
-        TNT1 A 0 A_AlertMonsters
-        TNT1 A 0 A_GunFlash
-        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
-        TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
-        TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright A_SetPitch (pitch - 1.2, SPF_Interpolate)
-        AMGG C 1
-        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
-        TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
-        TNT1 A 0 A_AlertMonsters
-        TNT1 A 0 A_GunFlash
-        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
-        TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
-        TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
-        AMGG BB 1 bright A_SetPitch (pitch - 1.2, SPF_Interpolate)
-        AMGG CC 1
+        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 0)
+        TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -8)
+        TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-1.35, 1.35), 1, 0, -3, 0, fRandom [weaponSpread] (-2.0, 2.0))
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 2, "Fire.Zoom2")
+        SCP1 AA 1 bright A_SetPitch (pitch - 1.05, SPF_Interpolate)
+        goto Fire.Zoom.Finish
+    Fire.Zoom2:
+        SCP1 AA 1 bright A_SetPitch (pitch - 0.9, SPF_Interpolate)
+        goto Fire.Zoom.Finish
+    Fire.Zoom.Finish:
+        SCP1 A 1
+        SCP1 A 1 A_Refire ("Fire")
         goto Ready2
-    
+
+    Fire.Burst:
+        TNT1 A 0 A_JumpIfNoAmmo ("DryFire.Burst")
+        TNT1 A 0 A_GiveInventory ("S7_AMG_BurstCount", 1)
+        TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_GunFlash
+        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
+        TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
+        TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-2.8, 2.8), 1, 2, 2, 0, fRandom [weaponSpread] (-3.15, 3.15))
+        AMGG BB 1 bright A_SetPitch (pitch - 1.2, SPF_Interpolate)
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_BurstCount", 0, 2)
+        TNT1 A 0 A_Refire ("Fire.Burst")
+        AMGG C 2 A_TakeInventory ("S7_AMG_BurstCount", 0x7FFFFFFF)
+        AMGG A 4
+        goto Ready2
+
+    Fire.Burst.Zoom:
+        TNT1 A 0 A_JumpIfNoAmmo ("DryFire.Burst")
+        TNT1 A 0 A_GiveInventory ("S7_AMG_BurstCount", 1)
+        TNT1 A 0 A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon)
+        TNT1 A 0 A_AlertMonsters
+        TNT1 A 0 A_GunFlash
+        TNT1 A 0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 0)
+        TNT1 A 0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -8)
+        TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-1.35, 1.35), 1, 0, -3, 0, fRandom [weaponSpread] (-2.0, 2.0))
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 2, "Fire.Burst.Zoom2")
+        SCP1 AA 1 bright A_SetPitch (pitch - 1.05, SPF_Interpolate)
+        goto Fire.Burst.Zoom.Finish
+    Fire.Burst.Zoom2:
+        SCP1 AA 1 bright A_SetPitch (pitch - 0.9, SPF_Interpolate)
+        goto Fire.Burst.Zoom.Finish
+    Fire.Burst.Zoom.Finish:
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_BurstCount", 0, 2)
+        TNT1 A 0 A_Refire ("Fire.Burst.Zoom")
+        SCP1 A 6 A_TakeInventory ("S7_AMG_BurstCount", 0x7FFFFFFF)
+        goto Ready2
+
     Flash:
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Flash.Zoom")
         AMGF AB 1 bright
+        stop
+    Flash.Zoom:
+        TNT1 A 2 bright
         stop
     
     ChangeFireMode:
-        TNT1 A 0 A_PlaySound ("Weapons/ModeChange", CHAN_Weapon)
-        TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 99999)
-        TNT1 A 0 A_JumpIfInventory ("S7_AMG_Burst", 1, "ToFullAuto")
-        AMGG A 5 A_GiveInventory ("S7_AMG_Burst", 1)
+        "----" A 0 A_PlaySound ("Weapons/ModeChange", CHAN_Weapon)
+        "----" A 0 A_TakeInventory ("S7_ChangeFireMode", 99999)
+        "----" A 0 A_JumpIfInventory ("S7_AMG_Burst", 1, "ToFullAuto")
+        "----" A 5 A_GiveInventory ("S7_AMG_Burst", 1)
         goto Ready2
     ToFullAuto:
-        AMGG A 5 A_TakeInventory ("S7_AMG_Burst", 99999)
+        "----" A 5 A_TakeInventory ("S7_AMG_Burst", 99999)
         goto Ready2
     
+    DryFire.Burst:
+        TNT1 A 0 A_TakeInventory ("S7_AMG_BurstCount", 0x7FFFFFFF)
+        AMGG C 2 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "DryFire.Burst.Zoom")
+        AMGG A 4
+        goto DryFire
+    DryFire.Burst.Zoom:
+        SCP1 A 6
+        goto DryFire
     DryFire:
-        AMGG A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7)
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
+        AMGG A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Dryfire.Zoom")
+        goto DryFire.Stuff
+    Dryfire.Zoom:
+        SCP1 A 0
+        goto DryFire.Stuff
+    DryFire.Stuff:
+        "----" A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7)
+        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "DryReload")
         goto Ready2
     
+    DryReload:
+        TNT1 A 0 A_GiveInventory ("S7_Reloading", 1)
     Reload:
+        TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Unzoom")
         TNT1 A 0 A_TakeInventory ("S7_Reloading", 1)
         TNT1 A 0 A_JumpIfInventory ("S7_AMGMag", 0, "Ready2")
         TNT1 A 0 A_JumpIfInventory ("S7_762x39Cartridges", 1, "TrueReload")

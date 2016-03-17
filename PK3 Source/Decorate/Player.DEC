@@ -9,6 +9,8 @@ actor S7_Dying                 : boolean { }
 actor S7_AutoReloading         : boolean { }
 actor S7_DisableHud            : boolean { }
 actor S7_SoulLance_BeamGrabbed : boolean { }
+actor S7_HoldingZoom           : boolean { }
+actor S7_ReadySequence         : boolean { }
 /** Weapon slot tokens **/
 actor S7_Slot1Taken : boolean { }
 actor S7_Slot2Taken : boolean { }
@@ -22,7 +24,8 @@ actor S7_Slot9Taken : boolean { }
 actor S7_Slot0Taken : boolean { }
 
 /** Counters **/
-actor S7_AirTime  : counter { inventory.maxAmount 700 }
+actor S7_AirTime      : counter { inventory.maxAmount 700 }
+actor S7_ZoomHoldTime : counter { }
 
 //-------------------------------------------------------------------------------------------
 //
