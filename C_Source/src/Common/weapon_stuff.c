@@ -148,3 +148,7 @@ Script_C void S7_PSICG_FireTest () {
     else
         TakeInventory (PSICGFIREBOOL, 0x7FFFFFFF);
 }*/
+
+Script_C int S7_MeleeDamage (int baseDamage, int multiplyer) {
+    return (baseDamage * (CheckInventory (s"S7_BerserkToken") ? 3 : 1)) * (multiplyer + (CheckInventory (s"S7_BerserkToken") ? Random (1, 5) : 0));
+}
