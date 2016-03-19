@@ -3,9 +3,26 @@
 // Melee type tokens
 //
 //-------------------------------------------------------------------------------------------
-actor S7_DaggerMelee  : boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
-actor S7_Dagger2Melee : boolean { } // Credits: Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
-actor S7_KickMelee    : boolean { } // Credits: Sprites: ???, Chronos "phantombeta" Ouroboros
+/* Credits:
+** Sprites: Apocalyptic Studio, Captain J, Chronos "phantombeta" Ouroboros
+** Animation: Chronos "phantombeta" Ouroboros
+** Sounds: Credits in the SNDINFO file
+*/
+actor S7_DaggerMelee  : boolean { }
+
+/* Credits:
+** Sprites: Id Software, ???, Chronos "phantombeta" Ouroboros
+** Animation: Chronos "phantombeta" Ouroboros
+** Sounds: Credits in the SNDINFO file
+*/
+actor S7_PunchMelee : boolean { }
+
+/* Credits:
+** Sprites: ???, Chronos "phantombeta" Ouroboros
+** Animation: Chronos "phantombeta" Ouroboros
+** Sounds: Credits in the SNDINFO file
+*/
+actor S7_KickMelee    : boolean { }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -61,21 +78,33 @@ actor S7_BaseWeapon : weapon {
     QuickMelee:
         TNT1 A 0 A_TakeInventory ("S7_DoMelee", 1)
         TNT1 A 0 A_JumpIfInventory ("S7_DaggerMelee", 1, "DaggerMelee")
-        TNT1 A 0 A_JumpIfInventory ("S7_Dagger2Melee", 1, "Dagger2Melee")
+        TNT1 A 0 A_JumpIfInventory ("S7_PunchMelee", 1, "PunchMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_KickMelee", 1, "KickMelee")
         TNT1 A 1 A_Jump (256, "KickMelee")
         wait
 
     DaggerMelee:
-        DAG1 AB 1
-    DaggerMelee.Mid:
-        TNT1 A 0 A_CustomPunch (callACS ("S7_MeleeDamage", 10, random [weaponDamage] (1, 5)), 1, 0, "S7_MeleePuff")
-        goto DaggerMelee.End
-    DaggerMelee.End:
-        DAG1 CDE 1
+        TNT1 A 1 A_Jump (256, "DaggerMelee1", "DaggerMelee2")
+        wait
+    DaggerMelee1:
+        DAG1 ABCD 1
+        DAG1 E    1 A_CustomPunch (callACS ("S7_MeleeDamage", 8, random [weaponDamage] (1, 5)), 1, 0, "S7_DaggerPuffSilent")
+        DAG1 F    1 A_CustomPunch (callACS ("S7_MeleeDamage", 8, random [weaponDamage] (1, 5)), 1, 0, "S7_DaggerPuff")
+        DAG1 G    1 A_CustomPunch (callACS ("S7_MeleeDamage", 8, random [weaponDamage] (1, 5)), 1, 0, "S7_DaggerPuffSilent")
+        DAG1 H    1
+        TNT1 A    5
         goto MeleeDone
-    
-    Dagger2Melee:
+    DaggerMelee2:
+        DAG2 AB  1
+        DAG2 C   1 A_CustomPunch (callACS ("S7_MeleeDamage", 8, random [weaponDamage] (1, 5)), 1, 0, "S7_DaggerPuffSilent")
+        DAG2 D   1 A_CustomPunch (callACS ("S7_MeleeDamage", 8, random [weaponDamage] (1, 5)), 1, 0, "S7_DaggerPuff")
+        DAG2 EF  1 A_CustomPunch (callACS ("S7_MeleeDamage", 8, random [weaponDamage] (1, 5)), 1, 0, "S7_DaggerPuffSilent")
+        DAG2 GH  1
+        TNT1 A   5
+        goto MeleeDone
+
+    PunchMelee:
+        TNT1 A 0
         goto MeleeDone
     
     KickMelee:
@@ -98,8 +127,7 @@ actor S7_BaseWeapon : weapon {
 // Melee puffs
 //
 //-------------------------------------------------------------------------------------------
-// By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
-actor S7_MeleePuff {
+actor S7_MeleePuff { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
     damageType Kick
     attackSound "Weapons/Kick/HitWall"
     activeSound "Weapons/Kick/Swing"
@@ -108,7 +136,7 @@ actor S7_MeleePuff {
     -allowParticles
 }
 
-actor S7_MeleePuffStrong : S7_MeleePuff {
+actor S7_MeleePuffStrong : S7_MeleePuff { // Ditto
     decal FistScorch
     attackSound "Weapons/Kick/Strong"
     activeSound "Weapons/Kick/Swing"
@@ -121,6 +149,16 @@ actor S7_MeleePuffStrong : S7_MeleePuff {
         TNT1 A 0 noDelay A_SpawnItem ("S7_ShotSmoke")
         stop
     }
+}
+
+actor S7_DaggerPuff : S7_MeleePuff {
+    damageType S7_Blade
+    attackSound "Weapons/Tridagger/HitWall"
+    activeSound "Weapons/Tridagger/Swing"
+}
+actor S7_DaggerPuffSilent : S7_DaggerPuff {
+    attackSound ""
+    activeSound ""
 }
 
 //-------------------------------------------------------------------------------------------

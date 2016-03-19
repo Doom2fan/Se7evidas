@@ -35,23 +35,83 @@ sprite KICKI0, 320, 200 {
     patch "graphics/Weapons/Kick/KICK4.png", 139, 50
 }
 
-// DTB Dagger/Dagger 1
-sprite DAG1A0, 320, 200 {
-    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 40, 51
+// Tridagger
+sprite DAG1A0, 277, 107 {
+    offset 131, -160
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame3.png", 0, 0
 }
 
-sprite DAG1B0, 320, 200 {
-    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 76, 68
+sprite DAG1B0, 277, 107 {
+    offset 120, -155
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame3.png", 0, 0
 }
 
-sprite DAG1C0, 320, 200 {
-    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 133, 97
+sprite DAG1C0, 277, 107 {
+    offset 86, -138
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame3.png", 0, 0
 }
 
-sprite DAG1D0, 320, 200 {
-    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 199, 130
+sprite DAG1D0, 277, 107 {
+    offset 52, -120
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame3.png", 0, 0
 }
 
-sprite DAG1E0, 320, 200 {
-    patch "graphics/Weapons/Quick Melee/DTB Dagger/Frame1.png", 241, 151
+sprite DAG1E0, 264, 131 {
+    offset 11, -113
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame2.png", 0, 0
+}
+
+sprite DAG1F0, 264, 131 {
+    offset -59, -97
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame2.png", 0, 0
+}
+
+sprite DAG1G0, 264, 131 {
+    offset -118, -80
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame2.png", 0, 0
+}
+
+sprite DAG1H0, 264, 131 {
+    offset -200, -70
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame2.png", 0, 0
+}
+
+sprite DAG2A0, 215, 179 {
+    offset 160, 11
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2B0, 215, 179 {
+    offset 115, -1
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2C0, 215, 179 {
+    offset 30, -27
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2D0, 215, 179 {
+    offset -63, -56
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2E0, 215, 179 {
+    offset -132, -82
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2F0, 215, 179 {
+    offset -211, -112
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2G0, 215, 179 {
+    offset -264, -137
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
+}
+
+sprite DAG2H0, 215, 179 {
+    offset -322, -168
+    patch "graphics/Weapons/Quick Melee/Tridagger/Frame1.png", 0, 0
 }

@@ -13,7 +13,7 @@ actor S7_Berserk : customInventory {
         stop
 
     Use:
-        TNT1 A 0 A_JumpIfInventory ("S7_BerserkActive", 1, "Failed")
+        TNT1 A 0 A_JumpIfInventory ("S7_BerserkToken", 1, "Failed")
         TNT1 A 0 A_GiveInventory ("S7_BerserkWeap", 1)
         TNT1 A 0 A_SelectWeapon ("S7_BerserkWeap")
         fail

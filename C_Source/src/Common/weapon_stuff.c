@@ -150,5 +150,5 @@ Script_C void S7_PSICG_FireTest () {
 }*/
 
 Script_C int S7_MeleeDamage (int baseDamage, int multiplyer) {
-    return (baseDamage * (CheckInventory (s"S7_BerserkToken") ? 3 : 1)) * (multiplyer + (CheckInventory (s"S7_BerserkToken") ? Random (1, 5) : 0));
+    return (baseDamage * (CheckInventory (s"S7_BerserkToken") ? 3 : 1)) * (multiplyer + (CheckInventory (s"S7_BerserkToken") ? Random (0, 2) : 0));
 }
