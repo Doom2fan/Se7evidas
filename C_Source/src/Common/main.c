@@ -97,17 +97,16 @@ Script_C void S7_ServersideEnter2 ENTER () {
         return;
     }
     
-    int oldScreenblocks = 0;
     int heartbeatTics = 0;
+    SP_Data_t sp_data;
+    EIS_Data_t eis_data;
 
     while (TRUE) { // Loop forever
         HeartbeatScript (player, &heartbeatTics);
         Thumper_ScriptClientside (player);
-        if (!player->scriptData.disableHUD) {
-            HudWeapons ();
-            ShowPop1 (player);
-            EnemyInfoScript (&oldScreenblocks);
-        }
+        HudWeapons (player);
+        ShowPop (player, &sp_data);
+        EnemyInfoScript (player, &eis_data);
 
         Delay (1); // Wait for a tic
     }

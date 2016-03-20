@@ -22,9 +22,23 @@
 
 #include <ACS_ZDoom.h>
 
+// Structs
+typedef struct EIS_Data_t {
+    bool forceClear;
+
+    int  prevScreenblocks;
+    bool prevOn;
+    bool prevDisableHUD;
+} EIS_Data_t;
+
+typedef struct SP_Data_t {
+    int  prevPopupNum;
+    int  prevPageNum;
+} SP_Data_t;
+
 // Prototypes
-void HudWeapons ();
-void ShowPop1 (PlayerData_t *player);
-void EnemyInfoScript (int *oldScreenblocks);
+void HudWeapons (PlayerData_t *player);
+void ShowPop (PlayerData_t *player, SP_Data_t *data);
+void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data);
 
 #endif

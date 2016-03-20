@@ -10,6 +10,9 @@
 //addMenuKey    "Dodge (Press)"               +user4
 //addMenuKey    "Drop Weapon (Press)"         "Use S7_DropWeaponKey"
 
+// Aliases
+alias S7_ListInv "pukename S7_PrintInv %1"
+
 // Save system aliases
 alias S7_ClearSaveData "pukename \"S7_ClearSaveData\""
 alias S7_SaveSysSave   "pukename \"S7_SaveSysSave\""
@@ -17,5 +20,5 @@ alias S7_SaveSysLoad   "pukename \"S7_SaveSysLoad\""
 
 // Reset to default CVars
 alias S7_ResetServerCVars "S7_DodgeCooldown 35; S7_MultiJumpZMul 1.0; S7_ForceIntro FALSE; S7_NoSaveLoading FALSE;"
-alias S7_ResetUserCVars "S7_MsgsOn TRUE; S7_LogLVLUpMsgs TRUE; S7_AutoReloading TRUE; S7_HeartbeatsOn TRUE; S7_NoIntro FALSE; S7_NoIntroOnMP FALSE; S7_LoadSaveDataOnNewGame TRUE;"
-alias S7_ResetCVars "S7_ResetServerCVars; S7_ResetUserCVars;"
+alias S7_ResetUserCVars   "S7_MsgsOn TRUE; S7_LogLVLUpMsgs TRUE; S7_AutoReloading TRUE; S7_HeartbeatsOn TRUE; S7_NoIntro FALSE; S7_NoIntroOnMP FALSE; S7_LoadSaveDataOnNewGame TRUE;"
+alias S7_ResetCVars       "S7_ResetServerCVars; S7_ResetUserCVars;"

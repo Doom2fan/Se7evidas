@@ -18,9 +18,10 @@
 */
 
 #include "includes.h"
+#include "weap_data.h"
 #include "debugFuncs.h"
 
-#ifdef DEBUG
+#ifndef NODEBUGFUNCS
 Script_C void S7_DebugVelocity () {
     accum x = 0, y = 0, z = 0,
         angle = 0, speed = 0;
@@ -50,30 +51,49 @@ Script_C void S7_DebugVelocityInKmH () {
     }
 }
 
-/*Script_C void S7_PrintInv (int mode) {
-    string inv = "S7_PrintInv: String \"inv\" wasn't set. Error?";
+string PrintInv_Generic (string inStr, const string arr [], int arrSize) {
+    string ret = inStr;
+
+    for (int i = 0; i < arrSize; i++)
+        if (CheckInventory (arr [i]))
+            ret = StrParam ("%S\n  %S (%d)", ret, arr [i], CheckInventory (arr [i]));
+
+    return ret;
+}
+string PrintInv_Weapons (string inStr) {
+    string ret = inStr;
+
+    for (int i = 0; i < ArraySize (WeaponNames); i++)
+        if (CheckInventory (WeaponNames [i]))
+            ret = StrParam ("%S\n  %S", ret, WeaponNames [i]);
+
+    return ret;
+}
+Script_C void S7_PrintInv (int mode) {
+    string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
 
     if (mode == 1) {
-
+        inv = PrintInv_Generic (s"Ammo:", AmmoNames, ArraySize (AmmoNames));
     } else if (mode == 2) {
-
+        inv = PrintInv_Weapons (s"Weapons:");
     } else if (mode == 3) {
+        inv = PrintInv_Generic (s"Ammo in weapons:", ClipNames, ArraySize (ClipNames));
+    } else if (mode == 4) {
 
     } else {
-
+        inv = PrintInv_Generic (s"Ammo:", AmmoNames, ArraySize (AmmoNames));
+        inv = PrintInv_Weapons (StrParam ("%S\n\nWeapons:", inv));
+        inv = PrintInv_Generic (StrParam ("%S\n\nAmmo in weapons:", inv), ClipNames, ArraySize (ClipNames));
     }
 
-    Log (inv);
+    Log ("%S", inv);
 }
+#else
+Script_C void S7_DebugVelocity () { }
 
-const string [] PrintInv_AmmoList = {
-    s"S7_20gaShells",
-    s"S7_Cells"
-}
-string void PrintInv_Ammo () {
-    string result = s"";
+Script_C void S7_DebugVelocityInKmH () { }
 
-    for (int i = 0; i < ArraySize (PrintInv_AmmoList); i++)
-        result = StrParam ("%s\n%s", result, StrParam ("%s (%s)", PrintInv_AmmoList [i], CheckInventory (PrintInv_AmmoList [i])));
-}*/
+string PrintInv_Ammo (string inStr) { }
+string PrintInv_Weapons (string inStr) { }
+Script_C void S7_PrintInv (int mode) { }
 #endif

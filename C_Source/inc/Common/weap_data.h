@@ -37,6 +37,39 @@ const string WeaponNames [] = {
     s"S7_Fauchard",
 };
 
+const string ClipNames [] = {
+    s"S7_AMGMag",
+    s"S7_FauchardMag",
+    s"S7_HitterSMGClip",
+    s"S7_ManxCarbineClip",
+    s"S7_PlasmaGunMag",
+    //s"S7_PrettyShootyIonCannonGunMag",
+    s"S7_ShotgunMagCounter",
+    s"S7_ThumperMag",
+    s"S7_RaptorClip",
+    s"S7_RevolverClip",
+    s"S7_TEC9Clip",
+};
+
+const string AmmoNames [] = {
+    s"S7_BackpackToken",
+    s"S7_9mmCartridges",
+    s"S7_45ACPCartridges",
+    s"S7_44MCartridges",
+    s"S7_762x39Cartridges",
+    s"S7_20gaShells",
+    s"S7_Cells",
+    s"S7_FBSysCells",
+    s"S7_Thumper_PExp",
+    s"S7_Thumper_PFrag",
+    s"S7_Thumper_PTherm",
+    s"S7_Thumper_PFlare",
+    s"S7_Thumper_PCluster",
+    s"S7_Thumper_PNail",
+    s"S7_Thumper_PNGas",
+    s"S7_Thumper_PUnified",
+};
+
 const string S7_HW_2ModeWpns [] [4] = {
     {
         s"S7_TEC9",
