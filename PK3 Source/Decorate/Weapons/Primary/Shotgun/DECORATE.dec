@@ -28,7 +28,7 @@ actor S7_ShotgunDontPump : boolean { }
 actor S7_Shotgun : S7_BaseWeapon 30000 {
     tag "$SHOTGUN"
     inventory.pickupMessage "$SHOTGUN"
-    weapon.ammoType1 "S7_ShotgunMag"
+    weapon.ammoType1 "S7_ShotgunMagCounter"
     weapon.ammoType2 "S7_20gaShells"
     weapon.ammoUse 0
     weapon.ammoGive 0
