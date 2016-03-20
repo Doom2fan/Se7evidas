@@ -233,7 +233,6 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
                     ret.maxHealth = 100;
             }
         }
-        PrintBold ("%s", ret.name);
 
         if (PLN == playerNum || CheckInventory (FAKEMONSTOKEN))
             ret.isValid = FALSE;
