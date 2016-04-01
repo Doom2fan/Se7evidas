@@ -26,6 +26,7 @@
 #include "stamina.h"
 #include "thumper.h"
 #include "weapon_stuff.h"
+#include "xp_system.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 
@@ -46,7 +47,7 @@ Script_C void S7_ServersideOpen OPEN () {
 // General stuff
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
@@ -59,27 +60,31 @@ Script_C void S7_ServersideEnter ENTER () {
         InitializePlayer (player);
 
     while (TRUE) { // Loop forever
+        if (!PlayerInGame (PLN))
+            return;
+
+        UpdateXPSystem   (player); // Update everything related to the XP System
         UpdatePlayerData (player); // Update the player's data
-        UpdateAmmoMax (player); // Update the max ammo
+        UpdateAmmoMax    (player); // Update the max ammo
         if (player->health.health > 0) {
             StaminaRegenerationPart1 (player); // Regenerate the stamina (Part 1)
-            MultiJumpScript (player);
-            DodgeScriptP1 (player);
+            MultiJumpScript          (player);
+            DodgeScriptP1            (player);
         }
-        ShopSystem_Script (player); // Run the shop system
-        Thumper_Script (player);
-        SpeedScript (player);
-        WaterScript (player);
+        ShopSystem_Script  (player); // Run the shop system
+        Thumper_Script     (player);
+        SpeedScript        (player);
+        WaterScript        (player);
         AmmoCountersScript (player);
         KeysScript ();
 
-        UpdatePlayerAlpha (player); // Update the alpha
+        UpdatePlayerAlpha  (player); // Update the alpha
 
         Delay (1); // Wait for a tic
 
         if (player->health.health > 0) {
             StaminaRegenerationPart2 (player); // Regenerate the stamina (Part 2)
-            DodgeScriptP2 (player);
+            DodgeScriptP2            (player);
         }
     }
 }
@@ -87,7 +92,7 @@ Script_C void S7_ServersideEnter ENTER () {
 // Clientside-ish (HUD, popups, heartbeats, etc.) stuff
 Script_C void S7_ServersideEnter2 ENTER () {
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
@@ -97,16 +102,19 @@ Script_C void S7_ServersideEnter2 ENTER () {
         return;
     }
     
-    int heartbeatTics = 0;
-    SP_Data_t sp_data;
+    int        heartbeatTics = 0;
+    SP_Data_t  sp_data;
     EIS_Data_t eis_data;
 
     while (TRUE) { // Loop forever
-        HeartbeatScript (player, &heartbeatTics);
+        if (!PlayerInGame (PLN))
+            return;
+
+        HeartbeatScript          (player, &heartbeatTics);
         Thumper_ScriptClientside (player);
-        HudWeapons (player);
-        ShowPop (player, &sp_data);
-        EnemyInfoScript (player, &eis_data);
+        HudWeapons               (player);
+        ShowPop                  (player, &sp_data);
+        EnemyInfoScript          (player, &eis_data);
 
         Delay (1); // Wait for a tic
     }
@@ -115,7 +123,7 @@ Script_C void S7_ServersideEnter2 ENTER () {
 // Truly clientside stuff
 Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
     if (S7_PlayerNumEqualConsolePlayer (PLN) == FALSE)
@@ -129,6 +137,9 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     #endif
 
     while (TRUE) { // Loop forever
+        if (!PlayerInGame (PLN))
+            return;
+
         UpdateClientsideCVars ();
 
         Delay (1); // Wait for a tic
@@ -157,7 +168,7 @@ void ResetStuff (PlayerData_t *player) {
 
 Script_C void S7_ServersideRespawn RESPAWN () {
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct

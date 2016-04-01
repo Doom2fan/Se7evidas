@@ -23,10 +23,10 @@
 // Includes
 #include "util.h"
 #include "util_math.h"
-#include "commonFuncs.h"
 #include "types.h"
 #include "enum.h"
 #include "construct.h"
+#include "commonFuncs.h"
 #ifndef SERVER_C
 #include "server.h"
 #endif
@@ -53,6 +53,11 @@ typedef char * cstr;
 #define Gender_Other 2
 #define Gender_Herm  3
 
+#define M_PIk 3.141592653589793238462643383279502884k
+#define M_PI_2k 1.570796326794896619231321691639751442k
+
+#define PlayerClass_Scout 0
+
 #define BASEAMMOMAX 6
 
 #define MOD_VERSION_CSTR    "0.1"
@@ -75,12 +80,16 @@ typedef char * cstr;
 #define XPS_EXPTOKEN         s"S7_XP_System_Experience"
 #define XPS_ATTRPOINTSTOKEN  s"S7_XP_System_AttributePoints"
 #define XPS_STRENGTHTOKEN    s"S7_Stats_System_Strength"
-#define XPS_STAMINATOKEN     s"S7_Stats_System_Stamina"
+#define XPS_AGILITYTOKEN     s"S7_Stats_System_Agility"
+#define XPS_VITALITYTOKEN    s"S7_Stats_System_Vitality"
+#define XPS_DEFENSETOKEN     s"S7_Stats_System_Defense"
+#define XPS_MAGICTOKEN       s"S7_Stats_System_Magic"
 // Shop system
 #define CASHTOKEN            s"S7_Cash"
 // Weapon stuff
 #define QUICKMELEEWEAPON     s"S7_QuickMelee"
 // Misc
+#define MANATOKEN            s"S7_Mana"
 #define CANTEENITEM          s"S7_Canteen"
 #define DYINGTOKEN           s"S7_Dying"
 #define ISDEADTOKEN          s"S7_IsDead"

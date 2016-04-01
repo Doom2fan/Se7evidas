@@ -37,28 +37,21 @@ void UpdatePlayerData (PlayerData_t *player) {
     }
     
     // Position and velocity
-    player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0); // Get the XYZ coordinates
+    player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0);                   // Get the XYZ coordinates
     player->physics.velX = GetActorVelX (0); player->physics.velY = GetActorVelY (0); player->physics.velZ = GetActorVelZ (0); // Get the XYZ velocities
-    player->physics.angle = GetActorAngle (0); // Get the player's angle
-    player->physics.velAngle = VectorAngle (player->physics.velX, player->physics.velZ); // Get the player's movement angle
-    player->physics.floorZ = GetActorFloorZ (0); player->physics.ceilZ = GetActorCeilingZ (0); // Sector Z coordinates
-    player->physics.relativeZ = player->physics.z - player->physics.floorZ; // Z coordinate relative to sector floor
-    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ); // Jump height/velocity?
+    player->physics.angle = GetActorAngle (0);                                                                                 // Get the player's angle
+    player->physics.velAngle = atan2A (player->physics.velX, player->physics.velZ);                                            // Get the player's movement angle
+    player->physics.floorZ = GetActorFloorZ (0); player->physics.ceilZ = GetActorCeilingZ (0);                                 // Sector Z coordinates
+    player->physics.relativeZ = player->physics.z - player->physics.floorZ;                                                    // Z coordinate relative to sector floor
+    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ);                                                            // Jump height/velocity?
 
     // Health and stamina
-    player->health.health = GetActorProperty (0, APROP_Health); // Get the health
+    player->health.health = GetActorProperty (0, APROP_Health);         // Get the health
     player->health.maxHealth = GetActorProperty (0, APROP_SpawnHealth); // Get the max health
-    player->health.stamina = CheckInventory (STAMINATOKEN); // Get the stamina
+    player->health.stamina = CheckInventory (STAMINATOKEN);             // Get the stamina
 
     // Shop system stuff
     player->cash = CheckInventory (CASHTOKEN);
-
-    // XP system stuff
-    player->xpSystem.level = CheckInventory (XPS_LEVELTOKEN); // Get the current level
-    player->xpSystem.experience = CheckInventory (XPS_EXPTOKEN); // Get the experience
-    player->xpSystem.attrPoints = CheckInventory (XPS_ATTRPOINTSTOKEN); // Get the attribute points
-    player->xpSystem.strengthLVL = CheckInventory (XPS_STRENGTHTOKEN); // Get the strength level
-    player->xpSystem.staminaLVL = CheckInventory (XPS_STAMINATOKEN); // Get the stamina level
 
     // Misc
     player->misc.waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
@@ -73,6 +66,9 @@ void UpdatePlayerData (PlayerData_t *player) {
 }
 
 void UpdateAmmoMax (PlayerData_t *player) {
+    if (!player)
+        return;
+
     player->ammoMax = BASEAMMOMAX;
 
     if (CheckInventory (s"S7_BackpackToken"))
@@ -86,6 +82,9 @@ void UpdateAmmoMax (PlayerData_t *player) {
 }
 
 void UpdatePlayerAlpha (PlayerData_t *player) {
+    if (!player)
+        return;
+
     accum newAlpha = 1.0k;
     int   newRenderStyle = STYLE_Normal;
     accum oldAlpha = GetActorPropertyFixed (0, APROP_Alpha);
@@ -163,7 +162,10 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     SetInventory (XPS_EXPTOKEN,        saveData->xpSystem.experience);
     SetInventory (XPS_ATTRPOINTSTOKEN, saveData->xpSystem.attrPoints);
     SetInventory (XPS_STRENGTHTOKEN,   saveData->xpSystem.strengthLVL);
-    SetInventory (XPS_STAMINATOKEN,    saveData->xpSystem.staminaLVL);
+    SetInventory (XPS_AGILITYTOKEN,    saveData->xpSystem.agilityLVL);
+    SetInventory (XPS_VITALITYTOKEN,   saveData->xpSystem.vitalityLVL);
+    SetInventory (XPS_DEFENSETOKEN,    saveData->xpSystem.defenseLVL);
+    SetInventory (XPS_MAGICTOKEN,      saveData->xpSystem.magicLVL);
     SetInventory (CASHTOKEN,           saveData->cash);
 
     // Script Data
@@ -199,6 +201,9 @@ static const cstr RInt_SpinnyThing [] = {
     (cstr) "\\",
 };
 Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
+    if (!PlayerInGame (PLN) || PlayerIsBot (PLN))
+        return;
+
     string  curName = StrParam ("%tS", PLN);
     int     curGender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
     string  savedName = s"";
@@ -306,10 +311,13 @@ void DisconnectPlayer (PlayerData_t *player) {
 
     // XP system stuff
     player->xpSystem.level = 0;
-    player->xpSystem.experience = 0;
-    player->xpSystem.attrPoints = 0;
+    player->xpSystem.experience  = 0;
+    player->xpSystem.attrPoints  = 0;
     player->xpSystem.strengthLVL = 0;
-    player->xpSystem.staminaLVL = 0;
+    player->xpSystem.agilityLVL  = 0;
+    player->xpSystem.vitalityLVL = 0;
+    player->xpSystem.defenseLVL  = 0;
+    player->xpSystem.magicLVL    = 0;
     
     // Misc
     player->misc.waterlevel = 0;

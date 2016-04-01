@@ -68,7 +68,7 @@ string CSC_CompressString (string data) {
             int dupCharAm = 1;
             string dupChar = curChar;
 
-            while (true) {
+            while (TRUE) {
                 curChar = StrMid (input, i + dupCharAm, 1);
 
                 if ((i + dupCharAm + 1) < inputLen) {

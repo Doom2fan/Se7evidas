@@ -1,5 +1,5 @@
 defaultListMenu {
-    font "DBIGFONT", "Untranslated"
+    font "LOGOFNT", "Untranslated"
     linespacing 19
 }
 
@@ -10,18 +10,18 @@ defaultListMenu {
 //-------------------------------------------------------------------------------------------
 
 listMenu "MainMenu" {
-    font "DBIGFONT", "Untranslated"
+    font "LOGOFNT", "Untranslated"
     staticText 17, 8, "Se7evidas"
     
-    font "Smallfont", "Untranslated"
-    position 37, 62
+    font "SMALLFONT", "Untranslated"
+    position 37, 41
     
     textItem "New",           "n", "PlayerclassMenu"
     textItem "Options",       "o", "OptionsMenu"
     textItem "Se7evidas",     "7", "S7Settings"
     textItem "Load",          "l", "LoadGameMenu"
     textItem "Save",          "s", "SaveGameMenu"
-    //textItem "Help",        "h", "HelpTopicsMenu"
+    textItem "Help",          "h", "S7HelpTopicsMenu"
     textItem "Quit",          "q", "QuitMenu"
 }
 
@@ -40,7 +40,7 @@ optionMenu "S7Settings" {
 }
 
 optionMenu "S7Settings_Server" {
-    title "Arbitrator Options"
+    title "ARBITRATOR OPTIONS"
 
     staticText "Gameplay Options", 1
     option "Force intro",                                                                           "S7_ForceIntro",                "OnOff"
@@ -60,7 +60,7 @@ optionValue "S7EnemyHPBar_ForceDir_Values" {
 }
 
 optionMenu "S7Settings_User" {
-    title "User Options"
+    title "USER OPTIONS"
 
     staticText "Visual Options", 1
     option "Mod messages",                                                                          "S7_MsgsOn",                    "OnOff"
@@ -85,7 +85,7 @@ optionMenu "S7Settings_User" {
 }
 
 optionMenu "S7Settings_SaveSys" {
-    title "Save System"
+    title "SAVE SYSTEM"
 
     staticText "Arbitrator Options", 1
     option "No save loading",                                                                       "S7_NoSaveLoading",             "OnOff"

@@ -5,28 +5,6 @@ defaultListMenu {
 
 //-------------------------------------------------------------------------------------------
 //
-// Main Menu
-//
-//-------------------------------------------------------------------------------------------
-
-listMenu "MainMenu" {
-    font "DBIGFONT", "Untranslated"
-    staticText 17, 8, "Se7evidas"
-    
-    font "Smallfont", "Untranslated"
-    position 37, 62
-    
-    textItem "New",           "n", "PlayerclassMenu"
-    textItem "Options",       "o", "OptionsMenu"
-    textItem "Se7evidas",     "7", "S7Settings"
-    textItem "Load",          "l", "LoadGameMenu"
-    textItem "Save",          "s", "SaveGameMenu"
-    //textItem "Help",        "h", "HelpTopicsMenu"
-    textItem "Quit",          "q", "QuitMenu"
-}
-
-//-------------------------------------------------------------------------------------------
-//
 // Se7evidas Options
 //
 //-------------------------------------------------------------------------------------------

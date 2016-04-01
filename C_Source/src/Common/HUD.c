@@ -53,6 +53,9 @@ void HudWeapons (PlayerData_t *player) { // HUD icons and stuff...
 }
 
 Script_C void S7_ShowPop1 () {
+    if (!PlayerInGame (PLN))
+        return;
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
@@ -288,7 +291,7 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
         data->forceClear = TRUE;
 
     if (data->forceClear) {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 50; i++)
             ClearMessage (EMBASEID + i);
 
         data->forceClear = FALSE;

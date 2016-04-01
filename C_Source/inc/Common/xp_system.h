@@ -22,6 +22,6 @@
 
 #include <ACS_ZDoom.h>
 
-// int S7_StrengthStat (int BaseDamage, int multiplier);
+void UpdateXPSystem (PlayerData_t *player);
 
 #endif

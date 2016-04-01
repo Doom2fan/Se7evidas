@@ -1,6 +1,11 @@
 // Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
 // Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
 
+actor S7_CasingSmoke : S7_ShotSmokeTrail {
+    scale 0.05
+    alpha 0.35
+}
+
 actor S7_CasingSpawnerBase {
     speed 20
     projectile
@@ -139,7 +144,7 @@ actor S7_ShellCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS0 ABCDEFGH 2 // A_SpawnItem ("S7_ShotSmokeTrail")
+        CAS0 ABCDEFGH 2 // A_SpawnItem ("S7_CasingSmoke")
         loop
     }
 }
@@ -163,7 +168,7 @@ actor S7_9mmCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS1 ABCDEFGH 2 noDelay A_SpawnItem ("S7_ShotSmokeTrail")
+        CAS1 ABCDEFGH 2 noDelay A_SpawnItem ("S7_CasingSmoke")
         loop
     }
 }
@@ -202,7 +207,7 @@ actor S7_RevolverCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS2 ABCDEFGH 2 noDelay A_SpawnItem ("S7_ShotSmokeTrail")
+        CAS2 ABCDEFGH 2 noDelay A_SpawnItem ("S7_CasingSmoke")
         loop
     }
 }
@@ -226,7 +231,7 @@ actor S7_RifleCasing : S7_CasingBase {
     
     states {
     Spawn:
-        CAS3 ABCDEFGH 2 noDelay A_SpawnItem ("S7_ShotSmokeTrail")
+        CAS3 ABCDEFGH 2 noDelay A_SpawnItem ("S7_CasingSmoke")
         loop
     }
 }

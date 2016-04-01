@@ -25,7 +25,7 @@
 Script_C void S7_SprintSystem ENTER () {
     Start:
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
+    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
     
     int tics = 0;
@@ -37,6 +37,9 @@ Script_C void S7_SprintSystem ENTER () {
     }
 
     while (TRUE) {
+        if (!PlayerInGame (PLN))
+            return;
+
         if (CheckWeapon (SPRINTWEAPON) && !player->SprintDef.Sprinting) {
             SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             player->SprintDef.Sprinting = FALSE;
@@ -74,10 +77,13 @@ Script_C void S7_SprintSystem ENTER () {
                     DisableWeapon (SPRINTWEAPON, SPRINTINGTOKEN, player);
                     goto Start;
                 }
+
+                accum speedBonus = 1.0k + (0.5k * player->xpSystem.agilityLVL);
+
                 if (CheckInventory (SPRINTINGTOKEN) && ((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
-                    SetActorPropertyFixed (0, APROP_Speed, 3.0k);
+                    SetActorPropertyFixed (0, APROP_Speed, 1.0k + speedBonus / 2.0k);
                 else if (CheckInventory (SPRINTINGTOKEN) && !((abs (GetPlayerInput (-1, INPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, INPUT_SIDEMOVE)) > 6400)))
-                    SetActorPropertyFixed (0, APROP_Speed, 6.0k);
+                    SetActorPropertyFixed (0, APROP_Speed, 1.0k + speedBonus);
                 else if (!CheckInventory (SPRINTINGTOKEN))
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             }

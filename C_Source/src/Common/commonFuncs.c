@@ -79,7 +79,7 @@ accum GetVelocity () { // I dunno who made this...
     accum vel;
     accum x = GetActorVelX (0);
     accum y = GetActorVelY (0);
-    accum angle = VectorAngle (x, y);
+    accum angle = atan2A (x, y);
     
     if (((angle + 0.125k) % 0.5k) > 0.25k)
         vel = y / Sin (angle);
@@ -87,6 +87,32 @@ accum GetVelocity () { // I dunno who made this...
         vel = x / Cos (angle);
     
     return vel;
+}
+
+bool SetInventory (string name, int amount) {
+    int currentAmount = CheckInventory (name);
+
+    if (currentAmount == amount) {
+        return FALSE;
+    } else if (currentAmount > amount) {
+        TakeInventory (name, currentAmount - amount);
+    } else if (currentAmount < amount) {
+        GiveInventory (name, amount - currentAmount);
+    }
+    
+    return TRUE;
+}
+
+int GetMaxStamina (PlayerData_t *player) {
+    PlayerData_t *p = !player ? &PlayerData [PLN] : player;
+
+    return 150 + 22 * p->xpSystem.agilityLVL;
+}
+
+int GetMaxMana (PlayerData_t *player) {
+    PlayerData_t *p = !player ? &PlayerData [PLN] : player;
+
+    return 250 + 37 * p->xpSystem.magicLVL;
 }
 
 int Clamp (int x, int min, int max) {
@@ -129,20 +155,6 @@ int ScaleValue (int x, int fromMin, int fromMax, int toMin, int toMax) {
 
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax) {
     return (x - fromMin) * (toMax - toMin) / (fromMax - fromMin) + toMin;
-}
-
-bool SetInventory (string name, int amount) {
-    int currentAmount = CheckInventory (name);
-
-    if (currentAmount == amount) {
-        return FALSE;
-    } else if (currentAmount > amount) {
-        TakeInventory (name, currentAmount - amount);
-    } else if (currentAmount < amount) {
-        GiveInventory (name, amount - currentAmount);
-    }
-    
-    return TRUE;
 }
 
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
@@ -238,4 +250,21 @@ long accum LongFixedSqrt (long accum x) {
     }
 
     return oldAns;
+}
+
+int Random2 (int x, int y) {
+    return (rand () % (y + 1)) + x;
+}
+
+vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
+    vec3_k ret;
+
+    // Roll
+    ret.x = 0.0k;
+    // Pitch
+    ret.y = atan2A (VectorLength (p1.x - p2.x, p1.y - p2.y), p1.z - p2.z);
+    // Yaw/Angle
+    ret.z = atan2A (p1.x - p2.x, p1.y - p2.y);
+
+    return ret;
 }

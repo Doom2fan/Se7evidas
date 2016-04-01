@@ -1,2 +1,6 @@
 DBIGFONT from Ultimate Simplicity
 SMALLFNT by Jimmy
+LOGOFNT:
+    Author: Jimmy
+    Idea Base: Creating a font loosely based on the ZDoom "Z" icon.
+    Additional Credits: "Eriance (Amuscaria), Blue Shadow, Blox, and BouncyTEM for input via the forums while I was creating this."

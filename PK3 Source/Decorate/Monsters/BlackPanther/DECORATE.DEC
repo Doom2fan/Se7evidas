@@ -14,14 +14,15 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
     hitObituary "$OBBPANTHER_MELEE"
     obituary "$OBBPANTHER"
 
-    // Damage factors
-     // Demon/Reanimated flesh damage reduction
-    damageFactor "PistolTracer", 0.73
+    /** Damage factors **/
+    // Demon/Reanimated flesh damage reduction
+    damageFactor "PistolTracer", 0.7
     damageFactor "RevolverTracer", 0.8
     damageFactor "RifleTracer", 0.9
-     // Plasma damage bonus
+    // Plasma/Laser damage bonus
     damageFactor "Plasma", 1.5
-     // Hell Noble buckshot damage bonus
+    damageFactor "LaserTracer", 1.25
+    // Hell Noble buckshot damage bonus
     damageFactor "ShotgunTracer", 1.2
     
     states {

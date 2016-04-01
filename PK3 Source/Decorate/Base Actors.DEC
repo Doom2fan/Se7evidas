@@ -36,6 +36,33 @@ actor S7_HellNobleBase {
     +floorClip
 }
 
+actor S7_ScorpBase {
+    radius 16
+    height 56
+    mass 100
+    speed 8
+    activeSound "Monsters/Nova/RadioChatter"
+    seeSound "Monsters/Nova/RadioSight"
+
+    /** Damage factors **/
+    // Demon/Reanimated flesh damage reduction
+    damageFactor "PistolTracer", 0.75
+    damageFactor "RevolverTracer", 0.85
+    damageFactor "RifleTracer", 0.95
+    // Plasma/Laser damage bonus
+    damageFactor "Plasma", 1.6
+    damageFactor "LaserTracer", 1.35
+
+    monster
+
+    // Default user vars
+    var int user_fireMode;
+    var int user_turn;
+    var int user_spreadX; var int user_spreadY;
+    var int user_ammo;
+    var int user_deathType;
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Misc bases

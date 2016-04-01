@@ -21,26 +21,28 @@
 #include "weapon_stuff.h"
 #include "stamina.h"
 
-#define MAXSTAMINA 150
+#define SRGN_DoRegenCommon(x) \
+    GiveInventory (STAMINATOKEN, x); \
+    player->scriptData.staminaTics = 0; \
+    player->health.stamina = CheckInventory (STAMINATOKEN) \
 
 void StaminaRegenerationPart1 (PlayerData_t *player) {
     if (!player)
         return;
-    
-    if (!(player->misc.dying) && player->scriptData.staminaTics >= 1 && !CheckWeapon (SPRINTWEAPON)) {
+
+    bool berserkActive = CheckInventory (s"S7_BerserkToken");
+
+    if (player->scriptData.staminaTics > 0 && player->health.stamina == GetMaxStamina (player) || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON))
         player->scriptData.staminaTics = 0;
-        GiveInventory (STAMINATOKEN, 1);
-        player->health.stamina = CheckInventory (STAMINATOKEN);
-    } else if ((player->misc.dying) && player->scriptData.staminaTics >= 3 && !CheckWeapon (SPRINTWEAPON)) {
-        player->scriptData.staminaTics = 0;
-        GiveInventory (STAMINATOKEN, 1);
-        player->health.stamina = CheckInventory (STAMINATOKEN);
-    }
-    if (player->scriptData.staminaTics > 0 && player->health.stamina == MAXSTAMINA || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON)) {
-        player->scriptData.staminaTics = 0;
-    }
-    if (player->scriptData.staminaEmpty == TRUE && player->health.stamina >= 50) {
+    if (player->scriptData.staminaEmpty == TRUE && player->health.stamina >= 50)
         player->scriptData.staminaEmpty = FALSE;
+
+    if (!CheckWeapon (SPRINTWEAPON)) {
+        if (!player->misc.dying && player->scriptData.staminaTics >= 1) {
+            SRGN_DoRegenCommon (berserkActive ? 4 : 1);
+        } else if (player->misc.dying && player->scriptData.staminaTics >= berserkActive ? 2 : 3) {
+            SRGN_DoRegenCommon (berserkActive ? 2 : 1);
+        }
     }
 }
 
@@ -48,7 +50,7 @@ void StaminaRegenerationPart2 (PlayerData_t *player) {
     if (!player)
         return;
     
-    if (player->health.stamina != MAXSTAMINA) {
+    if (player->health.stamina != GetMaxStamina (player)) {
         if (!CheckWeapon (SPRINTWEAPON)) {
             player->scriptData.staminaTics++;
         }

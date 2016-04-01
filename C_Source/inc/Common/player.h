@@ -85,8 +85,11 @@ struct PD_XPSystem_t {
     int level;                          // Current level
     int experience;                     // Amount of experience
     int attrPoints;                     // Attribute points
-    int strengthLVL;                    // Strength level
-    int staminaLVL;                     // Stamina level
+    int strengthLVL;                    // Strength stat
+    int agilityLVL;                     // Agility stat
+    int vitalityLVL;                    // Vitality stat
+    int defenseLVL;                     // Defense stat
+    int magicLVL;                       // Magic stat
 };
 
 typedef struct PD_Misc_t {

@@ -1,3 +1,8 @@
+SUPER IMPORTANT MESSAGE: Zandronum glitches out a LOT on MP. I dunno if it's because 3.0 is still beta or the netcode just sucks more than I previously thought.
+
+(Zandronum only) Major: Weapons fuck up if you use the quick melee.
+(Zandronum only) Major: The TEC-9/Kronos glitches out heavily on MP.
+
 Bugs I can't fix:
     (Zandronum only) Major: User/Client variables don't work in MP. Reason: Get/SetUserCVar doesn't work at all in MP in Zandronum.
 

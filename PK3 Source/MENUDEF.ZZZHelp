@@ -1,0 +1,65 @@
+listMenu "S7HelpTopicsMenu" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "SE7EVIDAS HELP"
+    
+    font "SMALLFONT", "Untranslated"
+    position 37, 62
+    textItem "1. Introduction",                     "1", "S7HelpTopic1-1"
+    textItem "2. The leveling system",              "2", "S7HelpTopic2-1"
+    //textItem "Font Test", "", "S7FontTest"
+}
+
+listMenu "S7HelpTopic1-1" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "INTRODUCTION"
+
+    font "FSHUDFNT", "Untranslated"    
+    staticText 4, 29,  "Welcome to Se7evidas"
+    staticText 4, 35,  "This manual should help you figure out how to play this thing. If you"
+    staticText 4, 41,  "ever wanna know what something does in this mod, look here first, it"
+    staticText 4, 47,  "might be here."
+
+    staticText 4, 59,  "You play the role of someone working for Lucius, one of the biggest"
+    staticText 4, 65,  "PMCs in the universe. You can buy a variety of weapons from the"
+    staticText 4, 72,  "Armory, or grab some from somewhere in the battlefield."
+    staticText 4, 77,  "Maybe there's even a black market run by the demons. Who knows."
+    staticText 4, 83,  "(BLACK MARKET RUN BY DEMONS NOT IMPLEMENTED YET)"
+
+    staticText 4, 95,  "This mod is FREE as in free beer. If you've paid money for it or gotten"
+    staticText 4, 101, "it in a CD you bought, then you've been utterly ripped off. (In fact,"
+    staticText 4, 107, "selling this mod would be illegal.)"
+}
+
+listMenu "S7HelpTopic2-1" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "THE LEVELING SYSTEM"
+
+    font "FSHUDFNT", "Untranslated"    
+    staticText 4,  29, "Se7evidas has a RPG-style leveling system where you gain experience by doing"
+    staticText 4,  35, "certain things. (For example, killing enemies)"
+    staticText 4,  41, "When you level up, you gain attribute points, which you can use to upgrade"
+    staticText 4,  47, "your stats."
+
+    staticText 4,  59, "Strength: Affects the strength of your melee attacks and the power of some"
+    staticText 4,  65, "weapons."
+
+    staticText 4,  77, "Vitality: Affects your max health."
+
+    staticText 4,  95, "Agility: Affects your sprinting speed and your max stamina."
+
+    staticText 4, 107, "Defence: Affects the damage you take."
+
+    staticText 4, 119, "Magic: Affects magic weapons and your max mana."
+}
+
+listMenu "S7FontTest" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "FONT TEST"
+
+    font "FSHUDFNT", "Untranslated"    
+    staticText 4, 35, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    staticText 4, 49, "abcdefghijklmnopqrstuvwxyz"
+
+    staticText 4, 63, "01234567890"
+    staticText 4, 77, "!@#$%&*-_=+:;/?,.()[]{}<>"
+}

@@ -1,0 +1,34 @@
+/*
+** RChat1-9: Valve Software (Half-Life 2), Chronos Ouroboros
+*/
+$RANDOM Monsters/Nova/RadioChatter {
+    Monsters/Nova/RadioChatter1
+    Monsters/Nova/RadioChatter2
+    Monsters/Nova/RadioChatter3
+    Monsters/Nova/RadioChatter4
+    Monsters/Nova/RadioChatter5
+    Monsters/Nova/RadioChatter6
+    Monsters/Nova/RadioChatter7
+    Monsters/Nova/RadioChatter8
+    Monsters/Nova/RadioChatter9
+}
+Monsters/Nova/RadioChatter1                  "sounds/Monsters/RadioChatter/RChat1.ogg"
+Monsters/Nova/RadioChatter2                  "sounds/Monsters/RadioChatter/RChat2.ogg"
+Monsters/Nova/RadioChatter3                  "sounds/Monsters/RadioChatter/RChat3.ogg"
+Monsters/Nova/RadioChatter4                  "sounds/Monsters/RadioChatter/RChat4.ogg"
+Monsters/Nova/RadioChatter5                  "sounds/Monsters/RadioChatter/RChat5.ogg"
+Monsters/Nova/RadioChatter6                  "sounds/Monsters/RadioChatter/RChat6.ogg"
+Monsters/Nova/RadioChatter7                  "sounds/Monsters/RadioChatter/RChat7.ogg"
+Monsters/Nova/RadioChatter8                  "sounds/Monsters/RadioChatter/RChat8.ogg"
+Monsters/Nova/RadioChatter9                  "sounds/Monsters/RadioChatter/RChat9.ogg"
+
+$RANDOM Monsters/Nova/RadioSight {
+    Monsters/Nova/RadioSight1
+    Monsters/Nova/RadioSight2
+    Monsters/Nova/RadioSight3
+    Monsters/Nova/RadioSight4
+}
+Monsters/Nova/RadioSight1                    "sounds/Monsters/RadioChatter/RSight1.ogg"
+Monsters/Nova/RadioSight2                    "sounds/Monsters/RadioChatter/RSight2.ogg"
+Monsters/Nova/RadioSight3                    "sounds/Monsters/RadioChatter/RSight3.ogg"
+Monsters/Nova/RadioSight4                    "sounds/Monsters/RadioChatter/RSight4.ogg"

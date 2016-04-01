@@ -91,10 +91,13 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     // RPG Systems
     string rpgSysStr = GetUserCVarString (playerNum, SD_RPGSYSTEM);
     tmpData.xpSystem.level = SaveSys_ReadInt (rpgSysStr, offset, 6);
-    tmpData.xpSystem.experience = SaveSys_ReadInt (rpgSysStr, offset, 7);
-    tmpData.xpSystem.attrPoints = SaveSys_ReadInt (rpgSysStr, offset, 11);
+    tmpData.xpSystem.experience  = SaveSys_ReadInt (rpgSysStr, offset, 7);
+    tmpData.xpSystem.attrPoints  = SaveSys_ReadInt (rpgSysStr, offset, 11);
     tmpData.xpSystem.strengthLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
-    tmpData.xpSystem.staminaLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
+    tmpData.xpSystem.agilityLVL  = SaveSys_ReadInt (rpgSysStr, offset, 3);
+    tmpData.xpSystem.vitalityLVL = SaveSys_ReadInt (rpgSysStr, offset, 3);
+    tmpData.xpSystem.defenseLVL  = SaveSys_ReadInt (rpgSysStr, offset, 3);
+    tmpData.xpSystem.magicLVL    = SaveSys_ReadInt (rpgSysStr, offset, 3);
     tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 11);
     SaveSys_FailLoad (rpgSysStr, *offset);
 
@@ -136,7 +139,17 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     SetUserCVarString (playerNum, SD_INFO, infoStr);
 
     // RPG Systems
-    string rpgSysStr = StrParam ("%+.5d%+.6d%+.10d%+.2d%+.2d%+.10d", data->xpSystem.level, data->xpSystem.experience, data->xpSystem.attrPoints, data->xpSystem.strengthLVL, data->xpSystem.staminaLVL, data->cash);
+    string rpgSysStr = StrParam ("%+.5d%+.6d%+.10d%+.2d%+.2d%+.2d%+.2d%+.2d%+.10d",
+        data->xpSystem.level,
+        data->xpSystem.experience,
+        data->xpSystem.attrPoints,
+        data->xpSystem.strengthLVL,
+        data->xpSystem.agilityLVL,
+        data->xpSystem.vitalityLVL,
+        data->xpSystem.defenseLVL,
+        data->xpSystem.magicLVL,
+        data->cash
+    );
     SetUserCVarString (playerNum, SD_RPGSYSTEM, rpgSysStr);
 
     // Script Data

@@ -80,6 +80,9 @@ void DisableWeapon (string meh, string blah, PlayerData_t *player) {
 // SynthFire stuff
 Script_C void S7_SynthFire () {
     while (TRUE) {
+        if (!PlayerInGame (PLN))
+            return;
+        
         if (!CheckInventory (s"S7_SynthFireActive"))
             return;
         
@@ -149,6 +152,14 @@ Script_C void S7_PSICG_FireTest () {
         TakeInventory (PSICGFIREBOOL, 0x7FFFFFFF);
 }*/
 
-Script_C int S7_MeleeDamage (int baseDamage, int multiplyer) {
-    return (baseDamage * (CheckInventory (s"S7_BerserkToken") ? 3 : 1)) * (multiplyer + (CheckInventory (s"S7_BerserkToken") ? Random (0, 2) : 0));
+Script_C int S7_MeleeDamage (int baseDamage, int mul) {
+    accum baseMul  = 1.0k;
+    accum mulBonus = 0.0k;
+
+    if (CheckInventory (s"S7_BerserkToken")) {
+        baseMul = 3.0k;
+        mulBonus = RandomFixed (0.0k, 2.0k);
+    }
+
+    return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
 }

@@ -70,6 +70,9 @@ string PrintInv_Weapons (string inStr) {
     return ret;
 }
 Script_C void S7_PrintInv (int mode) {
+    if (!PlayerInGame (PLN))
+        return;
+    
     string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
 
     if (mode == 1) {

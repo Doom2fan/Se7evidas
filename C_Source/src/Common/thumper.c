@@ -32,6 +32,9 @@
 /* Mag scripts */
 
 Script_C bool S7_ThumperFull () {
+    if (!PlayerInGame (PLN))
+        return TRUE;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
@@ -46,6 +49,9 @@ Script_C bool S7_ThumperFull () {
 }
 
 Script_C int S7_ThumperGetNext () {
+    if (!PlayerInGame (PLN))
+        return S7_TH_None;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
     if (!player) {
@@ -62,6 +68,9 @@ Script_C int S7_ThumperGetNext () {
 /* Chamber scripts */
 
 Script_C int S7_ThumperGetChamber () {
+    if (!PlayerInGame (PLN))
+        return S7_TH_None;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
     if (!player) {
@@ -73,6 +82,9 @@ Script_C int S7_ThumperGetChamber () {
 }
 
 Script_C void S7_ThumperConsumeChamber () {
+    if (!PlayerInGame (PLN))
+        return;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     
     if (!player) {
@@ -85,6 +97,9 @@ Script_C void S7_ThumperConsumeChamber () {
 }
 
 Script_C void S7_ThumperPump () {
+    if (!PlayerInGame (PLN))
+        return;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
@@ -142,6 +157,9 @@ Script_C bool S7_ThumperCyclePools () {
 }
 
 Script_C void S7_ThumperPerformReload () {
+    if (!PlayerInGame (PLN))
+        return;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
@@ -168,6 +186,9 @@ int Thumper_GetUnifiedPool () {
 }
 
 int Thumper_GetUnifiedPoolMax () {
+    if (!PlayerInGame (PLN))
+        return NULL;
+    
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {

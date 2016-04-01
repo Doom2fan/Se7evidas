@@ -22,6 +22,9 @@
 bool RunningInZDoom = TRUE;
 
 Script_C void S7_Enter ENTER () {
+    if (!PlayerInGame (PLN))
+        return;
+    
     PlayerData_t *player = &PlayerData [PLN];
     
     if (!player) {

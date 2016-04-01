@@ -24,3 +24,14 @@ Frames:
     Match: /Part([0-9]+)/
     Replace with: /"graphics/Weapons/<Weapon>/Part$1.png"/
 ======================================================================================================================================================================================
+Conversion tables:
+Original doom monster health to S7 monster health: <health> * 1.5;
+Weapon spread to monster spread: <weapon  spread> * 1.25;
+Monster spread to weapon spread: <monster spread> * 0.8;
+
+Fixed to float: <fixed> / 65535.0;
+Float to fixed: <float> * 65535.0;
+
+Float to int (truncate): <fixed> >> 16;
+Int to float:            <fixed> << 16;
+======================================================================================================================================================================================

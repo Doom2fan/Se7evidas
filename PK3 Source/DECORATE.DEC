@@ -41,12 +41,14 @@
 #INCLUDE "Decorate/Base Weapon.DEC"
 #INCLUDE "Decorate/Bullets.DEC"
 
-// Systems
+// RPG Systems
 #INCLUDE "Decorate/RPG Systems/Shop System.DEC"
+#INCLUDE "Decorate/RPG Systems/XP System.DEC"
 
 // Monsters
-#INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/ScorpsTrooper/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/BlackPanther/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"

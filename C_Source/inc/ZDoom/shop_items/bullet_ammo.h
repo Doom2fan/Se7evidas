@@ -42,7 +42,7 @@ SS_Item_t bulletAmmoItems [] = {
         .itemType           = IT_BuySellItem,
         .next               = &bulletAmmoItems [2],
 
-        .maxAmount          = 15,
+        .maxAmount          = 75,
         .buyPrice           = 240,
         .buyAmount          = 30,
         .sellPrice          = 120,

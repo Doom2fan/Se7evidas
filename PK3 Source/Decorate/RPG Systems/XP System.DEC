@@ -15,5 +15,8 @@ actor S7_XP_System_AttributePoints        : counter                        { }
 //-------------------------------------------------------------------------------------------
 
 actor S7_Stats_System_BaseStat            : counter                        { inventory.maxAmount 10 }
-actor S7_Stats_System_Strength            : S7_Stats_System_BaseStat       { } // Should be obvious
-actor S7_Stats_System_Stamina             : S7_Stats_System_BaseStat       { } // Increases max stamina
+actor S7_Stats_System_Strength            : S7_Stats_System_BaseStat       { }
+actor S7_Stats_System_Agility             : S7_Stats_System_BaseStat       { }
+actor S7_Stats_System_Vitality            : S7_Stats_System_BaseStat       { }
+actor S7_Stats_System_Defense             : S7_Stats_System_BaseStat       { }
+actor S7_Stats_System_Magic               : S7_Stats_System_BaseStat       { }

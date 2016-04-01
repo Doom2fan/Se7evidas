@@ -21,8 +21,12 @@
 #define COMMONFUNCS_H
 
 #include <ACS_ZDoom.h>
+#include "types.h"
 
 // Macros
+#define atanA(x) VectorAngle (1.0k, x)
+#define atan2A(x, y) VectorAngle (x, y)
+
 #define TicsToSecs(tics) (TICUNITA * tics)
 
 #define SetInventoryForced(name, amount) \
@@ -51,6 +55,9 @@ accum GetVelocity ();
 
 bool SetInventory (string name, int amount);
 
+int GetMaxStamina (struct PlayerData_t *player);
+int GetMaxMana    (struct PlayerData_t *player);
+
 // ================ Math ================
 // Clamping
 int   Clamp      (int x, int min, int max);
@@ -66,5 +73,9 @@ int   StrToInt  (string source);
 bool *StrToBool (string source);
 
 long accum LongFixedSqrt (long accum x);
+
+int Random2 (int x, int y);
+
+vec3_k GetEulerAngles (vec3_k p1, vec3_k p2);
 
 #endif
