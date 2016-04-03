@@ -138,12 +138,8 @@ enum {
 Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info);
 
 Script_C void S7_SLanceBeamGrab () {
-    SLanceBGI *info = malloc (sizeof (SLanceBGI));
+    SLanceBGI *info = allocAndClear (sizeof (SLanceBGI));
     int oldTID = ActivatorTID ();
-
-    for (int i = 0; i < sizeof (SLanceBGI); i++) {
-        ((int *) info) [i] = 0;
-    }
 
     info->holderTID = UniqueTID (-10000, -5000);
     info->holderPos.x = GetActorX (0);

@@ -52,9 +52,8 @@ Script_C void S7_ServersideEnter ENTER () {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
-    if (!player) {
-        player = malloc (sizeof (PlayerData_t));
-    }
+    if (!player)
+        player = allocAndClear (sizeof (PlayerData_t));
     
     if (!player->initialized)
         InitializePlayer (player);
