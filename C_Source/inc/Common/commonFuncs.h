@@ -43,39 +43,38 @@
 #define ArraySize(array) sizeof (array) / sizeof (*array)
 
 // Prototypes
+/* Keys */
+int KeyUp       (int key);
+int KeyDown     (int key);
+int KeyPressed  (int key);
+int KeyPressed2 (int buttons, int oldbuttons, int key);
+/* Player info */
 bool S7_PlayerNumEqualConsolePlayer (int playerNum);
-
-int KeyUp      (int key);
-int KeyDown    (int key);
-int KeyPressed (int key);
-
-int UnusedTID (int start, int end);
-
+int  GetMaxStamina (struct PlayerData_t *player);
+int  GetMaxMana    (struct PlayerData_t *player);
+/* Memory */
+void *allocAndClear (size_t size);
+/* Misc */
+int   UnusedTID (int start, int end);
 accum GetVelocity ();
-
-bool SetInventory (string name, int amount);
-
-int GetMaxStamina (struct PlayerData_t *player);
-int GetMaxMana    (struct PlayerData_t *player);
+bool  SetInventory (string name, int amount);
 
 // ================ Math ================
-// Clamping
+/* Clamping */
 int   Clamp      (int x, int min, int max);
 accum ClampAccum (accum x, accum min, accum max);
-// Scaling
+/* Scaling */
 int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
-// Distance between two XYZ coordinates
-accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
-                 accum actor2X, accum actor2Y, accum actor2Z);
-// String to value conversion
+/* String to value conversion */
 int   StrToInt  (string source);
 bool *StrToBool (string source);
-
+/* Trigonometry */
+accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z, // Distance between two XYZ coordinates
+                 accum actor2X, accum actor2Y, accum actor2Z);
+vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
+/* Misc */
 long accum LongFixedSqrt (long accum x);
-
 int Random2 (int x, int y);
-
-vec3_k GetEulerAngles (vec3_k p1, vec3_k p2);
 
 #endif
