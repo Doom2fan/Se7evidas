@@ -36,7 +36,7 @@ SS_Item_t bulletAmmoItems [] = {
     {
         .name               = s"9MM",
         .description        = s"SS_9MMDESC",
-        .icon               = s"graphics/Menu/Shop/9mmBox.png",
+        .icon               = s"SST9MMB",
         .inventoryName      = s"S7_9mmCartridges",
 
         .itemType           = IT_BuySellItem,
@@ -54,7 +54,7 @@ SS_Item_t bulletAmmoItems [] = {
     {
         .name               = s"45ACP",
         .description        = s"SS_45ACPDESC",
-        .icon               = s"graphics/Menu/Shop/45ACPBox.png",
+        .icon               = s"SST45ABX",
         .inventoryName      = s"S7_45ACPCartridges",
 
         .itemType           = IT_BuySellItem,
@@ -72,7 +72,7 @@ SS_Item_t bulletAmmoItems [] = {
     {
         .name               = s"44M",
         .description        = s"SS_44MDESC",
-        .icon               = s"graphics/Menu/Shop/44MSLoader.png",
+        .icon               = s"SST44MSL",
         .inventoryName      = s"S7_44MCartridges",
 
         .itemType           = IT_BuySellItem,
@@ -90,7 +90,7 @@ SS_Item_t bulletAmmoItems [] = {
     {
         .name               = s"762X39",
         .description        = s"SS_762X39DESC",
-        .icon               = s"graphics/Menu/Shop/762Mag.png",
+        .icon               = s"SSTAKMAG",
         .inventoryName      = s"S7_762x39Cartridges",
 
         .itemType           = IT_BuySellItem,
@@ -108,7 +108,7 @@ SS_Item_t bulletAmmoItems [] = {
     {
         .name               = s"20GA",
         .description        = s"SS_20GADESC",
-        .icon               = s"graphics/Menu/Shop/20gaBox.png",
+        .icon               = s"SST20GA",
         .inventoryName      = s"S7_20gaShells",
 
         .itemType           = IT_BuySellItem,

@@ -39,7 +39,7 @@ SS_Item_t ammoItems [] = {
     },
     {
         .name               = s"SS_BULLETS",
-        .icon               = s"graphics/Menu/Shop/CartShells.png",
+        .icon               = s"SSTBULAM",
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
         .link               = &bulletAmmo,
@@ -47,7 +47,7 @@ SS_Item_t ammoItems [] = {
     },
     {
         .name               = s"SS_BATTERIESLINK",
-        .icon               = s"graphics/Menu/Shop/Batteries.png",
+        .icon               = s"SSTBATAM",
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
         .link               = &batteriesAmmo,
@@ -55,7 +55,7 @@ SS_Item_t ammoItems [] = {
     },
     {
         .name               = s"SS_THGRENADES",
-        .icon               = s"graphics/Menu/Shop/ThumperAmmo.png",
+        .icon               = s"SSTTHGAM",
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
         .link               = &thumperAmmo,

@@ -98,7 +98,7 @@ void SS_Render (PlayerData_t *player) {
     }
 
 Finish:
-    SS_PrintSprite (id, -91.0k, 200.0k, s"graphics/Menu/Shop/Background.png"); // Print the background
+    SS_PrintSprite (id, -91.0k, 200.0k, s"SSTBACKG"); // Print the background
     id++; // Increment the id
 
     SetHudSize (0, 0, FALSE); // Set the hud size to 0x0 (Reset SetHudSize)

@@ -17,35 +17,46 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SSI_WEAPONS_H
-#define SSI_WEAPONS_H
+#ifndef SSI_BATTERIES_AMMO_H
+#define SSI_BATTERIES_AMMO_H
 
 #include <ACS_ZDoom.h>
 #include "../shop_process.h"
 #include "externs.h"
+#include "ammo.h"
 
-/*SS_Item_t weaponsItems [] = {
+SS_Item_t batteriesAmmoItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &main,
-        .next               = &weaponsItems [1],
+        .link               = &ammo,
+        .next               = &batteriesAmmoItems [1],
     },
     {
-        .name               = s"",
-        .icon               = s"graphics/Menu/Shop/Weapons/.png",
-        .itemType           = IT_PageLink,
-        .linkType           = LT_Always,
-        .link               = &,
-        .next               = &weaponsItems [2],
-    },
-};*/
+        .name               = s"CELLS",
+        .description        = s"SS_CELLSDESC",
+        .icon               = s"SSTCELTA",
+        .inventoryName      = s"S7_Cells",
 
-SS_Page_t weapons = {
-    .name       = s"SS_WEAPONS",
-    //.items      = &weaponsItems [0],
+        .itemType           = IT_BuySellItem,
+        .next               = NULL,
+
+        .maxAmount          = 36,
+        .buyPrice           = 240,
+        .buyAmount          = 36,
+        .sellPrice          = 120,
+        .sellAmount         = 36,
+        .buyCallback        = &SS_BuyItem,
+        .sellCallback       = &SS_SellItem,
+        .maxAmountCallback  = &SS_AmmoMaxAmount,
+    },
+};
+
+SS_Page_t batteriesAmmo = {
+    .name       = s"SS_BATTERIES",
+    .items      = &batteriesAmmoItems [0],
 };
 
 #endif

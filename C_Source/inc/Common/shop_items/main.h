@@ -17,21 +17,37 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SHOP_H
-#define SHOP_H
+#ifndef SSI_MAIN_H
+#define SSI_MAIN_H
 
 #include <ACS_ZDoom.h>
+#include "../shop_process.h"
+#include "externs.h"
+#include "ammo.h"
+#include "weapons.h"
 
-// Structs
-struct SS_Item_t {
-    string name;
+SS_Item_t mainItems [] = {
+    {
+        .name           = s"SS_AMMO",
+        .icon           = s"SSTAMICO",
+        .itemType       = IT_PageLink,
+        .linkType       = LT_Always,
+        .link           = &ammo,
+        .next           = &mainItems [1],
+    },
+    {
+        .name           = s"SS_WEAPONS",
+        .icon           = s"SSTWPICO",
+        .itemType       = IT_PageLink,
+        .linkType       = LT_Always,
+        .link           = &weapons,
+        .next           = NULL,
+    },
 };
 
-struct SS_Page_t {
-    string name;
+SS_Page_t main = {
+    .name       = s"SS_MAIN",
+    .items      = &mainItems [0],
 };
-
-// Prototypes
-void ShopSystem_Script (PlayerData_t *player);
 
 #endif

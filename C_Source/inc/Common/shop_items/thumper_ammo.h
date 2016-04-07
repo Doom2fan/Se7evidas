@@ -44,7 +44,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_EXP",
         .description        = s"SS_TH_EXPDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/Exp.png",
+        .icon               = s"SSTTHG1",
 
         .itemType           = IT_BuySellItem,
         .next               = &thumperAmmoItems [2],
@@ -60,7 +60,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_FRAG",
         .description        = s"SS_TH_FRAGDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/Frag.png",
+        .icon               = s"SSTTHG2",
 
         .itemType           = IT_BuySellItem,
         .next               = &thumperAmmoItems [3],
@@ -76,7 +76,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_THRM",
         .description        = s"SS_TH_THERMDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/Therm.png",
+        .icon               = s"SSTTHG3",
 
         .itemType           = IT_BuySellItem,
         .next               = &thumperAmmoItems [4],
@@ -92,7 +92,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_FLRE",
         .description        = s"SS_TH_FLREDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/Flare.png",
+        .icon               = s"SSTTHG4",
 
         .itemType           = IT_BuySellItem,
         .next               = &thumperAmmoItems [5],
@@ -108,7 +108,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_CLST",
         .description        = s"SS_TH_CLUSTERDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/Cluster.png",
+        .icon               = s"SSTTHG5",
 
         .itemType           = IT_BuySellItem,
         .next               = &thumperAmmoItems [6],
@@ -124,7 +124,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_NAIL",
         .description        = s"SS_TH_NAILDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/Nail.png",
+        .icon               = s"SSTTHG6",
 
         .itemType           = IT_BuySellItem,
         .next               = &thumperAmmoItems [7],
@@ -140,7 +140,7 @@ SS_Item_t thumperAmmoItems [] = {
     {
         .name               = s"SS_TH_NGAS",
         .description        = s"SS_TH_NGASDESC",
-        .icon               = s"graphics/Menu/Shop/ThumperGrenades/NGas.png",
+        .icon               = s"SSTTHG7",
 
         .itemType           = IT_BuySellItem,
         .next               = NULL,
