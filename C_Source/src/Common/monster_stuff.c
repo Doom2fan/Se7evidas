@@ -34,8 +34,8 @@ Script_C void S7_ZombieScript () {
         if (StrCmp (GetActorPropertyString (0, APROP_NameTag), name) != 0)
             SetActorPropertyString (0, APROP_NameTag, name);
 
-        if (GetActorProperty (0, APROP_Health) > 0)
-            Log ("pitch: %k", GetActorPitch (0));
+        /*if (GetActorProperty (0, APROP_Health) > 0)
+            Log ("pitch: %k", GetActorPitch (0));*/
 
         Delay (1);
 
