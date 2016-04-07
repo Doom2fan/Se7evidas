@@ -110,7 +110,7 @@ Script_C int S7_SynthFireAllowChange () {
 }
 
 /*
-Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65535)
+Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65536)
     accum oldPitch = GetActorPitch (0);
     accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
     accum newPitch = ClampAccum (oldPitch - scaledOffset, -0.25k, 0.25k);
@@ -162,4 +162,71 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
     }
 
     return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
+}
+
+/*
+weapBinds {
+    vec2_i curWeap;                                     // Current weapon;
+    int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
+};
+*/
+
+Script_C void S7_CWB_Slot NET (int slot, int pos) {
+    if (slot < 0 || pos < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS)
+        return;
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript S7_CWB_Slot: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+    vec2_i newPos;
+    WeapBinds_t *weapBinds = &(player->weapBinds);
+
+    for (int i = WPBND_MAXWEAPS; i >= 0; i--) {
+        if (i < 0)
+            return;
+    }
+
+    if (slot == weapBinds->curWeap.x && pos == -1) {
+        newPos.x = slot; newPos.y = weapBinds->curWeap.y + 1;
+        if (newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS &&
+            newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS &&
+            weapBinds->weapBinds [newPos.x] [newPos.y] == -1) {
+            newPos.y = 0;
+        }
+    } else if (newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS &&
+               newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS &&
+               weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < ArraySize (WeaponNames)) {
+        newPos.x = slot; newPos.y = pos;
+    }
+
+    if ((newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS) &&
+        (newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS) &&
+        (weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < ArraySize (WeaponNames)) &&
+        (weapBinds->curWeap.x != newPos.x && weapBinds->curWeap.y != newPos.y)) {
+        if (weapBinds->weapBinds [newPos.x] [newPos.y] != weapBinds->weapBinds [weapBinds->curWeap.x] [weapBinds->curWeap.y])
+            SetWeapon (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]]);
+
+        weapBinds->curWeap = newPos;
+    }
+}
+
+Script_C void SetWeapBind (int slot, int pos, int weap) {
+    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS || weap >= ArraySize (WeaponNames)) {
+        for (int i = 0; i < ArraySize (WeaponNames); i++) {
+            Log ("%d: %S", i, WeaponNames [i]);
+        }
+        return;
+    }
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+
+    if (!player) {
+        Log ("\CgScript SetWeapBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
+    player->weapBinds.weapBinds [slot] [pos] = weap;
 }

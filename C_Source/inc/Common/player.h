@@ -141,9 +141,11 @@ struct ShopDef_t {
     bool       sellMode;
 };
 
+#define WPBND_MAXSLOTS 5
+#define WPBND_MAXWEAPS 5
 struct WeapBinds_t {
-    vec2_i curWeap;                     // Current weapon;
-    int    weapBinds [5] [5];           // Weapon bindings array
+    vec2_i curWeap;                                     // Current weapon;
+    int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
 };
 
 typedef struct PlayerData_t {
