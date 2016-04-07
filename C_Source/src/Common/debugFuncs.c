@@ -91,6 +91,10 @@ Script_C void S7_PrintInv (int mode) {
 
     Log ("%S", inv);
 }
+
+Script_C void S7_PrintFixed (int blah) {
+    Log ("Fixed: %k", blah);
+}
 #else
 Script_C void S7_DebugVelocity () { }
 
@@ -99,4 +103,5 @@ Script_C void S7_DebugVelocityInKmH () { }
 string PrintInv_Ammo (string inStr) { }
 string PrintInv_Weapons (string inStr) { }
 Script_C void S7_PrintInv (int mode) { }
+Script_C void S7_PrintFixed (accum blah) { }
 #endif
