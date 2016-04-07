@@ -165,7 +165,7 @@
 #define Print_Str(...) \
   ( \
    BeginPrint(), \
-   __nprintf_str(_str__VA_ARGS__), \
+   __nprintf_str(__VA_ARGS__), \
    EndPrint() \
   )
 #define StrParam_Str(...) \
