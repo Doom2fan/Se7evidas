@@ -67,7 +67,7 @@ void DisableWeapon (string meh, string blah, PlayerData_t *player) {
     }
     
     if (CheckWeapon (meh)) {
-        TakeInventory (blah, 99999);
+        TakeInventory (blah, 0x7FFFFFFF);
         ChangeLastWeapon (1, player);
         return;
     }

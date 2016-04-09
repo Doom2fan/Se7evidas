@@ -25,10 +25,10 @@ void SpeedScript (PlayerData_t *player) {
         return;
     
     if (player->health.health <= 20) { // if the player's health is less than 20...
-        GiveInventory (DYINGTOKEN, 9999999); // Give "S7_Dying"
+        GiveInventory (DYINGTOKEN, 0x7FFFFFFF); // Give "S7_Dying"
         player->misc.dying = TRUE; // Set "dying" to TRUE
     } else { // if not
-        TakeInventory (DYINGTOKEN, 9999999); // Take "S7_Dying"
+        TakeInventory (DYINGTOKEN, 0x7FFFFFFF); // Take "S7_Dying"
         player->misc.dying = TRUE; // Set "dying" to TRUE
     }
 }

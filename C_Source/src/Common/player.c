@@ -282,7 +282,7 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
 FinishIntro:
     for (int i = 0; i < 35; i++)
         ClearMessage (BASEINTROID + i);
-    TakeInventory (DISABLEHUDTOKEN, 9999);
+    TakeInventory (DISABLEHUDTOKEN, 0x7FFFFFFF);
     FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
     player->shopDef.disableOpen = FALSE;
     SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);

@@ -37,7 +37,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
         PLSG A 1 A_WeaponReady
-        TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_AltfireLock", 999)
+        TNT1 A 0 A_TakeInventory ("S7_PlasmaGun_AltfireLock", 0x7FFFFFFF)
         loop
     Ready2Derp:
         PLSG A 2

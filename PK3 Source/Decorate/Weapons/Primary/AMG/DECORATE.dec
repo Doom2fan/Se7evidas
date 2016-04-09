@@ -211,12 +211,12 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     
     ChangeFireMode:
         "----" A 0 A_PlaySound ("Weapons/ModeChange", CHAN_Weapon)
-        "----" A 0 A_TakeInventory ("S7_ChangeFireMode", 99999)
+        "----" A 0 A_TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF)
         "----" A 0 A_JumpIfInventory ("S7_AMG_Burst", 1, "ToFullAuto")
         "----" A 5 A_GiveInventory ("S7_AMG_Burst", 1)
         goto Ready2
     ToFullAuto:
-        "----" A 5 A_TakeInventory ("S7_AMG_Burst", 99999)
+        "----" A 5 A_TakeInventory ("S7_AMG_Burst", 0x7FFFFFFF)
         goto Ready2
     
     DryFire.Burst:
