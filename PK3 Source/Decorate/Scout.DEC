@@ -9,12 +9,12 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     player.maxHealth 75
     player.mugShotMaxHealth 75
     gibHealth -37
-    
+
     // Movement
     player.forwardMove 1.2, 1.2
     player.sideMove 1.2, 1.2
     player.jumpZ 9.797
-    
+
     // Give Items/Weapons/Ammo
     player.startItem S7_TEC9
     player.startItem S7_TEC9Clip, 32
@@ -29,7 +29,7 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     player.startItem S7_Mana, 250
     player.startItem S7_DaggerMelee
     player.startItem S7_MultiJump_Max, 2
-    
+
     // Class stuff
     player.displayName "Scout"
 }

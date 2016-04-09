@@ -43,7 +43,7 @@ actor S7_Empress {
     // Plasma/Laser damage bonus
     damageFactor "Plasma", 1.5
     damageFactor "LaserTracer", 1.25
-    
+
     monster
     +boss +missileMore +floorClip +noRadiusDMG
     +noTarget +dontMorph +bossDeath

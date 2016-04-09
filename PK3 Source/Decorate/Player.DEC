@@ -37,11 +37,11 @@ actor S7_BasePlayer : playerPawn {
     gibHealth -50
     painChance 255
     painChance "SoulLanceSelfDamage", 0
-    
+
     // Movement
     player.forwardMove 0.8, 0.8
     player.sideMove 0.8, 0.8
-    
+
     // Give Items/Weapons/Ammo
     /*player.startItem S7_Raptor
     player.startItem S7_RaptorClip, 8*/
@@ -56,15 +56,15 @@ actor S7_BasePlayer : playerPawn {
     player.startItem S7_Mana, 250
     player.startItem S7_KickMelee
     player.startItem S7_MultiJump_Max, 1
-    
+
     // Class stuff
     player.displayName "Player"
-    
+
     // Weapon Slots
     player.weaponSlot 1, S7_Raptor, S7_TEC9, S7_Revolver
     player.weaponSlot 2, S7_Shotgun, S7_AMG, S7_ManxCarbine, S7_HitterSMG, S7_Fauchard
     player.weaponSlot 4, S7_PrettyShootyIonCannonGun, S7_PlasmaGun, S7_Thumper
-    
+
     // Misc
     radius 16
     height 56
@@ -74,9 +74,9 @@ actor S7_BasePlayer : playerPawn {
     player.colorRange 112, 127
 
     +solid +noSkin
-    
+
     var int user_Step;
-    
+
     states {
     Spawn:
         PLAY AAAA 1
@@ -310,7 +310,7 @@ actor S7_MultiJump_Max : counter { }
 actor S7_PowerDodgeInvuln : PowerInvulnerable {
     powerup.duration -60
     inventory.icon ""
-    
+
 }
 actor S7_PowerDodgeTrail : PowerSpeed {
     speed 1.0
@@ -377,7 +377,7 @@ actor GETTHATSHITOUTTAHERETRACER : fastProjectile {
     deathSound "skeleton/tracex"
 
     +seekerMissile +randomize
-    
+
     states {
     Spawn:
         FATB AB 1 bright A_Tracer

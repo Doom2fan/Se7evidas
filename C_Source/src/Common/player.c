@@ -35,7 +35,7 @@ void UpdatePlayerData (PlayerData_t *player) {
         Log ("\CgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     // Position and velocity
     player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0);                   // Get the XYZ coordinates
     player->physics.velX = GetActorVelX (0); player->physics.velY = GetActorVelY (0); player->physics.velZ = GetActorVelZ (0); // Get the XYZ velocities
@@ -104,7 +104,7 @@ void TakeCash (PlayerData_t *player, int amount) {
         Log ("\CgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     TakeInventory (CASHTOKEN, amount);
     player->cash = CheckInventory (CASHTOKEN);
 }
@@ -114,7 +114,7 @@ void GiveCash (PlayerData_t *player, int amount) {
         Log ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     GiveInventory (CASHTOKEN, amount);
     player->cash = CheckInventory (CASHTOKEN);
 }
@@ -133,7 +133,7 @@ void InitializePlayer (PlayerData_t *player) {
     SavedData_t saveData = {
         .isInvalid = TRUE,
     };
-    
+
     if (!(ServerData.noSaveLoading) && GetUserCVar (PLN, s"S7_LoadSaveDataOnNewGame")) {
         saveData = LoadSaveData (PLN);
         if (!(saveData.isInvalid)) {
@@ -293,7 +293,7 @@ void DisconnectPlayer (PlayerData_t *player) {
         Log ("\CgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     player->initialized = FALSE;
     // Position, velocity, etc
     player->physics.x = 0.0k; player->physics.y = 0.0k; player->physics.z = 0.0k;
@@ -318,7 +318,7 @@ void DisconnectPlayer (PlayerData_t *player) {
     player->xpSystem.vitalityLVL = 0;
     player->xpSystem.defenseLVL  = 0;
     player->xpSystem.magicLVL    = 0;
-    
+
     // Misc
     player->misc.waterlevel = 0;
     player->misc.dying = FALSE;

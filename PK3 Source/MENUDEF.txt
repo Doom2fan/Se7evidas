@@ -12,10 +12,10 @@ defaultListMenu {
 listMenu "MainMenu" {
     font "LOGOFNT", "Untranslated"
     staticText 17, 8, "Se7evidas"
-    
+
     font "SMALLFONT", "Untranslated"
     position 37, 41
-    
+
     textItem "New",           "n", "PlayerclassMenu"
     textItem "Options",       "o", "OptionsMenu"
     textItem "Se7evidas",     "7", "S7Settings"
@@ -161,7 +161,7 @@ optionMenu "CustomizeControls" {
     control     "Full inventory list",                  "Use S7_ShowPop1Key"
     //control     "Mission Objectives",                   "showpop 1"
     //control     "Keys List",                            "showpop 2"
-    
+
     staticText  ""
     staticText  ""
     staticText  "The Rest", 1

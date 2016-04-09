@@ -25,7 +25,7 @@
 // Ammo max amount callback
 int SS_AmmoMaxAmount (PlayerData_t *player, SS_Item_t *item) {
     int magSize = item->maxAmount;
-    
+
     return magSize * player->ammoMax;
 }
 
@@ -44,7 +44,7 @@ int SS_BuyItem (PlayerData_t *player, SS_Item_t *item) {
         maxAmount = item->maxAmountCallback (player, item);
     else
         maxAmount = item->maxAmount;
-    
+
     if (CheckInventory (item->inventoryName) + (item->buyAmount > 1 ? (item->buyAmount / 2) : item->buyAmount) >= maxAmount) // If the current amount of the item plus half the buyAmount is greater than or equal to the max amount...
         return BC_InventoryFull; // Report the inventory is full
     if (player->cash - item->buyPrice < 0) // If the amount of cash minus the price of the item is less than zero...
@@ -64,7 +64,7 @@ int SS_SellItem (PlayerData_t *player, SS_Item_t *item) {
         Log ("\CgFunction SS_SellItem: Fatal error: Invalid or NULL item struct");
         return SC_InvalidItem;
     }
-    
+
     if (CheckInventory (item->inventoryName) < item->sellAmount) // If the current amount of the item is lesser than sellAmount...
         return SC_NotEnoughOfItem; // Report there's not enough of the item
     if (player->cash + item->sellPrice > 0x7FFFFFFF) // If the cash plus the price of the item is greater than 0x7FFFFFFF...
@@ -81,7 +81,7 @@ void SS_ChangePage (PlayerData_t *player, SS_Page_t *page) {
         Log ("\CgFunction SS_ChangePage: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     player->shopDef.page = page; // Set the stored page pointer to page
     player->shopDef.position.y = 0;
     if (page) { // If page is not null...
@@ -216,7 +216,7 @@ void SS_ProcessUse (PlayerData_t *player, bool sellMode) {
 void SS_Movement (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     if (player->shopDef.moveDelay <= 0) { // If the movement delay/cooldown is equal to or lesser than 0...
         if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) { // If the player has positive > 0 movement on the left/right axis...
             player->shopDef.position.x--; // Decrement x
@@ -233,7 +233,7 @@ void SS_Movement (PlayerData_t *player) {
             player->shopDef.position.y++; // Decrement y
             player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
         }
-        
+
         if (KeyPressed (SS_SELLMODEKEY)) { // If the player hit SS_SELLMODEKEY...
             if (!player->shopDef.sellMode) // If sellMode is not TRUE...
                 player->shopDef.sellMode = TRUE; // Set sellMode to TRUE

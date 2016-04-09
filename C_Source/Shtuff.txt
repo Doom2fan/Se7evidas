@@ -9,30 +9,30 @@ Don't run on titlemaps:
 // Not needed or desired in TitleMaps.
     if (ACS_GameType () == GAME_TITLE_MAP)
         return;
-    
-    
+
+
 ======================================================================================================================================================================================
 Return on player struct NULL or negative:
 if (!player)
         return;
-    
-    
+
+
 ======================================================================================================================================================================================
 Return on player struct NULL or negative and log the error (function):
 if (!player) {
         Log ("\CgFunction : Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
-    
+
+
 ======================================================================================================================================================================================
 Return on player struct NULL or negative and log the error (script):
 if (!player) {
         Log ("\CgScript : Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
-    
+
+
 ======================================================================================================================================================================================
 Multi-dimensional array stuff:
 1d to 2d:

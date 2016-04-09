@@ -23,7 +23,7 @@
 void SpeedScript (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     if (player->health.health <= 20) { // if the player's health is less than 20...
         GiveInventory (DYINGTOKEN, 0x7FFFFFFF); // Give "S7_Dying"
         player->misc.dying = TRUE; // Set "dying" to TRUE
@@ -36,7 +36,7 @@ void SpeedScript (PlayerData_t *player) {
 void WaterScript (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     if (player->misc.waterlevel > 2) { // if underwater...
         GiveInventory (UNDERWATERTOKEN, 1); // give S7_IsUnderwater
     } else if (player->misc.waterlevel <= 2) { // if not underwater
@@ -57,11 +57,11 @@ Script_C void S7_BrutalDoomCompatibility OPEN () { // Not gonna comment this one
     // Not needed or desired in Titlemaps.
     if (GameType () == GAME_TITLE_MAP)
         return;
-    
+
     bool ACTIVATE = 0;
     bool tid = UnusedTID (-37000, -47000);
     int delayer = 0;
-    
+
     while (TRUE) {
         if (Spawn (s"Brutal_Blood", 0.0k, 0.0k, 0.0k, tid) || Spawn (s"BrutalPistol", 0.0k, 0.0k, 0.0k, tid)) {
             Thing_Remove (tid);
@@ -104,7 +104,7 @@ Script_C void S7_BrutalDoomCompatibility OPEN () { // Not gonna comment this one
                         }
                     }
                 }
-                
+
                 if (GetLevelInfo (LEVELINFO_KILLED_MONSTERS) >= GetLevelInfo (LEVELINFO_TOTAL_MONSTERS) ||
                     GetLevelInfo (LEVELINFO_FOUND_SECRETS)   >= GetLevelInfo (LEVELINFO_TOTAL_SECRETS)  ||
                     GetLevelInfo (LEVELINFO_FOUND_ITEMS)     >= GetLevelInfo (LEVELINFO_TOTAL_ITEMS)) {
@@ -116,12 +116,12 @@ Script_C void S7_BrutalDoomCompatibility OPEN () { // Not gonna comment this one
                     }
                 }
             }
-            
+
             i = 0;
             randomizer = 0;
             randomizer2 = 0;
         }
-        
+
         Delay (1);
 
         if (delayer > 0) {

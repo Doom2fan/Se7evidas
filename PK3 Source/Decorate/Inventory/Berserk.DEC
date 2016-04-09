@@ -34,7 +34,7 @@ actor S7_BerserkWeap : S7_BaseWeapon {
     Spawn:
         TNT1 A 0 A_SpawnItemEx ("S7_Berserk", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition)
         stop
-    
+
     Ready:
         SYR0 ABCDEFGHIJKLMNO 1
     Ready2:

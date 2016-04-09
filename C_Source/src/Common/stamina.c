@@ -49,7 +49,7 @@ void StaminaRegenerationPart1 (PlayerData_t *player) {
 void StaminaRegenerationPart2 (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     if (player->health.stamina != GetMaxStamina (player)) {
         if (!CheckWeapon (SPRINTWEAPON)) {
             player->scriptData.staminaTics++;

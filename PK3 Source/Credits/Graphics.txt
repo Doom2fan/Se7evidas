@@ -20,7 +20,7 @@ sprites/
         Misc/
             SSHK: I dunno who made this.
             FRG2 is from wildweasel's ww-stranger and was apparently made by 3D Realms.
-            
+
         Smoke/
             SMKS, SMOK and SMK2: I dunno who made these.
 

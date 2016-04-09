@@ -163,7 +163,7 @@ optionMenu "CustomizeControls" {
     control     "Full inventory list",                  "Use S7_ShowPop1Key"
     //control     "Mission Objectives",                   "showpop 1"
     //control     "Keys List",                            "showpop 2"
-    
+
     staticText  ""
     staticText  ""
     staticText  "The Rest", 1

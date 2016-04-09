@@ -33,7 +33,7 @@
 
 void LevelUp (int level, int attrPoints, bool log, string message) {
     SetFont (s"DBIGFONT");
-    
+
     if (GetUserCVar (PLN, s"S7_MsgsOn")) {
         SetFont (s"DBIGFONT");
         HudMessage (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 10000, CR_UNTRANSLATED, 0.5k, 0.5k, 3.0k, 0.3, 0.3, 0.0, "Level up!");
@@ -43,7 +43,7 @@ void LevelUp (int level, int attrPoints, bool log, string message) {
         else
             HudMessage_Str (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 10001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3, 0.3, 0.0, message);
     }
-    
+
     PlaySound (0, s"Player/LevelUp", CHAN_UI);
 }
 
@@ -97,7 +97,7 @@ void XPSys_EnforceStats (PlayerData_t *player) {
 void UpdateXPSystem (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     XPSys_UpdateLevel  (player); // Level stuff
     XPSys_EnforceStats (player); // Stats stuff
 }

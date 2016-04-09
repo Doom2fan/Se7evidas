@@ -223,7 +223,7 @@ actor S7_Cells : ammo 31004 {
     // ammo.backpackMaxAmount 288
     inventory.icon "CELLA0"
     inventory.pickupSound "misc/ammopickup"
-    
+
     states {
     Spawn:
         CELL A -1
@@ -244,7 +244,7 @@ actor S7_FBSysCells : ammo 31008 {
     // ammo.backpackMaxAmount 184
     inventory.icon "CELLC0"
     inventory.pickupSound "misc/ammopickup"
-    
+
     states {
     Spawn:
         CELL C -1

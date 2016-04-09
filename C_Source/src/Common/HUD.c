@@ -156,13 +156,13 @@ static string WeaponsList [] [2] = {
     {   s"MANXCARBINE",             s"S7_ManxCarbine"               },
     {   s"SHOTGUN",                 s"S7_Shotgun"                   },
     {   s"",                        s""                             },
-    
+
     {   s"POP_SEC",                 s""                             },
     {   s"RAPTOR",                  s"S7_Raptor"                    },
     {   s"TEC9",                    s"S7_TEC9"                      },
     {   s"REVOLVER",                s"S7_Revolver"                  },
     {   s"",                        s""                             },
-    
+
     {   s"POP_SP",                  s""                             },
     {   s"THUMPER",                 s"S7_Thumper"                   },
     {   s"PLASMAGUN",               s"S7_PlasmaGun"                 },
@@ -192,7 +192,7 @@ void ShowPop (PlayerData_t *player, SP_Data_t *data) {
     SetHudSize (320, 200, FALSE);
     int id = SP1BASEID;
     if (player->scriptData.popupNum == 1) {
-        
+
         SetFont (s"FSHUDFNT");
         if (player->scriptData.pPageNum == 0) {
             accum x = 10.0k; accum y = 12.0k;
@@ -350,7 +350,7 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
                 }
             }
         }
-        
+
         if (GetUserCVar (PLN, s"S7_EnemyHPBar_NametagOn")  && info.name) {
             if (vert) {
                 HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.1k,  90.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);

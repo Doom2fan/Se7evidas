@@ -16,7 +16,7 @@ actor S7_EmpressSmoke : S7_ShotSmoke_2 {
     scale 0.8
 
     +noInteraction +forceXYBillboard +clientsideOnly
-    
+
     states {
     Spawn:
         ESPS ABCDEFGHIJKLMNOPQRSTUVW 1

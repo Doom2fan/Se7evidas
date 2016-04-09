@@ -150,7 +150,7 @@ struct WeapBinds_t {
 
 typedef struct PlayerData_t {
     bool            initialized;        // Player is initialized
-    
+
     // Position, velocity, etc
     PD_Physics_t    physics;            // Physics related stuff
 
@@ -161,7 +161,7 @@ typedef struct PlayerData_t {
     PD_XPSystem_t   xpSystem;           // Level system stuff
     int             cash;               // Cash
     int             ammoMax;            // Ammo max mul
-    
+
     // Misc
     PD_Misc_t       misc;               // Misc stuff
 

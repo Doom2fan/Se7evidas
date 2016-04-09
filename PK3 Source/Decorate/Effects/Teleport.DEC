@@ -7,7 +7,7 @@ actor S7_TeleportFog {
     renderStyle add
 
     +noInteraction +noTeleport +noGravity +noBlockmap
-    
+
     states {
     Spawn:
         TFOG A 36 bright

@@ -34,7 +34,7 @@ statusBar normal, forceScaled, fullscreenOffsets {
                 inInventory S7_PlasmaGun_ChargingLevel, 15 { drawImage "PRCHRG15", -17 + center, -16 + center; }
                 inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
             }
-            
+
             drawBar "HOLOBR00", "HOLOBR01", health, horizontal, interpolate (8), -57 + center, 36;
             drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), -57 + center, 41;
             drawNumber 4, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -32 + center, 50;

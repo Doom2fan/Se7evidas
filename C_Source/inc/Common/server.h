@@ -37,7 +37,7 @@ typedef struct ServerData_t {
     // Parkour stuff
     int   dodgeCooldown;
     accum mjumpZMul;
-    
+
     // Save system stuff
     bool noSaveLoading;
 

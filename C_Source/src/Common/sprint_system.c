@@ -27,7 +27,7 @@ Script_C void S7_SprintSystem ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
-    
+
     int tics = 0;
     PlayerData_t *player = &PlayerData [PLN];
 
@@ -88,9 +88,9 @@ Script_C void S7_SprintSystem ENTER () {
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             }
         }
-        
+
         Delay (1);
-        
+
         if (player->SprintDef.Sprinting)
             tics++;
     }

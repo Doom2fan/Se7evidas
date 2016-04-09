@@ -24,10 +24,10 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
     damageFactor "LaserTracer", 1.25
     // Hell Noble buckshot damage bonus
     damageFactor "ShotgunTracer", 1.2
-    
+
     states {
     Spawn:
-        BPNT A 10 A_Look 
+        BPNT A 10 A_Look
         loop
     See:
         BPNT AABBCCDD 2 A_Chase
@@ -64,7 +64,7 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
 actor S7_BlackPantherBall : S7_FireballBase {
     damage (random [monsterDamage] (1, 4) * 16)
     speed 18
-    
+
     states {
     Spawn:
         PNTB AB 2

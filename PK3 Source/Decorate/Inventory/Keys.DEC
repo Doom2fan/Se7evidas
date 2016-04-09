@@ -6,7 +6,7 @@
 actor S7_KeycardReplacerBase : customInventory {
     scale 0.3
     inventory.maxAmount 0
-        
+
     states {
     GotIt:
         TNT1 A 0 A_RailWait

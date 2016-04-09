@@ -30,7 +30,7 @@ int SS_TH_BuyItem (PlayerData_t *player, SS_Item_t *item) {
         Log ("\CFunction SS_TH_BuyItem: Fatal error: Invalid or NULL item struct");
         return BC_InvalidItem;
     }
-    
+
     if (Thumper_GetUnifiedPool () + (item->buyAmount > 1 ? (item->buyAmount / 2) : item->buyAmount) >= Thumper_GetUnifiedPoolMax ()) // If the current amount of the unified pool is greater than or equal to the unified max amount...
         return BC_InventoryFull; // Report the inventory is full
     if (player->cash - item->buyPrice < 0) // If the amount of cash minus the price of the item is less than zero...
@@ -50,7 +50,7 @@ int SS_TH_SellItem (PlayerData_t *player, SS_Item_t *item) {
         Log ("\CFunction SS_TH_SellItem: Fatal error: Invalid or NULL item struct");
         return SC_InvalidItem;
     }
-    
+
     if (CheckInventory (Thumper_PoolNames [item->maxAmount]) < item->sellAmount) // If the current amount of the item is lesser than sellAmount...
         return SC_NotEnoughOfItem; // Report there's not enough of the item
     if (player->cash + item->sellPrice > 0x7FFFFFFF) // If the cash plus the price of the item is greater than 0x7FFFFFFF...

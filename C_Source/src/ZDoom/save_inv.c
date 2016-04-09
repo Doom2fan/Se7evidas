@@ -29,7 +29,7 @@ void InvUpdAmmoMax (int playerNum) {
         Log ("\CgFunction InvUpdAmmoMax: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     UpdatePlayerData (player);
     UpdateAmmoMax (player);
 }
@@ -93,7 +93,7 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         if (type < 0 || type > invDef->invArrSize)
             return FALSE;
 
-        SaveInv_InvInfo *inv = allocAndClear (sizeof (SaveInv_InvInfo)); // Define inv pointer and point it to a new memory area 
+        SaveInv_InvInfo *inv = allocAndClear (sizeof (SaveInv_InvInfo)); // Define inv pointer and point it to a new memory area
         inv->name = invDef->invInfoArr [type].name;
         inv->amount = amount;
         inv->callback = invDef->invInfoArr [type].callback;

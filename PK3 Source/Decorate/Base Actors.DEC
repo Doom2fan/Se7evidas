@@ -32,7 +32,7 @@ actor S7_HellNobleBase {
     speed 8
     painChance 50
     monster
-    
+
     +floorClip
 }
 

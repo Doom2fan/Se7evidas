@@ -35,7 +35,7 @@ void DodgeScriptP1 (PlayerData_t *player) {
         SetInventory (DODGEINVULITEM, 0);
         SetInventory (DODGETRAILITEM, 0);
     }
-    
+
     if (player->parkourDef.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
         if (player->parkourDef.dodgeCooldown < 0) // If dodgeCooldown is less than 0...
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
@@ -68,7 +68,7 @@ void DodgeScriptP1 (PlayerData_t *player) {
 void DodgeScriptP2 (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     if (player->parkourDef.dodgeCooldown > 0) { // If dodgeCooldown is greater than 0...
         player->parkourDef.dodgeCooldown--; // Decrement dodgeCooldown by 1
     }
@@ -78,7 +78,7 @@ void DodgeScriptP2 (PlayerData_t *player) {
 void MultiJumpScript (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     int mJumpMax = player->scriptData.beamGrab ? player->parkourDef.mjumpMax / 2 : player->parkourDef.mjumpMax;
     if (mJumpMax < 1)
         mJumpMax = 1;

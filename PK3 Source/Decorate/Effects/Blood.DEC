@@ -50,7 +50,7 @@ actor S7_Flying_Blood {
 actor S7_Flying_Blood_Trail {
     +lowGravity +noTeleport +noBlockmap +clientsideOnly
     +noInteraction
-    
+
     states {
     Spawn:
         BLUD CCBBAA 1

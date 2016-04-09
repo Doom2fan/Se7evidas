@@ -24,7 +24,7 @@
 Script_C void S7_ZombieScript () {
     string name = s"Reading name";
     int readDelay = Random (3, 6);
-    
+
     while (TRUE) {
         if (readDelay != 0xBAADBEEF && readDelay <= 0) {
             name = NL_GenMaleNameEng ();
@@ -219,9 +219,9 @@ Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info) {
         playerPos.x = GetActorX (0);
         playerPos.y = GetActorY (0);
         playerPos.z = GetActorZ (0);
-        
+
         rotAngles = GetEulerAngles (info->holderPos, playerPos);
-        
+
         ChangeActorAngle (0,          rotAngles.z, TRUE);
         ChangeActorPitch (0,         -rotAngles.y, TRUE);
         ChangeActorAngle (thingyTID,  rotAngles.z, TRUE);

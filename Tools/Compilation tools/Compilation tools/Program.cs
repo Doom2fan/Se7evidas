@@ -84,7 +84,7 @@ namespace Compilation_tools {
                 Console.Write (" ");
             }
             Console.ReadKey ();
-            
+
             /*byte errorLevel = 0;
 
             string compilefileFilename = "Compilefile";
@@ -744,7 +744,7 @@ namespace Compilation_tools {
 
         public void Processing (Dictionary<string, Rule> rulesDict) {
             Dependencies = new List<Rule> ();
-            
+
             if (DependencyTokens != null) {
                 for (int i = 0; i < DependencyTokens.Count; i++) {
                     Token t = DependencyTokens [i];

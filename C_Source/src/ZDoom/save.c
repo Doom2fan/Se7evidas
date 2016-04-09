@@ -265,7 +265,7 @@ Script_C void loadTest () {
     }
 
     SavedData_t saveData = LoadSaveData (PLN);
-    
+
     if (PD_PerformLoad (player, &saveData)) {
         if (!SaveSys_LoadInventory (PLN, &saveData, &importantInv) || !SaveSys_LoadInventory (PLN, &saveData, &normalInv)) {
             Log ("\CgSave system: Load failed: Couldn't load inventory.");

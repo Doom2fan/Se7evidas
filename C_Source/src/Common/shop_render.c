@@ -94,7 +94,7 @@ void SS_Render (PlayerData_t *player) {
         ClearMessage (id + 2); // Clear id + 2
         ClearMessage (id + 1); // Clear id + 1
         ClearMessage (id); // Clear id
-        id += 3; // Increment id by 3 
+        id += 3; // Increment id by 3
     }
 
 Finish:

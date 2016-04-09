@@ -52,7 +52,7 @@ Script_C void S7_ServersideEnter ENTER () {
 
     if (!player)
         player = allocAndClear (sizeof (PlayerData_t));
-    
+
     if (!player->initialized)
         InitializePlayer (player);
     else {
@@ -102,7 +102,7 @@ Script_C void S7_ServersideEnter2 ENTER () {
         Log ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
+
     int        heartbeatTics = 0;
     SP_Data_t  sp_data;
     EIS_Data_t eis_data;
@@ -152,7 +152,7 @@ void ResetStuff (PlayerData_t *player) {
         Log ("\CgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     player->misc.waterlevel = 0;
     player->misc.dying = FALSE;
     player->scriptData.staminaEmpty = FALSE;
@@ -178,7 +178,7 @@ Script_C void S7_ServersideRespawn RESPAWN () {
         Log ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
+
     ResetStuff (player);
 }
 
@@ -195,7 +195,7 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
         return;
 
     PlayerData_t *player = &PlayerData [num]; // Get the player's PlayerData_t struct
-    
+
     Log ("%d", num);
     if (!player) {
         Log ("\CgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);

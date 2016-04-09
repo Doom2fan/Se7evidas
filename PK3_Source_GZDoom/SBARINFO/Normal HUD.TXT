@@ -6,7 +6,7 @@ statusBar normal, forceScaled, fullscreenOffsets {
     drawImage "HELMTOP", -129 + center, 0;
     drawImage "HELMBTML", 31, -15;
     drawImage "HELMBTMR", -125, -15;
-    
+
     inInventory not S7_DisableHud {
         // Holo stuff
         alpha 0.75 {
@@ -43,7 +43,7 @@ statusBar normal, forceScaled, fullscreenOffsets {
                 inInventory S7_PlasmaGun_ChargingLevel, 15 { drawImage "PRCHRG15", -17 + center, -16 + center; }
                 inInventory S7_PlasmaGun_ChargingLevel, 16 { drawImage "PRCHRG16", -17 + center, -16 + center; }
             }
-            
+
             drawBar "HOLOBR00", "HOLOBR01", health, horizontal, interpolate (8), -57 + center, 36;
             drawBar "HOLOBR10", "HOLOBR01", armor, horizontal, interpolate (8), reverse, -57 + center, 41;
             drawNumber 5, FSCREENHUDFONT, HUD_Health, health, interpolate (8), alignment (left), -34 + center, 50;

@@ -61,7 +61,7 @@ SS_Item_t ammoItems [] = {
         .link               = &thumperAmmo,
         .next               = NULL,
     },
-    
+
 };
 
 SS_Page_t ammo = {

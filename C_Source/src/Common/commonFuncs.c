@@ -30,14 +30,14 @@ int KeyUp (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
 
     if (~buttons & key) return 1;
-    
+
     return 0;
 }
 int KeyDown (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
 
     if (buttons & key) return 1;
-    
+
     return 0;
 }
 int KeyPressed (int key) {
@@ -47,7 +47,7 @@ int KeyPressed2 (int buttons, int oldbuttons, int key) {
     int newbuttons  = (buttons ^ oldbuttons) & buttons;
 
     if (newbuttons & key) return 1;
-    
+
     return 0;
 }
 
@@ -85,7 +85,7 @@ int UnusedTID (int start, int end) {
     while (ret++ != end) {
         if (ThingCount (0, ret) == 0) return ret;
     }
-    
+
     return -1;
 }
 accum GetVelocity () { // I dunno who made this...
@@ -93,10 +93,10 @@ accum GetVelocity () { // I dunno who made this...
           x = GetActorVelX (0),
           y = GetActorVelY (0),
           angle = atan2A (x, y);
-    
+
     if (((angle + 0.125k) % 0.5k) > 0.25k) vel = y / Sin (angle);
     else                                   vel = x / Cos (angle);
-    
+
     return vel;
 }
 bool SetInventory (string name, int amount) {
@@ -105,7 +105,7 @@ bool SetInventory (string name, int amount) {
     if (currentAmount == amount) return FALSE;
     else if (currentAmount > amount) TakeInventory (name, currentAmount - amount);
     else if (currentAmount < amount) GiveInventory (name, amount - currentAmount);
-    
+
     return TRUE;
 }
 
@@ -118,9 +118,9 @@ bool SetInventory (string name, int amount) {
 int Clamp (int x, int min, int max) {
     int realMin = min,
         realMax = max;
-    
+
     if (min > max) { realMax = min; realMin = max; }
-    
+
          if (x > realMax) return realMax;
     else if (x < realMin) return realMin;
     else                  return x;
@@ -128,9 +128,9 @@ int Clamp (int x, int min, int max) {
 accum ClampAccum (accum x, accum min, accum max) {
     accum realMin = min,
           realMax = max;
-    
+
     if (min > max) { realMax = min; realMin = max; }
-    
+
          if (x > realMax) return realMax;
     else if (x < realMin) return realMin;
     else                  return x;
@@ -154,7 +154,7 @@ int StrToInt (string source) {
 
     for (int i = length - 1; i >= 0; i--) {
         string curChar = StrMid (source, i, 1);
-        
+
         if (i == 0 && StrCmp (curChar, s"-") == 0) {
             negative = TRUE;
         } else if (i == 0 && StrCmp (curChar, s"+") == 0) {

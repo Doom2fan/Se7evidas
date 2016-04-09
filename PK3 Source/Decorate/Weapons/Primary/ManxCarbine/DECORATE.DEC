@@ -19,7 +19,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
     weapon.ammoType2 "S7_9mmCartridges"
     weapon.ammoUse 1
     weapon.ammoGive 0
-    
+
     states {
     Spawn:
         MANX Z -1
@@ -32,7 +32,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
         TNT1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
         MANX A 1 A_WeaponReady
         loop
-    
+
     Fire:
         TNT1 A  0 A_JumpIfInventory ("S7_ManxCarbine_Semi", 1, "Fire.Semi")
         TNT1 A  0 A_JumpIfNoAmmo ("DryFire")
@@ -97,7 +97,7 @@ actor S7_ManxCarbine : S7_BaseWeapon {
         MANX L        1
         MANX MNOPCA   2
         goto Ready2
-    
+
     // Muzzle flashes
     Flash:
         MNXF A 1 bright

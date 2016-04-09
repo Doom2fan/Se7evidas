@@ -195,7 +195,7 @@ namespace Compilation_tools {
                 }
             }
             // If execution got here, then we increment our index pointer
-            // and return an Undefined token. 
+            // and return an Undefined token.
             _index++;
             Token t2 = null;
             if (!_comment)

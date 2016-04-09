@@ -36,7 +36,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         AMGG A 0 A_ZoomFactor (1.0, ZOOM_Instant)
         AMGG A 8 A_SetBlend ("00 00 00", 1.0, 8)
         goto Deselect
-    
+
     Ready:
     Ready2:
         AMGG A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Ready2.Zoom")
@@ -111,7 +111,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_ZoomFactor (1.0, ZOOM_Instant)
         AMGG A 8 A_SetBlend ("00 00 00", 1.0, 8)
         goto Ready2
-    
+
     Fire:
         TNT1 A  0 A_JumpIfNoAmmo ("DryFire")
         TNT1 A  0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Fire.Zoom")
@@ -208,7 +208,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     Flash.Zoom:
         TNT1 A 2 bright
         stop
-    
+
     ChangeFireMode:
         "----" A 0 A_PlaySound ("Weapons/ModeChange", CHAN_Weapon)
         "----" A 0 A_TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF)
@@ -218,7 +218,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     ToFullAuto:
         "----" A 5 A_TakeInventory ("S7_AMG_Burst", 0x7FFFFFFF)
         goto Ready2
-    
+
     DryFire.Burst:
         TNT1 A 0 A_TakeInventory ("S7_AMG_BurstCount", 0x7FFFFFFF)
         AMGG C 2 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "DryFire.Burst.Zoom")
@@ -237,7 +237,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         "----" A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7)
          TNT1  A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "DryReload")
         goto Ready2
-    
+
     DryReload:
         TNT1 A 0 A_GiveInventory ("S7_Reloading", 1)
     Reload:

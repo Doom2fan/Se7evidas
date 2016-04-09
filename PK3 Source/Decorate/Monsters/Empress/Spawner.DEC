@@ -46,11 +46,11 @@ actor S7_EmpressPreSpawn replaces cyberdemon {
         TNT1 A            0 A_SpawnItemEx ("S7_EmpressFlash",             0.0, 0.0, 0.0, 0.0, 0.0, 0.0,   0, SXF_Clientside | SXF_NoCheckPosition)
         TNT1 A            0 A_SpawnItemEx ("S7_Empress",                  0.0, 0.0, 0.0, 0.0, 0.0, 0.0,   0, SXF_SetMaster  | SXF_NoCheckPosition | SXF_Telefrag | SXF_TransferPointers)
         goto WaitForHer
-    
+
     WaitForHer:
         TNT1 A 1
         loop
-        
+
     Death:
         TNT1 A 0 A_Scream
         TNT1 A 0 A_NoBlocking

@@ -29,13 +29,13 @@ const string DummyWeapons [] = {
 
 int GetWeaponName () {
     for (int x = 0; x < ArraySize (DummyWeapons); x++)
-        if (CheckWeapon (DummyWeapons [x])) 
+        if (CheckWeapon (DummyWeapons [x]))
             return -1;
-    
+
     for (int y = 0; y < ArraySize (WeaponNames); y++)
         if (CheckWeapon (WeaponNames [y]))
             return y;
-    
+
     return -1;
 }
 
@@ -44,7 +44,7 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
         Log ("\CgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     int weaponNumber = 0;
     if (mode) {
         weaponNumber = player->scriptData.lastWeapon;
@@ -65,7 +65,7 @@ void DisableWeapon (string meh, string blah, PlayerData_t *player) {
         Log ("\CgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
+
     if (CheckWeapon (meh)) {
         TakeInventory (blah, 0x7FFFFFFF);
         ChangeLastWeapon (1, player);
@@ -82,21 +82,21 @@ Script_C void S7_SynthFire () {
     while (TRUE) {
         if (!PlayerInGame (PLN))
             return;
-        
+
         if (!CheckInventory (s"S7_SynthFireActive"))
             return;
-        
+
         if (KeyDown (BT_ATTACK) && !CheckInventory (s"S7_SynthFireLeft"))
             GiveInventory (s"S7_SynthFireLeft", 1);
-        
+
         if (KeyDown (BT_ALTATTACK) && !CheckInventory (s"S7_SynthFireRight"))
             GiveInventory (s"S7_SynthFireRight", 1);
-        
+
         Delay (1);
-        
+
         if (KeyUp (BT_ATTACK) && CheckInventory (s"S7_SynthFireLeft"))
             TakeInventory (s"S7_SynthFireLeft", 1);
-        
+
         if (KeyUp (BT_ALTATTACK) && CheckInventory (s"S7_SynthFireRight"))
             TakeInventory (s"S7_SynthFireRight", 1);
     }
@@ -114,7 +114,7 @@ Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 
     accum oldPitch = GetActorPitch (0);
     accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
     accum newPitch = ClampAccum (oldPitch - scaledOffset, -0.25k, 0.25k);
-    
+
     SetActorPitch (0, newPitch);
 }
 */
@@ -122,7 +122,7 @@ Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 
 void AmmoCountersScript (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     if (CheckInventory (s"S7_ShotgunMagCounter") != (CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded")))
         SetInventory (s"S7_ShotgunMagCounter", CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded"));
 }

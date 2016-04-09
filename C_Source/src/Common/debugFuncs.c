@@ -31,7 +31,7 @@ Script_C void S7_DebugVelocity () {
         z = GetActorVelZ (0);
         speed = x * x + y * y + z * z;
         Print ("Velocity: %k\n", FixedSqrt (speed));
-        
+
         Delay (1);
     }
 }
@@ -46,7 +46,7 @@ Script_C void S7_DebugVelocityInKmH () {
         speed = x * x + y * y + z * z;
         speed2 = 3.6k * ((FixedSqrt (speed) * 35.0k) / 64.0k);
         Print ("Velocity: %k km/h\n", speed2);
-        
+
         Delay (1);
     }
 }
@@ -72,7 +72,7 @@ string PrintInv_Weapons (string inStr) {
 Script_C void S7_PrintInv (int mode) {
     if (!PlayerInGame (PLN))
         return;
-    
+
     string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
 
     if (mode == 1) {

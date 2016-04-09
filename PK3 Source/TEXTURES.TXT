@@ -9,5 +9,5 @@ graphic ARTISTIM, 14, 15 {
 }
 
 graphic ATWSKY, 1024, 256 {
-    
+
 }

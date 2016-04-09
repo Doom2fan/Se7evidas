@@ -148,7 +148,7 @@ actor S7_ShotSmoke_2 {
     scale 0.1
 
     +noInteraction +forceXYBillboard +clientsideOnly
-    
+
     states {
     Spawn:
         SMKS ABCDEFGHIJKLMNOPQRSTUVW 1

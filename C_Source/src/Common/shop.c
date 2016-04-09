@@ -25,11 +25,11 @@
 
 #ifndef SHOP_C
 #define SHOP_C
-        
+
 void ShopSystem_Script (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     SS_ProcessToggle (player); // Process the menu toggling
     if (player->shopDef.open) {
         // Processing

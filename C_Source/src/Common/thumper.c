@@ -34,14 +34,14 @@
 Script_C bool S7_ThumperFull () {
     if (!PlayerInGame (PLN))
         return TRUE;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
         Log ("\CgScript S7_ThumperFull: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return FALSE;
     }
-    
+
     if (player->thumperDef.magIndex == 3) // If the current mag index is 3 (the max)...
         return TRUE; // Return true
     else // If not...
@@ -51,14 +51,14 @@ Script_C bool S7_ThumperFull () {
 Script_C int S7_ThumperGetNext () {
     if (!PlayerInGame (PLN))
         return S7_TH_None;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-    
+
     if (!player) {
         Log ("\CgScript S7_ThumperGetNext: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return S7_TH_None;
     }
-    
+
     if (player->thumperDef.magIndex == -1) // If there's no ammo left in the mag...
         return S7_TH_None; // Return none
 
@@ -70,28 +70,28 @@ Script_C int S7_ThumperGetNext () {
 Script_C int S7_ThumperGetChamber () {
     if (!PlayerInGame (PLN))
         return S7_TH_None;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-    
+
     if (!player) {
         Log ("\CgScript S7_ThumperGetChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return S7_TH_None;
     }
-    
+
     return player->thumperDef.currentShell; // Return the current shell
 }
 
 Script_C void S7_ThumperConsumeChamber () {
     if (!PlayerInGame (PLN))
         return;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-    
+
     if (!player) {
         Log ("\CgScript S7_ThumperConsumeChamber: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
+
     player->thumperDef.currentShell = S7_TH_None; // Set the current shell to none
     TakeInventory (CHAMBEREDTOKEN, 1); // Take 1 CHAMBEREDTOKEN/Consume the shell in the chamber
 }
@@ -99,14 +99,14 @@ Script_C void S7_ThumperConsumeChamber () {
 Script_C void S7_ThumperPump () {
     if (!PlayerInGame (PLN))
         return;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
         Log ("\CgScript S7_ThumperPump: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
+
     player->thumperDef.currentShell = player->thumperDef.magShells [player->thumperDef.magIndex]; // Set the current shell to the next shell in the mag
     player->thumperDef.magShells [player->thumperDef.magIndex] = S7_TH_None; // Set the next shell in the mag to none
     player->thumperDef.magIndex--; // Decrement the mag index by 1
@@ -159,14 +159,14 @@ Script_C bool S7_ThumperCyclePools () {
 Script_C void S7_ThumperPerformReload () {
     if (!PlayerInGame (PLN))
         return;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
         Log ("\CgScript S7_ThumperPerformReload: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
-    
+
     int currentPool = CheckInventory (SELPOOLTOKEN) + 1; // Get the selected pool
     if (currentPool > 7) // If the selected pool is greater than 7...
         currentPool = 7; // Set it to 7
@@ -188,7 +188,7 @@ int Thumper_GetUnifiedPool () {
 int Thumper_GetUnifiedPoolMax () {
     if (!PlayerInGame (PLN))
         return NULL;
-    
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
@@ -221,7 +221,7 @@ Script_C void S7_ThumperGiveShell (int type, int amount) {
 void Thumper_Script (PlayerData_t *player) {
     if (!player)
         return;
-    
+
     SetInventory (s"S7_Thumper_PUnified", Thumper_GetUnifiedPool ());
 }
 

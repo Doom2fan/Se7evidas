@@ -21,7 +21,7 @@ actor S7_HitterSMG : S7_BaseWeapon {
     weapon.ammoType2 "S7_45ACPCartridges"
     weapon.ammoUse 1
     weapon.ammoGive 0
-    
+
     states {
     Spawn:
         SR20 Z -1
@@ -152,7 +152,7 @@ actor S7_HitterSMG : S7_BaseWeapon {
         SR20 I  28 A_PlaySound ("Weapons/HitterSMG/In", CHAN_Weapon)
         SR20 JA  1
         goto Ready2
-    
+
     Flash:
         TNT1 A 0 A_JumpIfInventory ("S7_HitterSMGUpperJammed", 1, "Flash.UpperJammed")
         TNT1 A 0 A_JumpIfInventory ("S7_HitterSMGLowerJammed", 1, "Flash.LowerJammed")
