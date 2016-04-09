@@ -31,6 +31,13 @@
 void ShopSystem_Script (PlayerData_t *player);
 
 Script_C void S7_ServersideOpen OPEN () {
+    #ifdef DEBUG
+    if (RunningInZDoom)
+        Log_Str (s"Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
+    else
+        Log_Str (s"Se7evidas version %S", MOD_VERSION_STRING);
+    #endif
+
     SetAirControl (0.1k);
     SetupMapEvents ();
 
@@ -58,6 +65,7 @@ Script_C void S7_ServersideEnter ENTER () {
     else {
         FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
+        TakeInventory (DISABLEHUDTOKEN, 0x7FFFFFFF);
     }
 
     while (TRUE) { // Loop forever
@@ -130,13 +138,6 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     if (S7_PlayerNumEqualConsolePlayer (PLN) == FALSE)
         return;
 
-    #ifdef DEBUG
-    if (RunningInZDoom)
-        Log_Str (s"Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
-    else
-        Log_Str (s"Se7evidas version %S", MOD_VERSION_STRING);
-    #endif
-
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
             return;
@@ -161,8 +162,9 @@ void ResetStuff (PlayerData_t *player) {
     player->parkourDef.dodgeCooldown = 0;
     player->parkourDef.dodgeInvulnTics = 0;
     player->parkourDef.mjumpCount = 0;
-    SetInventory (DODGEINVULITEM, 0);
-    SetInventory (DODGETRAILITEM, 0);
+    SetInventory (DODGEINVULITEM,  0);
+    SetInventory (DODGETRAILITEM,  0);
+    SetInventory (DISABLEHUDTOKEN, 0);
 
     SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
