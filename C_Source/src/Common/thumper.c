@@ -228,7 +228,9 @@ void Thumper_Script (PlayerData_t *player) {
 void Thumper_ScriptClientside (PlayerData_t *player) {
     if (!player)
         return;
-    
+
+    SetInventory (s"S7_ThumperMag", player->thumperDef.magIndex + 1 + (player->thumperDef.currentShell != S7_TH_None ? 1 : 0));
+
     int magN = 1;
     for (int i = 0; i <= player->thumperDef.magIndex; i++) {
         string mag = StrParam ("S7_ThumperMag%d", magN);
