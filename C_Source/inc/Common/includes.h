@@ -27,6 +27,7 @@
 #include "enum.h"
 #include "construct.h"
 #include "commonFuncs.h"
+#include "debugFuncs.h"
 #ifndef SERVER_C
 #include "server.h"
 #endif
@@ -38,6 +39,16 @@
 typedef char * cstr;
 
 // Defines/Macros
+#ifdef DEBUG
+    #ifdef NDEBUG
+        #undef NDEBUG
+    #endif
+#else
+    #ifndef NDEBUG
+        #define NDEBUG
+    #endif
+#endif
+
 #define PLN PlayerNumber()
 // The size is actually this minus the length of "<cvar name>="
 #define MAXCVARSIZ 253
@@ -111,7 +122,6 @@ typedef char * cstr;
 #define Script_LS    SS_SCRIPT
 
 // Externs
-__addrdef extern __gbl_arr GlobalVar;
 extern bool RunningInZDoom;
 
 // Misc
