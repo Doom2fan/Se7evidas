@@ -25,14 +25,20 @@
 // Structs
 struct ServerData_t {
     // Parkour stuff
-    int dodgeCooldown;
+    int   dodgeCooldown;
     accum mjumpZMul;
     
     // Save system stuff
     bool noSaveLoading;
+
+    // Misc map info
+    int mapCount;
+    int mapEvent;
+    int meSecLoopDelay;
 } ServerData;
 
 // Prototypes
 void UpdateServerData ();
+void SetupMapEvents   ();
 
 #endif

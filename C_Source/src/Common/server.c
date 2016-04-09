@@ -22,11 +22,58 @@
 #undef SERVER_C
 #include "server.h"
 
+Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
+    Delay (time);
+
+    for (int i = start; i >= end; i--) {
+        Light_ChangeToValue (i, lvl);
+        Light_Stop (i);
+    }
+}
+
+void SetupMapEvents () {
+    if (ServerData.mapCount > 0)// && Random (FALSE, TRUE))
+        ServerData.mapEvent = 1;// Random (1, 4);
+
+    switch (ServerData.mapEvent) {
+        case 1:
+            ChangeSky (s"NEBSKY", s"");
+
+            S7_LightLevelScript (32767,      0, 0, 64);
+            S7_LightLevelScript (   -1, -32768, 0, 64);
+            break;
+
+        default:
+            break;
+    }
+}
+
 void UpdateServerData () {
+    if (ServerData.meSecLoopDelay > 0)
+        ServerData.meSecLoopDelay--;
+
     // Parkour stuff
     ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
     ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
 
     // Save system stuff
     ServerData.noSaveLoading = GetCVar      (s"S7_NoSaveLoading");
+
+    switch (ServerData.mapEvent) {
+        case 1:
+            if (ServerData.meSecLoopDelay <= 0) {
+                ChangeSky (s"NEBSKY", s"");
+                S7_LightLevelScript ( 32767,  16385,  0, 64);
+                S7_LightLevelScript ( 16384,      0,  6, 64);
+                S7_LightLevelScript (    -1, -16384, 12, 64);
+                S7_LightLevelScript (-16385, -32768, 18, 64);
+            }
+
+            if (ServerData.meSecLoopDelay <= 0)
+                ServerData.meSecLoopDelay = 15 * 35;
+        break;
+
+        default:
+        break;
+    }
 }

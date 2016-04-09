@@ -31,11 +31,8 @@
 void ShopSystem_Script (PlayerData_t *player);
 
 Script_C void S7_ServersideOpen OPEN () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
-    
     SetAirControl (0.1k);
+    SetupMapEvents ();
 
     while (TRUE) {
         UpdateServerData ();
@@ -57,6 +54,10 @@ Script_C void S7_ServersideEnter ENTER () {
     
     if (!player->initialized)
         InitializePlayer (player);
+    else {
+        FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
+        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
+    }
 
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
@@ -66,7 +67,7 @@ Script_C void S7_ServersideEnter ENTER () {
         UpdatePlayerData (player); // Update the player's data
         UpdateAmmoMax    (player); // Update the max ammo
         if (player->health.health > 0) {
-            StaminaRegenerationPart1 (player); // Regenerate the stamina (Part 1)
+            StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
             MultiJumpScript          (player);
             DodgeScriptP1            (player);
         }
@@ -82,7 +83,7 @@ Script_C void S7_ServersideEnter ENTER () {
         Delay (1); // Wait for a tic
 
         if (player->health.health > 0) {
-            StaminaRegenerationPart2 (player); // Regenerate the stamina (Part 2)
+            StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)
             DodgeScriptP2            (player);
         }
     }
@@ -181,18 +182,10 @@ Script_C void S7_ServersideRespawn RESPAWN () {
 }
 
 Script_C void S7_ServersideUnloading UNLOADING () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
-        return;
+    ServerData.mapCount++;
 
-    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-
-    if (!player) {
-        Log ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
-        return;
-    }
-    
-    ResetStuff (player);
+    for (int i = 0; i < MAX_PLAYERS; i++)
+        ResetStuff (&PlayerData [i]);
 }
 
 Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
