@@ -42,6 +42,10 @@
 
 #define ArraySize(array) sizeof (array) / sizeof (*array)
 
+// Externs
+__addrdef extern __gbl_arr global_var;
+__addrdef extern __mod_arr    map_var;
+
 // Prototypes
 /* Keys */
 int KeyUp       (int key);

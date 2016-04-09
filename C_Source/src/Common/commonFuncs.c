@@ -21,6 +21,10 @@
 #include "commonFuncs.h"
 #undef SHORT_NAMES
 
+// Address spaces
+__addrdef __gbl_arr global_var;
+__addrdef __mod_arr    map_var;
+
 /* Keys */
 int KeyUp (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
