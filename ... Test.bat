@@ -13,7 +13,7 @@ if %ERRORLEVEL% NEQ 0 (
     GOTO :Finish
 )
 
-ECHO 
+ECHO.
 ECHO 1 - GZDoom
 ECHO 2 - ZDoom
 ECHO 3 - Zandronum

@@ -1,7 +1,7 @@
 listMenu "S7HelpTopicsMenu" {
     font "DBIGFONT", "Untranslated"
     staticText 17, 8, "SE7EVIDAS HELP"
-    
+
     font "SMALLFONT", "Untranslated"
     position 37, 62
     textItem "1. Introduction",                     "1", "S7HelpTopic1-1"
@@ -13,7 +13,7 @@ listMenu "S7HelpTopic1-1" {
     font "DBIGFONT", "Untranslated"
     staticText 17, 8, "INTRODUCTION"
 
-    font "FSHUDFNT", "Untranslated"    
+    font "FSHUDFNT", "Untranslated"
     staticText 4, 29,  "Welcome to Se7evidas"
     staticText 4, 35,  "This manual should help you figure out how to play this thing. If you"
     staticText 4, 41,  "ever wanna know what something does in this mod, look here first, it"
@@ -34,7 +34,7 @@ listMenu "S7HelpTopic2-1" {
     font "DBIGFONT", "Untranslated"
     staticText 17, 8, "THE LEVELING SYSTEM"
 
-    font "FSHUDFNT", "Untranslated"    
+    font "FSHUDFNT", "Untranslated"
     staticText 4,  29, "Se7evidas has a RPG-style leveling system where you gain experience by doing"
     staticText 4,  35, "certain things. (For example, killing enemies)"
     staticText 4,  41, "When you level up, you gain attribute points, which you can use to upgrade"
@@ -45,18 +45,18 @@ listMenu "S7HelpTopic2-1" {
 
     staticText 4,  77, "Vitality: Affects your max health."
 
-    staticText 4,  95, "Agility: Affects your sprinting speed and your max stamina."
+    staticText 4,  89, "Agility: Affects your sprinting speed and your max stamina."
 
-    staticText 4, 107, "Defence: Affects the damage you take."
+    staticText 4, 101, "Defence: Affects the damage you take."
 
-    staticText 4, 119, "Magic: Affects magic weapons and your max mana."
+    staticText 4, 113, "Magic: Affects magic weapons and your max mana."
 }
 
 listMenu "S7FontTest" {
     font "DBIGFONT", "Untranslated"
     staticText 17, 8, "FONT TEST"
 
-    font "FSHUDFNT", "Untranslated"    
+    font "FSHUDFNT", "Untranslated"
     staticText 4, 35, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     staticText 4, 49, "abcdefghijklmnopqrstuvwxyz"
 
