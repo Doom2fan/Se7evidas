@@ -22,4 +22,10 @@
 
 #include <ACS_ZDoom.h>
 
+#ifdef DEBUG
+#define DebugMsg(...) Log_Str (s"%S\n\CgFunction %s, file %s, line %i.", StrParam_Str (__VA_ARGS__), __func__, __FILE__, __LINE__)
+#else
+#define DebugMsg(...) ( )
+#endif
+
 #endif
