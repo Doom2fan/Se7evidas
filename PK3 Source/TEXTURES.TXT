@@ -7,3 +7,7 @@ graphic ARTISTIM, 14, 15 {
     offset -8, -8
     patch STIMA0, 0, 0
 }
+
+graphic ATWSKY, 1024, 256 {
+    
+}

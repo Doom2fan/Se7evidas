@@ -22,8 +22,18 @@
 
 #include <ACS_ZDoom.h>
 
+// Enums
+enum {
+    MEVNT_None            = 0, // This is here just so you don't have to keep track of the first event, it's not an actual event.
+    MEVNT_GhostTown       = 1,
+    MEVNT_PowerOutage     = 2,
+    MEVNT_NuclearMeltdown = 3,
+    MEVNT_PerfectHatred   = 4,
+    MEVNT_LastToken          , // This is here just so you don't have to keep track of the last event, it's not an actual event.
+};
+
 // Structs
-struct ServerData_t {
+typedef struct ServerData_t {
     // Parkour stuff
     int   dodgeCooldown;
     accum mjumpZMul;
@@ -33,12 +43,20 @@ struct ServerData_t {
 
     // Misc map info
     int mapCount;
+} ServerData_t;
+
+typedef struct MapData_t {
     int mapEvent;
     int meSecLoopDelay;
-} ServerData;
+} MapData_t;
+
+// Struct declarations
+ServerData_t ServerData;
+MapData_t map_var MapData;
 
 // Prototypes
-void UpdateServerData ();
 void SetupMapEvents   ();
+void UpdateServerData ();
+void UpdateMapData    ();
 
 #endif

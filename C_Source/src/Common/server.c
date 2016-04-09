@@ -33,44 +33,71 @@ Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
 
 void SetupMapEvents () {
     if (ServerData.mapCount > 0)// && Random (FALSE, TRUE))
-        ServerData.mapEvent = 1;// Random (1, 4);
+        MapData.mapEvent = MEVNT_PowerOutage;// Random (MEVNT_None + 1, MEVNT_LastToken - 1);
+    else
+        MapData.mapEvent = MEVNT_None;
 
-    switch (ServerData.mapEvent) {
-        case 1:
+    switch (MapData.mapEvent) {
+        case MEVNT_PowerOutage:
             ChangeSky (s"NEBSKY", s"");
 
             S7_LightLevelScript (32767,      0, 0, 64);
             S7_LightLevelScript (   -1, -32768, 0, 64);
-            break;
+        break;
+
+        case MEVNT_PerfectHatred:
+            ChangeSky (s"ATWSKY", s"");
+
+            S7_LightLevelScript (32767,      0, 0, 1);
+            S7_LightLevelScript (   -1, -32768, 0, 1);
+        break;
+
+        case MEVNT_LastToken:
+            DebugMsg (s"\CgGot MEVNT_LastToken as the map event.");
+            MapData.mapEvent = Random (MEVNT_None + 1, MEVNT_LastToken - 1);
+        break;
 
         default:
-            break;
+        break;
     }
 }
 
 void UpdateServerData () {
-    if (ServerData.meSecLoopDelay > 0)
-        ServerData.meSecLoopDelay--;
-
     // Parkour stuff
     ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
     ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
 
     // Save system stuff
     ServerData.noSaveLoading = GetCVar      (s"S7_NoSaveLoading");
+}
 
-    switch (ServerData.mapEvent) {
-        case 1:
-            if (ServerData.meSecLoopDelay <= 0) {
-                ChangeSky (s"NEBSKY", s"");
-                S7_LightLevelScript ( 32767,  16385,  0, 64);
-                S7_LightLevelScript ( 16384,      0,  6, 64);
-                S7_LightLevelScript (    -1, -16384, 12, 64);
-                S7_LightLevelScript (-16385, -32768, 18, 64);
-            }
+#define ME_CLSLoop(sky, light) \
+    if (MapData.meSecLoopDelay <= 0) { \
+        ChangeSky (sky, s""); \
+        S7_LightLevelScript ( 32767,  16385,  0, light); \
+        S7_LightLevelScript ( 16384,      0,  6, light); \
+        S7_LightLevelScript (    -1, -16384, 12, light); \
+        S7_LightLevelScript (-16385, -32768, 18, light); \
+    } \
+    if (MapData.meSecLoopDelay <= 0) \
+        MapData.meSecLoopDelay = 15 * 35
 
-            if (ServerData.meSecLoopDelay <= 0)
-                ServerData.meSecLoopDelay = 15 * 35;
+void UpdateMapData () {
+    if (MapData.meSecLoopDelay > 0)
+        MapData.meSecLoopDelay--;
+
+    switch (MapData.mapEvent) {
+        case MEVNT_PowerOutage:
+            ME_CLSLoop (s"NEBSKY", 64);
+        break;
+
+        case MEVNT_PerfectHatred:
+            ME_CLSLoop (s"ATWSKY", 1);
+        break;
+
+        case MEVNT_LastToken:
+            DebugMsg (s"\CgGot MEVNT_LastToken as the map event.");
+            MapData.mapEvent = Random (MEVNT_None + 1, MEVNT_LastToken - 1);
         break;
 
         default:

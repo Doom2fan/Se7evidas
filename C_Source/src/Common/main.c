@@ -35,7 +35,8 @@ Script_C void S7_ServersideOpen OPEN () {
     SetupMapEvents ();
 
     while (TRUE) {
-        UpdateServerData ();
+        UpdateServerData (); // Update server data
+        UpdateMapData    (); // Update map data
 
         Delay (1);
     }
