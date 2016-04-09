@@ -3,7 +3,7 @@
 // Backpack
 //
 //-------------------------------------------------------------------------------------------
-actor S7_BackpackToken : boolean { }
+actor S7_BackpackToken : ammo { inventory.maxAmount 1 +inventory.undroppable -inventory.invBar }
 actor S7_Backpack      : customInventory replaces Backpack 31006 {
     height 26
     tag "$BACKPACK"
