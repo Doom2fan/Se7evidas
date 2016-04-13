@@ -59,3 +59,33 @@ sprite LSRFK0, 354, 200 {
     offset 17, 0
     patch "graphics/Weapons/Fauchard/Frame1.png", 220, 113
 }
+
+/* Selection */
+sprite LSRFV0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Weapons/Fauchard/Frame1.png", 292, 157
+}
+
+sprite LSRFW0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 115, 156
+    patch "graphics/Weapons/Fauchard/Frame1.png", 271, 141
+}
+
+sprite LSRFX0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 127, 137
+    patch "graphics/Weapons/Fauchard/Frame1.png", 245, 124
+}
+
+sprite LSRFY0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 137, 122
+    patch "graphics/Weapons/Fauchard/Frame1.png", 219, 104
+}
+
+sprite LSRFZ0, 354, 200 {
+    offset 17, 0
+    patch "graphics/Hands/Hand-001.png", 151, 106
+    patch "graphics/Weapons/Fauchard/Frame1.png", 199, 85
+}
