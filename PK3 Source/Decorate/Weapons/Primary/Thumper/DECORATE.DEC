@@ -49,7 +49,7 @@ actor S7_Thumper : S7_BaseWeapon 30004 {
 
     states {
     Spawn:
-        THMP Z -1
+        THMP U -1
         stop
 
     Ready:

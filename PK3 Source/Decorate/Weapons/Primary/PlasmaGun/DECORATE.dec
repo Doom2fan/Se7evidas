@@ -27,7 +27,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
 
     states {
     Spawn:
-        PLSG Z -1
+        PLSG U -1
         stop
 
     Ready:
