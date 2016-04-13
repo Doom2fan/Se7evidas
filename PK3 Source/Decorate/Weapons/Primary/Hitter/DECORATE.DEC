@@ -36,11 +36,12 @@ actor S7_HitterSMG : S7_BaseWeapon {
         loop
 
     Fire:
-        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
-        SR20 A 1
+        SR20 A 1 A_JumpIfInventory ("S7_HitterSMGClip", 2, 1)
+        goto DryFire
         goto Hold
     Hold:
-        TNT1 A 0 A_JumpIfNoAmmo ("DryFire.Firing")
+        TNT1 A 0 A_JumpIfInventory ("S7_HitterSMGClip", 2, 1)
+        goto DryFire.Firing
         TNT1 A 0 A_Jump (3, 1, 2, 3)
         goto Hold.Fire
         TNT1 A 0 A_GiveInventory ("S7_HitterSMGUpperJammed", 1)
