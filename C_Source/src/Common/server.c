@@ -33,23 +33,33 @@ Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
 
 void SetupMapEvents () {
     if (ServerData.mapCount > 0)// && Random (FALSE, TRUE))
-        MapData.mapEvent = MEVNT_PowerOutage;// Random (MEVNT_None + 1, MEVNT_LastToken - 1);
+        MapData.mapEvent = MEVNT_GhostTown;// Random (MEVNT_None + 1, MEVNT_LastToken - 1);
     else
         MapData.mapEvent = MEVNT_None;
 
     switch (MapData.mapEvent) {
         case MEVNT_PowerOutage:
-            ChangeSky (s"NEBSKY", s"");
+            ChangeSky (s"NEBSKY", s""); // Change the sky
 
-            S7_LightLevelScript (32767,      0, 0, 64);
+            S7_LightLevelScript (32767,      0, 0, 64); // Change the light level to 64
             S7_LightLevelScript (   -1, -32768, 0, 64);
         break;
 
         case MEVNT_PerfectHatred:
-            ChangeSky (s"ATWSKY", s"");
+            ChangeSky (s"ATWSKY", s""); // Change the sky
 
-            S7_LightLevelScript (32767,      0, 0, 1);
+            S7_LightLevelScript (32767,      0, 0, 1); // Change the light level to 1
             S7_LightLevelScript (   -1, -32768, 0, 1);
+        break;
+
+        case MEVNT_GhostTown: {
+            int tid = UniqueTID (); // Get an unused TID
+
+            SetMusic (s""); // Remove the music
+            Spawn (s"MapSpot", 0.0k, 0.0k, 0.0k, tid, 0); // Spawn a mapspot
+            PlaySound (tid, s"World/Wind", CHAN_BODY | CHAN_LISTENERZ | CHAN_NOPAUSE, 1.0k, TRUE, 0.0k); // Play a wind sound on it
+            Thing_ChangeTID (tid, 0); // Change the mapspot's TID to 0
+        }
         break;
 
         case MEVNT_LastToken:
@@ -88,11 +98,15 @@ void UpdateMapData () {
 
     switch (MapData.mapEvent) {
         case MEVNT_PowerOutage:
-            ME_CLSLoop (s"NEBSKY", 64);
+            ME_CLSLoop (s"NEBSKY", 64); // Change the sky; Change the light level to 64
         break;
 
         case MEVNT_PerfectHatred:
-            ME_CLSLoop (s"ATWSKY", 1);
+            ME_CLSLoop (s"ATWSKY", 1); // Change the sky; Change the light level to 1
+        break;
+
+        case MEVNT_GhostTown:
+            SetMusic (s""); // Remove the music
         break;
 
         case MEVNT_LastToken:
