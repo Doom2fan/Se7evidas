@@ -53,12 +53,18 @@ actor S7_Thumper : S7_BaseWeapon 30004 {
         stop
 
     Ready:
+        THMP VWXYZA 1
     Ready2:
         TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         TNT1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
         THMP A 1 A_WeaponReady
         loop
+
+    TrueDeselect:
+        THMP AZYXWV 1
+        TNT1 A      0 A_Lower
+        wait
 
     Fire:
         THMP A 2 A_JumpIfInventory ("S7_ThumperChambered", 1, 1)

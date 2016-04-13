@@ -87,6 +87,33 @@ sprite THPRE0, 361, 200 {
     patch "graphics/Weapons/Thumper/Frame1.png", 217, 97
 }
 
+/* Selection */
+sprite THMPV0, 354, 200 {
+    patch "graphics/Weapons/Thumper/Frame1.png", 294, 152
+}
+
+sprite THMPW0, 367, 200 {
+    patch "graphics/Weapons/Thumper/Frame1.png", 262, 129
+    patch "graphics/Hands/Hand-001.png", 132, 151
+}
+
+sprite THMPX0, 362, 200 {
+    patch "graphics/Weapons/Thumper/Frame1.png", 231, 107
+    patch "graphics/Hands/Hand-001.png", 149, 140
+}
+
+sprite THMPY0, 361, 200 {
+    patch "graphics/Hands/Hand-001.png", 161, 127
+    patch "graphics/Weapons/Thumper/Frame1.png", 218, 98
+}
+
+sprite THMPZ0, 360, 200 {
+    patch "graphics/Weapons/Thumper/Frame1.png", 201, 84
+    patch "graphics/Hands/Hand-003.png", 197, 130
+    patch "graphics/Weapons/Thumper/Part1.png", 245, 133
+    patch "graphics/Weapons/Thumper/Part2.png", 201, 109
+}
+
 /* Grenades */
 sprite THGRB1, 8, 8 {
     offset 4, 3
