@@ -47,6 +47,8 @@ __addrdef extern __gbl_arr global_var;
 __addrdef extern __mod_arr    map_var;
 
 // Prototypes
+/* Position */
+vec3_k GetActorPositionVec (int tid);
 /* Keys */
 int KeyUp       (int key);
 int KeyDown     (int key);
@@ -76,6 +78,7 @@ bool *StrToBool (string source);
 /* Trigonometry */
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z, // Distance between two XYZ coordinates
                  accum actor2X, accum actor2Y, accum actor2Z);
+accum Distance2Vec (vec3_k vec1, vec3_k vec2);
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
 /* Misc */
 long accum LongFixedSqrt (long accum x);

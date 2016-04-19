@@ -25,6 +25,17 @@
 __addrdef __gbl_arr global_var;
 __addrdef __mod_arr    map_var;
 
+/* Position */
+vec3_k GetActorPositionVec (int tid) {
+    vec3_k ret;
+
+    ret.x = GetActorX (tid);
+    ret.y = GetActorY (tid);
+    ret.z = GetActorZ (tid);
+
+    return ret;
+}
+
 /* Keys */
 int KeyUp (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
@@ -205,6 +216,9 @@ bool *StrToBool (string source) {
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
                  accum actor2X, accum actor2Y, accum actor2Z) {
     return VectorLength (actor1Z - actor2Z, VectorLength (actor1X - actor2X, actor1Y - actor2Y));
+}
+accum Distance2Vec (vec3_k vec1, vec3_k vec2) {
+    return Distance2 (vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
     vec3_k ret;
