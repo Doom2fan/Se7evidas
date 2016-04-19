@@ -230,7 +230,7 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
 
     if (SetActivator (ActivatorTID (), AAPTR_PLAYER_GETTARGET)) {
         int actorInfo = ClassifyActor (0);
-        if (actorInfo & ACTOR_MONSTER  && actorInfo & ACTOR_ALIVE && CheckFlag (0, s"shootable") && !(CheckFlag (0, s"noDamage") || CheckFlag (0, s"invulnerable"))) { // Monsters
+        if (actorInfo & ACTOR_MONSTER && actorInfo & ACTOR_ALIVE && CheckFlag (0, s"shootable") && !(CheckFlag (0, s"noDamage") || CheckFlag (0, s"invulnerable"))) { // Monsters
             ret.name      = GetActorPropertyString (0, APROP_NameTag);
 
             if (CheckInventory (EMPIDENT)) {
