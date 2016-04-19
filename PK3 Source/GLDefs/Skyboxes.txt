@@ -1,9 +1,9 @@
 // Credits to Chronos "phantombeta" Ouroboros
 skybox NEBSKY fliptop {
-    "graphics/Skyboxes/NEBSKY_N.png"
-    "graphics/Skyboxes/NEBSKY_E.png"
-    "graphics/Skyboxes/NEBSKY_S.png"
-    "graphics/Skyboxes/NEBSKY_W.png"
-    "graphics/Skyboxes/NEBSKY_T.png"
-    "graphics/Skyboxes/NEBSKY_B.png"
+    "NEBSKY_N"
+    "NEBSKY_E"
+    "NEBSKY_S"
+    "NEBSKY_W"
+    "NEBSKY_T"
+    "NEBSKY_B"
 }
