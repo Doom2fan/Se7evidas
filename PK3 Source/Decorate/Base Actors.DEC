@@ -24,23 +24,50 @@ actor S7_FireballBase {
 // Monster bases
 //
 //-------------------------------------------------------------------------------------------
-actor S7_HellNobleBase {
+actor S7_MonsterBase {
+    health 60
+    radius 20
+    height 56
+    mass 100
+    speed 8
+
+    /** Damage factors **/
+    // Plasma/Laser damage bonus
+    damageFactor "Plasma", 1.5
+    damageFactor "LaserTracer", 1.25
+
+    monster
+    +floorClip
+
+    var int user_deathType;
+}
+
+actor S7_DemonBase : S7_MonsterBase {
+    // Demon/Reanimated flesh damage reduction
+    damageFactor "PistolTracer", 0.7
+    damageFactor "RevolverTracer", 0.8
+    damageFactor "RifleTracer", 0.9
+}
+
+actor S7_HellNobleBase : S7_DemonBase {
     health 1000
     radius 24
     height 64
     mass 1000
-    speed 8
     painChance 50
-    monster
 
-    +floorClip
+    /** Damage factors **/
+    // Demon/Reanimated flesh damage reduction
+    damageFactor "PistolTracer", 0.7
+    damageFactor "RevolverTracer", 0.8
+    damageFactor "RifleTracer", 0.9
+    // Hell Noble buckshot damage bonus
+    damageFactor "ShotgunTracer", 1.2
 }
 
-actor S7_ScorpBase {
+actor S7_ScorpBase : S7_MonsterBase {
     radius 16
     height 56
-    mass 100
-    speed 8
     activeSound "Monsters/Nova/RadioChatter"
     seeSound "Monsters/Nova/RadioSight"
 
@@ -53,14 +80,11 @@ actor S7_ScorpBase {
     damageFactor "Plasma", 1.6
     damageFactor "LaserTracer", 1.35
 
-    monster
-
     // Default user vars
     var int user_fireMode;
     var int user_turn;
     var int user_spreadX; var int user_spreadY;
     var int user_ammo;
-    var int user_deathType;
 }
 
 //-------------------------------------------------------------------------------------------

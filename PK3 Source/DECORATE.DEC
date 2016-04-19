@@ -47,6 +47,7 @@
 
 // Monsters
 #INCLUDE "Decorate/Monsters/ScorpsTrooper/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/Hellion/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/BlackPanther/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
 

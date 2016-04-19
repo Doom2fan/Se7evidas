@@ -1,0 +1,92 @@
+//-------------------------------------------------------------------------------------------
+//
+// Hellion
+//
+//-------------------------------------------------------------------------------------------
+actor S7_Hellion: S7_DemonBase replaces doomImp {
+    health 90
+    radius 20
+    height 56
+    speed 8
+    seeSound "Hellion/Sight"
+    activeSound "Hellion/Active"
+    painSound "Hellion/Pain"
+    deathSound "Hellion/Death"
+    obituary "$OBHELLION"
+    tag "Hellion"
+
+    states {
+    Spawn:
+        HELN A 10 A_Look
+        loop
+    See:
+        HELN AABBCCDDEEFF 2 A_Chase
+        loop
+
+    Missile:
+        HELN GGGHIJK 2 A_FaceTarget
+        TNT1 A       0 A_FaceTarget
+        HELN L       2 A_CustomMissile ("S7_HellionBall")
+        goto See
+
+    Pain:
+        HELN M 2
+        HELN M 2 A_Pain
+        goto See
+
+    Death:
+        HELN N  6 A_SetUserVar ("user_deathType", 0)
+        HELN O  6 A_Scream
+        HELN P  6
+        HELN Q  6 A_NoBlocking
+        HELN RS 6
+        HELN T -1
+        stop
+    XDeath:
+        HELN  U      6 A_SetUserVar ("user_deathType", 1)
+        HELN  V      6 A_XScream
+        HELN  W      6
+        HELN  X      6 A_NoBlocking
+        HELN "YZ[\"  6
+        HELN "]"    -1
+        stop
+
+    Raise:
+        HELN O      6 A_JumpIf (user_deathType == 1, "XRaise")
+        HELN NMLKJI 6
+        goto See
+    XRaise:
+        HELN "]"        6 A_JumpIf (user_deathType == 1, "XRaise")
+        HELN "\[ZYXWVU" 6
+        goto See
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Black Panther ball
+//
+//-------------------------------------------------------------------------------------------
+actor S7_HellionBall : S7_FireballBase {
+    damage (random [monsterDamage] (1, 4) * 6)
+    speed 12
+    fastSpeed 24
+
+    states {
+    Spawn:
+        CP00 AABBCC 1 bright A_SpawnItemEx ("S7_HellionBallFire", 0.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside)
+        loop
+    Death:
+        CP00 DEFGH 2 bright
+        stop
+    }
+}
+
+actor S7_HellionBallFire : S7_FastProjTrailBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnItemEx ("S7_FireballSmoke",  0.0, fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside)
+        TNT1 A 1         A_SpawnItemEx ("S7_FireballSmoke", -2.5, fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside)
+        stop
+    }
+}

@@ -12,6 +12,7 @@ sprites/
 
     CommonProjectiles/
         NAIL was made by Eriance.
+        CP00 was made by Raven Software.
 
     Effects/
         Flares/

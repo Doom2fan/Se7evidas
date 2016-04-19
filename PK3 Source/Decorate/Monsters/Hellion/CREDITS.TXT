@@ -1,0 +1,7 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_Hellion: Eriance
+    S7_HellionBall: Raven Software
+
+Sounds: Credits in the SNDINFO file
