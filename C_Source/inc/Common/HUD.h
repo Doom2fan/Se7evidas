@@ -37,8 +37,9 @@ typedef struct SP_Data_t {
 } SP_Data_t;
 
 // Prototypes
-void HudWeapons (PlayerData_t *player);
-void ShowPop (PlayerData_t *player, SP_Data_t *data);
+void HudWeapons      (PlayerData_t *player);
+void ShowPop         (PlayerData_t *player, SP_Data_t *data);
 void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data);
+void ScreenOverlays  (PlayerData_t *player);
 
 #endif

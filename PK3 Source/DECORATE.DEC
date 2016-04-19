@@ -34,6 +34,7 @@
 #INCLUDE "Decorate/Effects/Blood.DEC"
 #INCLUDE "Decorate/Effects/Teleport.DEC"
 #INCLUDE "Decorate/Effects/Parkour.DEC"
+#INCLUDE "Decorate/Effects/MapEvents.DEC"
 
 // Common stuff
 #INCLUDE "Decorate/CommonTokens.DEC"

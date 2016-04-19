@@ -105,6 +105,8 @@ struct PD_ScriptData_t {
     int   popupNum;                     // Current popup
     int   pPageNum;                     // Current popup page
     bool  beamGrab;                     // Soul lance beam grabbed
+    int   prevEyesTimer;                // Previous EYES timer/counter thingy
+    accum prevEyesDist;                 // Previous EYES distance
 };
 
 struct SprintDef_t {

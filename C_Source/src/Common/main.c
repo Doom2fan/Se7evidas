@@ -124,6 +124,7 @@ Script_C void S7_ServersideEnter2 ENTER () {
         HudWeapons               (player);
         ShowPop                  (player, &sp_data);
         EnemyInfoScript          (player, &eis_data);
+        ScreenOverlays           (player);
 
         Delay (1); // Wait for a tic
     }

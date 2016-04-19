@@ -366,3 +366,37 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
     data->prevDisableHUD   = player->scriptData.disableHUD;
     data->prevOn           = GetUserCVar (PLN, s"S7_EnemyHPBar_On");
 }
+
+Script_LS int GetEyesDist (vec3_k playerPos) {
+    if (!SetActivator (ActivatorTID (), AAPTR_PLAYER_GETTARGET) || !CheckActorPropertyString (0, APROP_NameTag, s"S7_MEATW_Eyes"))
+        return 0;
+
+    return Distance2Vec (playerPos, GetActorPositionVec (0));
+}
+
+#define SOVERBASEID 14000
+void ScreenOverlays (PlayerData_t *player) {
+    // EYES overlay
+    vec3_k playerPos;
+    playerPos.x = player->physics.x; playerPos.y = player->physics.y; playerPos.z = player->physics.z;
+    int eyesTimer; // Not really a timer, but whatever
+    accum eyesDist = GetEyesDist (playerPos);
+
+    if (eyesDist <= 512.0k)
+        GiveInventory (s"S7_MEATW_EyesCounter", 175 * (1.0k - eyesDist / 512.0k));
+
+    if (player->scriptData.prevEyesDist < 480.0k && eyesDist < 480.0k) {
+        GiveInventory (s"S7_MEATW_EyesCounter", 1);
+    } else if (player->scriptData.prevEyesTimer == eyesTimer) {
+        TakeInventory (s"S7_MEATW_EyesCounter", 1);
+    }
+
+    eyesTimer = CheckInventory (s"S7_MEATW_EyesCounter");
+    SetHudSize (320, 200, FALSE);
+    SetFont (s"MATWEYES");
+    HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, SOVERBASEID + 1, CR_UNTRANSLATED, 266.1k, 0.1k, 0.1k, 0.0, 0.0, 0.0, "A");
+    SetHudSize (0, 0, FALSE);
+
+    player->scriptData.prevEyesTimer = eyesTimer;
+    player->scriptData.prevEyesDist  = eyesDist;
+}
