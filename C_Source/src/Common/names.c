@@ -21,12 +21,12 @@
 #include "names.h"
 
 string NL_GenMaleNameEng () {
-    int fore = Random (0, sizeof (NL_Eng_Fore) - 1);
-    int sur  = Random (0, sizeof (NL_Eng_Sur)  - 1);
+    int fore = Random (0, NL_Eng_Fore_Length - 1);
+    int sur  = Random (0, NL_Eng_Sur_Length  - 1);
 
     for (int i = 0; i < 255; i++) {
         if (StrICmp (NL_Eng_Fore [fore], NL_Eng_Sur [sur]) == 0)
-            sur = Random (0, sizeof (NL_Eng_Sur) - 1);
+            sur = Random (0, NL_Eng_Sur_Length - 1);
         else
             break;
     }

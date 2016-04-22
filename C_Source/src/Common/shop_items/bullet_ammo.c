@@ -17,12 +17,10 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SSI_BULLET_AMMO_H
-#define SSI_BULLET_AMMO_H
-
-#include <ACS_ZDoom.h>
-#include "../shop_process.h"
-#include "ammo.h"
+#include "includes.h"
+#include "shop.h"
+#include "shop_process.h"
+#include "shop_items/externs.h"
 
 SS_Item_t bulletAmmoItems [] = {
     {
@@ -30,7 +28,7 @@ SS_Item_t bulletAmmoItems [] = {
         .icon               = SS_BACKICON,
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &ammo,
+        .link               = &ammoSP,
         .next               = &bulletAmmoItems [1],
     },
     {
@@ -125,9 +123,7 @@ SS_Item_t bulletAmmoItems [] = {
     },
 };
 
-SS_Page_t bulletAmmo = {
+SS_Page_t bulletAmmoSP = {
     .name       = s"SS_BULLETS",
     .items      = &bulletAmmoItems [0],
 };
-
-#endif

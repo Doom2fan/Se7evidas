@@ -37,7 +37,7 @@ void HudWeapons (PlayerData_t *player) { // HUD icons and stuff...
     SetFont (TNT1A0); // Set the font to TNT1A0
 
     if (!player->scriptData.disableHUD) {
-        for (int x = 0; x < ArraySize (S7_HW_2ModeWpns); x++) { // Loop through everything in the weapons array
+        for (int x = 0; x < S7_HW_2ModeWpns_Length; x++) { // Loop through everything in the weapons array
             if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) { // If the player is using this weapon
                 if (CheckInventory (S7_HW_2ModeWpns [x] [1])) // If the player has the specified item
                     HW_SetFont (S7_HW_2ModeWpns [x] [2]); // Set the font to the first image
@@ -367,36 +367,48 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
     data->prevOn           = GetUserCVar (PLN, s"S7_EnemyHPBar_On");
 }
 
-Script_LS int GetEyesDist (vec3_k playerPos) {
-    if (!SetActivator (ActivatorTID (), AAPTR_PLAYER_GETTARGET) || !CheckActorPropertyString (0, APROP_NameTag, s"S7_MEATW_Eyes"))
-        return 0;
-
+/*Script_LS int GetEyesDist (vec3_k playerPos) {
+    if (!SetActivator (ActivatorTID (), AAPTR_GET_LINETARGET))
+        return 32767.0k;
     return Distance2Vec (playerPos, GetActorPositionVec (0));
-}
+}*/
 
 #define SOVERBASEID 14000
 void ScreenOverlays (PlayerData_t *player) {
-    // EYES overlay
-    vec3_k playerPos;
-    playerPos.x = player->physics.x; playerPos.y = player->physics.y; playerPos.z = player->physics.z;
-    int eyesTimer; // Not really a timer, but whatever
-    accum eyesDist = GetEyesDist (playerPos);
+    // Static
+    if (MapData.mapEvent == MEVNT_PerfectHatred) {
+        int   staticImage;
+        accum staticAlpha = 0.025k;
+        staticImage = player->scriptData.prevStaticImage;
+        if (staticImage < 0 || staticImage >= 7)
+            staticImage = 0;
+        else
+            staticImage++;
 
-    if (eyesDist <= 512.0k)
-        GiveInventory (s"S7_MEATW_EyesCounter", 175 * (1.0k - eyesDist / 512.0k));
-
-    if (player->scriptData.prevEyesDist < 480.0k && eyesDist < 480.0k) {
-        GiveInventory (s"S7_MEATW_EyesCounter", 1);
-    } else if (player->scriptData.prevEyesTimer == eyesTimer) {
-        TakeInventory (s"S7_MEATW_EyesCounter", 1);
+        SetHudSize (640, 480, FALSE);
+        SetFont (StrParam ("MAWTSTT%d", staticImage / 2 + 1));
+        HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD | HUDMSG_ALPHA | HUDMSG_FADEOUT, SOVERBASEID + 1, CR_UNTRANSLATED, -106.1k, 0.1k, 0.5k, 0.5k, staticAlpha, 0.0k, "A");
+        SetHudSize (0,   0,   FALSE);
+        player->scriptData.prevStaticImage = staticImage;
     }
 
-    eyesTimer = CheckInventory (s"S7_MEATW_EyesCounter");
-    SetHudSize (320, 200, FALSE);
+    // EYES overlay
+    /*vec3_k playerPos;
+    playerPos.x = player->physics.x; playerPos.y = player->physics.y; playerPos.z = player->physics.z;
+    accum eyesDist = GetEyesDist (playerPos);
+    accum alpha;
+
+    SetFont (s"SMALLFNT");
+    PrintBold ("%k", eyesDist);
+
+    alpha = ClampAccum (CheckInventory (s"S7_MEATW_EyesCounter") + (eyesDist <= 512.0k ? eyesDist / 512.0k : 0.0k), 0.0k, 1.0k);
+
+    SetHudSize (640, 480, FALSE);
     SetFont (s"MATWEYES");
-    HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD, SOVERBASEID + 1, CR_UNTRANSLATED, 266.1k, 0.1k, 0.1k, 0.0, 0.0, 0.0, "A");
+    if (alpha > 0.0k)
+        HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD | HUDMSG_ALPHA | HUDMSG_FADEOUT, SOVERBASEID + 1, CR_UNTRANSLATED, -266.1k, 0.1k, 0.5k, 0.5k, alpha, 0.0k, "A");
     SetHudSize (0, 0, FALSE);
 
-    player->scriptData.prevEyesTimer = eyesTimer;
-    player->scriptData.prevEyesDist  = eyesDist;
+    player->scriptData.prevEyesDist = eyesDist;
+    TakeInventory (s"S7_MEATW_EyesCounter", 0x7FFFFFFF);*/
 }

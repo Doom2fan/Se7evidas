@@ -51,8 +51,8 @@ typedef struct MapData_t {
 } MapData_t;
 
 // Struct declarations
-ServerData_t ServerData;
-MapData_t map_var MapData;
+extern ServerData_t ServerData;
+extern MapData_t map_var MapData;
 
 // Prototypes
 void SetupMapEvents   ();

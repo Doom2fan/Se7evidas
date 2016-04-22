@@ -63,7 +63,7 @@ string PrintInv_Generic (string inStr, const string arr [], int arrSize) {
 string PrintInv_Weapons (string inStr) {
     string ret = inStr;
 
-    for (int i = 0; i < ArraySize (WeaponNames); i++)
+    for (int i = 0; i < WeaponNames_Length; i++)
         if (CheckInventory (WeaponNames [i]))
             ret = StrParam ("%S\n  %S", ret, WeaponNames [i]);
 
@@ -76,17 +76,17 @@ Script_C void S7_PrintInv (int mode) {
     string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
 
     if (mode == 1) {
-        inv = PrintInv_Generic (s"Ammo:", AmmoNames, ArraySize (AmmoNames));
+        inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
     } else if (mode == 2) {
         inv = PrintInv_Weapons (s"Weapons:");
     } else if (mode == 3) {
-        inv = PrintInv_Generic (s"Ammo in weapons:", ClipNames, ArraySize (ClipNames));
+        inv = PrintInv_Generic (s"Ammo in weapons:", ClipNames, ClipNames_Length);
     } else if (mode == 4) {
 
     } else {
-        inv = PrintInv_Generic (s"Ammo:", AmmoNames, ArraySize (AmmoNames));
+        inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
         inv = PrintInv_Weapons (StrParam ("%S\n\nWeapons:", inv));
-        inv = PrintInv_Generic (StrParam ("%S\n\nAmmo in weapons:", inv), ClipNames, ArraySize (ClipNames));
+        inv = PrintInv_Generic (StrParam ("%S\n\nAmmo in weapons:", inv), ClipNames, ClipNames_Length);
     }
 
     Log ("%S", inv);

@@ -29,6 +29,21 @@
 #define CHAMBEREDTOKEN s"S7_ThumperChambered"
 #define CURRENTSHELLTOKEN s"S7_ThumperCurrentShell"
 
+const string Thumper_PoolNames [] = {
+    s"____Error____-Report-this",
+    s"S7_Thumper_PExp",
+    s"S7_Thumper_PFrag",
+    s"S7_Thumper_PTherm",
+    s"S7_Thumper_PFlare",
+    s"S7_Thumper_PCluster",
+    s"S7_Thumper_PNail",
+    s"S7_Thumper_PNGas",
+    s"____Error____-Report-this",
+    s"____Error____-Report-this",
+    s"____Error____-Report-this",
+    s"____Error____-Report-this",
+};
+
 /* Mag scripts */
 
 Script_C bool S7_ThumperFull () {

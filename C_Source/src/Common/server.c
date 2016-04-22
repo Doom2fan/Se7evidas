@@ -22,6 +22,9 @@
 #undef SERVER_C
 #include "server.h"
 
+ServerData_t ServerData;
+MapData_t map_var MapData;
+
 Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
     Delay (time);
 
@@ -32,10 +35,10 @@ Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
 }
 
 void SetupMapEvents () {
-    if (ServerData.mapCount > 0)// && Random (FALSE, TRUE))
-        MapData.mapEvent = MEVNT_GhostTown;// Random (MEVNT_None + 1, MEVNT_LastToken - 1);
+    if (ServerData.mapCount > 0 && Random (FALSE, TRUE))
+        MapData.mapEvent = Random (MEVNT_None + 1, MEVNT_LastToken - 1);
     else
-        MapData.mapEvent = MEVNT_None;
+        MapData.mapEvent = MEVNT_PerfectHatred; //MEVNT_None;
 
     switch (MapData.mapEvent) {
         case MEVNT_PowerOutage:

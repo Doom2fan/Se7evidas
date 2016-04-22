@@ -23,11 +23,11 @@
 #include <ACS_ZDoom.h>
 
 // Externs
-extern SS_Page_t          main;
-extern SS_Page_t          ammo;
-extern SS_Page_t    bulletAmmo;
-extern SS_Page_t batteriesAmmo;
-extern SS_Page_t   thumperAmmo;
-extern SS_Page_t       weapons;
+extern SS_Page_t          mainSP;
+extern SS_Page_t          ammoSP;
+extern SS_Page_t    bulletAmmoSP;
+extern SS_Page_t batteriesAmmoSP;
+extern SS_Page_t   thumperAmmoSP;
+extern SS_Page_t       weaponsSP;
 
 #endif

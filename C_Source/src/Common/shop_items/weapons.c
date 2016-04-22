@@ -17,37 +17,31 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SSI_MAIN_H
-#define SSI_MAIN_H
+#include "includes.h"
+#include "shop.h"
+#include "shop_process.h"
+#include "shop_items/externs.h"
 
-#include <ACS_ZDoom.h>
-#include "../shop_process.h"
-#include "externs.h"
-#include "ammo.h"
-#include "weapons.h"
-
-SS_Item_t mainItems [] = {
+/*SS_Item_t weaponsItems [] = {
     {
-        .name           = s"SS_AMMO",
-        .icon           = s"SSTAMICO",
-        .itemType       = IT_PageLink,
-        .linkType       = LT_Always,
-        .link           = &ammo,
-        .next           = &mainItems [1],
+        .name               = s"SS_BACK",
+        .icon               = SS_BACKICON,
+        .itemType           = IT_PageLink,
+        .linkType           = LT_Always,
+        .link               = &mainSP,
+        .next               = &weaponsItems [1],
     },
     {
-        .name           = s"SS_WEAPONS",
-        .icon           = s"SSTWPICO",
-        .itemType       = IT_PageLink,
-        .linkType       = LT_Always,
-        .link           = &weapons,
-        .next           = NULL,
+        .name               = s"",
+        .icon               = s"",
+        .itemType           = IT_PageLink,
+        .linkType           = LT_Always,
+        .link               = &,
+        .next               = &weaponsItems [2],
     },
-};
+};*/
 
-SS_Page_t main = {
-    .name       = s"SS_MAIN",
-    .items      = &mainItems [0],
+SS_Page_t weaponsSP = {
+    .name       = s"SS_WEAPONS",
+    //.items      = &weaponsItems [0],
 };
-
-#endif

@@ -21,7 +21,12 @@
 #define NAMES_H
 
 #include <ACS_ZDoom.h>
-#include "names_list/english.h"
+
+// Externs
+extern string NL_Eng_Fore [];
+extern int NL_Eng_Fore_Length;
+extern string NL_Eng_Sur [];
+extern int NL_Eng_Sur_Length;
 
 // Prototypes
 string NL_GenMaleNameEng ();

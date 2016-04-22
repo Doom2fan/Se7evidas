@@ -17,13 +17,10 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SSI_BATTERIES_AMMO_H
-#define SSI_BATTERIES_AMMO_H
-
-#include <ACS_ZDoom.h>
-#include "../shop_process.h"
-#include "externs.h"
-#include "ammo.h"
+#include "includes.h"
+#include "shop.h"
+#include "shop_process.h"
+#include "shop_items/externs.h"
 
 SS_Item_t batteriesAmmoItems [] = {
     {
@@ -31,7 +28,7 @@ SS_Item_t batteriesAmmoItems [] = {
         .icon               = SS_BACKICON,
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &ammo,
+        .link               = &ammoSP,
         .next               = &batteriesAmmoItems [1],
     },
     {
@@ -54,9 +51,7 @@ SS_Item_t batteriesAmmoItems [] = {
     },
 };
 
-SS_Page_t batteriesAmmo = {
+SS_Page_t batteriesAmmoSP = {
     .name       = s"SS_BATTERIES",
     .items      = &batteriesAmmoItems [0],
 };
-
-#endif

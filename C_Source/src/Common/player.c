@@ -26,9 +26,6 @@
 bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
 Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData);
 
-// Arrays
-PlayerData_t PlayerData [MAX_PLAYERS];
-
 // Functions
 void UpdatePlayerData (PlayerData_t *player) {
     if (!player) {
@@ -74,7 +71,7 @@ void UpdateAmmoMax (PlayerData_t *player) {
     if (CheckInventory (s"S7_BackpackToken"))
         player->ammoMax += 2;
 
-    for (int i = 0; i < ArraySize (PD_AmmoTypes); i++) {
+    for (int i = 0; i < PD_AmmoTypes_Length; i++) {
         int maxAmount = PD_AmmoTypes [i].magSize * player->ammoMax;
         if (GetAmmoCapacity (PD_AmmoTypes [i].name) != maxAmount)
             SetAmmoCapacity (PD_AmmoTypes [i].name, maxAmount);
@@ -354,7 +351,7 @@ void DisconnectPlayer (PlayerData_t *player) {
 }
 
 void UpdateClientsideCVars () {
-    /*for (int i = 0; i < ArraySize (ReqClientsideCVars); i++) {
+    /*for (int i = 0; i < ReqClientsideCVars_Length; i++) {
         SetCVar (ReqClientsideCVars [i] [1], GetCVar (ReqClientsideCVars [i] [0]));
         SetUserCVar (PLN, ReqClientsideCVars [i] [1], GetCVar (ReqClientsideCVars [i] [0]));
         PukeScriptFunction (9800, i, PLN, GetCVar (ReqClientsideCVars [i] [0]));

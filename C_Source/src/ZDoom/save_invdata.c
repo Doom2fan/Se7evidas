@@ -20,11 +20,11 @@
 #include "includes.h"
 #include "save_invdata.h"
 
-static SaveInv_InvInfo importantInvInfo [] = {
+SaveInv_InvInfo importantInvInfo [] = {
     { .name = s"S7_BackpackToken", .callback = &InvUpdAmmoMax,  },
 };
 
-static SaveInv_InvDef importantInv = {
+SaveInv_InvDef importantInv = {
     .cvarName = SD_IMPINV,
     .maxCVars = 5,
     .cvarMaxLen = (MAXCVARSIZ) - 24,
@@ -32,7 +32,7 @@ static SaveInv_InvDef importantInv = {
     .invInfoArr = &importantInvInfo [0],
 };
 
-static SaveInv_InvInfo normalInvInfo [] = {
+SaveInv_InvInfo normalInvInfo [] = {
     // Ammo
     { .name = s"S7_9mmCartridges",                              },
     { .name = s"S7_45ACPCartridges",                            },
@@ -81,7 +81,7 @@ static SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_Thumper_Used",                               },
 };
 
-static SaveInv_InvDef normalInv = {
+SaveInv_InvDef normalInv = {
     .cvarName = SD_INV,
     .maxCVars = 25,
     .cvarMaxLen = (MAXCVARSIZ) - 18,

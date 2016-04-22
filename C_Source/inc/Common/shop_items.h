@@ -22,7 +22,6 @@
 
 #include <ACS_ZDoom.h>
 #include "shop_process.h"
-#include "shop_items/ammo.h"
-#include "shop_items/main.h"
+#include "shop_items/externs.h"
 
 #endif

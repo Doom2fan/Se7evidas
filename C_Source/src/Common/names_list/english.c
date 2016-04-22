@@ -17,11 +17,8 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef NAMES_ENGLISH_H
-#define NAMES_ENGLISH_H
-
-#include <ACS_ZDoom.h>
 #include "includes.h"
+#include "names.h"
 
 string NL_Eng_Fore [] = {
     s"Aaron",
@@ -110,6 +107,7 @@ string NL_Eng_Fore [] = {
     s"Trent",
     s"Warren",
 };
+int NL_Eng_Fore_Length = sizeof (NL_Eng_Fore);
 
 string NL_Eng_Sur [] = {
     s"Blake",
@@ -183,5 +181,4 @@ string NL_Eng_Sur [] = {
     s"Wyman",
     s"Young",
 };
-
-#endif
+int NL_Eng_Sur_Length = sizeof (NL_Eng_Sur);

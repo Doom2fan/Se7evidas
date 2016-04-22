@@ -32,7 +32,7 @@ int GetWeaponName () {
         if (CheckWeapon (DummyWeapons [x]))
             return -1;
 
-    for (int y = 0; y < ArraySize (WeaponNames); y++)
+    for (int y = 0; y < WeaponNames_Length; y++)
         if (CheckWeapon (WeaponNames [y]))
             return y;
 
@@ -48,12 +48,12 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
     int weaponNumber = 0;
     if (mode) {
         weaponNumber = player->scriptData.lastWeapon;
-        if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponNames) - 1)
+        if (weaponNumber < 0 || weaponNumber > WeaponNames_Length - 1)
             return;
         SetWeapon (WeaponNames [weaponNumber]);
     } else {
         weaponNumber = GetWeaponName ();
-        if (weaponNumber < 0 || weaponNumber > ArraySize (WeaponNames) - 1)
+        if (weaponNumber < 0 || weaponNumber > WeaponNames_Length - 1)
             return;
         else
             player->scriptData.lastWeapon = weaponNumber;
@@ -198,13 +198,13 @@ Script_C void S7_CWB_Slot NET (int slot, int pos) {
         }
     } else if (newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS &&
                newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS &&
-               weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < ArraySize (WeaponNames)) {
+               weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < WeaponNames_Length) {
         newPos.x = slot; newPos.y = pos;
     }
 
     if ((newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS) &&
         (newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS) &&
-        (weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < ArraySize (WeaponNames)) &&
+        (weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < WeaponNames_Length) &&
         (weapBinds->curWeap.x != newPos.x && weapBinds->curWeap.y != newPos.y)) {
         if (weapBinds->weapBinds [newPos.x] [newPos.y] != weapBinds->weapBinds [weapBinds->curWeap.x] [weapBinds->curWeap.y])
             SetWeapon (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]]);
@@ -214,8 +214,8 @@ Script_C void S7_CWB_Slot NET (int slot, int pos) {
 }
 
 Script_C void SetWeapBind (int slot, int pos, int weap) {
-    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS || weap >= ArraySize (WeaponNames)) {
-        for (int i = 0; i < ArraySize (WeaponNames); i++) {
+    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS || weap >= WeaponNames_Length) {
+        for (int i = 0; i < WeaponNames_Length; i++) {
             Log ("%d: %S", i, WeaponNames [i]);
         }
         return;

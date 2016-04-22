@@ -105,8 +105,8 @@ struct PD_ScriptData_t {
     int   popupNum;                     // Current popup
     int   pPageNum;                     // Current popup page
     bool  beamGrab;                     // Soul lance beam grabbed
-    int   prevEyesTimer;                // Previous EYES timer/counter thingy
     accum prevEyesDist;                 // Previous EYES distance
+    int   prevStaticImage;              // The previous image used for the static. This is so it doesn't use the same image twice in a row
 };
 
 struct SprintDef_t {
@@ -191,77 +191,6 @@ struct SavedData_t {
     WeapBinds_t     weapBinds;          // Weapon bindings
 };
 
-// Stuff
-static const string PD_Gender [] = {
-    s"GEN_MALE",
-    s"GEN_FEM",
-    s"GEN_OTHER",
-    s"GEN_HERM",
-};
-
-static const PD_AmmoType_t PD_AmmoTypes [] = {
-    {
-        .name = s"S7_9mmCartridges",
-        .magSize = 75,
-    },
-    {
-        .name = s"S7_45ACPCartridges",
-        .magSize = 62,
-    },
-    {
-        .name = s"S7_44MCartridges",
-        .magSize = 6,
-    },
-    {
-        .name = s"S7_762x39Cartridges",
-        .magSize = 35,
-    },
-    {
-        .name = s"S7_20gaShells",
-        .magSize = 10,
-    },
-    {
-        .name = s"S7_Cells",
-        .magSize = 36,
-    },
-    {
-        .name = s"S7_FBSysCells",
-        .magSize = 23,
-    },
-    {
-        .name = s"S7_Thumper_PExp",
-        .magSize = 5,
-    },
-    {
-        .name = s"S7_Thumper_PFrag",
-        .magSize = 5,
-    },
-    {
-        .name = s"S7_Thumper_PTherm",
-        .magSize = 5,
-    },
-    {
-        .name = s"S7_Thumper_PFlare",
-        .magSize = 5,
-    },
-    {
-        .name = s"S7_Thumper_PCluster",
-        .magSize = 5,
-    },
-    {
-        .name = s"S7_Thumper_PNail",
-        .magSize = 5,
-    },
-    {
-        .name = s"S7_Thumper_PNGas",
-        .magSize = 5,
-    },
-};
-
-string ReqClientsideCVars [] [2] = {
-    { s"screenblocks", s"S7_Screenblocks", },
-};
-
 // Prototypes
 void TakeCash (PlayerData_t *player, int amount);
 void GiveCash (PlayerData_t *player, int amount);
@@ -274,7 +203,13 @@ void UpdateClientsideCVars ();
 bool PD_DoLoadSave  (PlayerData_t *player, SavedData_t *saveData);
 bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData);
 
-// Externs
+// Externs (The definitions for these is in playerDefs.c, not player.c)
 extern PlayerData_t PlayerData [MAX_PLAYERS];
+extern string PD_Gender [];
+extern PD_AmmoType_t PD_AmmoTypes [];
+extern string ReqClientsideCVars [] [2];
+extern int PD_Gender_Length;
+extern int PD_AmmoTypes_Length;
+extern int ReqClientsideCVars_Length;
 
 #endif

@@ -128,7 +128,7 @@ extern bool RunningInZDoom;
 #define TNT1A0 s"TNT1A0"
 
 // Variables and constants
-char CorruptionCharList [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-=!@#$%%&*()_+[]{}\\,.;/|<>:?";
+extern char CorruptionCharList [91];
 
 // Prototypes
 void PukeScriptFunction (int number, int arg0, int arg1, int arg2);

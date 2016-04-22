@@ -20,6 +20,8 @@
 #include "includes.h"
 #include "misc.h"
 
+char CorruptionCharList [91] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-=!@#$%%&*()_+[]{}\\,.;/|<>:?";
+
 void SpeedScript (PlayerData_t *player) {
     if (!player)
         return;

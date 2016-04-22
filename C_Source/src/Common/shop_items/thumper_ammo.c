@@ -17,19 +17,53 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SSI_THUMPER_AMMO_H
-#define SSI_THUMPER_AMMO_H
-
-#include <ACS_ZDoom.h>
+#include "includes.h"
 #include "shop.h"
-#include "../shop_process.h"
-#include "externs.h"
-#include "ammo.h"
+#include "shop_items/externs.h"
+#include "shop_process.h"
 #include "thumper.h"
 
-// Prototypes
-int SS_TH_BuyItem  (PlayerData_t *player, SS_Item_t *item);
-int SS_TH_SellItem (PlayerData_t *player, SS_Item_t *item);
+// Functions
+// Thumper grenades buy callback
+int SS_TH_BuyItem (PlayerData_t *player, SS_Item_t *item) {
+    if (!player) {
+        Log ("\CFunction SS_TH_BuyItem: Fatal error: Invalid or NULL player struct");
+        return BC_InvalidPlayer;
+    } else if (!item) {
+        Log ("\CFunction SS_TH_BuyItem: Fatal error: Invalid or NULL item struct");
+        return BC_InvalidItem;
+    }
+
+    if (Thumper_GetUnifiedPool () + (item->buyAmount > 1 ? (item->buyAmount / 2) : item->buyAmount) >= Thumper_GetUnifiedPoolMax ()) // If the current amount of the unified pool is greater than or equal to the unified max amount...
+        return BC_InventoryFull; // Report the inventory is full
+    if (player->cash - item->buyPrice < 0) // If the amount of cash minus the price of the item is less than zero...
+        return BC_NotEnoughMoney; // Report there's not enough money
+
+    TakeCash (player, item->buyPrice); // Take the cash
+    GiveInventory (Thumper_PoolNames [item->maxAmount], item->buyAmount); // Give the item
+
+    return BC_Success; // Report success
+}
+// Thumper grenades sell callback
+int SS_TH_SellItem (PlayerData_t *player, SS_Item_t *item) {
+    if (!player) {
+        Log ("\CFunction SS_TH_SellItem: Fatal error: Invalid or NULL player struct");
+        return SC_InvalidPlayer;
+    } else if (!item) {
+        Log ("\CFunction SS_TH_SellItem: Fatal error: Invalid or NULL item struct");
+        return SC_InvalidItem;
+    }
+
+    if (CheckInventory (Thumper_PoolNames [item->maxAmount]) < item->sellAmount) // If the current amount of the item is lesser than sellAmount...
+        return SC_NotEnoughOfItem; // Report there's not enough of the item
+    if (player->cash + item->sellPrice > 0x7FFFFFFF) // If the cash plus the price of the item is greater than 0x7FFFFFFF...
+        return SC_TooMuchMoney; // Report there's too much money
+
+    TakeInventory (Thumper_PoolNames [item->maxAmount], item->sellAmount); // Take the item
+    GiveCash (player, item->sellPrice); // Give the cash
+
+    return SC_Success; // Report success
+}
 
 // Items
 SS_Item_t thumperAmmoItems [] = {
@@ -38,7 +72,7 @@ SS_Item_t thumperAmmoItems [] = {
         .icon               = SS_BACKICON,
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &ammo,
+        .link               = &ammoSP,
         .next               = &thumperAmmoItems [1],
     },
     {
@@ -155,9 +189,7 @@ SS_Item_t thumperAmmoItems [] = {
     },
 };
 
-SS_Page_t thumperAmmo = {
+SS_Page_t thumperAmmoSP = {
     .name       = s"SS_THGRENADES",
     .items      = &thumperAmmoItems [0],
 };
-
-#endif

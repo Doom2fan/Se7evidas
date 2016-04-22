@@ -17,35 +17,48 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SSI_WEAPONS_H
-#define SSI_WEAPONS_H
+#include "includes.h"
+#include "shop.h"
+#include "shop_process.h"
+#include "shop_items/externs.h"
 
-#include <ACS_ZDoom.h>
-#include "../shop_process.h"
-#include "externs.h"
-
-/*SS_Item_t weaponsItems [] = {
+SS_Item_t ammoItems [] = {
     {
         .name               = s"SS_BACK",
         .icon               = SS_BACKICON,
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &main,
-        .next               = &weaponsItems [1],
+        .link               = &mainSP,
+        .next               = &ammoItems [1],
     },
     {
-        .name               = s"",
-        .icon               = s"",
+        .name               = s"SS_BULLETS",
+        .icon               = s"SSTBULAM",
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &,
-        .next               = &weaponsItems [2],
+        .link               = &bulletAmmoSP,
+        .next               = &ammoItems [2],
     },
-};*/
+    {
+        .name               = s"SS_BATTERIESLINK",
+        .icon               = s"SSTBATAM",
+        .itemType           = IT_PageLink,
+        .linkType           = LT_Always,
+        .link               = &batteriesAmmoSP,
+        .next               = &ammoItems [3],
+    },
+    {
+        .name               = s"SS_THGRENADES",
+        .icon               = s"SSTTHGAM",
+        .itemType           = IT_PageLink,
+        .linkType           = LT_Always,
+        .link               = &thumperAmmoSP,
+        .next               = NULL,
+    },
 
-SS_Page_t weapons = {
-    .name       = s"SS_WEAPONS",
-    //.items      = &weaponsItems [0],
 };
 
-#endif
+SS_Page_t ammoSP = {
+    .name       = s"SS_AMMO",
+    .items      = &ammoItems [0],
+};

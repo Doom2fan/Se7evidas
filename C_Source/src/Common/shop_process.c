@@ -167,7 +167,7 @@ void SS_ProcessToggle (PlayerData_t *player) {
         player->SprintDef.disable = FALSE; // Enable sprinting
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
     } else if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressed (BT_USER3)) { // If disableOpen is false, the shop menu is closed and the BT_USER3 key was hit...
-        SS_ChangePage (player, &main); // Change the page to main
+        SS_ChangePage (player, &mainSP); // Change the page to main
         player->shopDef.open = TRUE; // Set open to TRUE
         player->SprintDef.disable = TRUE; // Disable sprinting
         SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN); // Freeze the player

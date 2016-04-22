@@ -17,21 +17,31 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef THUMPER_H
-#define THUMPER_H
+#include "includes.h"
+#include "shop.h"
+#include "shop_process.h"
+#include "shop_items/externs.h"
 
-#include <ACS_ZDoom.h>
+SS_Item_t mainItems [] = {
+    {
+        .name           = s"SS_AMMO",
+        .icon           = s"SSTAMICO",
+        .itemType       = IT_PageLink,
+        .linkType       = LT_Always,
+        .link           = &ammoSP,
+        .next           = &mainItems [1],
+    },
+    {
+        .name           = s"SS_WEAPONS",
+        .icon           = s"SSTWPICO",
+        .itemType       = IT_PageLink,
+        .linkType       = LT_Always,
+        .link           = &weaponsSP,
+        .next           = NULL,
+    },
+};
 
-// Prototypes
-int  Thumper_GetUnifiedPool    ();
-int  Thumper_GetUnifiedPoolMax ();
-void Thumper_GiveShell (int typeI, int amount);
-void Thumper_TakeShell (int typeI, int amount);
-void Thumper_Script           (PlayerData_t *player);
-void Thumper_ScriptClientside (PlayerData_t *player);
-
-// Variables/Stuff
-#define TH_POOLNAMES_MAX 7
-extern const string Thumper_PoolNames [];
-
-#endif
+SS_Page_t mainSP = {
+    .name       = s"SS_MAIN",
+    .items      = &mainItems [0],
+};
