@@ -63,5 +63,5 @@ bool S7_PlayerNumEqualConsolePlayer (int playerNum) {
 }
 
 void PukeScriptFunction (int number, int arg0, int arg1, int arg2) {
-    RequestPukeScript (number, arg0, arg1, arg2);
+    RequestScriptPuke (number, arg0, arg1, arg2);
 }
