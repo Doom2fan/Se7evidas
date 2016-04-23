@@ -21,18 +21,18 @@
 #define INCLUDES_H
 
 // Includes
-#include "util.h"
-#include "util_math.h"
-#include "types.h"
-#include "enum.h"
-#include "construct.h"
-#include "commonFuncs.h"
-#include "debugFuncs.h"
+#include "common/util.h"
+#include "common/util_math.h"
+#include "common/types.h"
+#include "common/enum.h"
+#include "misc/construct.h"
+#include "common/commonFuncs.h"
+#include "misc/debugFuncs.h"
 #ifndef SERVER_C
-#include "server.h"
+#include "common/server.h"
 #endif
 #ifndef PLAYER_C
-#include "player.h"
+#include "common/player.h"
 #endif
 
 // Typedefs

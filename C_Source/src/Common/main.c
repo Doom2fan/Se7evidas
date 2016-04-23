@@ -18,15 +18,15 @@
 */
 
 #include "includes.h"
-#include "health.h"
-#include "HUD.h"
-#include "misc.h"
-#include "parkour.h"
-#include "sprint_system.h"
-#include "stamina.h"
-#include "thumper.h"
-#include "weapon_stuff.h"
-#include "xp_system.h"
+#include "systems/health.h"
+#include "systems/HUD.h"
+#include "systems/misc.h"
+#include "systems/parkour.h"
+#include "systems/sprint_system.h"
+#include "systems/stamina.h"
+#include "weapons/thumper.h"
+#include "weapons/weapon_stuff.h"
+#include "systems/xp_system.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 

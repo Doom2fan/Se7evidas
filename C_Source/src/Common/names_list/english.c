@@ -18,7 +18,7 @@
 */
 
 #include "includes.h"
-#include "names.h"
+#include "misc/names.h"
 
 string NL_Eng_Fore [] = {
     s"Aaron",

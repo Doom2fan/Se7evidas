@@ -19,8 +19,8 @@
 
 #include "includes.h"
 #include "includes_zandro.h"
-#include "stamina.h"
-#include "sprint_system.h"
+#include "systems/stamina.h"
+#include "systems/sprint_system.h"
 
 bool RunningInZDoom = FALSE;
 
