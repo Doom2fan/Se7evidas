@@ -9,12 +9,10 @@ CC_FLAGS = $(COM_FLAGS) -DDEBUG
 LD_LIB_FLAGS = $(COM_FLAGS) -lS7Stuff
 ## Directories ##
 SOURCEDIRECTORY = C_Source
-
 INCDIR = $(SOURCEDIRECTORY)/inc
 SRCDIR = $(SOURCEDIRECTORY)/src
 OBJDIR = $(SOURCEDIRECTORY)/obj
 LIBDIR = $(OBJDIR)/lib
-
 ZDACSDIR = PK3_Source_GZDoom/acs
 ZANDROACSDIR = PK3_Source_Zandronum/acs
 SHELL = C:/Windows/System32/cmd.exe
@@ -22,6 +20,7 @@ SHELL = C:/Windows/System32/cmd.exe
 rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcardInt, $(d)/))
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
 
+.PHONY : all
 all: $(ZDACSDIR)/S7Stuff.bin $(ZANDROACSDIR)/S7Stuff.bin
 
 .PHONY : cleanall
