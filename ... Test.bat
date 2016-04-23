@@ -17,9 +17,12 @@ ECHO.
 ECHO 1 - GZDoom
 ECHO 2 - ZDoom
 ECHO 3 - Zandronum
-CHOICE /C 123 /N
+ECHO 0 - Exit
+CHOICE /C 1230 /N
 
-if %ERRORLEVEL% EQU 3 (
+if %ERRORLEVEL% EQU 4 (
+    goto :Finish
+) else if %ERRORLEVEL% EQU 3 (
     SET PROG_PROG=%PROG_ZANDRONUM%
     SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_Zandronum" %*
 ) else if %ERRORLEVEL% EQU 2 (
