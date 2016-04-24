@@ -29,6 +29,9 @@
 #include "systems/xp_system.h"
 
 void ShopSystem_Script (PlayerData_t *player);
+void ResetStuff (PlayerData_t *player);
+
+int queuedMapEvent = MEVNT_None;
 
 Script_C void S7_ServersideOpen OPEN () {
     #ifdef DEBUG
@@ -39,6 +42,8 @@ Script_C void S7_ServersideOpen OPEN () {
     #endif
 
     SetAirControl (0.1k);
+    MapData.mapEvent = queuedMapEvent;
+    queuedMapEvent = -1;
     SetupMapEvents ();
 
     while (TRUE) {
@@ -47,6 +52,18 @@ Script_C void S7_ServersideOpen OPEN () {
 
         Delay (1);
     }
+}
+
+Script_C void S7_ServersideUnloading UNLOADING () {
+    ServerData.mapCount++;
+
+    if (ServerData.mapCount > 0)
+        queuedMapEvent = Random (MEVNT_None, MEVNT_LastToken - 1);
+    else
+        queuedMapEvent = MEVNT_PerfectHatred; //MEVNT_None;
+
+    for (int i = 0; i < MAX_PLAYERS; i++)
+        ResetStuff (&PlayerData [i]);
 }
 
 // General stuff
@@ -183,13 +200,6 @@ Script_C void S7_ServersideRespawn RESPAWN () {
     }
 
     ResetStuff (player);
-}
-
-Script_C void S7_ServersideUnloading UNLOADING () {
-    ServerData.mapCount++;
-
-    for (int i = 0; i < MAX_PLAYERS; i++)
-        ResetStuff (&PlayerData [i]);
 }
 
 Script_C void S7_ServersideDisconnect DISCONNECT (int num) {

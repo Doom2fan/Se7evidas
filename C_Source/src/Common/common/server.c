@@ -35,11 +35,6 @@ Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
 }
 
 void SetupMapEvents () {
-    if (ServerData.mapCount > 0 && Random (FALSE, TRUE))
-        MapData.mapEvent = Random (MEVNT_None + 1, MEVNT_LastToken - 1);
-    else
-        MapData.mapEvent = MEVNT_PerfectHatred; //MEVNT_None;
-
     switch (MapData.mapEvent) {
         case MEVNT_PowerOutage:
             ChangeSky (s"NEBSKY", s""); // Change the sky
