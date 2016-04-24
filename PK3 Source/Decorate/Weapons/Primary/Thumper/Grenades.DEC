@@ -142,7 +142,7 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     states {
     Spawn:
         TNT1 A 0 noDelay A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
-        TNT1 A 0         A_SetUserVar ("user_timesToLoop", random (236, 280))
+        TNT1 A 0         A_SetUserVar ("user_timesToLoop", random (1025, 1050))
         TNT1 A 0         A_SetUserVar ("user_moveDir", args [random (0, 1)])
         TNT1 A 0         A_SetUserVar ("user_initialized", 1)
     Idle:
@@ -153,39 +153,43 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         TNT1 A 0 A_SetGravity (1.0)
         TNT1 A 0 A_JumpIf (user_initialized, "Loople")
         TNT1 A 0 A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", random (236, 280))
+        TNT1 A 0 A_SetUserVar ("user_timesToLoop", random (1025, 1050))
         TNT1 A 0 A_SetUserVar ("user_moveDir", args [random (0, 1)])
         TNT1 A 0 A_SetUserVar ("user_initialized", 1)
     Loople:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop < 150, "Loople2")
-        TNT1 A 0                  A_JumpIf (user_timesToLoop <=  0, "Loopled")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 678, "Loople2")
         TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare1) A_SetAngle (angle + user_moveDir)
         loop
     Loople2:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop < 100, "Loople3")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 565, "Loople3")
         TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare2) A_SetAngle (angle + user_moveDir)
         loop
     Loople3:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop <  50, "Loople4")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 452, "Loople4")
         TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare3) A_SetAngle (angle + user_moveDir)
         loop
     Loople4:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop <  25, "Loople5")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 339, "Loople5")
         TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare4) A_SetAngle (angle + user_moveDir)
         loop
     Loople5:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop <  13, "Loople6")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 226, "Loople6")
         TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare5) A_SetAngle (angle + user_moveDir)
         loop
     Loople6:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop <=  0, "Loopled")
+        TNT1 A 0                  A_JumpIf (user_timesToLoop < 113, "Loople7")
         TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
         THGR A 2 light (TGFlare6) A_SetAngle (angle + user_moveDir)
+        loop
+    Loople7:
+        TNT1 A 0                  A_JumpIf (user_timesToLoop <=  0, "Loopled")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        THGR A 2 light (TGFlare7) A_SetAngle (angle + user_moveDir)
         loop
 
     Loopled:

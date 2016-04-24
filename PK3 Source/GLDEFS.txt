@@ -6,38 +6,51 @@ pointLight MJMPMARKER {
     size 32
 }
 
-pointLight TGFlare1 {
+flickerlight2 TGFlare1 {
+    color 0.45098 0.73333 1.0
+    size 128
+    secondarySize 112
+    interval 0.002
+}
+
+flickerlight2 TGFlare2 {
     color 0.45098 0.73333 1.0
     size 64
-    // secondarySize 56
+    secondarySize 56
+    interval 0.002
 }
 
-pointLight TGFlare2 {
+flickerlight2 TGFlare3 {
     color 0.45098 0.73333 1.0
     size 48
-    // secondarySize 42
+    secondarySize 42
+    interval 0.002
 }
 
-pointLight TGFlare3 {
+flickerlight2 TGFlare4 {
     color 0.45098 0.73333 1.0
     size 32
-    // secondarySize 28
+    secondarySize 28
+    interval 0.002
 }
 
-pointLight TGFlare4 {
+flickerlight2 TGFlare5 {
     color 0.45098 0.73333 1.0
     size 24
-    // secondarySize 21
+    secondarySize 21
+    interval 0.002
 }
 
-pointLight TGFlare5 {
+flickerlight2 TGFlare6 {
     color 0.45098 0.73333 1.0
     size 16
-    // secondarySize 14
+    secondarySize 14
+    interval 0.002
 }
 
-pointLight TGFlare6 {
+flickerlight2 TGFlare7 {
     color 0.45098 0.73333 1.0
     size 8
-    // secondarySize 7
+    secondarySize 7
+    interval 0.002
 }
