@@ -40,6 +40,7 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_762x39Cartridges",                           },
     { .name = s"S7_20gaShells",                                 },
     { .name = s"S7_Cells",                                      },
+    { .name = s"S7_FBSysCells",                                 },
     { .name = s"S7_Thumper_PExp",                               },
     { .name = s"S7_Thumper_PFrag",                              },
     { .name = s"S7_Thumper_PTherm",                             },
@@ -77,6 +78,9 @@ SaveInv_InvInfo normalInvInfo [] = {
     // Health
     { .name = s"S7_Medikit",                                    },
     { .name = s"S7_Stimpack",                                   },
+    { .name = s"S7_Canteen",                                    },
+    // Powerups
+    { .name = s"S7_Berserk",                                    },
     // Loot
     { .name = s"S7_Thumper_Used",                               },
 };
