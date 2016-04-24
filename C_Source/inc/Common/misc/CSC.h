@@ -17,8 +17,8 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef HUD_H
-#define HUD_H
+#ifndef CSC_H
+#define CSC_H
 
 #include <ACS_ZDoom.h>
 
