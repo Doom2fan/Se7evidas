@@ -16,6 +16,8 @@ SS_THGRENADES                   = "Granadas 50mm";
 SS_LOOT                         = "Saque";
 
 // Names
+// Ammo
+SS_20GA                         = "20 gauge shells";
 // 50mm grenades
 SS_TH_ALL                       = "Todas";
 SS_TH_EXP                       = "Explosiva";
@@ -34,3 +36,4 @@ SS_762X39DESC                   = "Carregador 7.62x39mm";
 SS_20GADESC                     = "Bandoleira com 10 cartuchos calibre 20";
 // Batteries/Cells
 SS_CELLSDESC                    = "Duas celulas de energia Tipo A";
+SS_FBSYSCELLSDESC               = "Célula de energia Firebrand Systems";

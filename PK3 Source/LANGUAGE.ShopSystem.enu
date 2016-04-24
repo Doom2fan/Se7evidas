@@ -16,6 +16,8 @@ SS_THGRENADES                   = "50mm grenades";
 SS_LOOT                         = "Loot";
 
 // Names
+// Ammo
+SS_20GA                         = "20 gauge shells";
 // 50mm grenades
 SS_TH_ALL                       = "All";
 SS_TH_EXP                       = "Explosive";
@@ -34,3 +36,4 @@ SS_762X39DESC                   = "7.62x39mm magazine";
 SS_20GADESC                     = "Bandolier with 10 20ga shells";
 // Batteries/Cells
 SS_CELLSDESC                    = "Two Type A energy cells";
+SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";

@@ -38,13 +38,31 @@ SS_Item_t batteriesAmmoItems [] = {
         .inventoryName      = s"S7_Cells",
 
         .itemType           = IT_BuySellItem,
-        .next               = NULL,
+        .next               = &batteriesAmmoItems [2],
 
         .maxAmount          = 36,
         .buyPrice           = 240,
         .buyAmount          = 36,
         .sellPrice          = 120,
         .sellAmount         = 36,
+        .buyCallback        = &SS_BuyItem,
+        .sellCallback       = &SS_SellItem,
+        .maxAmountCallback  = &SS_AmmoMaxAmount,
+    },
+    {
+        .name               = s"FBSYSCELLS",
+        .description        = s"SS_FBSYSCELLSDESC",
+        .icon               = s"SSTCELFB",
+        .inventoryName      = s"S7_FBSysCells",
+
+        .itemType           = IT_BuySellItem,
+        .next               = NULL,
+
+        .maxAmount          = 23,
+        .buyPrice           = 300,
+        .buyAmount          = 23,
+        .sellPrice          = 150,
+        .sellAmount         = 23,
         .buyCallback        = &SS_BuyItem,
         .sellCallback       = &SS_SellItem,
         .maxAmountCallback  = &SS_AmmoMaxAmount,

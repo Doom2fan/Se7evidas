@@ -104,7 +104,7 @@ SS_Item_t bulletAmmoItems [] = {
         .maxAmountCallback  = &SS_AmmoMaxAmount,
     },
     {
-        .name               = s"20GA",
+        .name               = s"SS_20GA",
         .description        = s"SS_20GADESC",
         .icon               = s"SST20GA",
         .inventoryName      = s"S7_20gaShells",
