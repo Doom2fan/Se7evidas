@@ -40,29 +40,29 @@ PK3 Source/DECORATE/Player.DEC {
     weaponSlot properties: weapon actor names;
 }
 
-C_Source/inc/Common/weap_data.h {
+C_Source/inc/Common/weapons/weap_data.h {
     WeaponNames array: Weapon actor names;
     ClipNames: In mag ammo actor names;
     AmmoNames: Ammo type actor names;
     S7_HW_2ModeWpns: Weapon actor names; (Weapons with 2 switchable fire modes)
 }
 
-C_Source/inc/Common/player.h {
+C_Source/inc/Common/common/player.h {
     PD_AmmoTypes: Ammo types info;
 
 }
 
-C_Source/src/Common/HUD.c {
+C_Source/src/Common/systems/HUD.c {
     AmmoList: Ammo type actor names;
     WeaponsList: Weapon actor names;
     LootList: Loot items actor names;
 }
 
-C_Source/src/ZDoom/save_invdata.c {
+C_Source/src/ZDoom/save_system/save_invdata.c {
     importantInvInfo = normalInvInfo = Inventory items that are saved by the save system;
 }
 
-C_Source/inc/ZDoom/shop_items/ = Shop stuff;
+C_Source/src/Common/shop/shop_items/ = Shop stuff;
 
 (I think that's all)
 ======================================================================================================================================================================================
