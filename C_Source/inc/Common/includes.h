@@ -21,6 +21,7 @@
 #define INCLUDES_H
 
 // Includes
+#include <assert.h>
 #include "common/util.h"
 #include "common/util_math.h"
 #include "common/types.h"
