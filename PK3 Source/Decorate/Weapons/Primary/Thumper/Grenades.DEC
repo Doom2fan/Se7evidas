@@ -144,6 +144,9 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         TNT1 A 0 noDelay A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
         TNT1 A 0         A_SetUserVar ("user_timesToLoop", random (1025, 1050))
         TNT1 A 0         A_SetUserVar ("user_moveDir", args [random (0, 1)])
+        TNT1 A 0         A_ChangeFlag ("noGravity", FALSE)
+        TNT1 A 0         A_ChangeFlag ("noBlockmap", FALSE)
+        TNT1 A 0         A_JumpIf (user_initialized > 0, "Loople")
         TNT1 A 0         A_SetUserVar ("user_initialized", 1)
     Idle:
         THGR A 1 light (TGFlare1)
@@ -152,13 +155,11 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     Death:
         TNT1 A 0 A_SetGravity (1.0)
         TNT1 A 0 A_JumpIf (user_initialized, "Loople")
-        TNT1 A 0 A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE)
-        TNT1 A 0 A_SetUserVar ("user_timesToLoop", random (1025, 1050))
-        TNT1 A 0 A_SetUserVar ("user_moveDir", args [random (0, 1)])
-        TNT1 A 0 A_SetUserVar ("user_initialized", 1)
+        TNT1 A 0 A_SetUserVar ("user_initialized", 2)
+        goto Spawn
     Loople:
-        TNT1 A 0                  A_JumpIf (user_timesToLoop < 678, "Loople2")
-        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)
+        /*TNT1 A 0                  A_JumpIf (user_timesToLoop < 678, "Loople2")
+        TNT1 A 0                  A_SetUserVar ("user_timesToLoop", user_timesToLoop - 1)*/
         THGR A 2 light (TGFlare1) A_SetAngle (angle + user_moveDir)
         loop
     Loople2:
