@@ -4,6 +4,7 @@ actor S7_Berserk : customInventory {
     inventory.pickupMessage "$BERSERK"
     inventory.amount 1
     inventory.maxAmount 5
+    inventory.interHubAmount 5
 
     +inventory.invBar
 

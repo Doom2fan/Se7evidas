@@ -6,6 +6,7 @@
 actor S7_Medikit : customInventory replaces medikit 32001 {
     tag "Medikit"
     inventory.maxAmount 4
+    inventory.interHubAmount 4
     inventory.pickupMessage "$GOTMEDIKIT"
     inventory.icon "ARTIMEDI"
 
@@ -33,6 +34,7 @@ actor S7_Medikit : customInventory replaces medikit 32001 {
 actor S7_Stimpack : customInventory replaces stimpack 32002 {
     tag "Stimpack"
     inventory.maxAmount 8
+    inventory.interHubAmount 8
     inventory.pickupMessage "$GOTSTIM"
     inventory.icon "ARTISTIM"
 
@@ -60,6 +62,7 @@ actor S7_Stimpack : customInventory replaces stimpack 32002 {
 actor S7_Canteen : customInventory {
     tag "$CANTEEN"
     inventory.maxAmount 2000
+    inventory.interHubAmount 2000
     inventory.pickupMessage "$CANTEEN"
     inventory.icon "ARTICANT"
 

@@ -1,6 +1,7 @@
 // From Samsara
 actor Boolean : inventory {
     inventory.maxAmount 1
+    inventory.interHubAmount 1
 
     +inventory.undroppable
     -inventory.invBar
@@ -8,6 +9,7 @@ actor Boolean : inventory {
 
 actor Counter : inventory {
     inventory.maxAmount 0x7FFFFFFF
+    inventory.interHubAmount 0x7FFFFFFF
 
     +inventory.undroppable
     -inventory.invBar
