@@ -24,7 +24,8 @@
 const string DummyWeapons [] = {
     s"S7_NullWeapon",
     SPRINTWEAPON,
-    QUICKMELEEWEAPON
+    QUICKMELEEWEAPON,
+    s"S7_BerserkWeap",
 };
 
 int GetWeaponName () {
@@ -55,8 +56,7 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
         weaponNumber = GetWeaponName ();
         if (weaponNumber < 0 || weaponNumber > WeaponNames_Length - 1)
             return;
-        else
-            player->scriptData.lastWeapon = weaponNumber;
+        player->scriptData.lastWeapon = weaponNumber;
     }
 }
 
@@ -162,6 +162,13 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
     }
 
     return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
+}
+
+Script_C void S7_BerserkWeapToggle () {
+    if (!PlayerInGame (PLN))
+        return;
+    
+    DisableWeapon (s"S7_BerserkWeap", s"", &PlayerData [PLN]);
 }
 
 /*
