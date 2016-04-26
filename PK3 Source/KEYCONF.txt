@@ -12,6 +12,8 @@
 
 // Aliases
 alias S7_ListInv "pukename S7_PrintInv %1"
+alias S7_LogServerData "pukename S7_PrintServerData"
+alias S7_LogMapData "pukename S7_PrintMapData"
 
 // Save system aliases
 alias S7_ClearSaveData "pukename \"S7_ClearSaveData\""
