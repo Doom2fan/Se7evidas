@@ -39,6 +39,8 @@ void SetupMapEvents () {
         case MEVNT_PowerOutage:
             ChangeSky (s"NEBSKY", s""); // Change the sky
 
+            Light_ChangeToValue (0, 64);
+            Light_Stop (0);
             S7_LightLevelScript (32767,      0, 0, 64); // Change the light level to 64
             S7_LightLevelScript (   -1, -32768, 0, 64);
         break;
@@ -46,6 +48,8 @@ void SetupMapEvents () {
         case MEVNT_PerfectHatred:
             ChangeSky (s"ATWSKY", s""); // Change the sky
 
+            Light_ChangeToValue (0, 1);
+            Light_Stop (0);
             S7_LightLevelScript (32767,      0, 0, 1); // Change the light level to 1
             S7_LightLevelScript (   -1, -32768, 0, 1);
         break;
@@ -80,15 +84,19 @@ void UpdateServerData () {
 }
 
 #define ME_CLSLoop(sky, light) \
+    Light_ChangeToValue (0, light); \
+    Light_Stop (0); \
+    S7_LightLevelScript (    0, 5000, 0, light); \
+    S7_LightLevelScript (-5000,   -1, 0, light); \
     if (MapData.meSecLoopDelay <= 0) { \
         ChangeSky (sky, s""); \
         S7_LightLevelScript ( 32767,  16385,  0, light); \
-        S7_LightLevelScript ( 16384,      0,  6, light); \
-        S7_LightLevelScript (    -1, -16384, 12, light); \
+        S7_LightLevelScript ( 16384,   5000,  6, light); \
+        S7_LightLevelScript ( -5000, -16384, 12, light); \
         S7_LightLevelScript (-16385, -32768, 18, light); \
     } \
     if (MapData.meSecLoopDelay <= 0) \
-        MapData.meSecLoopDelay = 15 * 35
+        MapData.meSecLoopDelay = 10 * 35;
 
 void UpdateMapData () {
     if (MapData.meSecLoopDelay > 0)
