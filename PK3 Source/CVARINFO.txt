@@ -1,23 +1,30 @@
-// Server CVars
+/** Server CVars **/
 server int   S7_DodgeCooldown           = 35;
 server float S7_MultiJumpZMul           = 1.0;
 server bool  S7_ForceIntro              = FALSE;
 server noArchive bool S7_NoSaveLoading  = FALSE;
 
-// User CVars
+/** User CVars **/
 user bool S7_MsgsOn                     = TRUE;
 user bool S7_LogLVLUpMsgs               = TRUE;
 user bool S7_AutoReloading              = TRUE;
 user bool S7_HeartbeatsOn               = TRUE;
+user bool S7_LoadSaveDataOnNewGame      = TRUE;
+// Intro
 user bool S7_NoIntro                    = FALSE;
 user bool S7_NoIntroOnMP                = FALSE;
-user bool S7_LoadSaveDataOnNewGame      = TRUE;
+// Enemy health bar
 user bool S7_EnemyHPBar_On              = TRUE;
 user int  S7_EnemyHPBar_HPDisp          = 1;
 user bool S7_EnemyHPBar_NametagOn       = TRUE;
 user int  S7_EnemyHPBar_ForceDir        = 0;
+// Radar
+user int  S7_Radar_Width                = 640;
+user int  S7_Radar_Height               = 480;
+user int  S7_Radar_XPos                 = 320;
+user int  S7_Radar_YPos                 = 240;
 
-// Required clientside CVars
+/** Required clientside CVars **/
 user int  S7_Screenblocks               = 0;
 
 user string S7_TestData                 = "";

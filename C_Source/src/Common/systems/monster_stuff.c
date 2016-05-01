@@ -21,11 +21,56 @@
 #include "misc/names.h"
 #include "systems/monster_stuff.h"
 
+MonsterInfo_t *monsterList;
+
+bool AddMonsterToList (MonsterInfo_t *monster) {
+    if (monster->next != NULL)
+        return FALSE;
+
+    monster->next = monsterList;
+    monsterList = monster;
+
+    return TRUE;
+}
+
+void UpdateMonsterInfo (MonsterInfo_t *self) {
+    if (StrICmp (GetActorClass (0), s"None") == 0 || StrICmp (GetActorClass (0), s"") == 0) {
+        self->removed = TRUE;
+        return;
+    } else if (self->removed)
+        self->removed = FALSE;
+
+    self->x = GetActorX (0); self->y = GetActorY (0); self->z = GetActorZ (0);
+    self->velX = GetActorVelX (0); self->velY = GetActorVelY (0); self->velZ = GetActorVelZ (0);
+    self->angle = GetActorAngle (0); self->pitch = GetActorPitch (0);
+    self->floorZ = GetActorFloorZ (0); self->ceilZ = GetActorCeilingZ (0);
+
+    self->health = GetActorProperty (0, APROP_Health); self->maxHealth = GetActorProperty (0, APROP_SpawnHealth);
+    if (self->health > self->maxHealth)
+        self->maxHealth = self->health;
+    self->tid = ActivatorTID ();
+}
+
+Script_C void S7_GenericMonsterScript () {
+    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    AddMonsterToList (self);
+
+    while (TRUE) {
+        UpdateMonsterInfo (self);
+
+        Delay (1);
+    }
+}
+
 Script_C void S7_ZombieScript () {
     string name = s"Reading name";
     int readDelay = Random (3, 6);
+    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    AddMonsterToList (self);
 
     while (TRUE) {
+        UpdateMonsterInfo (self);
+
         if (readDelay != 0xBAADBEEF && readDelay <= 0) {
             name = NL_GenMaleNameEng ();
             readDelay = 0xBAADBEEF;
@@ -51,10 +96,14 @@ Script_C void S7_EmpressScript () {
     int invulnDelay,
         ballsCount,
         newHealth, health;
+    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    AddMonsterToList (self);
 
     newHealth = GetActorProperty (0, APROP_Health);
     health = EMPMHEALTH;
     while (TRUE) {
+        UpdateMonsterInfo (self);
+
         ballsCount = CheckInventory (s"S7_EmpressBalls");
         health += -(0x7FFFFFFF - newHealth);
 

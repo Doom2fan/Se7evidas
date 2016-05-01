@@ -41,5 +41,6 @@ void HudWeapons      (PlayerData_t *player);
 void ShowPop         (PlayerData_t *player, SP_Data_t *data);
 void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data);
 void ScreenOverlays  (PlayerData_t *player);
+void DrawRadar       (PlayerData_t *player);
 
 #endif

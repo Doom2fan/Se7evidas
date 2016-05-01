@@ -59,6 +59,10 @@ optionValue "S7EnemyHPBar_ForceDir_Values" {
 
 optionMenu "S7Settings_User" {
     title "Client Options"
+    staticText "These currently don't work. Yeah, I know, it sucks."
+    staticText "I can't do anything 'bout it. Go complain to the Zandro devs."
+    staticText "They're the ones who didn't make user/client CVar support yet"
+    staticText ""
 
     staticText "Visual Options", 1
     option "Mod messages on",                                                                       "S7_MsgsOn",                    "OnOff"
@@ -70,6 +74,15 @@ optionMenu "S7Settings_User" {
     option "Numerical health display",                                                              "S7_EnemyHPBar_HPDisp",         "S7EnemyHPBar_HPDisp_Values"
     option "Nametag",                                                                               "S7_EnemyHPBar_NametagOn",      "OnOff"
     option "Force Direction",                                                                       "S7_EnemyHPBar_ForceDir",       "S7EnemyHPBar_ForceDir_Values"
+
+    staticText " "
+    staticText "Radar", 1
+    slider "Radar X position",                                                                      "S7_Radar_XPos", -1920, 1920, 8
+    slider "Radar Y position",                                                                      "S7_Radar_YPos", -1080, 1080, 8
+    staticText "Don't use the same resolution as video mode."
+    staticText "Smaller values increase graphic size"
+    slider "Radar X scaled resolution",                                                             "S7_Radar_Width", 320, 1920, 5
+    slider "Radar Y scaled resolution",                                                             "S7_Radar_Height", 240, 1080, 5
 
     staticText " "
     staticText "Gameplay Options", 1

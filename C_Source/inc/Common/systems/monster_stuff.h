@@ -32,4 +32,30 @@
 // User vars
 #define EMPHPVAR s"user_trueHealth"
 
+// Typedefs
+typedef struct MonsterInfo_t MonsterInfo_t;
+
+// Structs
+struct MonsterInfo_t {
+    MonsterInfo_t *next;        // Pointer to the next monster
+    bool removed;               // This is true if the monster actor was removed
+
+    // Physics and movement
+    accum    x,    y,    z;     // XYZ coordinates
+    accum velX, velY, velZ;     // XYZ velocities
+    accum angle;                // Angle
+    accum pitch;                // Pitch
+    accum floorZ, ceilZ;        // Sector Z coordinates
+
+    // Health and stuff
+    int health, maxHealth;      // Health and max health
+    int tid;                    // The monster's TID
+};
+
+extern MonsterInfo_t *monsterList;
+
+// Prototypes
+bool AddMonsterToList  (MonsterInfo_t *monster);
+void UpdateMonsterInfo (MonsterInfo_t *self);
+
 #endif

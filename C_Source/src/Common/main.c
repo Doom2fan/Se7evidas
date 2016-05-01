@@ -145,6 +145,7 @@ Script_C void S7_ServersideEnter2 ENTER () {
         ShowPop                  (player, &sp_data);
         EnemyInfoScript          (player, &eis_data);
         ScreenOverlays           (player);
+        DrawRadar                (player);
 
         Delay (1); // Wait for a tic
     }

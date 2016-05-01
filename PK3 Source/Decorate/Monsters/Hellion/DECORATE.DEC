@@ -17,6 +17,8 @@ actor S7_Hellion: S7_DemonBase replaces doomImp {
 
     states {
     Spawn:
+        HELN A 0 noDelay ACS_NamedExecuteAlways ("S7_GenericMonsterScript", 0)
+    Idle:
         HELN A 10 A_Look
         loop
     See:
@@ -35,11 +37,11 @@ actor S7_Hellion: S7_DemonBase replaces doomImp {
         goto See
 
     Death:
-        HELN N  6 A_SetUserVar ("user_deathType", 0)
-        HELN O  6 A_Scream
-        HELN P  6
-        HELN Q  6 A_NoBlocking
-        HELN RS 6
+        HELN N  5 A_SetUserVar ("user_deathType", 0)
+        HELN O  5 A_Scream
+        HELN P  5
+        HELN Q  5 A_NoBlocking
+        HELN RS 5
         HELN T -1
         stop
     XDeath:

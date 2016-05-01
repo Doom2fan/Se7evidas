@@ -412,3 +412,53 @@ void ScreenOverlays (PlayerData_t *player) {
     player->scriptData.prevEyesDist = eyesDist;
     TakeInventory (s"S7_MEATW_EyesCounter", 0x7FFFFFFF);*/
 }
+
+#define RADAR_SCALE 10.0k
+#define RADAR_MAXDIST 750
+#define RADAR_XPOS GetUserCVar (0, s"S7_Radar_XPos")
+#define RADAR_YPOS GetUserCVar (0, s"S7_Radar_YPos")
+#define RADAR_BASEID 15000
+void DrawRadar (PlayerData_t *player) {
+    // Uncomment when you have something to use this for.
+    /*MonsterInfo_t *monster = monsterList;
+    accum x, y, dX, dY, dist;
+    int colour, i = 1;
+    bool draw;
+
+    SetHudSize (GetUserCVar (0, s"S7_Radar_Width"), GetUserCVar (0, s"S7_Radar_Height"), FALSE);
+    SetFont (s"SMALLFNT");
+    HudMessage (HUDMSG_PLAIN, RADAR_BASEID, CR_BLUE, RADAR_XPOS + 0.1k, RADAR_YPOS + 0.1k, 0.0k, 0.0k, 0.0k, 0.0k, "@");
+
+    while (TRUE) {
+        if (!monster)
+            break;
+
+        dist = Distance2 (player->physics.x, player->physics.y, 0.0k, monster->x, monster->y, 0.0k);
+        draw = dist <= RADAR_MAXDIST;
+
+        // Coords
+        x = player->physics.x - monster->x;
+        y = player->physics.y - monster->y;
+        dX = x * SinA (-player->physics.angle) + y * CosA (-player->physics.angle);
+        dY = x * CosA (-player->physics.angle) - y * SinA (-player->physics.angle);
+        dX /= RADAR_SCALE; dX += RADAR_XPOS; dX = (dX >> 16) << 16;
+        dY /= RADAR_SCALE; dY += RADAR_YPOS; dY = (dY >> 16) << 16;
+
+        if (dX < 0) dX -= 0.1; else dX += 0.1;
+        if (dY < 0) dY -= 0.1; else dY += 0.1;
+
+        if (monster->health <= 0)
+            colour = CR_RED;
+        else
+            colour = CR_DARKGREY;
+
+        if (!monster->removed && draw) {
+            HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i, colour, dX, dY, 0.1k, 0.0k, 0.0k, 0.0k, "o");
+            i++;
+        }
+
+        monster = monster->next;
+    }
+
+    SetHudSize (0, 0, FALSE);*/
+}
