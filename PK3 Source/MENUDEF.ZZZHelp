@@ -6,6 +6,7 @@ listMenu "S7HelpTopicsMenu" {
     position 37, 62
     textItem "1. Introduction",                     "1", "S7HelpTopic1-1"
     textItem "2. The leveling system",              "2", "S7HelpTopic2-1"
+    textItem "C. Main credits and special thanks",   "T", "S7Credits1"
     //textItem "Font Test", "", "S7FontTest"
 }
 
@@ -50,6 +51,38 @@ listMenu "S7HelpTopic2-1" {
     staticText 4, 101, "Defence: Affects the damage you take."
 
     staticText 4, 113, "Magic: Affects magic weapons and your max mana."
+}
+
+listMenu "S7Credits1" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "Credits"
+
+    font "FSHUDFNT", "Untranslated"
+    staticText 4,  35, "C/ACS coding:"
+    staticText 4,  41, "    Chronos \"phantombeta\" Ouroboros"
+
+    staticText 4,  53, "DECORATE coding:"
+    staticText 4,  59, "    Chronos \"phantombeta\" Ouroboros"
+
+    staticText 4,  71, "Coding help:"
+    staticText 4,  77, "    Edward850"
+    staticText 4,  83, "    marrub"
+    staticText 4,  89, "    DavidPH"
+    staticText 4,  95, "    A certain person"
+    staticText 4, 101, "    Revilution/Zanieon"
+
+    staticText 4, 113, "Weapon design and descriptions:"
+    staticText 4, 119, "    A certain person"
+    staticText 4, 125, "    Chronos \"phantombeta\" Ouroboros"
+
+    staticText 4, 137, "Monster design and descriptions:"
+    staticText 4, 143, "    A certain person"
+    staticText 4, 149, "    Chronos \"phantombeta\" Ouroboros"
+
+    staticText 4, 161, "Item design and descriptions:"
+    staticText 4, 167, "    A certain person"
+    staticText 4, 173, "    Chronos \"phantombeta\" Ouroboros"
+    
 }
 
 listMenu "S7FontTest" {
