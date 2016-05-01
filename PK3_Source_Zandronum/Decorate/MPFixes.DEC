@@ -1,5 +1,5 @@
 // Blame Zandronum's netcode
-actor S7_ThumperGrenadeCluster_ZandroMPFix : S7_ThumperGrenadeCluster Replaces S7_ThumperGrenadeCluster {
+actor S7_ThumperGrenadeCluster_ZandroMPFix : S7_ThumperGrenadeCluster replaces S7_ThumperGrenadeCluster {
     damage (random [weaponDamage] (1, 6) * 18)
     translation "112:127=200:207"
 
@@ -14,5 +14,89 @@ actor S7_ThumperGrenadeCluster_ZandroMPFix : S7_ThumperGrenadeCluster Replaces S
         TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0), 240, SXF_TransferPointers | SXF_NoCheckPosition)
         TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25, 3.0, 0.0, fRandom (4.75, 5.0), 300, SXF_TransferPointers | SXF_NoCheckPosition)
         goto Finish
+    }
+}
+
+actor S7_ThumperGrenadeNail_ZandroMPFix : S7_ThumperGrenadeNail replaces S7_ThumperGrenadeNail {
+
+    states {
+    LoopleUp:
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,   0, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  20, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  40, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  60, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  80, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 100, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 120, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 140, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 160, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 180, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 200, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 220, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 240, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 260, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 280, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 300, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 320, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 340, CMF_AimDirection | CMF_TrackOwner, 35)
+        TNT1 A 0 A_Jump (256, "StartMiddle")
+        wait
+
+    LoopleMiddle:
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,   0, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  20, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  40, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  60, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  80, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 100, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 120, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 140, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 160, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 180, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 200, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 220, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 240, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 260, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 280, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 300, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 320, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 340, CMF_AimDirection | CMF_TrackOwner, 0)
+        TNT1 A 0 A_Jump (256, "Finish") // "StartDown")
+        wait
+
+    /*LoopleDown:
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,   0, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  20, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  40, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  60, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0,  80, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 100, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 120, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 140, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 160, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 180, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 200, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 220, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 240, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 260, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 280, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 300, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 320, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, 340, CMF_AimDirection | CMF_TrackOwner, -35)
+        TNT1 A 0 A_Jump (256, "Finish")
+        wait*/
+
+
+    Finish:
+        XPL1 A 3 bright A_SetScale (0.43)
+        XPL1 BCDE 3 bright
+        stop
+
+    OnCeiling:
+        TNT1 A 0 A_SetUserVar ("user_DirectionNone", 1)
+        goto StartLoople
+    OnFloor:
+        TNT1 A 0 A_SetUserVar ("user_DirectionNone", 2)
+        goto StartLoople
     }
 }
