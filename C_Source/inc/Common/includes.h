@@ -50,6 +50,9 @@ typedef char * cstr;
     #endif
 #endif
 
+//#define GetUserCVar(num, cvar) CustGetUserCVar (num, cvar)
+//#define GetUserCVarFixed(num, cvar) CustGetUserCVarFixed (num, cvar)
+//#define GetUserCVarString(num, cvar) CustGetUserCVarString (num, cvar)
 #define PLN PlayerNumber()
 // The size is actually this minus the length of "<cvar name>="
 #define MAXCVARSIZ 253

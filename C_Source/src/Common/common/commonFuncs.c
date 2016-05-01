@@ -252,3 +252,28 @@ long accum LongFixedSqrt (long accum x) {
 int Random2 (int x, int y) {
     return (rand () % (y + 1)) + x;
 }
+
+#undef GetUserCVar
+#undef GetUserCVarFixed
+#undef GetUserCVarString
+
+int CustGetUserCVar (int num, string cvar) {
+    if (RunningInZDoom)
+        return GetUserCVar (num, cvar);
+    else
+        return GetCVar (cvar);
+}
+
+accum CustGetUserCVarFixed (int num, string cvar) {
+    if (RunningInZDoom)
+        return GetUserCVarFixed (num, cvar);
+    else
+        return GetCVarFixed (cvar);
+}
+
+string CustGetUserCVarString (int num, string cvar) {
+    if (RunningInZDoom)
+        return GetUserCVarString (num, cvar);
+    else
+        return GetCVarString (cvar);
+}

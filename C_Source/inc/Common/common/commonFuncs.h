@@ -84,4 +84,9 @@ vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
 long accum LongFixedSqrt (long accum x);
 int Random2 (int x, int y);
 
+// This is just for zandro compat or something
+int CustGetUserCVar (int num, string cvar);
+accum CustGetUserCVarFixed (int num, string cvar);
+string CustGetUserCVarString (int num, string cvar);
+
 #endif
