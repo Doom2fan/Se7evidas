@@ -27,7 +27,7 @@ string NL_Eng_Fore [] = {
     s"Alex",
     s"Andrew",
     s"Anthony",
-    s"Bem",
+    s"Ben",
     s"Bob",
     s"Brian",
     s"Chris",
