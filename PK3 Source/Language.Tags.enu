@@ -57,6 +57,9 @@ CELLS                           = "Type A Energy Cells";
 FBSYSCELLS                      = "Firebrand Systems Energy Cells";
 
 /** Monsters **/
+SCRPSTROOTAG                    = "Shadow Corps Trooper";
+HELLIONTAG                      = "Hellion";
+BLCKPNTTAG                      = "Black Panther";
 EMPRESSTAG                      = "Empress";
 
 /** Genders **/
