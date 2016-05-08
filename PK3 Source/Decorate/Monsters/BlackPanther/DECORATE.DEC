@@ -6,6 +6,7 @@
 actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
     health 750
     speed 8
+    painChance 50
     bloodColor "00 67 67"
     seeSound "BlackPanther/Sight"
     activeSound "BlackPanther/Active"
@@ -13,6 +14,8 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
     deathSound "knight/death"
     hitObituary "$OBBPANTHER_MELEE"
     obituary "$OBBPANTHER"
+    species "HellNoble"
+    tag "$BLCKPNTTAG"
 
     states {
     Spawn:
