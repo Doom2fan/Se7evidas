@@ -1,7 +1,7 @@
 DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    HUD Sprites: Westwood Studios (Original model), Chronos "phantombeta" Ouroboros (Model ripping and edits)
+    HUD Sprites: Blox, Captain J, Kronos, LucasArts, Chronos "phantombeta" Ouroboros (Edits)
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: None yet :P
