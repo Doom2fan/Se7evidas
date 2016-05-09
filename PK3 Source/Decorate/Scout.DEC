@@ -32,5 +32,5 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     player.startItem S7_MultiJump_Max, 2
 
     // Class stuff
-    player.displayName "Scout"
+    player.displayName "Runner"
 }
