@@ -1,0 +1,7 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    HUD Sprites: Eriance/Amuscaria, Chronos "phantombeta" Ouroboros (Edits)
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

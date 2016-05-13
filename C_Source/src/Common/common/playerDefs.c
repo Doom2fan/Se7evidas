@@ -52,6 +52,10 @@ PD_AmmoType_t PD_AmmoTypes [] = {
         .magSize = 10,
     },
     {
+        .name = s"S7_12gaShells",
+        .magSize = 12,
+    },
+    {
         .name = s"S7_Cells",
         .magSize = 36,
     },

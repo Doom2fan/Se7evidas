@@ -17,7 +17,8 @@ SS_LOOT                         = "Saque";
 
 // Names
 // Ammo
-SS_20GA                         = "20 gauge shells";
+SS_20GA                         = "Cartuchos calibre 20";
+SS_12GA                         = "Cartuchos calibre 12";
 // 50mm grenades
 SS_TH_ALL                       = "Todas";
 SS_TH_EXP                       = "Explosiva";
@@ -33,7 +34,8 @@ SS_TH_NGAS                      = "Nerve gas";
 SS_9MMDESC                      = "Caixa com 30 cartuchos 9x19mm";
 SS_44MDESC                      = "Speedloader .44 Magnum";
 SS_762X39DESC                   = "Carregador 7.62x39mm";
-SS_20GADESC                     = "Bandoleira com 10 cartuchos calibre 20";
+SS_20GADESC                     = "Bandoleira com 10 cartuchos calibre 20 buckshot #2";
+SS_12GADESC                     = "Caixa com 16 cartuchos calibre 12 buckshot #00";
 // Batteries/Cells
 SS_CELLSDESC                    = "Duas celulas de energia Tipo A";
 SS_FBSYSCELLSDESC               = "Célula de energia Firebrand Systems";

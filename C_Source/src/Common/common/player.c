@@ -60,6 +60,9 @@ void UpdatePlayerData (PlayerData_t *player) {
 
     // Non struct data
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
+
+    // Ammo counter stuff
+    SetInventory (s"S7_SSGFauxClip", CheckInventory (s"S7_SSGLeftLoaded") + CheckInventory (s"S7_SSGRightLoaded"));
 }
 
 void UpdateAmmoMax (PlayerData_t *player) {

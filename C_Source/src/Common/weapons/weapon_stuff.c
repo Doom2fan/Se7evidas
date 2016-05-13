@@ -78,7 +78,7 @@ void DisableWeapon (string meh, string blah, PlayerData_t *player) {
 
 // Scripts
 // SynthFire stuff
-Script_C void S7_SynthFire () {
+Script_C void S7_SynthFire (int mode) {
     while (TRUE) {
         if (!PlayerInGame (PLN))
             return;
@@ -86,19 +86,29 @@ Script_C void S7_SynthFire () {
         if (!CheckInventory (s"S7_SynthFireActive"))
             return;
 
-        if (KeyDown (BT_ATTACK) && !CheckInventory (s"S7_SynthFireLeft"))
-            GiveInventory (s"S7_SynthFireLeft", 1);
+        if (!mode) {
+            if (KeyDown (BT_ATTACK))
+                SetInventory (s"S7_SynthFireLeft", 1);
 
-        if (KeyDown (BT_ALTATTACK) && !CheckInventory (s"S7_SynthFireRight"))
-            GiveInventory (s"S7_SynthFireRight", 1);
+            if (KeyDown (BT_ALTATTACK))
+                SetInventory (s"S7_SynthFireRight", 1);
+        } else {
+            if (KeyPressed (BT_ATTACK))
+                SetInventory (s"S7_SynthFireLeft", 1);
+
+            if (KeyPressed (BT_ALTATTACK))
+                SetInventory (s"S7_SynthFireRight", 1);
+        }
 
         Delay (1);
 
-        if (KeyUp (BT_ATTACK) && CheckInventory (s"S7_SynthFireLeft"))
-            TakeInventory (s"S7_SynthFireLeft", 1);
+        if (!mode) {
+            if (KeyUp (BT_ATTACK))
+                SetInventory (s"S7_SynthFireLeft", 0);
 
-        if (KeyUp (BT_ALTATTACK) && CheckInventory (s"S7_SynthFireRight"))
-            TakeInventory (s"S7_SynthFireRight", 1);
+            if (KeyUp (BT_ALTATTACK))
+                SetInventory (s"S7_SynthFireRight", 0);
+        }
     }
 }
 

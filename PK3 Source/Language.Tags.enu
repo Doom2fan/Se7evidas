@@ -5,12 +5,14 @@ SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun \"Lucifer\"";    
 MANXCARBINE                     = "Cronus Corps C23 Selective-fire Carbine \"Manx\"";                   // (9x19mm)
 HITTERSMG                       = "Cronus Corps-Sigma BTK SR20 .45 ACP SMG \"Hitter\"";                 // (.45 ACP)
 FAUCHARD                        = "Firebrand Systems FS/002A Mod 4 Automatic Rifle \"Fauchard\"";       // (FB Sys. Cells)
+SSG                             = "Double-barrelled Shotgun";                                           // (12ga)
 // Short
 SHORTAMG                        = "A28 \"Mars\" Assault Rifle";
 SHORTSHOTGUN                    = "AM-10 \"Lucifer\" Combat Shotgun";
 SHORTMANXCARBINE                = "C23 \"Manx\" Selective-fire Carbine";
 SHORTHITTERSMG                  = "SR20 .45 ACP SMG \"Hitter\"";
 SHORTFAUCHARD                   = "FS/002A Mod 4 Automatic Rifle \"Fauchard\"";
+SHORTSSG                        = "Super Shotgun";
 
 /** Secondary Weapons **/
 RAPTOR                          = "Cronus Corps R16 Pistol \"Raptor\"";                                 // (9x19mm)
@@ -52,6 +54,7 @@ BERSERK                         = "Berserk";
 45ACP                           = ".45 ACP";
 44M                             = ".44 Magnum";
 20GA                            = "20ga";
+12GA                            = "12ga";
 762X39                          = "7.62x39mm";
 CELLS                           = "Type A Energy Cells";
 FBSYSCELLS                      = "Firebrand Systems Energy Cells";
@@ -66,4 +69,4 @@ EMPRESSTAG                      = "Empress";
 GEN_MALE                        = "Male";
 GEN_FEM                         = "Female";
 GEN_OTHER                       = "Other";
-GEN_HERM                        = "Herm";
+GEN_HERM                        = "Herm"; // <3

@@ -18,6 +18,7 @@ SS_LOOT                         = "Loot";
 // Names
 // Ammo
 SS_20GA                         = "20 gauge shells";
+SS_12GA                         = "12 gauge shells";
 // 50mm grenades
 SS_TH_ALL                       = "All";
 SS_TH_EXP                       = "Explosive";
@@ -33,7 +34,8 @@ SS_TH_NGAS                      = "Nerve gas";
 SS_9MMDESC                      = "Box of 30 9x19mm cartridges";
 SS_44MDESC                      = ".44 Magnum speedloader";
 SS_762X39DESC                   = "7.62x39mm magazine";
-SS_20GADESC                     = "Bandolier with 10 20ga shells";
+SS_20GADESC                     = "Bandolier with 10 20ga #2 buckshot shells";
+SS_12GADESC                     = "Box of 16 12ga #00 buckshot shells";
 // Batteries/Cells
 SS_CELLSDESC                    = "Two Type A energy cells";
 SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";

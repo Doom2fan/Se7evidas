@@ -1,0 +1,409 @@
+/** Firing **/
+sprite SSG5A0, 73, 61 {
+    offset -159, -111
+    patch SSG0A0, 0, 0
+}
+sprite SSG5B0, 73, 61 {
+    offset -157, -109
+    patch SSG0A0, 0, 0
+}
+
+/** Reloading **/
+graphic LHand1, 68, 67 {
+    patch LHand10, 0, 0
+    patch LHand12, 20, 31
+}
+
+graphic LHand2, 76, 61 {
+    patch LHand20, 0, 0
+    patch LHand22, 20, 30
+}
+
+graphic LHand3, 68, 67 {
+    patch LHand10, 0, 0
+    patch LHand11, 20, 31
+}
+
+graphic LHand4, 76, 61 {
+    patch LHand20, 0, 0
+    patch LHand21, 20, 30
+}
+
+sprite SSG0B0, 73, 61 {
+    offset -158, -109
+    patch SSG0A0, 0, 0
+}
+
+sprite SSG0C0, 86, 36 {
+    offset -156, -132
+    patch "graphics/Weapons/SSG/Frame1.png", 0, 0
+}
+
+sprite SSG0D0, 86, 36 {
+    offset -154, -134
+    patch "graphics/Weapons/SSG/Frame1.png", 0, 0
+}
+
+sprite SSG0E0, 74, 22 {
+    offset -161, -146
+    patch "graphics/Weapons/SSG/Frame2.png", 0, 0
+}
+
+sprite SSG0F0, 61, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+}
+
+sprite SSG0G0, 114, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch LHand1, 98, 15
+}
+
+sprite SSG0H0, 125, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch LHand1, 91, 5
+}
+
+sprite SSG0I0, 137, 23 {
+    offset -172, -145
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 3
+    patch LHand1, 84, 0
+}
+
+sprite SSG0J0, 137, 34 {
+    offset -172, -134
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 14
+    patch LHand1, 79, 0
+}
+
+sprite SSG0K0, 130, 48 {
+    offset -172, -120
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 28
+    patch LHand1, 70, 0
+}
+
+sprite SSG0L0, 122, 52 {
+    offset -172, -116
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 32
+    patch LHand2, 49, 0
+}
+
+sprite SSG0M0, 109, 47 {
+    offset -172, -121
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 27
+    patch LHand2, 41, 0
+}
+
+sprite SSG0N0, 99, 41 {
+    offset -172, -127
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 21
+    patch LHand2, 34, 0
+}
+
+sprite SSG0O0, 91, 35 {
+    offset -172, -133
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 15
+    patch LHand2, 26, 0
+}
+
+sprite SSG0P0, 112, 48 {
+    offset -172, -120
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 28
+    patch "graphics/Weapons/SSG/LHand5.png", 17, 0
+    patch "graphics/Weapons/SSG/Part3.png", 9, 29
+}
+
+sprite SSG0Q0, 96, 44 {
+    offset -172, -124
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 24
+    patch "graphics/Weapons/SSG/Part5.png", 17, 28
+    patch "graphics/Weapons/SSG/LHand7.png", 18, 0
+}
+
+sprite SSG0R0, 108, 45 {
+    offset -172, -123
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 25
+    patch "graphics/Weapons/SSG/Part5.png", 17, 29
+    patch "graphics/Weapons/SSG/LHand6.png", 30, 0
+}
+
+sprite SSG0S0, 123, 48 {
+    offset -172, -120
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 28
+    patch "graphics/Weapons/SSG/Part5.png", 17, 32
+    patch "graphics/Weapons/SSG/LHand6.png", 40, 0
+}
+
+sprite SSG0T0, 133, 50 {
+    offset -172, -118
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 30
+    patch "graphics/Weapons/SSG/Part5.png", 17, 34
+    patch "graphics/Weapons/SSG/LHand8.png", 50, 0
+}
+
+sprite SSG0U0, 139, 51 {
+    offset -172, -117
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 31
+    patch "graphics/Weapons/SSG/Part5.png", 17, 35
+    patch "graphics/Weapons/SSG/LHand8.png", 56, 0
+}
+
+sprite SSG0V0, 129, 55 {
+    offset -172, -113
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 35
+    patch "graphics/Weapons/SSG/Part5.png", 17, 39
+    patch LHand3, 67, 0
+}
+
+sprite SSG0W0, 132, 49 {
+    offset -172, -119
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 29
+    patch "graphics/Weapons/SSG/Part5.png", 17, 33
+    patch LHand4, 67, 0
+}
+
+sprite SSG0X0, 129, 42 {
+    offset -172, -126
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 22
+    patch "graphics/Weapons/SSG/Part5.png", 17, 26
+    patch LHand4, 63, 0
+}
+
+sprite SSG0Y0, 121, 37 {
+    offset -172, -131
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 17
+    patch "graphics/Weapons/SSG/Part5.png", 17, 21
+    patch LHand4, 56, 0
+}
+
+sprite SSG0Z0, 116, 36 {
+    offset -172, -132
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 16
+    patch "graphics/Weapons/SSG/Part5.png", 17, 20
+    patch LHand4, 51, 0
+}
+
+sprite SSG1A0, 110, 31 {
+    offset -172, -137
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 11
+    patch "graphics/Weapons/SSG/Part5.png", 17, 15
+    patch LHand4, 47, 0
+}
+
+sprite SSG1B0, 124, 40 {
+    offset -172, -128
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 20
+    patch "graphics/Weapons/SSG/Part5.png", 17, 24
+    patch "graphics/Weapons/SSG/LHand5.png", 37, 0
+    patch "graphics/Weapons/SSG/Part4.png", 37, 20
+}
+
+sprite SSG1C0, 113, 40 {
+    offset -172, -128
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 20
+    patch "graphics/Weapons/SSG/Part5.png", 17, 24
+    patch "graphics/Weapons/SSG/Part6.png", 43, 29
+    patch "graphics/Weapons/SSG/LHand7.png", 41, 0
+}
+
+sprite SSG1D0, 122, 38 {
+    offset -172, -130
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 18
+    patch "graphics/Weapons/SSG/Part5.png", 17, 22
+    patch "graphics/Weapons/SSG/Part6.png", 43, 27
+    patch "graphics/Weapons/SSG/LHand6.png", 49, 0
+}
+
+sprite SSG1E0, 128, 33 {
+    offset -172, -135
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 13
+    patch "graphics/Weapons/SSG/Part5.png", 17, 17
+    patch "graphics/Weapons/SSG/Part6.png", 43, 22
+    patch "graphics/Weapons/SSG/LHand6.png", 55, 0
+}
+
+sprite SSG1F0, 128, 27 {
+    offset -172, -141
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 7
+    patch "graphics/Weapons/SSG/Part5.png", 17, 11
+    patch "graphics/Weapons/SSG/Part6.png", 43, 16
+    patch "graphics/Weapons/SSG/LHand6.png", 62, 0
+}
+
+sprite SSG1G0, 128, 27 {
+    offset -172, -141
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 7
+    patch "graphics/Weapons/SSG/Part5.png", 17, 11
+    patch "graphics/Weapons/SSG/Part6.png", 43, 16
+    patch "graphics/Weapons/SSG/LHand6.png", 70, 7
+}
+
+sprite SSG1H0, 134, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part5.png", 17, 4
+    patch "graphics/Weapons/SSG/Part6.png", 43, 9
+    patch "graphics/Weapons/SSG/LHand6.png", 77, 12
+}
+
+sprite SSG1I0, 61, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part5.png", 17, 4
+    patch "graphics/Weapons/SSG/Part6.png", 43, 9
+}
+
+sprite SSG2A0, 114, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part5.png", 17, 4
+    patch LHand3, 98, 15
+}
+
+sprite SSG2B0, 125, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part5.png", 17, 4
+    patch LHand3, 91, 5
+}
+
+sprite SSG2C0, 137, 23 {
+    offset -172, -145
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 3
+    patch "graphics/Weapons/SSG/Part5.png", 17, 7
+    patch LHand3, 84, 0
+}
+
+sprite SSG2D0, 137, 34 {
+    offset -172, -134
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 14
+    patch "graphics/Weapons/SSG/Part5.png", 17, 18
+    patch LHand3, 79, 0
+}
+
+sprite SSG2E0, 130, 48 {
+    offset -172, -120
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 28
+    patch "graphics/Weapons/SSG/Part5.png", 17, 32
+    patch LHand3, 70, 0
+}
+
+sprite SSG3A0, 61, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part6.png", 43, 9
+}
+
+sprite SSG3B0, 114, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part6.png", 43, 9
+    patch LHand3, 98, 15
+}
+
+sprite SSG3C0, 125, 20 {
+    offset -172, -148
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 0
+    patch "graphics/Weapons/SSG/Part6.png", 43, 9
+    patch LHand3, 91, 5
+}
+
+sprite SSG3D0, 137, 23 {
+    offset -172, -145
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 3
+    patch "graphics/Weapons/SSG/Part6.png", 43, 12
+    patch LHand3, 84, 0
+}
+
+sprite SSG3E0, 137, 34 {
+    offset -172, -134
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 14
+    patch "graphics/Weapons/SSG/Part6.png", 43, 23
+    patch LHand3, 79, 0
+}
+
+sprite SSG3F0, 130, 48 {
+    offset -172, -120
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 28
+    patch "graphics/Weapons/SSG/Part6.png", 43, 37
+    patch LHand3, 70, 0
+}
+
+sprite SSG3G0, 122, 52 {
+    offset -172, -116
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 32
+    patch "graphics/Weapons/SSG/Part6.png", 43, 41
+    patch LHand4, 49, 0
+}
+
+sprite SSG3H0, 109, 47 {
+    offset -172, -121
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 27
+    patch "graphics/Weapons/SSG/Part6.png", 43, 36
+    patch LHand4, 41, 0
+}
+
+sprite SSG3I0, 99, 41 {
+    offset -172, -127
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 21
+    patch "graphics/Weapons/SSG/Part6.png", 43, 30
+    patch LHand4, 34, 0
+}
+
+sprite SSG3J0, 91, 35 {
+    offset -172, -133
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 15
+    patch "graphics/Weapons/SSG/Part6.png", 43, 24
+    patch LHand4, 26, 0
+}
+
+sprite SSG3K0, 112, 48 {
+    offset -172, -120
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 28
+    patch "graphics/Weapons/SSG/Part6.png", 43, 37
+    patch "graphics/Weapons/SSG/LHand5.png", 17, 0
+    patch "graphics/Weapons/SSG/Part3.png", 9, 29
+}
+
+sprite SSG3L0, 108, 45 {
+    offset -172, -123
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 25
+    patch "graphics/Weapons/SSG/Part5.png", 17, 29
+    patch "graphics/Weapons/SSG/Part6.png", 43, 34
+    patch "graphics/Weapons/SSG/LHand6.png", 30, 0
+}
+
+sprite SSG3M0, 119, 42 {
+    offset -172, -126
+    patch "graphics/Weapons/SSG/Frame3.png", 0, 22
+    patch "graphics/Weapons/SSG/Part5.png", 17, 26
+    patch "graphics/Weapons/SSG/Part6.png", 43, 31
+    patch "graphics/Weapons/SSG/LHand6.png", 41, 0
+}
+
+sprite SSGSA0, 73, 61 {
+    offset -84, -157
+    patch SSG0A0, 0, 0
+}
+
+sprite SSGSB0, 73, 61 {
+    offset -94, -142
+    patch SSG0A0, 0, 0
+}
+
+sprite SSGSC0, 73, 61 {
+    offset -107, -128
+    patch SSG0A0, 0, 0
+}
+
+sprite SSGSD0, 73, 61 {
+    offset -121, -118
+    patch SSG0A0, 0, 0
+}
+
+sprite SSGSE0, 73, 61 {
+    offset -144, -111
+    patch SSG0A0, 0, 0
+}

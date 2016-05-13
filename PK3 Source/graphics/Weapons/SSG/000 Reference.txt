@@ -1,0 +1,6 @@
+Part1: Shells flying out frame 1
+Part2: Shells flying out frame 2
+Part3: Shell halfway in left
+Part4: Shell halfway in right
+Part5: Loaded shell left
+Part6: Loaded shell right

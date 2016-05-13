@@ -212,6 +212,27 @@ actor S7_20gaShells : ammo 31003 {
 
 //-------------------------------------------------------------------------------------------
 //
+// 12 gauge buckshot
+//
+//-------------------------------------------------------------------------------------------
+actor S7_12gaShells : ammo 31009 {
+    tag "$12GA"
+    inventory.pickupMessage "$12GA"
+    inventory.amount 4
+    inventory.maxAmount 72
+    // ammo.backpackMaxAmount 96
+    inventory.icon "SHELB0"
+    inventory.pickupSound "misc/ammopickup"
+
+    states {
+    Spawn:
+        SHEL B -1
+        stop
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Type A Energy Cells
 //
 //-------------------------------------------------------------------------------------------

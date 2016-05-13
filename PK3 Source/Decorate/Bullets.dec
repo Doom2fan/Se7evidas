@@ -126,8 +126,13 @@ actor S7_AMGTracer              : S7_BaseTracer {
     health 130
     damageType RifleTracer
 }
-actor S7_SSGTracer              : S7_BaseTracer {
+actor S7_SSGTracer              : S7_BaseTracer { // 259 max DMG
     damage (random [weaponDamage] (1, 3) * 5)
+    health 125
+    damageType ShotgunTracer
+}
+actor S7_12gaTracer             : S7_BaseTracer {
+    damage (random [weaponDamage] (1, 3) * 6)
     health 125
     damageType ShotgunTracer
 }
