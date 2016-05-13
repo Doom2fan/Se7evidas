@@ -7,3 +7,13 @@ Muzzle flash:
     Crystallize the new layer with cell size set to 3.
     Set the new layer's opacity to 65%.
 Done.
+
+Buckshot pellet count:
+    20 gauge:
+    #1: 16?
+    #2: 18
+    #3: 20
+    #4: 24
+
+    12 gauge:
+    #00: 9
