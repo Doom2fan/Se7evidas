@@ -270,9 +270,11 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
 
 
 
-        // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
-        // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
-        // something better to define HUDs with because SBARINFO is terrible and annoying.
+        /*
+        ** Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
+        ** I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
+        ** something better to define HUDs with because SBARINFO is terrible and annoying.
+        */
         else isSelected S7_Thumper {
             drawNumber 5, FSHUDFNT, White, S7_Thumper_PUnified, interpolate (13), alignment (right), -6, -50;
             drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
@@ -315,93 +317,53 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
 
             inInventory S7_ThumperMag1, 1 {
                 drawImage "S7H50M0", -26, -43;
-                inInventory S7_ThumperMag1, 7 {
-                    drawImage "S7H50M7", -26, -17;
-                } else inInventory S7_ThumperMag1, 6 {
-                    drawImage "S7H50M6", -26, -17;
-                } else inInventory S7_ThumperMag1, 5 {
-                    drawImage "S7H50M5", -26, -17;
-                } else inInventory S7_ThumperMag1, 4 {
-                    drawImage "S7H50M4", -26, -17;
-                } else inInventory S7_ThumperMag1, 3 {
-                    drawImage "S7H50M3", -26, -17;
-                } else inInventory S7_ThumperMag1, 2 {
-                    drawImage "S7H50M2", -26, -17;
-                } else inInventory S7_ThumperMag1, 1 {
-                    drawImage "S7H50M1", -26, -17;
-                }
+                     inInventory S7_ThumperMag1, 7 { drawImage "S7H50M7", -26, -17; }
+                else inInventory S7_ThumperMag1, 6 { drawImage "S7H50M6", -26, -17; }
+                else inInventory S7_ThumperMag1, 5 { drawImage "S7H50M5", -26, -17; }
+                else inInventory S7_ThumperMag1, 4 { drawImage "S7H50M4", -26, -17; }
+                else inInventory S7_ThumperMag1, 3 { drawImage "S7H50M3", -26, -17; }
+                else inInventory S7_ThumperMag1, 2 { drawImage "S7H50M2", -26, -17; }
+                else inInventory S7_ThumperMag1, 1 { drawImage "S7H50M1", -26, -17; }
             }
             inInventory S7_ThumperMag2, 1 {
                 drawImage "S7H50M0", -48, -43;
-                inInventory S7_ThumperMag2, 7 {
-                    drawImage "S7H50M7", -48, -17;
-                } else inInventory S7_ThumperMag2, 6 {
-                    drawImage "S7H50M6", -48, -17;
-                } else inInventory S7_ThumperMag2, 5 {
-                    drawImage "S7H50M5", -48, -17;
-                } else inInventory S7_ThumperMag2, 4 {
-                    drawImage "S7H50M4", -48, -17;
-                } else inInventory S7_ThumperMag2, 3 {
-                    drawImage "S7H50M3", -48, -17;
-                } else inInventory S7_ThumperMag2, 2 {
-                    drawImage "S7H50M2", -48, -17;
-                } else inInventory S7_ThumperMag2, 1 {
-                    drawImage "S7H50M1", -48, -17;
-                }
+                     inInventory S7_ThumperMag2, 7 { drawImage "S7H50M7", -48, -17; }
+                else inInventory S7_ThumperMag2, 6 { drawImage "S7H50M6", -48, -17; }
+                else inInventory S7_ThumperMag2, 5 { drawImage "S7H50M5", -48, -17; }
+                else inInventory S7_ThumperMag2, 4 { drawImage "S7H50M4", -48, -17; }
+                else inInventory S7_ThumperMag2, 3 { drawImage "S7H50M3", -48, -17; }
+                else inInventory S7_ThumperMag2, 2 { drawImage "S7H50M2", -48, -17; }
+                else inInventory S7_ThumperMag2, 1 { drawImage "S7H50M1", -48, -17; }
             }
             inInventory S7_ThumperMag3, 1 {
                 drawImage "S7H50M0", -70, -43;
-                inInventory S7_ThumperMag3, 7 {
-                    drawImage "S7H50M7", -70, -17;
-                } else inInventory S7_ThumperMag3, 6 {
-                    drawImage "S7H50M6", -70, -17;
-                } else inInventory S7_ThumperMag3, 5 {
-                    drawImage "S7H50M5", -70, -17;
-                } else inInventory S7_ThumperMag3, 4 {
-                    drawImage "S7H50M4", -70, -17;
-                } else inInventory S7_ThumperMag3, 3 {
-                    drawImage "S7H50M3", -70, -17;
-                } else inInventory S7_ThumperMag3, 2 {
-                    drawImage "S7H50M2", -70, -17;
-                } else inInventory S7_ThumperMag3, 1 {
-                    drawImage "S7H50M1", -70, -17;
-                }
+                     inInventory S7_ThumperMag3, 7 { drawImage "S7H50M7", -70, -17; }
+                else inInventory S7_ThumperMag3, 6 { drawImage "S7H50M6", -70, -17; }
+                else inInventory S7_ThumperMag3, 5 { drawImage "S7H50M5", -70, -17; }
+                else inInventory S7_ThumperMag3, 4 { drawImage "S7H50M4", -70, -17; }
+                else inInventory S7_ThumperMag3, 3 { drawImage "S7H50M3", -70, -17; }
+                else inInventory S7_ThumperMag3, 2 { drawImage "S7H50M2", -70, -17; }
+                else inInventory S7_ThumperMag3, 1 { drawImage "S7H50M1", -70, -17; }
             }
             inInventory S7_ThumperMag4, 1 {
                 drawImage "S7H50M0", -92, -43;
-                inInventory S7_ThumperMag4, 7 {
-                    drawImage "S7H50M7", -92, -17;
-                } else inInventory S7_ThumperMag4, 6 {
-                    drawImage "S7H50M6", -92, -17;
-                } else inInventory S7_ThumperMag4, 5 {
-                    drawImage "S7H50M5", -92, -17;
-                } else inInventory S7_ThumperMag4, 4 {
-                    drawImage "S7H50M4", -92, -17;
-                } else inInventory S7_ThumperMag4, 3 {
-                    drawImage "S7H50M3", -92, -17;
-                } else inInventory S7_ThumperMag4, 2 {
-                    drawImage "S7H50M2", -92, -17;
-                } else inInventory S7_ThumperMag4, 1 {
-                    drawImage "S7H50M1", -92, -17;
-                }
+                     inInventory S7_ThumperMag4, 7 { drawImage "S7H50M7", -92, -17; }
+                else inInventory S7_ThumperMag4, 6 { drawImage "S7H50M6", -92, -17; }
+                else inInventory S7_ThumperMag4, 5 { drawImage "S7H50M5", -92, -17; }
+                else inInventory S7_ThumperMag4, 4 { drawImage "S7H50M4", -92, -17; }
+                else inInventory S7_ThumperMag4, 3 { drawImage "S7H50M3", -92, -17; }
+                else inInventory S7_ThumperMag4, 2 { drawImage "S7H50M2", -92, -17; }
+                else inInventory S7_ThumperMag4, 1 { drawImage "S7H50M1", -92, -17; }
             }
             inInventory S7_ThumperMag5, 1 {
                 drawImage "S7H50M0", -114, -43;
-                inInventory S7_ThumperMag5, 7 {
-                    drawImage "S7H50M7", -114, -17;
-                } else inInventory S7_ThumperMag5, 6 {
-                    drawImage "S7H50M6", -114, -17;
-                } else inInventory S7_ThumperMag5, 5 {
-                    drawImage "S7H50M5", -114, -17;
-                } else inInventory S7_ThumperMag5, 4 {
-                    drawImage "S7H50M4", -114, -17;
-                } else inInventory S7_ThumperMag5, 3 {
-                    drawImage "S7H50M3", -114, -17;
-                } else inInventory S7_ThumperMag5, 2 {
-                    drawImage "S7H50M2", -114, -17;
-                } else inInventory S7_ThumperMag5, 1 {
-                    drawImage "S7H50M1", -114, -17;
-                }
+                     inInventory S7_ThumperMag5, 7 { drawImage "S7H50M7", -114, -17; }
+                else inInventory S7_ThumperMag5, 6 { drawImage "S7H50M6", -114, -17; }
+                else inInventory S7_ThumperMag5, 5 { drawImage "S7H50M5", -114, -17; }
+                else inInventory S7_ThumperMag5, 4 { drawImage "S7H50M4", -114, -17; }
+                else inInventory S7_ThumperMag5, 3 { drawImage "S7H50M3", -114, -17; }
+                else inInventory S7_ThumperMag5, 2 { drawImage "S7H50M2", -114, -17; }
+                else inInventory S7_ThumperMag5, 1 { drawImage "S7H50M1", -114, -17; }
             }
         }
 
