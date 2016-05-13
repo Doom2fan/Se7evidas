@@ -57,12 +57,14 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A         0 A_GunFlash ("Flash")
 
         TNT1 A         0 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
+        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 3)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-2.8, 2.8), 0, 2, -1, 0, fRandom [weaponSpread] (-3.3, 3.3))
         TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-2.8, 2.8), 0, 2, -1, 0, fRandom [weaponSpread] (-3.3, 3.3))
         SSGF E         1 A_SetPitch (pitch - 2.9, SPF_Interpolate)
 
         TNT1 A         0 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-2.8, 2.8), 0, 4, -1, 0, fRandom [weaponSpread] (-3.3, 3.3))
         TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-2.8, 2.8), 0, 4, -1, 0, fRandom [weaponSpread] (-3.3, 3.3))
         SSGF D         1 A_SetPitch (pitch - 2.9, SPF_Interpolate)
 
@@ -81,7 +83,8 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A         0 A_AlertMonsters
         TNT1 A         0 A_GunFlash ("AltFlash")
         TNT1 A         0 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4)
+        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 3)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-2.8, 2.8), 0, 2, -1, 0, fRandom [weaponSpread] (-3.3, 3.3))
         TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-2.8, 2.8), 0, 2, -1, 0, fRandom [weaponSpread] (-3.3, 3.3))
         SSGF EE        1 A_SetPitch (pitch - 1.45, SPF_Interpolate)
         SSGF E         1
@@ -94,7 +97,8 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         TNT1 A         0 A_AlertMonsters
         TNT1 A         0 A_GunFlash ("AltFlashRight")
         TNT1 A         0 A_TakeInventory ("S7_ShotgunLoaded", 1)
-        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 AA        0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.3, 3.3), 0, 4, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
         TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_SSGTracer", fRandom [weaponSpread] (-3.3, 3.3), 0, 4, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
         SSGF EE        1 A_SetPitch (pitch - 1.45, SPF_Interpolate)
         SSGF E         1

@@ -25,7 +25,6 @@ const string DummyWeapons [] = {
     s"S7_NullWeapon",
     SPRINTWEAPON,
     QUICKMELEEWEAPON,
-    s"S7_BerserkWeap",
 };
 
 int GetWeaponName () {
@@ -174,12 +173,12 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
     return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
 }
 
-Script_C void S7_BerserkWeapToggle () {
+/*Script_C void S7_BerserkWeapToggle () {
     if (!PlayerInGame (PLN))
         return;
     
     DisableWeapon (s"S7_BerserkWeap", s"", &PlayerData [PLN]);
-}
+}*/
 
 /*
 weapBinds {

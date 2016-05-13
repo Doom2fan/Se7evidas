@@ -1,4 +1,24 @@
-actor S7_Berserk : customInventory {
+actor S7_BerserkPickup : customInventory {
+    tag "$BERSERK"
+    inventory.icon "BSRKA0"
+    inventory.pickupMessage "$BERSERK"
+    inventory.amount 0
+    inventory.maxAmount 0
+    inventory.interHubAmount 0
+
+    states {
+    Pickup:
+        TNT1 A 0 A_JumpIfInventory ("S7_Berserk", 0, "Nope")
+        TNT1 A 0 A_GiveInventory ("S7_Berserk", 1)
+        TNT1 A 0 A_RailWait
+        stop
+    Nope:
+        TNT1 A 0 A_RailWait
+        fail
+    }
+}
+
+actor S7_Berserk : ammo {
     tag "$BERSERK"
     inventory.icon "BSRKA0"
     inventory.pickupMessage "$BERSERK"
@@ -7,32 +27,17 @@ actor S7_Berserk : customInventory {
     inventory.interHubAmount 5
 
     +inventory.invBar
-
-    states {
-    Spawn:
-        BSRK A -1
-        stop
-
-    Use:
-        TNT1 A 0 A_JumpIfInventory ("S7_BerserkToken", 1, "Failed")
-        TNT1 A 0 A_JumpIfInventory ("S7_BerserkSelected", 1, "Failed")
-        TNT1 A 0 ACS_NamedExecuteAlways ("S7_BerserkWeapToggle", 0)
-        fail
-
-    Failed:
-        TNT1 A 0 A_RailWait
-        fail
-    }
 }
 
 actor S7_BerserkToken : Powerup { powerup.Duration -60 powerup.color 255, 32, 32, 0.25 }
 actor S7_BerserkPower : PowerWeaponLevel2 { powerup.Duration -60 powerup.color 0, 0, 0, 0.0 }
-actor S7_BerserkSelected : boolean { }
 
 actor S7_BerserkWeap : S7_BaseWeapon {
     tag "$BERSERKWEAP"
+    weapon.ammoType1 "S7_Berserk"
+    weapon.ammoUse1 1
 
-    +undroppable +untossable
+    +undroppable +untossable -ammo_Optional
 
     states {
     Spawn:
@@ -40,12 +45,10 @@ actor S7_BerserkWeap : S7_BaseWeapon {
         stop
 
     Ready:
-        TNT1 A               0 A_JumpIfInventory ("S7_Berserk", 1, 1)
-        goto FuckOff
-        TNT1 A               0 A_JumpIfInventory ("S7_BerserkToken", 1, "FuckOff")
+        TNT1 A               0 A_JumpIfNoAmmo ("FuckOff")
         SYR0 ABCDEFGHIJKLMNO 1
-        TNT1 A               0 A_GiveInventory ("S7_BerserkSelected", 1)
     Ready2:
+        //TNT1 A 0 A_JumpIfNoAmmo ("FuckOff")
         TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         TNT1 A 0 A_TakeInventory ("S7_Reloading",      0x7FFFFFFF)
         TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF)
@@ -53,14 +56,32 @@ actor S7_BerserkWeap : S7_BaseWeapon {
         loop
 
     FuckOff:
-        TNT1 A 2 ACS_NamedExecuteAlways ("S7_BerserkWeapToggle", 0)
-        goto Ready2
+        TNT1 A 1
+    FuckOffBlergh:
+        TNT1 A 0 A_JumpIfInventory ("S7_TEC9",     1, "GoTEC9")
+        TNT1 A 0 A_JumpIfInventory ("S7_Revolver", 1, "GoRevolver")
+        TNT1 A 0 A_JumpIfInventory ("S7_Raptor",   1, "GoRaptor")
+        loop
+    GoTEC9:
+        TNT1 A 0 A_SelectWeapon ("S7_TEC9")
+        goto FuckOffLoople
+    GoRevolver:
+        TNT1 A 0 A_SelectWeapon ("S7_Revolver")
+        goto FuckOffLoople
+    GoRaptor:
+        TNT1 A 0 A_SelectWeapon ("S7_Raptor")
+        goto FuckOffLoople
+    FuckOffLoople:
+        TNT1 A 1 A_WeaponReady (WRF_NoBob | WRF_NoFire)
+        goto FuckOffBlergh
+
     Deselect:
-        TNT1 A 0 A_TakeInventory ("S7_BerserkSelected", 0x7FFFFFFF )
         TNT1 A 0 A_Lower
         wait
 
     Fire:
+        TNT1 A          0 A_JumpIfNoAmmo ("FuckOff")
+        TNT1 A          0 A_JumpIfInventory ("S7_BerserkToken", 1, "Ready2")
         SYR1 BCDD       3
         SYR1 EFGHI      1
         SYR1 J          5
