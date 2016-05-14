@@ -107,6 +107,12 @@ Script_C void S7_SynthFire (int mode) {
 
             if (KeyUp (BT_ALTATTACK))
                 SetInventory (s"S7_SynthFireRight", 0);
+        } else {
+            if (!KeyPressed (BT_ATTACK))
+                SetInventory (s"S7_SynthFireLeft", 0);
+
+            if (!KeyPressed (BT_ALTATTACK))
+                SetInventory (s"S7_SynthFireRight", 0);
         }
     }
 }
