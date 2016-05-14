@@ -13,7 +13,7 @@ actor S7_SSGFauxClip : ammo {
 actor S7_SSGLeftLoaded  : boolean { }
 actor S7_SSGRightLoaded : boolean { }
 actor S7_SSGFireBoth    : boolean { }
-actor S7_SSG : S7_BaseWeapon {
+actor S7_SSG : S7_BaseWeapon 30006 {
     tag "$SSG"
     inventory.pickupMessage "$SSG"
     weapon.ammoType1 "S7_SSGFauxClip"
