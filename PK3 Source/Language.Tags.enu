@@ -64,6 +64,7 @@ SCRPSTROOTAG                    = "Shadow Corps Trooper";
 HELLIONTAG                      = "Hellion";
 BLCKPNTTAG                      = "Black Panther";
 EMPRESSTAG                      = "Empress";
+SUCCUBUSTAG                     = "Succubus";
 
 /** Genders **/
 GEN_MALE                        = "Male";

@@ -6,7 +6,8 @@
 **
 ** Credits for the sound files are in the SNDINFO files.
 ** Credits for a lot of shit is in the Credits folder.
-** Credits for the final muzzle flashes goes to me, Chronos "phantombeta" Ouroboros.
+** Credits for the final muzzle flashes goes to me, Chronos "phantombeta"
+** Ouroboros.
 **
 ** Credits for the sprites is in the CREDITS.txt files contained in the
 ** same folder as the DECORATE code for the actor. Sprites used in multi-
@@ -49,6 +50,7 @@
 // Monsters
 #INCLUDE "Decorate/Monsters/ScorpsTrooper/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Hellion/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/Succubus/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/BlackPanther/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
 

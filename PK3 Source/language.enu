@@ -94,6 +94,7 @@
     OBBPANTHER                      = "%o was torn apart by a Black Panther";
     OB_EMPRESS                      = "%o was raped by an Empress";
     OB_EMPRESSFB                    = "%o was incinerated by an Empress";
+    OBSUCCUBUS                      = "%o was seduced by a Succubus";
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";
