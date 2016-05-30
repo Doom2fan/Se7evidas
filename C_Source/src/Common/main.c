@@ -21,12 +21,13 @@
 #include "systems/health.h"
 #include "systems/HUD.h"
 #include "systems/misc.h"
+#include "systems/monster_stuff.h"
 #include "systems/parkour.h"
 #include "systems/sprint_system.h"
 #include "systems/stamina.h"
+#include "systems/xp_system.h"
 #include "weapons/thumper.h"
 #include "weapons/weapon_stuff.h"
-#include "systems/xp_system.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
