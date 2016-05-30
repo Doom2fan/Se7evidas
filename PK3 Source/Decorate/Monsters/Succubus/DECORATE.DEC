@@ -38,20 +38,20 @@ actor S7_Succubus : S7_SuccubusBase replaces cacodemon {
 
     SeeFlying:
         TNT1 A  0 A_JumpIf (!user_Flying, "EndFlight")
-        SUCF AA 4 A_Chase
+        SUCF AA 2 A_Chase
         TNT1 A  0 A_JumpIf (!user_Flying, "EndFlight")
-        SUCF BB 4 A_Chase
+        SUCF BB 2 A_Chase
         TNT1 A  0 A_JumpIf (!user_Flying, "EndFlight")
-        SUCF CC 4 A_Chase
+        SUCF CC 2 A_Chase
         TNT1 A  0 A_JumpIf (!user_Flying, "EndFlight")
-        SUCF BB 4 A_Chase
+        SUCF BB 2 A_Chase
         loop
 
     StartFlight:
         TNT1 A   0 A_ChangeFlag ("noGravity", TRUE)
         TNT1 A   0 A_ChangeFlag ("dropOff", TRUE)
         TNT1 A   0 A_ChangeFlag ("float", TRUE)
-        TNT1 A   0 ThrustThingZ (0, 3.5, TRUE, FALSE)
+        TNT1 A   0 ThrustThingZ (0, 3.5, FALSE, FALSE)
         SUCF ABCB 3
         goto SeeFlying
 
@@ -79,13 +79,19 @@ actor S7_Succubus : S7_SuccubusBase replaces cacodemon {
         goto See
 
     Death:
-        SUCC I    5 A_SetUserVar ("user_deathType", 0)
-        SUCC J    5 A_Scream
-        SUCC K    5
-        SUCC L    5 A_NoBlocking
-        SUCC MNOP 5
+        SUCC I 3 A_SetUserVar ("user_deathType", 0)
+        SUCC J 3 A_Scream
+        SUCC K 3
+        TNT1 A 0 A_NoBlocking
+    Death_AirLoop:
+        SUCC L 3
+        TNT1 A 0 A_CheckFloor ("Death_HitGround")
+        loop
+    Death_HitGround:
+        SUCC MNOP 3
         SUCC Q   -1
         stop
+
     Death.Fire:
         TNT1 A 0 A_JumpIfHealthLower (-15, "RealDeath.Fire")
         goto Death
