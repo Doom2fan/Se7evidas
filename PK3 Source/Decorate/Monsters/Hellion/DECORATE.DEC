@@ -3,7 +3,7 @@
 // Hellion
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Hellion: S7_DemonBase replaces doomImp {
+actor S7_Hellion : S7_DemonBase replaces doomImp {
     health 60
     gibHealth -30
     radius 20
@@ -84,7 +84,7 @@ actor S7_Hellion: S7_DemonBase replaces doomImp {
 
 //-------------------------------------------------------------------------------------------
 //
-// Black Panther ball
+// Hellion fireball
 //
 //-------------------------------------------------------------------------------------------
 actor S7_HellionBall : S7_FireballBase {
