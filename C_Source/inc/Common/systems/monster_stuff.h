@@ -52,7 +52,7 @@ struct MonsterInfo_t {
     int tid;                    // The monster's TID
 };
 
-extern MonsterInfo_t *monsterList;
+extern MonsterInfo_t map_var *monsterList;
 
 // Prototypes
 bool AddMonsterToList  (MonsterInfo_t *monster);

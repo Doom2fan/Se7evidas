@@ -21,7 +21,7 @@
 #include "misc/names.h"
 #include "systems/monster_stuff.h"
 
-MonsterInfo_t *monsterList;
+MonsterInfo_t map_var *monsterList;
 
 bool AddMonsterToList (MonsterInfo_t *monster) {
     if (monster->next != NULL)
