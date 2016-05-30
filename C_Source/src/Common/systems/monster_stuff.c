@@ -21,7 +21,21 @@
 #include "misc/names.h"
 #include "systems/monster_stuff.h"
 
-MonsterInfo_t map_var *monsterList;
+MonsterInfo_t *monsterList;
+
+void ClearMonsterList () {
+    MonsterInfo_t *cur = monsterList;
+    MonsterInfo_t *next;
+    while (TRUE) {
+        if (!monsterList)
+            break;
+
+        next = cur->next;
+        cur->next = NULL;
+        free (cur);
+        cur = next;
+    }
+}
 
 bool AddMonsterToList (MonsterInfo_t *monster) {
     if (monster->next != NULL)
@@ -57,6 +71,24 @@ Script_C void S7_GenericMonsterScript () {
 
     while (TRUE) {
         UpdateMonsterInfo (self);
+
+        Delay (1);
+    }
+}
+
+Script_C void S7_SuccubusScript () {
+    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    vec3_k targetPos;
+    AddMonsterToList (self);
+
+    while (TRUE) {
+        UpdateMonsterInfo (self);
+        targetPos = GetActivatorPointerPos (AAPTR_TARGET);
+
+        if (AbsA (self->z - targetPos.z) > 24.0k)
+            SetUserVariable (0, s"user_Flying", TRUE);
+        else if ((self->z - self->floorZ) <= 0)
+            SetUserVariable (0, s"user_Flying", FALSE);
 
         Delay (1);
     }

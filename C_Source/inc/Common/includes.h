@@ -20,25 +20,6 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
-// Includes
-#include <assert.h>
-#include "common/util.h"
-#include "common/util_math.h"
-#include "common/types.h"
-#include "common/enum.h"
-#include "misc/construct.h"
-#include "common/commonFuncs.h"
-#include "misc/debugFuncs.h"
-#ifndef SERVER_C
-#include "common/server.h"
-#endif
-#ifndef PLAYER_C
-#include "common/player.h"
-#endif
-
-// Typedefs
-typedef char * cstr;
-
 // Defines/Macros
 #ifdef DEBUG
     #ifdef NDEBUG
@@ -125,11 +106,30 @@ typedef char * cstr;
 #define Script_CS    ACS_SS_SCRIPT
 #define Script_LS    SS_SCRIPT
 
-// Externs
-extern bool RunningInZDoom;
+// Includes
+#include <assert.h>
+#include "common/util.h"
+#include "common/util_math.h"
+#include "common/types.h"
+#include "common/enum.h"
+#include "misc/construct.h"
+#include "common/commonFuncs.h"
+#include "misc/debugFuncs.h"
+#ifndef SERVER_C
+#include "common/server.h"
+#endif
+#ifndef PLAYER_C
+#include "common/player.h"
+#endif
 
 // Misc
 #define TNT1A0 s"TNT1A0"
+
+// Typedefs
+typedef char * cstr;
+
+// Externs
+extern bool RunningInZDoom;
 
 // Variables and constants
 extern char CorruptionCharList [91];

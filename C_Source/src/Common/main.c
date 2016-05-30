@@ -65,6 +65,8 @@ Script_C void S7_ServersideUnloading UNLOADING () {
     } else
         queuedMapEvent = MEVNT_None; //MEVNT_None;
 
+    ClearMonsterList ();
+
     for (int i = 0; i < MAX_PLAYERS; i++)
         ResetStuff (&PlayerData [i]);
 }

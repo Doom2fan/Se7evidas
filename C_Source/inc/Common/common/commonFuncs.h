@@ -21,7 +21,7 @@
 #define COMMONFUNCS_H
 
 #include <ACS_ZDoom.h>
-#include "common/types.h"
+#include "includes.h"
 
 // Macros
 #define atanA(x) VectorAngle (1.0k, x)
@@ -49,6 +49,7 @@ __addrdef extern __mod_arr    map_var;
 // Prototypes
 /* Position */
 vec3_k GetActorPositionVec (int tid);
+Script_LS vec3_k GetActivatorPointerPos (int pointer);
 /* Keys */
 int KeyUp       (int key);
 int KeyDown     (int key);

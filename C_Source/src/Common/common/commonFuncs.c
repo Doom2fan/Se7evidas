@@ -36,6 +36,11 @@ vec3_k GetActorPositionVec (int tid) {
     return ret;
 }
 
+Script_LS vec3_k GetActivatorPointerPos (int pointer) {
+    SetActivator (0, pointer);
+    return GetActorPositionVec (0);
+}
+
 /* Keys */
 int KeyUp (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
