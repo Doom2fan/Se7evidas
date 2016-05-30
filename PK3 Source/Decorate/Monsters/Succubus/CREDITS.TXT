@@ -3,4 +3,4 @@ DECORATE: Chronos "phantombeta" Ouroboros
 Sprites:
     S7_Succubus: YuraoftheHairFan
 
-Sounds: None yet :P
+Sounds: Credits in the SNDINFO file

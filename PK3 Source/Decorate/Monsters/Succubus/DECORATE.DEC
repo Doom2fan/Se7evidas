@@ -4,7 +4,7 @@
 //
 //-------------------------------------------------------------------------------------------
 actor S7_Succubus : S7_SuccubusBase replaces cacodemon {
-    health 400
+    health 350
     speed 8
     painChance 90
     seeSound "Succubus/Sight"

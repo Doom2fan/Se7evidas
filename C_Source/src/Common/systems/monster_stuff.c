@@ -85,7 +85,7 @@ Script_C void S7_SuccubusScript () {
         UpdateMonsterInfo (self);
         targetPos = GetActivatorPointerPos (AAPTR_TARGET);
 
-        if (AbsA (self->z - targetPos.z) > 24.0k)
+        if (self->z - targetPos.z > 96.0k)
             SetUserVariable (0, s"user_Flying", TRUE);
         else if ((self->z - self->floorZ) <= 0)
             SetUserVariable (0, s"user_Flying", FALSE);
