@@ -79,6 +79,7 @@ Script_C void S7_GenericMonsterScript () {
 Script_C void S7_SuccubusScript () {
     MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
     vec3_k targetPos;
+    bool flying = FALSE;
     AddMonsterToList (self);
 
     while (TRUE) {
@@ -86,9 +87,14 @@ Script_C void S7_SuccubusScript () {
         targetPos = GetActivatorPointerPos (AAPTR_TARGET);
 
         if (self->z - targetPos.z > 96.0k)
-            SetUserVariable (0, s"user_Flying", TRUE);
+            flying = TRUE;
         else if ((self->z - self->floorZ) <= 0)
-            SetUserVariable (0, s"user_Flying", FALSE);
+            flying = FALSE;
+        else
+            flying = TRUE;
+
+        if (GetUserVariable (0, s"user_Flying") != flying)
+            SetUserVariable (0, s"user_Flying", flying);
 
         Delay (1);
     }
