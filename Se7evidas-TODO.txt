@@ -13,3 +13,5 @@ Would be nice:
     Heretic support (Maybe Hexen too?)
     Chex Quest support
     Player customizable weapon slots
+    Achievement system
+    In-game copy of the Survival Guide
