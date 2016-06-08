@@ -11,35 +11,23 @@ sprite SSGFF0, 320, 200 {
 }
 
 sprite SSGFG0, 320, 200 {
-    patch SSGRA0, 139, 90
+    patch "graphics/Weapons/Shotgun/Frame1.png", 114, 58
 }
 
 sprite SSGFH0, 320, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME1.PNG", 114, 58
+    patch "graphics/Weapons/Shotgun/Frame2.png", 98, 25
 }
 
 sprite SSGFI0, 320, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME2.png", 98, 25
+    patch "graphics/Weapons/Shotgun/Frame3.png", 119, 36
 }
 
 sprite SSGFJ0, 320, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME2.png", 101, 31
+    patch "graphics/Weapons/Shotgun/Frame4.png", 135, 46
 }
 
 sprite SSGFK0, 320, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME3.png", 119, 36
-}
-
-sprite SSGFL0, 321, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME3.png", 122, 42
-}
-
-sprite SSGFM0, 323, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME4.png", 135, 46
-}
-
-sprite SSGFN0, 326, 200 {
-    patch "graphics/Weapons/Shotgun/FRAME4.png", 138, 51
+    patch "graphics/Weapons/Shotgun/Frame4.png", 138, 51
 }
 
 // Reloading
