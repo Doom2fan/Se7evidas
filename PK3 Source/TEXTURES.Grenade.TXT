@@ -1,0 +1,123 @@
+sprite TGRPC0, 35, 19 {
+    offset 17, 18
+    patch TGRPA0, 0, 0 { rotate 90 }
+}
+
+sprite TGRPD0, 27, 32 {
+    offset 13, 29
+    patch TGRPB0, 0, 0 { rotate 90 }
+}
+
+sprite TGRPE0, 19, 35 {
+    offset 9, 33
+    patch TGRPA0, 0, 0 { rotate 180 }
+}
+
+sprite TGRPF0, 32, 27 {
+    offset 16, 26
+    patch TGRPB0, 0, 0 { rotate 180 }
+}
+
+sprite TGRPG0, 35, 19 {
+    offset 17, 18
+    patch TGRPA0, 0, 0 { rotate -90 }
+}
+
+sprite TGRPH0, 27, 32 {
+    offset 13, 29
+    patch TGRPB0, 0, 0 { rotate -90 }
+}
+
+// HUD Sprites
+
+graphic GrenadeFrame1, 47, 15 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", -11, 0
+    patch "graphics/Weapons/Throwables/Grenades/Part1.png", 6, 3
+}
+
+sprite TGRNW0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 253, 153
+    patch GrenadeFrame1, 264, 153
+}
+
+sprite TGRNX0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 229, 129
+    patch GrenadeFrame1, 240, 129
+}
+
+sprite TGRNY0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 205, 112
+    patch GrenadeFrame1, 216, 112
+}
+
+sprite TGRNA0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch GrenadeFrame1, 187, 93
+}
+
+sprite TGRNB0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 20, 166
+}
+
+sprite TGRNC0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 36, 150
+}
+
+sprite TGRND0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 60, 130
+}
+
+sprite TGRNE0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 87, 107
+}
+
+sprite TGRNF0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Frame3.png", 82, 90
+}
+
+sprite TGRNG0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part1.png", 192, 97
+    patch "graphics/Weapons/Throwables/Grenades/Frame3.png", 81, 91
+}
+
+sprite TGRNH0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part1.png", 188, 100
+    patch "graphics/Weapons/Throwables/Grenades/Frame3.png", 77, 94
+}
+
+sprite TGRNI0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
+    patch "graphics/Weapons/Throwables/Grenades/Frame2.png", 61, 100
+}
+
+sprite TGRNJ0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 192, 104
+    patch "graphics/Weapons/Throwables/Grenades/Frame2.png", 42, 113
+}
+
+sprite TGRNK0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 217, 123
+    patch "graphics/Weapons/Throwables/Grenades/Frame2.png", 15, 127
+}
+
+sprite TGRNL0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 236, 138
+    patch "graphics/Weapons/Throwables/Grenades/Frame2.png", -15, 146
+}
+
+sprite TGRNM0, 320, 200 {
+    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 250, 159
+    patch "graphics/Weapons/Throwables/Grenades/Frame2.png", -45, 163
+}
