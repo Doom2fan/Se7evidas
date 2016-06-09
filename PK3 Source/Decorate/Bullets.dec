@@ -148,7 +148,7 @@ actor S7_SSGTracer              : S7_BaseTracer { // 259 max DMG
 actor S7_SSGTracerTrail : S7_TracerTrail {
     states {
     Spawn:
-        //SPRK AA 1 bright A_FadeOut (0.45)
+        SPRK AA 1 bright A_FadeOut (0.45)
         stop
     }
 }
