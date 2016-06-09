@@ -105,6 +105,7 @@ actor S7_RaptorMPuff {
     attackSound "Weapons/Raptor/Melee/Wall"
 
     +noBlockmap +noGravity +noExtremeDeath +puffOnActors
+    +forceXYBillboard
 
     states {
     Crash:
