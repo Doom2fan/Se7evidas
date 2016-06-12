@@ -1,4 +1,4 @@
-DECORATE: Chronos "phantombeta" Ouroboros
+DECORATE: Chronos "phantombeta" Ouroboros, Vaecrius
 
 Sprites:
     HUD Sprites: Uboa, Captain J, Lobotomy Software (Powerslave's grenade's pin), Chronos "phantombeta" Ouroboros (Edits)

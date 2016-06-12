@@ -32,6 +32,9 @@ SHORTPLASMAGUN                  = "Plasma Machine Gun Mk III";
 SHORTIONCANNON                  = "GTX-2 \"Mjolnir\" Ion Cannon Mk V";
 SHORTTHUMPER                    = "XPL-50 \"Thumper\" Grenade Launcher";
 
+/** Throwables **/
+GRENADEWEAP                     = "Grenades";
+
 /** Inventory **/
 // Health
 CANTEEN                         = "Canteen";
