@@ -164,7 +164,7 @@ actor S7_MeleePuffStrong : S7_MeleePuff { // Ditto
 }
 
 actor S7_DaggerPuff : S7_MeleePuff {
-    damageType S7_Blade
+    damageType Blade
     attackSound "Weapons/Tridagger/HitWall"
     activeSound "Weapons/Tridagger/Swing"
 }
