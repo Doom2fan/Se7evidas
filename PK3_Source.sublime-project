@@ -59,6 +59,23 @@
 				"obj"
 			],
 			"path": "C_Source"
+		},
+		{
+			"file_exclude_patterns":
+			[
+				"thumbs.db",
+				"*.png", "*.jpg", "*.bmp", "*.gif",
+				"*.ogg", "*.wav", "*.mp3",
+				"*.wad", "*.pk3", "*.pk7", "*.zip", "*.7z",
+				"*.dbs",
+				"*.lnk",
+				"*.bak", "*.backup*"
+			],
+			"folder_exclude_patterns":
+			[
+				"*"
+			],
+			"path": "./"
 		}
 	],
 	"settings":
