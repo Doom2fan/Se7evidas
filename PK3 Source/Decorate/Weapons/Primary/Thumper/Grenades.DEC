@@ -420,6 +420,7 @@ actor S7_ThumperGrenadeNGas : S7_ThumperGrenade {
 }
 
 /** Nerve gas cloud **/
+damageType NerveGas { noArmor }
 actor S7_ThumperGrenadeNGas_GasCloud {
     radius 1
     height 1
