@@ -127,17 +127,31 @@ actor S7_LaserTracerTrail : S7_TracerEffectsBase {
 
     states {
     Spawn:
-        LSFL B 1 bright noDelay A_SpawnItemEx ("S7_LaserTracerTrail2", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        LSFL A 1 bright
     Loople:
         "----" A 1 bright A_FadeOut (0.13)
         wait
     }
 }
 
-actor S7_LaserTracerTrail2 : S7_LaserTracerTrail {
-    states {
-    Spawn:
-        LSFL A 1 bright
-        goto Loople
-    }
-}
+/* Two part version:
+** actor S7_LaserTracerTrail : S7_TracerEffectsBase {
+**     scale 0.015
+** 
+**     states {
+**     Spawn:
+**         LSFL C 1 bright noDelay A_SpawnItemEx ("S7_LaserTracerTrail2", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+**     Loople:
+**         "----" A 1 bright A_FadeOut (0.13)
+**         wait
+**     }
+** }
+** 
+** actor S7_LaserTracerTrail2 : S7_LaserTracerTrail {
+**     states {
+**     Spawn:
+**         LSFL B 1 bright
+**         goto Loople
+**     }
+** }
+*/
