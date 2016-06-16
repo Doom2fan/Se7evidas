@@ -10,3 +10,16 @@
         "-18"
     ]
 }
+
+{
+    "weaponName": "S7_GrenadeWeap",
+    "max": 15,
+    "inventoryName": "S7_GrenadeCount",
+    "graphicString": "graphics/HUD/Throwables/S7TGRICN.png",
+    "initialX": -15,
+    "xStep": -8,
+    "y": [
+        "-22",
+        "-24"
+    ]
+}
