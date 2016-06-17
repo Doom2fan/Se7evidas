@@ -1,5 +1,9 @@
-// Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
-// Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
+/* Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
+** Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
+** Usage:
+**  Weapons:  A_FireCustomMissile ("<Casing spawner actor>", 0, 0, <int xPos>, <float yPos>)
+**  Monsters: A_CustomMissile ("<Casing spawner actor>", <float yPos/zPos>, <int xPos>, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
+*/
 
 actor S7_CasingSmoke : S7_ShotSmokeTrail {
     scale 0.05
@@ -127,7 +131,7 @@ actor S7_CasingBase {
 
 //-------------------------------------------------------------------------------------------
 //
-// Shotgun Shell
+// 20ga Shotgun Shell
 //
 //-------------------------------------------------------------------------------------------
 actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
@@ -145,6 +149,32 @@ actor S7_ShellCasing : S7_CasingBase {
     states {
     Spawn:
         CAS0 ABCDEFGH 2 // A_SpawnItemEx ("S7_CasingSmoke")
+        loop
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// 12ga Shotgun Shell
+//
+//-------------------------------------------------------------------------------------------
+actor S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_12gaShellCasing", 0, 0, -110, 2, 50)
+        stop
+    }
+}
+
+actor S7_12gaShellCasing : S7_CasingBase {
+    seeSound "Weapons/shell"
+    scale .2
+
+    states {
+    Spawn:
+        CAS4 FFGGHABCDEFGH 2
+    Idle:
+        CAS4 ABCDEFGH 2 // A_SpawnItemEx ("S7_CasingSmoke")
         loop
     }
 }
