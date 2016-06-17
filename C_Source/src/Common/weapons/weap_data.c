@@ -35,6 +35,7 @@ const string WeaponNames [] = {
     s"S7_Fauchard",
     s"S7_SSG",
     s"S7_BerserkWeap",
+    s"S7_GrenadeWeap",
 };
 const int WeaponNames_Length = ArraySize (WeaponNames);
 
