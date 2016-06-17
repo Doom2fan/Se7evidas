@@ -127,22 +127,14 @@ decal S7_PlasmaGunRail_Charge4 {
 }
 
 // Laser decal
-decal S7_LaserDecalScorchLower {
-    pic LSFLB0
-    shade "00 00 00"
-    x-Scale 0.01
-    y-Scale 0.01
-}
 decal S7_LaserDecalScorch {
     pic LSFLA0
     shade "00 00 00"
     x-Scale 0.015
     y-Scale 0.015
-    lowerDecal S7_LaserDecalScorchLower
 }
-
-decal S7_LaserDecalLower {
-    pic LSFLB0
+decal S7_LaserDecal {
+    pic LSFLA0
     x-Scale 0.015
     y-Scale 0.015
     animator GoAway
@@ -151,13 +143,40 @@ decal S7_LaserDecalLower {
     fullBright
     add 1.0
 }
-decal S7_LaserDecal {
-    pic LSFLA0
-    x-Scale 0.015
-    y-Scale 0.015
-    animator GoAway
-    lowerDecal S7_LaserDecalLower
 
-    fullBright
-    add 1.0
-}
+/* Two part version:
+** decal S7_LaserDecalScorchLower {
+**     pic LSFLB0
+**     shade "00 00 00"
+**     x-Scale 0.01
+**     y-Scale 0.01
+** }
+** decal S7_LaserDecalScorch {
+**     pic LSFLA0
+**     shade "00 00 00"
+**     x-Scale 0.015
+**     y-Scale 0.015
+**     lowerDecal S7_LaserDecalScorchLower
+** }
+** 
+** decal S7_LaserDecalLower {
+**     pic LSFLB0
+**     x-Scale 0.015
+**     y-Scale 0.015
+**     animator GoAway
+**     lowerDecal S7_LaserDecalScorch
+** 
+**     fullBright
+**     add 1.0
+** }
+** decal S7_LaserDecal {
+**     pic LSFLA0
+**     x-Scale 0.015
+**     y-Scale 0.015
+**     animator GoAway
+**     lowerDecal S7_LaserDecalLower
+** 
+**     fullBright
+**     add 1.0
+** }
+*/

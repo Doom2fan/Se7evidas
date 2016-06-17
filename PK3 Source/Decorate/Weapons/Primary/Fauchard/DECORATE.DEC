@@ -129,7 +129,7 @@ actor S7_LaserTracerTrail : S7_TracerEffectsBase {
     Spawn:
         LSFL A 1 bright
     Loople:
-        "----" A 1 bright A_FadeOut (0.13)
+        "----" A 1 bright A_FadeOut (0.2)
         wait
     }
 }
@@ -142,7 +142,7 @@ actor S7_LaserTracerTrail : S7_TracerEffectsBase {
 **     Spawn:
 **         LSFL C 1 bright noDelay A_SpawnItemEx ("S7_LaserTracerTrail2", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
 **     Loople:
-**         "----" A 1 bright A_FadeOut (0.13)
+**         "----" A 1 bright A_FadeOut (0.2)
 **         wait
 **     }
 ** }
