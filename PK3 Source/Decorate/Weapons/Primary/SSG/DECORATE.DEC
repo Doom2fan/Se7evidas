@@ -206,18 +206,20 @@ actor S7_SSG : S7_BaseWeapon 30006 {
     LoadLeft:
         TNT1 A          0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
         goto LoadBoth
-        SSG3 ABCDEFHIJK 1
-        TNT1 A          0 A_GiveInventory ("S7_SSGLeftLoaded", 1)
-        TNT1 A          0 A_TakeInventory ("S7_12gaShells", 1)
-        SSG0 Q          4 A_PlaySound ("Weapons/SSG/In", CHAN_6)
-        SSG3 LM         1
-        SSG1 DEFGHI     1
+        SSG3 A         1 A_FireCustomMissile ("S7_12gaShellCasingSpawn", 0, 0, 4, -16)
+        SSG3 BCDEFHIJK 1
+        TNT1 A         0 A_GiveInventory ("S7_SSGLeftLoaded", 1)
+        TNT1 A         0 A_TakeInventory ("S7_12gaShells", 1)
+        SSG0 Q         4 A_PlaySound ("Weapons/SSG/In", CHAN_6)
+        SSG3 LM        1
+        SSG1 DEFGHI    1
         goto ReloadEnd
 
     LoadRight:
         TNT1 A      0 A_JumpIfInventory ("S7_SSGLeftLoaded", 1, 1)
         goto LoadBoth
-        SSG2 ABCDE  1
+        SSG2 A      1 A_FireCustomMissile ("S7_12gaShellCasingSpawn", 0, 0, 7, -18)
+        SSG2 BCDE   1
         SSG0 WXYZ   1
         SSG1 A      1
         TNT1 A      0 A_GiveInventory ("S7_SSGRightLoaded", 1)
