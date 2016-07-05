@@ -13,7 +13,7 @@
 actor S7_ThumperGrenade {
     radius 10
     height 10
-    speed 40
+    speed 75
     projectile
     damage (random [weaponDamage] (1, 6) * 24)
     scale 0.8
