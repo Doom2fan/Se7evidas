@@ -123,6 +123,9 @@ struct ParkourDef_t {
     /* Multi-jumping */
     bool mjumpOnGround;                 // Is the player on the ground?
     int  mjumpCount, mjumpMax;          // Count and max
+
+    /* Wall-jumping */
+    bool wjumpJustJumped;               // The player just walljumped
 };
 
 #define THUMPERMAGSIZE 4

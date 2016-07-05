@@ -42,23 +42,26 @@ void DodgeScriptP1 (PlayerData_t *player) {
 
         // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least DODGESTAMINA stamina...
         if (KeyPressed (BT_USER2) && !player->SprintDef.Sprinting && !player->scriptData.beamGrab && player->health.stamina >= DODGESTAMINA) {
-            if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) || (GetPlayerInput (-1, INPUT_SIDEMOVE) != 0)) { // If the player is trying to move backwards or sideways...
+            if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 || GetPlayerInput (-1, INPUT_SIDEMOVE) != 0) &&
+                !(GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && GetPlayerInput (-1, INPUT_SIDEMOVE) != 0)) { // If the player is moving backwards or sideways...
                 TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
                 player->health.stamina = CheckInventory (STAMINATOKEN); // Update player data
 
                 ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
 
                 int byteAngle = (player->physics.angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
-                if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) // If the player is trying to move backwards...
+                if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) { // If the player is trying to move backwards...
                     ThrustThing (byteAngle + 128, 18, 1, 0); // Thrust the player backwards
-                else if (GetPlayerInput (-1, INPUT_SIDEMOVE) < 0) // If the player is trying to move left...
+                    ThrustThingZ (0, 85, 1, 1);
+                } else if (GetPlayerInput (-1, INPUT_SIDEMOVE) < 0) { // If the player is trying to move left...
                     ThrustThing (byteAngle + 64, 18, 1, 0); // Thrust the player left
-                else if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) // If the player is trying to move right...
+                    ThrustThingZ (0, 85, 1, 1);
+                } else if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) { // If the player is trying to move right...
                     ThrustThing (byteAngle + 192, 18, 1, 0); // Thrust the player right
+                    ThrustThingZ (0, 85, 1, 1);
+                }
 
-                ThrustThingZ (0, 32, 0, TRUE); // Thrust the player up
-
-                player->parkourDef.dodgeCooldown = ServerData.dodgeCooldown; // Set the dodgeCooldown to 1 second
+                player->parkourDef.dodgeCooldown = ServerData.dodgeCooldown; // Set dodgeCooldown to the server's dodge cooldown time
                 player->parkourDef.dodgeInvulnTics = 24; // Set the invuln tics to 16
             }
         }
@@ -94,9 +97,53 @@ void MultiJumpScript (PlayerData_t *player) {
 
     // If the player's floor-relative Z is greater than MJUMPMINDIFF, the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump
     // counter isn't equal to mJumpMax, the player pressed jump and the sv_nojump CVAR isn't TRUE...
-    if (abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32 && !player->parkourDef.mjumpOnGround && player->parkourDef.mjumpCount < mJumpMax && KeyPressed (BT_JUMP) && !GetCVar (s"sv_nojump")) {
+    if (!GetCVar (s"sv_nojump") && !player->parkourDef.wjumpJustJumped && !player->parkourDef.mjumpOnGround && KeyPressed (BT_JUMP) && abs (player->physics.relativeZ) >= MJUMPMINDIFF
+        && player->physics.velZ <= 32 && player->parkourDef.mjumpCount < mJumpMax) {
         SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
         player->parkourDef.mjumpCount++; // Increment the jump counter by 1
+    }
+}
+int sign (int x) {
+    if (x < 0) { return -1; }
+    return 1;
+}
+
+// Some code taken from Parkmore by Ijon Tichy
+void WallJumpScript (PlayerData_t *player) {
+    player->parkourDef.wjumpJustJumped = FALSE;
+
+    if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && KeyPressed (BT_JUMP) && player->physics.relativeZ > 24.0k) {
+        bool canBounce;
+        int j;
+        accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);
+        accum x2 = 8 * CosA (player->physics.angle), y2 = 8 * SinA (player->physics.angle);
+        accum x3, y3, z;
+
+        if (AbsA (x) > AbsA (y)) {
+            y = y * (20.0 / AbsA (x));
+            x = 20.0 * sign (x);
+        } else {
+            x = x * (20.0 / AbsA (y));
+            y = 20.0 * sign (y);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            x3 = GetActorX (0) + x + (x2 * i);
+            y3 = GetActorY (0) + y + (y2 * i);
+            z  = GetActorZ (0) + 16.0k;
+
+            j = Spawn (s"S7_WalljumpChecker", x3, y3, z, -500);
+            if (!j) { canBounce = TRUE; }
+            Thing_Remove (-500);
+            if (canBounce) { break; }
+        }
+        if (canBounce) {
+            int byteAngle = (player->physics.angle << 16) >> 8;
+            player->parkourDef.wjumpJustJumped = TRUE;
+            ThrustThing (byteAngle + 128, 21, 1, 0);
+            ThrustThingZ (0, 40.0k, 0, 0);
+            ChangeActorAngle (0, player->physics.angle + 0.5, TRUE);
+        }
     }
 }

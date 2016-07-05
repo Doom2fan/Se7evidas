@@ -299,16 +299,13 @@ actor S7_Mana          : ammo    { inventory.maxAmount 250 +inventory.undroppabl
 
 //-------------------------------------------------------------------------------------------
 //
-// Multijumping
+// Parkour
 //
 //-------------------------------------------------------------------------------------------
+// Multijumping
 actor S7_MultiJump_Max : counter { }
 
-//-------------------------------------------------------------------------------------------
-//
 // Dodging
-//
-//-------------------------------------------------------------------------------------------
 actor S7_PowerDodgeInvuln : PowerInvulnerable {
     powerup.duration -60
     inventory.icon ""
@@ -318,6 +315,21 @@ actor S7_PowerDodgeTrail : PowerSpeed {
     speed 1.0
     powerup.duration 2
     inventory.icon ""
+}
+
+// Walljumping
+// Credits to Ijon Tichy
+actor S7_WalljumpChecker {
+    radius 4
+    height 16
+
+    +solid +serversideOnly +thruActors
+
+    states {
+      Spawn:
+        BAL1 A 105
+        stop
+    }
 }
 
 //-------------------------------------------------------------------------------------------

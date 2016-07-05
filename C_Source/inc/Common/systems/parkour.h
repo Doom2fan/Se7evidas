@@ -30,5 +30,6 @@
 void DodgeScriptP1   (PlayerData_t *player);
 void DodgeScriptP2   (PlayerData_t *player);
 void MultiJumpScript (PlayerData_t *player);
+void WallJumpScript  (PlayerData_t *player);
 
 #endif

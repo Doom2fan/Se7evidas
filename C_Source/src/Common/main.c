@@ -100,6 +100,7 @@ Script_C void S7_ServersideEnter ENTER () {
         UpdateAmmoMax    (player); // Update the max ammo
         if (player->health.health > 0) {
             StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
+            WallJumpScript           (player);
             MultiJumpScript          (player);
             DodgeScriptP1            (player);
         }
