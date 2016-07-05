@@ -268,7 +268,23 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
             inInventory S7_HitterSMGClip, 62 { drawImage "graphics/HUD/Cartridges/S7H45ACP.png", -132, -19; }
         }
 
-
+        else isSelected S7_GrenadeWeap {
+            inInventory S7_GrenadeCount,  1 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -15, -22; }
+            inInventory S7_GrenadeCount,  2 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -23, -24; }
+            inInventory S7_GrenadeCount,  3 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -31, -22; }
+            inInventory S7_GrenadeCount,  4 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -39, -24; }
+            inInventory S7_GrenadeCount,  5 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -47, -22; }
+            inInventory S7_GrenadeCount,  6 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -55, -24; }
+            inInventory S7_GrenadeCount,  7 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -63, -22; }
+            inInventory S7_GrenadeCount,  8 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -71, -24; }
+            inInventory S7_GrenadeCount,  9 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -79, -22; }
+            inInventory S7_GrenadeCount, 10 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -87, -24; }
+            inInventory S7_GrenadeCount, 11 { drawImage "graphics/HUD/Throwables/S7TGRICN.png",  -95, -22; }
+            inInventory S7_GrenadeCount, 12 { drawImage "graphics/HUD/Throwables/S7TGRICN.png", -103, -24; }
+            inInventory S7_GrenadeCount, 13 { drawImage "graphics/HUD/Throwables/S7TGRICN.png", -111, -22; }
+            inInventory S7_GrenadeCount, 14 { drawImage "graphics/HUD/Throwables/S7TGRICN.png", -119, -24; }
+            inInventory S7_GrenadeCount, 15 { drawImage "graphics/HUD/Throwables/S7TGRICN.png", -127, -22; }
+        }
 
         // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
         // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need

@@ -268,7 +268,23 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
             inInventory S7_HitterSMGClip, 62 { drawImage "S7H45ACP", -132, -19; }
         }
 
-
+        else isSelected S7_GrenadeWeap {
+            inInventory S7_GrenadeCount,  1 { drawImage "S7TGRICN",  -15, -22; }
+            inInventory S7_GrenadeCount,  2 { drawImage "S7TGRICN",  -23, -24; }
+            inInventory S7_GrenadeCount,  3 { drawImage "S7TGRICN",  -31, -22; }
+            inInventory S7_GrenadeCount,  4 { drawImage "S7TGRICN",  -39, -24; }
+            inInventory S7_GrenadeCount,  5 { drawImage "S7TGRICN",  -47, -22; }
+            inInventory S7_GrenadeCount,  6 { drawImage "S7TGRICN",  -55, -24; }
+            inInventory S7_GrenadeCount,  7 { drawImage "S7TGRICN",  -63, -22; }
+            inInventory S7_GrenadeCount,  8 { drawImage "S7TGRICN",  -71, -24; }
+            inInventory S7_GrenadeCount,  9 { drawImage "S7TGRICN",  -79, -22; }
+            inInventory S7_GrenadeCount, 10 { drawImage "S7TGRICN",  -87, -24; }
+            inInventory S7_GrenadeCount, 11 { drawImage "S7TGRICN",  -95, -22; }
+            inInventory S7_GrenadeCount, 12 { drawImage "S7TGRICN", -103, -24; }
+            inInventory S7_GrenadeCount, 13 { drawImage "S7TGRICN", -111, -22; }
+            inInventory S7_GrenadeCount, 14 { drawImage "S7TGRICN", -119, -24; }
+            inInventory S7_GrenadeCount, 15 { drawImage "S7TGRICN", -127, -22; }
+        }
 
         /*
         ** Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
