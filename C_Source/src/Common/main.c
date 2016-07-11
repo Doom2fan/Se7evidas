@@ -43,8 +43,10 @@ Script_C void S7_ServersideOpen OPEN () {
     #endif
 
     SetAirControl (0.1k);
+    //queuedMapEvent = MEVNT_PerfectHatred;
     MapData.mapEvent = queuedMapEvent;
     queuedMapEvent = 0;
+    MapData.mapEventSet = true;
     if (MapData.mapEvent > 0)
         Log ("%d", MapData.mapEvent);
     SetupMapEvents ();
@@ -62,14 +64,17 @@ Script_C void S7_ServersideUnloading UNLOADING () {
 
     if (ServerData.mapCount > 0 && Random (0, 255) < 32) {
         for (int i = 0; i < 50; i++)
-            queuedMapEvent = Random (MEVNT_None, MEVNT_LastToken - 1);
+            queuedMapEvent = Random (i > 25 ? MEVNT_None : MEVNT_None + 1, MEVNT_LastToken - 1);
     } else
-        queuedMapEvent = MEVNT_None; //MEVNT_None;
+        queuedMapEvent = MEVNT_None;
 
     ClearMonsterList ();
 
-    for (int i = 0; i < MAX_PLAYERS; i++)
-        ResetStuff (&PlayerData [i]);
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        PlayerData_t *player = &PlayerData [i];
+        if (player)
+            ResetStuff (player);
+    }
 }
 
 // General stuff
@@ -152,6 +157,39 @@ Script_C void S7_ServersideEnter2 ENTER () {
         DrawRadar                (player);
 
         Delay (1); // Wait for a tic
+    }
+}
+
+Script_C void S7_MapStart ENTER () {
+    if (!MapData.mapEventSet)
+        while (!MapData.mapEventSet)
+            Delay (1);
+
+    SetHudSize (640, 480, FALSE);
+    switch (MapData.mapEvent) {
+        case MEVNT_GhostTown:
+        break;
+
+        case MEVNT_PowerOutage:
+        break;
+
+        case MEVNT_NuclearMeltdown:
+        break;
+
+        case MEVNT_PerfectHatred:
+            SetFont (s"GARGWING");
+            cstr s = CorruptText ((cstr) "Perfect Hatred");
+            HudMessage (HUDMSG_FADEINOUT, 10000, CR_UNTRANSLATED, 250.1k, 320, 2.5, 0.8, 0.0, 0.0, s);
+            Delay (2.5 * 35);
+            for (int i = strlen (s) - 1; i >= 0; --i) {
+                s [i] = 0;
+                HudMessage (HUDMSG_PLAIN, 10000, CR_UNTRANSLATED, 250.1k, 320, 0.5, 0.0, 0.0, 0.0, "%s", s);
+                Delay (3);
+            }
+        break;
+
+        default:
+        break;
     }
 }
 

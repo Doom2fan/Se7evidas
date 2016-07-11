@@ -127,6 +127,55 @@ bool SetInventory (string name, int amount) {
 
 //-------------------------------------------------------------------------------------------
 //
+// Text manipulation
+//
+//-------------------------------------------------------------------------------------------
+
+char CorruptionCharList [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-=!@#$%%&*()_+[]{}\\,.;/|<>:?";
+
+cstr CorruptText (cstr text) {
+    int length = strlen (text);
+    int maxChars = Random (6, length / 2);
+    cstr ret = malloc (length);
+    strcpy (text, ret);
+    for (int i = 0; i < maxChars; i++) {
+        ret [Random (0, length - 2)] = CorruptionCharList [Random (0, sizeof (CorruptionCharList) - 2)];
+    }
+
+    return ret;
+}
+
+char CaseCorruptionCharListUpper [] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+char CaseCorruptionCharListLower [] = "abcdefghijklmnopqrstuvwxyz";
+
+cstr CorruptTextCase (cstr text) {
+    return text;
+    /*int length = strlen (text);
+    int retLen = length + 1;
+    char ret [retLen];
+
+    ret [length + 1] = '\0';
+    for (int i = 0; i < length + 1; i++) {
+        ret [i] = text [i];
+        if (ret [i] == '\0')
+            break;
+
+        if (Random (0, 255) > 32)
+            continue;
+
+        for (int j = 0; j < sizeof (CaseCorruptionCharListUpper); j++) {
+            if (ret [i] == CaseCorruptionCharListUpper [j])
+                ret [i] = CaseCorruptionCharListLower [j];
+            else if (ret [i] == CaseCorruptionCharListLower [j])
+                ret [i] = CaseCorruptionCharListUpper [j];
+        }
+    }
+
+    return (cstr) &ret;*/
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Math
 //
 //-------------------------------------------------------------------------------------------

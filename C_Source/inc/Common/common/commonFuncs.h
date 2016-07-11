@@ -23,6 +23,8 @@
 #include <ACS_ZDoom.h>
 #include "includes.h"
 
+typedef char * cstr;
+
 // Macros
 #define atanA(x) VectorAngle (1.0k, x)
 #define atan2A(x, y) VectorAngle (x, y)
@@ -45,6 +47,7 @@
 // Externs
 __addrdef extern __gbl_arr global_var;
 __addrdef extern __mod_arr    map_var;
+extern char CorruptionCharList [];
 
 // Prototypes
 /* Position */
@@ -65,6 +68,10 @@ void *allocAndClear (size_t size);
 int   UnusedTID (int start, int end);
 accum GetVelocity ();
 bool  SetInventory (string name, int amount);
+
+// ================ Text Manipulation ================
+cstr CorruptText (cstr text);
+cstr CorruptTextCase (cstr text);
 
 // ================ Math ================
 /* Clamping */

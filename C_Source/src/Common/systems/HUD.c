@@ -417,7 +417,7 @@ void ScreenOverlays (PlayerData_t *player) {
 #define RADAR_MAXDIST 750
 #define RADAR_XPOS GetUserCVar (0, s"S7_Radar_XPos")
 #define RADAR_YPOS GetUserCVar (0, s"S7_Radar_YPos")
-#define RADAR_BASEID 15000
+#define RADAR_BASEID 50000
 void DrawRadar (PlayerData_t *player) {
     // Uncomment when you have something to use this for.
     /*MonsterInfo_t *monster = monsterList;

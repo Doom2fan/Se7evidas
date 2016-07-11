@@ -100,7 +100,7 @@ Script_C void S7_PrintServerData () {
     Log ("ServerData = {\n\tdodgeCooldown = %d;\n\tmjumpZMul = %kk;\n\tnoSaveLoading = %s;\n\tmapCount = %d;\n};", ServerData.dodgeCooldown, ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
 }
 Script_C void S7_PrintMapData () {
-    Log ("MapData = {\n\tmapEvent = %d;\n\tmeSecLoopDelay = %d;\n};", MapData.mapEvent, MapData.meSecLoopDelay);
+    Log ("MapData = {\n\tmapEvent = %d;\n\tmeSecLoopDelay = %d;\n\tmapEventSet = %S;\n};", MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
 }
 #else
 Script_C void S7_DebugVelocity () { }

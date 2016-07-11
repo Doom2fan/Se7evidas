@@ -26,8 +26,9 @@ MonsterInfo_t *monsterList;
 void ClearMonsterList () {
     MonsterInfo_t *cur = monsterList;
     MonsterInfo_t *next;
+    monsterList = NULL;
     while (TRUE) {
-        if (!monsterList)
+        if (!cur)
             break;
 
         next = cur->next;

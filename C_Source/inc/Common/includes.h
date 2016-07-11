@@ -131,9 +131,6 @@ typedef char * cstr;
 // Externs
 extern bool RunningInZDoom;
 
-// Variables and constants
-extern char CorruptionCharList [91];
-
 // Prototypes
 void PukeScriptFunction (int number, int arg0, int arg1, int arg2);
 

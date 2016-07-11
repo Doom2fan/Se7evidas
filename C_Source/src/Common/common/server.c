@@ -91,12 +91,11 @@ void UpdateServerData () {
     if (MapData.meSecLoopDelay <= 0) { \
         ChangeSky (sky, s""); \
         S7_LightLevelScript ( 32767,  16385,  0, light); \
-        S7_LightLevelScript ( 16384,   5000,  6, light); \
-        S7_LightLevelScript ( -5000, -16384, 12, light); \
-        S7_LightLevelScript (-16385, -32768, 18, light); \
-    } \
-    if (MapData.meSecLoopDelay <= 0) \
-        MapData.meSecLoopDelay = 10 * 35;
+        S7_LightLevelScript ( 16384,   5000, 24, light); \
+        S7_LightLevelScript ( -5000, -16384, 48, light); \
+        S7_LightLevelScript (-16385, -32768, 72, light); \
+        MapData.meSecLoopDelay = (2.5k * 60 * 35) + 74; \
+    }
 
 void UpdateMapData () {
     if (MapData.meSecLoopDelay > 0)

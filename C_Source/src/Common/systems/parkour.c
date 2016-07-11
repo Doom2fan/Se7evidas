@@ -141,7 +141,7 @@ void WallJumpScript (PlayerData_t *player) {
         if (canBounce) {
             int byteAngle = (player->physics.angle << 16) >> 8;
             player->parkourDef.wjumpJustJumped = TRUE;
-            ThrustThing (byteAngle + 128, 21, 1, 0);
+            ThrustThing (byteAngle + 128, 18, 1, 0);
             ThrustThingZ (0, 40.0k, 0, 0);
             ChangeActorAngle (0, player->physics.angle + 0.5, TRUE);
         }

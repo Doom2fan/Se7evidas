@@ -48,6 +48,7 @@ typedef struct ServerData_t {
 typedef struct MapData_t {
     int mapEvent;
     int meSecLoopDelay;
+    bool mapEventSet;
 } MapData_t;
 
 // Struct declarations

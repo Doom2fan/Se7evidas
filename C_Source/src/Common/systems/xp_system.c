@@ -36,12 +36,12 @@ void LevelUp (int level, int attrPoints, bool log, string message) {
 
     if (GetUserCVar (PLN, s"S7_MsgsOn")) {
         SetFont (s"DBIGFONT");
-        HudMessage (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 10000, CR_UNTRANSLATED, 0.5k, 0.5k, 3.0k, 0.3, 0.3, 0.0, "Level up!");
+        HudMessage (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 11000, CR_UNTRANSLATED, 0.5k, 0.5k, 3.0k, 0.3, 0.3, 0.0, "Level up!");
         SetFont (s"SMALLFNT");
         if (!message)
-            HudMessage     (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 10001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3, 0.3, 0.0, "You have reached level %d.\nYou have gained %d attribute points.", level, attrPoints);
+            HudMessage_Str (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 11001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3, 0.3, 0.0, s"You have reached level %d.\nYou have gained %d attribute points.", level, attrPoints);
         else
-            HudMessage_Str (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 10001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3, 0.3, 0.0, message);
+            HudMessage_Str (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 11001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3, 0.3, 0.0, message);
     }
 
     PlaySound (0, s"Player/LevelUp", CHAN_UI);
