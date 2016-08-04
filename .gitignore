@@ -18,7 +18,7 @@ acs.err
 *.*.save
 (1)Log.txt
 *.o
-*.PK3
+/*.PK3
 *... Play - Dis.bat
 *... Play - ZDoom ReShade.bat
 *... Play - GZDoom QEffectsGL.bat
