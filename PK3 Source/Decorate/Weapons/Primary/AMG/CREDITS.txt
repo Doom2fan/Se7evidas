@@ -2,6 +2,7 @@ DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD Sprites: ScubaSteve, Uboa, Chronos "phantombeta" Ouroboros
+    Pickup Sprites: ScubaSteve, Chronos "phantombeta" Ouroboros
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file

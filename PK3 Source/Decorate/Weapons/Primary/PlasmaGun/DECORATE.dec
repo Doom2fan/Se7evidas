@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------------
 actor S7_PlasmaGun_Semi          : boolean { }
 actor S7_PlasmaGun_Charge        : counter { inventory.maxAmount 4 }
-actor S7_PlasmaGun_ChargingLevel : counter { inventory.maxAmount 16 }
+actor S7_PlasmaGun_ChargingLevel : counter { inventory.maxAmount 53 }
 actor S7_PlasmaGunMag            : ammo {
     inventory.maxAmount 36
     ammo.backpackMaxAmount 36
@@ -218,7 +218,7 @@ actor S7_PlasmaGun : S7_BaseWeapon 30003 {
         PLSG A 1 offset (3, 35)
         PLSG A 1 offset (2, 34)
         PLSG A 1 offset (1, 33)
-        PLSG A 1                A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch)
+        PLSG A 1                A_WeaponReady (WRF_NoBob | WRF_NoFire | WRF_DisableSwitch)
         goto Ready2
     }
 }

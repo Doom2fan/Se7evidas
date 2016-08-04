@@ -1,6 +1,6 @@
 Weapons/SSG/Fire                 "sounds/Weapons/Primary/SSG/Fire.ogg"          // Made from a sound by NightmareMutant and the SSG firing sound from Doom 3: Resurrection of Evil
 Weapons/SSG/Open                 "sounds/Weapons/Primary/SSG/Open.ogg"          // By Id Software, Per Kristian
-Weapons/SSG/Close                "sounds/Weapons/Primary/SSG/Close.ogg"         // By Id Software, Per Kristian
+Weapons/SSG/Close                "sounds/Weapons/Primary/SSG/Close.ogg"         // Ditto
 
 $RANDOM Weapons/SSG/In {
     Weapons/SSG/In1
