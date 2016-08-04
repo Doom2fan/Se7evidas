@@ -33,14 +33,16 @@ SaveInv_InvDef importantInv = {
 };
 
 SaveInv_InvInfo normalInvInfo [] = {
-    // Ammo
+    /* Ammo */
     { .name = s"S7_9mmCartridges",                              },
     { .name = s"S7_45ACPCartridges",                            },
     { .name = s"S7_44MCartridges",                              },
     { .name = s"S7_762x39Cartridges",                           },
+    { .name = s"S7_12gaShells",                                 },
     { .name = s"S7_20gaShells",                                 },
     { .name = s"S7_Cells",                                      },
     { .name = s"S7_FBSysCells",                                 },
+    // Thumper ammo
     { .name = s"S7_Thumper_PExp",                               },
     { .name = s"S7_Thumper_PFrag",                              },
     { .name = s"S7_Thumper_PTherm",                             },
@@ -48,43 +50,64 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_Thumper_PCluster",                           },
     { .name = s"S7_Thumper_PNail",                              },
     { .name = s"S7_Thumper_PNGas",                              },
-    // Weapons and etc weapon info
-    { .name = s"S7_AMG",                                        }, // Mars Assault Rifle
+
+    /* Weapons and etc weapon info */
+    // Mars Assault Rifle
+    { .name = s"S7_AMG",                                        },
     { .name = s"S7_AMGMag",                                     },
-    { .name = s"S7_HitterSMG",                                  }, // Hitter SMG
+    // Hitter SMG
+    { .name = s"S7_HitterSMG",                                  },
     { .name = s"S7_HitterSMGClip",                              },
     { .name = s"S7_HitterSMGUpperJammed",                       },
     { .name = s"S7_HitterSMGLowerJammed",                       },
-    { .name = s"S7_ManxCarbine",                                }, // Manx Carbine
+    // Manx Carbine
+    { .name = s"S7_ManxCarbine",                                },
     { .name = s"S7_ManxCarbineClip",                            },
-    { .name = s"S7_PlasmaGun",                                  }, // Plasma MG
+    // Plasma MG
+    { .name = s"S7_PlasmaGun",                                  },
     { .name = s"S7_PlasmaGunMag",                               },
     { .name = s"S7_PlasmaGun_Charge",                           },
-    { .name = s"S7_Fauchard",                                   }, // Fauchard Laser Rifle
+    // Fauchard Laser Rifle
+    { .name = s"S7_Fauchard",                                   },
     { .name = s"S7_FauchardMag",                                },
-    { .name = s"S7_PrettyShootyIonCannonGun",                   }, // Mjolnir Ion Cannon
-    { .name = s"S7_Shotgun",                                    }, // Lucifer Combat Shotgun
+    // Mjolnir Ion Cannon
+    { .name = s"S7_PrettyShootyIonCannonGun",                   },
+    // Lucifer Combat Shotgun
+    { .name = s"S7_Shotgun",                                    },
     { .name = s"S7_ShotgunMag",                                 },
     { .name = s"S7_ShotgunLoaded",                              },
-    { .name = s"S7_SSG",                                        }, // Super Shotgun
+    // 12ga Super Shotgun
+    { .name = s"S7_SSG",                                        },
     { .name = s"S7_SSGLeftLoaded",                              },
     { .name = s"S7_SSGRightLoaded",                             },
-    { .name = s"S7_Thumper",                                    }, // Thumper 50mm GL
+    // Thumper 50mm GL
+    { .name = s"S7_Thumper",                                    },
     { .name = s"S7_ThumperSelectedPool",                        },
     { .name = s"S7_ThumperChambered",                           },
-    { .name = s"S7_Raptor",                                     }, // Raptor
+    // Raptor Pistol
+    { .name = s"S7_Raptor",                                     },
     { .name = s"S7_RaptorClip",                                 },
-    { .name = s"S7_Revolver",                                   }, // Deathbringer
+    // Deathbringer Revolver
+    { .name = s"S7_Revolver",                                   },
     { .name = s"S7_RevolverClip",                               },
-    { .name = s"S7_TEC9",                                       }, // Kronos
+    // Kronos SMG
+    { .name = s"S7_TEC9",                                       },
     { .name = s"S7_TEC9Clip",                                   },
-    // Health
+    // Grenades
+    { .name = s"S7_GrenadeWeap",                                },
+    { .name = s"S7_GrenadeCount",                               },
+    // Hellwarrior Blade
+    { .name = s"S7_HellwarriorBladeForm1",                      },
+
+    /* Health */
     { .name = s"S7_Medikit",                                    },
     { .name = s"S7_Stimpack",                                   },
     { .name = s"S7_Canteen",                                    },
-    // Powerups
+
+    /* Powerups */
     { .name = s"S7_Berserk",                                    },
-    // Loot
+
+    /* Loot */
     { .name = s"S7_Thumper_Used",                               },
 };
 

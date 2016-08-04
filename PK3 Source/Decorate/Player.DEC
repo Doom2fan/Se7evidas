@@ -63,6 +63,7 @@ actor S7_BasePlayer : playerPawn {
     // Weapon Slots
     player.weaponSlot 1, S7_Raptor, S7_TEC9, S7_Revolver
     player.weaponSlot 2, S7_Shotgun, S7_AMG, S7_ManxCarbine, S7_HitterSMG, S7_Fauchard, S7_SSG
+    player.weaponSlot 3, S7_HellwarriorBladeForm1
     player.weaponSlot 4, S7_PrettyShootyIonCannonGun, S7_PlasmaGun, S7_Thumper
     player.weaponSlot 5, S7_GrenadeWeap
     player.weaponSlot 6, S7_BerserkWeap

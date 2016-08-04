@@ -1,0 +1,4 @@
+sprite HBF1A0, 480, 200 {
+    offset 80, 0
+    patch "graphics/Weapons/Hellwarrior Blade/Form 1/Frame1.png", 303, 114
+}
