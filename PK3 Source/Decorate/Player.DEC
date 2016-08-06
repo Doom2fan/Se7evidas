@@ -122,6 +122,7 @@ actor S7_BasePlayer : playerPawn {
         PLAY RSTUV 5
         PLAY W    -1
         stop
+    Death.Fire2:
     Death.Fire:
         BURN ABC        5 bright
         BURN D          5 bright

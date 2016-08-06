@@ -93,3 +93,6 @@
     //QUITMSG                         = "Is this too much for you, pussy?";
     TXT_YES                         = "Sim";
     TXT_NO                          = "Nao";
+
+// Misc
+    GOP_NOSPELL                     = "Voce tem que selecionar um encanto primeiro!";

@@ -100,3 +100,6 @@
     QUITMSG                         = "Is this too much for you, pussy?";
     TXT_YES                         = "Yep";
     TXT_NO                          = "Nope";
+
+// Misc
+    GOP_NOSPELL                     = "You must select a spell first!";
