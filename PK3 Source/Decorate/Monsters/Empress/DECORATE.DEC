@@ -92,13 +92,13 @@ actor S7_Empress : S7_DemonBase {
         TNT1 A 0
         goto MissileAttack
     ShieldsUp:
-        TNT1 A               0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
-        TNT1 A               0 A_ChangeFlag ("noPain", TRUE)
-        HRFR EEEEEFFFFFFFFFF 1 A_FaceTarget
-        TNT1 A               0 A_ChangeFlag ("noBlood", TRUE)
-        TNT1 A               0 A_SetInvulnerable
-        //TNT1 A               0 A_GiveInventory ("S7_EmpressProtection", 1)
-        HRFR FFFF            5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        TNT1 A    0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
+        TNT1 A    0 A_ChangeFlag ("noPain", TRUE)
+        HRFR EFF  5
+        TNT1 A    0 A_ChangeFlag ("noBlood", TRUE)
+        TNT1 A    0 A_SetInvulnerable
+        //TNT1 A    0 A_GiveInventory ("S7_EmpressProtection", 1)
+        HRFR FFFF 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
         goto See
 
     MissileAttack:
@@ -106,10 +106,20 @@ actor S7_Empress : S7_DemonBase {
         goto See
 
     Attack1:
-        HRFR A    2 A_FaceTarget
-        HRFR H    3 A_FaceTarget
-        TNT1 A    0 A_FaceTarget
-        HRFR HHH  5 A_CustomMissile ("S7_EmpressMissile1", 105.0)
+        HRFR AAHHH 1 A_FaceTarget (72, 36)
+
+        TNT1 A    0 A_FaceTarget (0, 0)
+        HRFR H    1 A_CustomMissile ("S7_EmpressMissile1", 105.0)
+        HRFR HHHH 1 A_FaceTarget (90, 45)
+
+        TNT1 A    0 A_FaceTarget (0, 0)
+        HRFR H    1 A_CustomMissile ("S7_EmpressMissile1", 105.0)
+        HRFR HHHH 1 A_FaceTarget (90, 45)
+
+        TNT1 A    0 A_FaceTarget (0, 0)
+        HRFR H    1 A_CustomMissile ("S7_EmpressMissile1", 105.0)
+        HRFR HHHH 1 A_FaceTarget (90, 45)
+
         HRFR HHHH 5
         goto See
 
@@ -173,8 +183,8 @@ actor S7_Empress : S7_DemonBase {
         TNT1 A 0 A_JumpIfInventory ("S7_SoulLance_BeamGrabbed", 1, "SLance_BeamLost")
     Death2:
         HRFR GGG    13 A_Pain
-        HRFR AAAAAA  1 A_SpawnItemEx ("S7_EmpressDeathSmokeSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
-        HRFR A       2
+        HRFR FFFFFF  1 A_SpawnItemEx ("S7_EmpressDeathSmokeSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        HRFR F       2
         TNT1 A       0 A_SpawnItemEx ("S7_EmpressFlash", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
         TNT1 A       0 A_NoBlocking
         TNT1 A       0 A_DamageChildren (0x7FFFFFFF, "NonKilledDeath")
@@ -204,7 +214,7 @@ actor S7_EmpressMissile1 : fastProjectile {
     deathSound "imp/shotx"
     obituary "$OB_EMPRESSFB"
 
-    +forceXYBillboard +SeekerMissile
+    +forceXYBillboard +seekerMissile
 
     var int user_angel;
     var int user_loopCount;

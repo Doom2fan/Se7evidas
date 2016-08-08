@@ -28,8 +28,10 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
         loop
     Melee:
     Missile:
-        BPNT EF 6 A_FaceTarget
-        BPNT G  6 A_CustomComboAttack ("S7_BlackPantherBall", 32, random [monsterDamage] (1, 4) * 8, "baron/melee")
+        BPNT EEEEEEFFFFFF 2 A_FaceTarget (30, 15)
+
+        TNT1 A 0 A_FaceTarget (0, 0)
+        BPNT G 6 A_CustomComboAttack ("S7_BlackPantherBall", 32, random [monsterDamage] (1, 4) * 8, "baron/melee")
         goto See
     Pain:
         BPNT H 2
