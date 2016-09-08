@@ -85,9 +85,8 @@ Script_C void S7_ShowPop1 () {
    SPopPrintListFunc (header, array, ArraySize (array), id, x, y, numXOffset) \
   )
 void SPopPrintListFunc (string header, string listArray [] [2], int size, int *id, accum *x, accum *y, accum numXOffset) {
-    SPopPrintText ((*id), (*x) - 6.0k, (*y), CR_WHITE, "%LS:", header);
+    SPopPrintText ((*id)++, (*x) - 6.0k, (*y), CR_WHITE, "%LS:", header);
     (*y) += 6.0k;
-    (*id)++;
     for (int i = 0; i < size; i++, (*y) += 6.0k) {
         if (StrLen (listArray [i] [1]) <= 0) {
             if (StrLen (listArray [i] [0]) > 0) {
@@ -108,19 +107,16 @@ void SPopPrintListFunc (string header, string listArray [] [2], int size, int *i
    SPopPrintSwitchListFunc (header, array, ArraySize (array), id, x, y) \
   )
 void SPopPrintSwitchListFunc (string header, string listArray [] [2], int size, int *id, accum *x, accum *y) {
-    SPopPrintText ((*id), (*x) - 6.0k, (*y), CR_WHITE, "%LS:", header);
+    SPopPrintText ((*id)++, (*x) - 6.0k, (*y), CR_WHITE, "%LS:", header);
     (*y) += 6.0k;
-    (*id)++;
     for (int i = 0; i < size; i++, (*y) += 6.0k) {
         if (StrLen (listArray [i] [1]) <= 0) {
             if (StrLen (listArray [i] [0]) > 0) {
-                SPopPrintText ((*id), (*x) - 3.0k, (*y), CR_WHITE, "%LS:", listArray [i] [0]);
-                (*id) += 1;
+                SPopPrintText ((*id)++, (*x) - 3.0k, (*y), CR_WHITE, "%LS:", listArray [i] [0]);
             }
         } else {
             int color = CheckInventory (listArray [i] [1]) ? CR_WHITE : CR_DARKGREY;
-            SPopPrintText ((*id), (*x), (*y), color, "%LS", listArray [i] [0]);
-            (*id) += 1;
+            SPopPrintText ((*id)++, (*x), (*y), color, "%LS", listArray [i] [0]);
         }
     }
 }
@@ -453,8 +449,7 @@ void DrawRadar (PlayerData_t *player) {
             colour = CR_DARKGREY;
 
         if (!monster->removed && draw) {
-            HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i, colour, dX, dY, 0.1k, 0.0k, 0.0k, 0.0k, "o");
-            i++;
+            HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, colour, dX, dY, 0.1k, 0.0k, 0.0k, 0.0k, "o");
         }
 
         monster = monster->next;

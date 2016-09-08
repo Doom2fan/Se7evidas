@@ -186,8 +186,7 @@ Script_C void S7_ThumperPerformReload () {
     if (currentPool > 7) // If the selected pool is greater than 7...
         currentPool = 7; // Set it to 7
 
-    player->thumperDef.magIndex++; // Increment the mag index by 1
-    player->thumperDef.magShells [player->thumperDef.magIndex] = currentPool; // Set the next shell in the mag to the same as the selected pool
+    player->thumperDef.magShells [++player->thumperDef.magIndex] = currentPool; // Set the next shell in the mag to the same as the selected pool while incrementing the mag index
     TakeInventory (Thumper_PoolNames [currentPool], 1); // Take 1 from the selected pool
 }
 
@@ -248,18 +247,15 @@ void Thumper_ScriptClientside (PlayerData_t *player) {
 
     int magN = 1;
     for (int i = 0; i <= player->thumperDef.magIndex; i++) {
-        string mag = StrParam ("S7_ThumperMag%d", magN);
-        magN++;
+        string mag = StrParam ("S7_ThumperMag%d", magN++);
 
         SetInventory (mag, player->thumperDef.magShells [i]);
     }
-    string chamber = StrParam ("S7_ThumperMag%d", magN);
+    string chamber = StrParam ("S7_ThumperMag%d", magN++);
     SetInventory (chamber, player->thumperDef.currentShell);
-    magN++;
     if (magN < 6) {
         for (int j = magN - 1; j <= 5; j++) {
-            string mag = StrParam ("S7_ThumperMag%d", magN);
-            magN++;
+            string mag = StrParam ("S7_ThumperMag%d", magN++);
 
             if (mag != S7_TH_None)
                 SetInventory (mag, 0);

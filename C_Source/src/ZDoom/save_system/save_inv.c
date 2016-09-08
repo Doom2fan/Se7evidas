@@ -42,7 +42,7 @@ bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
 
     // Add compression to this someday maybe
     int index = 1;
-    SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, 1), StrMid (output, 0, invDef->cvarMaxLen));
+    SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index++), StrMid (output, 0, invDef->cvarMaxLen));
     output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
     while (TRUE) {
         if (StrLen (output) < invDef->cvarMaxLen)
@@ -50,20 +50,18 @@ bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         if (index >= invDef->maxCVars)
             return FALSE;
 
-        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index + 1), StrMid (output, 0, invDef->cvarMaxLen));
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index++), StrMid (output, 0, invDef->cvarMaxLen));
         output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
-        index++;
     }
     if (StrLen (output) > 1) {
         if (index >= invDef->maxCVars)
             return FALSE;
 
-        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index + 1), StrMid (output, 0, invDef->cvarMaxLen));
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index++), StrMid (output, 0, invDef->cvarMaxLen));
         output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
-        index++;
     }
     for (; index < invDef->maxCVars; index++) {
-        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index + 1), s"");
+        SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index), s"");
     }
 
     return TRUE;
