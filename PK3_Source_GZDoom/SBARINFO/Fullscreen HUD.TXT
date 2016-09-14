@@ -286,6 +286,12 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
             inInventory S7_GrenadeCount, 15 { drawImage "graphics/HUD/Throwables/S7TGRICN.png", -127, -22; }
         }
 
+        else isSelected S7_Fauchard {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            drawBar "S7LRABFG", "S7LRABBG", ammo1, horizontal, reverse, interpolate (13), -57, -31;
+        }
+
         // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
         // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
         // something better to define HUDs with because SBARINFO is terrible and annoying.
