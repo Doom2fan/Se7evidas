@@ -68,6 +68,7 @@ HELLIONTAG                      = "Hellion";
 BLCKPNTTAG                      = "Black Panther";
 EMPRESSTAG                      = "Empress";
 SUCCUBUSTAG                     = "Succubus";
+FATFUCKTAG                      = "Corpulent";
 
 /** Genders **/
 GEN_MALE                        = "Male";

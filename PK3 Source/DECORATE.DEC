@@ -53,6 +53,7 @@
 #INCLUDE "Decorate/Monsters/Succubus/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/BlackPanther/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/FatFuck/DECORATE.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"
@@ -66,6 +67,9 @@
 
 // Ammo
 #INCLUDE "Decorate/Inventory/Ammo.DEC"
+
+// Misc
+#INCLUDE "Decorate/Props.DEC"
 
 // Weapons
 // Primary

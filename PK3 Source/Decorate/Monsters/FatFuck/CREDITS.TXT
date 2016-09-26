@@ -1,0 +1,4 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_FatFuck: Id Software, Vegeta, Aerial, Tormentor667, Midway Entertainment, Chronos "phantombeta" Ouroboros

@@ -1,0 +1,14 @@
+/*** Green Torch ***/
+actor S7_GreenTorch : greenTorch replaces greenTorch {
+    radius 16
+    height 68
+    projectilePassHeight -16
+
+    +solid
+
+    states {
+    Spawn:
+        TGRE ABCD 4 bright
+        loop
+    }
+}
