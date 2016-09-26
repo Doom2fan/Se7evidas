@@ -39,6 +39,18 @@ Footsteps/Large1                "sounds/Footsteps/Large1.ogg" // From Quake 4
 Footsteps/Large2                "sounds/Footsteps/Large2.ogg" // Ditto
 Footsteps/Large3                "sounds/Footsteps/Large3.ogg" // Ditto
 
+// Footsteps
+$RANDOM Footsteps/Huge {
+    Footsteps/Huge1
+    Footsteps/Huge2
+    Footsteps/Huge3
+    Footsteps/Huge4
+}
+Footsteps/Huge1                 "sounds/Footsteps/Huge1.ogg" // From Quake 4
+Footsteps/Huge2                 "sounds/Footsteps/Huge2.ogg" // Ditto
+Footsteps/Huge3                 "sounds/Footsteps/Huge3.ogg" // Ditto
+Footsteps/Huge4                 "sounds/Footsteps/Huge4.ogg" // Ditto
+
 // Explosions
 $RANDOM Explosions/Explosion1 {
     Explosions/Explosion1_1
