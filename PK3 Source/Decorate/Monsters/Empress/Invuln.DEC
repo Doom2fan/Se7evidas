@@ -15,7 +15,7 @@ actor S7_EmpressInvulnOrbiter {
     renderStyle add
     damageFactor "NonKilledDeath", 1.0
     damageFactor "NerveGas", 0.0
-    species S7Empress
+    species S7EmpressCrap
 
     +isMonster +shootable +noTeleport +noBlood
     +noTargetSwitch +noGravity +forceXYBillboard +forcePain
