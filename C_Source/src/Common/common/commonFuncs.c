@@ -66,6 +66,23 @@ int KeyPressed2 (int buttons, int oldbuttons, int key) {
 
     return 0;
 }
+int KeyUpMOD (int key) {
+    int buttons = GetPlayerInput (-1, MODINPUT_BUTTONS);
+
+    if (~buttons & key) return 1;
+
+    return 0;
+}
+int KeyDownMOD (int key) {
+    int buttons = GetPlayerInput (-1, MODINPUT_BUTTONS);
+
+    if (buttons & key) return 1;
+
+    return 0;
+}
+int KeyPressedMOD (int key) {
+    return KeyPressed2 (GetPlayerInput (-1, MODINPUT_BUTTONS), GetPlayerInput (-1, MODINPUT_OLDBUTTONS), key);
+}
 
 /* Player info */
 int GetMaxStamina (PlayerData_t *player) {

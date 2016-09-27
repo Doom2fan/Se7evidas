@@ -54,10 +54,13 @@ extern char CorruptionCharList [];
 vec3_k GetActorPositionVec (int tid);
 Script_LS vec3_k GetActivatorPointerPos (int pointer);
 /* Keys */
-int KeyUp       (int key);
-int KeyDown     (int key);
-int KeyPressed  (int key);
-int KeyPressed2 (int buttons, int oldbuttons, int key);
+int KeyUp         (int key);
+int KeyDown       (int key);
+int KeyPressed    (int key);
+int KeyPressed2   (int buttons, int oldbuttons, int key);
+int KeyUpMOD      (int key);
+int KeyDownMOD    (int key);
+int KeyPressedMOD (int key);
 /* Player info */
 bool S7_PlayerNumEqualConsolePlayer (int playerNum);
 int  GetMaxStamina (struct PlayerData_t *player);
