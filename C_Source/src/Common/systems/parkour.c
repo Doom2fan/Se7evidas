@@ -41,22 +41,22 @@ void DodgeScriptP1 (PlayerData_t *player) {
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
         // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least DODGESTAMINA stamina...
-        if (KeyPressed (BT_USER2) && !player->SprintDef.Sprinting && !player->scriptData.beamGrab && player->health.stamina >= DODGESTAMINA) {
-            if ((GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 || GetPlayerInput (-1, INPUT_SIDEMOVE) != 0) &&
-                !(GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && GetPlayerInput (-1, INPUT_SIDEMOVE) != 0)) { // If the player is moving backwards or sideways...
+        if (KeyPressedMOD (BT_USER2) && !player->SprintDef.Sprinting && !player->scriptData.beamGrab && player->health.stamina >= DODGESTAMINA) {
+            if ((GetPlayerInput (-1, MODINPUT_FORWARDMOVE) < 0 || GetPlayerInput (-1, MODINPUT_SIDEMOVE) != 0) &&
+                !(GetPlayerInput (-1, MODINPUT_FORWARDMOVE) < 0 && GetPlayerInput (-1, MODINPUT_SIDEMOVE) != 0)) { // If the player is moving backwards or sideways...
                 TakeInventory (STAMINATOKEN, DODGESTAMINA); // Take DODGESTAMINA stamina
                 player->health.stamina = CheckInventory (STAMINATOKEN); // Update player data
 
                 ActivatorSound (s"Player/Dodge", 127); // Play the dodge sound
 
                 int byteAngle = (player->physics.angle << 16) >> 8; // For some reason I have to do this weird shit. I have no idea why. Go ask DavidPH.
-                if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0) { // If the player is trying to move backwards...
+                if (GetPlayerInput (-1, MODINPUT_FORWARDMOVE) < 0) { // If the player is trying to move backwards...
                     ThrustThing (byteAngle + 128, 18, 1, 0); // Thrust the player backwards
                     ThrustThingZ (0, 85, 1, 1);
-                } else if (GetPlayerInput (-1, INPUT_SIDEMOVE) < 0) { // If the player is trying to move left...
+                } else if (GetPlayerInput (-1, MODINPUT_SIDEMOVE) < 0) { // If the player is trying to move left...
                     ThrustThing (byteAngle + 64, 18, 1, 0); // Thrust the player left
                     ThrustThingZ (0, 85, 1, 1);
-                } else if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) { // If the player is trying to move right...
+                } else if (GetPlayerInput (-1, MODINPUT_SIDEMOVE) > 0) { // If the player is trying to move right...
                     ThrustThing (byteAngle + 192, 18, 1, 0); // Thrust the player right
                     ThrustThingZ (0, 85, 1, 1);
                 }
@@ -97,7 +97,7 @@ void MultiJumpScript (PlayerData_t *player) {
 
     // If the player's floor-relative Z is greater than MJUMPMINDIFF, the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump
     // counter isn't equal to mJumpMax, the player pressed jump and the sv_nojump CVAR isn't TRUE...
-    if (!GetCVar (s"sv_nojump") && !player->parkourDef.wjumpJustJumped && !player->parkourDef.mjumpOnGround && KeyPressed (BT_JUMP) && abs (player->physics.relativeZ) >= MJUMPMINDIFF
+    if (!GetCVar (s"sv_nojump") && !player->parkourDef.wjumpJustJumped && !player->parkourDef.mjumpOnGround && KeyPressedMOD (BT_JUMP) && abs (player->physics.relativeZ) >= MJUMPMINDIFF
         && player->physics.velZ <= 32 && player->parkourDef.mjumpCount < mJumpMax) {
         SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
@@ -113,7 +113,7 @@ int sign (int x) {
 void WallJumpScript (PlayerData_t *player) {
     player->parkourDef.wjumpJustJumped = FALSE;
 
-    if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && KeyPressed (BT_JUMP) && player->physics.relativeZ > 24.0k) {
+    if (GetPlayerInput (-1, MODINPUT_FORWARDMOVE) < 0 && KeyPressedMOD (BT_JUMP) && player->physics.relativeZ > 24.0k) {
         bool canBounce;
         int j;
         accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);

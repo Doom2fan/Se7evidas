@@ -86,32 +86,32 @@ Script_C void S7_SynthFire (int mode) {
             return;
 
         if (!mode) {
-            if (KeyDown (BT_ATTACK))
+            if (KeyDownMOD (BT_ATTACK))
                 SetInventory (s"S7_SynthFireLeft", 1);
 
-            if (KeyDown (BT_ALTATTACK))
+            if (KeyDownMOD (BT_ALTATTACK))
                 SetInventory (s"S7_SynthFireRight", 1);
         } else {
-            if (KeyPressed (BT_ATTACK))
+            if (KeyPressedMOD (BT_ATTACK))
                 SetInventory (s"S7_SynthFireLeft", 1);
 
-            if (KeyPressed (BT_ALTATTACK))
+            if (KeyPressedMOD (BT_ALTATTACK))
                 SetInventory (s"S7_SynthFireRight", 1);
         }
 
         Delay (1);
 
         if (!mode) {
-            if (KeyUp (BT_ATTACK))
+            if (KeyUpMOD (BT_ATTACK))
                 SetInventory (s"S7_SynthFireLeft", 0);
 
-            if (KeyUp (BT_ALTATTACK))
+            if (KeyUpMOD (BT_ALTATTACK))
                 SetInventory (s"S7_SynthFireRight", 0);
         } else {
-            if (!KeyPressed (BT_ATTACK))
+            if (!KeyPressedMOD (BT_ATTACK))
                 SetInventory (s"S7_SynthFireLeft", 0);
 
-            if (!KeyPressed (BT_ALTATTACK))
+            if (!KeyPressedMOD (BT_ALTATTACK))
                 SetInventory (s"S7_SynthFireRight", 0);
         }
     }
@@ -140,6 +140,18 @@ void AmmoCountersScript (PlayerData_t *player) {
 
     if (CheckInventory (s"S7_ShotgunMagCounter") != (CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded")))
         SetInventory (s"S7_ShotgunMagCounter", CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded"));
+}
+
+void HellbladeScript (PlayerData_t *player) {
+    if (!player)
+        return;
+
+    int curLvl = CheckInventory (s"S7_HellwarriorBladeAffinity");
+    int curExp = CheckInventory (s"S7_HellwarriorBladeExperience");
+    if (curLvl < 10 && curExp >= 2500 + curLvl * 1250) {
+        GiveInventory (s"S7_HellwarriorBladeAffinity", 1);
+        TakeInventory (s"S7_HellwarriorBladeExperience", 0x7FFFFFFF);
+    }
 }
 
 /*#define PSICGFIREBOOL s"S7_PSICG_CanFire"
@@ -171,7 +183,7 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
     accum baseMul  = 1.0k;
     accum mulBonus = 0.0k;
 
-    if (CheckInventory (s"S7_BerserkToken")) {
+    if (CheckInventory (BERSERKTOKEN)) {
         baseMul = 3.0k;
         mulBonus = RandomFixed (0.0k, 2.0k);
     }
@@ -186,6 +198,23 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
     DisableWeapon (s"S7_BerserkWeap", s"", &PlayerData [PLN]);
 }*/
 
+enum {
+    HELLBLADE_FORM1 = 1,
+    HELLBLADE_NULL = 32767,
+};
+
+Script_C int S7_HellBladeDMG (int form, int multiplier, int baseDMG) {
+    int affinity = CheckInventory (s"S7_HellwarriorBladeAffinity");
+
+    switch (form) {
+        case HELLBLADE_FORM1: {
+            int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + (0.5k * CheckInventory (XPS_STRENGTHTOKEN)) * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
+            return RoundA (modDMG + (affinity / 10 * (modDMG / 2)));
+        }
+        break;
+    }
+}
+
 /*
 weapBinds {
     vec2_i curWeap;                                     // Current weapon;
@@ -193,6 +222,9 @@ weapBinds {
 };
 */
 
+/**
+ * Custom weapon slots scripts
+**/
 Script_C void S7_CWB_Slot NET (int slot, int pos) {
     if (slot < 0 || pos < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS)
         return;

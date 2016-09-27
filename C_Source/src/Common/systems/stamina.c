@@ -30,7 +30,7 @@ void StaminaRegenerationPart1 (PlayerData_t *player) {
     if (!player)
         return;
 
-    bool berserkActive = CheckInventory (s"S7_BerserkToken");
+    bool berserkActive = CheckInventory (BERSERKTOKEN);
 
     if (player->scriptData.staminaTics > 0 && player->health.stamina == GetMaxStamina (player) || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON))
         player->scriptData.staminaTics = 0;

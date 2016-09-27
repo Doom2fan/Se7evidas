@@ -114,6 +114,7 @@ Script_C void S7_ServersideEnter ENTER () {
         SpeedScript        (player);
         WaterScript        (player);
         AmmoCountersScript (player);
+        HellbladeScript    (player);
         KeysScript ();
 
         UpdatePlayerAlpha  (player); // Update the alpha

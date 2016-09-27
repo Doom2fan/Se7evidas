@@ -48,7 +48,7 @@ void WaterScript (PlayerData_t *player) {
 }
 
 void KeysScript () {
-    if (KeyPressed (BT_RELOAD)) // if the native reload key is pressed...
+    if (KeyPressedMOD (BT_RELOAD)) // if the native reload key is pressed...
         UseInventory (s"S7_ReloadKey"); // Use the mod's reload key
 }
 
