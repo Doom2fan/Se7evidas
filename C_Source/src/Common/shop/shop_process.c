@@ -212,13 +212,15 @@ void SS_ProcessUse (PlayerData_t *player, bool sellMode) {
         }
     }
 }
-#define ONMOVEDELAY 5
+#define ONMOVEDELAY 7
 void SS_Movement (PlayerData_t *player) {
     if (!player)
         return;
 
     if (player->shopDef.moveDelay <= 0) { // If the movement delay/cooldown is equal to or lesser than 0...
-        if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) { // If the player has positive > 0 movement on the left/right axis...
+        if (player->shopDef.shop && player->shopDef.shop->noXMove) { // If the shop has noXMove set to true
+            // Do nothing
+        } if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) { // If the player has positive > 0 movement on the left/right axis...
             player->shopDef.position.x--; // Decrement x
             player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
         } else if (GetPlayerInput (-1, INPUT_SIDEMOVE) < 0) { // If the player has negative < 0 movement on the left/right axis...
@@ -226,7 +228,9 @@ void SS_Movement (PlayerData_t *player) {
             player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
         }
 
-        if (GetPlayerInput (-1, INPUT_FORWARDMOVE) > 0 && (player->shopDef.items [player->shopDef.position.y - 1]) != NULL && player->shopDef.position.y - 1 >= 0) { // If the player has positive > 0 movement on the forward/backwards axis and the item isn't NULL...
+        if (player->shopDef.shop && player->shopDef.shop->noYMove) { // If the shop has noYMove set to true
+            // Do nothing
+        } if (GetPlayerInput (-1, INPUT_FORWARDMOVE) > 0 && (player->shopDef.items [player->shopDef.position.y - 1]) != NULL && player->shopDef.position.y - 1 >= 0) { // If the player has positive > 0 movement on the forward/backwards axis and the item isn't NULL...
             player->shopDef.position.y--; // Increment y
             player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
         } else if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && (player->shopDef.items [player->shopDef.position.y + 1]) != NULL && player->shopDef.position.y + 1 < SS_ITEMSMAX) { // If the player has negative < 0 movement on the forward/backwards axis and the item isn't NULL...

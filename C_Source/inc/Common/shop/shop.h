@@ -104,6 +104,8 @@ struct SS_Page_t {
 struct SS_Shop_t {
     string name;
     SS_Page_t *mainPage;
+    bool noXMove;
+    bool noYMove;
     void (*renderer) (PlayerData_t *player);
 };
 

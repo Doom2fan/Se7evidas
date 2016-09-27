@@ -31,30 +31,31 @@ HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.
 SetFont (spr), \
 HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, CR_UNTRANSLATED, (x) + 0.1k, (y) + 0.2k, 0.1, 0.0k, 0.0k, 0.0k, "A") \
 )
-#define SHOPBASEID 9000
+#define SHOPBASEID 7000
 #define VITEMOFF 2
 
-// This probably breaks for pages that reach the limit of 100 but I'm never gonna have pages that big so bleh. You can increase it by something
-// like 5 or 10 if you do have pages with 100 items for some reason
 void SS_Render (PlayerData_t *player) {
     int id = SHOPBASEID; // Define id and initialize it to SHOPBASEID
 
     SetHudSize (320, 200, FALSE); // Set the hud size to 320x200
     SetFont (s"SMALLFNT"); // Set the font to SMALLFNT
     if (!player->shopDef.sellMode) // If sellMode is not TRUE...
-        SS_PrintHudMessage (id, CR_WHITE, 117.0k, 6.0k, "%LS", s"SS_BUYMODE"); // Print the message
+        SS_PrintHudMessage (id, CR_WHITE, 117.0k, 6.0k, "%LS", s"SS_BUYMODE"); // Print the shop mode
     else // If not...
-        SS_PrintHudMessage (id, CR_WHITE, 117.0k, 6.0k, "%LS", s"SS_SELLMODE");  // Print the message
+        SS_PrintHudMessage (id, CR_WHITE, 117.0k, 6.0k, "%LS", s"SS_SELLMODE");  // Print the shop mode
     id++; // Increment the id
 
     if (!player->shopDef.page)
         goto Finish;
 
     SetFont (s"SMALLFNT"); // Set the font to SMALLFNT
-    SS_PrintHudMessage (id, CR_WHITE, 6.0k, 6.0k, "%LS", player->shopDef.page->name); // Print the message
-    id++; // Increment the id
+    SS_PrintHudMessage (id++, CR_WHITE, 6.0k, 6.0k, "%LS", player->shopDef.page->name); // Print the page name and increment the id
 
     SetFont (s"FSHUDFNT"); // Set the font to FSHUDFONT
+
+    SetHudClipRect (114, 3, 203, 191, 199); // Set the HUD's clip rectangle
+    SS_PrintHudMessage (id++, CR_WHITE, 118, 17, "%LS", player->shopDef.items [player->shopDef.position.y]->description); // Print the description and increment the id
+    SetHudClipRect (0, 0, 0, 0, 0); // Reset the HUD's clip rectangle
 
     SS_Item_t *vItems [5]; // Define *vItems []
     int vItemsStart = 0, vItemsLength = 0, // Define vItemsStart, vItemsLength,
@@ -73,8 +74,7 @@ void SS_Render (PlayerData_t *player) {
     for (int i = firstVItem; i < lastVItem + 1; i++) { // Define i and initialize it to firstVItem; Loop while i is lesser than lastVItem + 1; Increment i
         if (i < 0 || i + 1 >= player->shopDef.itemsLength || vItemsLength + 1 > 5) // If i is lesser than 0, i + 1 is greater than itemsLength or vItemsLength + 1 is greater than 5...
             break; // Break
-        vItems [vItemsLength] = player->shopDef.items [i]; // Set vItems [vItemsLength] to items [i]
-        vItemsLength++; // Increment vItemsLength
+        vItems [vItemsLength++] = player->shopDef.items [i]; // Set vItems [vItemsLength] to items [i] and increment vItemsLength
     }
 
     for (int i = vItemsStart; i < vItemsLength; i++) {// Define i and initialize it to vItemsStart; Loop while i is lesser than vItemsLength; Increment i
@@ -91,15 +91,13 @@ void SS_Render (PlayerData_t *player) {
         id += 3; // Increment id by 3
     }
     for (int i = vItemsLength; i < 5; i++) { // Define i and set it to vItemsLength; Loop while i is lesser than 5; Increment i
-        ClearMessage (id + 2); // Clear id + 2
-        ClearMessage (id + 1); // Clear id + 1
-        ClearMessage (id); // Clear id
-        id += 3; // Increment id by 3
+        ClearMessage (id++); // Clear id
+        ClearMessage (id++); // Clear id
+        ClearMessage (id++); // Clear id
     }
 
 Finish:
-    SS_PrintSprite (id, -91.0k, 200.0k, s"SSTBACKG"); // Print the background
-    id++; // Increment the id
+    SS_PrintSprite (id++, -91.0k, 200.0k, s"SSTBACKG"); // Print the background and increment the id
 
     SetHudSize (0, 0, FALSE); // Set the hud size to 0x0 (Reset SetHudSize)
 }
