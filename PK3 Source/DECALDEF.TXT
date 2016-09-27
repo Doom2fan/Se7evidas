@@ -180,3 +180,21 @@ decal S7_LaserDecal {
 **     add 1.0
 ** }
 */
+
+// Butterfly SMG decal
+decal S7_LaserPewPewDecalScorch {
+    pic BLSFA0
+    shade "00 00 00"
+    x-Scale 0.0125
+    y-Scale 0.0125
+}
+decal S7_LaserPewPewDecal {
+    pic BLSFA0
+    x-Scale 0.0125
+    y-Scale 0.0125
+    animator GoAway
+    lowerDecal S7_LaserPewPewDecalScorch
+
+    fullBright
+    add 1.0
+}
