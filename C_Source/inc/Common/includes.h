@@ -85,6 +85,7 @@
 // Weapon stuff
 #define QUICKMELEEWEAPON     s"S7_QuickMelee"
 // Misc
+#define BERSERKTOKEN         s"S7_BerserkToken"
 #define MANATOKEN            s"S7_Mana"
 #define CANTEENITEM          s"S7_Canteen"
 #define DYINGTOKEN           s"S7_Dying"
