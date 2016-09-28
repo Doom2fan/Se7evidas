@@ -5,6 +5,7 @@ SHOTGUN                         = "Sigma BTK AM-10 SxS Shotgun \"Lucifer\"";    
 MANXCARBINE                     = "Cronus Corps C23 Selective-fire Carbine \"Manx\"";                   // (9x19mm)
 HITTERSMG                       = "Cronus Corps-Sigma BTK SR20 .45 ACP SMG \"Hitter\"";                 // (.45 ACP)
 FAUCHARD                        = "Firebrand Systems FS/002A Mod 4 Automatic Rifle \"Fauchard\"";       // (FB Sys. Cells)
+BUTTFLY                         = "Firebrand Systems FS/909G SMG \"Butterfly\"";                        // (FB Sys. Cells)
 SSG                             = "Double-barrelled Shotgun";                                           // (12ga)
 // Short
 SHORTAMG                        = "A28 \"Mars\" Assault Rifle";
@@ -12,6 +13,7 @@ SHORTSHOTGUN                    = "AM-10 \"Lucifer\" Combat Shotgun";
 SHORTMANXCARBINE                = "C23 \"Manx\" Selective-fire Carbine";
 SHORTHITTERSMG                  = "SR20 .45 ACP SMG \"Hitter\"";
 SHORTFAUCHARD                   = "FS/002A Mod 4 Automatic Rifle \"Fauchard\"";
+SHORTBUTTFLY                    = "FS/909G SMG \"Butterfly\"";
 SHORTSSG                        = "Super Shotgun";
 
 /** Secondary Weapons **/
