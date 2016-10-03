@@ -110,13 +110,13 @@ Script_C void S7_ServersideEnter ENTER () {
             MultiJumpScript          (player);
             DodgeScriptP1            (player);
         }
-        ShopSystem_Script  (player); // Run the shop system
-        Thumper_Script     (player);
-        SpeedScript        (player);
-        WaterScript        (player);
-        AmmoCountersScript (player);
-        HellbladeScript    (player);
-        CustomWeapSlots    (player);
+        ShopSystem_Script     (player); // Run the shop system
+        Thumper_Script        (player);
+        SpeedScript           (player);
+        WaterScript           (player);
+        AmmoCountersScript    (player);
+        HellbladeScript       (player);
+        CustomWeapSlotsScript (player);
         KeysScript ();
 
         UpdatePlayerAlpha  (player); // Update the alpha

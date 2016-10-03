@@ -21,17 +21,19 @@
 #include "weapons/weap_data.h"
 #include "weapons/slot_sys.h"
 
-/*
-weapBinds {
+//-------------------------------------------------------------------------------------------
+//
+// Functions
+//
+//-------------------------------------------------------------------------------------------
+/*weapBinds {
     vec2_i curWeap;                                     // Current weapon;
     int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
-};
-*/
-
+};*/
 void CWeapSlots_BindSlot (PlayerData_t *player, int slot, int pos, int weap) {
     if (!player) {
         Log ("\CgFunction CWeapSlots_BindSlot: Fatal error: Invalid or NULL player struct");
-        return FALSE;
+        return;
     }
     
     if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS || weap >= WeaponNames_Length) {
@@ -43,10 +45,11 @@ void CWeapSlots_BindSlot (PlayerData_t *player, int slot, int pos, int weap) {
 
     player->weapBinds.weapBinds [slot] [pos] = weap;
 }
-void CWeapSlots_ToSlot (PlayerData_t *player, int slot, int pos) {
+
+void CWeapSlots_ToSlot (PlayerData_t *player, int slot, int pos) { // pos = -1: Select first weapon of the slot or cycle it; pos >= 0: Select weapon in the specific position of the slot
     if (!player) {
         Log ("\CgFunction CWeapSlots_ToSlot: Fatal error: Invalid or NULL player struct");
-        return FALSE;
+        return;
     }
 
     if (slot < 0 || pos < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS)
@@ -84,6 +87,18 @@ void CWeapSlots_ToSlot (PlayerData_t *player, int slot, int pos) {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Scripts
+//
+//-------------------------------------------------------------------------------------------
+void CustomWeapSlotsScript (PlayerData_t *player) {
+    if (!player)
+        return;
+
+    
+}
+
 Script_C void S7_CWB_Slot NET (int slot, int pos) {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
@@ -94,7 +109,7 @@ Script_C void S7_CWB_Slot NET (int slot, int pos) {
     CWeapSlots_Slot (player, slot, pos);
 }
 
-Script_C void S7_CWB_SetBind (int slot, int pos, int weap) {
+Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
         Log ("\CgScript S7_CWB_SetBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
