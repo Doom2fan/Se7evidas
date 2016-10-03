@@ -28,6 +28,7 @@
 #include "systems/xp_system.h"
 #include "weapons/thumper.h"
 #include "weapons/weapon_stuff.h"
+#include "weapons/slot_sys.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
@@ -115,6 +116,7 @@ Script_C void S7_ServersideEnter ENTER () {
         WaterScript        (player);
         AmmoCountersScript (player);
         HellbladeScript    (player);
+        CustomWeapSlots    (player);
         KeysScript ();
 
         UpdatePlayerAlpha  (player); // Update the alpha
