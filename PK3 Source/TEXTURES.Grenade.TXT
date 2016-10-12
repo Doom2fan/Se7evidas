@@ -30,58 +30,53 @@ sprite TGRPH0, 27, 32 {
 
 // HUD Sprites
 
-graphic GrenadeFrame1, 47, 15 {
-    patch "graphics/Weapons/Throwables/Grenades/Frame1.png", -11, 0
-    patch "graphics/Weapons/Throwables/Grenades/Part1.png", 6, 3
-}
-
 sprite TGRNW0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 253, 153
-    patch GrenadeFrame1, 264, 153
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 264, 153
 }
 
 sprite TGRNX0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 229, 129
-    patch GrenadeFrame1, 240, 129
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 240, 129
 }
 
 sprite TGRNY0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 205, 112
-    patch GrenadeFrame1, 216, 112
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 216, 112
 }
 
 sprite TGRNA0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
-    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 187, 93
 }
 
 sprite TGRNB0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
-    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 187, 93
     patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 20, 166
 }
 
 sprite TGRNC0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
-    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 187, 93
     patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 36, 150
 }
 
 sprite TGRND0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
-    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 187, 93
     patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 60, 130
 }
 
 sprite TGRNE0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
-    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 187, 93
     patch "graphics/Weapons/Throwables/Grenades/Frame4.png", 87, 107
 }
 
 sprite TGRNF0, 320, 200 {
     patch "graphics/Weapons/Throwables/Grenades/Frame1.png", 176, 93
-    patch GrenadeFrame1, 187, 93
+    patch "graphics/Weapons/Throwables/Grenades/Part2.png", 187, 93
     patch "graphics/Weapons/Throwables/Grenades/Frame3.png", 82, 90
 }
 

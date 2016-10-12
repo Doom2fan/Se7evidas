@@ -48,8 +48,8 @@ actor S7_BaseWeapon : weapon {
         wait
 
     Ready:
-        TNT1 A 1 A_WeaponReady
-        loop
+        TNT1 A 0 A_Jump (256, "Ready2")
+        wait
     Fire:
         TNT1 A 1
         goto Ready
@@ -186,3 +186,10 @@ actor S7_SynthFireLeft           : boolean { }
 actor S7_SynthFireRight          : boolean { }
 actor S7_SynthFireRightReloading : boolean { }
 actor S7_SynthFireLeftReloading  : boolean { }
+
+//-------------------------------------------------------------------------------------------
+//
+// Misc crap
+//
+//-------------------------------------------------------------------------------------------
+actor S7_Unarmed : S7_BaseWeapon { tag "$UNARMED" }
