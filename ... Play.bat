@@ -14,13 +14,13 @@ CHOICE /C 123 /N
 
 if %ERRORLEVEL% EQU 3 (
     SET PROG_PROG=%PROG_ZANDRONUM%
-    SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_Zandronum" %*
+    SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_Zandronum" %S7_ZANDROARGS% %*
 ) else if %ERRORLEVEL% EQU 2 (
     SET PROG_PROG=%PROG_ZDOOM%
-    SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_GZDoom" %*
+    SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_GZDoom" %S7_ZDOOMARGS% %*
 ) else if %ERRORLEVEL% EQU 1 (
     SET PROG_PROG=%PROG_GZDOOM%
-    SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_GZDoom" %*
+    SET PROG_ARGS=-stdout -file "%CD%/PK3 Source" -file "%CD%/PK3_Source_GZDoom" %S7_GZDOOMARGS% %*
 )
 
 %PROG_PROG% %PROG_ARGS%
