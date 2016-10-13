@@ -78,7 +78,7 @@ actor S7_Hellion : S7_DemonBase replaces doomImp {
         HELN NMLKJI 6
         goto See
     XRaise:
-        HELN "]"        6 A_JumpIf (user_deathType == 1, "XRaise")
+        HELN "]"        6
         HELN "\[ZYXWVU" 6
         goto See
     }
