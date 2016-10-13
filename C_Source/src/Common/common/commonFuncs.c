@@ -198,14 +198,15 @@ cstr CorruptTextCase (cstr text) {
 //-------------------------------------------------------------------------------------------
 /* Clamping */
 int Clamp (int x, int min, int max) {
-    int realMin = min,
-        realMax = max;
+    if (min > max) {
+        min ^= max;
+        max ^= min;
+        min ^= max;
+    }
 
-    if (min > max) { realMax = min; realMin = max; }
-
-         if (x > realMax) return realMax;
-    else if (x < realMin) return realMin;
-    else                  return x;
+         if (x > max) return max;
+    else if (x < min) return min;
+    else              return x;
 }
 accum ClampAccum (accum x, accum min, accum max) {
     accum realMin = min,
