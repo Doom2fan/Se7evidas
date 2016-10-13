@@ -28,7 +28,7 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
         loop
     Melee:
     Missile:
-        BPNT EEEEEEFFFFFF 2 A_FaceTarget (30, 15)
+        BPNT EEEEEEFFFFFF 1 A_FaceTarget (30, 15)
 
         TNT1 A 0 A_FaceTarget (0, 0)
         BPNT G 6 A_CustomComboAttack ("S7_BlackPantherBall", 32, random [monsterDamage] (1, 4) * 8, "baron/melee")
@@ -38,16 +38,20 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
         BPNT H 2 A_Pain
         goto See
     Death:
-        BPNT I  6
-        BPNT J  6 A_Scream
-        BPNT K  6
-        BPNT L  6 A_NoBlocking
-        BPNT MN 6
-        BPNT O -1
-        stop
+        BPNT I 5
+        BPNT J 5 A_Scream
+        TNT1 A 0 A_NoBlocking
+    Death_AirLoop:
+        BPNT J 1
+        TNT1 A 0 A_CheckFloor ("Death_HitGround")
+        loop
+    Death_HitGround:
+        SCR1 KLMN 5
+        SCR1 O   -1
+        Stop
     Raise:
-        BPNT O      6
-        BPNT NMLKJI 6
+        BPNT O      5
+        BPNT NMLKJI 5
         goto See
     }
 }
