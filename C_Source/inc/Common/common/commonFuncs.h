@@ -44,6 +44,8 @@ typedef char * cstr;
 
 #define ArraySize(array) sizeof (array) / sizeof (*array)
 
+#define BoundsCheck(var, min, max) (var >= min && var < max)
+
 // Externs
 __addrdef extern __gbl_arr global_var;
 __addrdef extern __mod_arr    map_var;
