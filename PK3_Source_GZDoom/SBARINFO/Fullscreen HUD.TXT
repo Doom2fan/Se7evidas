@@ -289,7 +289,7 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         else isSelected S7_Fauchard {
             drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
             drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-            drawBar "S7LRABFG", "S7LRABBG", ammo1, horizontal, reverse, interpolate (13), -57, -31;
+            drawBar "S7LRABFG", "S7LRABBG", S7_FauchardMag, horizontal, reverse, interpolate (25), -57, -31;
         }
 
         // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
