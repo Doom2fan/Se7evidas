@@ -1,17 +1,28 @@
 gameinfo {
+    // Title screen
     titleMusic = "music/TITLEMAP.spc"
     titlePage = "TITLEPIC"
     creditPage = "CREDIT"
     titleTime = 8
     advisoryTime = 6
     pageTime = 5
-    chatSound = "misc/chat"
-    infoPage = "HELP", "CREDIT"
-    quitSound = "menu/quit2"
+
+    // Actor data
     defKickback = 100
-    backpackType = "Backpack"
     gibFactor = 0.5
-    dimcolor = "00 33 CC"
-    dimamount = 0.2
+    defaultBloodColor = "68 00 00"
+    defaultBloodParticleColor = "ff 00 00"
+    backpackType = "Backpack"
+
+    // Player classes
     playerClasses = "S7_ScoutPlayer"
+
+    // UI
+    dimColor = "00 33 CC"
+    dimAmount = 0.2
+    quitSound = "menu/quit2"
+    infoPage = "HELP", "CREDIT"
+
+    // Misc
+    chatSound = "misc/chat"
 }

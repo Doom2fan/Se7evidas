@@ -1,4 +1,5 @@
 clearSkills
+
 skill S7_Baby {
     easyBossBrain
     ammoFactor = 2
@@ -93,6 +94,6 @@ Skill S7_AAAAAAAAAAA {
     name = " "
     mustConfirm = "$SKILLS_AAAAAAAAAAATEXT"
     replaceActor = "ArmorBonus", "Cell"
-    replaceActor = "GreenArmor", "PlasmaRifle"
-    replaceActor = "BlueArmor", "BFG9000"
+    replaceActor = "GreenArmor", "Backpack"
+    replaceActor = "BlueArmor", "Backpack"
 }
