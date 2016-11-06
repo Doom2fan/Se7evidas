@@ -37,7 +37,7 @@ actor S7_MonsterBase {
     damageFactor "LaserTracer", 1.25
 
     monster
-    +floorClip
+    +floorClip +dontHurtSpecies
 
     var int user_deathType;
 }
