@@ -122,7 +122,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman {
     Death_HitGround:
         SCR1 K  5
         SCR1 L -1
-        Stop
+        stop
 
     Death.Fire:
         TNT1 A 0 A_JumpIfHealthLower (-7, "RealDeath.Fire")

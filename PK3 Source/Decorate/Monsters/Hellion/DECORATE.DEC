@@ -35,7 +35,7 @@ actor S7_Hellion : S7_DemonBase replaces doomImp {
         HELN GGGGGGHHIIJJKK 1 A_FaceTarget (26, 13)
 
         TNT1 A 0 A_FaceTarget (0, 0)
-        HELN L 2 A_CustomMissile ("S7_HellionBall")
+        HELN L 2 A_CustomMissile ("S7_HellionBall", 0.0, 0, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
         goto See
 
     Pain:

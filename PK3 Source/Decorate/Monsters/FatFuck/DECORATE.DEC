@@ -48,20 +48,20 @@ actor S7_FatFuck : S7_DemonBase replaces fatso {
 
         TNT1 A  0 A_FaceTarget
         TNT1 A  0 A_PlaySound ("fatso/attack", CHAN_Weapon)
-        TNT1 A  0        A_CustomMissile ("S7_FatFuckShot", 25.0, -25, fRandom (-3.5, 3.5), CMF_AimDirection)
-        FAT1 H 10 bright A_CustomMissile ("S7_FatFuckShot", 25.0,  25, fRandom (-3.5, 3.5), CMF_AimDirection)
+        TNT1 A  0        A_CustomMissile ("S7_FatFuckShot", 25.0, -25, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch
+        FAT1 H 10 bright A_CustomMissile ("S7_FatFuckShot", 25.0,  25, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch
         FAT1 IG 5 A_FaceTarget
 
         TNT1 A  0 A_FaceTarget
         TNT1 A  0 A_PlaySound ("fatso/attack", CHAN_Weapon)
-        TNT1 A  0        A_CustomMissile ("S7_FatFuckShot", 25.0, -25, fRandom (-3.5, 3.5), CMF_AimDirection)
-        FAT1 H 10 bright A_CustomMissile ("S7_FatFuckShot", 25.0,  25, fRandom (-3.5, 3.5), CMF_AimDirection)
+        TNT1 A  0        A_CustomMissile ("S7_FatFuckShot", 25.0, -25, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch
+        FAT1 H 10 bright A_CustomMissile ("S7_FatFuckShot", 25.0,  25, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch
         FAT1 IG 5 A_FaceTarget
 
         TNT1 A  0 A_FaceTarget
         TNT1 A  0 A_PlaySound ("fatso/attack", CHAN_Weapon)
-        TNT1 A  0        A_CustomMissile ("S7_FatFuckShot", 25.0, -25, fRandom (-3.5, 3.5), CMF_AimDirection)
-        FAT1 H 10 bright A_CustomMissile ("S7_FatFuckShot", 25.0,  25, fRandom (-3.5, 3.5), CMF_AimDirection)
+        TNT1 A  0        A_CustomMissile ("S7_FatFuckShot", 25.0, -25, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch
+        FAT1 H 10 bright A_CustomMissile ("S7_FatFuckShot", 25.0,  25, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch
         FAT1 IG 5 A_FaceTarget
         goto See
 
@@ -71,7 +71,7 @@ actor S7_FatFuck : S7_DemonBase replaces fatso {
     Pain:
         FAT1 J 5
         FAT1 J 5 A_Pain
-        Goto See
+        goto See
 
     Death:
         FAT1 J      2

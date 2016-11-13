@@ -48,7 +48,7 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
     Death_HitGround:
         BPNT KLMN 5
         BPNT O   -1
-        Stop
+        stop
     Raise:
         BPNT O      5
         BPNT NMLKJI 5
