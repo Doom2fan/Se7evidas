@@ -22,7 +22,7 @@ actor S7_Medikit : customInventory replaces medikit 32001 {
         stop
     Failed:
         TNT1 A 0
-        Fail
+        fail
     }
 }
 
@@ -50,7 +50,7 @@ actor S7_Stimpack : customInventory replaces stimpack 32002 {
         stop
     Failed:
         TNT1 A 0
-        Fail
+        fail
     }
 }
 
