@@ -1,86 +1,103 @@
 clearSkills
 
 skill S7_Baby {
-    easyBossBrain
     ammoFactor = 2
+
+    easyBossBrain
     damageFactor = 0.5
     spawnFilter = Baby
+
     name = "$SKILLS_BABY"
-    mustConfirm = "$SKILLS_BABYTEXT"
-    key = "I"
+    mustConfirm = "$CONFIRM_BABY"
 }
 
 skill S7_Easy {
     easyBossBrain
     spawnFilter = Easy
+
     name = "$SKILLS_EASY"
-    mustConfirm = "$SKILLS_EASYTEXT"
-    key = "G"
+    mustConfirm = "$CONFIRM_EASY"
 }
 
 skill S7_Normal {
     spawnFilter = Normal
+
     name = "$SKILLS_NORMAL"
-    mustConfirm = "$SKILLS_NORMALTEXT"
-    key = "B"
+    mustConfirm = "$CONFIRM_NORMAL"
 }
 
 skill S7_Hard {
     spawnFilter = Hard
+
     name = "$SKILLS_HARD"
-    mustConfirm = "$SKILLS_HARDTEXT"
+    mustConfirm = "$CONFIRM_HARD"
     defaultSkill
-    key = "H"
 }
 
-skill S7_Harder {
-    spawnFilter = Hard
-    name = "$SKILLS_HARDER"
-    mustConfirm = "$SKILLS_HARDERTEXT"
+skill S7_HardStronger {
     damageFactor = 1.25
-    key = "I"
+    spawnFilter = Hard
+
+    name = "$SKILLS_HARDSTR"
+    mustConfirm = "$CONFIRM_HARDSTR"
 }
 
-skill S7_VeryHard {
+skill S7_HardAgressive {
+    aggressiveness = 0.25
+    spawnFilter = Hard
+
+    name = "$SKILLS_HARDAGGR"
+    mustConfirm = "$CONFIRM_HARDAGGR"
+}
+
+skill S7_HardSpeed {
     fastMonsters
     spawnFilter = Hard
+
     name = "$SKILLS_HARDSPEED"
-    mustConfirm = "$SKILLS_HARDSPEEDTEXT"
-    key = "R"
+    mustConfirm = "$CONFIRM_HARDSPEED"
 }
 
 skill S7_Nightmare {
-    fastMonsters
     ammoFactor = 2
+
     respawnTime = 12
+
+    fastMonsters
+    damageFactor = 1.5
+    aggressiveness = 0.5
     spawnFilter = Nightmare
+
     name = "$SKILLS_NIGHTMARE"
-    mustConfirm = "$SKILLS_NIGHTMARETEXT"
-    key = "E"
+    mustConfirm = "$CONFIRM_NIGHTMARE"
 }
 
 skill S7_Brutal {
-    fastMonsters
     ammoFactor = 2.0
+
     respawnTime = 5
     respawnLimit = 0
+
+    fastMonsters
     damageFactor = 1.8
-    aggressiveness = 0.5
+    aggressiveness = 0.95
     spawnFilter = Nightmare
+
     name = "$SKILLS_SE7EVIDAS"
-    mustConfirm = "$SKILLS_SE7EVIDASTEXT"
-    key = "S"
+    mustConfirm = "$CONFIRM_SE7EVIDAS"
 }
 
 Skill S7_IAmGod {
+    ammoFactor = 1.5
+    doubleAmmoFactor = 1.5
+
     fastMonsters
-    ammoFactor = 0.5
-    doubleAmmoFactor = 0.5
     damageFactor = 2.3
-    aggressiveness = 0.75
+    aggressiveness = 1.5
     spawnFilter = Nightmare
+
     name = " "
-    mustConfirm = "$SKILLS_IAMGODTEXT"
+    mustConfirm = "$CONFIRM_IAMGOD"
     replaceActor = "Zombieman", "ShotgunGuy"
     replaceActor = "ShotgunGuy", "DoomImp"
 }
@@ -92,7 +109,7 @@ Skill S7_AAAAAAAAAAA {
     damageFactor = 0.0
     spawnFilter = Nightmare
     name = " "
-    mustConfirm = "$SKILLS_AAAAAAAAAAATEXT"
+    mustConfirm = "$CONFIRM_AAAAAAAAAAA"
     replaceActor = "ArmorBonus", "Cell"
     replaceActor = "GreenArmor", "Backpack"
     replaceActor = "BlueArmor", "Backpack"
