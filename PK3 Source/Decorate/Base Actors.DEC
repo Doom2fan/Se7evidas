@@ -110,6 +110,60 @@ actor S7_ScorpBase : S7_MonsterBase {
 // Misc bases
 //
 //-------------------------------------------------------------------------------------------
+/** Monster spawner base
+*** Usage: You must change the Spawn state in spawners inheriting from this actor like this:
+*** Spawn:
+***     TNT1 A 0 noDelay A_SpawnItemEx ("<monster>", 0, 0, 0, 0, 0, 0, 0, SXF_MSpawner, 0, tid)
+***     goto Prepare
+*** Spawned actors must call A_KillMaster in their Death states, and must call A_RaiseMaster in their Raise states.
+**/
+const int SXF_MSpawner = SXF_TRANSFERPOINTERS | SXF_SETMASTER | SXF_NOCHECKPOSITION | SXF_TRANSFERAMBUSHFLAG | SXF_TRANSFERPITCH;
+actor S7_MonsterSpawnerBase {
+    health 0x7FFFFFFF
+    radius 0
+    height 0
+    mass 0x7FFFFFFF
+    speed 0
+    damageFactor 0.0
+
+    monster
+    +floorClip +dontHurtSpecies +noBlockmap +noGravity
+    +noTeleport +noInteraction +cannotPush +noTelestomp
+    -shootable -vulnerable -solid -moveWithSector
+
+    states {
+        Spawn:
+            TNT1 A 0 noDelay
+            goto Prepare
+        Prepare:
+            TNT1 A 0 
+        Idle:
+            TNT1 A 1
+            loop
+        Death:
+        Death.Ice:
+            TNT1 A 0 A_NoBlocking
+            TNT1 A -1
+            stop
+        Raise:
+            TNT1 A 1
+            goto Idle
+    }
+}
+/// Same as the monster spawner
+actor S7_BossSpawnerBase : S7_MonsterSpawnerBase {
+    +boss +bossDeath
+
+    states {
+        Death:
+        Death.Ice:
+            TNT1 A 0 A_NoBlocking
+            TNT1 A 0 A_BossDeath
+            TNT1 A -1
+            stop
+    }
+}
+
 actor S7_FastProjTrailBase {
     +noBlockmap +noGravity +noTeleport +cannotPush
     +noInteraction +clientsideOnly
