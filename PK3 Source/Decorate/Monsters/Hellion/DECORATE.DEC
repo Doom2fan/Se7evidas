@@ -35,7 +35,7 @@ actor S7_Hellion : S7_DemonBase replaces doomImp {
         HELN GGGGGGHHIIJJKK 1 A_FaceTarget (26, 13)
 
         TNT1 A 0 A_FaceTarget (360, 180)
-        HELN L 6 A_CustomMissile ("S7_HellionBall", 35.0, 8, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
+        HELN L 6 A_CustomMissile ("S7_HellionBall", 35.0, 0, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
         goto See
 
     Pain:
@@ -74,8 +74,8 @@ actor S7_Hellion : S7_DemonBase replaces doomImp {
         stop
 
     Raise:
-        HELN O      6 A_JumpIf (user_deathType == 1, "XRaise")
-        HELN NMLKJI 6
+        HELN T      6 A_JumpIf (user_deathType == 1, "XRaise")
+        HELN SRQPON 6
         goto See
     XRaise:
         HELN "]"        6
