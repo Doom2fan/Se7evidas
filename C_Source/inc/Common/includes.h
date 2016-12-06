@@ -60,7 +60,7 @@
 #define MOD_VERSION_STRING s"0.1"
 #define MOD_VERSION_MAJOR   0
 #define MOD_VERSION_MINOR   1
-#define MOD_VERSION_FLOAT   0.1
+#define MOD_VERSION_FLOAT   MOD_VERSION_MAJOR.MOD_VERSION_MINOR
 
 // Actor properties
 #define APROP_NoTarget  19
