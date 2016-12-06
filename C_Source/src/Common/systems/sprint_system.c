@@ -28,7 +28,9 @@ Script_C void S7_SprintSystem ENTER () {
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
-    int tics = 0;
+    int tics,
+        forwardMove,
+        sideMove;
     PlayerData_t *player = &PlayerData [PLN];
 
     if (!player) {
@@ -39,6 +41,9 @@ Script_C void S7_SprintSystem ENTER () {
     while (TRUE) {
         if (!PlayerInGame (PLN))
             return;
+
+        forwardMove = GetPlayerInput (-1, MODINPUT_FORWARDMOVE);
+        sideMove    = GetPlayerInput (-1, MODINPUT_SIDEMOVE);
 
         if (CheckWeapon (SPRINTWEAPON) && !player->SprintDef.Sprinting) {
             SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
@@ -62,8 +67,7 @@ Script_C void S7_SprintSystem ENTER () {
         }
         if (CheckInventory (SPRINTINGTOKEN) && player->SprintDef.Sprinting) {
             if (CheckInventory (STAMINATOKEN) >= 5) {
-                if (CheckInventory (SPRINTINGTOKEN) && tics >= 5 &&
-                    ((abs (GetPlayerInput (-1, MODINPUT_FORWARDMOVE)) > 0) || (abs (GetPlayerInput (-1, MODINPUT_SIDEMOVE)) > 0))) {
+                if (CheckInventory (SPRINTINGTOKEN) && tics >= 5 && (forwardMove != 0 || sideMove != 0)) {
                     tics = 0;
                     if (GetVelocity () > 0.0k) {
                         TakeInventory (STAMINATOKEN, 5);
@@ -78,13 +82,13 @@ Script_C void S7_SprintSystem ENTER () {
                     goto Start;
                 }
 
-                accum speedBonus = 1.0k + (0.5k * player->xpSystem.agilityLVL);
-
-                if (CheckInventory (SPRINTINGTOKEN) && ((abs (GetPlayerInput (-1, MODINPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, MODINPUT_SIDEMOVE)) > 6400)))
-                    SetActorPropertyFixed (0, APROP_Speed, 1.0k + speedBonus / 2.0k);
-                else if (CheckInventory (SPRINTINGTOKEN) && !((abs (GetPlayerInput (-1, MODINPUT_FORWARDMOVE)) > 6400) || (abs (GetPlayerInput (-1, MODINPUT_SIDEMOVE)) > 6400)))
-                    SetActorPropertyFixed (0, APROP_Speed, 1.0k + speedBonus);
-                else if (!CheckInventory (SPRINTINGTOKEN))
+                accum speedBonus = 1.0k + 0.1k * player->xpSystem.agilityLVL;
+                if (CheckInventory (SPRINTINGTOKEN)) {
+                    if (abs (forwardMove) > 6400 || abs (sideMove) > 6144)
+                        SetActorPropertyFixed (0, APROP_Speed, 1.0k + speedBonus);
+                    else if (abs (forwardMove) <= 6400 && abs (sideMove) <= 6144)
+                        SetActorPropertyFixed (0, APROP_Speed, (1.0k + speedBonus) * 2.0k);
+                } else if (!CheckInventory (SPRINTINGTOKEN))
                     SetActorPropertyFixed (0, APROP_Speed, player->SprintDef.OldSpeed);
             }
         }
