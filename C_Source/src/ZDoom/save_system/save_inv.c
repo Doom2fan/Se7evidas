@@ -36,9 +36,8 @@ void InvUpdAmmoMax (int playerNum) {
 
 bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef) {
     string output = s"";
-    for (int i = 0; i < invDef->invArrSize; i++) {
+    for (int i = 0; i < invDef->invArrSize; i++)
         output = StrParam ("%S%+.5d%+.10d", output, i, CheckInventory (invDef->invInfoArr [i].name));
-    }
 
     // Add compression to this someday maybe
     int index = 1;
@@ -60,9 +59,8 @@ bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index++), StrMid (output, 0, invDef->cvarMaxLen));
         output = StrMid (output, invDef->cvarMaxLen, StrLen (output) + invDef->cvarMaxLen);
     }
-    for (; index < invDef->maxCVars; index++) {
+    for (; index < invDef->maxCVars; index++)
         SetUserCVarString (playerNum, StrParam ("%S%d", invDef->cvarName, index), s"");
-    }
 
     return TRUE;
 }
@@ -80,9 +78,8 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
     int length = StrLen (input);
     int count = length / INV_ENTRY_LEN;
 
-    if (length % INV_ENTRY_LEN > 0) {
+    if (length % INV_ENTRY_LEN > 0)
         return FALSE;
-    }
 
     for (int i = 0; i < count; i++) {
         int type = SaveSys_ReadInt (input, offset, 6);

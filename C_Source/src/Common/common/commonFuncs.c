@@ -115,9 +115,9 @@ int UnusedTID (int start, int end) {
         end   ^= start;
         start ^= end;
     } // good ol' XOR swap
-    while (ret++ != end) {
-        if (ThingCount (0, ret) == 0) return ret;
-    }
+    while (ret++ != end)
+        if (ThingCount (0, ret) == 0)
+            return ret;
 
     return -1;
 }
@@ -155,9 +155,8 @@ cstr CorruptText (cstr text) {
     int maxChars = Random (6, length / 2);
     cstr ret = malloc (length);
     strcpy (text, ret);
-    for (int i = 0; i < maxChars; i++) {
+    for (int i = 0; i < maxChars; i++)
         ret [Random (0, length - 2)] = CorruptionCharList [Random (0, sizeof (CorruptionCharList) - 2)];
-    }
 
     return ret;
 }
@@ -238,11 +237,11 @@ int StrToInt (string source) {
     for (int i = length - 1; i >= 0; i--) {
         string curChar = StrMid (source, i, 1);
 
-        if (i == 0 && StrCmp (curChar, s"-") == 0) {
+        if (i == 0 && StrCmp (curChar, s"-") == 0)
             negative = TRUE;
-        } else if (i == 0 && StrCmp (curChar, s"+") == 0) {
+        else if (i == 0 && StrCmp (curChar, s"+") == 0)
             negative = FALSE;
-        } else {
+        else {
             strArr = StrParam ("%S%S", strArr, curChar);
             j++;
         }

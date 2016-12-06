@@ -124,11 +124,10 @@ Script_C void S7_BrutalDoomCompatibility OPEN () { // Not gonna comment this one
 
         Delay (1);
 
-        if (delayer > 0) {
+        if (delayer > 0)
             delayer--;
-        } else if (delayer < 0) {
+        else if (delayer < 0)
             delayer = 0;
-        }
     }
 }
 #endif

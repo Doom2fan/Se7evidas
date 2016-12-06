@@ -24,12 +24,12 @@
 
 #define SS_PrintHudMessage(id, color, x, y, ...) \
 ( \
-HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, 0.1, 0.0k, 0.0k, 0.0k, __VA_ARGS__) \
+HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, 0.1k, 0.0k, 0.0k, 0.0k, __VA_ARGS__) \
 )
 #define SS_PrintSprite(id, x, y, spr) \
 ( \
 SetFont (spr), \
-HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, CR_UNTRANSLATED, (x) + 0.1k, (y) + 0.2k, 0.1, 0.0k, 0.0k, 0.0k, "A") \
+HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, CR_UNTRANSLATED, (x) + 0.1k, (y) + 0.2k, 0.1k, 0.0k, 0.0k, 0.0k, "A") \
 )
 #define SHOPBASEID 7000
 #define VITEMOFF 2

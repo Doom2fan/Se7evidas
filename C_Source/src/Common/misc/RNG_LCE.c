@@ -58,12 +58,10 @@ void _LCE_PopFront (LCE_t *r) {
                 w = x & INT_MAX;
             unsigned int y = (unsigned int) (v + w);
             r->_x = (y >= INT_MAX) ? (y - INT_MAX) : y;
-        } else {
+        } else
             r->_x = (unsigned int) (((unsigned long) r->mul * r->_x + r->inc) % r->mod);
-        }
-    } else {
+    } else
         r->_x = r->mul * r->_x + r->inc;
-    }
 }
 
 #define _LCE_UniformBase(type) \

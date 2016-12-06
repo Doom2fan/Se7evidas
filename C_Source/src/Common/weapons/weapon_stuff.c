@@ -125,7 +125,7 @@ Script_C int S7_SynthFireAllowChange () {
 }
 
 /*
-Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5 * 65536)
+Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5k * 65536)
     accum oldPitch = GetActorPitch (0);
     accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
     accum newPitch = ClampAccum (oldPitch - scaledOffset, -0.25k, 0.25k);

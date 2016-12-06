@@ -67,9 +67,9 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
 
     // Info
     string infoStr = GetUserCVarString (playerNum, SD_INFO);
-    if (StrLen (infoStr) < 1) {
+    if (StrLen (infoStr) < 1)
         return FALSE;
-    }
+
     int version = SaveSys_ReadInt (infoStr, offset, 5);
     if (version != SAVESYS_SAVEVERSION) {
         if (version < SAVESYS_SAVEVERSION)
@@ -126,9 +126,8 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
 SavedData_t LoadSaveData (int playerNum) {
     SavedData_t data;
 
-    if (!LoadSaveDataToPointer (playerNum, &data)) {
+    if (!LoadSaveDataToPointer (playerNum, &data))
         data.isInvalid = TRUE;
-    }
 
     return data;
 }

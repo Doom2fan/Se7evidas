@@ -95,6 +95,6 @@ Script_C void S7_CanteenScript () {
         milkAmount = CheckInventory (CANTEENITEM);
     }
 
-    FadeRange (0, 40, 120, 0.5k, 0, 0, 0, 0.0k, 0.4);
+    FadeRange (0, 40, 120, 0.5k, 0, 0, 0, 0.0k, 0.4k);
     PlaySound (0, s"Inventory/CanteenUse", CHAN_ITEM);
 }

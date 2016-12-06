@@ -23,7 +23,7 @@
 #include <ACS_ZDoom.h>
 
 // Macros
-#define EMPINVDELAY (35 * 7.5)
+#define EMPINVDELAY (35 * 7.5k)
 #define EMPINVLIMIT 2500
 #define EMPMHEALTH 4500
 // Tokens

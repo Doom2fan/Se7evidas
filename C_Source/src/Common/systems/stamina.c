@@ -22,9 +22,11 @@
 #include "systems/stamina.h"
 
 #define SRGN_DoRegenCommon(x) \
-    GiveInventory (STAMINATOKEN, x); \
-    player->scriptData.staminaTics = 0; \
+( \
+    GiveInventory (STAMINATOKEN, x), \
+    player->scriptData.staminaTics = 0, \
     player->health.stamina = CheckInventory (STAMINATOKEN) \
+)
 
 void StaminaRegenerationPart1 (PlayerData_t *player) {
     if (!player)
@@ -38,11 +40,10 @@ void StaminaRegenerationPart1 (PlayerData_t *player) {
         player->scriptData.staminaEmpty = FALSE;
 
     if (!CheckWeapon (SPRINTWEAPON)) {
-        if (!player->misc.dying && player->scriptData.staminaTics >= 1) {
+        if (!player->misc.dying && player->scriptData.staminaTics >= 1)
             SRGN_DoRegenCommon (berserkActive ? 4 : 1);
-        } else if (player->misc.dying && player->scriptData.staminaTics >= berserkActive ? 2 : 3) {
+        else if (player->misc.dying && player->scriptData.staminaTics >= berserkActive ? 2 : 3)
             SRGN_DoRegenCommon (berserkActive ? 2 : 1);
-        }
     }
 }
 
@@ -50,9 +51,6 @@ void StaminaRegenerationPart2 (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->health.stamina != GetMaxStamina (player)) {
-        if (!CheckWeapon (SPRINTWEAPON)) {
-            player->scriptData.staminaTics++;
-        }
-    }
+    if (player->health.stamina != GetMaxStamina (player) && !CheckWeapon (SPRINTWEAPON))
+        player->scriptData.staminaTics++;
 }

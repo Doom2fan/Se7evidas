@@ -182,11 +182,11 @@ Script_C void S7_MapStart ENTER () {
         case MEVNT_PerfectHatred:
             SetFont (s"GARGWING");
             cstr s = CorruptText ((cstr) "Perfect Hatred");
-            HudMessage (HUDMSG_FADEINOUT, 10000, CR_UNTRANSLATED, 250.1k, 320, 2.5, 0.8, 0.0, 0.0, s);
-            Delay (2.5 * 35);
+            HudMessage (HUDMSG_FADEINOUT, 10000, CR_UNTRANSLATED, 250.1k, 320, 2.5k, 0.8k, 0.0k, 0.0k, s);
+            Delay (2.5k * 35);
             for (int i = strlen (s) - 1; i >= 0; --i) {
                 s [i] = 0;
-                HudMessage (HUDMSG_PLAIN, 10000, CR_UNTRANSLATED, 250.1k, 320, 0.5, 0.0, 0.0, 0.0, "%s", s);
+                HudMessage (HUDMSG_PLAIN, 10000, CR_UNTRANSLATED, 250.1k, 320, 0.5k, 0.0k, 0.0k, 0.0k, "%s", s);
                 Delay (3);
             }
         break;

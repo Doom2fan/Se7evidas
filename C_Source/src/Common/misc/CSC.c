@@ -71,17 +71,15 @@ string CSC_CompressString (string data) {
             while (TRUE) {
                 curChar = StrMid (input, i + dupCharAm, 1);
 
-                if ((i + dupCharAm + 1) < inputLen) {
+                if ((i + dupCharAm + 1) < inputLen)
                     nextChar = StrMid (input, i + dupCharAm + 1, 1);
-                } else {
+                else
                     nextChar = NULL;
-                }
 
-                if (StrCmp (curChar, nextChar) == 0) {
+                if (StrCmp (curChar, nextChar) == 0)
                     dupCharAm++;
-                } else {
+                else
                     break;
-                }
 
                 if ((i + dupCharAm + 1) >= inputLen)
                     break;
@@ -96,12 +94,10 @@ string CSC_CompressString (string data) {
                 if (outIndex + 1 <= HARDOUTLIMIT) outIndex++; else return NULL;
 
                 i += dupCharAm;
-            } else {
+            } else
                 curOut = StrParam ("%S%S", curOut, curChar);
-            }
-        } else {
+        } else
             curOut = StrParam ("%S%S", curOut, curChar);
-        }
     }
 
     for (int i = 0; i < outIndex; i++) {
@@ -191,9 +187,8 @@ string CSC_DecompressString (string data) {
             if (ptrLoc > HARDOUTLIMIT) return NULL;
 
             ret = StrParam ("%S%S", ret, output [ptrLoc]);
-        } else {
+        } else
             ret = StrParam ("%S%S", ret, output [i]);
-        }
     }
 
     return ret;

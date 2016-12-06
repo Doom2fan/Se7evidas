@@ -49,7 +49,7 @@ void HudWeapons (PlayerData_t *player) { // HUD icons and stuff...
         }
     }
 
-    HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0, 0.0, 0.0, "A"); // Display the HUD message
+    HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0k, 0.0k, 0.0k, "A"); // Display the HUD message
 }
 
 Script_C void S7_ShowPop1 () {
@@ -76,7 +76,7 @@ Script_C void S7_ShowPop1 () {
 
 #define SPopPrintText(id, x, y, color, ...) \
   ( \
-   HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, 0.1k, 0.0, 0.0, 0.0, __VA_ARGS__) \
+   HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, 0.1k, 0.0k, 0.0k, 0.0k, __VA_ARGS__) \
   )
 #define SP1BASEID 11000
 
@@ -111,9 +111,8 @@ void SPopPrintSwitchListFunc (string header, string listArray [] [2], int size, 
     (*y) += 6.0k;
     for (int i = 0; i < size; i++, (*y) += 6.0k) {
         if (StrLen (listArray [i] [1]) <= 0) {
-            if (StrLen (listArray [i] [0]) > 0) {
+            if (StrLen (listArray [i] [0]) > 0)
                 SPopPrintText ((*id)++, (*x) - 3.0k, (*y), CR_WHITE, "%LS:", listArray [i] [0]);
-            }
         } else {
             int color = CheckInventory (listArray [i] [1]) ? CR_WHITE : CR_DARKGREY;
             SPopPrintText ((*id)++, (*x), (*y), color, "%LS", listArray [i] [0]);
@@ -258,11 +257,8 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
             }
         }
 
-        PrintBold ("%d", actorInfo);
-
-        if (PLN == playerNum || CheckInventory (FAKEMONSTOKEN)) {
+        if (PLN == playerNum || CheckInventory (FAKEMONSTOKEN))
             ret.isValid = FALSE;
-        }
     }
 
     return ret;
@@ -319,9 +315,8 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
         if (vert) {
             accum thingy = (1.0k - hpPercent) * h;
             y2 = y + RoundA (thingy);
-        } else {
+        } else
             w = (int) (hpPercent * w);
-        }
 
         SetHudClipRect (x, vert ? y2 : y, w, h);
         PrintSprite_Str (fg, id--, x * 1.0k + 0.1k, y * 1.0k + 0.1k, 0.1k);
@@ -331,28 +326,26 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
         SetFont (s"SMALLFNT");
         if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") > 0) {
             if (vert) {
-                if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0, 0.0, 0.0, s"%d %%", Percent (info.health, info.maxHealth));
-                } else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0, 0.0, 0.0, s"%d/%d", info.health, info.maxHealth);
-                }
+                if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2)
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d %%", Percent (info.health, info.maxHealth));
+                else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1)
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d/%d", info.health, info.maxHealth);
             } else {
-                if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"%d %%", Percent (info.health, info.maxHealth));
-                } else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 164.1k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"%d", info.maxHealth);
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"/");
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 156.2k, 8.0k, 0.1k, 0.0, 0.0, 0.0, s"%d", info.health);
+                if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2)
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d %%", Percent (info.health, info.maxHealth));
+                else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 164.1k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d", info.maxHealth);
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"/");
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 156.2k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d", info.health);
                 }
             }
         }
 
         if (GetUserCVar (PLN, s"S7_EnemyHPBar_NametagOn")  && info.name) {
-            if (vert) {
-                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.1k,  90.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
-            } else {
-                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k,  19.1k, 0.1k, 0.0, 0.0, 0.0, s"%S", info.name);
-            }
+            if (vert)
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.1k,  90.1k, 0.1k, 0.0k, 0.0k, 0.0k, s"%S", info.name);
+            else
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k,  19.1k, 0.1k, 0.0k, 0.0k, 0.0k, s"%S", info.name);
         }
     }
 

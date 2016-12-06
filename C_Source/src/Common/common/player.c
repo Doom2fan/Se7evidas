@@ -136,9 +136,8 @@ void InitializePlayer (PlayerData_t *player) {
 
     if (!(ServerData.noSaveLoading) && GetUserCVar (PLN, s"S7_LoadSaveDataOnNewGame")) {
         saveData = LoadSaveData (PLN);
-        if (!(saveData.isInvalid)) {
+        if (!saveData.isInvalid)
             PD_DoLoadSave (player, &saveData);
-        }
     }
 
     UpdatePlayerData (player);
@@ -188,7 +187,7 @@ bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData) {
 #define RIntPrintText(id, x, y, color, duration, ...) \
 ( \
  SetFont (s"SMALLFNT"), \
- HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, duration, 0.0, 0.0, 0.0, __VA_ARGS__) \
+ HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, color, (x) + 0.1k, (y) + 0.1k, duration, 0.0k, 0.0k, 0.0k, __VA_ARGS__) \
 )
 static const cstr RInt_CorruptNone [] = {
     (cstr) "None",
@@ -267,15 +266,21 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
         Delay (17);
         ActivatorSound (s"Comp/Err", 127);
         Delay (19);
-        if (!nameEqual)   RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: <Rechecking user database>");
-        if (!genderEqual) RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: <Rechecking user database>");
+
+        if (!nameEqual)
+            RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: <Rechecking user database>");
+        if (!genderEqual)
+            RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: <Rechecking user database>");
+
         ActivatorSound (s"Comp/Ok", 127);
         Delay (24);
-        if (!nameEqual)   RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: %S, formerly %S", curName, savedName);
-        if (!genderEqual) RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: %LS, formerly %LS", PD_Gender [curGender], PD_Gender [savedGender]);
-    } else {
+
+        if (!nameEqual)
+            RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: %S, formerly %S", curName, savedName);
+        if (!genderEqual)
+            RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: %LS, formerly %LS", PD_Gender [curGender], PD_Gender [savedGender]);
+    } else
         Delay (7);
-    }
     ActivatorSound (s"Comp/Ok", 127);
     Delay (45);
 

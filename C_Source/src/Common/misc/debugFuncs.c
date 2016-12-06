@@ -75,18 +75,26 @@ Script_C void S7_PrintInv (int mode) {
 
     string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
 
-    if (mode == 1) {
-        inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
-    } else if (mode == 2) {
-        inv = PrintInv_Weapons (s"Weapons:");
-    } else if (mode == 3) {
-        inv = PrintInv_Generic (s"Ammo in weapons:", ClipNames, ClipNames_Length);
-    } else if (mode == 4) {
+    switch (mode) {
+        case 1:
+            inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
+        break;
+        
+        case 2:
+            inv = PrintInv_Weapons (s"Weapons:");
+        break;
 
-    } else {
-        inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
-        inv = PrintInv_Weapons (StrParam ("%S\n\nWeapons:", inv));
-        inv = PrintInv_Generic (StrParam ("%S\n\nAmmo in weapons:", inv), ClipNames, ClipNames_Length);
+        case 3:
+            inv = PrintInv_Generic (s"Ammo in weapons:", ClipNames, ClipNames_Length);
+        break;
+
+        case 4: break;
+
+        default:
+            inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
+            inv = PrintInv_Weapons (StrParam ("%S\n\nWeapons:", inv));
+            inv = PrintInv_Generic (StrParam ("%S\n\nAmmo in weapons:", inv), ClipNames, ClipNames_Length);
+        break;
     }
 
     Log ("%S", inv);
