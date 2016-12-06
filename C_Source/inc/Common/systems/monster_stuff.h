@@ -50,6 +50,10 @@ struct MonsterInfo_t {
     // Health and stuff
     int health, maxHealth;      // Health and max health
     int tid;                    // The monster's TID
+
+    // Flags
+    bool friendly;              // The monster's friendliness
+    bool boss;                  // Is the monster any kind of boss? (0: Not a boss, (normal monsters) 1: Miniboss, (Corpulents, etc.) 2: Boss, (Empress, Terminators, etc.) 3: Megaboss)
 };
 
 extern MonsterInfo_t *monsterList;
@@ -58,5 +62,6 @@ extern MonsterInfo_t *monsterList;
 void ClearMonsterList ();
 bool AddMonsterToList  (MonsterInfo_t *monster);
 void UpdateMonsterInfo (MonsterInfo_t *self);
+MonsterInfo_t* PlayerAsMonster (PlayerData_t *player);
 
 #endif

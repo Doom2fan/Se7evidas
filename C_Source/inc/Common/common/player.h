@@ -66,7 +66,7 @@ struct PD_AmmoType_t {
 struct PD_Physics_t {
     accum x, y, z;                      // XYZ coordinates
     accum velX, velY, velZ;             // XYZ velocities
-    accum angle;                        // Angle
+    accum angle, pitch;                 // Angle and pitch
     accum velAngle;                     // Movement angle
     accum floorZ, ceilZ;                // Sector Z coordinates
     accum relativeZ;                    // Z coordinate relative to sector floor
@@ -107,6 +107,7 @@ struct PD_ScriptData_t {
     bool  beamGrab;                     // Soul lance beam grabbed
     accum prevEyesDist;                 // Previous EYES distance
     int   prevStaticImage;              // The previous image used for the static. This is so it doesn't use the same image twice in a row
+    int   radarSweepDelay;              // The current delay for the radar sweep
 };
 
 struct SprintDef_t {
@@ -117,15 +118,21 @@ struct SprintDef_t {
 
 struct ParkourDef_t {
     /* Dodging */
-    int  dodgeCooldown;                 // The cooldown before you can dodge again
-    int  dodgeInvulnTics;               // The time you stay invulnerable
+    int    dodgeCooldown;                 // The cooldown before you can dodge again
+    int    dodgeInvulnTics;               // The time you stay invulnerable
 
     /* Multi-jumping */
-    bool mjumpOnGround;                 // Is the player on the ground?
-    int  mjumpCount, mjumpMax;          // Count and max
+    bool   mjumpOnGround;                 // Is the player on the ground?
+    int    mjumpCount, mjumpMax;          // Count and max
 
     /* Wall-jumping */
-    bool wjumpJustJumped;               // The player just walljumped
+    int    wjumpJustJumped;               // The player just walljumped
+
+    /* Wall grabbing */
+    bool   wGrabHolding;                  // The player's holding onto a wall
+    accum  wGrabHoldAngle;                // The angle the player was at when he held onto the wall
+    vec2_k wGrabOldCoords;                // The player's old coords
+    accum  wGrabOldGravity;               // The player's old gravity
 };
 
 #define THUMPERMAGSIZE 4

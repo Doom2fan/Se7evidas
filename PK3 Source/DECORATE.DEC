@@ -46,6 +46,7 @@
 // RPG Systems
 #INCLUDE "Decorate/RPG Systems/Shop System.DEC"
 #INCLUDE "Decorate/RPG Systems/XP System.DEC"
+#INCLUDE "Decorate/RPG Systems/Upgrades.DEC"
 
 // Monsters
 #INCLUDE "Decorate/Monsters/ScorpsTrooper/DECORATE.DEC"

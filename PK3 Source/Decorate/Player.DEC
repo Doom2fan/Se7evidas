@@ -4,6 +4,8 @@
 // Inventory tokens
 //
 //-------------------------------------------------------------------------------------------
+actor S7_IsPlayer              : boolean { }
+actor S7_PlayerHit             : boolean { }
 actor S7_IsUnderwater          : boolean { }
 actor S7_Dying                 : boolean { }
 actor S7_AutoReloading         : boolean { }
@@ -27,6 +29,26 @@ actor S7_Slot0Taken : boolean { }
 actor S7_AirTime      : counter { inventory.maxAmount 700 }
 actor S7_ZoomHoldTime : counter { }
 
+/** Action Runners **/
+actor S7_PlayerHitBloodGiver : S7_ActionRunnerBase {
+    inventory.amount 1
+    inventory.maxAmount 1
+
+    +inventory.undroppable
+    -inventory.invBar
+
+    states {
+        Use:
+            TNT1 A 0 noDelay A_JumpIfInventory ("S7_IsPlayer", 1, "Continue")
+            TNT1 A 0
+            stop
+        Continue:
+            TNT1 A 0 A_GiveInventory ("S7_PlayerHit", 1)
+            TNT1 A 0
+            stop
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Base playerpawn
@@ -45,6 +67,7 @@ actor S7_BasePlayer : playerPawn {
     // Give Items/Weapons/Ammo
     /*player.startItem S7_Raptor
     player.startItem S7_RaptorClip, 8*/
+    player.startItem S7_IsPlayer, 1
     player.startItem S7_Clip, 50
     player.startItem S7_MeleeKey
     player.startItem S7_ReloadKey
@@ -62,7 +85,7 @@ actor S7_BasePlayer : playerPawn {
 
     // Weapon Slots
     player.weaponSlot 1, S7_Raptor, S7_TEC9, S7_Revolver
-    player.weaponSlot 2, S7_Shotgun, S7_AMG, S7_ManxCarbine, S7_HitterSMG, S7_Fauchard, S7_SSG
+    player.weaponSlot 2, S7_Shotgun, S7_AMG, S7_ManxCarbine, S7_HitterSMG, S7_Fauchard, S7_SSG, S7_LaserPewPew
     player.weaponSlot 3, S7_HellwarriorBladeForm1
     player.weaponSlot 4, S7_PrettyShootyIonCannonGun, S7_PlasmaGun, S7_Thumper
     player.weaponSlot 5, S7_GrenadeWeap
@@ -102,7 +125,7 @@ actor S7_BasePlayer : playerPawn {
         PLAY F 6 bright
         goto Missile
     Pain:
-        PLAY G 4
+        PLAY G 4 A_GiveInventory ("S7_PlayerHit", 1)
         PLAY G 4 A_Pain
         goto Spawn
     Death.Suicide:
@@ -329,7 +352,7 @@ actor S7_WalljumpChecker {
 
     states {
       Spawn:
-        BAL1 A 105
+        BAL1 A 1
         stop
     }
 }

@@ -109,7 +109,9 @@ Script_C void S7_ServersideEnter ENTER () {
             WallJumpScript           (player);
             MultiJumpScript          (player);
             DodgeScriptP1            (player);
+            WallHoldScript           (player);
         }
+        UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
         Thumper_Script        (player);
         SpeedScript           (player);

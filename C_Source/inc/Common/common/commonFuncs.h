@@ -92,6 +92,9 @@ bool *StrToBool (string source);
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z, // Distance between two XYZ coordinates
                  accum actor2X, accum actor2Y, accum actor2Z);
 accum Distance2Vec (vec3_k vec1, vec3_k vec2);
+accum Distance2D (accum actor1X, accum actor1Y, accum actor2X, accum actor2Y); // Distance between two XY coordinates
+accum Distance2DVec (vec2_k vec1, vec2_k vec2);
+accum Distance2DTID (int tid1, int tid2);
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
 /* Misc */
 long accum LongFixedSqrt (long accum x);

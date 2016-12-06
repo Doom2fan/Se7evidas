@@ -77,8 +77,8 @@ optionMenu "S7Settings_User" {
 
     staticText " "
     staticText "Radar", 1
-    slider "Radar X position",                                                                      "S7_Radar_XPos", -1920, 1920, 8
-    slider "Radar Y position",                                                                      "S7_Radar_YPos", -1080, 1080, 8
+    slider "Radar X position",                                                                      "S7_Radar_XPos", 0, 1920, 8
+    slider "Radar Y position",                                                                      "S7_Radar_YPos", 0, 1080, 8
     staticText "Don't use the same resolution as video mode."
     staticText "Smaller values increase graphic size"
     slider "Radar X scaled resolution",                                                             "S7_Radar_Width", 320, 1920, 5
@@ -152,13 +152,13 @@ optionMenu "CustomizeControls" {
     control     "Weapon Reload",                        "+reload"
     control     "Weapon Zoom",                          "+zoom"
     control     "Quick Melee",                          "Use S7_MeleeKey"
-    control     "Next Weapon",                          "weapnext"
-    control     "Previous Weapon",                      "weapprev"
-    control     "Weapon Slot 1",                        "slot 1"
-    control     "Weapon Slot 2",                        "slot 2"
-    control     "Weapon Slot 3",                        "slot 3"
-    control     "Weapon Slot 4",                        "slot 4"
-    control     "Weapon Slot 5",                        "slot 5"
+    control     "Next Weapon",                          "S7_WeapNext"
+    control     "Previous Weapon",                      "S7_WeapPrev"
+    control     "Weapon Slot 1",                        "S7_Slot 0"
+    control     "Weapon Slot 2",                        "S7_Slot 1"
+    control     "Weapon Slot 3",                        "S7_Slot 2"
+    control     "Weapon Slot 4",                        "S7_Slot 3"
+    control     "Weapon Slot 5",                        "S7_Slot 4"
 
     staticText  ""
     staticText  "Inventory", 1

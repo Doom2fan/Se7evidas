@@ -64,10 +64,26 @@ void UpdateMonsterInfo (MonsterInfo_t *self) {
     if (self->health > self->maxHealth)
         self->maxHealth = self->health;
     self->tid = ActivatorTID ();
+    self->friendly = CheckFlag (0, s"friendly");
+}
+
+MonsterInfo_t* PlayerAsMonster (PlayerData_t *player) {
+    MonsterInfo_t *ret = allocAndClear (sizeof (MonsterInfo_t));
+
+    ret->x      = player->physics.x;      ret->y         = player->physics.y;    ret->z    = player->physics.z;
+    ret->velX   = player->physics.velX;   ret->velY      = player->physics.velY; ret->velZ = player->physics.velZ;
+    ret->angle  = player->physics.angle;  ret->pitch     = player->physics.pitch;
+    ret->floorZ = player->physics.floorZ; ret->ceilZ     = player->physics.ceilZ;
+
+    ret->health = player->health.health;  ret->maxHealth = player->health.maxHealth;
+
+    ret->friendly = true;
+    return ret;
 }
 
 Script_C void S7_GenericMonsterScript () {
     MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    self->boss = 0;
     AddMonsterToList (self);
 
     while (TRUE) {
@@ -79,6 +95,7 @@ Script_C void S7_GenericMonsterScript () {
 
 Script_C void S7_SuccubusScript () {
     MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    self->boss = 0;
     vec3_k targetPos;
     bool flying = FALSE;
     AddMonsterToList (self);
@@ -105,6 +122,7 @@ Script_C void S7_ZombieScript () {
     string name = s"Reading name";
     int readDelay = Random (3, 6);
     MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    self->boss = 0;
     AddMonsterToList (self);
 
     while (TRUE) {
@@ -136,6 +154,7 @@ Script_C void S7_EmpressScript () {
         ballsCount,
         newHealth, health;
     MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    self->boss = 2;
     AddMonsterToList (self);
 
     newHealth = GetActorProperty (0, APROP_Health);
@@ -166,9 +185,8 @@ Script_C void S7_EmpressScript () {
         } else {
             newHealth = 0x7FFFFFFF;
 
-            if (GetActorProperty (0, APROP_Health) > 0) {
+            if (GetActorProperty (0, APROP_Health) > 0)
                 SetActorProperty (0, APROP_Health, 0x7FFFFFFF);
-            }
         }
     }
 }
@@ -190,9 +208,8 @@ Script_C void S7_EmpressScript () {
             GiveInventory (DISABLEHUDTOKEN, 1);
             flickerDelay = Random (8, 35 * 2);
             justFlickered = TRUE;
-        } else {
+        } else
             flickerDelay--;
-        }
 
         x2 = GetActorX (0); y2 = GetActorY (0); z2 = GetActorZ (0);
         xDiff = x1 - x2; yDiff = y1 - y2; zDiff = z1 - z2;
@@ -300,20 +317,20 @@ Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info) {
             GiveInventory (DISABLEHUDTOKEN, 1);
             flickerDelay = Random (8, 35 * 2);
             justFlickered = TRUE;
-        } else {
+        } else
             flickerDelay--;
-        }
 
         playerPos.x = GetActorX (0);
         playerPos.y = GetActorY (0);
         playerPos.z = GetActorZ (0);
 
         rotAngles = GetEulerAngles (info->holderPos, playerPos);
+        PrintBold ("%k", rotAngles.y);
 
-        ChangeActorAngle (0,          rotAngles.z, TRUE);
-        ChangeActorPitch (0,         -rotAngles.y, TRUE);
         ChangeActorAngle (thingyTID,  rotAngles.z, TRUE);
         ChangeActorPitch (thingyTID, -rotAngles.y, TRUE);
+        ChangeActorAngle (0,          rotAngles.z, TRUE);
+        ChangeActorPitch (0,          GetActorPitch (thingyTID), TRUE);
 
         SetUserArray (thingyTID, s"user_off", 0,
             11.0k * ScaleValueAccum (AbsA (GetActorPitch (0)), 0.0k, 0.25k, 1.0k, 0.0k));

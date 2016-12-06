@@ -16,6 +16,7 @@ actor S7_ScoutPlayer : S7_BasePlayer {
     player.jumpZ 9.797
 
     // Give Items/Weapons/Ammo
+    player.startItem S7_IsPlayer, 1
     player.startItem S7_TEC9
     player.startItem S7_TEC9Clip, 32
     player.startItem S7_9mmCartridges, 64

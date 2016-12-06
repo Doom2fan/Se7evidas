@@ -291,6 +291,17 @@ accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z,
 accum Distance2Vec (vec3_k vec1, vec3_k vec2) {
     return Distance2 (vec1.x, vec1.y, vec1.z, vec2.x, vec2.y, vec2.z);
 }
+
+accum Distance2D (accum actor1X, accum actor1Y, accum actor2X, accum actor2Y) {
+    return VectorLength (actor1X - actor2X, actor1Y - actor2Y);
+}
+accum Distance2DVec (vec2_k vec1, vec2_k vec2) {
+    return Distance2D (vec1.x, vec1.y, vec2.x, vec2.y);
+}
+accum Distance2DTID (int tid1, int tid2) {
+    return Distance2D (GetActorX (tid1), GetActorY (tid1), GetActorX (tid2), GetActorY (tid2));
+}
+
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
     vec3_k ret;
 
