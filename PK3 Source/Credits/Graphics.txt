@@ -1,4 +1,6 @@
 graphics/
+    HUD/
+        ENHPBFG1-2 made by Chronos "phantombeta" Ouroboros.
     Statusbar/
         FullAuto, BrstFire, SemiAuto, Buckshot and Slug were made by Marrub and edited by Chronos "phantombeta" Ouroboros.
 
