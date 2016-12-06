@@ -55,6 +55,7 @@
 #INCLUDE "Decorate/Monsters/BlackPanther/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/FatFuck/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/Terminator/DECORATE.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"

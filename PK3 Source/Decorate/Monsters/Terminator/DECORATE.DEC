@@ -1,0 +1,107 @@
+//-------------------------------------------------------------------------------------------
+//
+// Terminator
+//
+//-------------------------------------------------------------------------------------------
+actor S7_Terminator : S7_DemonBase {
+    health 5000
+    radius 24
+    height 64
+    speed 12
+    painChance 15
+    mass 12000
+    species S7Terminator
+    tag "$TERMTAG"
+
+    seeSound "Terminator/sight"
+    painSound "Terminator/pain"
+    deathSound "Terminator/death"
+    activeSound "Terminator/active"
+
+    // Demon/Reanimated flesh damage reduction
+    damageFactor "PistolTracer", 0.7
+    damageFactor "RevolverTracer", 0.8
+    damageFactor "RifleTracer", 0.9
+    // Plasma/Laser damage bonus
+    damageFactor "Plasma", 1.5
+    damageFactor "LaserTracer", 1.25
+
+    monster
+    +missileMore +floorClip +dontMorph +boss
+    +bossDeath
+
+    states {
+    Spawn:
+        TERM A 1 noDelay ACS_NamedExecuteAlways ("S7_GenericMonsterScript", 0)
+    Idle:
+        TERM A 10 A_Look
+        loop
+
+    See:
+        TNT1 A    0 A_PlaySound ("Footsteps/Large", CHAN_5)
+        TERM AABB 4 A_Chase
+        TNT1 A    0 A_PlaySound ("Footsteps/Large", CHAN_6)
+        TERM CCDD 4 A_Chase
+        loop
+
+    Missile:
+        goto Missile.Plasma
+
+    Missile.Plasma:
+        TNT1 A 0 A_PlaySound ("Terminator/PlasmaStart", CHAN_WEAPON) // Play plasma attack begin sound
+
+        TERM EEEEEE 1 A_FaceTarget (60.0, 30.0) // Spin to face target
+
+        TNT1 A 0 A_FaceTarget (360, 180)// Make sure we're facing the target
+        TNT1 A 0 A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon) // Play the firing sound
+        TERM F 8 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch) // Fire a S7_TerminatorPlasma at the current direction
+
+        TERM EEEEE 1
+        goto See
+
+    /*Melee:
+        goto See*/
+
+    Pain:
+        TERM L 6
+        TERM L 6 A_Pain
+        goto See
+    Death: //A_SpawnItemEx ("S7_Blood", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_UseBloodColor)
+        FAT1 J      2
+        FAT1 J     10 A_Pain
+        FAT1 L      4 A_Scream
+        FAT1 M      4 A_NoBlocking
+        FAT1 NOPQRS 4
+        FAT1 T     -1 A_BossDeath
+        stop
+    }
+}
+
+actor S7_TerminatorPlasma : fastProjectile {
+    damage (random [monsterDMG] (1, 6) * (50 / 6 * random (1, 8)))
+    speed 40
+    renderStyle add
+    scale 0.08
+    missileType "S7_TerminatorPlasma_Trail"
+    missileHeight 8
+
+    states {
+    Spawn:
+        FLR1 A 1 bright
+        loop
+    Death:
+        
+        stop
+    }
+}
+
+actor S7_TerminatorPlasma_Trail : S7_FastProjTrailBase {
+    scale 0.08
+    renderStyle add
+
+    states {
+    Spawn:
+        FLR1 AAA 1 bright A_FadeOut (0.25)
+        stop
+    }
+}
