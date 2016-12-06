@@ -34,6 +34,9 @@ SHORTPLASMAGUN                  = "Metralhadora de Plasma Mk III";
 SHORTIONCANNON                  = "Canhao de Ions GTX-2 \"Mjolnir\" Mk V";
 SHORTTHUMPER                    = "Lanca Granadas XPL-50 \"Thumper\"";
 
+/** Misc Weapons **/
+UNARMED                         = "Desarmado";
+
 /** Inventory **/
 // Health
 CANTEEN                         = "Cantil";

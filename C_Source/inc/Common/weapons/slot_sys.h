@@ -24,8 +24,10 @@
 
 void CWeapSlots_BindSlot   (PlayerData_t *player, int slot, int pos, int weap);
 void CWeapSlots_Slot       (PlayerData_t *player, int slot, int pos);
+void CWeapSlots_WeapCycle  (PlayerData_t *player, bool next);
 void CustomWeapSlotsScript (PlayerData_t *player);
 Script_C void S7_CWB_Slot NET (int slot, int pos);
 Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap);
+Script_C void S7_CWB_WeapCycle (bool next);
 
 #endif

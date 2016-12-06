@@ -37,6 +37,9 @@ SHORTTHUMPER                    = "XPL-50 \"Thumper\" Grenade Launcher";
 /** Throwables **/
 GRENADEWEAP                     = "Grenades";
 
+/** Misc Weapons **/
+UNARMED                         = "Unarmed";
+
 /** Inventory **/
 // Health
 CANTEEN                         = "Canteen";

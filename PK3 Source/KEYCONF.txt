@@ -11,14 +11,19 @@
 //addMenuKey    "Drop Weapon (Press)"         "Use S7_DropWeaponKey"
 
 // Aliases
-alias S7_ListInv "pukename S7_PrintInv %1"
-alias S7_LogServerData "pukename S7_PrintServerData"
-alias S7_LogMapData "pukename S7_PrintMapData"
+alias S7_ListInv "pukename S7_PrintInv always %1"
+alias S7_LogServerData "pukename S7_PrintServerData always"
+alias S7_LogMapData "pukename S7_PrintMapData always"
+
+// Custom weapon slot system aliases
+alias S7_WeapPrev "pukename S7_CWB_WeapCycle always 0"
+alias S7_WeapNext "pukename S7_CWB_WeapCycle always 1"
+alias S7_Slot "pukename S7_CWB_Slot always %1 -1"
 
 // Save system aliases
-alias S7_ClearSaveData "pukename \"S7_ClearSaveData\""
-alias S7_SaveSysSave   "pukename \"S7_SaveSysSave\""
-alias S7_SaveSysLoad   "pukename \"S7_SaveSysLoad\""
+alias S7_ClearSaveData "pukename \"S7_ClearSaveData\" always"
+alias S7_SaveSysSave   "pukename \"S7_SaveSysSave\" always"
+alias S7_SaveSysLoad   "pukename \"S7_SaveSysLoad\" always"
 
 // Reset to default CVars
 alias S7_ResetServerCVars "S7_DodgeCooldown 35; S7_MultiJumpZMul 1.0; S7_ForceIntro FALSE; S7_NoSaveLoading FALSE;"

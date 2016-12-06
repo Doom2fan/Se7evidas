@@ -35,20 +35,15 @@ void CWeapSlots_BindSlot (PlayerData_t *player, int slot, int pos, int weap) {
         Log ("\CgFunction CWeapSlots_BindSlot: Fatal error: Invalid or NULL player struct");
         return;
     }
-    
-    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS || weap >= WeaponNames_Length) {
-        for (int i = 0; i < WeaponNames_Length; i++) {
-            Log ("%d: %S", i, WeaponNames [i]);
-        }
-        return;
-    }
 
     player->weapBinds.weapBinds [slot] [pos] = weap;
+    return;
 }
 
-void CWeapSlots_ToSlot (PlayerData_t *player, int slot, int pos) { // pos = -1: Select first weapon of the slot or cycle it; pos >= 0: Select weapon in the specific position of the slot
+#define CheckNPBounds (BoundsCheck (newPos.x, 0, WPBND_MAXSLOTS) && BoundsCheck (newPos.y, 0, WPBND_MAXWEAPS))
+void CWeapSlots_Slot (PlayerData_t *player, int slot, int pos) { // pos = -1: Select first weapon of the slot or cycle it; pos >= 0: Select weapon in the specific position of the slot
     if (!player) {
-        Log ("\CgFunction CWeapSlots_ToSlot: Fatal error: Invalid or NULL player struct");
+        Log ("\CgFunction CWeapSlots_Slot: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -58,32 +53,77 @@ void CWeapSlots_ToSlot (PlayerData_t *player, int slot, int pos) { // pos = -1: 
     vec2_i newPos;
     WeapBinds_t *weapBinds = &(player->weapBinds);
 
-    for (int i = WPBND_MAXWEAPS; i >= 0; i--) {
-        if (i < 0)
-            return;
-    }
-
     if (slot == weapBinds->curWeap.x && pos == -1) {
-        newPos.x = slot; newPos.y = weapBinds->curWeap.y + 1;
-        if (newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS &&
-            newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS &&
-            weapBinds->weapBinds [newPos.x] [newPos.y] == -1) {
-            newPos.y = 0;
+        newPos.x = slot;
+        newPos.y = weapBinds->curWeap.y + 1;
+        while (!CheckNPBounds || !BoundsCheck (weapBinds->weapBinds [newPos.x] [newPos.y], 0, WeaponNames_Length) ||
+               !CheckInventory (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]])) {
+            if (newPos.y > WPBND_MAXWEAPS)
+                newPos.y = 0;
+            if (newPos.y == weapBinds->curWeap.y)
+                break;
+            newPos.y++;
         }
-    } else if (newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS &&
-               newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS &&
-               weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < WeaponNames_Length) {
-        newPos.x = slot; newPos.y = pos;
+    } else if ((pos == -1 && slot != weapBinds->curWeap.x) && BoundsCheck (slot, 0, WPBND_MAXSLOTS) && pos < WPBND_MAXWEAPS) {
+        newPos.x = slot;
+        newPos.y = pos >= 0 ? pos : 0;
+    } else {
+        newPos.x = -1;
+        newPos.y = -1;
+    }
+    
+    if (CheckNPBounds && BoundsCheck (weapBinds->weapBinds [newPos.x] [newPos.y], 0, WeaponNames_Length) &&
+        CheckInventory (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]])) {
+        if (SetWeapon (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]]))
+            weapBinds->curWeap = newPos;
+    }
+}
+
+void CWeapSlots_WeapCycle (PlayerData_t *player, bool next) { // if next if false, behave as WeapPrev, if true, behave as WeapNext
+    if (!player) {
+        Log ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
+        return;
     }
 
-    if ((newPos.x >= 0 && newPos.x < WPBND_MAXSLOTS) &&
-        (newPos.y >= 0 && newPos.y < WPBND_MAXWEAPS) &&
-        (weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < WeaponNames_Length) &&
-        (weapBinds->curWeap.x != newPos.x && weapBinds->curWeap.y != newPos.y)) {
-        if (weapBinds->weapBinds [newPos.x] [newPos.y] != weapBinds->weapBinds [weapBinds->curWeap.x] [weapBinds->curWeap.y])
-            SetWeapon (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]]);
+    WeapBinds_t *weapBinds = &(player->weapBinds);
+    vec2_i newPos = weapBinds->curWeap;
+    int mod      = next ? 1 : -1;
+    int loopSlot = next ? 0 : WPBND_MAXSLOTS;
+    int loopPos  = next ? 0 : WPBND_MAXWEAPS;
 
-        weapBinds->curWeap = newPos;
+    while (TRUE) {
+        newPos.y += mod;
+        if (newPos.x == weapBinds->curWeap.x && newPos.y == weapBinds->curWeap.y)
+            return;
+        if ((next && newPos.y > WPBND_MAXWEAPS) || (!next && newPos.y < 0)) {
+            if ((next && newPos.x > WPBND_MAXSLOTS) || (!next && newPos.x < 0))
+                newPos.x = loopSlot;
+            else
+                newPos.x += mod;
+            newPos.y = loopPos;
+        }
+
+        if (weapBinds->weapBinds [newPos.x] [newPos.y] >= 0 && weapBinds->weapBinds [newPos.x] [newPos.y] < WeaponNames_Length &&
+            weapBinds->curWeap.x != newPos.x && weapBinds->curWeap.y != newPos.y) {
+            if (weapBinds->weapBinds [newPos.x] [newPos.y] != weapBinds->weapBinds [weapBinds->curWeap.x] [weapBinds->curWeap.y])
+                if (SetWeapon (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]]))
+                    weapBinds->curWeap = newPos;
+        }
+    }
+}
+
+Script_C void FuckThisShit NET () {
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+    if (!player) {
+        Log ("\CgScript FuckThisShit: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
+    for (int x = 0; x < WPBND_MAXSLOTS; x++) {
+        for (int y = 0; y < WPBND_MAXWEAPS; y++) {
+            int weap = player->weapBinds.weapBinds [x] [y];
+            Log ("Slot %d, pos %d: %d/%S", x, y, weap, WeaponNames [weap]);
+        }
     }
 }
 
@@ -110,6 +150,13 @@ Script_C void S7_CWB_Slot NET (int slot, int pos) {
 }
 
 Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
+    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= WPBND_MAXWEAPS || weap >= WeaponNames_Length) {
+        for (int i = 0; i < WeaponNames_Length; i++)
+            Log ("%d: %S", i, WeaponNames [i]);
+        
+        return;
+    }
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
         Log ("\CgScript S7_CWB_SetBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
@@ -117,4 +164,14 @@ Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
     }
 
     CWeapSlots_BindSlot (player, slot, pos, weap);
+}
+
+Script_C void S7_CWB_WeapCycle (bool next) {
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+    if (!player) {
+        Log ("\CgScript S7_CWB_WeapCycle: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
+    CWeapSlots_WeapCycle (player, next);
 }
