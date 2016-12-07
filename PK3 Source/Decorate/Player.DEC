@@ -39,7 +39,7 @@ actor S7_PlayerHitBloodGiver : S7_ActionRunnerBase {
 
     states {
         Use:
-            TNT1 A 0 noDelay A_JumpIfInventory ("S7_IsPlayer", 1, "Continue")
+            TNT1 A 0 A_JumpIfInventory ("S7_IsPlayer", 1, "Continue")
             TNT1 A 0
             stop
         Continue:
