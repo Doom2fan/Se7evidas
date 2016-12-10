@@ -64,19 +64,23 @@ actor S7_BasePlayer : playerPawn {
     player.forwardMove 0.8, 0.8
     player.sideMove 0.8, 0.8
 
-    // Give Items/Weapons/Ammo
+    /** Starting items **/
+    // Weapons
     /*player.startItem S7_Raptor
     player.startItem S7_RaptorClip, 8*/
-    player.startItem S7_IsPlayer, 1
-    player.startItem S7_Clip, 50
-    player.startItem S7_MeleeKey
+    player.startItem S7_BerserkWeap
+    // Ammo and similars
+    player.startItem S7_Stamina, 150
+    player.startItem S7_Mana, 250
+    // Keys/controls
     player.startItem S7_ReloadKey
+    player.startItem S7_MeleeKey
     player.startItem S7_FiringModeKey
     player.startItem S7_ShowPop1Key
+    // Tokens:
+    player.startItem S7_IsPlayer
     player.startItem S7_StaminaRegen
-    player.startItem S7_Stamina, 150
     player.startItem S7_ManaRegen
-    player.startItem S7_Mana, 250
     player.startItem S7_KickMelee
     player.startItem S7_MultiJump_Max, 1
 
