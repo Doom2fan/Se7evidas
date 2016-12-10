@@ -260,7 +260,6 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
 
     PlayerData_t *player = &PlayerData [num]; // Get the player's PlayerData_t struct
 
-    Log ("%d", num);
     if (!player) {
         Log ("\CgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
         return;
