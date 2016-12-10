@@ -3,7 +3,7 @@
 // Hellion
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Hellion : S7_DemonBase replaces doomImp {
+actor S7_Hellion : S7_DemonBase replaces doomImp 33004 {
     health 60
     gibHealth -30
     radius 20

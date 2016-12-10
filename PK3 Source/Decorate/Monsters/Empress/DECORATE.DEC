@@ -20,7 +20,7 @@ actor S7_Empress_MidAttack1   : boolean { }
 actor S7_EmpressBalls : counter { inventory.maxAmount 4 }
 
 /** Main actor **/
-actor S7_Empress : S7_DemonBase {
+actor S7_Empress : S7_DemonBase 33000 {
     health 0x7FFFFFFF
     radius 40
     height 100

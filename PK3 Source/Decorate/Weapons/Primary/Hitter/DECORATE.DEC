@@ -14,7 +14,7 @@ actor S7_HitterSMGUpperJammed : boolean { }
 actor S7_HitterSMGLowerJammed : boolean { }
 actor S7_HitterSMGChannel5    : boolean { }
 
-actor S7_HitterSMG : S7_BaseWeapon {
+actor S7_HitterSMG : S7_BaseWeapon 30007 {
     tag "$HITTERSMG"
     inventory.pickupMessage "HITTERSMG"
     weapon.ammoType1 "S7_HitterSMGClip"

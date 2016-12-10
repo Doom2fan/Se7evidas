@@ -8,7 +8,7 @@
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
 
-actor S7_BerserkPickup : customInventory {
+actor S7_BerserkPickup : customInventory 32005 {
     tag "$BERSERK"
     inventory.icon "BSRKA0"
     inventory.pickupMessage "$BERSERK"

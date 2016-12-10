@@ -12,7 +12,7 @@ actor S7_ManxCarbineClip : ammo {
 
 actor S7_ManxCarbine_Semi : boolean { }
 
-actor S7_ManxCarbine : S7_BaseWeapon {
+actor S7_ManxCarbine : S7_BaseWeapon 30008 {
     tag "$MANXCARBINE"
     inventory.pickupMessage "$MANXCARBINE"
     weapon.ammoType1 "S7_ManxCarbineClip"

@@ -3,7 +3,7 @@
 // Terminator
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Terminator : S7_DemonBase {
+actor S7_Terminator : S7_DemonBase 33007 {
     health 5000
     radius 24
     height 64

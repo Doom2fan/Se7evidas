@@ -3,7 +3,7 @@
 // Succubus
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Succubus : S7_SuccubusBase replaces cacodemon {
+actor S7_Succubus : S7_SuccubusBase replaces cacodemon 33006 {
     health 350
     speed 8
     painChance 90

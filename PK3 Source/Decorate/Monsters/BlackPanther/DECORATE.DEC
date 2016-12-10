@@ -3,7 +3,7 @@
 // Black Panther
 //
 //-------------------------------------------------------------------------------------------
-actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight {
+actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight 33001 {
     health 750
     speed 8
     painChance 50

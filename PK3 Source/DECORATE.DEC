@@ -14,10 +14,11 @@
 ** ple actors should be in Credits/Sprites.TXT.
 */
 
-/* Highest DoomEdNums:
-** Weapons: 30007
+/* Highest free DoomEdNums:
+** Weapons: 30009
 ** Ammo: 31010
-** Inventory: 32004
+** Inventory: 32006
+** Monster: 33008
 */
 
 /* Some random units:

@@ -3,7 +3,7 @@
 // Corpulent
 //
 //-------------------------------------------------------------------------------------------
-actor S7_FatFuck : S7_DemonBase replaces fatso {
+actor S7_FatFuck : S7_DemonBase replaces fatso 33002 {
     health 900
     radius 48
     height 64
