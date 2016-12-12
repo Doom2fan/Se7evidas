@@ -221,7 +221,7 @@ actor S7_EmpressDeathSmokeSpawner {
 }
 
 actor S7_EmpressMissile2 : fastProjectile {
-    damage (random [monsterDMG] (1, 3) * 4)
+    damage (fRandom [monsterDMG] (1.0, 3.0) * 4)
     speed 45
     missileType "S7_EmpressMissile2Trail"
     missileHeight 8
@@ -265,7 +265,7 @@ actor S7_EmpressMissile2Trail : S7_FastProjTrailBase {
 }
 
 actor S7_EmpressMissile1 : fastProjectile {
-    damage (random [monsterDMG] (2, 4) * 7)
+    damage (fRandom [monsterDMG] (2.0, 4.0) * 7)
     speed 45
     missileType "S7_EmpressMissile1Trail"
     missileHeight 8

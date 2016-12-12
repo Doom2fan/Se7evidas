@@ -15,7 +15,7 @@ actor S7_ThumperGrenade {
     height 10
     speed 75
     projectile
-    damage (random [weaponDamage] (1, 6) * 24)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 24)
     scale 0.8
     gravity 0.25
     translation "112:127=216:223"
@@ -60,7 +60,7 @@ actor S7_ThumperExplosion {
 //
 //-------------------------------------------------------------------------------------------
 actor S7_ThumperGrenadeFrag : S7_ThumperGrenade {
-    damage (random [weaponDamage] (1, 6) * 16)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 16)
 
     states {
     Loople:
@@ -80,7 +80,7 @@ actor S7_ThumperGrenadeFrag : S7_ThumperGrenade {
 //
 //-------------------------------------------------------------------------------------------
 actor S7_ThumperGrenadeTherm : S7_ThumperGrenade {
-    damage (random [weaponDamage] (1, 6) * 16)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 16)
     translation "112:127=184:191"
 
     states {
@@ -140,7 +140,7 @@ actor S7_ThumperGrenadeTherm_Fire {
 //
 //-------------------------------------------------------------------------------------------
 actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
-    damage (random [weaponDamage] (1, 6) * 5)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 5)
     damageType TH_GrenadeImpact
     translation "112:127=80:95"
     args -64, 64
@@ -229,7 +229,7 @@ actor S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 //-------------------------------------------------------------------------------------------
 const int TH_GrenCluster_AngleDiff = 60;
 actor S7_ThumperGrenadeCluster : S7_ThumperGrenade {
-    damage (random [weaponDamage] (1, 6) * 18)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 18)
     translation "112:127=200:207"
 
     var int user_angel;
@@ -265,7 +265,7 @@ actor S7_ThumperGrenadeCluster : S7_ThumperGrenade {
 actor S7_ThumperGrenadeCluster_Bomb {
     radius 1
     height 1
-    damage (random (1, 6) * 8)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 8)
     bounceCount 2
     BounceSound "Bounce/MetalSmall"
     projectile
@@ -295,7 +295,7 @@ actor S7_ThumperGrenadeCluster_Bomb {
 //-------------------------------------------------------------------------------------------
 const int TH_GrenNail_AngleDiff = 20;
 actor S7_ThumperGrenadeNail : S7_ThumperGrenade {
-    damage (random [weaponDamage] (1, 6) * 13)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 13)
     translation "112:127=200:207"
 
     var int user_angle;
@@ -368,7 +368,7 @@ actor S7_ThumperGrenadeNail : S7_ThumperGrenade {
 actor S7_ThumperGrenadeNail_Nail : fastProjectile {
     radius 2
     height 2
-    damage (random (3, 5))
+    damage (fRandom [weaponDamage] (3.0, 5.0))
     gravity 0.65
     speed 1
     health 45
@@ -405,7 +405,7 @@ actor S7_ThumperGrenadeNail_Nail : fastProjectile {
 //
 //-------------------------------------------------------------------------------------------
 actor S7_ThumperGrenadeNGas : S7_ThumperGrenade {
-    damage (random [weaponDamage] (1, 6) * 6)
+    damage (fRandom [weaponDamage] (1.0, 6.0) * 6)
     damageType TH_GrenadeImpact
     translation "112:127=104:111"
 

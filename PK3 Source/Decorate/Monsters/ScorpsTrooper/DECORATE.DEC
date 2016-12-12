@@ -3,7 +3,7 @@
 // Shadow Corps Trooper
 //
 //-------------------------------------------------------------------------------------------
-actor S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer { damage (random [weaponDamage] (1, 3) * 2) }
+actor S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer { damage (fRandom [monsterDMG] (1.0, 3.0) * 2) }
 actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
     health 30
     gibHealth -15
