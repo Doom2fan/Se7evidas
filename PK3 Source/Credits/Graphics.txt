@@ -11,6 +11,7 @@ sprites/
     CommonProjectiles/
         NAIL was made by Eriance.
         CP00 was made by Raven Software.
+        GRN2 is from Hideous Destructor. Dunno who made it.
 
     Effects/
         Flares/
