@@ -25,6 +25,7 @@ acs.err
 *.sublime-workspace
 *._ignore_.*
 
+/Editing/Font/AdobeFnt*.lst
 /C_Source/obj/
 /Tools/PreprocessorThingy/obj/
 /Tools/PreprocessorThingy/bin/
