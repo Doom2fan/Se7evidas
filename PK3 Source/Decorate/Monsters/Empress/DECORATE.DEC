@@ -129,10 +129,10 @@ actor S7_Empress : S7_DemonBase 32500 {
         HRFR AAHHH 1 A_FaceTarget (72, 36)
     Attack2.Loople:
         TNT1 A 0 A_FaceTarget (90, 45)
-        HRFR H 1 A_CustomMissile ("S7_EmpressMissile2", 105.0, 0, -135 + fRandom (0.0, 90.0), CMF_AimDirection)
+        HRFR H 1 A_CustomMissile ("S7_EmpressMissile2", 105.0, 0, -135 + fRandom [monsterSpread] (0.0, 90.0), CMF_AimDirection)
         HRFR HH 1 A_FaceTarget (90, 45)
         TNT1 A 0 A_FaceTarget (90, 45)
-        HRFR H 1 A_CustomMissile ("S7_EmpressMissile2", 105.0, 0,  135 - fRandom (0.0, 90.0), CMF_AimDirection)
+        HRFR H 1 A_CustomMissile ("S7_EmpressMissile2", 105.0, 0,  135 - fRandom [monsterSpread] (0.0, 90.0), CMF_AimDirection)
         HRFR HH 1 A_FaceTarget (90, 45)
         loop
 
