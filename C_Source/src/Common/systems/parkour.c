@@ -27,8 +27,8 @@ void DodgeScriptP1 (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->parkourDef.dodgeInvulnTics > 0) {
-        (player->parkourDef.dodgeInvulnTics)--;
+    if (player->health.health > 0 && player->parkourDef.dodgeInvulnTics > 0) {
+        player->parkourDef.dodgeInvulnTics--;
         SetInventory (DODGEINVULITEM, 1);
         SetInventory (DODGETRAILITEM, 1);
     } else {
@@ -36,7 +36,7 @@ void DodgeScriptP1 (PlayerData_t *player) {
         SetInventory (DODGETRAILITEM, 0);
     }
 
-    if (player->parkourDef.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
+    if (player->health.health > 0 && player->parkourDef.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
         if (player->parkourDef.dodgeCooldown < 0) // If dodgeCooldown is less than 0...
             player->parkourDef.dodgeCooldown = 0; // Set dodgeCooldown to 0
 
@@ -72,9 +72,8 @@ void DodgeScriptP2 (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->parkourDef.dodgeCooldown > 0) { // If dodgeCooldown is greater than 0...
+    if (player->parkourDef.dodgeCooldown > 0) // If dodgeCooldown is greater than 0...
         player->parkourDef.dodgeCooldown--; // Decrement dodgeCooldown by 1
-    }
 }
 
 #define MJUMPMINDIFF 15
@@ -95,10 +94,10 @@ void MultiJumpScript (PlayerData_t *player) {
         player->parkourDef.mjumpOnGround = FALSE; // Set mjumpOnGround to FALSE
     }
 
-    // If the player's floor-relative Z is greater than MJUMPMINDIFF, the player's Z velocity is lower than or equal to 32, the player is not on the ground, the player's multijump
-    // counter isn't equal to mJumpMax, the player pressed jump and the sv_nojump CVAR isn't TRUE...
-    if (!GetCVar (s"sv_nojump") && !player->parkourDef.wjumpJustJumped && !player->parkourDef.mjumpOnGround && KeyPressedMOD (BT_JUMP) && abs (player->physics.relativeZ) >= MJUMPMINDIFF
-        && player->physics.velZ <= 32 && player->parkourDef.mjumpCount < mJumpMax) {
+    // If the player is alive, their floor-relative Z is greater than MJUMPMINDIFF, their Z velocity is lower than or equal to 32, they're is not on the ground, their multijump
+    // counter isn't equal to mJumpMax, they pressed jump, the sv_nojump CVAR isn't TRUE, they're not dead, and their haven't gotten beamgrabbed...
+    if (KeyPressedMOD (BT_JUMP) && !GetCVar (s"sv_nojump") && player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.mjumpOnGround && !player->parkourDef.wjumpJustJumped &&
+        player->parkourDef.mjumpCount < mJumpMax && abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32) {
         SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker
         ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
         player->parkourDef.mjumpCount++; // Increment the jump counter by 1
@@ -118,7 +117,7 @@ void WallJumpScript (PlayerData_t *player) {
     if (player->parkourDef.wjumpJustJumped)
         player->parkourDef.wjumpJustJumped--;
 
-    if (!player->parkourDef.wjumpJustJumped && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0 && KeyPressedMOD (BT_JUMP) && player->physics.relativeZ > 24.0k) {
+    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wjumpJustJumped && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0 && KeyPressedMOD (BT_JUMP) && player->physics.relativeZ > 24.0k) {
         bool canBounce;
         int j;
         accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);
@@ -163,7 +162,7 @@ void WallHoldScript (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (!player->parkourDef.wGrabHolding && KeyDownMOD (BT_CROUCH) && player->physics.relativeZ > 24) {
+    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wGrabHolding && KeyDownMOD (BT_CROUCH) && player->physics.relativeZ > 24) {
         int j;
         accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);
         accum x2 = 8 * CosA (player->physics.angle), y2 = 8 * SinA (player->physics.angle);
@@ -220,7 +219,7 @@ void WallHoldScript (PlayerData_t *player) {
             }
         }
 
-        if (player->physics.relativeZ < 24 || (facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) > 0) || (!facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0))
+        if (player->health.health <= 0 || !player->scriptData.beamGrab || player->physics.relativeZ < 24 || (facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) > 0) || (!facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0))
             CancelWallHold (player);
     }
 }

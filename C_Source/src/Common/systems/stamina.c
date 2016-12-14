@@ -32,18 +32,22 @@ void StaminaRegenerationPart1 (PlayerData_t *player) {
     if (!player)
         return;
 
-    bool berserkActive = CheckInventory (BERSERKTOKEN);
+    if (player->health.health > 0) {
+        bool berserkActive = CheckInventory (BERSERKTOKEN);
 
-    if (player->scriptData.staminaTics > 0 && player->health.stamina == GetMaxStamina (player) || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON))
+        if (player->scriptData.staminaTics > 0 && player->health.stamina == GetMaxStamina (player) || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON))
+            player->scriptData.staminaTics = 0;
+        if (player->scriptData.staminaEmpty == TRUE && player->health.stamina >= 50)
+            player->scriptData.staminaEmpty = FALSE;
+
+        if (!CheckWeapon (SPRINTWEAPON)) {
+            if (!player->misc.dying && player->scriptData.staminaTics >= 1)
+                SRGN_DoRegenCommon (berserkActive ? 4 : 1);
+            else if (player->misc.dying && player->scriptData.staminaTics >= berserkActive ? 2 : 3)
+                SRGN_DoRegenCommon (berserkActive ? 2 : 1);
+        }
+    } else {
         player->scriptData.staminaTics = 0;
-    if (player->scriptData.staminaEmpty == TRUE && player->health.stamina >= 50)
-        player->scriptData.staminaEmpty = FALSE;
-
-    if (!CheckWeapon (SPRINTWEAPON)) {
-        if (!player->misc.dying && player->scriptData.staminaTics >= 1)
-            SRGN_DoRegenCommon (berserkActive ? 4 : 1);
-        else if (player->misc.dying && player->scriptData.staminaTics >= berserkActive ? 2 : 3)
-            SRGN_DoRegenCommon (berserkActive ? 2 : 1);
     }
 }
 
@@ -51,6 +55,6 @@ void StaminaRegenerationPart2 (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->health.stamina != GetMaxStamina (player) && !CheckWeapon (SPRINTWEAPON))
+    if (player->health.health > 0 && !CheckWeapon (SPRINTWEAPON) && player->health.stamina != GetMaxStamina (player))
         player->scriptData.staminaTics++;
 }

@@ -104,13 +104,11 @@ Script_C void S7_ServersideEnter ENTER () {
         UpdateXPSystem   (player); // Update everything related to the XP System
         UpdatePlayerData (player); // Update the player's data
         UpdateAmmoMax    (player); // Update the max ammo
-        if (player->health.health > 0) {
-            StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
-            WallJumpScript           (player);
-            MultiJumpScript          (player);
-            DodgeScriptP1            (player);
-            WallHoldScript           (player);
-        }
+        StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
+        WallJumpScript           (player);
+        MultiJumpScript          (player);
+        DodgeScriptP1            (player);
+        WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
         Thumper_Script        (player);
@@ -125,10 +123,8 @@ Script_C void S7_ServersideEnter ENTER () {
 
         Delay (1); // Wait for a tic
 
-        if (player->health.health > 0) {
-            StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)
-            DodgeScriptP2            (player);
-        }
+        StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)
+        DodgeScriptP2            (player);
     }
 }
 
