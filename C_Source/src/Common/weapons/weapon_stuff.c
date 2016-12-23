@@ -117,11 +117,11 @@ Script_C void S7_SynthFire (int mode) {
     }
 }
 
-Script_C int S7_SynthFireAllowChange () {
-    if (!CheckInventory (s"S7_SynthFireRightReloading") || CheckInventory (s"S7_SynthFireLeftReloading"))
-        return 1;
+Script_C bool S7_SynthFireIdle () {
+    if (!CheckInventory (s"S7_SynthFireLeftBusy") && !CheckInventory (s"S7_SynthFireRightBusy"))
+        return TRUE;
     else
-        return 0;
+        return FALSE;
 }
 
 /*
@@ -212,5 +212,40 @@ Script_C int S7_HellBladeDMG (int form, int multiplier, int baseDMG) {
             return RoundA (modDMG + (affinity / 10 * (modDMG / 2)));
         }
         break;
+    }
+}
+
+#define BUTTERFLYMAGSIZE 32
+#define BUTTERFLYCLIP s"S7_LaserPewPewClip"
+#define BUTTERFLYCLIPSECOND s"S7_LaserPewPewClipSecond"
+Script_C void S7_PerformButterflySwap () {
+    int mag1 = CheckInventory (BUTTERFLYCLIP), mag2 = CheckInventory (BUTTERFLYCLIPSECOND);
+    SetInventory (BUTTERFLYCLIP, mag2);
+    SetInventory (s"S7_LaserPewPewClipSecond", mag1);
+}
+
+Script_C int S7_ButterflyAkimboReload () {
+    int mag1 = CheckInventory (BUTTERFLYCLIP), mag2 = CheckInventory (BUTTERFLYCLIPSECOND),
+        mag1Req = BUTTERFLYMAGSIZE - mag1, mag2Req = BUTTERFLYMAGSIZE - mag2,
+        ammoPool = CheckInventory (s"S7_FBSysCells");
+
+    if (mag1Req + mag2Req <= 0 || ammoPool < 2)
+        return FALSE;
+
+    if (mag1Req + mag2Req > ammoPool) {
+        int ammoReq = mag1Req + mag2Req;
+        for (int i = 0; i < 32; i++) {
+            if (ammoReq - 2 * i < ammoPool) {
+                GiveInventory (BUTTERFLYCLIP, mag1Req - i);
+                GiveInventory (BUTTERFLYCLIPSECOND, mag2Req - i);
+                TakeInventory (s"S7_FBSysCells", mag1Req + mag2Req - 2 * i);
+                return TRUE;
+            }
+        }
+        return FALSE;
+    } else {
+        GiveInventory (BUTTERFLYCLIP, mag1Req);
+        GiveInventory (BUTTERFLYCLIPSECOND, mag2Req);
+        TakeInventory (s"S7_FBSysCells", mag1Req + mag2Req);
     }
 }
