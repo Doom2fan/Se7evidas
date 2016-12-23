@@ -19,10 +19,10 @@ user int  S7_EnemyHPBar_HPDisp          = 1;
 user bool S7_EnemyHPBar_NametagOn       = TRUE;
 user int  S7_EnemyHPBar_ForceDir        = 0;
 // Radar
-user int  S7_Radar_Width                = 640;
-user int  S7_Radar_Height               = 480;
-user int  S7_Radar_XPos                 = 320;
-user int  S7_Radar_YPos                 = 240;
+user int  S7_Radar_Width                = 1280;
+user int  S7_Radar_Height               = 720;
+user int  S7_Radar_XPos                 = 1036;
+user int  S7_Radar_YPos                 = 13;
 
 /** Required clientside CVars **/
 user int  S7_Screenblocks               = 0;
