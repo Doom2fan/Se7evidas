@@ -41,10 +41,10 @@ struct MonsterInfo_t {
     bool removed;               // This is true if the monster actor was removed
 
     // Physics and movement
-    accum    x,    y,    z;     // XYZ coordinates
+    accum x, y, z;              // XYZ coordinates
+    accum radius, height;       // Sizes (Radius and height)
     accum velX, velY, velZ;     // XYZ velocities
-    accum angle;                // Angle
-    accum pitch;                // Pitch
+    accum angle, pitch;         // Rotations (Angle and pitch)
     accum floorZ, ceilZ;        // Sector Z coordinates
 
     // Health and stuff

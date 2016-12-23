@@ -25,7 +25,7 @@
 __addrdef __gbl_arr global_var;
 __addrdef __mod_arr    map_var;
 
-/* Position */
+/* Physics */
 vec3_k GetActorPositionVec (int tid) {
     vec3_k ret;
 
@@ -35,10 +35,24 @@ vec3_k GetActorPositionVec (int tid) {
 
     return ret;
 }
-
 Script_LS vec3_k GetActivatorPointerPos (int pointer) {
     SetActivator (0, pointer);
     return GetActorPositionVec (0);
+}
+vec5_k GetActorInfoVec (int tid) {
+    vec5_k ret;
+
+    ret.x = GetActorX (tid);
+    ret.y = GetActorY (tid);
+    ret.z = GetActorZ (tid);
+    ret.w = GetActorProperty (0, APROP_Radius);
+    ret.h = GetActorProperty (0, APROP_Height);
+
+    return ret;
+}
+Script_LS vec5_k GetActivatorPointerInfo (int pointer) {
+    SetActivator (0, pointer);
+    return GetActorInfoVec (0);
 }
 
 /* Keys */
@@ -195,6 +209,39 @@ cstr CorruptTextCase (cstr text) {
 // Math
 //
 //-------------------------------------------------------------------------------------------
+/* Basic functions that ZDoom doesn't have for some reason */
+#define CPow_Impl(exp) for (int i = 1; i < exp; i++) { ret *= x; }
+int PowI (int x, int y) {
+    int ret = x;
+
+    if (y == 0) {
+        assert (x != 0);
+        ret = 1.0k;
+    } else if (y < 0) {
+        CPow_Impl (abs (y));
+        ret = 1.0k / ret;
+    } else {
+        CPow_Impl (y);
+    }
+
+    return ret;
+}
+accum PowA (accum x, int y) {
+    accum ret = x;
+
+    if (y == 0) {
+        assert (x != 0);
+        ret = 1.0k;
+    } else if (y < 0) {
+        CPow_Impl (AbsA (y));
+        ret = 1.0k / ret;
+    } else {
+        CPow_Impl (y);
+    }
+
+    return ret;
+}
+
 /* Clamping */
 int Clamp (int x, int min, int max) {
     if (min > max) {
@@ -311,6 +358,38 @@ vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
     ret.y = atan2A (VectorLength (p1.x - p2.x, p1.y - p2.y), p1.z - p2.z);
     // Yaw/Angle
     ret.z = atan2A (p1.x - p2.x, p1.y - p2.y);
+
+    return ret;
+}
+/*bool PitchGravProjInRange (accum speed, accum grav, vec5_k sInfo, vec5_k tInfo, vec2_k pSize) {
+    for (accum i = -1.0k; i <= 1.0k; i += 0.05) {
+        vec2_k proj, target;
+        proj.x = 0; proj.y = 0;
+        target.x = Distance2D (sInfo.x, sInfo.y, tInfo.x, tInfo.y); target.y = AbsA (sInfo.z - tInfo.z);
+
+        accum velX = speed,
+              velY = speed;
+        if (AbsA (proj.x - target.x) < (pSize.x / 2 + target.w / 2) && AbsA (proj.y - target.y) < (pSize.y / 2 + target.h / 2))
+            return TRUE;
+    }
+
+    return FALSE;
+}*/
+bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2) {
+    long accum v = speed, g = grav * BASE_GRAVITY;
+    long accum x = Distance2D (p1.x, p1.y, p2.x, p2.y), y = AbsA (p1.z - p2.z);
+    long accum sq = PowA (v, 4) - g * (g * PowA (x, 2) + 2 * y * PowA (v, 2));
+    
+    return sq > 0.0;
+}
+vec2_k PitchGravProj (accum speed, accum grav, vec3_k p1, vec3_k p2) {
+    long accum v = speed, g = grav * BASE_GRAVITY;
+    long accum x = Distance2D (p1.x, p1.y, p2.x, p2.y), y = AbsA (p1.z - p2.z);
+    vec2_k ret;
+
+    long accum sq = PowA (v, 4) - g * (g * PowA (x, 2) + 2 * y * PowA (v, 2));
+    ret.x = (atanA (v * v + ((accum) LongFixedSqrt (sq)) / (g * x)) * 1k);
+    ret.y = (atanA (v * v - ((accum) LongFixedSqrt (sq)) / (g * x)) * 1k);
 
     return ret;
 }

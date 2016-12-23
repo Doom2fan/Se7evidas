@@ -25,24 +25,23 @@
 // Typedefs
 typedef struct vec2_i vec2_i;
 typedef struct vec3_i vec3_i;
+typedef struct vec4_i vec4_i;
+typedef struct vec5_i vec5_i;
+
 typedef struct vec2_k vec2_k;
 typedef struct vec3_k vec3_k;
+typedef struct vec4_k vec4_k;
+typedef struct vec5_k vec5_k;
 
 // Structs
-struct vec2_i {
-    int x, y;
-};
+struct vec2_i { int x, y; };
+struct vec3_i { int x, y, z; };
+struct vec4_i { int x, y, z, w; };
+struct vec5_i { int x, y, z, w, h; };
 
-struct vec3_i {
-    int x, y, z;
-};
-
-struct vec2_k {
-    accum x, y;
-};
-
-struct vec3_k {
-    accum x, y, z;
-};
+struct vec2_k { accum x, y; };
+struct vec3_k { accum x, y, z; };
+struct vec4_k { accum x, y, z, w; };
+struct vec5_k { accum x, y, z, w, h; };
 
 #endif

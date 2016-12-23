@@ -56,6 +56,7 @@ void UpdateMonsterInfo (MonsterInfo_t *self) {
         self->removed = FALSE;
 
     self->x = GetActorX (0); self->y = GetActorY (0); self->z = GetActorZ (0);
+    self->radius = GetActorPropertyFixed (0, APROP_Radius); self->height = GetActorPropertyFixed (0, APROP_Height);
     self->velX = GetActorVelX (0); self->velY = GetActorVelY (0); self->velZ = GetActorVelZ (0);
     self->angle = GetActorAngle (0); self->pitch = GetActorPitch (0);
     self->floorZ = GetActorFloorZ (0); self->ceilZ = GetActorCeilingZ (0);
@@ -70,17 +71,23 @@ void UpdateMonsterInfo (MonsterInfo_t *self) {
 MonsterInfo_t* PlayerAsMonster (PlayerData_t *player) {
     MonsterInfo_t *ret = allocAndClear (sizeof (MonsterInfo_t));
 
-    ret->x      = player->physics.x;      ret->y         = player->physics.y;    ret->z    = player->physics.z;
-    ret->velX   = player->physics.velX;   ret->velY      = player->physics.velY; ret->velZ = player->physics.velZ;
-    ret->angle  = player->physics.angle;  ret->pitch     = player->physics.pitch;
-    ret->floorZ = player->physics.floorZ; ret->ceilZ     = player->physics.ceilZ;
+    ret->x = player->physics.x; ret->y = player->physics.y; ret->z = player->physics.z;
+    ret->radius = player->physics.radius; ret->height = player->physics.height;
+    ret->velX = player->physics.velX; ret->velY = player->physics.velY; ret->velZ = player->physics.velZ;
+    ret->angle = player->physics.angle; ret->pitch = player->physics.pitch;
+    ret->floorZ = player->physics.floorZ; ret->ceilZ = player->physics.ceilZ;
 
-    ret->health = player->health.health;  ret->maxHealth = player->health.maxHealth;
+    ret->health = player->health.health; ret->maxHealth = player->health.maxHealth;
 
-    ret->friendly = true;
+    ret->friendly = TRUE;
     return ret;
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Monster scripts
+//
+//-------------------------------------------------------------------------------------------
 Script_C void S7_GenericMonsterScript () {
     MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
     self->boss = 0;
@@ -191,6 +198,44 @@ Script_C void S7_EmpressScript () {
     }
 }
 
+Script_C void S7_TerminatorScript () {
+    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
+    self->boss = 0;
+    AddMonsterToList (self);
+
+    while (TRUE) {
+        UpdateMonsterInfo (self);
+        if (GetUserVariable (0, s"user_ReqGrenCheck")) {
+            vec3_k tPos = GetActivatorPointerPos (AAPTR_TARGET),
+                   sPos = (*(vec3_k*)&(self->x));
+
+            if (PitchGravProjInRange (40.0k, 0.2k, sPos, tPos)) {
+                SetUserVariable (0, s"user_GrenType", 1);
+                if (GetUserVariable (0, s"user_ReqGrenCheck") == 2) {
+                    vec2_k tmp = PitchGravProj (40.0k, 0.2k, sPos, tPos);
+                    ChangeActorPitch (0, tmp.x, TRUE);
+                }
+            } else if (PitchGravProjInRange (60.0k, 0.2k, sPos, tPos)) {
+                SetUserVariable (0, s"user_GrenType", 2);
+                if (GetUserVariable (0, s"user_ReqGrenCheck") == 2) {
+                    vec2_k tmp = PitchGravProj (60.0k, 0.2k, sPos, tPos);
+                    ChangeActorPitch (0, tmp.x, TRUE);
+                }
+            } else
+                SetUserVariable (0, s"user_GrenType", 0);
+
+            SetUserVariable (0, s"user_ReqGrenCheck", 0);
+        }
+
+        Delay (1);
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Beam grabbing
+//
+//-------------------------------------------------------------------------------------------
 /*Script_C void S7_SLanceBeamGrab () {
     accum x1 = GetActorX (0), y1 = GetActorY (0), z1 = GetActorZ (0);
     accum x2, y2, z2, xDiff, yDiff, zDiff;

@@ -38,8 +38,10 @@
 // The size is actually this minus the length of "<cvar name>="
 #define MAXCVARSIZ 253
 
+// ZDoom related defines
 #define TICSINSEC  35.7142
 #define TICSINSECA 35.7142k
+#define BASE_GRAVITY 81.92k
 
 #define TICUNIT  0.028
 #define TICUNITA 0.028k

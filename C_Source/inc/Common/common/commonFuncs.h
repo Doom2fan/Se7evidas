@@ -52,9 +52,11 @@ __addrdef extern __mod_arr    map_var;
 extern char CorruptionCharList [];
 
 // Prototypes
-/* Position */
+/* Physics */
 vec3_k GetActorPositionVec (int tid);
 Script_LS vec3_k GetActivatorPointerPos (int pointer);
+vec5_k GetActorInfoVec (int tid);
+Script_LS vec5_k GetActivatorPointerInfo (int pointer);
 /* Keys */
 int KeyUp         (int key);
 int KeyDown       (int key);
@@ -79,6 +81,9 @@ cstr CorruptText (cstr text);
 cstr CorruptTextCase (cstr text);
 
 // ================ Math ================
+/* Basic functions that ZDoom doesn't have for some reason */
+int   PowI (int   x, int y);
+accum PowA (accum x, int y);
 /* Clamping */
 int   Clamp      (int x, int min, int max);
 accum ClampAccum (accum x, accum min, accum max);
@@ -96,6 +101,8 @@ accum Distance2D (accum actor1X, accum actor1Y, accum actor2X, accum actor2Y); /
 accum Distance2DVec (vec2_k vec1, vec2_k vec2);
 accum Distance2DTID (int tid1, int tid2);
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
+bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2);
+vec2_k PitchGravProj (accum speed, accum grav, vec3_k p1, vec3_k p2); // Gets the pitch a projectile needs to be fired at from p1 to hit p2 while accounting for gravity
 /* Misc */
 long accum LongFixedSqrt (long accum x);
 int Random2 (int x, int y);
