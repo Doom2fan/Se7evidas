@@ -34,13 +34,14 @@ void UpdatePlayerData (PlayerData_t *player) {
     }
 
     // Position and velocity
-    player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0);                   // Get the XYZ coordinates
-    player->physics.velX = GetActorVelX (0); player->physics.velY = GetActorVelY (0); player->physics.velZ = GetActorVelZ (0); // Get the XYZ velocities
-    player->physics.angle = GetActorAngle (0); player->physics.pitch = GetActorPitch (0);                                      // Get the player's angle and pitch
-    player->physics.velAngle = atan2A (player->physics.velX, player->physics.velZ);                                            // Get the player's movement angle
-    player->physics.floorZ = GetActorFloorZ (0); player->physics.ceilZ = GetActorCeilingZ (0);                                 // Sector Z coordinates
-    player->physics.relativeZ = player->physics.z - player->physics.floorZ;                                                    // Z coordinate relative to sector floor
-    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ);                                                            // Jump height/velocity?
+    player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0);                            // Get the XYZ coordinates
+    player->physics.radius = GetActorPropertyFixed (0, APROP_Radius); player->physics.height = GetActorPropertyFixed (0, APROP_Height); // Get the radius and height
+    player->physics.velX = GetActorVelX (0); player->physics.velY = GetActorVelY (0); player->physics.velZ = GetActorVelZ (0);          // Get the XYZ velocities
+    player->physics.angle = GetActorAngle (0); player->physics.pitch = GetActorPitch (0);                                               // Get the angle and pitch
+    player->physics.velAngle = atan2A (player->physics.velX, player->physics.velZ);                                                     // Get the movement angle
+    player->physics.floorZ = GetActorFloorZ (0); player->physics.ceilZ = GetActorCeilingZ (0);                                          // Sector Z coordinates
+    player->physics.relativeZ = player->physics.z - player->physics.floorZ;                                                             // Z coordinate relative to sector floor
+    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ);                                                                     // Jump height/velocity?
 
     // Health and stamina
     player->health.health = GetActorProperty (0, APROP_Health);         // Get the health

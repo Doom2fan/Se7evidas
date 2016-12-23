@@ -347,16 +347,19 @@ actor S7_PowerDodgeTrail : PowerSpeed {
 }
 
 // Walljumping
-// Credits to Ijon Tichy
-actor S7_WalljumpChecker {
+// Based on code by Ijon Tichy
+actor S7_WallChecker : fastProjectile {
     radius 4
     height 16
 
-    +solid +serversideOnly +thruActors
+    +thruActors +painless +bloodlessImpact +puffGetsOwner
+    +cannotpush +noDamageThrust +noTimeFreeze +moveWithSector
+    -activateImpact -activatePCross
 
     states {
-      Spawn:
-        BAL1 A 1
+    Spawn:
+    Death:
+        TNT1 A 1
         stop
     }
 }

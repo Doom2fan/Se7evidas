@@ -137,7 +137,7 @@ void WallJumpScript (PlayerData_t *player) {
             y3 = player->physics.y + y + (y2 * i);
             z  = player->physics.z + 16.0k;
 
-            j = Spawn (s"S7_WalljumpChecker", x3, y3, z, 0); // -500);
+            j = Spawn (s"S7_WallChecker", x3, y3, z, 0); // -500);
             if (!j) {
                 int byteAngle = (player->physics.angle << 16) >> 8;
                 player->parkourDef.wjumpJustJumped = WJUMPDELAY;
@@ -154,6 +154,7 @@ void CancelWallHold (PlayerData_t *player) {
     if (!player)
         return;
 
+    Log ("FUCK");
     SetActorPropertyFixed (0, APROP_Gravity, 1.0k);
     SetPlayerProperty (FALSE, PROP_FROZEN, FALSE);
     player->parkourDef.wGrabHolding = FALSE;
@@ -162,7 +163,7 @@ void WallHoldScript (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wGrabHolding && KeyDownMOD (BT_CROUCH) && player->physics.relativeZ > 24) {
+    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wGrabHolding && KeyDownMOD (BT_CROUCH) && player->physics.relativeZ > 4k) {
         int j;
         accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);
         accum x2 = 8 * CosA (player->physics.angle), y2 = 8 * SinA (player->physics.angle);
@@ -173,10 +174,11 @@ void WallHoldScript (PlayerData_t *player) {
             y3 = player->physics.y + y + (y2 * i);
             z  = player->physics.z + 16.0k;
 
-            j = Spawn (s"S7_WalljumpChecker", x3, y3, z, 0); // -500);
+            j = Spawn (s"S7_WallChecker", x3, y3, z, 0); // -500);
             if (!j) {
                 // Set values
                 player->parkourDef.wGrabHolding = TRUE;
+                player->parkourDef.wGrabHoldi = i;
                 player->parkourDef.wGrabOldGravity = GetActorPropertyFixed (0, APROP_Gravity);
                 player->parkourDef.wGrabHoldAngle = player->physics.angle;
                 player->parkourDef.wGrabOldCoords.x = player->physics.x;
@@ -191,8 +193,10 @@ void WallHoldScript (PlayerData_t *player) {
     }
 
     if (player->parkourDef.wGrabHolding) {
-        accum maxLeft  = player->parkourDef.wGrabHoldAngle - 0.25k;
-        accum maxRight = player->parkourDef.wGrabHoldAngle + 0.25k;
+        accum maxLeft  = player->parkourDef.wGrabHoldAngle - 0.25k, maxRight = player->parkourDef.wGrabHoldAngle + 0.25k,
+              x = player->physics.x + 20 * CosA (player->physics.angle) + (8 * CosA (player->physics.angle) * player->parkourDef.wGrabHoldi),
+              y = player->physics.y + 20 * SinA (player->physics.angle) + (8 * SinA (player->physics.angle) * player->parkourDef.wGrabHoldi),
+              z  = player->physics.z + 16.0k;
         bool  facingWall = (player->physics.angle > maxLeft && player->physics.angle < maxRight);
 
         SetActorPosition (0, player->parkourDef.wGrabOldCoords.x, player->parkourDef.wGrabOldCoords.y, player->physics.z, FALSE);
@@ -206,20 +210,16 @@ void WallHoldScript (PlayerData_t *player) {
                 ThrustThing (byteAngle + 128, 18, 1, 0);
                 ThrustThingZ (0, 40.0k, 0, 0);
                 ChangeActorAngle (0, player->parkourDef.wGrabHoldAngle + 0.5k, TRUE);
-            } else if (facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0) {
+            } else if ((facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0) || (!facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) > 0)) {
+                bool dirFW = (facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0);
                 CancelWallHold (player);
                 int byteAngle = (player->physics.angle << 16) >> 8;
                 player->parkourDef.wjumpJustJumped = WJUMPDELAY;
-                ThrustThing (byteAngle + 128, 18, 1, 0);
-            } else if (!facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) > 0) {
-                CancelWallHold (player);
-                int byteAngle = (player->physics.angle << 16) >> 8;
-                player->parkourDef.wjumpJustJumped = WJUMPDELAY;
-                ThrustThing (byteAngle, 18, 1, 0);
+                ThrustThing (dirFW ? byteAngle + 128 : byteAngle, 18, 1, 0);
             }
         }
 
-        if (player->health.health <= 0 || !player->scriptData.beamGrab || player->physics.relativeZ < 24 || (facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) > 0) || (!facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0))
+        if (Spawn (s"S7_WallChecker", x, y, z, 0) || player->health.health <= 0 || player->scriptData.beamGrab || player->physics.relativeZ < 4k || (facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) > 0) || (!facingWall && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0))
             CancelWallHold (player);
     }
 }

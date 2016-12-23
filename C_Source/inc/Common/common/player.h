@@ -65,6 +65,7 @@ struct PD_AmmoType_t {
 
 struct PD_Physics_t {
     accum x, y, z;                      // XYZ coordinates
+    accum radius, height;               // Radius and height
     accum velX, velY, velZ;             // XYZ velocities
     accum angle, pitch;                 // Angle and pitch
     accum velAngle;                     // Movement angle
@@ -130,6 +131,7 @@ struct ParkourDef_t {
 
     /* Wall grabbing */
     bool   wGrabHolding;                  // The player's holding onto a wall
+    int    wGrabHoldi;                    // The value of i that detected the wall currently being held in the wall checking loop
     accum  wGrabHoldAngle;                // The angle the player was at when he held onto the wall
     vec2_k wGrabOldCoords;                // The player's old coords
     accum  wGrabOldGravity;               // The player's old gravity
