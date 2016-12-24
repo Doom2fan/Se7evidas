@@ -61,7 +61,7 @@ PD_AmmoType_t PD_AmmoTypes [] = {
     },
     {
         .name = s"S7_FBSysCells",
-        .magSize = 23,
+        .magSize = 32,
     },
     {
         .name = s"S7_Thumper_PExp",

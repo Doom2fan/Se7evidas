@@ -1,0 +1,117 @@
+sprite BLSGA0, 95, 119 {
+    offset -164, -72
+    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
+}
+
+sprite BLSGB0, 95, 119 {
+    offset -166, -74
+    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
+}
+
+sprite BLSGC0, 95, 119 {
+    offset -168, -76
+    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
+}
+
+sprite BLSGD0, 87, 119 {
+    offset -172, -72
+    patch "graphics/Hands/Hand-001.png", -22, 60
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 12, 0
+}
+
+sprite BLSGE0, 82, 119 {
+    offset -177, -72
+    patch "graphics/Hands/Hand-001.png", -26, 74
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 7, 0
+}
+
+sprite BLSGF0, 75, 119 {
+    offset -184, -72
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 0, 0
+}
+
+sprite BLSGG0, 82, 119 {
+    offset -177, -72
+    patch "graphics/Hands/Hand-002.png", -10, 93
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 7, 0
+}
+
+sprite BLSGH0, 82, 119 {
+    offset -177, -72
+    patch "graphics/Hands/Hand-002.png", -9, 89
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 7, 0
+}
+
+sprite BLSGI0, 82, 119 {
+    offset -177, -72
+    patch "graphics/Hands/Hand-002.png", -8, 83
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 7, 0
+}
+
+sprite BLSGJ0, 82, 119 {
+    offset -177, -72
+    patch "graphics/Hands/Hand-001.png", -27, 85
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 7, 0
+}
+
+sprite BLSGK0, 66, 137 {
+    offset -127, -56
+    patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
+}
+
+sprite BLSGL0, 95, 119 {
+    offset -157, -67
+    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
+}
+
+sprite BLSGM0, 95, 119 {
+    offset -147, -60
+    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
+}
+
+sprite BLSGN0, 66, 137 {
+    offset -141, -58
+    patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
+}
+
+sprite BLSGO0, 66, 137 {
+    xScale 0.800
+    yScale 0.800
+    offset -95, -42
+    patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
+}
+
+sprite BLSGP0, 66, 137 {
+    xScale 0.900
+    yScale 0.900
+    offset -111, -48
+    patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
+}
+
+sprite BLSGV0, 74, 119 {
+    offset -287, -139
+    patch "graphics/weapons/LaserPewPew/Frame2.png", -1, 0
+}
+
+sprite BLSGW0, 215, 119 {
+    offset -128, -124
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 140, 0
+    patch "graphics/Hands/Hand-001.png", 0, 41
+}
+
+sprite BLSGX0, 184, 119 {
+    offset -139, -107
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 109, 0
+    patch "graphics/Hands/Hand-001.png", 0, 50
+}
+
+sprite BLSGY0, 145, 119 {
+    offset -153, -92
+    patch "graphics/weapons/LaserPewPew/Frame2.png", 70, 0
+    patch "graphics/Hands/Hand-001.png", 0, 55
+}
+
+sprite BLSGZ0, 95, 119 {
+    offset -184, -82
+    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
+}

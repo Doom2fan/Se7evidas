@@ -260,8 +260,8 @@ actor S7_Cells : ammo 31004 {
 actor S7_FBSysCells : ammo 31008 {
     tag "$FBSYSCELLS"
     inventory.pickupMessage "$FBSYSCELLS"
-    inventory.amount 23
-    inventory.maxAmount 138
+    inventory.amount 32
+    inventory.maxAmount 192
     // ammo.backpackMaxAmount 184
     inventory.icon "CELLC0"
     inventory.pickupSound "misc/ammopickup"

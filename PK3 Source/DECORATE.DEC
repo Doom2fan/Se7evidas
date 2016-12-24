@@ -15,7 +15,7 @@
 */
 
 /* Highest free DoomEdNums:
-** Weapons: 30009
+** Weapons: 30010
 ** Ammo: 31010
 ** Inventory: 32006
 ** Monster: 32508
@@ -85,6 +85,7 @@
 #INCLUDE "Decorate/Weapons/Primary/Hitter/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/Fauchard/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/SSG/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Primary/LaserPewPew/DECORATE.DEC"
 // Secondary
 #INCLUDE "Decorate/Weapons/Secondary/Raptor/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/TEC-9/DECORATE.DEC"
