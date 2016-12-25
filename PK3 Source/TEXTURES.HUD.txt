@@ -1,7 +1,7 @@
 graphic HELMBTML, 94, 15 {
     patch HELMBTMR, 0, 0 {
-		flipX
-	}
+        flipX
+    }
 }
 
 /*graphic ENHPBRFG2, 16, 202 {

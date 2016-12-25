@@ -32,8 +32,8 @@ actor S7_KickMelee    : boolean { }
 actor S7_BaseWeapon : weapon {
     inventory.pickupSound "misc/gunpickup"
     weapon.bobRangeX 0.3
-	weapon.bobRangeY 0.5
-	weapon.bobSpeed 2.0
+    weapon.bobRangeY 0.5
+    weapon.bobSpeed 2.0
     weapon.bobStyle inverseSmooth
     weapon.kickback 100
 
