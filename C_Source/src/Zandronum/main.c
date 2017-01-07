@@ -23,6 +23,7 @@
 #include "systems/sprint_system.h"
 
 bool RunningInZDoom = FALSE;
+bool RunningInZandronum = TRUE;
 
 Script_C void S7_Open OPEN () {
     ConsoleCommand (s"compat_clientssendfullbuttoninfo TRUE");

@@ -21,7 +21,7 @@ actor S7_Succubus : S7_SuccubusBase replaces cacodemon 32506 {
     Spawn:
         SUCC A 0 noDelay ACS_NamedExecuteAlways ("S7_SuccubusScript", 0)
         SUCC A 0 A_JumpIf (z - floorZ > 0, "StartFlying")
-        SUCC A 0 A_Jump (256, "Idle")
+        SUCC A 1 A_Jump (256, "Idle")
         wait
     Idle:
         SUCC A 10 A_Look
@@ -31,7 +31,7 @@ actor S7_Succubus : S7_SuccubusBase replaces cacodemon 32506 {
         TNT1 A 0 A_ChangeFlag ("dropOff", TRUE)
         TNT1 A 0 A_ChangeFlag ("float", TRUE)
         TNT1 A 0 A_SetUserVar ("user_Flying", TRUE)
-        TNT1 A 0 A_Jump (256, "IdleFlying")
+        TNT1 A 1 A_Jump (256, "IdleFlying")
         wait
 
     IdleFlying:

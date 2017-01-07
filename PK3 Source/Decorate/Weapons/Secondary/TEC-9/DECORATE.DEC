@@ -24,9 +24,6 @@ actor S7_TEC9 : S7_BaseWeapon {
     weapon.ammoGive 0
 
     states {
-    MeleeDone:
-        TNT1 A 0 A_Jump (256, "Ready")
-        wait
 
     Spawn:
         TEC9 Z -1

@@ -26,9 +26,8 @@ actor S7_GrenadeWeap : S7_BaseWeapon {
         TNT1 A 1 A_WeaponReady
         loop
 
-    TrueDeselect:
-        TNT1 A 0 A_Lower
-        wait
+    Deselect:
+        goto TrueDeselect
 
     Fire:
         TNT1 A      0 A_JumpIfInventory ("S7_GrenadeCount", 1, 1)
@@ -46,6 +45,7 @@ actor S7_GrenadeWeap : S7_BaseWeapon {
         TNT1 A 0 A_TakeInventory ("S7_GrenadeCount", 1, TIF_NoTakeInfinite)
         TNT1 A 8 A_SpawnItemEx ("S7_ThrownHandGrenade", 0, 0, height - 12,
                                 cos (pitch) * cos (angle) * 4 + velX, cos (pitch) * sin (angle) * 4 + velY, -sin (pitch) * 4 + velZ, 0, SXF_AbsoluteMomentum | SXF_NoCheckPosition | SXF_TransferPitch)
+        TNT1 A 0 A_ClearRefire
         goto Ready2
 
     CancelThrow:
@@ -65,7 +65,6 @@ actor S7_GrenadeWeap : S7_BaseWeapon {
 // Thrown grenade
 //
 //-------------------------------------------------------------------------------------------
-actor S7_GrenadeFrame : counter { inventory.maxAmount 8 }
 actor S7_ThrownHandGrenade {
     radius 5 height 5
     speed 5 mass 30
@@ -87,20 +86,20 @@ actor S7_ThrownHandGrenade {
     states {
     Spawn:
         TNT1 A 0 noDelay A_SetUserVar ("user_Fuse", 35 * 3.5)
-    spawn1a:
+    Spawn2:
         TNT1 A 0 A_JumpIfInTargetInventory ("S7_GrenadeForce", 1, 1)
         goto Flight
-        TNT1 A 0 A_TakeFromTarget ("S7_GrenadeForce", 1)
         TNT1 A 0 A_ChangeVelocity (cos (pitch), 0, -sin (pitch), CVF_Relative)
+        TNT1 A 0 A_TakeFromTarget ("S7_GrenadeForce", 1)
         loop
     Flight:
-        "----" A 0 A_JumpIf (user_Frame == 7, "FlightH")
-        "----" A 0 A_JumpIf (user_Frame == 6, "FlightG")
-        "----" A 0 A_JumpIf (user_Frame == 5, "FlightF")
-        "----" A 0 A_JumpIf (user_Frame == 4, "FlightE")
-        "----" A 0 A_JumpIf (user_Frame == 3, "FlightD")
-        "----" A 0 A_JumpIf (user_Frame == 2, "FlightC")
-        "----" A 0 A_JumpIf (user_Frame == 1, "FlightB")
+        TNT1 A 0 A_JumpIf (user_Frame == 7, "FlightH")
+        TNT1 A 0 A_JumpIf (user_Frame == 6, "FlightG")
+        TNT1 A 0 A_JumpIf (user_Frame == 5, "FlightF")
+        TNT1 A 0 A_JumpIf (user_Frame == 4, "FlightE")
+        TNT1 A 0 A_JumpIf (user_Frame == 3, "FlightD")
+        TNT1 A 0 A_JumpIf (user_Frame == 2, "FlightC")
+        TNT1 A 0 A_JumpIf (user_Frame == 1, "FlightB")
         goto FlightA
 
     FlightA: TGRP A 0
@@ -142,7 +141,7 @@ actor S7_ThrownHandGrenade {
         "----" A 1 A_SetUserVar ("user_Fuse", user_Fuse - 1)
         loop
     KABOOM:
-        TNT1 AAAA 0 A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace)
+        TNT1 AAAA 0 A_Stop
         TNT1 A 0 A_ChangeFlag ("pushable", FALSE)
         TNT1 A 0 A_ChangeFlag ("noBlockmap", TRUE)
         TNT1 A 0 A_SetScale (1.0)

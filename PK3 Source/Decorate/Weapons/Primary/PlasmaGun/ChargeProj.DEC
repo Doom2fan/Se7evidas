@@ -10,6 +10,13 @@ actor S7_PlasmaGunRailCharge1 : S7_PlasmaGunRail {
     decal S7_PlasmaGunRail_Charge1
 
     +ripper
+
+    states {
+    Death:
+        HTS0 A       1 A_SetScale (scaleX * 10)
+        HTS0 BCDEFGH 1
+        stop
+    }
 }
 
 actor S7_PlasmaGunRailCharge2 : S7_PlasmaGunRailCharge1 {

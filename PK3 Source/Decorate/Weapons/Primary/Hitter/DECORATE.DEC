@@ -89,7 +89,7 @@ actor S7_HitterSMG : S7_BaseWeapon 30007 {
         SR20 AE 1 A_SetPitch (pitch - 0.85, SPF_Interpolate)
         SR20 D  1
         SR20 C  1 A_Refire ("Hold")
-        SR20 BA 1
+        SR20 BA 1 A_ClearRefire
         SR20 A  9
         goto Ready2
 

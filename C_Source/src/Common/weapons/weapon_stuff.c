@@ -77,7 +77,7 @@ void DisableWeapon (string meh, string blah, PlayerData_t *player) {
 
 // Scripts
 // SynthFire stuff
-Script_C void S7_SynthFire (int mode) {
+Script_C void S7_SynthFire () {
     while (TRUE) {
         if (!PlayerInGame (PLN))
             return;
@@ -85,35 +85,37 @@ Script_C void S7_SynthFire (int mode) {
         if (!CheckInventory (s"S7_SynthFireActive"))
             return;
 
-        if (!mode) {
-            if (KeyDownMOD (BT_ATTACK))
-                SetInventory (s"S7_SynthFireLeft", 1);
+        if (KeyDownMOD (BT_ATTACK))
+            SetInventory (s"S7_SynthFireLeft", 1);
 
-            if (KeyDownMOD (BT_ALTATTACK))
-                SetInventory (s"S7_SynthFireRight", 1);
-        } else {
-            if (KeyPressedMOD (BT_ATTACK))
-                SetInventory (s"S7_SynthFireLeft", 1);
-
-            if (KeyPressedMOD (BT_ALTATTACK))
-                SetInventory (s"S7_SynthFireRight", 1);
-        }
+        if (KeyDownMOD (BT_ALTATTACK))
+            SetInventory (s"S7_SynthFireRight", 1);
 
         Delay (1);
 
-        if (!mode) {
-            if (KeyUpMOD (BT_ATTACK))
-                SetInventory (s"S7_SynthFireLeft", 0);
+        if (KeyUpMOD (BT_ATTACK))
+            SetInventory (s"S7_SynthFireLeft", 0);
 
-            if (KeyUpMOD (BT_ALTATTACK))
-                SetInventory (s"S7_SynthFireRight", 0);
-        } else {
-            if (!KeyPressedMOD (BT_ATTACK))
-                SetInventory (s"S7_SynthFireLeft", 0);
+        if (KeyUpMOD (BT_ALTATTACK))
+            SetInventory (s"S7_SynthFireRight", 0);
+    }
+}
 
-            if (!KeyPressedMOD (BT_ALTATTACK))
-                SetInventory (s"S7_SynthFireRight", 0);
-        }
+Script_C void S7_SynthFire2 (int mode) {
+    while (TRUE) {
+        if (!PlayerInGame (PLN))
+            return;
+
+        if (!CheckInventory (s"S7_SynthFireActive"))
+            return;
+
+        if (KeyPressedMOD (BT_ATTACK))
+            SetInventory (s"S7_SynthFireLeft", 1);
+
+        if (KeyPressedMOD (BT_ALTATTACK))
+            SetInventory (s"S7_SynthFireRight", 1);
+
+        Delay (1);
     }
 }
 
@@ -248,4 +250,10 @@ Script_C int S7_ButterflyAkimboReload () {
         GiveInventory (BUTTERFLYCLIPSECOND, mag2Req);
         TakeInventory (s"S7_FBSysCells", mag1Req + mag2Req);
     }
+}
+
+// This script wouldn't be needed if Zandronum's netcode wasn't complete shit
+Script_C int S7_GetGrenadeForce () {
+    SetActivatorToTarget (0);
+    return CheckInventory (s"S7_GrenadeForce");
 }

@@ -41,95 +41,97 @@ actor S7_SSG : S7_BaseWeapon 30006 {
         SSG0 A 1 A_WeaponReady (WRF_NoFire)
         loop
 
-    TrueDeselect:
-        SSG0 A     1
+    Deselect:
+        SSG0 A     1 A_TakeInventory ("S7_SynthFireActive", 0x7FFFFFFF)
         SSGS EDCBA 1
-        TNT1 A     0 A_Lower
-        wait
+        goto TrueDeselect
 
     Fire.Left:
-        SSG0 A          1 A_JumpIfInventory ("S7_SynthFireRight", 1, "Fire.Both2")
-        SSG0 A          1 A_JumpIfInventory ("S7_SynthFireRight", 1, "Fire.Both")
-        TNT1 A          0 A_JumpIfInventory ("S7_SSGLeftLoaded", 1, 1)
+        SSG0 A 1 A_JumpIfInventory ("S7_SynthFireRight", 1, "Fire.Both2")
+        SSG0 A 1 A_JumpIfInventory ("S7_SynthFireRight", 1, "Fire.Both")
+        TNT1 A 0 A_JumpIfInventory ("S7_SSGLeftLoaded", 1, 1)
         goto DryFireLeft
+        TNT1 A 0 A_TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF)
+        TNT1 A 0 A_TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF)
 
-        TNT1 AAAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 2, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
-        TNT1 A          0 A_AlertMonsters
-        TNT1 A          0 A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon)
-        TNT1 A          0 A_TakeInventory ("S7_SSGLeftLoaded", 0x7FFFFFFF)
-        TNT1 A          0 A_GunFlash ("Flash.Left")
-        SSG5 AB         1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
-        TNT1 A          0 A_TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 2, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon)
+        TNT1 A         0 A_TakeInventory ("S7_SSGLeftLoaded", 0x7FFFFFFF)
+        TNT1 A         0 A_GunFlash ("Flash.Left")
+        SSG5 AB        1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
         goto Ready2
     Fire.Right:
-        SSG0 A          1 A_JumpIfInventory ("S7_SynthFireLeft", 1, "Fire.Both2")
-        SSG0 A          1 A_JumpIfInventory ("S7_SynthFireLeft", 1, "Fire.Both")
-        TNT1 A          0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
+        SSG0 A 1 A_JumpIfInventory ("S7_SynthFireLeft", 1, "Fire.Both2")
+        SSG0 A 1 A_JumpIfInventory ("S7_SynthFireLeft", 1, "Fire.Both")
+        TNT1 A 0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
         goto DryFireRight
+        TNT1 A 0 A_TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF)
+        TNT1 A 0 A_TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF)
 
-        TNT1 AAAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 3, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
-        TNT1 A          0 A_AlertMonsters
-        TNT1 A          0 A_PlaySound ("Weapons/SSG/Fire", CHAN_5)
-        TNT1 A          0 A_TakeInventory ("S7_SSGRightLoaded", 0x7FFFFFFF)
-        TNT1 A          0 A_GunFlash ("Flash.Right")
-        SSG5 AB         1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
-        TNT1 A          0 A_TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 3, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_PlaySound ("Weapons/SSG/Fire", CHAN_5)
+        TNT1 A         0 A_TakeInventory ("S7_SSGRightLoaded", 0x7FFFFFFF)
+        TNT1 A         0 A_GunFlash ("Flash.Right")
+        SSG5 AB        1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
         goto Ready2
 
     Fire.Both2:
-        SSG0 A          1
+        SSG0 A 1
     Fire.Both:
-        SSG0 A          1
-        TNT1 A          0 A_JumpIfInventory ("S7_SSGLeftLoaded", 1, 1)
+        TNT1 A 0 A_TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF)
+        SSG0 A 1 A_TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF)
+        TNT1 A 0 A_JumpIfInventory ("S7_SSGLeftLoaded", 1, 1)
         goto Fire.Both.DryLeft
-        TNT1 A          0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
+        TNT1 A 0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
         goto Fire.Both.DryRight
 
-        TNT1 AAAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 2, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
-        TNT1 A          0 A_AlertMonsters
-        TNT1 A          0 A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon)
-        TNT1 A          0 A_TakeInventory ("S7_SSGLeftLoaded", 0x7FFFFFFF)
-        TNT1 A          0 A_GunFlash ("Flash.Both")
-        SSG5 A          1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 2, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon)
+        TNT1 A         0 A_TakeInventory ("S7_SSGLeftLoaded", 0x7FFFFFFF)
+        TNT1 A         0 A_GunFlash ("Flash.Both")
+        SSG5 A         1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
 
-        TNT1 AAAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 3, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
-        TNT1 A          0 A_AlertMonsters
-        TNT1 A          0 A_PlaySound ("Weapons/SSG/Fire", CHAN_5)
-        TNT1 A          0 A_TakeInventory ("S7_SSGRightLoaded", 0x7FFFFFFF)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 3, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_PlaySound ("Weapons/SSG/Fire", CHAN_5)
+        TNT1 A         0 A_TakeInventory ("S7_SSGRightLoaded", 0x7FFFFFFF)
 
-        SSG5 A          1 A_SetPitch (pitch - (2.175 * 2), SPF_Interpolate)
-        SSG5 B          1 A_SetPitch (pitch -  2.175     , SPF_Interpolate)
-        SSG0 A          4
+        SSG5 A 1 A_SetPitch (pitch - (2.175 * 2), SPF_Interpolate)
+        SSG5 B 1 A_SetPitch (pitch -  2.175     , SPF_Interpolate)
+        SSG0 A 4
         goto Fire.Both.End
     Fire.Both.DryLeft:
-        TNT1 A         0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
+        TNT1 A 0 A_JumpIfInventory ("S7_SSGRightLoaded", 1, 1)
         goto DryFireBoth
 
-        TNT1 A          0 A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon)
-        SSG0 A          1
+        TNT1 A 0 A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon)
+        SSG0 A 1
 
-        TNT1 AAAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 3, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
-        TNT1 A          0 A_AlertMonsters
-        TNT1 A          0 A_PlaySound ("Weapons/SSG/Fire", CHAN_5)
-        TNT1 A          0 A_TakeInventory ("S7_SSGRightLoaded", 0x7FFFFFFF)
-        TNT1 A          0 A_GunFlash ("Flash.Right")
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 3, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_PlaySound ("Weapons/SSG/Fire", CHAN_5)
+        TNT1 A         0 A_TakeInventory ("S7_SSGRightLoaded", 0x7FFFFFFF)
+        TNT1 A         0 A_GunFlash ("Flash.Right")
 
-        SSG5 AB         1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
-        SSG0 A          4
+        SSG5 AB 1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
+        SSG0 A 4
         goto Fire.Both.End
     Fire.Both.DryRight:
-        TNT1 AAAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 2, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
-        TNT1 A          0 A_AlertMonsters
-        TNT1 A          0 A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon)
-        TNT1 A          0 A_TakeInventory ("S7_SSGLeftLoaded", 0x7FFFFFFF)
-        TNT1 A          0 A_GunFlash ("Flash.Left")
-        SSG5 A          1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
+        TNT1 AAAAAAAAA 0 A_FireCustomMissile ("S7_12gaTracer", fRandom [weaponSpread] (-3.3, 3.3), 1, 2, -1, 0, fRandom [weaponSpread] (-3.8, 3.8))
+        TNT1 A         0 A_AlertMonsters
+        TNT1 A         0 A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon)
+        TNT1 A         0 A_TakeInventory ("S7_SSGLeftLoaded", 0x7FFFFFFF)
+        TNT1 A         0 A_GunFlash ("Flash.Left")
+        SSG5 A         1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
 
-        TNT1 A          0 A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon)
+        TNT1 A 0 A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon)
 
-        SSG5 B          1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
-        SSG5 B          1
-        SSG0 A          4
+        SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate)
+        SSG5 B 1
+        SSG0 A 4
         goto Fire.Both.End
     Fire.Both.End:
         TNT1 A 0 A_TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF)

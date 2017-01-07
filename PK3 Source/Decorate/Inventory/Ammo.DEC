@@ -24,7 +24,7 @@ actor S7_Backpack      : customInventory replaces Backpack 31006 {
         goto GiveAmmo
 
     GiveAmmo:
-        TNT1 A 0 A_Jump (256, "Give9mm", "Give45ACP")
+        TNT1 A 1 A_Jump (256, "Give9mm", "Give45ACP")
         wait
     Give9mm:
         TNT1 A 0 A_JumpIfInventory ("S7_9mmCartridges", 0, "No9mm")
@@ -42,7 +42,7 @@ actor S7_Backpack      : customInventory replaces Backpack 31006 {
         goto GiveAmmoP2
 
     GiveAmmoP2:
-        TNT1 A 0 A_Jump (256, "Give44M", "GiveShells")
+        TNT1 A 1 A_Jump (256, "Give44M", "GiveShells")
         wait
     Give44M:
         TNT1 A 0 A_JumpIfInventory ("S7_44MCartridges", 0, "No44M")
@@ -60,7 +60,7 @@ actor S7_Backpack      : customInventory replaces Backpack 31006 {
         goto GiveAmmoP3
 
     GiveAmmoP3:
-        TNT1 A 0 A_Jump (256, "Give762x39", "GiveCells")
+        TNT1 A 1 A_Jump (256, "Give762x39", "GiveCells")
         wait
     Give762x39:
         TNT1 A 0 A_JumpIfInventory ("S7_762x39Cartridges", 0, "No762x39")

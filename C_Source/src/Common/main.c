@@ -267,3 +267,7 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
 Script_C int S7_RunningInZDoom () {
     return RunningInZDoom;
 }
+
+Script_C int S7_RunningInZandronum () {
+    return RunningInZandronum;
+}

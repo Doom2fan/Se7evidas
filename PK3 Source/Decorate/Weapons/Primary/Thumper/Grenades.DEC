@@ -28,7 +28,7 @@ actor S7_ThumperGrenade {
         loop
     Death:
         TNT1 A 0 A_SetGravity (0.0)
-        TNT1 A 0 A_Jump (256, "Loople")
+        TNT1 A 1 A_Jump (256, "Loople")
         wait
     Loople:
         TNT1 A  0 A_SetScale (0.5)
@@ -239,7 +239,7 @@ actor S7_ThumperGrenadeCluster : S7_ThumperGrenade {
         TNT1 A 0 A_PlaySound ("Explosions/Explosion1")
         TNT1 A 0 A_Explode (80, 80)
         TNT1 A 0 A_CheckCeiling ("OnCeiling")
-        TNT1 A 0 A_Jump (256, "ActualLoople")
+        TNT1 A 1 A_Jump (256, "ActualLoople")
         wait
 
     ActualLoople:
@@ -247,7 +247,7 @@ actor S7_ThumperGrenadeCluster : S7_ThumperGrenade {
         TNT1 A 0 A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom (-0.025, 0.025), 0.25,
                                 3.0, 0.0, fRandom (4.75, 5.0), user_angel, SXF_TransferPointers | SXF_NoCheckPosition)
         TNT1 A 0 A_SetUserVar ("user_angel", user_angel + TH_GrenCluster_AngleDiff)
-        TNT1 A 0 A_Jump (256, "ActualLoople")
+        TNT1 A 1 A_Jump (256, "ActualLoople")
         wait
 
     Finish:
@@ -257,7 +257,7 @@ actor S7_ThumperGrenadeCluster : S7_ThumperGrenade {
 
     OnCeiling:
         TNT1 A 0 A_SetPitch (25)
-        TNT1 A 0 A_Jump (256, "ActualLoople")
+        TNT1 A 1 A_Jump (256, "ActualLoople")
         wait
     }
 }
@@ -312,42 +312,42 @@ actor S7_ThumperGrenadeNail : S7_ThumperGrenade {
     StartLoople:
         TNT1 A 0
         //goto StartUp
-        TNT1 A 0 A_Jump (256, "StartMiddle")
+        TNT1 A 1 A_Jump (256, "StartMiddle")
         wait
 
     StartUp:
         TNT1 A 0 A_JumpIf (user_DirectionNone == 1, "LoopleMiddle")
         TNT1 A 0 A_SetUserVar ("user_angle", 0)
-        TNT1 A 0 A_Jump (256, "LoopleUp")
+        TNT1 A 1 A_Jump (256, "LoopleUp")
         wait
     LoopleUp:
         TNT1 A 0 A_JumpIf (user_angle >= 360, "StartMiddle")
         TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, user_angle, CMF_AimDirection | CMF_TrackOwner, 35)
         TNT1 A 0 A_SetUserVar ("user_angle", user_angle + TH_GrenNail_AngleDiff)
-        TNT1 A 0 A_Jump (256, "LoopleUp")
+        TNT1 A 1 A_Jump (256, "LoopleUp")
         wait
 
     StartMiddle:
         TNT1 A 0 A_SetUserVar ("user_angle", 0)
-        TNT1 A 0 A_Jump (256, "LoopleMiddle")
+        TNT1 A 1 A_Jump (256, "LoopleMiddle")
         wait
     LoopleMiddle:
         TNT1 A 0 A_JumpIf (user_angle >= 360, "Finish") // "StartDown")
         TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, user_angle, CMF_AimDirection | CMF_TrackOwner, 0)
         TNT1 A 0 A_SetUserVar ("user_angle", user_angle + TH_GrenNail_AngleDiff)
-        TNT1 A 0 A_Jump (256, "LoopleMiddle")
+        TNT1 A 1 A_Jump (256, "LoopleMiddle")
         wait
 
     /*StartDown:
         TNT1 A 0 A_JumpIf (user_DirectionNone == 2, "Finish")
         TNT1 A 0 A_SetUserVar ("user_angle", 0)
-        TNT1 A 0 A_Jump (256, "LoopleDown")
+        TNT1 A 1 A_Jump (256, "LoopleDown")
         wait
     LoopleDown:
         TNT1 A 0 A_JumpIf (user_angle >= 360, "Finish")
         TNT1 A 0 A_CustomMissile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, user_angle, CMF_AimDirection | CMF_TrackOwner, -35)
         TNT1 A 0 A_SetUserVar ("user_angle", user_angle + TH_GrenNail_AngleDiff)
-        TNT1 A 0 A_Jump (256, "LoopleDown")
+        TNT1 A 1 A_Jump (256, "LoopleDown")
         wait*/
 
 

@@ -59,14 +59,14 @@ Script_LS vec5_k GetActivatorPointerInfo (int pointer) {
 int KeyUp (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
 
-    if (~buttons & key) return 1;
+    if ((~buttons & key) == key) return 1;
 
     return 0;
 }
 int KeyDown (int key) {
     int buttons = GetPlayerInput (-1, INPUT_BUTTONS);
 
-    if (buttons & key) return 1;
+    if ((buttons & key) == key) return 1;
 
     return 0;
 }
@@ -74,28 +74,37 @@ int KeyPressed (int key) {
     return KeyPressed2 (GetPlayerInput (-1, INPUT_BUTTONS), GetPlayerInput (-1, INPUT_OLDBUTTONS), key);
 }
 int KeyPressed2 (int buttons, int oldbuttons, int key) {
-    int newbuttons  = (buttons ^ oldbuttons) & buttons;
+    int newbuttons = (buttons ^ oldbuttons) & buttons;
 
-    if (newbuttons & key) return 1;
+    if ((newbuttons & key) == key) return 1;
 
     return 0;
 }
 int KeyUpMOD (int key) {
     int buttons = GetPlayerInput (-1, MODINPUT_BUTTONS);
 
-    if (~buttons & key) return 1;
+    if ((~buttons & key) == key) return 1;
 
     return 0;
 }
 int KeyDownMOD (int key) {
     int buttons = GetPlayerInput (-1, MODINPUT_BUTTONS);
 
-    if (buttons & key) return 1;
+    if ((buttons & key) == key) return 1;
 
     return 0;
 }
 int KeyPressedMOD (int key) {
-    return KeyPressed2 (GetPlayerInput (-1, MODINPUT_BUTTONS), GetPlayerInput (-1, MODINPUT_OLDBUTTONS), key);
+    if (!RunningInZandronum) {
+        return KeyPressed2 (GetPlayerInput (-1, MODINPUT_BUTTONS), GetPlayerInput (-1, MODINPUT_OLDBUTTONS), key);
+    } else { // This is really hacky, but a lot of the Zandrocrap fixes are anyway, heh.
+        int buttonsMOD = GetPlayerInput (-1, MODINPUT_BUTTONS), oldButtonsMOD = GetPlayerInput (-1, MODINPUT_OLDBUTTONS),
+        buttons = GetPlayerInput (-1, INPUT_BUTTONS);
+        if (buttons != buttonsMOD && buttonsMOD == 0)
+            return 0;
+        else
+            return KeyPressed2 (buttonsMOD, oldButtonsMOD, key);
+    }
 }
 
 /* Player info */
@@ -375,21 +384,21 @@ vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
 
     return FALSE;
 }*/
-bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2) {
-    long accum v = speed, g = grav * BASE_GRAVITY;
-    long accum x = Distance2D (p1.x, p1.y, p2.x, p2.y), y = AbsA (p1.z - p2.z);
-    long accum sq = PowA (v, 4) - g * (g * PowA (x, 2) + 2 * y * PowA (v, 2));
+/*bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2) {
+    double v = (double) speed, g = ((double) grav) * BASE_GRAVITYF;
+    double x = (double) (pow (p1.x - p2.x, 2) + pow (p1.y - p2.y, 2)), y = abs ((double) (p1.z - p2.z));
+    double sq = pow (v, 4) - g * (g * pow (x, 2) + 2 * y * pow (v, 2));
     
-    return sq > 0.0;
-}
+    return sq > 0.0 && !isnan (sq) && !isinf (sq);
+}*/
 vec2_k PitchGravProj (accum speed, accum grav, vec3_k p1, vec3_k p2) {
     long accum v = speed, g = grav * BASE_GRAVITY;
     long accum x = Distance2D (p1.x, p1.y, p2.x, p2.y), y = AbsA (p1.z - p2.z);
     vec2_k ret;
 
     long accum sq = PowA (v, 4) - g * (g * PowA (x, 2) + 2 * y * PowA (v, 2));
-    ret.x = (atanA (v * v + ((accum) LongFixedSqrt (sq)) / (g * x)) * 1k);
-    ret.y = (atanA (v * v - ((accum) LongFixedSqrt (sq)) / (g * x)) * 1k);
+    ret.x = atanA (v * v + ((accum) LongFixedSqrt (sq)) / (g * x));
+    ret.y = atanA (v * v - ((accum) LongFixedSqrt (sq)) / (g * x));
 
     return ret;
 }

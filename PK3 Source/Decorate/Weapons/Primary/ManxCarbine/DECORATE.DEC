@@ -45,7 +45,7 @@ actor S7_ManxCarbine : S7_BaseWeapon 30008 {
         MANX AB 1 A_SetPitch (pitch - 0.7, SPF_Interpolate)
         MANX A  2
         MANX A  1 A_Refire
-        MANX A  3
+        MANX A  3 A_ClearRefire
         goto Ready2
 
     Fire.Semi:

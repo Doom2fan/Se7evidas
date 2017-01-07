@@ -91,40 +91,40 @@ actor S7_CasingBase {
 
     Rest1:
         "####" A 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest2:
         "####" B 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest3:
         "####" C 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest4:
         "####" D 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest5:
         "####" E 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest6:
         "####" F 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest7:
         "####" G 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
     Rest8:
         "####" H 0
-        "----" A 0 A_Jump (256, "Delaying")
+        "----" A 1 A_Jump (256, "Delaying")
         wait
 
 
     Death:
-        "----" A 0 A_Jump (256, "Rest1", "Rest3", "Rest5", "Rest7")
+        "----" A 1 A_Jump (256, "Rest1", "Rest3", "Rest5", "Rest7")
         goto Rest1
     }
 }

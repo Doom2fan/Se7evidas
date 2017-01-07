@@ -36,7 +36,7 @@ actor S7_LaserPewPew : S7_BaseWeapon 30009 {
     /** Normal mode **/
     Ready:
         TNT1 A 0 A_GiveInventory ("S7_SynthFireActive", 1)
-        TNT1 A 0 ACS_NamedExecuteAlways ("S7_SynthFire", 0, FALSE)
+        TNT1 A 0 ACS_NamedExecuteAlways ("S7_SynthFire", 0)
         TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewAkimbo", 1, "Ready.Akimbo")
         BLSG VWXYZA 1
     Ready2:
@@ -83,7 +83,7 @@ actor S7_LaserPewPew : S7_BaseWeapon 30009 {
         TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewSights", 1, "Deselect.Zoom")
         TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewAkimbo", 1, "AkimboRight.Deselect")
         BLSG AZYXWV 1
-        goto Super::Deselect
+        goto TrueDeselect
     Deselect.Zoom:
         BLSG K   1 A_TakeInventory ("S7_LaserPewPewSights", 0x7FFFFFFF)
         BLSG N   1 A_ZoomFactor (1.0)
@@ -157,18 +157,17 @@ actor S7_LaserPewPew : S7_BaseWeapon 30009 {
         goto Ready2.Akimbo
 
     Reload.Zoomed:
-        TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewAkimbo", 1, "Zoom.Akimbo")
-        TNT1 A 0 A_TakeInventory ("S7_Reloading", 1)
         TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewClip", 0, "Ready2")
         TNT1 A 0 A_JumpIfInventory ("S7_FBSysCells", 1, 1)
         goto Ready2
         TNT1 A 0 A_TakeInventory ("S7_LaserPewPewSights", 0x7FFFFFFF)
+        TNT1 A 0 A_SetCrosshair (0)
         TNT1 A 0 A_ZoomFactor (1.0)
         BLSG KNMLA 1
         goto Reload
     Reload:
         TNT1 A 0 A_TakeInventory ("S7_Reloading", 0x7FFFFFFF)
-        TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewAkimbo", 1, "Reload.Zoomed")
+        TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewSights", 1, "Reload.Zoomed")
         TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewClip", 0, "Ready2")
         TNT1 A 0 A_JumpIfInventory ("S7_LaserPewPewHasTwo", 1, "TrySwap")
         TNT1 A 0 A_JumpIfInventory ("S7_FBSysCells", 1, "TrueReload")

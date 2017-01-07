@@ -42,6 +42,7 @@
 #define TICSINSEC  35.7142
 #define TICSINSECA 35.7142k
 #define BASE_GRAVITY 81.92k
+#define BASE_GRAVITYF 81.92f
 
 #define TICUNIT  0.028
 #define TICUNITA 0.028k
@@ -133,6 +134,7 @@ typedef char * cstr;
 
 // Externs
 extern bool RunningInZDoom;
+extern bool RunningInZandronum;
 
 // Prototypes
 void PukeScriptFunction (int number, int arg0, int arg1, int arg2);

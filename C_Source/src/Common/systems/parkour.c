@@ -163,7 +163,7 @@ void WallHoldScript (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wGrabHolding && KeyDownMOD (BT_CROUCH) && player->physics.relativeZ > 4k) {
+    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wGrabHolding && KeyPressedMOD (BT_CROUCH) && player->physics.relativeZ > 4k) {
         int j;
         accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);
         accum x2 = 8 * CosA (player->physics.angle), y2 = 8 * SinA (player->physics.angle);

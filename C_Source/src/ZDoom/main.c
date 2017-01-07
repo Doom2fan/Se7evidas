@@ -20,6 +20,7 @@
 #include "includes.h"
 
 bool RunningInZDoom = TRUE;
+bool RunningInZandronum = FALSE;
 
 Script_C void S7_Enter ENTER () {
     if (!PlayerInGame (PLN))

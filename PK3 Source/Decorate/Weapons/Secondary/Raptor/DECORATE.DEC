@@ -51,7 +51,7 @@ actor S7_Raptor : S7_BaseWeapon {
         RPTN AAA 1
         TNT1 A   0        A_GiveInventory ("S7_RaptorRefire", 1)
         RPTN AAA 1        A_Refire
-        RPTN A   7
+        RPTN A   7        A_ClearRefire
         goto Ready2
     Fire2:
         RPTN AAA 1 A_TakeInventory ("S7_RaptorRefire", 0x7FFFFFFF)

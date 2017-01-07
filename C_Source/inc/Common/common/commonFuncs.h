@@ -101,7 +101,7 @@ accum Distance2D (accum actor1X, accum actor1Y, accum actor2X, accum actor2Y); /
 accum Distance2DVec (vec2_k vec1, vec2_k vec2);
 accum Distance2DTID (int tid1, int tid2);
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
-bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2);
+// bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2);
 vec2_k PitchGravProj (accum speed, accum grav, vec3_k p1, vec3_k p2); // Gets the pitch a projectile needs to be fired at from p1 to hit p2 while accounting for gravity
 /* Misc */
 long accum LongFixedSqrt (long accum x);

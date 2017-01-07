@@ -61,10 +61,9 @@ actor S7_Thumper : S7_BaseWeapon 30004 {
         THMP A 1 A_WeaponReady
         loop
 
-    TrueDeselect:
+    Deselect:
         THMP AZYXWV 1
-        TNT1 A      0 A_Lower
-        wait
+        goto TrueDeselect
 
     Fire:
         THMP A 2 A_JumpIfInventory ("S7_ThumperChambered", 1, 1)
