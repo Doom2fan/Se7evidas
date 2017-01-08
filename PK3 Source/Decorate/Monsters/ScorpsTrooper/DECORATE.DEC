@@ -3,7 +3,10 @@
 // Shadow Corps Trooper
 //
 //-------------------------------------------------------------------------------------------
-actor S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer { damage (fRandom [monsterDMG] (1.0, 3.0) * 2) }
+actor S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
+    damage (fRandom [monsterDMG] (1.0, 3.0) * 2)
+    damageType EnemyPistolTracer
+}
 actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
     health 30
     gibHealth -15
@@ -103,7 +106,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         SCR1 E      1
         SCR1 EEEAAA 2
         SCR1 A      3
-        goto See
+        goto Idle
 
     Pain:
         SCR1 G 2
