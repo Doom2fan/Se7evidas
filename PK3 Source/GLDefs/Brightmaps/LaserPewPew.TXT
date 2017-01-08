@@ -1,0 +1,4 @@
+brightmap sprite BLS3A0 {
+    map "Brightmaps/LaserPewPew/BLS3A0.png"
+    disablefullbright
+}

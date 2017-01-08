@@ -55,7 +55,7 @@ sprite BLSGJ0, 82, 119 {
 }
 
 sprite BLSGK0, 66, 137 {
-    offset -127, -56
+    offset -128, -57
     patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
 }
 
@@ -77,14 +77,14 @@ sprite BLSGN0, 66, 137 {
 sprite BLSGO0, 66, 137 {
     xScale 0.800
     yScale 0.800
-    offset -95, -42
+    offset -96, -43
     patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
 }
 
 sprite BLSGP0, 66, 137 {
     xScale 0.900
     yScale 0.900
-    offset -111, -48
+    offset -112, -49
     patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
 }
 
