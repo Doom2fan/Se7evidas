@@ -8,7 +8,7 @@ DECORATE marker thingy:
 ======================================================================================================================================================================================
 Regex stuff for c-style code:
 1:
-    Match: /\n\{/
+    Match: /\n(\s+)?\{/
     Replace with: / {/
 ======================================================================================================================================================================================
 Regexes for TEXTURES stuff:
@@ -32,8 +32,8 @@ Monster spread to weapon spread: <monster spread> * 0.8;
 Fixed to float: <fixed> / 65535.0;
 Float to fixed: <float> * 65535.0;
 
-Float to int (truncate): <fixed> >> 16;
-Int to float:            <fixed> << 16;
+Fixed to int (truncate): <fixed> >> 16;
+Int to fixed:            <fixed> << 16;
 ======================================================================================================================================================================================
 Things to update when adding new stuff:
 PK3 Source/DECORATE/Player.DEC {
