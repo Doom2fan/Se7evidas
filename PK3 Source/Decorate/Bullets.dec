@@ -36,10 +36,8 @@ actor S7_BaseTracer : fastProjectile {
 
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (1.0 / (25 * 1.0))
+        TNT1 AA 0 A_ScaleVelocity (1.0 / 25)
         TNT1 A  0 A_ScaleVelocity (health * 1.0)
-        TNT1 A  1 A_Jump (256, "Idle")
-        wait
     Idle:
         SPRK A 1 bright
         wait

@@ -55,12 +55,11 @@ actor S7_BaseWeapon : weapon {
         goto Ready
 
     Select:
-        TNT1 A 1 A_Jump (256, "TrueSelect")
-        wait
     TrueSelect:
         TNT1 A 0 A_Raise
-        wait
+        loop
     Deselect:
+    TrueDeselect:
         TNT1 A 0 A_TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF)
         TNT1 A 0 A_TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF)
         TNT1 A 0 A_TakeInventory ("S7_ReadySequence", 0x7FFFFFFF)
@@ -71,11 +70,8 @@ actor S7_BaseWeapon : weapon {
         TNT1 A 0 A_TakeInventory ("S7_SynthFireLeftBusy", 0x7FFFFFFF)
         TNT1 A 0 A_ZoomFactor (1.0)
         TNT1 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD")
-        TNT1 A 1 A_Jump (256, "TrueDeselect")
-        wait
-    TrueDeselect:
         TNT1 A 0 A_Lower
-        wait
+        loop
     Deselect.DEAD:
         TNT1 A 1 A_Lower
         wait
