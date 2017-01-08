@@ -69,6 +69,12 @@
 #define APROP_NoTarget  19
 #define APROP_NoTrigger 23
 
+// Shop system stuff
+#define CASHDIVPOINT 1000
+#define CASHLESSERMAX 999
+#define CASHGREATERMAX 30000
+#define CASHMAXAMOUNT (CASHGREATERMAX * CASHDIVPOINT)
+
 // Actor names
 // Spriting system
 #define STAMINATOKEN         s"S7_Stamina"
@@ -84,7 +90,8 @@
 #define XPS_DEFENSETOKEN     s"S7_Stats_System_Defense"
 #define XPS_MAGICTOKEN       s"S7_Stats_System_Magic"
 // Shop system
-#define CASHTOKEN            s"S7_Cash"
+#define CASHTOKENLESSER      s"S7_CashLesser"
+#define CASHTOKENGREATER     s"S7_CashGreater"
 // Weapon stuff
 #define QUICKMELEEWEAPON     s"S7_QuickMelee"
 // Misc

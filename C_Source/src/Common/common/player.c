@@ -49,7 +49,7 @@ void UpdatePlayerData (PlayerData_t *player) {
     player->health.stamina = CheckInventory (STAMINATOKEN);             // Get the stamina
 
     // Shop system stuff
-    player->cash = CheckInventory (CASHTOKEN);
+    player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
 
     // Misc
     player->misc.waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
@@ -106,8 +106,9 @@ void TakeCash (PlayerData_t *player, int amount) {
         return;
     }
 
-    TakeInventory (CASHTOKEN, amount);
-    player->cash = CheckInventory (CASHTOKEN);
+    TakeInventory (CASHTOKENLESSER,  amount % CASHDIVPOINT);
+    TakeInventory (CASHTOKENGREATER, amount / CASHDIVPOINT);
+    player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
 }
 
 void GiveCash (PlayerData_t *player, int amount) {
@@ -116,8 +117,42 @@ void GiveCash (PlayerData_t *player, int amount) {
         return;
     }
 
-    GiveInventory (CASHTOKEN, amount);
-    player->cash = CheckInventory (CASHTOKEN);
+    if (player->cash + amount > CASHMAXAMOUNT) {
+        int toHeld = min (CASHMAXAMOUNT - player->cash, amount);
+        unsigned long int toStorage = amount - toHeld;
+        GiveInventory (CASHTOKENLESSER,  toHeld % CASHDIVPOINT);
+        GiveInventory (CASHTOKENGREATER, toHeld / CASHDIVPOINT);
+        player->bankData.cash += toStorage;
+    } else {
+        GiveInventory (CASHTOKENLESSER,  amount % CASHDIVPOINT);
+        GiveInventory (CASHTOKENGREATER, amount / CASHDIVPOINT);
+    }
+
+    player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
+}
+
+void GiveCashNoBank (PlayerData_t *player, int amount) {
+    if (!player) {
+        Log ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+
+    GiveInventory (CASHTOKENLESSER,  amount % CASHDIVPOINT);
+    GiveInventory (CASHTOKENGREATER, amount / CASHDIVPOINT);
+    player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
+}
+
+void SetCash (PlayerData_t *player, int amount) {
+    if (!player) {
+        Log ("\CgFunction SetCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+
+    TakeInventory (CASHTOKENLESSER,  0x7FFFFFFF);
+    TakeInventory (CASHTOKENGREATER, 0x7FFFFFFF);
+    GiveInventory (CASHTOKENLESSER,  amount % CASHDIVPOINT);
+    GiveInventory (CASHTOKENGREATER, amount / CASHDIVPOINT);
+    player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
 }
 
 void InitializePlayer (PlayerData_t *player) {
@@ -170,7 +205,7 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     SetInventory (XPS_VITALITYTOKEN,   saveData->xpSystem.vitalityLVL);
     SetInventory (XPS_DEFENSETOKEN,    saveData->xpSystem.defenseLVL);
     SetInventory (XPS_MAGICTOKEN,      saveData->xpSystem.magicLVL);
-    SetInventory (CASHTOKEN,           saveData->cash);
+    SetCash      (player,              saveData->cash);
 
     // Script Data
     player->scriptData = saveData->scriptData;

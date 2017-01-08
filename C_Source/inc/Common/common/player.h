@@ -22,6 +22,7 @@
 
 #include <ACS_ZDoom.h>
 #include "common/types.h"
+#include "systems/bank_system.h"
 
 // Macros
 #define SS_ITEMSMAX \
@@ -45,6 +46,7 @@ typedef struct SS_Item_t        SS_Item_t;
 typedef struct SS_Page_t        SS_Page_t;
 typedef struct SS_Shop_t        SS_Shop_t;
 typedef struct ShopDef_t        ShopDef_t;
+typedef struct BankDef_t        BankDef_t;
 typedef struct SprintDef_t      SprintDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct ThumperDef_t     ThumperDef_t;
@@ -155,6 +157,11 @@ struct ShopDef_t {
     bool       sellMode;
 };
 
+struct BankDef_t {
+    unsigned long int cash;
+    BS_Item_t itemStorage [1000];
+};
+
 #define WPBND_MAXSLOTS 5
 #define WPBND_MAXWEAPS 5
 struct WeapBinds_t {
@@ -185,6 +192,7 @@ typedef struct PlayerData_t {
     ParkourDef_t    parkourDef;         // Dodging system stuff
     ThumperDef_t    thumperDef;         // Thumper stuff
     ShopDef_t       shopDef;            // Shop system stuff
+    BankDef_t       bankData;           // Bank system stuff
     WeapBinds_t     weapBinds;          // Weapon bindings
 } PlayerData_t;
 
@@ -195,6 +203,7 @@ struct SavedData_t {
 
     // RPG Systems
     PD_XPSystem_t   xpSystem;           // Level system stuff
+    BankDef_t       bankData;           // Bank system stuff
     int             cash;               // Cash
 
     // Script data
@@ -204,8 +213,11 @@ struct SavedData_t {
 };
 
 // Prototypes
-void TakeCash (PlayerData_t *player, int amount);
-void GiveCash (PlayerData_t *player, int amount);
+void TakeCash       (PlayerData_t *player, int amount);
+void GiveCash       (PlayerData_t *player, int amount);
+void GiveCashNoBank (PlayerData_t *player, int amount);
+void SetCash        (PlayerData_t *player, int amount);
+
 void InitializePlayer  (PlayerData_t *player);
 void DisconnectPlayer  (PlayerData_t *player);
 void UpdatePlayerData  (PlayerData_t *player);

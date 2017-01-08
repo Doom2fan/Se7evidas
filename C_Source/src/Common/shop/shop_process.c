@@ -67,8 +67,9 @@ int SS_SellItem (PlayerData_t *player, SS_Item_t *item) {
 
     if (CheckInventory (item->inventoryName) < item->sellAmount) // If the current amount of the item is lesser than sellAmount...
         return SC_NotEnoughOfItem; // Report there's not enough of the item
-    if (player->cash + item->sellPrice > 0x7FFFFFFF) // If the cash plus the price of the item is greater than 0x7FFFFFFF...
-        return SC_TooMuchMoney; // Report there's too much money
+    // Too much money isn't a thing anymore.
+    //if (player->cash + item->sellPrice > 0x7FFFFFFF) // If the cash plus the price of the item is greater than 0x7FFFFFFF...
+    //    return SC_TooMuchMoney; // Report there's too much money
 
     TakeInventory (item->inventoryName, item->sellAmount); // Take the item
     GiveCash (player, item->sellPrice); // Give the cash

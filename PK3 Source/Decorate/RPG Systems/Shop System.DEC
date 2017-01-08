@@ -3,4 +3,5 @@
 // Cash
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Cash : counter {  }
+actor S7_CashDunno : counter { inventory.maxAmount 999 }
+actor S7_CashThousands : counter { inventory.maxAmount 30000 }
