@@ -25,6 +25,22 @@
 
 typedef char * cstr;
 
+typedef struct StrToIntValue {
+    bool valid;
+    int value;
+} StrToIntValue;
+
+typedef struct StrToLongIntValue {
+    bool valid;
+    long int value;
+} StrToLongIntValue;
+
+typedef struct CharNibble {
+    string charStr;
+    char charChar;
+    char nibble;
+} CharNibble;
+
 // Macros
 #define atanA(x) VectorAngle (1.0k, x)
 #define atan2A(x, y) VectorAngle (x, y)
@@ -50,6 +66,7 @@ typedef char * cstr;
 __addrdef extern __gbl_arr global_var;
 __addrdef extern __mod_arr    map_var;
 extern char CorruptionCharList [];
+extern CharNibble HexToNibbleList [];
 
 // Prototypes
 /* Physics */
@@ -84,6 +101,9 @@ cstr CorruptTextCase (cstr text);
 /* Basic functions that ZDoom doesn't have for some reason */
 int   PowI (int   x, int y);
 accum PowA (accum x, int y);
+/* Min/max */
+int Min (int a, int b);
+int Max (int a, int b);
 /* Clamping */
 int   Clamp      (int x, int min, int max);
 accum ClampAccum (accum x, accum min, accum max);
@@ -91,7 +111,11 @@ accum ClampAccum (accum x, accum min, accum max);
 int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
 /* String to value conversion */
-int   StrToInt  (string source);
+StrToIntValue  StrToIntHex (string source); // int
+StrToIntValue CStrToIntHex (cstr   source);
+StrToLongIntValue  StrToLongIntHex (string source); // long int
+StrToLongIntValue CStrToLongIntHex (cstr   source);
+StrToIntValue StrToIntDec (string source);
 bool *StrToBool (string source);
 /* Trigonometry */
 accum Distance2 (accum actor1X, accum actor1Y, accum actor1Z, // Distance between two XYZ coordinates

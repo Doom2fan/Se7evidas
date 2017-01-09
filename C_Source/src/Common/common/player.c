@@ -118,7 +118,7 @@ void GiveCash (PlayerData_t *player, int amount) {
     }
 
     if (player->cash + amount > CASHMAXAMOUNT) {
-        int toHeld = min (CASHMAXAMOUNT - player->cash, amount);
+        int toHeld = Min (CASHMAXAMOUNT - player->cash, amount);
         unsigned long int toStorage = amount - toHeld;
         GiveInventory (CASHTOKENLESSER,  toHeld % CASHDIVPOINT);
         GiveInventory (CASHTOKENGREATER, toHeld / CASHDIVPOINT);
@@ -192,7 +192,7 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
         Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
         return FALSE;
     } else if (!saveData || saveData->isInvalid) {
-        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct %S", (string) (saveData->isInvalid));
+        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
         return FALSE;
     }
 
@@ -206,10 +206,12 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     SetInventory (XPS_DEFENSETOKEN,    saveData->xpSystem.defenseLVL);
     SetInventory (XPS_MAGICTOKEN,      saveData->xpSystem.magicLVL);
     SetCash      (player,              saveData->cash);
+    player->bankData = saveData->bankData;
 
     // Script Data
     player->scriptData = saveData->scriptData;
     player->thumperDef = saveData->thumperDef;
+    player->weapBinds  = saveData->weapBinds;
 
     return TRUE;
 }

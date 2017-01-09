@@ -159,7 +159,7 @@ struct ShopDef_t {
 
 struct BankDef_t {
     unsigned long int cash;
-    BS_Item_t itemStorage [1000];
+    BS_Item_t itemStorage [500];
 };
 
 #define WPBND_MAXSLOTS 5

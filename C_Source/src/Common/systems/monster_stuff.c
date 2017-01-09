@@ -208,21 +208,25 @@ Script_C void S7_TerminatorScript () {
         if (GetUserVariable (0, s"user_ReqGrenCheck")) {
             vec3_k tPos = GetActivatorPointerPos (AAPTR_TARGET),
                    sPos = (*(vec3_k*)&(self->x));
+            accum dist = Distance2Vec (sPos, tPos);
 
-            if (PitchGravProjInRange (40.0k, 0.2k, sPos, tPos)) {
+            if (dist < 145.0k) {
                 SetUserVariable (0, s"user_GrenType", 1);
-                if (GetUserVariable (0, s"user_ReqGrenCheck") == 2) {
-                    vec2_k tmp = PitchGravProj (40.0k, 0.2k, sPos, tPos);
-                    ChangeActorPitch (0, tmp.x, TRUE);
-                }
-            } else if (PitchGravProjInRange (60.0k, 0.2k, sPos, tPos)) {
+                vec2_k tmp = PitchGravProj (55.0k, 0.2k, sPos, tPos);
+                ChangeActorPitch (0, tmp.x, TRUE);
+            } else if (dist < 350.0k) {
                 SetUserVariable (0, s"user_GrenType", 2);
-                if (GetUserVariable (0, s"user_ReqGrenCheck") == 2) {
-                    vec2_k tmp = PitchGravProj (60.0k, 0.2k, sPos, tPos);
-                    ChangeActorPitch (0, tmp.x, TRUE);
-                }
-            } else
+                vec2_k tmp = PitchGravProj (80.0k, 0.2k, sPos, tPos);
+                ChangeActorPitch (0, tmp.x, TRUE);
+            } else if (dist < 875.0k) { // 5 * 95 + 400
+                vec3_k tmpSPos = sPos;
+                tmpSPos.x += 475 * cos (self->angle);
+                tmpSPos.y += 475 * sin (self->angle);
                 SetUserVariable (0, s"user_GrenType", 0);
+                vec2_k tmp = PitchGravProj (80.0k, 0.2k, tmpSPos, tPos);
+                ChangeActorPitch (0, tmp.x, TRUE);
+            } else
+                SetUserVariable (0, s"user_GrenType", -1);
 
             SetUserVariable (0, s"user_ReqGrenCheck", 0);
         }

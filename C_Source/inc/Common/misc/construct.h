@@ -24,7 +24,7 @@
 #include "includes.h"
 
 // Prototypes
-struct SavedData_t SavedData_t_new ();
+//struct SavedData_t SavedData_t_new ();
 struct PD_ScriptData_t PD_ScriptData_t_new ();
 struct ThumperDef_t ThumperDef_t_new ();
 

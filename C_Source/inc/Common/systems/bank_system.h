@@ -26,6 +26,7 @@
 typedef struct BS_Item_t {
     int type;
     int id;
+    int amount;
 } BS_Item_t;
 
 // Prototypes

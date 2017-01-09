@@ -37,7 +37,7 @@ void InvUpdAmmoMax (int playerNum) {
 bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef) {
     string output = s"";
     for (int i = 0; i < invDef->invArrSize; i++)
-        output = StrParam ("%S%+.5d%+.10d", output, i, CheckInventory (invDef->invInfoArr [i].name));
+        output = StrParam ("%S%.4x%.8x", output, i, CheckInventory (invDef->invInfoArr [i].name));
 
     // Add compression to this someday maybe
     int index = 1;
@@ -65,7 +65,8 @@ bool SaveSys_SaveInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
     return TRUE;
 }
 
-#define INV_ENTRY_LEN (6 + 11)
+// 4 + 8
+#define INV_ENTRY_LEN 12
 bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *invDef) {
     string           input = s""; // Define input and initialize it to ""
     SaveInv_InvInfo *prev  = NULL;
@@ -82,8 +83,8 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         return FALSE;
 
     for (int i = 0; i < count; i++) {
-        int type = SaveSys_ReadInt (input, offset, 6);
-        int amount = SaveSys_ReadInt (input, offset, 11);
+        int type = SaveSys_ReadInt (input, offset, 4);
+        int amount = SaveSys_ReadInt (input, offset, 8);
 
         if (type < 0 || type > invDef->invArrSize)
             return FALSE;
@@ -95,6 +96,9 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
         inv->next = prev;
         prev = inv;
     }
+    
+    if (StrLen (input) < *offset)
+        return FALSE;
 
     cur = prev;
     while (TRUE) {
@@ -114,16 +118,3 @@ bool SaveSys_LoadInventory (int playerNum, SavedData_t *data, SaveInv_InvDef *in
 
     return TRUE;
 }
-
-/* Use this later for the bank system loading routine:
-    #define BANK_ENTRY_LEN (6 + 11)
-    #define BANKINFOSIZE (ArraySize (bankInfo))
-    ...
-    string input = s""; // Define input and initialize it to ""
-
-    for (int i = 0; i < BANKCVARCOUNT; i++) // Loop through the inventory data CVars
-        input = StrParam ("%S%S", input, GetUserCVarString (playerNum, StrParam ("%S%d", SD_BANK, i + 1)));
-
-    if (StrLen (input) % BANK_ENTRY_LEN > 0)
-        return FALSE;
-*/

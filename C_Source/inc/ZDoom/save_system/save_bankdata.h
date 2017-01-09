@@ -17,35 +17,17 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "includes.h"
-#include "misc/construct.h"
+#ifndef SAVE_BANK_H
+#define SAVE_BANK_H
 
-/*struct SavedData_t SavedData_t_new () {
-    SavedData_t ret;
+#include <ACS_ZDoom.h>
 
-    ret.isInvalid = FALSE;
-    ret.name = NULL;
-    ret.gender = ret.cash = 0;
+// Macros
+#define BANKCVARMAXLEN (MAXCVARSIZ - 19)
+#define BANKMAXCVARS 20
 
-    ret.scriptData = PD_ScriptData_t_new ();
-    ret.thumperDef = ThumperDef_t_new ();
+// Prototypes
+bool SaveSys_SaveBank (int playerNum, SavedData_t *data);
+bool SaveSys_LoadBank (int playerNum, SavedData_t *data);
 
-    return ret;
-}*/
-
-struct PD_ScriptData_t PD_ScriptData_t_new () {
-    PD_ScriptData_t ret;
-
-    return ret;
-}
-
-struct ThumperDef_t ThumperDef_t_new () {
-    ThumperDef_t ret;
-
-    for (int i = 0; i < THUMPERMAGSIZE; i++)
-        ret.magShells [i] = S7_TH_None;
-    ret.magIndex = -1;
-    ret.currentShell = S7_TH_None;
-
-    return ret;
-}
+#endif
