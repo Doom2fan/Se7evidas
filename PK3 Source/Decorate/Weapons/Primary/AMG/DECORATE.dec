@@ -46,7 +46,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         goto Ready2.DoStuff
     Ready2.DoStuff:
         "----" A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
-        "----" A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        "----" A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMeleeDerp")
         "----" A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
         "----" A 0 A_JumpIfInventory ("S7_ReadySequence", 1, "Ready2.P2")
         goto Ready2.P1
@@ -73,6 +73,11 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         "----" A 0 A_TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF)
         "----" A 0 A_TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF)
         goto Ready2
+
+    QuickMeleeDerp:
+        "----" A 0 A_TakeInventory ("S7_DoMelee", 0x7FFFFFFF)
+        "----" A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 1, "Ready2")
+        goto QuickMelee
 
     Zoom:
         "----" A  0 A_JumpIfInventory ("S7_HoldingZoom", 1, "Zoom.Hold")

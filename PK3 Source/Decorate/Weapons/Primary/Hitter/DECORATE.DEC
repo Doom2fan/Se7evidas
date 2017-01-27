@@ -85,7 +85,7 @@ actor S7_HitterSMG : S7_BaseWeapon 30007 {
     Hold.FireEnd:
         TNT1 A  0 A_AlertMonsters
         TNT1 A  0 A_GunFlash
-        TNT1 A  0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.8, 4.5)
+        TNT1 A  0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4.5)
         SR20 AE 1 A_SetPitch (pitch - 0.85, SPF_Interpolate)
         SR20 D  1
         SR20 C  1 A_Refire ("Hold")
