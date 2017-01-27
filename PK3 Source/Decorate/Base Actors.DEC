@@ -165,6 +165,7 @@ actor S7_BossSpawnerBase : S7_MonsterSpawnerBase {
 }
 
 actor S7_FastProjTrailBase {
-    +noBlockmap +noGravity +noTeleport +cannotPush
-    +noInteraction +clientsideOnly
+    +noBlockmap +noGravity +noTeleport +thruActors
+    +cannotPush +noInteraction +clientsideOnly
+    -solid
 }
