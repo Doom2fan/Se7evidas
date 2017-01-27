@@ -29,7 +29,7 @@ actor S7_BaseTracer : fastProjectile {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 4)
     missileType "S7_TracerTrail"
     missileHeight 8
-    decal Bullet
+    decal BulletChip
 
     +bloodSplatter +noExtremeDeath +noDamageThrust +puffGetsOwner
     +forceXYBillboard
@@ -44,10 +44,10 @@ actor S7_BaseTracer : fastProjectile {
 
     Death:
     Crash:
-        TNT1 AAAAAA 0        A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (0.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
-        TNT1 AAA    0        A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
-        SPRK A      2 bright
-        SPRK A      2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
+        TNT1 AAAA 0        A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
+        TNT1 AAA  0        A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
+        SPRK A    2 bright
+        SPRK A    2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
         stop
     XDeath:
         TNT1 A 3 A_PlaySound ("Tracers/HitFlesh", CHAN_Body)
@@ -75,12 +75,12 @@ actor S7_BulletPuff : S7_TracerEffectsBase replaces BulletPuff {
 
     states {
     Spawn:
-        TNT1 A      0 noDelay A_PlaySound ("Tracers/HitWall", CHAN_Body)
+        TNT1 A 0 noDelay A_PlaySound ("Tracers/HitWall", CHAN_Body)
     NoSound:
-        TNT1 AAAAAA 0        A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (0.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
-        TNT1 AAA    0        A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
-        SPRK A      2 bright
-        SPRK A      2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
+        TNT1 AAAA 0        A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
+        TNT1 AAA  0        A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
+        SPRK A    2 bright
+        SPRK A    2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
         stop
     }
 }
@@ -106,7 +106,6 @@ actor S7_BulletPuffSparks : S7_TracerEffectsBase {
     Spawn:
         SPRK A 1 bright
     Loople:
-        TNT1 A 0        A_JumpIf (z == floorZ, "Death")
         SPRK A 1 bright A_FadeOut (0.05)
         loop
     Death:
@@ -136,10 +135,10 @@ actor S7_SSGTracer              : S7_BaseTracer { // 259 max DMG
     states {
     Death:
     Crash:
-        TNT1 AAAA 0        A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (0.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
-        TNT1 AA   0        A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
-        SPRK A    2 bright
-        SPRK A    2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
+        TNT1 AAA 0        A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside)
+        TNT1 AA  0        A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside)
+        SPRK A   2 bright
+        SPRK A   2 bright A_SetScale (scaleX * 1.5, scaleY * 1.5)
         stop
     }
 }
@@ -155,6 +154,7 @@ actor S7_12gaTracer             : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 6)
     health 125
     damageType ShotgunTracer
+    missileType "S7_SSGTracerTrail"
 }
 actor S7_ManxCarbineTracer      : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 7)
@@ -165,6 +165,11 @@ actor S7_HitterSMGTracer        : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 6)
     health 85
     damageType PistolTracer
+}
+actor S7_ConquerorRifle_Tracer  : S7_BaseTracer {
+    damage (fRandom [weaponDamage] (1.0, 2.5) * 52.8)
+    health 275 // So you need to compensate less when firing at long range
+    damageType SniperRifleTracer
 }
 
 /*** Secondary ***/
