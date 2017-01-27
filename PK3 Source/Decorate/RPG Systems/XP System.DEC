@@ -6,7 +6,7 @@
 
 actor S7_XP_System_Experience             : counter                        { inventory.maxAmount 400000 }
 actor S7_XP_System_Level                  : counter                        { inventory.maxAmount 25 }
-actor S7_XP_System_AttributePoints        : counter                        { }
+actor S7_XP_System_AttributePoints        : counter                        { inventory.maxAmount 10000 }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -19,4 +19,6 @@ actor S7_Stats_System_Strength            : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Agility             : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Vitality            : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Defense             : S7_Stats_System_BaseStat       { }
-actor S7_Stats_System_Magic               : S7_Stats_System_BaseStat       { }
+actor S7_Stats_System_Will                : S7_Stats_System_BaseStat       { } // Willpower
+actor S7_Stats_System_Magic               : S7_Stats_System_BaseStat       { } // Magic mastery
+actor S7_Stats_System_Technology          : S7_Stats_System_BaseStat       { } // Tech-savvyness (For hacking, mainly)

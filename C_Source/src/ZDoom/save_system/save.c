@@ -106,7 +106,9 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     tmpData.xpSystem.agilityLVL  = ((statPoints & 0x000000F0) >>  4);
     tmpData.xpSystem.vitalityLVL = ((statPoints & 0x00000F00) >>  8);
     tmpData.xpSystem.defenseLVL  = ((statPoints & 0x0000F000) >> 12);
-    tmpData.xpSystem.magicLVL    = ((statPoints & 0x000F0000) >> 16);
+    tmpData.xpSystem.willLVL     = ((statPoints & 0x000F0000) >> 16);
+    tmpData.xpSystem.magicLVL    = ((statPoints & 0x00F00000) >> 20);
+    tmpData.xpSystem.techLVL     = ((statPoints & 0x0F000000) >> 24);
 
     tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 8);
     SaveSys_FailLoad (rpgSysStr, *offset);
@@ -159,11 +161,13 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
 
     // RPG Systems
     int statPoints =
-        (data->xpSystem.strengthLVL)       |
-        (data->xpSystem.agilityLVL  >>  4) |
-        (data->xpSystem.vitalityLVL >>  8) |
-        (data->xpSystem.defenseLVL  >> 12) |
-        (data->xpSystem.magicLVL    >> 16);
+         (data->xpSystem.strengthLVL & 0x0F)        |
+        ((data->xpSystem.agilityLVL  & 0x0F) <<  4) |
+        ((data->xpSystem.vitalityLVL & 0x0F) <<  8) |
+        ((data->xpSystem.defenseLVL  & 0x0F) << 12) |
+        ((data->xpSystem.willLVL     & 0x0F) << 16) |
+        ((data->xpSystem.magicLVL    & 0x0F) << 20) |
+        ((data->xpSystem.techLVL     & 0x0F) << 24);
     string rpgSysStr = StrParam ("%.2x%.8x%.4x%.8x%.8x",
         data->xpSystem.level,
         data->xpSystem.experience,
@@ -235,21 +239,20 @@ Script_C void S7_SaveSysSave NET () {
         return;
     }
 
-    SavedData_t *saveData = malloc (sizeof (SavedData_t));
+    SavedData_t saveData;
 
-    saveData->name = StrParam ("%tS", playerNum);
-    saveData->gender = GetPlayerInfo (playerNum, PLAYERINFO_GENDER);
-    saveData->xpSystem = player->xpSystem;     // Level system stuff
-    saveData->bankData = player->bankData;     // Bank system stuff
-    saveData->cash = player->cash;             // Cash
+    saveData.name = StrParam ("%tS", playerNum);
+    saveData.gender = GetPlayerInfo (playerNum, PLAYERINFO_GENDER);
+    saveData.xpSystem = player->xpSystem;     // Level system stuff
+    saveData.bankData = player->bankData;     // Bank system stuff
+    saveData.cash = player->cash;             // Cash
 
     // Script data
-    saveData->scriptData = player->scriptData; // Misc script data
-    saveData->thumperDef = player->thumperDef; // Thumper stuff
-    saveData->weapBinds  = player->weapBinds;  // Custom weapon slots stuff
+    saveData.scriptData = player->scriptData; // Misc script data
+    saveData.thumperDef = player->thumperDef; // Thumper stuff
+    saveData.weapBinds  = player->weapBinds;  // Custom weapon slots stuff
 
-    SaveSaveData (playerNum, saveData);
-    free (saveData);
+    SaveSaveData (playerNum, &saveData);
 
     player = NULL;
 }

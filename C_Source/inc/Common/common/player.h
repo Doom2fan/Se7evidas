@@ -92,7 +92,9 @@ struct PD_XPSystem_t {
     int agilityLVL;                     // Agility stat
     int vitalityLVL;                    // Vitality stat
     int defenseLVL;                     // Defense stat
+    int willLVL;                        // Will stat
     int magicLVL;                       // Magic stat
+    int techLVL;                        // Tech stat
 };
 
 typedef struct PD_Misc_t {

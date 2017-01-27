@@ -29,7 +29,9 @@
     player->xpSystem.agilityLVL  = CheckInventory (XPS_AGILITYTOKEN); \
     player->xpSystem.vitalityLVL = CheckInventory (XPS_VITALITYTOKEN); \
     player->xpSystem.defenseLVL  = CheckInventory (XPS_DEFENSETOKEN); \
-    player->xpSystem.magicLVL    = CheckInventory (XPS_MAGICTOKEN)
+    player->xpSystem.willLVL     = CheckInventory (XPS_WILLTOKEN); \
+    player->xpSystem.magicLVL    = CheckInventory (XPS_MAGICTOKEN); \
+    player->xpSystem.techLVL     = CheckInventory (XPS_TECHTOKEN)
 
 void LevelUp (int level, int attrPoints, bool log, string message) {
     SetFont (s"DBIGFONT");

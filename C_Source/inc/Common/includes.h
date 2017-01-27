@@ -88,7 +88,9 @@
 #define XPS_AGILITYTOKEN     s"S7_Stats_System_Agility"
 #define XPS_VITALITYTOKEN    s"S7_Stats_System_Vitality"
 #define XPS_DEFENSETOKEN     s"S7_Stats_System_Defense"
+#define XPS_WILLTOKEN        s"S7_Stats_System_Will"
 #define XPS_MAGICTOKEN       s"S7_Stats_System_Magic"
+#define XPS_TECHTOKEN        s"S7_Stats_System_Technology"
 // Shop system
 #define CASHTOKENLESSER      s"S7_CashLesser"
 #define CASHTOKENGREATER     s"S7_CashGreater"
@@ -118,6 +120,7 @@
 #define Script_LS    SS_SCRIPT
 
 // Includes
+#include <float.h>
 #include <assert.h>
 #include "common/util.h"
 #include "common/util_math.h"
