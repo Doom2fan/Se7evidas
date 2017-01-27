@@ -21,9 +21,9 @@
 #include "cvars.h"
 
 Script_C int S7_GetEffectsStayTime () {
-    return 0;
+    return (GameType () == GAME_SINGLE_PLAYER ? GetUserCVar (0, s"S7_EffectStayTime") : 0); // Hopefully the local player will always be player 0 in single player
 }
 
 Script_C int S7_GetEffectsFadeSpeed () {
-    return 0;
+    return (GameType () == GAME_SINGLE_PLAYER ? GetUserCVar (0, s"S7_EffectFadeSpeed") : 0);
 }

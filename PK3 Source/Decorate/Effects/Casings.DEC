@@ -8,13 +8,19 @@
 actor S7_CasingSmoke : S7_ShotSmokeTrail {
     scale 0.05
     alpha 0.35
+
+    states {
+    Spawn:
+        SMOK GHIJKLMNOPQ 1
+        stop
+    }
 }
 
 actor S7_CasingSpawnerBase {
     speed 20
     projectile
 
-    +noClip +clientsideOnly
+    +noClip
 }
 
 actor S7_CasingBase {
@@ -28,34 +34,23 @@ actor S7_CasingBase {
     +forceXYBillboard
     -dropOff -noGravity
 
+    var int user_Timer;
+    var int user_StayTime;
+
     states {
     Delaying:
-        "----" A    0 A_JumpIf (callACS ("S7_GetEffectsStayTime") == 1, "Delay.Shorter")
-        "----" A    0 A_JumpIf (callACS ("S7_GetEffectsStayTime") == 2, "Delay.EvenShorter")
-        "----" A    0 A_JumpIf (callACS ("S7_GetEffectsStayTime") == 3, "Delay.ShortAsFuck")
-        "----" A    0 A_JumpIf (callACS ("S7_GetEffectsStayTime") == 4, "Delay.DearLordDoYouHaveAFuckingToaster")
-        "----" A    0 A_JumpIf (callACS ("S7_GetEffectsStayTime") == 5, "Delay.MeinFuckingGott")
-        "----" A    0 A_JumpIf (callACS ("S7_GetEffectsStayTime") == 6, "Delay.DearLordGoBuyANewComputerRightMotherfuckingNow")
-        "----" A 2500
-        goto Fade
-    Delay.Shorter:
-        "----" A 1250
-        goto Fade
-    Delay.EvenShorter:
-        "----" A 625
-        goto Fade
-    Delay.ShortAsFuck:
-        "----" A 313
-        goto Fade
-    Delay.DearLordDoYouHaveAFuckingToaster:
-        "----" A 157
-        goto Fade
-    Delay.MeinFuckingGott:
-        "----" A 70
-        goto Fade
-    Delay.DearLordGoBuyANewComputerRightMotherfuckingNow:
-        "----" A 35
-        goto Fade
+        "----" A 0 A_SetUserVar ("user_StayTime", callACS ("S7_GetEffectsStayTime"))
+        "----" A 0 A_JumpIf ((user_StayTime == -2 && user_Timer >= 10000) ||
+                             (user_StayTime == -1 && user_Timer >=  5000) ||
+                             (user_StayTime ==  0 && user_Timer >=  2500) ||
+                             (user_StayTime ==  1 && user_Timer >=  1250) ||
+                             (user_StayTime ==  2 && user_Timer >=   625) ||
+                             (user_StayTime ==  3 && user_Timer >=   313) ||
+                             (user_StayTime ==  4 && user_Timer >=   157) ||
+                             (user_StayTime ==  5 && user_Timer >=    70) ||
+                             (user_StayTime ==  6 && user_Timer >=    35), "Fade")
+        "----" A 1 A_SetUserVar ("user_Timer", user_Timer + 1)
+        loop
 
     Fade:
     Fade.Looper:
@@ -63,8 +58,7 @@ actor S7_CasingBase {
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 2, "Fade.EvenFaster")
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 3, "Fade.FastAsFuck")
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 4, "Fade.TheFlash")
-        "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 5, "Fade.InTheTimeItTakesForYourComputerToProcessATicThisWouldAlreadyBeGoneInANormalComputer")
-        "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 6, "Fade.DearLordGoBuyANewComputerRightMotherfuckingNow")
+        "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 5, "Fade.DearLordGoBuyANewComputerRightMotherfuckingNow")
         goto Fade.Normal
 
     Fade.Normal:
@@ -81,9 +75,6 @@ actor S7_CasingBase {
         goto Fade.Looper
     Fade.TheFlash:
         "----" A 1 A_FadeOut (0.15)
-        goto Fade.Looper
-    Fade.InTheTimeItTakesForYourComputerToProcessATicThisWouldAlreadyBeGoneInANormalComputer:
-        "----" A 1 A_FadeOut (0.18)
         goto Fade.Looper
     Fade.DearLordGoBuyANewComputerRightMotherfuckingNow:
         "----" A 1 A_FadeOut (2.0)
@@ -137,7 +128,7 @@ actor S7_CasingBase {
 actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_CustomMissile ("S7_ShellCasing", 0, 0, random [sfx] (80, 100), 2, random [sfx] (-40, -60))
+        TNT1 A 0 noDelay A_CustomMissile ("S7_ShellCasing", 0, 0, fRandom [sfx] (80, 100), 2, fRandom [sfx] (-40, -60))
         stop
     }
 }
@@ -187,7 +178,7 @@ actor S7_12gaShellCasing : S7_CasingBase {
 actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_CustomMissile ("S7_9mmCasing", -5, 0, random [sfx] (-80, -100), 2, random [sfx] (45, 80))
+        TNT1 A 0 noDelay A_CustomMissile ("S7_9mmCasing", -5, 0, fRandom [sfx] (-80, -100), 2, fRandom [sfx] (45, 80))
         stop
     }
 }
@@ -211,7 +202,7 @@ actor S7_9mmCasing : S7_CasingBase {
 actor S7_45ACPCasingSpawn : S7_9mmCasingSpawn {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_CustomMissile ("S7_45ACPCasing", -5, 0, random [sfx] (-80, -100), 2, random [sfx] (45, 80))
+        TNT1 A 0 noDelay A_CustomMissile ("S7_45ACPCasing", -5, 0, fRandom [sfx] (-80, -100), 2, fRandom [sfx] (45, 80))
         stop
     }
 }
@@ -250,7 +241,7 @@ actor S7_RevolverCasing : S7_CasingBase {
 actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_CustomMissile ("S7_RifleCasing", -5, 0, random [sfx] (-80, -100), 2, random [sfx] (45, 80))
+        TNT1 A 0 noDelay A_CustomMissile ("S7_RifleCasing", -5, 0, fRandom [sfx] (-80, -100), 2, fRandom [sfx] (45, 80))
         stop
     }
 }
@@ -262,6 +253,37 @@ actor S7_RifleCasing : S7_CasingBase {
     states {
     Spawn:
         CAS3 ABCDEFGH 2 noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        loop
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// .45 WW Casing
+//
+//-------------------------------------------------------------------------------------------
+actor S7_45WWCasingSpawn : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_45WWCasing", -5, 0, fRandom [sfx] (-80, -100), 2, fRandom [sfx] (45, 80))
+        stop
+    }
+}
+actor S7_45WWCasingSpawnRifle : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_45WWCasing", -5, 0, fRandom [sfx] (-80, -100), 2, fRandom [sfx] (45, 55))
+        stop
+    }
+}
+
+actor S7_45WWCasing : S7_CasingBase {
+    seeSound "Weapons/casing"
+    scale .25
+
+    states {
+    Spawn:
+        CAS5 ABCDEFGH 2 noDelay A_SpawnItemEx ("S7_CasingSmoke")
         loop
     }
 }
