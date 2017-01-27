@@ -48,6 +48,10 @@ PD_AmmoType_t PD_AmmoTypes [] = {
         .magSize = 35,
     },
     {
+        .name = s"S7_45WWCartridges",
+        .magSize = 75,
+    },
+    {
         .name = s"S7_20gaShells",
         .magSize = 10,
     },

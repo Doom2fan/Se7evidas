@@ -138,7 +138,7 @@ actor S7_45ACPCartridges : ammo 31005 {
     inventory.amount 62
     inventory.maxAmount 372
     // ammo.backpackMaxAmount 496
-    inventory.icon "CLIPA0"
+    inventory.icon "CLIPC0"
     inventory.pickupSound "misc/ammopickup"
 
     states {
@@ -159,7 +159,7 @@ actor S7_44MCartridges : ammo 31001 {
     inventory.amount 6
     inventory.maxAmount 36
     // ammo.backpackMaxAmount 48
-    inventory.icon "CLIPA0"
+    inventory.icon "44MP0"
     inventory.pickupSound "misc/ammopickup"
     states {
     Spawn:
@@ -179,12 +179,32 @@ actor S7_762x39Cartridges : ammo 31002 {
     inventory.amount 35
     inventory.maxAmount 210
     // ammo.backpackMaxAmount 280
-    inventory.icon "CLIPA0"
+    inventory.icon "CLIPE0"
     inventory.pickupSound "misc/ammopickup"
 
     states {
     Spawn:
         CLIP E -1
+        stop
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// .45 WW
+//
+//-------------------------------------------------------------------------------------------
+actor S7_45WWCartridges : ammo 31010 {
+    tag "$44WW"
+    inventory.pickupMessage "$44WW"
+    inventory.amount 15
+    inventory.maxAmount 450
+    inventory.icon "CLIPG0"
+    inventory.pickupSound "misc/ammopickup"
+
+    states {
+    Spawn:
+        CLIP G -1
         stop
     }
 }

@@ -91,6 +91,7 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_MultiJump_Max",                              }, // Max multijumps token
     { .name = s"S7_ConquerorRifle",                             }, // Conqueror Sniper Rifle
     { .name = s"S7_ConquerorRifleClip",                         },
+    { .name = s"S7_45WWCartridges",                             },
 };
 
 SaveInv_InvDef normalInv = {
