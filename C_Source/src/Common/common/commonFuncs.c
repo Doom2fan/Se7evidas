@@ -508,7 +508,7 @@ vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
 
     return ret;
 }
-/*bool PitchGravProjInRange (accum speed, accum grav, vec5_k sInfo, vec5_k tInfo, vec2_k pSize) {
+/*bool InterceptShotPitchInRange (accum speed, accum grav, vec5_k sInfo, vec5_k tInfo, vec2_k pSize) {
     for (accum i = -1.0k; i <= 1.0k; i += 0.05) {
         vec2_k proj, target;
         proj.x = 0; proj.y = 0;
@@ -522,23 +522,93 @@ vec3_k GetEulerAngles (vec3_k p1, vec3_k p2) {
 
     return FALSE;
 }*/
-/*bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2) {
+/*bool InterceptShotPitchInRange (accum speed, accum grav, vec3_k p1, vec3_k p2) {
     double v = (double) speed, g = ((double) grav) * BASE_GRAVITYF;
     double x = (double) (pow (p1.x - p2.x, 2) + pow (p1.y - p2.y, 2)), y = abs ((double) (p1.z - p2.z));
     double sq = pow (v, 4) - g * (g * pow (x, 2) + 2 * y * pow (v, 2));
     
     return sq > 0.0 && !isnan (sq) && !isinf (sq);
 }*/
-vec2_k PitchGravProj (accum speed, accum grav, vec3_k p1, vec3_k p2) {
-    long accum v = speed, g = grav * BASE_GRAVITY;
-    long accum x = Distance2D (p1.x, p1.y, p2.x, p2.y), y = AbsA (p1.z - p2.z);
-    vec2_k ret;
+bool InterceptShotPitch (accum speed, accum grav, vec3_k p1, vec3_k p2, vec2_k *ret) {
+    double v = speed, g = (double) grav * BASE_GRAVITY,
+           xDiff = (double) p1.x - p2.x, yDiff = (double) p1.y - p2.y,
+           x = sqrt (xDiff*xDiff + yDiff*yDiff), y = abs ((double) p1.z - p2.z);
+    
+    double sq = pow (v, 4) - g * (g * pow (x, 2) + 2 * y * pow (v, 2));
 
-    long accum sq = PowA (v, 4) - g * (g * PowA (x, 2) + 2 * y * PowA (v, 2));
-    ret.x = atanA (v * v + ((accum) LongFixedSqrt (sq)) / (g * x));
-    ret.y = atanA (v * v - ((accum) LongFixedSqrt (sq)) / (g * x));
+    if (!isnan (sq)) {
+        ret->x = (accum) (atan (v * v + sqrt (sq)) / (g * x));
+        ret->y = (accum) (atan (v * v - sqrt (sq)) / (g * x));
+        return TRUE;
+    } else {
+        ret->x = 0.0k;
+        ret->y = 0.0k;
+        return FALSE;
+    }
+}
 
-    return ret;
+#define ISP_DBLTOLERANCE 0.0000000000000001
+bool InterceptShotPosition (vec2_k sPos, vec2_k tPos, vec2_k tVel, double sProjectile, vec2_k *solution) {
+    // This formulation uses the quadratic equation to solve
+    // the intercept position.
+    vec2_d  pShooter = { .x = sPos.x, .y = sPos.y },
+            pTarget0 = { .x = tPos.x, .y = tPos.y },
+            vTarget  = { .x = tVel.x, .y = tVel.y },
+            R = Vec2D_VecSub (pTarget0, pShooter),
+            tmpSol;
+    double a = vTarget.x * vTarget.x + vTarget.y * vTarget.y - sProjectile * sProjectile;
+    double b = 2 * (R.x * vTarget.x + R.y * vTarget.y);
+    double c = R.x * R.x + R.y * R.y;
+    double tBullet = 0;
+    
+    // If the target and the shooter have already collided, don't bother.
+    if (Vec2D_LengthSquared (R) == 0 || Vec2D_LengthSquared (R) < ISP_DBLTOLERANCE)
+        return false;
+    
+    // If the squared velocity of the target and the bullet are the same, the equation
+    // collapses to tBullet * b = -c.  If they are REALLY close to each other (float tol),
+    // you could get some weirdness here.  Do some "is it close" checking?
+    if (abs (a) == 0.0 || abs (a) < (2.0 * ISP_DBLTOLERANCE)) {
+        // If the b value is 0, we can't get a solution.
+        if (abs (b) == 0.0 || abs (b) < (2.0 * ISP_DBLTOLERANCE))
+            return false;
+        
+        tBullet = -c / b;
+    } else {
+        // Calculate the discriminant to figure out how many solutions there are.
+        double discriminant = b * b - 4 * a * c;
+        if (discriminant < 0.0) // All solutions are complex.
+            return false;
+        
+        if (discriminant > 0.0) { // Two solutions.  Pick the smaller one.
+            // Calculate the quadratic.
+            double quad = sqrt (discriminant);
+            double tBullet1 = (-b + quad) / (2 * a);
+            double tBullet2 = (-b - quad) / (2 * a);
+            if (tBullet1 < 0.0 && tBullet2 < 0.0) // This would be really odd.
+                return false; // Both times are negative.
+            else if (tBullet2 < 0.0 && tBullet1 >= 0.0) // One negative, one positive.
+                tBullet = tBullet1;
+            else if (tBullet1 < 0.0 && tBullet2 >= 0.0) // One negative, one positive.
+                tBullet = tBullet2;
+            else if (tBullet1 < tBullet2) // First less than second
+                tBullet = tBullet1;
+            else // Only choice left
+                tBullet = tBullet2;
+        } else
+            tBullet = -b / (2*a);
+    }
+
+    // If the time is negative, we can't get there from here.
+    if (tBullet < 0.0)
+        return false;
+    
+    // Calculate the intercept position.
+    tmpSol = Vec2D_VecAdd (pTarget0, Vec2D_Mul (vTarget, tBullet));
+    solution->x = (accum) tmpSol.x;
+    solution->y = (accum) tmpSol.y;
+    
+    return true;
 }
 
 /* Misc */

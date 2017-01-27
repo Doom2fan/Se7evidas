@@ -62,6 +62,15 @@ typedef struct CharNibble {
 
 #define BoundsCheck(var, min, max) (var >= min && var < max)
 
+// Accum-float conversion
+#define FloatToAccum(f)      ((accum) ((f) * (65536)))
+#define AccumToFloat(f)      (((float)  f) / (65536.0f))
+#define AccumToDouble(f)     (((double) f) / (65536.0))
+// Long accum-float conversion
+#define FloatToLongAccum(f)      ((long accum) ((f) * (4294967296)))
+#define LongAccumToFloat(f)      (((float)  f) / (4294967296.0f))
+#define LongAccumToDouble(f)     (((double) f) / (4294967296.0))
+
 // Externs
 __addrdef extern __gbl_arr global_var;
 __addrdef extern __mod_arr    map_var;
@@ -125,8 +134,9 @@ accum Distance2D (accum actor1X, accum actor1Y, accum actor2X, accum actor2Y); /
 accum Distance2DVec (vec2_k vec1, vec2_k vec2);
 accum Distance2DTID (int tid1, int tid2);
 vec3_k GetEulerAngles (vec3_k p1, vec3_k p2); // Euler angles as a vec3
-// bool PitchGravProjInRange (accum speed, accum grav, vec3_k p1, vec3_k p2);
-vec2_k PitchGravProj (accum speed, accum grav, vec3_k p1, vec3_k p2); // Gets the pitch a projectile needs to be fired at from p1 to hit p2 while accounting for gravity
+// bool InterceptShotPitchInRange (accum speed, accum grav, vec3_k p1, vec3_k p2);
+bool InterceptShotPitch (accum speed, accum grav, vec3_k p1, vec3_k p2, vec2_k *ret); // Gets the pitch a projectile needs to be fired at from p1 to hit p2 while accounting for gravity
+bool InterceptShotPosition (vec2_k sPos, vec2_k tPos, vec2_k tVel, double sProjectile, vec2_k *solution); // Gets the position a project needs to be fired at from sPos to hit tPos while accounting for velocity
 /* Misc */
 long accum LongFixedSqrt (long accum x);
 int Random2 (int x, int y);

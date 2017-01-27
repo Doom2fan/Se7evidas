@@ -89,31 +89,31 @@ MonsterInfo_t* PlayerAsMonster (PlayerData_t *player) {
 //
 //-------------------------------------------------------------------------------------------
 Script_C void S7_GenericMonsterScript () {
-    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
-    self->boss = 0;
-    AddMonsterToList (self);
+    MonsterInfo_t self;
+    self.boss = 0;
+    AddMonsterToList (&self);
 
     while (TRUE) {
-        UpdateMonsterInfo (self);
+        UpdateMonsterInfo (&self);
 
         Delay (1);
     }
 }
 
 Script_C void S7_SuccubusScript () {
-    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
-    self->boss = 0;
+    MonsterInfo_t self;
+    self.boss = 0;
     vec3_k targetPos;
     bool flying = FALSE;
-    AddMonsterToList (self);
+    AddMonsterToList (&self);
 
     while (TRUE) {
-        UpdateMonsterInfo (self);
+        UpdateMonsterInfo (&self);
         targetPos = GetActivatorPointerPos (AAPTR_TARGET);
 
-        if (self->z - targetPos.z > 96.0k)
+        if (self.z - targetPos.z > 96.0k)
             flying = TRUE;
-        else if ((self->z - self->floorZ) <= 0)
+        else if ((self.z - self.floorZ) <= 0)
             flying = FALSE;
         else
             flying = TRUE;
@@ -128,12 +128,12 @@ Script_C void S7_SuccubusScript () {
 Script_C void S7_ZombieScript () {
     string name = s"Reading name";
     int readDelay = Random (3, 6);
-    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
-    self->boss = 0;
-    AddMonsterToList (self);
+    MonsterInfo_t self;
+    self.boss = 0;
+    AddMonsterToList (&self);
 
     while (TRUE) {
-        UpdateMonsterInfo (self);
+        UpdateMonsterInfo (&self);
 
         if (readDelay != 0xBAADBEEF && readDelay <= 0) {
             name = NL_GenMaleNameEng ();
@@ -160,14 +160,14 @@ Script_C void S7_EmpressScript () {
     int invulnDelay,
         ballsCount,
         newHealth, health;
-    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
-    self->boss = 2;
-    AddMonsterToList (self);
+    MonsterInfo_t self;
+    self.boss = 2;
+    AddMonsterToList (&self);
 
     newHealth = GetActorProperty (0, APROP_Health);
     health = EMPMHEALTH;
     while (TRUE) {
-        UpdateMonsterInfo (self);
+        UpdateMonsterInfo (&self);
 
         ballsCount = CheckInventory (s"S7_EmpressBalls");
         health += -(0x7FFFFFFF - newHealth);
@@ -198,37 +198,115 @@ Script_C void S7_EmpressScript () {
     }
 }
 
+Script_LS void S7_TerminatorScriptGetInfo (vec3_k *tPos, vec3_k *tVel) {
+    SetActivatorToTarget (0);
+
+    tPos->x = GetActorX (0);
+    tPos->y = GetActorY (0);
+    tPos->z = GetActorZ (0);
+    
+    tVel->x = GetActorVelX (0);
+    tVel->y = GetActorVelY (0);
+    tVel->z = GetActorVelZ (0);
+}
 Script_C void S7_TerminatorScript () {
-    MonsterInfo_t *self = allocAndClear (sizeof (MonsterInfo_t));
-    self->boss = 0;
-    AddMonsterToList (self);
+    MonsterInfo_t self;
+    self.boss = 0;
+    AddMonsterToList (&self);
 
     while (TRUE) {
-        UpdateMonsterInfo (self);
-        if (GetUserVariable (0, s"user_ReqGrenCheck")) {
-            vec3_k tPos = GetActivatorPointerPos (AAPTR_TARGET),
-                   sPos = (*(vec3_k*)&(self->x));
-            accum dist = Distance2Vec (sPos, tPos);
+        UpdateMonsterInfo (&self);
 
-            if (dist < 145.0k) {
+        if (GetUserVariable (0, s"user_ReqGrenCheck") == 1) {
+            vec3_k sPos = (*(vec3_k*)&(self.x)),
+                   tPos, tVel;
+            accum dist;
+            S7_TerminatorScriptGetInfo (&tPos, &tVel);
+            dist = Distance2Vec (sPos, tPos);
+            sPos.x += -18 * CosA (self.angle);
+            sPos.y += -18 * SinA (self.angle);
+
+            if (dist < 145.0k)
                 SetUserVariable (0, s"user_GrenType", 1);
-                vec2_k tmp = PitchGravProj (55.0k, 0.2k, sPos, tPos);
-                ChangeActorPitch (0, tmp.x, TRUE);
-            } else if (dist < 350.0k) {
+            else if (dist < 350.0k)
                 SetUserVariable (0, s"user_GrenType", 2);
-                vec2_k tmp = PitchGravProj (80.0k, 0.2k, sPos, tPos);
-                ChangeActorPitch (0, tmp.x, TRUE);
-            } else if (dist < 875.0k) { // 5 * 95 + 400
-                vec3_k tmpSPos = sPos;
-                tmpSPos.x += 475 * cos (self->angle);
-                tmpSPos.y += 475 * sin (self->angle);
+            else if (dist < 875.0k) // 5 * 95 + 400
                 SetUserVariable (0, s"user_GrenType", 0);
-                vec2_k tmp = PitchGravProj (80.0k, 0.2k, tmpSPos, tPos);
-                ChangeActorPitch (0, tmp.x, TRUE);
-            } else
-                SetUserVariable (0, s"user_GrenType", -1);
+            else
+                SetUserVariable (0, s"user_GrenType", 0);
 
             SetUserVariable (0, s"user_ReqGrenCheck", 0);
+        } else if (GetUserVariable (0, s"user_ReqGrenCheck") == 2) {
+            vec3_k sPos = (*(vec3_k*)&(self.x)),
+                   tPos, tVel, tIntercept, angle;
+            vec2_k pitchVec;
+            accum pitch, dist;
+            bool setPitch = FALSE;
+            S7_TerminatorScriptGetInfo (&tPos, &tVel);
+            tIntercept = tPos;
+            dist = Distance2Vec (sPos, tPos);
+            sPos.x += -18 * CosA (self.angle);
+            sPos.y += -18 * SinA (self.angle);
+
+            if (GetUserVariable (0, s"user_GrenType")) {
+                if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 55.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 145.0k) {
+                    // Angle
+                    angle = GetEulerAngles (tIntercept, sPos);
+                    ChangeActorAngle (0, angle.z, TRUE);
+                    // Pitch
+                    InterceptShotPitch (80.0k, 0.2k, sPos, tIntercept, &pitchVec);
+                    setPitch = TRUE;
+                } else if (dist < 145.0k) {
+                    InterceptShotPitch (55.0k, 0.2k, sPos, tPos, &pitchVec);
+                    setPitch = TRUE;
+                } else
+                    setPitch = FALSE;
+
+                if (setPitch) {
+                    pitch = (pitchVec.x < pitchVec.y ? pitchVec.x : pitchVec.y);
+                    ChangeActorPitch (0, -pitch, TRUE);
+                }
+            } else if (GetUserVariable (0, s"user_GrenType") == 2) {
+                if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 80.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 350.0k) {
+                    // Angle
+                    angle = GetEulerAngles (tIntercept, sPos);
+                    ChangeActorAngle (0, angle.z, TRUE);
+                    // Pitch
+                    InterceptShotPitch (80.0k, 0.2k, sPos, tIntercept, &pitchVec);
+                    setPitch = TRUE;
+                } else if (dist < 350.0k) {
+                    InterceptShotPitch (80.0k, 0.2k, sPos, tPos, &pitchVec);
+                    setPitch = TRUE;
+                } else
+                    setPitch = FALSE;
+
+                if (setPitch) {
+                    pitch = (pitchVec.x < pitchVec.y ? pitchVec.x : pitchVec.y);
+                    ChangeActorPitch (0, -pitch, TRUE);
+                }
+            } else if (GetUserVariable (0, s"user_GrenType") == 0) { // 5 * 95 + 400
+                vec3_k tmpSPos = sPos;
+                tmpSPos.x += 475.0k * cos (self.angle);
+                tmpSPos.y += 475.0k * sin (self.angle);
+
+                if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 95.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 875.0k) {
+                    // Angle
+                    angle = GetEulerAngles (tIntercept, sPos);
+                    ChangeActorAngle (0, angle.z, TRUE);
+                    // Pitch
+                    InterceptShotPitch (95.0k, 0.2k, tmpSPos, tIntercept, &pitchVec);
+                    setPitch = TRUE;
+                } else if (dist < 875.0k) {
+                    InterceptShotPitch (95.0k, 0.2k, tmpSPos, tPos, &pitchVec);
+                    setPitch = TRUE;
+                } else
+                    setPitch = FALSE;
+
+                if (setPitch) {
+                    pitch = (pitchVec.x < pitchVec.y ? pitchVec.x : pitchVec.y);
+                    ChangeActorPitch (0, -pitch, TRUE);
+                }
+            }
         }
 
         Delay (1);
@@ -292,40 +370,39 @@ enum {
 Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info);
 
 Script_C void S7_SLanceBeamGrab () {
-    SLanceBGI *info = allocAndClear (sizeof (SLanceBGI));
+    SLanceBGI info;
     int oldTID = ActivatorTID ();
 
-    info->holderTID = UniqueTID (-10000, -5000);
-    info->holderPos.x = GetActorX (0);
-    info->holderPos.y = GetActorY (0);
-    info->holderPos.z = GetActorZ (0);
+    info.holderTID = UniqueTID (-10000, -5000);
+    info.holderPos.x = GetActorX (0);
+    info.holderPos.y = GetActorY (0);
+    info.holderPos.z = GetActorZ (0);
 
-    PrintBold ("%d", info->holderTID);
+    PrintBold ("%d", info.holderTID);
 
-    S7_SLanceBeamGrabP2 (info);
+    S7_SLanceBeamGrabP2 (&info);
 
     while (TRUE) {
         if (!CheckInventory (s"S7_SoulLance_BeamGrabbed") ||
              GetActorProperty (0, APROP_Health) <= 0 ||
              CheckInventory (ISDEADTOKEN) ||
             (CheckInventory (EMPINVTOKEN) && GetUserVariable (0, EMPHPVAR) <= 0) ||
-            info->flags & BGIF_STOP1) {
+            info.flags & BGIF_STOP1) {
             TakeInventory (s"S7_SoulLance_BeamGrabbed", 0x7FFFFFFF);
-            info->flags |= BGIF_STOP2;
+            info.flags |= BGIF_STOP2;
             break;
         }
 
-        info->holderPos.x = GetActorX (0);
-        info->holderPos.y = GetActorY (0);
-        info->holderPos.z = GetActorZ (0);
+        info.holderPos.x = GetActorX (0);
+        info.holderPos.y = GetActorY (0);
+        info.holderPos.z = GetActorZ (0);
 
         Delay (1);
     }
 
-    info->flags |= BGIF_P1GONE;
-    if (info->flags & BGIF_P1GONE && info->flags & BGIF_P2GONE)
-        free (info);
-    info = NULL;
+    info.flags |= BGIF_P1GONE;
+    /*if (info.flags & BGIF_P1GONE && info.flags & BGIF_P2GONE)
+        free (info);*/
 }
 
 Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info) {
@@ -374,7 +451,6 @@ Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info) {
         playerPos.z = GetActorZ (0);
 
         rotAngles = GetEulerAngles (info->holderPos, playerPos);
-        PrintBold ("%k", rotAngles.y);
 
         ChangeActorAngle (thingyTID,  rotAngles.z, TRUE);
         ChangeActorPitch (thingyTID, -rotAngles.y, TRUE);
