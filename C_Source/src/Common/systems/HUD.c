@@ -125,7 +125,9 @@ static string AmmoList [] [2] = {
     {   s"9MM",                     s"S7_9mmCartridges"         },
     {   s"44M",                     s"S7_44MCartridges"         },
     {   s"762X39",                  s"S7_762x39Cartridges"      },
+    {   s"45WW",                    s"S7_45WWCartridges"        },
     {   s"20GA",                    s"S7_20gaShells"            },
+    {   s"12GA",                    s"S7_12gaShells"            },
     {   s"",                        s""                         },
 
     {   s"POP_BATTERIES",           s""                         },
@@ -269,7 +271,7 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
         return;
 
     EI_Struct info = EI_GetInfo (PLN);
-    int screenblocks = GetCVar (s"screenblocks"); // GetUserCVar (PLN, s"S7_Screenblocks");
+    int screenblocks = GetCVar (s"screenblocks");
     int forceDirCvar = GetUserCVar (PLN, s"S7_EnemyHPBar_ForceDir");
 
     if (forceDirCvar) {
@@ -412,7 +414,7 @@ void ScreenOverlays (PlayerData_t *player) {
 #define RADAR_SWEEPTIME 175
 
 void DrawRadar (PlayerData_t *player) {
-    if (!player->scriptData.disableHUD && true){//CheckInventory (s"S7_UpgradeRadar")) {
+    if (GetCVar (s"screenblocks") <= 11 && !player->scriptData.disableHUD && true) { //CheckInventory (s"S7_UpgradeRadar")) {
         MonsterInfo_t *monster = monsterList;
         accum x, y, dX, dY, dist;
         int colour, i = 0;
