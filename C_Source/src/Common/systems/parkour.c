@@ -95,7 +95,7 @@ void MultiJumpScript (PlayerData_t *player) {
     }
 
     // If the player is alive, their floor-relative Z is greater than MJUMPMINDIFF, their Z velocity is lower than or equal to 32, they're is not on the ground, their multijump
-    // counter isn't equal to mJumpMax, they pressed jump, the sv_nojump CVAR isn't TRUE, they're not dead, and their haven't gotten beamgrabbed...
+    // counter isn't equal to mJumpMax, they pressed jump, the sv_nojump CVAR isn't TRUE, they're not dead, and they haven't gotten beamgrabbed...
     if (KeyPressedMOD (BT_JUMP) && !GetCVar (s"sv_nojump") && player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.mjumpOnGround && !player->parkourDef.wjumpJustJumped &&
         player->parkourDef.mjumpCount < mJumpMax && abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32) {
         SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker

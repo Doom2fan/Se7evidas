@@ -49,7 +49,8 @@ void UpdatePlayerData (PlayerData_t *player) {
     player->health.stamina = CheckInventory (STAMINATOKEN);             // Get the stamina
 
     // Shop system stuff
-    player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
+    player->cash = (CheckInventory (CASHTOKENGREATER) * CASHDIVPOINT) + CheckInventory (CASHTOKENLESSER);
+    SetInventory (s"S7_CashCounter", player->cash);
 
     // Misc
     player->misc.waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
@@ -204,7 +205,9 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     SetInventory (XPS_AGILITYTOKEN,    saveData->xpSystem.agilityLVL);
     SetInventory (XPS_VITALITYTOKEN,   saveData->xpSystem.vitalityLVL);
     SetInventory (XPS_DEFENSETOKEN,    saveData->xpSystem.defenseLVL);
+    SetInventory (XPS_WILLTOKEN,       saveData->xpSystem.willLVL);
     SetInventory (XPS_MAGICTOKEN,      saveData->xpSystem.magicLVL);
+    SetInventory (XPS_TECHTOKEN,       saveData->xpSystem.techLVL);
     SetCash      (player,              saveData->cash);
     player->bankData = saveData->bankData;
 
