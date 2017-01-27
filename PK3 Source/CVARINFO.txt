@@ -23,6 +23,9 @@ user int  S7_Radar_Width                = 1280;
 user int  S7_Radar_Height               = 720;
 user int  S7_Radar_XPos                 = 1036;
 user int  S7_Radar_YPos                 = 13;
+// Toaster stuff
+user int S7_EffectStayTime              = 0;
+user int S7_EffectFadeSpeed             = 0;
 
 /** Required clientside CVars **/
 user int  S7_Screenblocks               = 0;

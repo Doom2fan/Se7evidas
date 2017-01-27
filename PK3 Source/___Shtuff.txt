@@ -40,14 +40,14 @@ PK3 Source/DECORATE/Player.DEC {
     weaponSlot properties: weapon actor names;
 }
 
-C_Source/inc/Common/weapons/weap_data.h {
+C_Source/inc/Common/weapons/weap_data.c {
     WeaponNames array: Weapon actor names;
     ClipNames: In mag ammo actor names;
     AmmoNames: Ammo type actor names;
     S7_HW_2ModeWpns: Weapon actor names; (Weapons with 2 switchable fire modes)
 }
 
-C_Source/inc/Common/common/player.h {
+C_Source/inc/Common/common/player.c {
     PD_AmmoTypes: Ammo types info;
 
 }

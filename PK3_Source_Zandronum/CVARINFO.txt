@@ -1,2 +1,0 @@
-user int S7_EffectStayTime = 0;
-user int S7_EffectFadeSpeed = 0;

@@ -10,13 +10,16 @@ defaultListMenu {
 //-------------------------------------------------------------------------------------------
 
 optionValue EffectsStayTimeOptions {
-    0, "Normal (5000 tics)"
-    1, "Shorter (2500 tics)"
-    2, "Even shorter (1250 tics)"
-    3, "Short as fuck (625 tics)"
-    4, "Dear lord. Do you have a fucking toaster? (313 tics)"
-    5, "MEIN FUCKING GOTT (157 tics)"
-    6, "Stop trying to run this on a 386. (70 tics)"
+   -3, "Stay forever"
+   -2, "Even longer (10000 tics)"
+   -1, "Longer (5000 tics)"
+    0, "Normal (2500 tics)"
+    1, "Shorter (1250 tics)"
+    2, "Even shorter (625 tics)"
+    3, "Short as fuck (313 tics)"
+    4, "Dear lord. Do you have a fucking toaster? (157 tics)"
+    5, "MEIN FUCKING GOTT (70 tics)"
+    6, "Stop trying to run this on a 386. (35 tics)"
 }
 
 optionValue EffectsFadeSpeedOptions {
@@ -25,8 +28,7 @@ optionValue EffectsFadeSpeedOptions {
     2, "Even faster (.09 each 2 tics)"
     3, "Fasterer (.12 each tic)"
     4, "The Flash (.15 each tic)"
-    5, "In the time it takes for your computer to process a tic, this would already be gone in a normal computer (.18 each tic)"
-    6, "Stop trying to run this on a 386. (Instant)"
+    5, "Stop trying to run this on a 386. (Instant)"
 }
 
 optionMenu "S7Settings" {

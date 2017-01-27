@@ -7,6 +7,7 @@ HITTERSMG                       = "Cronus Corps-Sigma BTK SR20 .45 ACP SMG \"Hit
 FAUCHARD                        = "Firebrand Systems FS/002A Mod 4 Automatic Rifle \"Fauchard\"";       // (FB Sys. Cells)
 BUTTFLY                         = "Firebrand Systems FS/909G SMG \"Butterfly\"";                        // (FB Sys. Cells)
 SSG                             = "Double-barrelled Shotgun";                                           // (12ga)
+CONQUERORSRIFLE                 = "Acheron Industries MK17 Anti-Materiel Sniper Rifle \"Conqueror\"";   // (.44 WW)
 // Short
 SHORTAMG                        = "A28 \"Mars\" Assault Rifle";
 SHORTSHOTGUN                    = "AM-10 \"Lucifer\" Combat Shotgun";
@@ -15,6 +16,7 @@ SHORTHITTERSMG                  = "SR20 .45 ACP SMG \"Hitter\"";
 SHORTFAUCHARD                   = "FS/002A Mod 4 Automatic Rifle \"Fauchard\"";
 SHORTBUTTFLY                    = "FS/909G SMG \"Butterfly\"";
 SHORTSSG                        = "Super Shotgun";
+SHORTCONQUERORSRIFLE            = "MK17 Anti-Materiel Rifle \"Conqueror\"";
 
 /** Secondary Weapons **/
 RAPTOR                          = "Cronus Corps R16 Pistol \"Raptor\"";                                 // (9x19mm)
