@@ -48,54 +48,167 @@ actor S7_Terminator : S7_DemonBase 32507 {
         loop
 
     Missile:
-        goto Missile.Grenade
+        TNT1 A 0 A_Jump (171, "Missile.Plasma", "Missile.Grenade")
+        goto Missile.Machinegun
+    Missile.NoGrenade:
+        TNT1 A 0 A_Jump (128, "Missile.Plasma")
+        goto Missile.Machinegun
 
+    /** Plasma Cannon **/
     Missile.Plasma:
-        TNT1 A 0 A_PlaySound ("Terminator/PlasmaStart", CHAN_WEAPON) // Play plasma attack begin sound
+        TNT1 A 0 A_PlaySound ("Terminator/PlasmaStart", CHAN_WEAPON) // Play the plasma attack begin sound
 
-        TERM EEEEEE 1 A_FaceTarget (60.0, 30.0) // Spin to face target
+        TERM EEEEEE 1 A_FaceTarget (60, 30) // Spin to face target
 
-        TNT1 A  0 A_FaceTarget (360, 180) // Make sure we're facing the target
+        TNT1 A  0 A_FaceTarget (0, 0) // Make sure we're facing the target
         TNT1 A  0 A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon) // Play the firing sound
-        TERM F  1 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom [monsterSpread] (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch) // Fire a S7_TerminatorPlasma at the current direction
+        TERM F  1 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom [monsterSpread] (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
         TERM FF 1 bright
 
-        TERM EEE 1 A_FaceTarget (60.0, 30.0)
-        TNT1 A   0 A_FaceTarget (360, 180)
-        TERM F   1 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom [monsterSpread] (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch) // Fire a S7_TerminatorPlasma at the current direction
+        TERM EEE 1 A_FaceTarget (60, 30)
+        TNT1 A   0 A_FaceTarget (0, 0)
+        TNT1 A   0 A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon)
+        TERM F   1 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom [monsterSpread] (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
         TERM FF  1 bright
 
-        TERM EEE 1 A_FaceTarget (60.0, 30.0)
-        TNT1 A   0 A_FaceTarget (360, 180)
-        TERM F   1 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom [monsterSpread] (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch) // Fire a S7_TerminatorPlasma at the current direction
+        TERM EEE 1 A_FaceTarget (60, 30)
+        TNT1 A   0 A_FaceTarget (0, 0)
+        TNT1 A   0 A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon)
+        TERM F   1 bright A_CustomMissile ("S7_TerminatorPlasma", 35.0, 18, angle + fRandom [monsterSpread] (-3.5, 3.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
         TERM FF  1 bright
 
         TERM EEEEE 1
         goto Missile.End
 
-    Missile.Grenade:
-        TNT1 A 0 A_SetUserVar ("user_ReqGrenCheck", 1)
-        TNT1 A 0 A_PlaySound ("Terminator/GrenadeStart", CHAN_WEAPON) // Play grenade attack begin sound
+    /** Machinegun **/
+    Missile.Machinegun:
+        TNT1 A    0 A_PlaySound ("Terminator/MachinegunStart", CHAN_WEAPON) // Play the machinegun attack begin sound
+        TERM GGGG 1 A_FaceTarget (90, 45) // Spin to face target
+    Missile.Machinegun.Choose:
+        TNT1 A 0 A_JumpIfCloser ( 512.0, "Missile.Machinegun.MaxSpeed")
+        TNT1 A 0 A_JumpIfCloser (1024.0, "Missile.Machinegun.Mid2Speed")
+        TNT1 A 0 A_JumpIfCloser (2048.0, "Missile.Machinegun.Mid1Speed")
+        goto Missile.Machinegun.MinSpeed
 
-        TERM JJJJJJ 1 A_FaceTarget (60.0, 30.0) // Spin to face target
+    Missile.Machinegun.MaxSpeed:
+        TNT1 A  0 A_FaceTarget (0, 0) // Make sure we're facing the target
+        TNT1 A  0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon) // Play the firing sound
+        TERM H  1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle - 3.0 + fRandom [monsterSpread] (-2.0, 2.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-1.0, 1.0))
+        TERM GG 1 A_FaceTarget (180, 90)
 
-        TERM J 2 A_FaceTarget (360, 180) // Make sure we're facing the target
-        goto Missile.Nail
-        TNT1 A 0 A_SetUserVar ("user_ReqGrenCheck", 2)
-        TNT1 A 0 A_JumpIf (user_GrenType == 0, "Missile.Nail")
-        TNT1 A 0 A_JumpIf (user_GrenType == 2, "See")
+        TNT1 A  0 A_FaceTarget (0, 0)
+        TNT1 A  0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H  1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + fRandom [monsterSpread] (-2.0, 2.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-1.0, 1.0))
+        TERM GG 1 A_FaceTarget (180, 90)
 
-        TNT1 A  0 A_PlaySound ("Terminator/GrenadeFire", CHAN_Weapon) // Play the firing sound
-        TERM K  1 bright A_CustomMissile ("S7_TerminatorGrenade", 35.0, 18, angle + fRandom [monsterSpread] (-2.0, 2.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch) // Fire a S7_TerminatorGrenade at the current direction
-        TERM KK 1 bright
+        TNT1 A  0 A_FaceTarget (0, 0)
+        TNT1 A  0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H  1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + 3.0 + fRandom [monsterSpread] (-2.0, 2.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-1.0, 1.0))
+        TERM GG 1 A_FaceTarget (180, 90)
 
-        TERM JJJJJ 1
+        TNT1 A 0 A_MonsterRefire (10, "Missile.Machinegun.End")
+        goto Missile.Machinegun.Choose
+    Missile.Machinegun.Mid2Speed:
+        TNT1 A   0 A_FaceTarget (0, 0) // Make sure we're facing the target
+        TNT1 A   0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon) // Play the firing sound
+        TERM H   1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle - 2.0 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.75, 0.75))
+        TERM GGG 1 A_FaceTarget (120, 60)
+
+        TNT1 A   0 A_FaceTarget (0, 0)
+        TNT1 A   0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H   1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + fRandom [monsterSpread] (-1.5, 1.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.75, 0.75))
+        TERM GGG 1 A_FaceTarget (120, 60)
+
+        TNT1 A   0 A_FaceTarget (0, 0)
+        TNT1 A   0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H   1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + 2.0 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.75, 0.75))
+        TERM GGG 1 A_FaceTarget (120, 60)
+
+        TNT1 A 0 A_MonsterRefire (10, "Missile.Machinegun.End")
+        goto Missile.Machinegun.Choose
+    Missile.Machinegun.Mid1Speed:
+        TNT1 A    0 A_FaceTarget (0, 0) // Make sure we're facing the target
+        TNT1 A    0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon) // Play the firing sound
+        TERM H    1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle - 1.0 + fRandom [monsterSpread] (-1.0, 1.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.5, 0.5))
+        TERM GGGG 1 A_FaceTarget (90, 45)
+
+        TNT1 A    0 A_FaceTarget (0, 0)
+        TNT1 A    0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H    1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + fRandom [monsterSpread] (-1.0, 1.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.5, 0.5))
+        TERM GGGG 1 A_FaceTarget (90, 45)
+
+        TNT1 A    0 A_FaceTarget (0, 0)
+        TNT1 A    0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H    1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + 1.0 + fRandom [monsterSpread] (-1.0, 1.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.5, 0.5))
+        TERM GGGG 1 A_FaceTarget (90, 45)
+
+        TNT1 A 0 A_MonsterRefire (10, "Missile.Machinegun.End")
+        goto Missile.Machinegun.Choose
+    Missile.Machinegun.MinSpeed:
+        TNT1 A     0 A_FaceTarget (0, 0) // Make sure we're facing the target
+        TNT1 A     0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon) // Play the firing sound
+        TERM H     1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + fRandom [monsterSpread] (-0.5, 0.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.25, 0.25))
+        TERM GGGGG 1 A_FaceTarget (45, 36)
+
+        TNT1 A     0 A_FaceTarget (0, 0)
+        TNT1 A     0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H     1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + fRandom [monsterSpread] (-0.5, 0.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.25, 0.25))
+        TERM GGGGG 1 A_FaceTarget (45, 36)
+
+        TNT1 A     0 A_FaceTarget (0, 0)
+        TNT1 A     0 A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon)
+        TERM H     1 bright A_CustomMissile ("S7_TerminatorTracer", 40.0, -16, angle + fRandom [monsterSpread] (-0.5, 0.5), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-0.25, 0.25))
+        TERM GGGGG 1 A_FaceTarget (45, 36)
+
+        TNT1 A 0 A_MonsterRefire (10, "Missile.Machinegun.End")
+        goto Missile.Machinegun.Choose
+
+    Missile.Machinegun.End:
+        TERM GGGG 1
         goto Missile.End
-    Missile.Nail:
-        TNT1 A  0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon) // Play the firing sound
-        TERM K  1 bright A_CustomMissile ("S7_TerminatorNail", 35.0, 18, angle + fRandom [monsterSpread] (-1.0, 1.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch) // Fire a S7_TerminatorNail at the current direction
-        TERM KK 1 bright
 
+    /** Launcher **/
+    Missile.Grenade:
+        TNT1 A 0 A_JumpIfCloser (875.0, 1)
+        goto Missile.NoGrenade
+        TNT1 A 0 A_PlaySound ("Terminator/LauncherStart", CHAN_WEAPON) // Play the launcher attack begin sound
+
+        TERM JJJJJJJJJJ 1 A_FaceTarget (36, 18) // Spin to face target
+
+        TERM J 1 A_FaceTarget (0, 0) // Make sure we're facing the target
+        TERM J 1 A_SetUserVar ("user_ReqGrenCheck", 1)
+        TNT1 A 0 A_JumpIf (user_GrenType == 0, "Missile.Nail")
+        TNT1 A 0 A_JumpIf (user_GrenType == 2, "Missile.GrenadeStronger")
+
+        TNT1 A  0 A_SetUserVar ("user_ReqGrenCheck", 2)
+        TNT1 A  0 A_PlaySound ("Terminator/GrenadeFire", CHAN_Weapon) // Play the firing sound
+        TERM K  1 bright A_CustomMissile ("S7_TerminatorGrenade", 35.0, -18, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
+        TERM KK 1 bright
+        goto Missile.Grenade.End
+    Missile.GrenadeStronger:
+        TNT1 A  0 A_SetUserVar ("user_ReqGrenCheck", 2)
+        TNT1 A  0 A_PlaySound ("Terminator/GrenadeStrongerFire", CHAN_Weapon) // Play the firing sound
+        TERM K  1 bright A_CustomMissile ("S7_TerminatorGrenadeStronger", 35.0, -18, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
+        TERM KK 1 bright
+        goto Missile.Grenade.End
+    Missile.Nail:
+        TNT1 A 0 A_SetUserVar ("user_ReqGrenCheck", 2)
+        TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon) // Play the firing sound
+        TERM K 1 bright A_CustomMissile ("S7_TerminatorNail", 35.0, -18, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
+        TERM KK 1 bright A_FaceTarget (180, 90)
+        TERM J 1 A_FaceTarget (0, 0)
+        TNT1 A 0 A_SetUserVar ("user_ReqGrenCheck", 2)
+        TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon) // Play the firing sound
+        TERM K 1 bright A_CustomMissile ("S7_TerminatorNail", 35.0, -18, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
+        TERM KK 1 bright A_FaceTarget (180, 90)
+        TERM J 1 A_FaceTarget (0, 0)
+        TNT1 A 0 A_SetUserVar ("user_ReqGrenCheck", 2)
+        TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon) // Play the firing sound
+        TERM K 1 bright A_CustomMissile ("S7_TerminatorNail", 35.0, -18, angle, CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch)
+        TERM K 1 bright
+        goto Missile.Grenade.End
+
+    Missile.Grenade.End:
         TERM JJJJJ 1
         goto Missile.End
 
@@ -111,28 +224,108 @@ actor S7_Terminator : S7_DemonBase 32507 {
         TERM L 6
         TERM L 6 A_Pain
         goto See
-    Death: //A_SpawnItemEx ("S7_Blood", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_UseBloodColor)
-        FAT1 J      2
-        FAT1 J     10 A_Pain
-        FAT1 L      4 A_Scream
-        FAT1 M      4 A_NoBlocking
-        FAT1 NOPQRS 4
-        FAT1 T     -1 A_BossDeath
+
+    Death:
+        TERM M   15 A_Pain
+        TERM N    4 A_Scream
+        TERM O    4
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_Terminator_BloodSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_UseBloodColor)
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_Terminator_BloodSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_UseBloodColor)
+        TERM P    4 A_NoBlocking
+        TERM Q    4
+        TNT1 A    0 A_SpawnItemEx ("S7_Terminator_Arm",          5.0, 25.0, 30.0,   0.0, 10.0, 0.0)
+        TNT1 A    0 A_SpawnItemEx ("S7_Terminator_Shoulder",     0.0, 25.0, 58.0,   0.0, 15.0, fRandom [sfx] (1.5, 3.5))
+        TERM R    4 A_SpawnItemEx ("S7_Terminator_Head",         0.0,  0.0, 64.0, -15.0,  0.0, fRandom [sfx] (3.5, 5.5))
+        TERM STUV 4
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_Terminator_BloodSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_UseBloodColor)
+        TERM WXYZ 4
+        TERM "[" -1 A_BossDeath
         stop
     }
 }
 
-actor S7_TerminatorGrenade {
-    damage (fRandom [monsterDMG] (1.0, 3.8) * 10)
-    speed 40
-    deathSound "Explosions/Explosion1"
-    gravity 0.2
-
+//-------------------------------------------------------------------------------------------
+//
+// Gore bits
+//
+//-------------------------------------------------------------------------------------------
+actor S7_Terminator_BloodSpawner : S7_GoreBase {
+    states {
+        Spawn:
+            TNT1 AAAAAAAA 0 A_SpawnItemEx ("S7_Flying_Blood", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 35 + fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom (0, 359), SXF_TransferTranslation | SXF_UseBloodColor)
+            stop
+    }
+}
+actor S7_Terminator_Head : S7_GoreBase {
+    bounceType "Doom"
+    bounceFactor 0.65
+    wallBounceFactor 0.65
+    bounceCount 3
     projectile
+
     -noGravity
 
     states {
     Spawn:
+        THAD ABCDEFGH 2
+        loop
+    Death:
+        THAD I -1
+        stop
+    //Crush:
+
+    }
+}
+
+actor S7_Terminator_Shoulder : S7_Terminator_Head {
+    states {
+    Spawn:
+        TSHO ABCDEFGH 2
+        loop
+    Death:
+        TSHO I -1
+        stop
+    //Crush:
+
+    }
+}
+
+actor S7_Terminator_Arm : S7_GoreBase {
+    states {
+    Spawn:
+        TARM AB 1
+        wait
+    Crash:
+        TARM CDE 1
+        TARM F  -1
+        stop
+    //Crush:
+
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Projectiles
+//
+//-------------------------------------------------------------------------------------------
+actor S7_TerminatorTracer : S7_BaseTracer {
+    damage (fRandom [monsterDMG] (1.0, 3.0) * 8.5)
+    damageType TerminatorTracer
+}
+
+actor S7_TerminatorGrenade : fastProjectile {
+    damage (fRandom [monsterDMG] (1.0, 3.8) * 10)
+    speed 1
+    deathSound "Explosions/Explosion1"
+    gravity 0.2
+
+    -noGravity
+
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_ScaleVelocity (55.0)
+    Flight:
         GRN2 BA 1
         loop
     Death:
@@ -146,13 +339,15 @@ actor S7_TerminatorGrenade {
 
 actor S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
     damage (fRandom [monsterDMG] (1.0, 6.0) * 14.166666666666666666666666666667)
-    speed 60
+    speed 1
     deathSound "Explosions/Explosion2"
     /*missileType "S7_TerminatorGrenadeShockwave"
     missileHeight 8*/
 
     states {
     Spawn:
+        TNT1 A 0 noDelay A_ScaleVelocity (80.0)
+    Flight:
         GRN2 BB 1 A_SpawnItemEx ("S7_TerminatorGrenadeShockwave")
         GRN2 AA 1 A_SpawnItemEx ("S7_TerminatorGrenadeShockwave")
         loop
@@ -175,8 +370,8 @@ actor S7_TerminatorGrenadeShockwave : S7_FastProjTrailBase {
 }
 
 actor S7_TerminatorNail : fastProjectile {
-    radius 2
-    height 2
+    /*radius 2
+    height 2*/
     damage (fRandom [monsterDMG] (1.0, 4.0) * 15)
     speed 1
     missileType "S7_HeatSmokeStatic"
@@ -188,7 +383,7 @@ actor S7_TerminatorNail : fastProjectile {
 
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (90 * 1.0)
+        TNT1 AA 0 A_ScaleVelocity (95 * 1.0)
         NAIL A 5
         TNT1 A 0 A_ChangeFlag ("noGravity", FALSE)
     Flight:

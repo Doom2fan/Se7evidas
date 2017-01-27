@@ -1,0 +1,16 @@
+// Machinegun
+Terminator/MachinegunStart      "sounds/Monsters/Terminator/MGStart.ogg"     // From Quake 4
+$RANDOM Terminator/MachinegunFire {
+    Terminator/MachinegunFire1
+    Terminator/MachinegunFire2
+    Terminator/MachinegunFire3
+}
+Terminator/MachinegunFire1      "sounds/Monsters/Terminator/MGun1.ogg"       // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
+Terminator/MachinegunFire2      "sounds/Monsters/Terminator/MGun2.ogg"       // Ditto.
+Terminator/MachinegunFire3      "sounds/Monsters/Terminator/MGun3.ogg"       // Ditto.
+
+// Launcher
+Terminator/LauncherStart        "sounds/Monsters/Terminator/LStart.ogg"      // By Chronos "phantombeta" Ouroboros. Made from a Quake 4 sound.
+Terminator/GrenadeFire          "sounds/Monsters/Terminator/GrenLaunch.ogg"  // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
+Terminator/GrenadeStrongerFire  "sounds/Monsters/Terminator/SGrenLaunch.ogg" // By Chronos "phantombeta" Ouroboros. Made from three Quake 4 sounds.
+Terminator/NailFire             "sounds/Monsters/Terminator/NailLaunch.ogg"  // Ditto.
