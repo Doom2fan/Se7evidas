@@ -15,8 +15,8 @@
 */
 
 /* Highest free DoomEdNums:
-** Weapons: 30010
-** Ammo: 31010
+** Weapons: 30011
+** Ammo: 31011
 ** Inventory: 32006
 ** Monster: 32508
 */
@@ -37,6 +37,7 @@
 #INCLUDE "Decorate/Effects/Teleport.DEC"
 #INCLUDE "Decorate/Effects/Parkour.DEC"
 #INCLUDE "Decorate/Effects/MapEvents.DEC"
+#INCLUDE "Decorate/Effects/Gore.DEC"
 
 // Common stuff
 #INCLUDE "Decorate/CommonTokens.DEC"

@@ -1,0 +1,5 @@
+$ALIAS misc/gibbed Gore/Gibbed
+$RANDOM Gore/Gibbed {
+    Gore/Gibbed1
+}
+Gore/Gibbed1                  "sounds/Gore/Gibbed.ogg" // By Chronos "phantombeta" Ouroboros. Made from Quake 4 sounds
