@@ -19,10 +19,10 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         // Strings
         drawString FSHUDFNT, White, "Cash: ", 11, -66, 0, alignment (left);
         // Numbers
-        drawNumber  5, FSHUDFNT, White,     health, interpolate        (13), alignment  (left), 81, -18;
-        drawNumber  5, FSHUDFNT, White,      armor, interpolate        (13), alignment  (left), 81, -36;
-        drawNumber  5, FSHUDFNT, White, S7_Stamina, interpolate        (13), alignment  (left), 81, -53;
-        drawNumber 10, FSHUDFNT, White,    S7_Cash, interpolate (268435456), alignment (right), 77, -66;
+        drawNumber  5, FSHUDFNT, White, health,         interpolate (13),        alignment  (left), 81, -18;
+        drawNumber  5, FSHUDFNT, White, armor,          interpolate (13),        alignment  (left), 81, -36;
+        drawNumber  5, FSHUDFNT, White, S7_Stamina,     interpolate (13),        alignment  (left), 81, -53;
+        drawNumber 10, FSHUDFNT, White, S7_CashCounter, interpolate (268435456), alignment (right), 77, -66;
         // Selected inv
         drawSelectedInventory centerBottom, alwaysShowCounter, FSHUDFNT, 24, -70, 36, -76, White;
 
@@ -290,6 +290,26 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
             drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
             drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
             drawBar "S7LRABFG", "S7LRABBG", S7_FauchardMag, horizontal, reverse, interpolate (25), -57, -31;
+        }
+
+        else isSelected S7_ConquerorRifle {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_ConquerorRifleClip,  1 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -14, -43; }
+            inInventory S7_ConquerorRifleClip,  2 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -21, -41; }
+            inInventory S7_ConquerorRifleClip,  3 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -28, -43; }
+            inInventory S7_ConquerorRifleClip,  4 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -35, -41; }
+            inInventory S7_ConquerorRifleClip,  5 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -42, -43; }
+            inInventory S7_ConquerorRifleClip,  6 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -49, -41; }
+            inInventory S7_ConquerorRifleClip,  7 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -56, -43; }
+            inInventory S7_ConquerorRifleClip,  8 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -63, -41; }
+            inInventory S7_ConquerorRifleClip,  9 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -70, -43; }
+            inInventory S7_ConquerorRifleClip, 10 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -77, -41; }
+            inInventory S7_ConquerorRifleClip, 11 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -84, -43; }
+            inInventory S7_ConquerorRifleClip, 12 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -91, -41; }
+            inInventory S7_ConquerorRifleClip, 13 { drawImage "graphics/HUD/Cartridges/S7H45WW.png",  -98, -43; }
+            inInventory S7_ConquerorRifleClip, 14 { drawImage "graphics/HUD/Cartridges/S7H45WW.png", -105, -41; }
+            inInventory S7_ConquerorRifleClip, 15 { drawImage "graphics/HUD/Cartridges/S7H45WW.png", -112, -43; }
         }
 
         // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
