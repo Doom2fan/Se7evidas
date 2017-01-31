@@ -295,6 +295,26 @@ actor S7_FBSysCells : ammo 31008 {
 
 //-------------------------------------------------------------------------------------------
 //
+// Antimatter shells
+//
+//-------------------------------------------------------------------------------------------
+actor S7_AntimatterShells : ammo 31011 {
+    tag "$ANTISHELLS"
+    inventory.pickupMessage "$ANTISHELLS"
+    inventory.amount 1
+    inventory.maxAmount 4
+    inventory.icon "ANSHA0"
+    inventory.pickupSound "misc/ammopickup"
+
+    states {
+    Spawn:
+        ANSH A -1
+        stop
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //
 //-------------------------------------------------------------------------------------------

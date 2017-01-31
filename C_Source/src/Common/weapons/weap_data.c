@@ -38,6 +38,7 @@ const string WeaponNames [] = {
     s"S7_BerserkWeap",
     s"S7_GrenadeWeap",
     s"S7_ConquerorRifle",
+    s"S7_AntimatterGun",
 };
 const int WeaponNames_Length = ArraySize (WeaponNames);
 
@@ -57,6 +58,7 @@ const string ClipNames [] = {
     s"S7_LaserPewPewClip",
     s"S7_LaserPewPewClipSecond",
     s"S7_ConquerorRifleClip",
+    s"S7_AntimatterGunClip",
 };
 const int ClipNames_Length = ArraySize (ClipNames);
 
@@ -70,6 +72,8 @@ const string AmmoNames [] = {
     s"S7_12gaShells",
     s"S7_Cells",
     s"S7_FBSysCells",
+    s"S7_45WWCartridges",
+    s"S7_AntimatterShells",
     s"S7_Thumper_PExp",
     s"S7_Thumper_PFrag",
     s"S7_Thumper_PTherm",
@@ -78,7 +82,6 @@ const string AmmoNames [] = {
     s"S7_Thumper_PNail",
     s"S7_Thumper_PNGas",
     s"S7_Thumper_PUnified",
-    s"S7_45WWCartridges",
 };
 const int AmmoNames_Length = ArraySize (AmmoNames);
 

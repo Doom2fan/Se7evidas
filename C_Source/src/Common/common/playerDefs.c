@@ -68,6 +68,10 @@ PD_AmmoType_t PD_AmmoTypes [] = {
         .magSize = 32,
     },
     {
+        .name = s"S7_AntimatterShells",
+        .magSize = 1,
+    },
+    {
         .name = s"S7_Thumper_PExp",
         .magSize = 5,
     },

@@ -91,7 +91,9 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_MultiJump_Max",                              }, // Max multijumps token
     { .name = s"S7_ConquerorRifle",                             }, // Conqueror Sniper Rifle
     { .name = s"S7_ConquerorRifleClip",                         },
-    { .name = s"S7_45WWCartridges",                             },
+    { .name = s"S7_45WWCartridges",                             }, // .45 WW cartridges
+    { .name = s"S7_AntimatterGun",                              }, // GTX-5 Antimatter Gun
+    { .name = s"S7_AntimatterShells",                           }, // Antimatter shells
 };
 
 SaveInv_InvDef normalInv = {
