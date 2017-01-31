@@ -189,7 +189,7 @@ actor S7_9mmCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS1 ABCDEFGH 2 noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS1 ABCDEFGH 2 // noDelay A_SpawnItemEx ("S7_CasingSmoke")
         loop
     }
 }
@@ -228,7 +228,7 @@ actor S7_RevolverCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS2 ABCDEFGH 2 noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS2 ABCDEFGH 2 // noDelay A_SpawnItemEx ("S7_CasingSmoke")
         loop
     }
 }
@@ -252,7 +252,7 @@ actor S7_RifleCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS3 ABCDEFGH 2 noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS3 ABCDEFGH 2 // noDelay A_SpawnItemEx ("S7_CasingSmoke")
         loop
     }
 }
@@ -283,7 +283,7 @@ actor S7_45WWCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS5 ABCDEFGH 2 noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS5 ABCDEFGH 2 // noDelay A_SpawnItemEx ("S7_CasingSmoke")
         loop
     }
 }
