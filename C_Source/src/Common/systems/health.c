@@ -44,7 +44,7 @@ Script_C void S7_StimpackScript () {
     Print ("Applying Stimpack");
     Thing_Stop (0);
     SetPlayerProperty (0, 1, PROP_TOTALLYFROZEN);
-    Delay (35 * 1);
+    Delay (35);
     HealThing (STIMPACKHEALTH);
     SetPlayerProperty (0, 0, PROP_TOTALLYFROZEN);
 }
