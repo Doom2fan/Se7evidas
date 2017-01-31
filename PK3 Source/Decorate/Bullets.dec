@@ -167,23 +167,23 @@ actor S7_HitterSMGTracer        : S7_BaseTracer {
     damageType PistolTracer
 }
 actor S7_ConquerorRifle_Tracer  : S7_BaseTracer {
-    damage (fRandom [weaponDamage] (1.0, 2.5) * 52.8)
+    damage (fRandom [weaponDamage] (1.0, 2.5) * 70)
     health 275 // So you need to compensate less when firing at long range
     damageType SniperRifleTracer
 }
 
 /*** Secondary ***/
 actor S7_RaptorTracer           : S7_BaseTracer {
-    damage (fRandom [weaponDamage] (1.0, 3.0) * 5)
+    damage (fRandom [weaponDamage] (1.5, 3.0) * 5)
     health 80
     damageType PistolTracer
 }
 actor S7_RevolverTracer         : S7_BaseTracer {
-    damage (fRandom [weaponDamage] (1.0, 3.0) * 42)
+    damage (fRandom [weaponDamage] (1.75, 2.5) * 50)
     health 105
     damageType RevolverTracer
 }
 actor S7_TEC9Tracer             : S7_BaseTracer {
-    damage (fRandom [weaponDamage] (1.0, 3.0) * 5)
+    damage (fRandom [weaponDamage] (1.5, 3.0) * 5)
     damageType PistolTracer
 }
