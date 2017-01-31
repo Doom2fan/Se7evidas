@@ -379,7 +379,7 @@ actor S7_ThumperGrenadeNail_Nail : fastProjectile {
 
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (45 * 1.0)
+        TNT1 AA 0 A_ScaleVelocity (45)
         NAIL A 5
     Flight:
         TNT1 A 0 A_ChangeVelocity (0.0, 0.0, -0.5)

@@ -130,8 +130,8 @@ actor S7_PSICG_FireTester : S7_DistanceTestProjectile {
     speed 20
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (1.0 / (20 * 1.0))
-        TNT1 A  2 A_ScaleVelocity (35 * 1.0)
+        TNT1 AA 0 A_ScaleVelocity (1.0 / 20)
+        TNT1 A  2 A_ScaleVelocity (35)
         TNT1 A  2 A_TakeFromTarget ("S7_PSICG_CantFire", 0x7FFFFFFF)
         stop
 
@@ -165,7 +165,7 @@ actor S7_IonCannonProjectile : fastProjectile {
     states {
     Spawn:
         PICF AA 0 A_ScaleVelocity (1.0 / 20)
-        TNT1 A  0 A_ScaleVelocity (35 * 1.0)
+        TNT1 A  0 A_ScaleVelocity (35)
         TNT1 A  0 A_SetUserVar ("user_damage", 280 + (fRandom [weaponDamage] (2.0, 5.0) * 80) + (fRandom [weaponDamage] (-3.0, 3.0) * 40))
     Idle:
         TNT1 A   0 A_JumpIf (user_damage < 75, "DieOut")
@@ -212,7 +212,7 @@ actor S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
     states {
     Spawn:
         PICF AA 0 A_ScaleVelocity (1.0 / 20)
-        TNT1 A  0 A_ScaleVelocity (35 * 1.0)
+        TNT1 A  0 A_ScaleVelocity (35)
         TNT1 A  0 A_SetUserVar ("user_damage", 350 + (fRandom [weaponDamage] (3.0, 6.0) * 95) + (fRandom [weaponDamage] (-2.0, 5.0) * 53))
         goto Idle
     }
@@ -245,7 +245,7 @@ actor S7_IonCannonRail : fastProjectile {
     states {
     Spawn:
         PICF AA 0 A_ScaleVelocity (1.0 / 25)
-        TNT1 A  0 A_ScaleVelocity (125 * 1.0)
+        TNT1 A  0 A_ScaleVelocity (125)
         TNT1 A  0 A_SetUserVar ("user_distTrav", 0)
     Idle:
         TNT1 A 0 A_JumpIf (user_distTrav > 4000, "DieOut")
@@ -296,7 +296,7 @@ actor S7_IonCannonRailAlt : S7_IonCannonRail {
     states {
     Spawn:
         PICF AA 0 A_ScaleVelocity (1.0 / 25)
-        TNT1 A  0 A_ScaleVelocity (138 * 1.0)
+        TNT1 A  0 A_ScaleVelocity (138)
         TNT1 A  0 A_SetUserVar ("user_distTrav", 0)
     Idle:
         TNT1 A 0 A_JumpIf (user_distTrav > 4500, "DieOut")
