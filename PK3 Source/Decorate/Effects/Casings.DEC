@@ -39,6 +39,7 @@ actor S7_CasingBase {
 
     states {
     Delaying:
+        "----" A 0 A_JumpIf (user_Timer % 5 != 0, 2) // Only update user_StayTime every 5 tics. This way it's less performance intensive.
         "----" A 0 A_SetUserVar ("user_StayTime", callACS ("S7_GetEffectsStayTime"))
         "----" A 0 A_JumpIf ((user_StayTime == -2 && user_Timer >= 10000) ||
                              (user_StayTime == -1 && user_Timer >=  5000) ||
