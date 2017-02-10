@@ -20,14 +20,50 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
     +missileMore
 
     states {
+    // Initialize
     Spawn:
         TNT1 A 0 noDelay A_SetUserVar ("user_ammo", random (3, 23))
         SCR1 A 2         ACS_NamedExecuteAlways ("S7_ZombieScript", 0)
     Idle:
-        SCR1 AAAAAAAAAA 10 A_Look
-        TNT1 A           0 A_Jump (160.0, "Idle")
-        TNT1 A           0 A_JumpIf (user_ammo < 10, "Reload")
+        TNT1 A 0 A_Jump (160.0, 2) // Maybe reload if less than 10 shots
+        TNT1 A 0 A_JumpIf (user_ammo < 10, "Reload")
+
+        SCR1 AAA 1 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted") // Look for enemies
+        TNT1 A   0 A_Jump (96, 2)
+        TNT1 A   0 A_SetAngle (angle + fRandom (-5, 5), SPF_Interpolate)
+        SCR1 EEE 1 A_SetTics (random (5, 15))
+
+        TNT1 A 0 A_Jump (220, 4)
+        TNT1 A 0 A_SetAngle (angle + fRandom (-8, 8), SPF_Interpolate)
+        TNT1 A 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR1 E 3 A_SetTics (random (10, 35))
+
+        TNT1 A 0 A_CheckFlag ("ambush", "Idle.Ambush") // If the ambush flag is set, loop back to Idle instead of wandering
+        TNT1 A 0 A_Jump (100, "Idle") // Don't always wander
+        goto Idle.Wander
+    Idle.Ambush: // Stay still and ambush enemies
+        TNT1 A 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR1 E 3 A_SetTics (random (3, 5))
+        TNT1 A 0 A_Jump (192, 2)
+
+        TNT1 A 0 A_Jump (128, 4)
+        TNT1 A 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        TNT1 A 0 A_SetAngle (angle + fRandom (-8, 8), SPF_Interpolate)
+        SCR1 E 3 A_SetTics (random (3, 5))
         loop
+    Idle.Wander: // Wander around looking for enemies
+        TNT1 AA 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR1 AB 5 A_Wander
+        TNT1 AA 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR1 CD 5 A_Wander
+        TNT1 A 0 A_Jump (64, "Idle")
+        loop
+
+    // Found enemy
+    EnemySighted:
+        TNT1 AAA 0 A_AlertMonsters
+        goto See
+    // Chasing
     See:
         SCR1 AABBCCDD 3 A_Chase
         SCR1 AABBCCDD 3 A_Chase
@@ -35,6 +71,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         TNT1 A        0 A_JumpIf (user_ammo < 5, "Reload")
         loop
 
+    // Firing
     Missile:
         SCR1 CD 2 A_FaceTarget (90, 45)
         SCR1 E  1 A_SetTics (random (3, 8))
@@ -94,10 +131,13 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         SCR1 E    3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7)
         TNT1 A    0 A_Jump (192, "Reload")
     DryFire.FindCover:
+        TNT1 A        0 A_ChangeFlag ("frightened", TRUE)
         SCR1 AABBCCDD 4 A_Wander
+        TNT1 A        0 A_ChangeFlag ("frightened", FALSE)
         TNT1 A        0 A_JumpIfInTargetLOS ("Reload", 225.0, JLOSF_NoSight)
         loop
 
+    // Reloading
     Reload:
         SCR1 A      5 A_SetUserVar ("user_ammo", 23)
         SCR1 AAAEE  2
@@ -108,11 +148,13 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         SCR1 A      3
         goto Idle
 
+    // Flinching
     Pain:
         SCR1 G 2
         SCR1 G 2 A_Pain
         goto See
 
+    // Dead
     Death:
         SCR1 H 5 A_SetUserVar ("user_deathType", 0)
         SCR1 I 5 A_Scream
@@ -149,6 +191,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         SPOS U    -1
         stop
 
+    // Being revived
     Raise:
         SCR1 K   5 A_JumpIf (user_deathType == 1, "XRaise")
         SCR1 JIH 5
