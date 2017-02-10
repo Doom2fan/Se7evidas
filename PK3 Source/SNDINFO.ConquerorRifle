@@ -1,0 +1,7 @@
+Weapons/ConquerorRifle/Fire                 "sounds/Weapons/Primary/ConquerorRifle/Fire.ogg"    // By Chronos "phantombeta" Ouroboros. Made from two sounds from Counter Strike: Source
+																								// and a sound from Counter-Strike: Condition Zero.
+Weapons/ConquerorRifle/Pump1                "sounds/Weapons/Primary/ConquerorRifle/Pump1.ogg"   // From Quake 4
+Weapons/ConquerorRifle/Pump2                "sounds/Weapons/Primary/ConquerorRifle/Pump2.ogg"   // Ditto
+Weapons/ConquerorRifle/Out                  "sounds/Weapons/Primary/ConquerorRifle/Out.ogg"     // From Crossfire (Alpha 7r2). Edited by Chronos "phantombeta" Ouroboros.
+Weapons/ConquerorRifle/In                   "sounds/Weapons/Primary/ConquerorRifle/In.ogg"      // Ditto
+Weapons/ConquerorRifle/DryFire              "sounds/Weapons/Primary/ConquerorRifle/DryFire.ogg"	// From freesound.org (taken from ww-terror)

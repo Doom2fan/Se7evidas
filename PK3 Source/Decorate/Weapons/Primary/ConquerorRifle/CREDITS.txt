@@ -1,0 +1,7 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    Sprites: EA Games (Battlefield 2142 and Medal of Honor - Airborne), Infinity Ward-Activision (Call of Duty 2), chronoteeth, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

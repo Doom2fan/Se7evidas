@@ -1,0 +1,123 @@
+sprite CQR1A0, 216, 126 {
+    offset -138, -59
+    patch "graphics/Weapons/ConquerorRifle/Frame1.png", 0, 0
+}
+
+sprite CQR1B0, 216, 126 {
+    offset -154, -67
+    patch "graphics/Weapons/ConquerorRifle/Frame1.png", 0, 0
+}
+
+sprite CQR1C0, 216, 126 {
+    offset -148, -64
+    patch "graphics/Weapons/ConquerorRifle/Frame1.png", 0, 0
+}
+
+sprite CQR1D0, 216, 126 {
+    offset -142, -61
+    patch "graphics/Weapons/ConquerorRifle/Frame1.png", 0, 0
+}
+
+sprite CQR1E0, 216, 126 {
+    offset -140, -61
+    patch "graphics/Weapons/ConquerorRifle/Frame1.png", 0, 0
+}
+
+sprite CQR1F0, 216, 126 {
+    offset -144, -65
+    patch "graphics/Weapons/ConquerorRifle/Frame1.png", 0, 0
+}
+
+sprite CQR1G0, 213, 126 {
+    offset -151, -69
+    patch "graphics/Weapons/ConquerorRifle/Frame2.png", 0, 0
+}
+
+sprite CQR1H0, 213, 126 {
+    offset -156, -74
+    patch "graphics/Weapons/ConquerorRifle/Frame2.png", 0, 0
+}
+
+sprite CQR1I0, 216, 126 {
+    offset -138, -59
+    patch "graphics/Hands/Hand-006.png", 0, 37
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 37, 0
+}
+
+sprite CQR1J0, 216, 126 {
+    offset -138, -59
+    patch "graphics/Hands/Hand-006.png", -12, 57
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 37, 0
+}
+
+sprite CQR1K0, 216, 126 {
+    offset -138, -59
+    patch "graphics/Hands/Hand-001.png", -22, 70
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 37, 0
+}
+
+sprite CQR1L0, 211, 126 {
+    offset -143, -59
+    patch "graphics/Hands/Hand-002.png", -10, 86
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 32, 0
+}
+
+sprite CQR1M0, 199, 126 {
+    offset -155, -59
+    patch "graphics/Hands/Hand-002.png", -10, 102
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 20, 0
+}
+
+sprite CQR1N0, 179, 126 {
+    offset -175, -59
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
+}
+
+sprite CQR1O0, 179, 126 {
+    offset -173, -65
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
+}
+
+sprite CQR1P0, 179, 126 {
+    offset -174, -62
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
+}
+
+sprite CQR1Q0, 179, 126 {
+    offset -177, -53
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
+}
+
+sprite CQR1R0, 179, 126 {
+    offset -176, -56
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
+}
+
+sprite CQR1V0, 80, 64 {
+    offset -284, -136
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
+}
+
+sprite CQR1W0, 320, 200 {
+    offset -61, -119
+    patch "graphics/Hands/Hand-001.png", 0, 43
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 196, 0
+}
+
+sprite CQR1X0, 246, 98 {
+    offset -91, -102
+    patch "graphics/Hands/Hand-001.png", 0, 33
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 141, 0
+}
+
+sprite CQR1Y0, 248, 114 {
+    offset -116, -86
+    patch "graphics/Hands/Hand-006.png", 0, 36
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 93, 0
+}
+
+sprite CQR1Z0, 236, 123 {
+    offset -132, -71
+    patch "graphics/Hands/Hand-006.png", 0, 34
+    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 58, 0
+}
