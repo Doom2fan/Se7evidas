@@ -87,6 +87,7 @@
 #INCLUDE "Decorate/Weapons/Primary/Fauchard/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/SSG/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Primary/LaserPewPew/DECORATE.DEC"
+#INCLUDE "Decorate/Weapons/Primary/ConquerorRifle/DECORATE.DEC"
 // Secondary
 #INCLUDE "Decorate/Weapons/Secondary/Raptor/DECORATE.DEC"
 #INCLUDE "Decorate/Weapons/Secondary/TEC-9/DECORATE.DEC"
