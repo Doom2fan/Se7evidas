@@ -79,6 +79,7 @@ Script_C void S7_ServersideUnloading UNLOADING () {
 }
 
 // General stuff
+Script_C void S7_ServersideEnter2 (PlayerData_t *player);
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
@@ -99,6 +100,8 @@ Script_C void S7_ServersideEnter ENTER () {
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
         TakeInventory (DISABLEHUDTOKEN, 0x7FFFFFFF);
     }
+
+    S7_ServersideEnter2 (player); // This has to be done like this to make sure this script runs first.
 
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
@@ -132,15 +135,9 @@ Script_C void S7_ServersideEnter ENTER () {
 }
 
 // Clientside-ish (HUD, popups, heartbeats, etc.) stuff
-Script_C void S7_ServersideEnter2 ENTER () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
-        return;
-
-    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-
+Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        Log ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct.");
         return;
     }
 
