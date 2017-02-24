@@ -127,7 +127,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A  0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A  0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A  0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-1.8, 1.8), 1, 2, 2, 0, fRandom [weaponSpread] (-2.025, 2.025))
-        AMGG BB 1 A_SetPitch (pitch - 1.2, SPF_Interpolate)
+        AMGG BB 1 A_SetPitch (pitch - 0.8, SPF_Interpolate)
         AMGG C  1
         AMGG C  1 A_Refire
         TNT1 A  0 A_ClearRefire
@@ -143,19 +143,19 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-0.86785, 0.86785), 1, 0, -3, 0, fRandom [weaponSpread] (-1.28571, 1.28571))
         TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 2, "Fire.Zoom2")
         TNT1 A 0 A_ZoomFactor (1.45)
-        SCP1 A 1 A_SetPitch (pitch - 1.05,  SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch - 0.7,  SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.475)
-        SCP1 A 1 A_SetPitch (pitch - 1.05,  SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch - 0.7,  SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.5)
-        TNT1 A 0 A_SetPitch (pitch + 0.875, SPF_Interpolate)
+        TNT1 A 0 A_SetPitch (pitch + 0.588, SPF_Interpolate)
         goto Fire.Zoom.Finish
     Fire.Zoom2:
         TNT1 A 0 A_ZoomFactor (1.70)
-        SCP1 A 1 A_SetPitch (pitch - 0.9,  SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch - 0.6,   SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.725)
-        SCP1 A 1 A_SetPitch (pitch - 0.9,  SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch - 0.6,   SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.75)
-        TNT1 A 0 A_SetPitch (pitch + 0.75, SPF_Interpolate)
+        TNT1 A 0 A_SetPitch (pitch + 0.504, SPF_Interpolate)
         goto Fire.Zoom.Finish
     Fire.Zoom.Finish:
         SCP1 A 1
@@ -172,7 +172,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A  0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5)
         TNT1 A  0 A_FireCustomMissile ("S7_RifleCasingSpawn", 0, 0, 8, -5)
         TNT1 A  0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-1.8, 1.8), 1, 2, 2, 0, fRandom [weaponSpread] (-2.025, 2.025))
-        AMGG BB 1 A_SetPitch (pitch - 1.2, SPF_Interpolate)
+        AMGG BB 1 A_SetPitch (pitch - 0.8, SPF_Interpolate)
         TNT1 A  0 A_JumpIfInventory ("S7_AMG_BurstCount", 0, 2)
         TNT1 A  0 A_Refire ("Fire.Burst")
         AMGG C  2 A_TakeInventory ("S7_AMG_BurstCount", 0x7FFFFFFF)
@@ -190,16 +190,16 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         TNT1 A 0 A_FireCustomMissile ("S7_AMGTracer", fRandom [weaponSpread] (-0.86785, 0.86785), 1, 0, -3, 0, fRandom [weaponSpread] (-1.28571, 1.28571))
         TNT1 A 0 A_JumpIfInventory ("S7_AMG_ZoomedIn", 2, "Fire.Burst.Zoom2")
         TNT1 A 0 A_ZoomFactor (1.45)
-        SCP1 A 1 A_SetPitch (pitch - 2.1,   SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch - 1.4,   SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.475)
-        SCP1 A 1 A_SetPitch (pitch + 0.875, SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch + 0.294, SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.5)
         goto Fire.Burst.Zoom.Finish
     Fire.Burst.Zoom2:
         TNT1 A 0 A_ZoomFactor (1.70)
-        SCP1 A 1 A_SetPitch (pitch - 1.8,  SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch - 1.2,   SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.725)
-        SCP1 A 1 A_SetPitch (pitch + 0.75, SPF_Interpolate)
+        SCP1 A 1 A_SetPitch (pitch + 0.504, SPF_Interpolate)
         TNT1 A 0 A_ZoomFactor (1.75)
         goto Fire.Burst.Zoom.Finish
     Fire.Burst.Zoom.Finish:
