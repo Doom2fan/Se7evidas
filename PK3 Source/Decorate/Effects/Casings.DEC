@@ -135,7 +135,7 @@ actor S7_ShellCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_ShellCasing : S7_CasingBase {
-    seeSound "Weapons/shell"
+    bounceSound "Weapons/Shell"
     scale .2
 
     states {
@@ -159,7 +159,7 @@ actor S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_12gaShellCasing : S7_CasingBase {
-    seeSound "Weapons/shell"
+    bounceSound "Weapons/Shell"
     scale .2
 
     states {
@@ -185,7 +185,7 @@ actor S7_9mmCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_9mmCasing : S7_CasingBase {
-    seeSound "Weapons/casing"
+    bounceSound "Weapons/Brass"
     scale .2
 
     states {
@@ -224,7 +224,7 @@ actor S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_RevolverCasing : S7_CasingBase {
-    seeSound "Weapons/casing"
+    bounceSound "Weapons/Brass"
     scale .2
 
     states {
@@ -248,7 +248,7 @@ actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
 }
 
 actor S7_RifleCasing : S7_CasingBase {
-    seeSound "Weapons/casing"
+    bounceSound "Weapons/Brass"
     scale .2
 
     states {
@@ -279,7 +279,7 @@ actor S7_45WWCasingSpawnRifle : S7_CasingSpawnerBase {
 }
 
 actor S7_45WWCasing : S7_CasingBase {
-    seeSound "Weapons/casing"
+    bounceSound "Weapons/Brass"
     scale .25
 
     states {
