@@ -1,0 +1,269 @@
+sprite AK47A0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK47B0, 156, 91 {
+    offset -156, -79
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK47C0, 156, 91 {
+    offset -154, -78
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK47D0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Hands/Hand-006.png", -4, 22
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47E0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Hands/Hand-006.png", 0, 29
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47F0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Hands/Hand-006.png", 5, 36
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47G0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", 12, 48
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47H0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", 19, 62
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47I0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", 24, 77
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47J0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47K0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 59, 67
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47L0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 57, 71
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47M0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part2.png", 55, 76
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47N0, 130, 91 {
+    offset -178, -77
+    patch "graphics/Weapons/AK47/Frame1.png", 0, 0
+}
+
+sprite AK47O0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part3.png", 55, 82
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47P0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part3.png", 56, 79
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47Q0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part3.png", 58, 75
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47R0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Weapons/AK47/Part3.png", 60, 69
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47S0, 130, 91 {
+    offset -178, -77
+    patch "graphics/Weapons/AK47/Part3.png", 34, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 0, 0
+}
+
+sprite AK47T0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", 3, 76
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47U0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", 1, 57
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47V0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", -3, 37
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK47W0, 156, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-006.png", -4, 23
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}
+
+sprite AK42A0, 192, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 157, 82 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42B0, 192, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 143, 65 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42C0, 187, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 133, 52 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42D0, 192, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 121, 39 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42E0, 192, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 103, 30 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42F0, 184, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 96, 31 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42G0, 185, 91 {
+    offset -155, -79
+    patch "graphics/Hands/Hand-008.png", 104, 34 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42H0, 182, 91 {
+    offset -158, -81
+    patch "graphics/Hands/Hand-008.png", 110, 38 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42I0, 196, 91 {
+    offset -155, -79
+    patch "graphics/Hands/Hand-008.png", 120, 36 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42J0, 195, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 129, 45 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42K0, 193, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 142, 58 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42L0, 198, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 152, 70 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}
+
+sprite AK42M0, 195, 91 {
+    offset -152, -77
+    patch "graphics/Hands/Hand-008.png", 165, 86 { flipX }
+    patch "graphics/Hands/Hand-006.png", 0, 11
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+    patch "graphics/Weapons/AK47/Part1.png", 28, 10
+}

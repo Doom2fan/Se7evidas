@@ -94,6 +94,8 @@ SaveInv_InvInfo normalInvInfo [] = {
     { .name = s"S7_45WWCartridges",                             }, // .45 WW cartridges
     { .name = s"S7_AntimatterGun",                              }, // GTX-5 Antimatter Gun
     { .name = s"S7_AntimatterShells",                           }, // Antimatter shells
+    { .name = s"S7_AK47",                                       }, // AK-47
+    { .name = s"S7_AK47Clip",                                   }, // Antimatter shells
 };
 
 SaveInv_InvDef normalInv = {

@@ -39,6 +39,7 @@ const string WeaponNames [] = {
     s"S7_GrenadeWeap",
     s"S7_ConquerorRifle",
     s"S7_AntimatterGun",
+    s"S7_AK47",
 };
 const int WeaponNames_Length = ArraySize (WeaponNames);
 
@@ -59,6 +60,7 @@ const string ClipNames [] = {
     s"S7_LaserPewPewClipSecond",
     s"S7_ConquerorRifleClip",
     s"S7_AntimatterGunClip",
+    s"S7_AK47Clip",
 };
 const int ClipNames_Length = ArraySize (ClipNames);
 
