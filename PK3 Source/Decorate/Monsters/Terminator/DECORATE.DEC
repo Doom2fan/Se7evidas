@@ -56,7 +56,7 @@ actor S7_Terminator : S7_DemonBase 32507 {
 
     /** Plasma Cannon **/
     Missile.Plasma:
-        TNT1 A 0 A_PlaySound ("Terminator/PlasmaStart", CHAN_WEAPON) // Play the plasma attack begin sound
+        TNT1 A 0 A_PlaySound ("Terminator/PlasmaStart", CHAN_Weapon) // Play the plasma attack begin sound
 
         TERM EEEEEE 1 A_FaceTarget (60, 30) // Spin to face target
 
@@ -82,7 +82,7 @@ actor S7_Terminator : S7_DemonBase 32507 {
 
     /** Machinegun **/
     Missile.Machinegun:
-        TNT1 A    0 A_PlaySound ("Terminator/MachinegunStart", CHAN_WEAPON) // Play the machinegun attack begin sound
+        TNT1 A    0 A_PlaySound ("Terminator/MachinegunStart", CHAN_Weapon) // Play the machinegun attack begin sound
         TERM GGGG 1 A_FaceTarget (90, 45) // Spin to face target
     Missile.Machinegun.Choose:
         TNT1 A 0 A_JumpIfCloser ( 512.0, "Missile.Machinegun.MaxSpeed")
@@ -171,7 +171,7 @@ actor S7_Terminator : S7_DemonBase 32507 {
     Missile.Grenade:
         TNT1 A 0 A_JumpIfCloser (875.0, 1)
         goto Missile.NoGrenade
-        TNT1 A 0 A_PlaySound ("Terminator/LauncherStart", CHAN_WEAPON) // Play the launcher attack begin sound
+        TNT1 A 0 A_PlaySound ("Terminator/LauncherStart", CHAN_Weapon) // Play the launcher attack begin sound
 
         TERM JJJJJJJJJJ 1 A_FaceTarget (36, 18) // Spin to face target
 

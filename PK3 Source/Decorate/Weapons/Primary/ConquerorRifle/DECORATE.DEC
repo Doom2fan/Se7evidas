@@ -334,10 +334,10 @@ actor S7_ConquerorRifle : S7_BaseWeapon 30010 {
     ReloadFinish:
         CQR1 A      2
 		CQR1 IJKLMN 2
-		TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/Out", CHAN_WEAPON)
+		TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/Out", CHAN_Weapon)
 		CQR1 OPN    2
 		CQR1 N     12
-		TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/In", CHAN_WEAPON)
+		TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/In", CHAN_Weapon)
 		CQR1 QRN    2
 		CQR1 NMLKJI 2
 		CQR1 A      2

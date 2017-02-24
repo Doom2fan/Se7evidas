@@ -279,7 +279,7 @@ actor S7_ThumperGrenadeCluster_Bomb {
         loop
     Death:
         TNT1 A         0        A_ChangeFlag ("noGravity", TRUE)
-        TNT1 A         0        A_PlaySound ("Explosions/Explosion2", CHAN_BODY, 0.25)
+        TNT1 A         0        A_PlaySound ("Explosions/Explosion2", CHAN_Body, 0.25)
         TNT1 A         0        A_Explode (64, 64)
         XPL3 A         3 bright A_SetScale (0.2)
         XPL3 BCDEFGHIJ 3 bright
