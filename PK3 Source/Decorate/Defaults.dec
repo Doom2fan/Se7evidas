@@ -102,7 +102,6 @@ actor S7_DistanceTestProjectile : fastProjectile {
     +bloodlessImpact +painless +noPain +noTimeFreeze
 
     states {
-    Death:
     Spawn:
         TNT1 A 2
         stop

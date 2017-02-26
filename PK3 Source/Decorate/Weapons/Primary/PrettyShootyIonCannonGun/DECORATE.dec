@@ -66,7 +66,7 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Space check
-        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 6, 3.3)
+        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 6, -3.3)
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Fire
@@ -98,7 +98,7 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Space check
-        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 6, 3.3)
+        PIC1 A        3 A_FireCustomMissile ("S7_PSICG_FireTester", 0.0, 0, 6, -3.3)
         TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire")
         TNT1 A        0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
         // Fire
@@ -130,9 +130,9 @@ actor S7_PSICG_FireTester : S7_DistanceTestProjectile {
     speed 20
     states {
     Spawn:
-        TNT1 AA 0 A_ScaleVelocity (1.0 / 20)
-        TNT1 A  2 A_ScaleVelocity (35)
-        TNT1 A  2 A_TakeFromTarget ("S7_PSICG_CantFire", 0x7FFFFFFF)
+        TNT1 A 0 noDelay A_ScaleVelocity (1.0 / 20)
+        TNT1 A 2 A_ScaleVelocity (35.0)
+        TNT1 A 2 A_TakeFromTarget ("S7_PSICG_CantFire", 0x7FFFFFFF)
         stop
 
     Death:
@@ -159,7 +159,7 @@ actor S7_IonCannonProjectile : fastProjectile {
     decal S7_IonCannon
 
     projectile
-    +seekerMissile +screenSeeker +forceXYBillboard +forceRadiusDMG
+    +forceXYBillboard +forceRadiusDMG
     +bloodlessImpact +noDamageThrust
 
     states {
