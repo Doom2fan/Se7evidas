@@ -1,7 +1,7 @@
 DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    HUD Sprites: Blox, Captain J, Kronos, LucasArts, Chronos "phantombeta" Ouroboros (Edits)
+    HUD Sprites: Blox, Captain J, Kronos, LucasArts, chronoteeth, Chronos "phantombeta" Ouroboros (Edits)
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: None yet :P
