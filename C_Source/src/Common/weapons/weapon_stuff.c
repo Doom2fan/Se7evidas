@@ -87,33 +87,35 @@ Script_C void S7_SynthFire () {
 
         if (KeyDownMOD (BT_ATTACK))
             SetInventory (s"S7_SynthFireLeft", 1);
+        else
+            SetInventory (s"S7_SynthFireLeft", 0);
 
         if (KeyDownMOD (BT_ALTATTACK))
             SetInventory (s"S7_SynthFireRight", 1);
+        else
+            SetInventory (s"S7_SynthFireRight", 0);
 
         Delay (1);
-
-        if (KeyUpMOD (BT_ATTACK))
-            SetInventory (s"S7_SynthFireLeft", 0);
-
-        if (KeyUpMOD (BT_ALTATTACK))
-            SetInventory (s"S7_SynthFireRight", 0);
     }
 }
 
-Script_C void S7_SynthFire2 (int mode) {
+Script_C void S7_SynthFire2 () {
     while (TRUE) {
         if (!PlayerInGame (PLN))
             return;
 
-        if (!CheckInventory (s"S7_SynthFireActive"))
+        if (!CheckInventory (s"S7_SynthFire2Active"))
             return;
 
         if (KeyPressedMOD (BT_ATTACK))
             SetInventory (s"S7_SynthFireLeft", 1);
+        else if (KeyReleasedMOD (BT_ATTACK))
+            SetInventory (s"S7_SynthFireLeft", 0);
 
         if (KeyPressedMOD (BT_ALTATTACK))
             SetInventory (s"S7_SynthFireRight", 1);
+        else if (KeyReleasedMOD (BT_ALTATTACK))
+            SetInventory (s"S7_SynthFireRight", 0);
 
         Delay (1);
     }
@@ -236,11 +238,11 @@ Script_C int S7_ButterflyAkimboReload () {
 
     if (mag1Req + mag2Req > ammoPool) {
         int ammoReq = mag1Req + mag2Req;
-        for (int i = 0; i < 32; i++) {
-            if (ammoReq - 2 * i < ammoPool) {
+        for (int i = 32; i > 0; i++) {
+            if (ammoReq - i < ammoPool) {
                 GiveInventory (BUTTERFLYCLIP, mag1Req - i);
                 GiveInventory (BUTTERFLYCLIPSECOND, mag2Req - i);
-                TakeInventory (s"S7_FBSysCells", mag1Req + mag2Req - 2 * i);
+                TakeInventory (s"S7_FBSysCells", (mag1Req + mag2Req) - i);
                 return TRUE;
             }
         }
