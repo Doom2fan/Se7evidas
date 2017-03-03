@@ -84,13 +84,21 @@ Script_LS vec3_k GetActivatorPointerPos (int pointer);
 vec5_k GetActorInfoVec (int tid);
 Script_LS vec5_k GetActivatorPointerInfo (int pointer);
 /* Keys */
-int KeyUp         (int key);
-int KeyDown       (int key);
-int KeyPressed    (int key);
-int KeyPressed2   (int buttons, int oldbuttons, int key);
-int KeyUpMOD      (int key);
-int KeyDownMOD    (int key);
-int KeyPressedMOD (int key);
+// Up/Down
+bool KeyUp          (int key);
+bool KeyDown        (int key);
+// Pressed/Released
+bool KeyPressed     (int key);
+bool KeyPressed2    (int buttons, int oldbuttons, int key);
+bool KeyReleased    (int key);
+bool KeyReleased2   (int buttons, int oldbuttons, int key);
+/* Keys (MOD versions) */
+// Up/Down
+bool KeyUpMOD       (int key);
+bool KeyDownMOD     (int key);
+// Pressed/Released
+bool KeyPressedMOD  (int key);
+bool KeyReleasedMOD (int key);
 /* Player info */
 bool S7_PlayerNumEqualConsolePlayer (int playerNum);
 int  GetMaxStamina (struct PlayerData_t *player);
