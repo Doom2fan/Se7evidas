@@ -1,14 +1,21 @@
 // Add Keys
 //addKeySection "Se7evidas (Essentials)" "Se7evidas_Essentials"
-//addMenuKey    "Firing mode (Press)"         "Use S7_FiringModeKey"
+//addMenuKey    "Firing mode (Press)"         "S7_FiringMode"
 //addMenuKey    "Sprint (Hold)"               +user1
-//addMenuKey    "Buy Menu Toggle (Press)"     "Use S7_BuyMenuKey"
-//addMenuKey    "Quick Melee (Press)"         "Use S7_MeleeKey"
+//addMenuKey    "Buy Menu Toggle (Press)"     +user3
+//addMenuKey    "Quick Melee (Press)"         "S7_QuickMelee"
 
 //addKeySection "Se7evidas (Optional)" "Se7evidas_Optional"
-//addMenuKey    "Reload (Press)"              "Use S7_ReloadKey"
+//addMenuKey    "Reload (Press)"              "S7_Reload"
 //addMenuKey    "Dodge (Press)"               +user4
-//addMenuKey    "Drop Weapon (Press)"         "Use S7_DropWeaponKey"
+//addMenuKey    "Drop Weapon (Press)"         "S7_WeapDrop"
+
+// Keys
+alias S7_FiringMode "Use S7_FiringModeKey"
+alias S7_QuickMelee "Use S7_MeleeKey"
+alias S7_Reload "Use S7_ReloadKey"
+alias S7_WeapDrop "Use S7_DropWeaponKey"
+alias S7_ShowPop1 "Use S7_ShowPop1Key"
 
 // Aliases
 alias S7_ListInv "pukename S7_PrintInv always %1"

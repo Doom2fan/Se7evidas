@@ -169,10 +169,10 @@ optionMenu "CustomizeControls" {
     staticText  "Combat", 1
     control     "Fire",                                 "+attack"
     control     "Secondary Fire",                       "+altattack"
-    control     "Firing Mode",                          "Use S7_FiringModeKey"
+    control     "Firing Mode",                          "S7_FiringMode"
     control     "Weapon Reload",                        "+reload"
     control     "Weapon Zoom",                          "+zoom"
-    control     "Quick Melee",                          "Use S7_MeleeKey"
+    control     "Quick Melee",                          "S7_QuickMelee"
     control     "Next Weapon",                          "S7_WeapNext"
     control     "Previous Weapon",                      "S7_WeapPrev"
     control     "Weapon Slot 1",                        "S7_Slot 0"
@@ -190,11 +190,11 @@ optionMenu "CustomizeControls" {
     control     "Previous Item",                        "invprev"
     control     "Drop Item",                            "invdrop"
     control     "Query Item",                           "invquery"
-    control     "Drop Weapon",                          "Use S7_DropWeaponKey"
+    control     "Drop Weapon",                          "S7_WeapDrop"
 
     staticText  ""
     staticText  "Info Screens", 1
-    control     "Full inventory list",                  "Use S7_ShowPop1Key"
+    control     "Full inventory list",                  "S7_ShowPop1"
     //control     "Mission Objectives",                   "showpop 1"
     //control     "Keys List",                            "showpop 2"
 
