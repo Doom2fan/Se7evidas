@@ -22,6 +22,15 @@
 
 #include <ACS_ZDoom.h>
 
+typedef struct S7_HW_2ModeWpn {
+    string weap;
+    string token;
+    string state1;
+    string state2;
+    string showToken;
+    bool stMode;
+} S7_HW_2ModeWpn;
+
 extern const string WeaponNames [];
 extern const int WeaponNames_Length;
 
@@ -31,7 +40,7 @@ extern const int ClipNames_Length;
 extern const string AmmoNames [];
 extern const int AmmoNames_Length;
 
-extern const string S7_HW_2ModeWpns [] [4];
+extern const S7_HW_2ModeWpn S7_HW_2ModeWpns [];
 extern const int S7_HW_2ModeWpns_Length;
 
 #endif

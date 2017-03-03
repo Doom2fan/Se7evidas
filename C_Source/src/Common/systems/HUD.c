@@ -38,13 +38,18 @@ void HudWeapons (PlayerData_t *player) { // HUD icons and stuff...
 
     if (!player->scriptData.disableHUD) {
         for (int x = 0; x < S7_HW_2ModeWpns_Length; x++) { // Loop through everything in the weapons array
-            if (CheckWeapon (S7_HW_2ModeWpns [x] [0])) { // If the player is using this weapon
-                if (CheckInventory (S7_HW_2ModeWpns [x] [1])) // If the player has the specified item
-                    HW_SetFont (S7_HW_2ModeWpns [x] [2]); // Set the font to the first image
-                else // If not
-                    HW_SetFont (S7_HW_2ModeWpns [x] [3]); // Set the font to the second image
+            if (CheckWeapon (S7_HW_2ModeWpns [x].weap)) { // If the player is using this weapon
+                if (S7_HW_2ModeWpns [x].showToken == NULL || // if showToken isn't defined, or
+                    ((!S7_HW_2ModeWpns [x].stMode && !CheckInventory (S7_HW_2ModeWpns [x].showToken)) || // showToken is defined, stMode is FALSE, and showToken isn't in the player's inventory, or
+                    (S7_HW_2ModeWpns [x].stMode && CheckInventory (S7_HW_2ModeWpns [x].showToken)) // showToken is defined, stMode is TRUE, and showToken is in the player's inventory
+                )) {
+                    if (CheckInventory (S7_HW_2ModeWpns [x].token)) // If the player has the specified item
+                        HW_SetFont (S7_HW_2ModeWpns [x].state1); // Set the font to the first image
+                    else // If not
+                        HW_SetFont (S7_HW_2ModeWpns [x].state2); // Set the font to the second image
 
-                break; // Break from the loop
+                    break; // Break from the loop
+                }
             }
         }
     }

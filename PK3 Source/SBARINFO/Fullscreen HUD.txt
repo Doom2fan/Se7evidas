@@ -1,5 +1,5 @@
 // Code: Chronos "phantombeta" Ouroboros
-// Graphics: Chronos "phantombeta" Ouroboros
+// Graphics: Chronos "phantombeta" Ouroboros, Captain J (Cartridges sprites)
 
 statusBar fullscreen, forceScaled, fullscreenOffsets {
     inInventory not S7_DisableHud {
@@ -292,11 +292,86 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
             drawBar "S7LRABFG", "S7LRABBG", S7_FauchardMag, horizontal, reverse, interpolate (25), -57, -31;
         }
 
-        /*
-        ** Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
-        ** I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
-        ** something better to define HUDs with because SBARINFO is terrible and annoying.
-        */
+        else isSelected S7_LaserPewPew {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_LaserPewPewHasTwo {
+                inInventory S7_LaserPewPewAkimbo {
+                    drawBar "S7LPPDFG", "S7LPPDBG", S7_LaserPewPewClip,       horizontal, reverse, interpolate (25), -57, -40;
+                    drawBar "S7LPPDFG", "S7LPPDBG", S7_LaserPewPewClipSecond, horizontal, reverse, interpolate (25), -57, -22;
+                } else {
+                    drawBar "S7LRABFG", "S7LRABBG", S7_LaserPewPewClip, horizontal, reverse, interpolate (25), -57, -31;
+                }
+            } else {
+                drawBar "S7LRABFG", "S7LRABBG", S7_LaserPewPewClip, horizontal, reverse, interpolate (25), -57, -31;
+            }
+        }
+
+        else isSelected S7_ConquerorRifle {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_ConquerorRifleClip,  1 { drawImage "S7H45WW",  -14, -43; }
+            inInventory S7_ConquerorRifleClip,  2 { drawImage "S7H45WW",  -21, -41; }
+            inInventory S7_ConquerorRifleClip,  3 { drawImage "S7H45WW",  -28, -43; }
+            inInventory S7_ConquerorRifleClip,  4 { drawImage "S7H45WW",  -35, -41; }
+            inInventory S7_ConquerorRifleClip,  5 { drawImage "S7H45WW",  -42, -43; }
+            inInventory S7_ConquerorRifleClip,  6 { drawImage "S7H45WW",  -49, -41; }
+            inInventory S7_ConquerorRifleClip,  7 { drawImage "S7H45WW",  -56, -43; }
+            inInventory S7_ConquerorRifleClip,  8 { drawImage "S7H45WW",  -63, -41; }
+            inInventory S7_ConquerorRifleClip,  9 { drawImage "S7H45WW",  -70, -43; }
+            inInventory S7_ConquerorRifleClip, 10 { drawImage "S7H45WW",  -77, -41; }
+            inInventory S7_ConquerorRifleClip, 11 { drawImage "S7H45WW",  -84, -43; }
+            inInventory S7_ConquerorRifleClip, 12 { drawImage "S7H45WW",  -91, -41; }
+            inInventory S7_ConquerorRifleClip, 13 { drawImage "S7H45WW",  -98, -43; }
+            inInventory S7_ConquerorRifleClip, 14 { drawImage "S7H45WW", -105, -41; }
+            inInventory S7_ConquerorRifleClip, 15 { drawImage "S7H45WW", -112, -43; }
+        }
+
+        else isSelected S7_SSG {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_SSGRightLoaded { drawImage "S7H12GA", -17, -29; }
+            inInventory S7_SSGLeftLoaded  { drawImage "S7H12GA", -31, -29; }
+        }
+
+        else isSelected S7_AK47 {
+            drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
+            drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
+            inInventory S7_AK47Clip,  1 { drawImage "S7H762MM",  -11, -27; }
+            inInventory S7_AK47Clip,  2 { drawImage "S7H762MM",  -15, -26; }
+            inInventory S7_AK47Clip,  3 { drawImage "S7H762MM",  -19, -27; }
+            inInventory S7_AK47Clip,  4 { drawImage "S7H762MM",  -23, -26; }
+            inInventory S7_AK47Clip,  5 { drawImage "S7H762MM",  -27, -27; }
+            inInventory S7_AK47Clip,  6 { drawImage "S7H762MM",  -31, -26; }
+            inInventory S7_AK47Clip,  7 { drawImage "S7H762MM",  -35, -27; }
+            inInventory S7_AK47Clip,  8 { drawImage "S7H762MM",  -39, -26; }
+            inInventory S7_AK47Clip,  9 { drawImage "S7H762MM",  -43, -27; }
+            inInventory S7_AK47Clip, 10 { drawImage "S7H762MM",  -47, -26; }
+            inInventory S7_AK47Clip, 11 { drawImage "S7H762MM",  -51, -27; }
+            inInventory S7_AK47Clip, 12 { drawImage "S7H762MM",  -55, -26; }
+            inInventory S7_AK47Clip, 13 { drawImage "S7H762MM",  -59, -27; }
+            inInventory S7_AK47Clip, 14 { drawImage "S7H762MM",  -63, -26; }
+            inInventory S7_AK47Clip, 15 { drawImage "S7H762MM",  -67, -27; }
+            inInventory S7_AK47Clip, 16 { drawImage "S7H762MM",  -71, -26; }
+            inInventory S7_AK47Clip, 17 { drawImage "S7H762MM",  -75, -27; }
+            inInventory S7_AK47Clip, 18 { drawImage "S7H762MM",  -79, -26; }
+            inInventory S7_AK47Clip, 19 { drawImage "S7H762MM",  -83, -27; }
+            inInventory S7_AK47Clip, 20 { drawImage "S7H762MM",  -87, -26; }
+            inInventory S7_AK47Clip, 21 { drawImage "S7H762MM",  -91, -27; }
+            inInventory S7_AK47Clip, 22 { drawImage "S7H762MM",  -95, -26; }
+            inInventory S7_AK47Clip, 23 { drawImage "S7H762MM",  -99, -27; }
+            inInventory S7_AK47Clip, 24 { drawImage "S7H762MM", -103, -26; }
+            inInventory S7_AK47Clip, 25 { drawImage "S7H762MM", -107, -27; }
+            inInventory S7_AK47Clip, 26 { drawImage "S7H762MM", -111, -26; }
+            inInventory S7_AK47Clip, 27 { drawImage "S7H762MM", -115, -27; }
+            inInventory S7_AK47Clip, 28 { drawImage "S7H762MM", -119, -26; }
+            inInventory S7_AK47Clip, 29 { drawImage "S7H762MM", -123, -27; }
+            inInventory S7_AK47Clip, 30 { drawImage "S7H762MM", -127, -26; }
+        }
+
+        // Yeah, I know. This code is terrible. I did it quick (And without the wiki or any reference at all because
+        // I have no internet connection at the time of writing) because fuck SBARINFO. It fucking sucks. We need
+        // something better to define HUDs with because SBARINFO is terrible and annoying.
         else isSelected S7_Thumper {
             drawNumber 5, FSHUDFNT, White, S7_Thumper_PUnified, interpolate (13), alignment (right), -6, -50;
             drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
@@ -339,53 +414,93 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
 
             inInventory S7_ThumperMag1, 1 {
                 drawImage "S7H50M0", -26, -43;
-                     inInventory S7_ThumperMag1, 7 { drawImage "S7H50M7", -26, -17; }
-                else inInventory S7_ThumperMag1, 6 { drawImage "S7H50M6", -26, -17; }
-                else inInventory S7_ThumperMag1, 5 { drawImage "S7H50M5", -26, -17; }
-                else inInventory S7_ThumperMag1, 4 { drawImage "S7H50M4", -26, -17; }
-                else inInventory S7_ThumperMag1, 3 { drawImage "S7H50M3", -26, -17; }
-                else inInventory S7_ThumperMag1, 2 { drawImage "S7H50M2", -26, -17; }
-                else inInventory S7_ThumperMag1, 1 { drawImage "S7H50M1", -26, -17; }
+                inInventory S7_ThumperMag1, 7 {
+                    drawImage "S7H50M7", -26, -17;
+                } else inInventory S7_ThumperMag1, 6 {
+                    drawImage "S7H50M6", -26, -17;
+                } else inInventory S7_ThumperMag1, 5 {
+                    drawImage "S7H50M5", -26, -17;
+                } else inInventory S7_ThumperMag1, 4 {
+                    drawImage "S7H50M4", -26, -17;
+                } else inInventory S7_ThumperMag1, 3 {
+                    drawImage "S7H50M3", -26, -17;
+                } else inInventory S7_ThumperMag1, 2 {
+                    drawImage "S7H50M2", -26, -17;
+                } else inInventory S7_ThumperMag1, 1 {
+                    drawImage "S7H50M1", -26, -17;
+                }
             }
             inInventory S7_ThumperMag2, 1 {
                 drawImage "S7H50M0", -48, -43;
-                     inInventory S7_ThumperMag2, 7 { drawImage "S7H50M7", -48, -17; }
-                else inInventory S7_ThumperMag2, 6 { drawImage "S7H50M6", -48, -17; }
-                else inInventory S7_ThumperMag2, 5 { drawImage "S7H50M5", -48, -17; }
-                else inInventory S7_ThumperMag2, 4 { drawImage "S7H50M4", -48, -17; }
-                else inInventory S7_ThumperMag2, 3 { drawImage "S7H50M3", -48, -17; }
-                else inInventory S7_ThumperMag2, 2 { drawImage "S7H50M2", -48, -17; }
-                else inInventory S7_ThumperMag2, 1 { drawImage "S7H50M1", -48, -17; }
+                inInventory S7_ThumperMag2, 7 {
+                    drawImage "S7H50M7", -48, -17;
+                } else inInventory S7_ThumperMag2, 6 {
+                    drawImage "S7H50M6", -48, -17;
+                } else inInventory S7_ThumperMag2, 5 {
+                    drawImage "S7H50M5", -48, -17;
+                } else inInventory S7_ThumperMag2, 4 {
+                    drawImage "S7H50M4", -48, -17;
+                } else inInventory S7_ThumperMag2, 3 {
+                    drawImage "S7H50M3", -48, -17;
+                } else inInventory S7_ThumperMag2, 2 {
+                    drawImage "S7H50M2", -48, -17;
+                } else inInventory S7_ThumperMag2, 1 {
+                    drawImage "S7H50M1", -48, -17;
+                }
             }
             inInventory S7_ThumperMag3, 1 {
                 drawImage "S7H50M0", -70, -43;
-                     inInventory S7_ThumperMag3, 7 { drawImage "S7H50M7", -70, -17; }
-                else inInventory S7_ThumperMag3, 6 { drawImage "S7H50M6", -70, -17; }
-                else inInventory S7_ThumperMag3, 5 { drawImage "S7H50M5", -70, -17; }
-                else inInventory S7_ThumperMag3, 4 { drawImage "S7H50M4", -70, -17; }
-                else inInventory S7_ThumperMag3, 3 { drawImage "S7H50M3", -70, -17; }
-                else inInventory S7_ThumperMag3, 2 { drawImage "S7H50M2", -70, -17; }
-                else inInventory S7_ThumperMag3, 1 { drawImage "S7H50M1", -70, -17; }
+                inInventory S7_ThumperMag3, 7 {
+                    drawImage "S7H50M7", -70, -17;
+                } else inInventory S7_ThumperMag3, 6 {
+                    drawImage "S7H50M6", -70, -17;
+                } else inInventory S7_ThumperMag3, 5 {
+                    drawImage "S7H50M5", -70, -17;
+                } else inInventory S7_ThumperMag3, 4 {
+                    drawImage "S7H50M4", -70, -17;
+                } else inInventory S7_ThumperMag3, 3 {
+                    drawImage "S7H50M3", -70, -17;
+                } else inInventory S7_ThumperMag3, 2 {
+                    drawImage "S7H50M2", -70, -17;
+                } else inInventory S7_ThumperMag3, 1 {
+                    drawImage "S7H50M1", -70, -17;
+                }
             }
             inInventory S7_ThumperMag4, 1 {
                 drawImage "S7H50M0", -92, -43;
-                     inInventory S7_ThumperMag4, 7 { drawImage "S7H50M7", -92, -17; }
-                else inInventory S7_ThumperMag4, 6 { drawImage "S7H50M6", -92, -17; }
-                else inInventory S7_ThumperMag4, 5 { drawImage "S7H50M5", -92, -17; }
-                else inInventory S7_ThumperMag4, 4 { drawImage "S7H50M4", -92, -17; }
-                else inInventory S7_ThumperMag4, 3 { drawImage "S7H50M3", -92, -17; }
-                else inInventory S7_ThumperMag4, 2 { drawImage "S7H50M2", -92, -17; }
-                else inInventory S7_ThumperMag4, 1 { drawImage "S7H50M1", -92, -17; }
+                inInventory S7_ThumperMag4, 7 {
+                    drawImage "S7H50M7", -92, -17;
+                } else inInventory S7_ThumperMag4, 6 {
+                    drawImage "S7H50M6", -92, -17;
+                } else inInventory S7_ThumperMag4, 5 {
+                    drawImage "S7H50M5", -92, -17;
+                } else inInventory S7_ThumperMag4, 4 {
+                    drawImage "S7H50M4", -92, -17;
+                } else inInventory S7_ThumperMag4, 3 {
+                    drawImage "S7H50M3", -92, -17;
+                } else inInventory S7_ThumperMag4, 2 {
+                    drawImage "S7H50M2", -92, -17;
+                } else inInventory S7_ThumperMag4, 1 {
+                    drawImage "S7H50M1", -92, -17;
+                }
             }
             inInventory S7_ThumperMag5, 1 {
                 drawImage "S7H50M0", -114, -43;
-                     inInventory S7_ThumperMag5, 7 { drawImage "S7H50M7", -114, -17; }
-                else inInventory S7_ThumperMag5, 6 { drawImage "S7H50M6", -114, -17; }
-                else inInventory S7_ThumperMag5, 5 { drawImage "S7H50M5", -114, -17; }
-                else inInventory S7_ThumperMag5, 4 { drawImage "S7H50M4", -114, -17; }
-                else inInventory S7_ThumperMag5, 3 { drawImage "S7H50M3", -114, -17; }
-                else inInventory S7_ThumperMag5, 2 { drawImage "S7H50M2", -114, -17; }
-                else inInventory S7_ThumperMag5, 1 { drawImage "S7H50M1", -114, -17; }
+                inInventory S7_ThumperMag5, 7 {
+                    drawImage "S7H50M7", -114, -17;
+                } else inInventory S7_ThumperMag5, 6 {
+                    drawImage "S7H50M6", -114, -17;
+                } else inInventory S7_ThumperMag5, 5 {
+                    drawImage "S7H50M5", -114, -17;
+                } else inInventory S7_ThumperMag5, 4 {
+                    drawImage "S7H50M4", -114, -17;
+                } else inInventory S7_ThumperMag5, 3 {
+                    drawImage "S7H50M3", -114, -17;
+                } else inInventory S7_ThumperMag5, 2 {
+                    drawImage "S7H50M2", -114, -17;
+                } else inInventory S7_ThumperMag5, 1 {
+                    drawImage "S7H50M1", -114, -17;
+                }
             }
         }
 

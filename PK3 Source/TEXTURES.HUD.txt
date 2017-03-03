@@ -1,3 +1,4 @@
+/** Normal HUD **/
 graphic HELMBTML, 94, 15 {
     patch HELMBTMR, 0, 0 {
         flipX
@@ -15,3 +16,15 @@ graphic HOLOBR01, 114, 8  { }
 graphic PRFLPMTB, 9, 82   { }
 graphic S7BARBK0, 50, 3   { }
 graphic PRFPMTB2, 9, 80   { }
+
+/** Fullscreen HUD **/
+graphic S7LPPDBG, 52, 26 {
+    xScale 1.000
+    yScale 1.53846153846153846
+    patch S7LRABBG, 0, 0
+}
+graphic S7LPPDFG, 52, 26 {
+    xScale 1.000
+    yScale 1.53846153846153846
+    patch S7LRABFG, 0, 0
+}
