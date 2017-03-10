@@ -36,8 +36,7 @@ typedef struct StrToLongIntValue {
 } StrToLongIntValue;
 
 typedef struct CharNibble {
-    string charStr;
-    char charChar;
+    char character;
     char nibble;
 } CharNibble;
 
@@ -128,9 +127,9 @@ accum ClampAccum (accum x, accum min, accum max);
 int   ScaleValue      (int   x,   int fromMin,   int fromMax,   int toMin,   int toMax);
 accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum toMax);
 /* String to value conversion */
-StrToIntValue  StrToIntHex (string source); // int
+StrToIntValue  StrToIntHex (char __str_ars const *restrict source); // int
 StrToIntValue CStrToIntHex (cstr   source);
-StrToLongIntValue  StrToLongIntHex (string source); // long int
+StrToLongIntValue  StrToLongIntHex (char __str_ars const *restrict source); // long int
 StrToLongIntValue CStrToLongIntHex (cstr   source);
 StrToIntValue StrToIntDec (string source);
 bool *StrToBool (string source);

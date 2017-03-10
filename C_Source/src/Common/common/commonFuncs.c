@@ -322,125 +322,83 @@ accum ScaleValueAccum (accum x, accum fromMin, accum fromMax, accum toMin, accum
 
 /* String to value conversion */
 CharNibble HexToNibbleList [] = {
-    { s"0", '0', (char) 0x00 }, // 0-9
-    { s"1", '1', (char) 0x01 },
-    { s"2", '2', (char) 0x02 },
-    { s"3", '3', (char) 0x03 },
-    { s"4", '4', (char) 0x04 },
-    { s"5", '5', (char) 0x05 },
-    { s"6", '6', (char) 0x06 },
-    { s"7", '7', (char) 0x07 },
-    { s"8", '8', (char) 0x08 },
-    { s"9", '9', (char) 0x09 },
-    { s"A", 'A', (char) 0x0A }, // A-F (Uppercase)
-    { s"B", 'B', (char) 0x0B },
-    { s"C", 'C', (char) 0x0C },
-    { s"D", 'D', (char) 0x0D },
-    { s"E", 'E', (char) 0x0E },
-    { s"F", 'F', (char) 0x0F },
-    { s"a", 'a', (char) 0x0A }, // a-f (Lowercase)
-    { s"b", 'b', (char) 0x0B },
-    { s"c", 'c', (char) 0x0C },
-    { s"d", 'd', (char) 0x0D },
-    { s"e", 'e', (char) 0x0E },
-    { s"f", 'f', (char) 0x0F },
+    { '0', (char) 0x00 }, // 0-9
+    { '1', (char) 0x01 },
+    { '2', (char) 0x02 },
+    { '3', (char) 0x03 },
+    { '4', (char) 0x04 },
+    { '5', (char) 0x05 },
+    { '6', (char) 0x06 },
+    { '7', (char) 0x07 },
+    { '8', (char) 0x08 },
+    { '9', (char) 0x09 },
+    { 'A', (char) 0x0A }, // A-F (Uppercase)
+    { 'B', (char) 0x0B },
+    { 'C', (char) 0x0C },
+    { 'D', (char) 0x0D },
+    { 'E', (char) 0x0E },
+    { 'F', (char) 0x0F },
+    { 'a', (char) 0x0A }, // a-f (Lowercase)
+    { 'b', (char) 0x0B },
+    { 'c', (char) 0x0C },
+    { 'd', (char) 0x0D },
+    { 'e', (char) 0x0E },
+    { 'f', (char) 0x0F },
 };
 
-StrToIntValue StrToIntHex (string source) {
-    int length = StrLen (source);
-    StrToIntValue ret;
-    StrToLongIntValue tmpVal = StrToLongIntHex (source);
-    if (length > 8 || length <= 0 || !tmpVal.valid) { // Nibbles in a long int: 32 / 8 * 2
-        ret.valid = FALSE; // Just to make sure
-        ret.value = 0xBAADBEEF;
-        return ret;
+#define StrToIntHex_Pre(retType, strlen, type, size) \
+    type val = 0; \
+    int j = 0, length = strlen (source), offset = length - 1; \
+    bool found = FALSE; \
+    retType ret; \
+    ret.valid = FALSE; \
+    ret.value = 0xBAADBEEF; \
+    if (length > size || length <= 0) { \
+        ret.valid = FALSE; \
+        ret.value = 0xBAADBEEF; \
+        return ret; \
     }
-    ret.valid = TRUE;
-    ret.value = (int) tmpVal.value;
-    return ret;
+#define StrToIntHex_Loop() \
+    for (int i = 0; i < length; i++, offset--) { \
+        found = FALSE; \
+        for (j = 0; j < ArraySize (HexToNibbleList); j++) { \
+            if (source [i] == HexToNibbleList [j].character) { \
+                val |= HexToNibbleList [j].nibble << (offset * 4); \
+                found = TRUE; \
+                break; \
+            } \
+        } \
+        if (found == FALSE) { \
+            ret.valid = FALSE; \
+            ret.value = 0xBAADBEEF; \
+            return ret; \
+        } \
+    }
+#define StrToIntHex_End() \
+    ret.valid = true; \
+    ret.value = val; \
+    return ret
+StrToIntValue StrToIntHex (char __str_ars const *restrict source) {
+    StrToIntHex_Pre (StrToIntValue, strlen_str, int, 8);
+    StrToIntHex_Loop ();
+    StrToIntHex_End ();
 }
 
-StrToLongIntValue StrToLongIntHex (string source) {
-    long int val = 0;
-    int j = 0, length = StrLen (source), offset = length - 1;
-    bool found = FALSE;
-    StrToLongIntValue ret;
-    ret.valid = FALSE;
-    ret.value = 0xBAADBEEF;
-
-    if (length > 16 || length <= 0) { // Nibbles in a long int: 64 / 8 * 2
-        ret.valid = FALSE; // Just to make sure
-        ret.value = 0xBAADBEEF;
-        return ret;
-    }
-
-    for (int i = 0; i < length; i++, offset--) {
-        found = FALSE;
-        for (j = 0; j < ArraySize (HexToNibbleList); j++) {
-            if (StrCmp (StrMid (source, i, 1), HexToNibbleList [j].charStr) == 0) {
-                val |= HexToNibbleList [j].nibble << (offset * 4);
-                found = TRUE;
-                break;
-            }
-        }
-        if (found == FALSE) {
-            ret.valid = FALSE; // Just to make sure
-            ret.value = 0xBAADBEEF;
-            return ret;
-        }
-    }
-
-    ret.valid = true;
-    ret.value = val;
-    return ret;
+StrToLongIntValue StrToLongIntHex (char __str_ars const *restrict source) {
+    StrToIntHex_Pre (StrToLongIntValue, strlen_str, long int, 16);
+    StrToIntHex_Loop ();
+    StrToIntHex_End ();
 }
 
 StrToIntValue CStrToIntHex (cstr source) {
-    int length = strlen (source);
-    StrToIntValue ret;
-    StrToLongIntValue tmpVal = CStrToLongIntHex (source);
-    if (length > 8 || length <= 0 || !tmpVal.valid) { // Nibbles in a long int: 32 / 8 * 2
-        ret.valid = FALSE; // Just to make sure
-        ret.value = 0xBAADBEEF;
-        return ret;
-    }
-    ret.valid = TRUE;
-    ret.value = (int) tmpVal.value;
-    return ret;
+    StrToIntHex_Pre (StrToIntValue, strlen, int, 8);
+    StrToIntHex_Loop ();
+    StrToIntHex_End ();
 }
 StrToLongIntValue CStrToLongIntHex (cstr source) {
-    long int val = 0;
-    int j = 0, length = strlen (source), offset = length - 1;
-    bool found = FALSE;
-    StrToLongIntValue ret;
-    ret.valid = FALSE;
-    ret.value = 0xBAADBEEF;
-
-    if (length > 16 || length <= 0) { // Nibbles in a long int: 64 / 8 * 2
-        ret.valid = FALSE; // Just to make sure
-        ret.value = 0xBAADBEEF;
-        return ret;
-    }
-
-    for (int i = 0; i < length; i++, offset--) {
-        found = FALSE;
-        for (j = 0; j < ArraySize (HexToNibbleList); j++) {
-            if (source [i] == HexToNibbleList [j].charChar) {
-                val |= HexToNibbleList [j].nibble << (offset * 4);
-                found = TRUE;
-                break;
-            }
-        }
-        if (found == FALSE) {
-            ret.valid = FALSE; // Just to make sure
-            ret.value = 0xBAADBEEF;
-            return ret;
-        }
-    }
-
-    ret.valid = true;
-    ret.value = val;
-    return ret;
+    StrToIntHex_Pre (StrToLongIntValue, strlen, long int, 16);
+    StrToIntHex_Loop ();
+    StrToIntHex_End ();
 }
 
 StrToIntValue StrToIntDec (string source) {
