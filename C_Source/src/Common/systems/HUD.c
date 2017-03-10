@@ -419,7 +419,7 @@ void ScreenOverlays (PlayerData_t *player) {
 #define RADAR_SWEEPTIME 175
 
 void DrawRadar (PlayerData_t *player) {
-    if (GetCVar (s"screenblocks") <= 11 && !player->scriptData.disableHUD && true) { //CheckInventory (s"S7_UpgradeRadar")) {
+    if (GetCVar (s"screenblocks") <= 11 && !player->scriptData.disableHUD && CheckInventory (s"S7_UpgradeRadar")) {
         MonsterInfo_t *monster = monsterList;
         accum x, y, dX, dY, dist;
         int colour, i = 0;
@@ -427,7 +427,7 @@ void DrawRadar (PlayerData_t *player) {
         SetHudSize (GetUserCVar (0, s"S7_Radar_Width"), GetUserCVar (0, s"S7_Radar_Height"), FALSE);
 
         SetFont (s"SMALLFNT");
-        HudMessage (HUDMSG_PLAIN, i++, CR_BLUE, RADAR_XPOS, RADAR_YPOS, 0.1k, 0.0k, 0.0k, 0.0k, "@");
+        HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, CR_BLUE, RADAR_XPOS, RADAR_YPOS, 0.1k, 0.0k, 0.0k, 0.0k, "@");
 
         while (TRUE) {
             if (!monster)
