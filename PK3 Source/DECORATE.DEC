@@ -66,6 +66,7 @@
 #INCLUDE "Decorate/Inventory/Loot.DEC"
 
 // Player stuff
+#INCLUDE "Decorate/CheatThingy.DEC"
 #INCLUDE "Decorate/Player.DEC"
 #INCLUDE "Decorate/Scout.DEC"
 

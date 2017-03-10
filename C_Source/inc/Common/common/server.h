@@ -34,6 +34,8 @@ enum {
 
 // Structs
 typedef struct ServerData_t {
+    bool debugMode;
+
     // Parkour stuff
     int   dodgeCooldown;
     accum mjumpZMul;

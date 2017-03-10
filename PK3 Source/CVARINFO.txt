@@ -3,6 +3,7 @@ server int   S7_DodgeCooldown           = 35;
 server float S7_MultiJumpZMul           = 1.0;
 server bool  S7_ForceIntro              = FALSE;
 server noArchive bool S7_NoSaveLoading  = FALSE;
+server bool S7_DebugMode  = FALSE;
 
 /** User CVars **/
 user bool S7_MsgsOn                     = TRUE;

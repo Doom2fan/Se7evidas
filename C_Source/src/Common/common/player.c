@@ -171,6 +171,11 @@ void InitializePlayer (PlayerData_t *player) {
     SetInventory (DISABLEHUDTOKEN, 1);
     player->scriptData.disableHUD = TRUE;
 
+    for (int x = 0; x < WPBND_MAXSLOTS; x++) {
+        for (int y = 0; y < WPBND_MAXWEAPS; y++)
+            player->weapBinds.weapBinds [x] [y] = -1;
+    }
+
     SavedData_t saveData = {
         .isInvalid = TRUE,
     };
