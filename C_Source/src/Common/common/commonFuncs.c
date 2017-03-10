@@ -141,12 +141,12 @@ bool KeyReleasedMOD (int key) {
 int GetMaxStamina (PlayerData_t *player) {
     PlayerData_t *p = !player ? &PlayerData [PLN] : player;
 
-    return 150 + 22 * p->xpSystem.agilityLVL;
+    return 150 + 10 * p->xpSystem.agilityLVL;
 }
 int GetMaxMana (PlayerData_t *player) {
     PlayerData_t *p = !player ? &PlayerData [PLN] : player;
 
-    return 250 + 37 * p->xpSystem.magicLVL;
+    return 250 + 15 * p->xpSystem.magicLVL;
 }
 
 /* Memory */

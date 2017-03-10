@@ -55,7 +55,7 @@ void XPSys_UpdateLevel (PlayerData_t *player) {
     bool logMessages = GetUserCVar (PLN, s"S7_LogLVLUpMsgs");
     int  reqXP = XPSYSBASEXPGOAL * (1.0k + 0.25k * player->xpSystem.level);
     int  nextLevel = player->xpSystem.level + 1;
-    int  attrPoints = Random (2, 5);
+    int  attrPoints = 5;
     int  xp = player->xpSystem.experience;
 
     if (xp >= reqXP) {
@@ -89,9 +89,9 @@ void XPSys_EnforceStats (PlayerData_t *player) {
     // Agility
     SetAmmoCapacity (STAMINATOKEN, GetMaxStamina (player));
     // Vitality
-    SetActorProperty (0, APROP_SpawnHealth, (int) (baseHealth * (1.0k + 0.15k * player->xpSystem.vitalityLVL)));
+    SetActorProperty (0, APROP_SpawnHealth, (int) (baseHealth * (1.0k + 0.06k * player->xpSystem.vitalityLVL)));
     // Defense
-    SetActorPropertyFixed (0, APROP_DamageFactor, 1.0k - 0.025k * player->xpSystem.defenseLVL);
+    SetActorPropertyFixed (0, APROP_DamageFactor, 1.0k - 0.01k * player->xpSystem.defenseLVL);
     // Magic
     SetAmmoCapacity (MANATOKEN, GetMaxMana (player));
 }

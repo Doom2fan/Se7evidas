@@ -101,14 +101,14 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     tmpData.xpSystem.experience  = SaveSys_ReadInt (rpgSysStr, offset, 8);
     tmpData.xpSystem.attrPoints  = SaveSys_ReadInt (rpgSysStr, offset, 4);
 
-    int statPoints = SaveSys_ReadInt (rpgSysStr, offset, 8);
-    tmpData.xpSystem.strengthLVL = ((statPoints & 0x0000000F));
-    tmpData.xpSystem.agilityLVL  = ((statPoints & 0x000000F0) >>  4);
-    tmpData.xpSystem.vitalityLVL = ((statPoints & 0x00000F00) >>  8);
-    tmpData.xpSystem.defenseLVL  = ((statPoints & 0x0000F000) >> 12);
-    tmpData.xpSystem.willLVL     = ((statPoints & 0x000F0000) >> 16);
-    tmpData.xpSystem.magicLVL    = ((statPoints & 0x00F00000) >> 20);
-    tmpData.xpSystem.techLVL     = ((statPoints & 0x0F000000) >> 24);
+    long int statPoints = (SaveSys_ReadLongInt (rpgSysStr, offset, 8)) | (SaveSys_ReadLongInt (rpgSysStr, offset, 8) << 32);
+    tmpData.xpSystem.strengthLVL = (int) ((statPoints)       & 0x0000001F); // Now we're doing it like this
+    tmpData.xpSystem.agilityLVL  = (int) ((statPoints >>  5) & 0x0000001F);
+    tmpData.xpSystem.vitalityLVL = (int) ((statPoints >> 10) & 0x0000001F);
+    tmpData.xpSystem.defenseLVL  = (int) ((statPoints >> 15) & 0x0000001F);
+    tmpData.xpSystem.willLVL     = (int) ((statPoints >> 20) & 0x0000001F);
+    tmpData.xpSystem.magicLVL    = (int) ((statPoints >> 25) & 0x0000001F);
+    tmpData.xpSystem.techLVL     = (int) ((statPoints >> 30) & 0x0000001F);
 
     tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 8);
     SaveSys_FailLoad (rpgSysStr, *offset);
@@ -160,21 +160,23 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     SetUserCVarString (playerNum, SD_INFO, infoStr);
 
     // RPG Systems
-    int statPoints =
-         (data->xpSystem.strengthLVL & 0x0F)        |
-        ((data->xpSystem.agilityLVL  & 0x0F) <<  4) |
-        ((data->xpSystem.vitalityLVL & 0x0F) <<  8) |
-        ((data->xpSystem.defenseLVL  & 0x0F) << 12) |
-        ((data->xpSystem.willLVL     & 0x0F) << 16) |
-        ((data->xpSystem.magicLVL    & 0x0F) << 20) |
-        ((data->xpSystem.techLVL     & 0x0F) << 24);
-    string rpgSysStr = StrParam ("%.2x%.8x%.4x%.8x%.8x",
+    long int statPoints =
+         (data->xpSystem.strengthLVL & 0x1F)        |
+        ((data->xpSystem.agilityLVL  & 0x1F) <<  5) |
+        ((data->xpSystem.vitalityLVL & 0x1F) << 10) |
+        ((data->xpSystem.defenseLVL  & 0x1F) << 15) |
+        ((data->xpSystem.willLVL     & 0x1F) << 20) |
+        ((data->xpSystem.magicLVL    & 0x1F) << 25) |
+        (((long int) data->xpSystem.techLVL & 0x1F) << 30);
+    string rpgSysStr = StrParam ("%.2x%.8x%.4x%.8x%.8x%.8x",
         data->xpSystem.level,
         data->xpSystem.experience,
         data->xpSystem.attrPoints,
-        statPoints,
+        (int)  (statPoints & 0x00000000FFFFFFFF),
+        (int) ((statPoints & 0xFFFFFFFF00000000) >> 32),
         data->cash
     );
+
     SetUserCVarString (playerNum, SD_RPGSYSTEM, rpgSysStr);
 
     // Script Data
@@ -191,7 +193,8 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     string weapBindsStr = s"";
     for (int x = 0; x < WPBND_MAXSLOTS; x++) {
         for (int y = 0; y < WPBND_MAXWEAPS; y++) {
-            weapBindsStr = StrParam ("%S%.2x", weapBindsStr, data->weapBinds.weapBinds [x] [y]);
+            int bind = data->weapBinds.weapBinds [x] [y];
+            weapBindsStr = StrParam ("%S%.2x", weapBindsStr, ((bind & 0x0000007F) | ((bind >> 24) & 0x00000080)) & 0x000000FF);
         }
     }
     SetUserCVarString (playerNum, SD_WEAPBINDS, weapBindsStr);
@@ -210,12 +213,6 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
 
     return TRUE;
 }
-/*#define WPBND_MAXSLOTS 5
-#define WPBND_MAXWEAPS 5
-struct WeapBinds_t {
-    vec2_i curWeap;                                     // Current weapon;
-    int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
-};*/
 
 Script_C void S7_ClearSaveData NET () {
     int playerNum = PLN;
