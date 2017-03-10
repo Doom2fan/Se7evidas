@@ -2,7 +2,7 @@ DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD Sprites: Pisstepank, Chronos "phantombeta" Ouroboros
-    Pickup Sprites: I can't remember :\
+    Pickup Sprites: DoomNukem, Chronos "phantombeta" Ouroboros (Edit)
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file
