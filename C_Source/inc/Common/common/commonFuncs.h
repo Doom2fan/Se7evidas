@@ -61,6 +61,12 @@ typedef struct CharNibble {
 
 #define BoundsCheck(var, min, max) (var >= min && var < max)
 
+#ifdef DEBUG
+#define DebugLog(...) Log (__VA_ARGS__)
+#else
+#define DebugLog(...) 
+#endif
+
 // Accum-float conversion
 #define FloatToAccum(f)      ((accum) ((f) * (65536)))
 #define AccumToFloat(f)      (((float)  f) / (65536.0f))
