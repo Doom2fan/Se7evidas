@@ -85,6 +85,28 @@ void UpdateServerData () {
     ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
     ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
 
+    // RPG system stuff
+    ServerData.maxLevel = GetCVar (s"S7_MaxLevel");
+
+    PD_XPSystem_t *pData;
+    int avgLVL = 0, highLVL = -1, lowLVL = 0x7FFFFFFF, pCount = 0;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        int level = PlayerData [i].xpSystem.level;
+
+        if (!(PlayerData [i].initialized) || !PlayerInGame (i)) // If the player isn't initialized or ingame, skip it
+            continue;
+
+        pCount++;
+        avgLVL += level;
+        if (level > highLVL)
+            highLVL = level;
+        if (level < lowLVL)
+            lowLVL = level;
+    }
+    ServerData.avgLevel     = (pCount != 0) ? (avgLVL / pCount) : 0;
+    ServerData.highestLevel = highLVL;
+    ServerData.lowestLevel  = lowLVL;
+
     // Save system stuff
     ServerData.noSaveLoading = GetCVar (s"S7_NoSaveLoading");
 }

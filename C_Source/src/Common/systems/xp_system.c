@@ -21,17 +21,6 @@
 #include "systems/xp_system.h"
 
 #define XPSYSBASEXPGOAL (2500)
-#define UpdateXPSysInfo() \
-    player->xpSystem.level       = CheckInventory (XPS_LEVELTOKEN); \
-    player->xpSystem.experience  = CheckInventory (XPS_EXPTOKEN); \
-    player->xpSystem.attrPoints  = CheckInventory (XPS_ATTRPOINTSTOKEN); \
-    player->xpSystem.strengthLVL = CheckInventory (XPS_STRENGTHTOKEN); \
-    player->xpSystem.agilityLVL  = CheckInventory (XPS_AGILITYTOKEN); \
-    player->xpSystem.vitalityLVL = CheckInventory (XPS_VITALITYTOKEN); \
-    player->xpSystem.defenseLVL  = CheckInventory (XPS_DEFENSETOKEN); \
-    player->xpSystem.willLVL     = CheckInventory (XPS_WILLTOKEN); \
-    player->xpSystem.magicLVL    = CheckInventory (XPS_MAGICTOKEN); \
-    player->xpSystem.techLVL     = CheckInventory (XPS_TECHTOKEN)
 
 void LevelUp (int level, int attrPoints, bool log, string message) {
     SetFont (s"DBIGFONT");
@@ -40,7 +29,7 @@ void LevelUp (int level, int attrPoints, bool log, string message) {
         SetFont (s"DBIGFONT");
         HudMessage (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 11000, CR_UNTRANSLATED, 0.5k, 0.5k, 3.0k, 0.3k, 0.3k, 0.0k, "Level up!");
         SetFont (s"SMALLFNT");
-        if (!message)
+        if (message == NULL)
             HudMessage_Str (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 11001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3k, 0.3k, 0.0k, s"You have reached level %d.\nYou have gained %d attribute points.", level, attrPoints);
         else
             HudMessage_Str (HUDMSG_FADEINOUT | HUDMSG_LAYER_OVERHUD | HUDMSG_LOG * log, 11001, CR_UNTRANSLATED, 0.5k, 0.55k, 3.0k, 0.3k, 0.3k, 0.0k, message);
@@ -49,16 +38,29 @@ void LevelUp (int level, int attrPoints, bool log, string message) {
     PlaySound (0, s"Player/LevelUp", CHAN_UI);
 }
 
+void UpdateXPSysInfo (PlayerData_t *player) {
+    player->xpSystem.level       = CheckInventory (XPS_LEVELTOKEN);
+    player->xpSystem.experience  = CheckInventory (XPS_EXPTOKEN);
+    player->xpSystem.attrPoints  = CheckInventory (XPS_ATTRPOINTSTOKEN);
+    player->xpSystem.strengthLVL = CheckInventory (XPS_STRENGTHTOKEN);
+    player->xpSystem.agilityLVL  = CheckInventory (XPS_AGILITYTOKEN);
+    player->xpSystem.vitalityLVL = CheckInventory (XPS_VITALITYTOKEN);
+    player->xpSystem.defenseLVL  = CheckInventory (XPS_DEFENSETOKEN);
+    player->xpSystem.willLVL     = CheckInventory (XPS_WILLTOKEN);
+    player->xpSystem.magicLVL    = CheckInventory (XPS_MAGICTOKEN);
+    player->xpSystem.techLVL     = CheckInventory (XPS_TECHTOKEN);
+}
+
 void XPSys_UpdateLevel (PlayerData_t *player) {
-    UpdateXPSysInfo ();
+    UpdateXPSysInfo (player);
 
     bool logMessages = GetUserCVar (PLN, s"S7_LogLVLUpMsgs");
-    int  reqXP = XPSYSBASEXPGOAL * (1.0k + 0.25k * player->xpSystem.level);
+    int  reqXP = XPSYSBASEXPGOAL * (1.0k + 2k * player->xpSystem.level);
     int  nextLevel = player->xpSystem.level + 1;
-    int  attrPoints = 5;
+    int  attrPoints = 4;
     int  xp = player->xpSystem.experience;
 
-    if (xp >= reqXP) {
+    if (xp >= reqXP && player->xpSystem.level < ServerData.maxLevel) {
         switch (nextLevel) {
             default:
                 LevelUp (nextLevel, attrPoints, logMessages, NULL);
@@ -69,7 +71,7 @@ void XPSys_UpdateLevel (PlayerData_t *player) {
         }
     }
 
-    UpdateXPSysInfo ();
+    UpdateXPSysInfo (player);
 }
 
 void XPSys_EnforceStats (PlayerData_t *player) {

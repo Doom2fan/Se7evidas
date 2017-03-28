@@ -43,6 +43,10 @@ typedef struct ServerData_t {
     // Save system stuff
     bool noSaveLoading;
 
+    // RPG system stuff
+    int maxLevel;
+    int avgLevel, highestLevel, lowestLevel;
+
     // Misc map info
     int mapCount;
 } ServerData_t;
