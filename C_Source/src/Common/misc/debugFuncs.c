@@ -105,10 +105,22 @@ Script_C void S7_PrintFixed (int blah) {
 }
 
 Script_C void S7_PrintServerData () {
-    Log ("ServerData = {\n\tdodgeCooldown = %d;\n\tmjumpZMul = %kk;\n\tnoSaveLoading = %s;\n\tmapCount = %d;\n};", ServerData.dodgeCooldown, ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
+    Log ("ServerData = {\n \
+    debugMode = %s; \
+    dodgeCooldown = %d;\n \
+    mjumpZMul = %kk;\n \
+    noSaveLoading = %s;\n \
+    mapCount = %d;\n};",
+    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.dodgeCooldown, ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
 }
 Script_C void S7_PrintMapData () {
-    Log ("MapData = {\n\tmapEvent = %d;\n\tmeSecLoopDelay = %d;\n\tmapEventSet = %S;\n};", MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
+    Log ("MapData = {\n \
+    name = \"%S\";\n \
+    author = \"%S\";\n \
+    mapEvent = %d;\n \
+    meSecLoopDelay = %d;\n \
+    mapEventSet = %S;\n};",
+    MapData.name, MapData.author, MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
 }
 #else
 Script_C void S7_DebugVelocity () { }
