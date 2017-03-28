@@ -4,7 +4,7 @@
 //
 //-------------------------------------------------------------------------------------------
 actor S7_Hellion : S7_DemonBase replaces doomImp 32504 {
-    health 60
+    health 75
     gibHealth -30
     radius 20
     height 56
@@ -94,6 +94,7 @@ actor S7_HellionBall : S7_FireballBase {
     damageType "Fire"
     speed 12
     fastSpeed 24
+    obituary "$OBHELLIONFB"
 
     states {
     Spawn:
