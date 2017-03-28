@@ -65,7 +65,7 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     PlayerData_t *player = &PlayerData [playerNum]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgFunction LoadSaveDataToPointer: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
+        DebugLog ("\CgFunction LoadSaveDataToPointer: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
         return FALSE;
     }
 
@@ -97,18 +97,17 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     *offset = 0;
     // RPG Systems
     string rpgSysStr = GetUserCVarString (playerNum, SD_RPGSYSTEM);
-    tmpData.xpSystem.level = SaveSys_ReadInt (rpgSysStr, offset, 2);
+    tmpData.xpSystem.level = SaveSys_ReadInt (rpgSysStr, offset, 4);
     tmpData.xpSystem.experience  = SaveSys_ReadInt (rpgSysStr, offset, 8);
     tmpData.xpSystem.attrPoints  = SaveSys_ReadInt (rpgSysStr, offset, 4);
 
-    long int statPoints = (SaveSys_ReadLongInt (rpgSysStr, offset, 8)) | (SaveSys_ReadLongInt (rpgSysStr, offset, 8) << 32);
-    tmpData.xpSystem.strengthLVL = (int) ((statPoints)       & 0x0000001F); // Now we're doing it like this
-    tmpData.xpSystem.agilityLVL  = (int) ((statPoints >>  5) & 0x0000001F);
-    tmpData.xpSystem.vitalityLVL = (int) ((statPoints >> 10) & 0x0000001F);
-    tmpData.xpSystem.defenseLVL  = (int) ((statPoints >> 15) & 0x0000001F);
-    tmpData.xpSystem.willLVL     = (int) ((statPoints >> 20) & 0x0000001F);
-    tmpData.xpSystem.magicLVL    = (int) ((statPoints >> 25) & 0x0000001F);
-    tmpData.xpSystem.techLVL     = (int) ((statPoints >> 30) & 0x0000001F);
+    tmpData.xpSystem.strengthLVL = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData.xpSystem.agilityLVL  = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData.xpSystem.vitalityLVL = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData.xpSystem.defenseLVL  = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData.xpSystem.willLVL     = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData.xpSystem.magicLVL    = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData.xpSystem.techLVL     = SaveSys_ReadInt (rpgSysStr, offset, 4);
 
     tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 8);
     SaveSys_FailLoad (rpgSysStr, *offset);
@@ -160,20 +159,19 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     SetUserCVarString (playerNum, SD_INFO, infoStr);
 
     // RPG Systems
-    long int statPoints =
-         (data->xpSystem.strengthLVL & 0x1F)        |
-        ((data->xpSystem.agilityLVL  & 0x1F) <<  5) |
-        ((data->xpSystem.vitalityLVL & 0x1F) << 10) |
-        ((data->xpSystem.defenseLVL  & 0x1F) << 15) |
-        ((data->xpSystem.willLVL     & 0x1F) << 20) |
-        ((data->xpSystem.magicLVL    & 0x1F) << 25) |
-        (((long int) data->xpSystem.techLVL & 0x1F) << 30);
-    string rpgSysStr = StrParam ("%.2x%.8x%.4x%.8x%.8x%.8x",
+    string statPoints = StrParam ("%.4x%.4x%.4x%.4x%.4x%.4x%.4x",
+        data->xpSystem.strengthLVL & 0xFFFF,
+        data->xpSystem.agilityLVL  & 0xFFFF,
+        data->xpSystem.vitalityLVL & 0xFFFF,
+        data->xpSystem.defenseLVL  & 0xFFFF,
+        data->xpSystem.willLVL     & 0xFFFF,
+        data->xpSystem.magicLVL    & 0xFFFF,
+        data->xpSystem.techLVL     & 0xFFFF);
+    string rpgSysStr = StrParam ("%.4x%.8x%.4x%s%.8x",
         data->xpSystem.level,
         data->xpSystem.experience,
         data->xpSystem.attrPoints,
-        (int)  (statPoints & 0x00000000FFFFFFFF),
-        (int) ((statPoints & 0xFFFFFFFF00000000) >> 32),
+        statPoints,
         data->cash
     );
 
@@ -232,7 +230,7 @@ Script_C void S7_SaveSysSave NET () {
     PlayerData_t *player = &PlayerData [playerNum]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_SaveSysSave: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
+        DebugLog ("\CgScript S7_SaveSysSave: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
         return;
     }
 
@@ -259,7 +257,7 @@ Script_C void S7_SaveSysLoad NET () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_SaveSysLoad: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
+        DebugLog ("\CgScript S7_SaveSysLoad: Fatal error: Invalid or NULL player struct for player %d.", playerNum);
         return;
     }
 
@@ -285,7 +283,7 @@ Script_C void saveTest () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript saveTest: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript saveTest: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -310,7 +308,7 @@ Script_C void loadTest () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript loadTest: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript loadTest: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 

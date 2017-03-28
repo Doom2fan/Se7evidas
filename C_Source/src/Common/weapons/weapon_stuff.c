@@ -41,7 +41,7 @@ int GetWeaponName () {
 
 void ChangeLastWeapon (bool mode, PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -61,7 +61,7 @@ void ChangeLastWeapon (bool mode, PlayerData_t *player) {
 
 void DisableWeapon (string meh, string blah, PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
         return;
     }
 

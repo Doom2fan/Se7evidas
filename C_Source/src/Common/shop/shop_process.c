@@ -32,10 +32,10 @@ int SS_AmmoMaxAmount (PlayerData_t *player, SS_Item_t *item) {
 // Default buy callback
 int SS_BuyItem (PlayerData_t *player, SS_Item_t *item) {
     if (!player) {
-        Log ("\CgFunction SS_BuyItem: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction SS_BuyItem: Fatal error: Invalid or NULL player struct");
         return BC_InvalidPlayer;
     } else if (!item) {
-        Log ("\CgFunction SS_BuyItem: Fatal error: Invalid or NULL item struct");
+        DebugLog ("\CgFunction SS_BuyItem: Fatal error: Invalid or NULL item struct");
         return BC_InvalidItem;
     }
 
@@ -58,10 +58,10 @@ int SS_BuyItem (PlayerData_t *player, SS_Item_t *item) {
 // Default sell callback
 int SS_SellItem (PlayerData_t *player, SS_Item_t *item) {
     if (!player) {
-        Log ("\CgFunction SS_SellItem: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction SS_SellItem: Fatal error: Invalid or NULL player struct");
         return SC_InvalidPlayer;
     } else if (!item) {
-        Log ("\CgFunction SS_SellItem: Fatal error: Invalid or NULL item struct");
+        DebugLog ("\CgFunction SS_SellItem: Fatal error: Invalid or NULL item struct");
         return SC_InvalidItem;
     }
 
@@ -79,7 +79,7 @@ int SS_SellItem (PlayerData_t *player, SS_Item_t *item) {
 
 void SS_ChangePage (PlayerData_t *player, SS_Page_t *page) {
     if (!player) {
-        Log ("\CgFunction SS_ChangePage: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction SS_ChangePage: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -110,7 +110,7 @@ void SS_ChangePage (PlayerData_t *player, SS_Page_t *page) {
 
 int SS_OpenPage (PlayerData_t *player, SS_Page_t *page, int flags) {
     if (!player) {
-        Log ("\CgFunction SS_OpenPage: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction SS_OpenPage: Fatal error: Invalid or NULL player struct");
         return FALSE;
     }
 
@@ -133,7 +133,7 @@ int SS_OpenPage (PlayerData_t *player, SS_Page_t *page, int flags) {
 
 int SS_OpenShop (PlayerData_t *player, SS_Shop_t *shop, int flags) {
     if (!player) {
-        Log ("\CgFunction SS_OpenShop: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction SS_OpenShop: Fatal error: Invalid or NULL player struct");
         return FALSE;
     }
 

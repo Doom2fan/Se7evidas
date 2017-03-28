@@ -34,7 +34,7 @@ Script_C void S7_SprintSystem ENTER () {
     PlayerData_t *player = &PlayerData [PLN];
 
     if (!player) {
-        Log ("\CgScript S7_SprintSystem: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_SprintSystem: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 

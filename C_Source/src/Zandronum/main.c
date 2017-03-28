@@ -36,7 +36,7 @@ Script_C void S7_Enter ENTER () {
     PlayerData_t *player = &PlayerData [PLN];
 
     if (!player) {
-        Log ("\CgScript S7_Enter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_Enter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -48,7 +48,7 @@ Script_C void S7_Respawn RESPAWN () {
     PlayerData_t *player = &PlayerData [PLN];
 
     if (!player) {
-        Log ("\CgScript S7_Respawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_Respawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 

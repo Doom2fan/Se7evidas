@@ -76,7 +76,7 @@ Script_C void S7_CanteenScript () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_ServersideEnter: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
     int health     = GetActorProperty (0, APROP_Health);

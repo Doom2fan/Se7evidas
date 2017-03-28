@@ -59,7 +59,7 @@ int CWeapSlots_GetSlotMax (int slot) {
 #define CheckNPBounds(pos) (BoundsCheck (pos.x, 0, WPBND_MAXSLOTS) && BoundsCheck (pos.y, 0, CWeapSlots_GetSlotMax (pos.x)))
 string CWeapSlots_GetWeap (PlayerData_t *player, vec2_i pos) {
     if (!player) {
-        Log ("\CgFunction CWeapSlots_BindSlot: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction CWeapSlots_BindSlot: Fatal error: Invalid or NULL player struct");
         return NULL;
     }
 
@@ -75,7 +75,7 @@ string CWeapSlots_GetWeap (PlayerData_t *player, vec2_i pos) {
 
 void CWeapSlots_BindSlot (PlayerData_t *player, int slot, int pos, int weap) {
     if (!player) {
-        Log ("\CgFunction CWeapSlots_BindSlot: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction CWeapSlots_BindSlot: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -85,7 +85,7 @@ void CWeapSlots_BindSlot (PlayerData_t *player, int slot, int pos, int weap) {
 
 void CWeapSlots_Slot (PlayerData_t *player, int slot, int pos) { // pos = -1: Select first weapon of the slot or cycle it; pos >= 0: Select weapon in the specific position of the slot
     if (!player) {
-        Log ("\CgFunction CWeapSlots_Slot: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction CWeapSlots_Slot: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -125,7 +125,7 @@ void CWeapSlots_Slot (PlayerData_t *player, int slot, int pos) { // pos = -1: Se
 
 vec2_i CWeapSlots_GetNext (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
         vec2_i pos = { -1, -1 };
         return pos;
     }
@@ -154,7 +154,7 @@ vec2_i CWeapSlots_GetNext (PlayerData_t *player) {
 
 vec2_i CWeapSlots_GetPrev (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
         vec2_i pos = { -1, -1 };
         return pos;
     }
@@ -199,7 +199,7 @@ Script_C void S7_CWB_Slot NET (int slot, int pos) {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
-        Log ("\CgScript S7_CWB_Slot: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_CWB_Slot: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -215,7 +215,7 @@ Script_C void S7_CWB_WeapCycle (bool next) {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
-        Log ("\CgScript S7_CWB_WeapCycle: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_CWB_WeapCycle: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -243,7 +243,7 @@ Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
-        Log ("\CgScript S7_CWB_SetBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_CWB_SetBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -253,7 +253,7 @@ Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
 Script_C void FuckThisShit NET (bool derp) {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
     if (!player) {
-        Log ("\CgScript FuckThisShit: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript FuckThisShit: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 

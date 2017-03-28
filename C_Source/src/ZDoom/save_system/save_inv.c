@@ -26,7 +26,7 @@ void InvUpdAmmoMax (int playerNum) {
     PlayerData_t *player = &PlayerData [playerNum]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgFunction InvUpdAmmoMax: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction InvUpdAmmoMax: Fatal error: Invalid or NULL player struct");
         return;
     }
 
