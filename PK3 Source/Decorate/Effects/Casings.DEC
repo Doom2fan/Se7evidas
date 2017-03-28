@@ -246,6 +246,13 @@ actor S7_RifleCasingSpawn : S7_CasingSpawnerBase {
         stop
     }
 }
+actor S7_RifleCasingSpawn2 : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_CustomMissile ("S7_RifleCasing", -5, 0, fRandom [sfx] (80, 100), 2, fRandom [sfx] (45, 80))
+        stop
+    }
+}
 
 actor S7_RifleCasing : S7_CasingBase {
     bounceSound "Weapons/Brass"
