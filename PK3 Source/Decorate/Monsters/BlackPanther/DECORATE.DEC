@@ -13,9 +13,12 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight 32501 {
     painSound "BlackPanther/Pain"
     deathSound "knight/death"
     hitObituary "$OBBPANTHER_MELEE"
-    obituary "$OBBPANTHER"
     species "HellNoble"
     tag "$BLCKPNTTAG"
+
+    // (Mini-)Boss damage reduction
+    damageFactor "ExplosionSplashDMG", 0.85
+    damageFactor "Shrapnel", 0.95
 
     states {
     Spawn:
@@ -64,6 +67,7 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight 32501 {
 actor S7_BlackPantherBall : S7_FireballBase {
     damage (fRandom [monsterDMG] (1.0, 4.0) * 16)
     speed 18
+    obituary "$OBBPANTHER"
 
     states {
     Spawn:
