@@ -68,7 +68,7 @@ actor S7_TracerTrail : S7_TracerEffectsBase {
 // Bullet puff
 //
 //-------------------------------------------------------------------------------------------
-actor S7_BulletPuff : S7_TracerEffectsBase replaces BulletPuff {
+actor S7_BulletPuff : S7_TracerEffectsBase { // replaces BulletPuff {
     scale 0.05
 
     -clientsideOnly
@@ -185,7 +185,7 @@ actor S7_RaptorTracer           : S7_BaseTracer {
     damageType PistolTracer
 }
 actor S7_RevolverTracer         : S7_BaseTracer {
-    damage (fRandom [weaponDamage] (1.75, 2.5) * 50)
+    damage (fRandom [weaponDamage] (1.75, 2.5) * 40)
     health 105
     damageType RevolverTracer
 }
