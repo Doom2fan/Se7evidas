@@ -12,10 +12,11 @@ const int S7_EmpressMass = 12000;
 
 /** Inventory tokens **/
 // Booleans
-actor S7_IsEmpress            : boolean { }
-actor S7_EmpressCanCastInvuln : boolean { }
-actor S7_EmpressNormalDeath   : boolean { }
-actor S7_Empress_MidAttack1   : boolean { }
+actor S7_IsEmpress             : boolean { }
+actor S7_EmpressCanCastInvuln  : boolean { }
+actor S7_EmpressNormalDeath    : boolean { }
+actor S7_Empress_MidAttack1    : boolean { }
+actor S7_Empress_CastingInvuln : boolean { }
 // Counters
 actor S7_EmpressBalls : counter { inventory.maxAmount 4 }
 
@@ -44,14 +45,15 @@ actor S7_Empress : S7_DemonBase 32500 {
     // Plasma/Laser damage bonus
     damageFactor "Plasma", 1.5
     damageFactor "LaserTracer", 1.25
+    // Boss damage reduction
+    damageFactor "ExplosionSplashDMG", 0.25
+    damageFactor "Shrapnel", 0.5
 
     monster
-    +boss +missileMore +floorClip +noRadiusDMG
-    +noTarget +dontMorph +bossDeath
+    +boss +missileMore +floorClip +noTarget
+    +dontMorph +bossDeath
 
     var int user_trueHealth;
-    var int user_setPain;
-    var int user_attackArg1;
 
     states {
     Spawn:
@@ -62,6 +64,7 @@ actor S7_Empress : S7_DemonBase 32500 {
         TNT1 A 0 A_TakeInventory ("S7_IsDead", 0x7FFFFFFF)
     Idle:
         TNT1 A   0 A_TakeInventory ("S7_IsDead", 0x7FFFFFFF)
+        TNT1 A   0 A_TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF)
         TNT1 A   0 A_JumpIf (user_trueHealth < 1, "RunAway")
         HRFR A   1 A_Look
         HRFR AAA 3 A_JumpIf (user_trueHealth < 1, "RunAway")
@@ -69,6 +72,7 @@ actor S7_Empress : S7_DemonBase 32500 {
 
     See:
         TNT1 A  0 A_TakeInventory ("S7_IsDead", 0x7FFFFFFF)
+        TNT1 A  0 A_TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF)
 
         TNT1 A  0 A_PlaySound ("Footsteps/Large", CHAN_5)
         TNT1 A  0 A_JumpIf (user_trueHealth < 1, "RunAway")
@@ -91,20 +95,24 @@ actor S7_Empress : S7_DemonBase 32500 {
         TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, "Missile.NoShields")
         HRFR A 1 A_Jump (64, "ShieldsUp")
     Missile.NoShields:
-        TNT1 A 0
         goto MissileAttack
     ShieldsUp:
-        TNT1 A    0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
-        TNT1 A    0 A_ChangeFlag ("noPain", TRUE)
-        HRFR EFF  5
-        TNT1 A    0 A_ChangeFlag ("noBlood", TRUE)
-        TNT1 A    0 A_SetInvulnerable
-        //TNT1 A    0 A_GiveInventory ("S7_EmpressProtection", 1)
-        HRFR FFFF 5 A_SpawnItemEx ("S7_EmpressInvulnOrbiter", 64.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        TNT1 A   0 A_JumpIfInventory ("S7_EmpressBalls", 1, "See")
+        TNT1 A   0 A_ChangeFlag ("noPain", TRUE)
+        HRFR AFF 5
+        TNT1 A   0 A_ChangeFlag ("noBlood", TRUE)
+        TNT1 A   0 A_SetInvulnerable
+        //TNT1 A   0 A_GiveInventory ("S7_EmpressProtection", 1)
+        TNT1 A   0 A_GiveInventory ("S7_Empress_CastingInvuln", 1)
+        HRFR F   9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        HRFR F   9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCCW", 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        HRFR F   9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        HRFR F   9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCCW", 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster)
+        TNT1 A   0 A_TakeInventory ("S7_Empress_CastingInvuln", 0x7FFFFFFF)
         goto See
 
     MissileAttack:
-        TNT1 A 0 A_Jump (256, "Attack1")
+        TNT1 A 0 A_Jump (256, "Attack1", "Attack2")
         goto See
 
     Attack1:
@@ -125,7 +133,7 @@ actor S7_Empress : S7_DemonBase 32500 {
 
         HRFR HHHH 5
         goto See
-    Attack1:
+    Attack2:
         HRFR AAHHH 1 A_FaceTarget (72, 36)
     Attack2.Loople:
         TNT1 A 0 A_FaceTarget (90, 45)
@@ -134,6 +142,7 @@ actor S7_Empress : S7_DemonBase 32500 {
         TNT1 A 0 A_FaceTarget (90, 45)
         HRFR H 1 A_CustomMissile ("S7_EmpressMissile2", 105.0, 0,  135 - fRandom [monsterSpread] (0.0, 90.0), CMF_AimDirection)
         HRFR HH 1 A_FaceTarget (90, 45)
+        HRFR H 1 A_MonsterRefire (40, "See")
         loop
 
     Pain:
@@ -152,6 +161,7 @@ actor S7_Empress : S7_DemonBase 32500 {
         goto See
     SLance_BeamGrab:
         TNT1 A 0 A_SetMass (0x7FFFFFFF)
+        TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, 2)
         TNT1 A 0 A_ChangeFlag ("noPain", TRUE)
         TNT1 A 0 A_GiveToTarget ("S7_SoulLance_BeamGrabbed", 1)
         TNT1 A 0 A_GiveInventory ("S7_SoulLance_BeamGrabbed", 1)
@@ -181,6 +191,7 @@ actor S7_Empress : S7_DemonBase 32500 {
         goto SLance_BeamHold
     SLance_BeamLost:
         TNT1 A 0 A_SetMass (S7_EmpressMass)
+        TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, 2)
         TNT1 A 0 A_ChangeFlag ("noPain", FALSE)
         TNT1 A 0 A_TakeFromTarget ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF)
         TNT1 A 0 A_TakeInventory ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF)
@@ -202,7 +213,7 @@ actor S7_Empress : S7_DemonBase 32500 {
         HRFR F       2
         TNT1 A       0 A_SpawnItemEx ("S7_EmpressFlash", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
         TNT1 A       0 A_NoBlocking
-        TNT1 A       0 A_DamageChildren (0x7FFFFFFF, "NonKilledDeath")
+        TNT1 A       0 A_DamageChildren (0x7FFFFFFF, "EmpressDeath")
         TNT1 A       0 A_KillChildren
         TNT1 A      -1 A_KillMaster
         stop
@@ -235,15 +246,9 @@ actor S7_EmpressMissile2 : fastProjectile {
 
     states {
     Spawn:
-        TNT1 A 0 A_JumpIfTracerCloser (64, "MorePrecise")
-        BAL1 A 2 A_SeekerMissile (17, 20, SMF_Precise)
-        BAL1 A 1 A_JumpIfTracerCloser (64, "MorePrecise")
+        TNT1 A 0 noDelay A_RearrangePointers (AAPTR_Target, AAPTR_Null, AAPTR_Null)
+        BAL1 A 1 A_SeekerMissile (65, 65, SMF_Precise | SMF_Look)
         loop
-
-    MorePrecise:
-        BAL1 A 2 A_SeekerMissile (90, 17, SMF_Precise)
-        BAL1 AAAAAAA 1 A_JumpIfTracerCloser (64, "MorePrecise")
-        goto Spawn
 
     Death:
         BAL1 CDE 3 bright

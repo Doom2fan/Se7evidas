@@ -3,19 +3,22 @@
 // Empress' invulnerability orbiter
 //
 //-------------------------------------------------------------------------------------------
-damageType NonKilledDeath {
+damageType EmpressDeath {
     factor 0.0
     noArmor
 }
 
-actor S7_EmpressInvulnOrbiter {
+const int S7_EmpressOrbiterWarpFlags = WARPF_NoCheckPosition | WARPF_Interpolate;
+actor S7_EmpressInvulnOrbiterCW {
     health 100
     radius 20
-    height 100
+    height 20
     renderStyle add
-    damageFactor "NonKilledDeath", 1.0
+    damageFactor "EmpressDeath", 1.0
     damageFactor "NerveGas", 0.0
     species S7EmpressCrap
+    scale 0.1
+    alpha 1.0
 
     +isMonster +shootable +noTeleport +noBlood
     +noTargetSwitch +noGravity +forceXYBillboard +forcePain
@@ -35,13 +38,20 @@ actor S7_EmpressInvulnOrbiter {
 
     Initialize:
         TNT1 A 0 A_GiveInventory ("S7_EmpressBalls", 1, AAPTR_Master)
+        TNT1 A 0 A_SetUserVar ("user_angle", 270)
         TNT1 A 0 A_SetUserVar ("user_countdown", 35 * 12)
         TNT1 A 0 A_ChangeFlag ("isMonster", 0)
+        TNT1 A 1 A_Jump (256, "Idle")
+        wait
 
     Idle:
-        BAL1 A 1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 0.0, user_angle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
-        TNT1 A 0 A_SetUserVar ("user_countdown", user_countdown - 1)
-        TNT1 A 0 A_SetUserVar ("user_angle", user_angle + 18)
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition)
+        TNT1 A    0 A_SpawnItemEx ("S7_EmpressShieldFlare", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        HRSF A    1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 50.0 + 40 * sin (40 + user_angle), user_angle, S7_EmpressOrbiterWarpFlags)
+        TNT1 A    0 A_JumpIfInventory ("S7_Empress_CastingInvuln", 1, 2, AAPTR_Master)
+        TNT1 A    0 A_SetUserVar ("user_countdown", user_countdown - 1)
+        TNT1 A    0 A_SetUserVar ("user_angle", user_angle + 10)
+        goto CountdownChecks
     CountdownChecks:
         TNT1 A 0 A_JumpIf (user_countdown > 0, "Idle")
         TNT1 A 0 A_Die ("NonKilledDeath")
@@ -55,19 +65,43 @@ actor S7_EmpressInvulnOrbiter {
         // Explosion here
         stop
     Death.NonKilledDeath:
-        BAL1 A 1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 0.0, user_angle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate)
-        TNT1 A 0 A_SetUserVar ("user_angle", user_angle + 18)
-        TNT1 A 0 A_FadeOut (0.03, 0)
-        TNT1 A 0 A_JumpIf (alpha <= 0, "KILLKILLKILL")
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition)
+        TNT1 A    0 A_SpawnItemEx ("S7_EmpressShieldFlare", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        HRSF A    1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 50.0 + 40 * sin (40 + user_angle), user_angle, S7_EmpressOrbiterWarpFlags)
+        TNT1 A    0 A_SetUserVar ("user_angle", user_angle + 10)
+        TNT1 A    0 A_FadeOut (0.03, 0)
+        TNT1 A    0 A_JumpIf (alpha <= 0, "KILLKILLKILL")
         loop
     Death.EmpressDeath:
-        BAL1 A 1 bright A_Stop
+        HRSF A 1 bright A_Stop
         TNT1 A 0 A_FadeOut (0.03, 0)
         TNT1 A 0 A_JumpIf (alpha <= 0, "KILLKILLKILL")
         loop
     KILLKILLKILL:
         TNT1 A 1 A_GiveInventory ("S7_EmpressInvulnOrbiterDeath", 1, AAPTR_Master)
         stop
+    }
+}
+
+actor S7_EmpressInvulnOrbiterCCW : S7_EmpressInvulnOrbiterCW {
+    states {
+    Idle:
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition)
+        TNT1 A    0 A_SpawnItemEx ("S7_EmpressShieldFlare", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        HRSF A    1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 50.0 + 40 * cos (40 + user_angle), user_angle, S7_EmpressOrbiterWarpFlags)
+        TNT1 A    0 A_JumpIfInventory ("S7_Empress_CastingInvuln", 1, 2, AAPTR_Master)
+        TNT1 A    0 A_SetUserVar ("user_countdown", user_countdown - 1)
+        TNT1 A    0 A_SetUserVar ("user_angle", user_angle - 10)
+        goto CountdownChecks
+
+    Death.NonKilledDeath:
+        TNT1 AAAA 0 A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition)
+        TNT1 A    0 A_SpawnItemEx ("S7_EmpressShieldFlare", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition)
+        HRSF A    1 bright A_Warp (AAPTR_Master, 64.0, 0.0, 50.0 + 40 * cos (40 + user_angle), user_angle, S7_EmpressOrbiterWarpFlags)
+        TNT1 A    0 A_SetUserVar ("user_angle", user_angle - 10)
+        TNT1 A    0 A_FadeOut (0.03, 0)
+        TNT1 A    0 A_JumpIf (alpha <= 0, "KILLKILLKILL")
+        loop
     }
 }
 
@@ -82,8 +116,8 @@ actor S7_EmpressInvulnOrbiterDeath : S7_ActionRunnerBase {
         //TNT1 A 0 A_PrintBold ("S7_EmpressInvulnOrbiterDeath: Line 121")
         TNT1 A 0 A_TakeInventory ("S7_EmpressBalls", 1) // Ouch.
         TNT1 A 0 A_JumpIfInventory ("S7_EmpressBalls", 1, "Finish")
-        TNT1 A 0 A_ChangeFlag ("noBlood", 0)
-        TNT1 A 0 A_ChangeFlag ("noPain", 0)
+        TNT1 A 0 A_ChangeFlag ("noBlood", FALSE)
+        TNT1 A 0 A_ChangeFlag ("noPain", FALSE)
         TNT1 A 0 A_UnsetInvulnerable
     Use:
     Finish:
