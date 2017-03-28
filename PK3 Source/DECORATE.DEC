@@ -18,13 +18,24 @@
 ** Weapons: 30013
 ** Ammo: 31012
 ** Inventory: 32006
-** Monster: 32508
+** Monster: 32509
 */
 
 /* Some random units:
-** 32 XY mapunits = 1 meter
-** 38.4 Z mapunits = 1 meter
+** 32 mapunits (Physical) = 1 meter
+** 38.4 Z mapunits (Visual) = 1 meter
 */
+
+// So maps and other mods can check for S7
+actor S7_IsLoaded {
+    +noClip +noBlockmap +thruActors +noInteraction
+    
+    states {
+    Spawn:
+        TNT1 A 2
+        stop
+    }
+}
 
 #INCLUDE "Decorate/Constants.DEC"
 #INCLUDE "Decorate/Defaults.DEC"
@@ -58,6 +69,7 @@
 #INCLUDE "Decorate/Monsters/Empress/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/FatFuck/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Terminator/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/ScorpsEnforcer/DECORATE.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"
