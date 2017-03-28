@@ -29,6 +29,12 @@ typedef struct vec3##prefix { type x, y, z; } vec3##prefix; \
 typedef struct vec4##prefix { type x, y, z, w; } vec4##prefix; \
 typedef struct vec5##prefix { type x, y, z, w, h; } vec5##prefix;
 
+#define int_DefVecConstructorPrototypes(prefix, vecPrefix, type) \
+vec2##vecPrefix Vec2##prefix##_New (type x, type y); \
+vec3##vecPrefix Vec3##prefix##_New (type x, type y, type z); \
+vec4##vecPrefix Vec4##prefix##_New (type x, type y, type z, type w); \
+vec5##vecPrefix Vec5##prefix##_New (type x, type y, type z, type w, type h);
+
 #define int_DefVecOpsPrototypesNum(prefix, vecPrefix, type, num) \
 vec##num##vecPrefix Vec##num##prefix##_VecAdd (vec##num##vecPrefix lhs, vec##num##vecPrefix rhs); \
 vec##num##vecPrefix Vec##num##prefix##_VecSub (vec##num##vecPrefix lhs, vec##num##vecPrefix rhs); \
@@ -40,6 +46,7 @@ vec##num##vecPrefix Vec##num##prefix##_Mul (vec##num##vecPrefix lhs, type rhs); 
 vec##num##vecPrefix Vec##num##prefix##_Div (vec##num##vecPrefix lhs, type rhs);
 
 #define int_DefVecOpsPrototypes(prefix, vecPrefix, type) \
+int_DefVecConstructorPrototypes (prefix,vecPrefix,type); \
 int_DefVecOpsPrototypesNum (prefix,vecPrefix,type,2); \
 int_DefVecOpsPrototypesNum (prefix,vecPrefix,type,3);
 

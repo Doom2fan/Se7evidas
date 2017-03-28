@@ -20,6 +20,12 @@
 #include "includes.h"
 #include "common/vectors.h"
 
+#define int_DefVecConstructorAll(prefix, vecPrefix, type) \
+vec2##vecPrefix Vec2##prefix##_New (type x, type y) { vec2##vecPrefix ret; ret.x = x; ret.y = y; return ret; } \
+vec3##vecPrefix Vec3##prefix##_New (type x, type y, type z) { vec3##vecPrefix ret; ret.x = x; ret.y = y; ret.z = z; return ret; } \
+vec4##vecPrefix Vec4##prefix##_New (type x, type y, type z, type w) { vec4##vecPrefix ret; ret.x = x; ret.y = y; ret.z = z; ret.w = w; return ret; } \
+vec5##vecPrefix Vec5##prefix##_New (type x, type y, type z, type w, type h) { vec5##vecPrefix ret; ret.x = x; ret.y = y; ret.z = z; ret.w = w; ret.h = h; return ret; }
+
 #define int_Vec2VecOps(prefix, type, op) \
 vec2##prefix tmp = lhs; \
 tmp.x op##= rhs.x; \
@@ -56,6 +62,7 @@ vec##num##vecPrefix Vec##num##prefix##_Mul (vec##num##vecPrefix lhs, type rhs) {
 vec##num##vecPrefix Vec##num##prefix##_Div (vec##num##vecPrefix lhs, type rhs) { int_Vec##num##Ops (vecPrefix, type, /); }
 
 #define int_DefVecOpsAll(prefix, vecPrefix, type) \
+int_DefVecConstructorAll (prefix,vecPrefix,type); \
 int_DefVecVecOps (prefix,vecPrefix,type,2); \
 int_DefVecOps    (prefix,vecPrefix,type,2); \
 int_DefVecVecOps (prefix,vecPrefix,type,3); \

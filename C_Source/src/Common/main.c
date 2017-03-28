@@ -43,6 +43,9 @@ Script_C void S7_ServersideOpen OPEN () {
         Log_Str (s"Se7evidas version %S", MOD_VERSION_STRING);
     #endif
 
+    if (GetCVar (s"S7_DebugMode"))
+        Log_Str (s"\CgSe7evidas: Debug mode is active (S7_DebugMode)");
+
     SetAirControl (0.1k);
     //queuedMapEvent = MEVNT_PerfectHatred;
     MapData.mapEvent = queuedMapEvent;
@@ -51,6 +54,11 @@ Script_C void S7_ServersideOpen OPEN () {
     if (MapData.mapEvent > 0)
         Log ("%d", MapData.mapEvent);
     SetupMapEvents ();
+
+    if (MapData.name == NULL) {
+        MapData.name = StrParam ("%tS", PRINTNAME_LEVELNAME);
+        MapData.author = s"";
+    }
 
     while (TRUE) {
         UpdateServerData (); // Update server data
@@ -78,6 +86,17 @@ Script_C void S7_ServersideUnloading UNLOADING () {
     }
 }
 
+Script_C void S7_ShowMapInfo () {
+    SetHudSize (640, 480, FALSE);
+    Delay (20);
+    SetFont (s"BIGFONT");
+    HudMessage (HUDMSG_FADEINOUT, 0, CR_RED, 320.0k, 300.0k, 4.0k, 1.0k, 1.0k, 0.0k, "%S", MapData.name);
+    if (StrCmp (MapData.author, s"") != 0) {
+        SetFont (s"SMALLFNT");
+        HudMessage (HUDMSG_FADEINOUT, 0, CR_WHITE, 320.0k, 315.0k, 4.0k, 1.0k, 1.0k, 0.0k, "By %S", MapData.author);
+    }
+}
+
 // General stuff
 Script_C void S7_ServersideEnter2 (PlayerData_t *player);
 Script_C void S7_ServersideEnter ENTER () {
@@ -102,6 +121,8 @@ Script_C void S7_ServersideEnter ENTER () {
     }
 
     S7_ServersideEnter2 (player); // This has to be done like this to make sure this script runs first.
+
+    S7_ShowMapInfo ();
 
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
@@ -143,7 +164,6 @@ Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
 
     int        heartbeatTics = 0;
     SP_Data_t  sp_data;
-    EIS_Data_t eis_data;
 
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
@@ -153,9 +173,9 @@ Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
         Thumper_ScriptClientside (player);
         HudWeapons               (player);
         ShowPop                  (player, &sp_data);
-        EnemyInfoScript          (player, &eis_data);
         ScreenOverlays           (player);
         DrawRadar                (player);
+        EnemyInfoStoreScript ();
 
         Delay (1); // Wait for a tic
     }
@@ -200,14 +220,18 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
-    if (S7_PlayerNumEqualConsolePlayer (PLN) == FALSE)
+    if (!S7_PlayerNumEqualConsolePlayer (PLN))
         return;
+
+    EIS_Data_t eis_data;
 
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
             return;
 
         UpdateClientsideCVars ();
+        EnemyInfoBuildScript (&eis_data);
+        EnemyInfoScript      (&eis_data);
 
         Delay (1); // Wait for a tic
     }

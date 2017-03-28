@@ -48,6 +48,9 @@ typedef struct ServerData_t {
 } ServerData_t;
 
 typedef struct MapData_t {
+    string name;
+    string author;
+
     int mapEvent;
     int meSecLoopDelay;
     bool mapEventSet;
@@ -61,5 +64,6 @@ extern MapData_t map_var MapData;
 void SetupMapEvents   ();
 void UpdateServerData ();
 void UpdateMapData    ();
+Script_C void S7_SetMapInfo (string name, string author);
 
 #endif
