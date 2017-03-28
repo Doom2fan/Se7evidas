@@ -1,0 +1,9 @@
+{
+	"name": "playermenucompiler",
+	"description": "Compiles Playermenu JSON definitions into C code.",
+	"copyright": "Copyright © 2017, Chronos Ouroboros",
+	"authors": ["Chronos Ouroboros"],
+    "license": "GPL-2.0",
+	"dependencies": {
+	}
+}
