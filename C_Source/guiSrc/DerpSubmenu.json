@@ -1,0 +1,30 @@
+{
+    "name": "PM_DerpSubmenu",
+    "hudSize": [
+        320,
+        200
+    ],
+    "initialID": 5,
+    "items": [
+        {
+            "type": "link",
+            "x": 85.0,
+            "y": 50.0,
+            "text": "This is another button",
+            "dest": "&PM_MainMenu"
+        },
+        {
+            "type": "use",
+            "x": 85.0,
+            "y": 55.0,
+            "text": "Unf"
+        },
+        {
+            "type": "link",
+            "x": 85.0,
+            "y": 60.0,
+            "text": "Oh noes",
+            "dest": "&PM_MainMenu"
+        }
+    ]
+}

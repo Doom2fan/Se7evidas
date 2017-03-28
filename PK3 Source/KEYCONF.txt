@@ -16,6 +16,8 @@ alias S7_QuickMelee "Use S7_MeleeKey"
 alias S7_Reload "Use S7_ReloadKey"
 alias S7_WeapDrop "Use S7_DropWeaponKey"
 alias S7_ShowPop1 "Use S7_ShowPop1Key"
+//alias S7_ShopToggle "Use S7_ToggleShopKey"
+//alias S7_MenuToggle "Use S7_ToggleMenuKey"
 
 // Aliases
 alias S7_ListInv "pukename S7_PrintInv always %1"

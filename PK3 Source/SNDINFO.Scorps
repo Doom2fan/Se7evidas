@@ -15,3 +15,5 @@ $RANDOM Monsters/SCorps1/Pain {
 Monsters/SCorps1/Pain1                       "sounds/Monsters/SCorps1/Pain1.ogg"
 Monsters/SCorps1/Pain2                       "sounds/Monsters/SCorps1/Pain2.ogg"
 Monsters/SCorps1/Pain3                       "sounds/Monsters/SCorps1/Pain3.ogg"
+
+Monsters/ScorpsEnforcer/Fire                 "sounds/Monsters/Scorps/EnforcerFire.ogg"

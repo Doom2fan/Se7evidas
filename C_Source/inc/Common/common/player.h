@@ -40,17 +40,14 @@ typedef struct PD_XPSystem_t    PD_XPSystem_t;  // XP System
 // Misc
 typedef struct PD_Misc_t        PD_Misc_t;
 // Script Data
-// Shop system
 typedef struct PD_ScriptData_t  PD_ScriptData_t;
-typedef struct SS_Item_t        SS_Item_t;
-typedef struct SS_Page_t        SS_Page_t;
-typedef struct SS_Shop_t        SS_Shop_t;
 typedef struct ShopDef_t        ShopDef_t;
 typedef struct BankDef_t        BankDef_t;
 typedef struct SprintDef_t      SprintDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct ThumperDef_t     ThumperDef_t;
 typedef struct WeapBinds_t      WeapBinds_t;
+typedef struct PlayerMenu_t     PlayerMenu_t;
 // Save system
 typedef struct SavedData_t      SavedData_t;
 
@@ -97,7 +94,7 @@ struct PD_XPSystem_t {
     int techLVL;                        // Tech stat
 };
 
-typedef struct PD_Misc_t {
+struct PD_Misc_t {
     int  waterlevel;                    // How deep in water the player is
     bool dying;                         // Is the player dying?
 };
@@ -148,6 +145,9 @@ struct ThumperDef_t {
     int currentShell;                   // Loaded shell in chamber
 };
 
+typedef struct SS_Item_t SS_Item_t;
+typedef struct SS_Page_t SS_Page_t;
+typedef struct SS_Shop_t SS_Shop_t;
 struct ShopDef_t {
     bool       open, disableOpen;
     SS_Shop_t *shop;
@@ -155,7 +155,7 @@ struct ShopDef_t {
     SS_Item_t *items [100];
     int        itemsLength;
     vec2_i     position;
-    int        moveDelay, moveSpeed;
+    vec2_i     moveDelay, moveSpeed;
     bool       sellMode;
 };
 
@@ -169,6 +169,14 @@ struct BankDef_t {
 struct WeapBinds_t {
     vec2_i curWeap;                                     // Current weapon;
     int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
+};
+
+struct PlayerMenu_t {
+    bool open, disable;
+    int moveDelay, moveSpeed;
+    int id, curIdx;
+
+    struct PM_Page_t *page;
 };
 
 typedef struct PlayerData_t {
@@ -196,6 +204,7 @@ typedef struct PlayerData_t {
     ShopDef_t       shopDef;            // Shop system stuff
     BankDef_t       bankData;           // Bank system stuff
     WeapBinds_t     weapBinds;          // Weapon bindings
+    PlayerMenu_t    playerMenu;         // Player menu info
 } PlayerData_t;
 
 struct SavedData_t {

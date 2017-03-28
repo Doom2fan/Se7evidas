@@ -3,6 +3,7 @@
 CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
+MenuGUI_Compiler = Tools/playermenuCompiler/playermenucompiler
 MKDIRCMD = gmkdir
 COM_FLAGS = --bc-target=ZDoom
 CC_FLAGS = $(COM_FLAGS) -DDEBUG
@@ -20,12 +21,12 @@ SHELL = C:/Windows/System32/cmd.exe
 rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcardInt, $(d)/))
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
 
-.PHONY : all
-all: $(ZDACSDIR)/S7Stuff.bin $(ZANDROACSDIR)/S7Stuff.bin
+.PHONY: all
+all: MenuGUI $(ZDACSDIR)/S7Stuff.bin $(ZANDROACSDIR)/S7Stuff.bin
 
-.PHONY : cleanall
+.PHONY: cleanall
 cleanall:
-	-rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR)
+	-rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR) $(MenuGUI_OBJDIR)
 
 ## ===========================================
 ##
@@ -47,14 +48,27 @@ $(LIBDIR)/libGDCC.ir:
 ##
 ## ===========================================
 
+## Playermenu GUI ##
+MenuGUI_SRCDIR = $(SOURCEDIRECTORY)/guiSrc
+MenuGUI_OBJDIR = $(SRCDIR)/Common/guiSrc
+MenuGUI_SRC = $(call rwildcard, $(MenuGUI_SRCDIR), %.json)
+MenuGUI_OBJ = $(MenuGUI_SRC:$(MenuGUI_SRCDIR)/%.json=$(MenuGUI_OBJDIR)/%.c)
+
+$(MenuGUI_OBJDIR)/%.c: $(MenuGUI_SRCDIR)/%.json
+	@$(MKDIRCMD) -p "$(@D)"
+	$(MenuGUI_Compiler)  --file $< --out $(MenuGUI_OBJDIR)
+
+.PHONY: MenuGUI
+MenuGUI: $(MenuGUI_OBJ)
+
 ## Common ##
 Common_INCDIR = $(INCDIR)/Common
 Common_SRCDIR = $(SRCDIR)/Common
 Common_OBJDIR = $(OBJDIR)/Common
-Common_SRC = $(call rwildcard, $(Common_SRCDIR), %.c)
+Common_SRC = $(sort $(call rwildcard, $(Common_SRCDIR), %.c) $(MenuGUI_OBJ))
 Common_OBJ = $(Common_SRC:$(Common_SRCDIR)/%.c=$(Common_OBJDIR)/%.ir)
 
-$(Common_OBJDIR)/%.ir: $(Common_SRCDIR)/%.c
+$(Common_OBJ): $(Common_OBJDIR)/%.ir: $(Common_SRCDIR)/%.c
 	@$(MKDIRCMD) -p "$(@D)"
 	$(CC) $(CC_FLAGS) -i$(Common_INCDIR) -i$(Common_SRCDIR) -c $< -o $@
 
@@ -69,7 +83,7 @@ ZDoom_OBJDIR = $(OBJDIR)/ZDoom
 ZDoom_SRC = $(call rwildcard, $(ZDoom_SRCDIR), %.c)
 ZDoom_OBJ = $(ZDoom_SRC:$(ZDoom_SRCDIR)/%.c=$(ZDoom_OBJDIR)/%.ir)
 
-$(ZDoom_OBJDIR)/%.ir: $(ZDoom_SRCDIR)/%.c
+$(ZDoom_OBJ): $(ZDoom_OBJDIR)/%.ir: $(ZDoom_SRCDIR)/%.c
 	@$(MKDIRCMD) -p "$(@D)"
 	$(CC) $(CC_FLAGS) -i$(ZDoom_INCDIR) -i$(Common_INCDIR) -i$(ZDoom_SRCDIR) -c $< -o $@
 
@@ -88,7 +102,7 @@ Zandronum_OBJDIR = $(OBJDIR)/Zandronum
 Zandronum_SRC = $(call rwildcard, $(Zandronum_SRCDIR), %.c)
 Zandronum_OBJ = $(Zandronum_SRC:$(Zandronum_SRCDIR)/%.c=$(Zandronum_OBJDIR)/%.ir)
 
-$(Zandronum_OBJDIR)/%.ir: $(Zandronum_SRCDIR)/%.c
+$(Zandronum_OBJ): $(Zandronum_OBJDIR)/%.ir: $(Zandronum_SRCDIR)/%.c
 	@$(MKDIRCMD) -p "$(@D)"
 	$(CC) $(CC_FLAGS) -i$(Zandronum_INCDIR) -i$(Common_INCDIR) -i$(Zandronum_SRCDIR) -c $< -o $@
 

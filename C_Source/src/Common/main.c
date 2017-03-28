@@ -26,6 +26,7 @@
 #include "systems/sprint_system.h"
 #include "systems/stamina.h"
 #include "systems/xp_system.h"
+#include "systems/playerMenu.h"
 #include "weapons/thumper.h"
 #include "weapons/weapon_stuff.h"
 #include "weapons/slot_sys.h"
@@ -144,6 +145,7 @@ Script_C void S7_ServersideEnter ENTER () {
         AmmoCountersScript    (player);
         HellbladeScript       (player);
         CustomWeapSlotsScript (player);
+        PlayerMenuScript      (player);
         KeysScript ();
 
         UpdatePlayerAlpha  (player); // Update the alpha
@@ -158,7 +160,7 @@ Script_C void S7_ServersideEnter ENTER () {
 // Clientside-ish (HUD, popups, heartbeats, etc.) stuff
 Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct.");
+        DebugLog ("\CgScript S7_ClientsideEnter: Fatal error: Invalid or NULL player struct.");
         return;
     }
 
@@ -239,7 +241,7 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
 
 void ResetStuff (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -266,7 +268,7 @@ Script_C void S7_ServersideRespawn RESPAWN () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_ServersideRespawn: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -281,7 +283,7 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     PlayerData_t *player = &PlayerData [num]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
+        DebugLog ("\CgScript S7_ServersideDisconnect: Fatal error: Invalid or NULL player struct for player %d.", num);
         return;
     }
 

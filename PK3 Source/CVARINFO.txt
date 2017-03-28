@@ -29,6 +29,13 @@ user int  S7_Radar_YPos                 = 13;
 user int S7_EffectStayTime              = 0;
 user int S7_EffectFadeSpeed             = 0;
 
+/** Internal CVars **/
+// Health bar
+user noarchive bool   S7_INT_EnemyHPBar_IsValid;
+user noarchive string S7_INT_EnemyHPBar_Name;
+user noarchive int    S7_INT_EnemyHPBar_Health;
+user noarchive int    S7_INT_EnemyHPBar_MaxHealth;
+
 /** Required clientside CVars **/
 user int  S7_Screenblocks               = 0;
 

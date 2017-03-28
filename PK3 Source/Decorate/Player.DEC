@@ -77,6 +77,8 @@ actor S7_BasePlayer : playerPawn {
     player.startItem S7_MeleeKey
     player.startItem S7_FiringModeKey
     player.startItem S7_ShowPop1Key
+    player.startItem S7_ToggleShopKey
+    player.startItem S7_ToggleMenuKey
     // Tokens:
     player.startItem S7_IsPlayer
     player.startItem S7_StaminaRegen
@@ -256,8 +258,8 @@ actor S7_MeleeKey : S7_CustomKey {
 // Reload key
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Reloading     : boolean { }
-actor S7_ReloadKey     : S7_CustomKey {
+actor S7_Reloading : boolean { }
+actor S7_ReloadKey : S7_CustomKey {
     states {
     Use:
         TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Take")
@@ -306,6 +308,34 @@ actor S7_ShowPop1Key : S7_CustomKey {
     states {
     Use:
         TNT1 A 0 ACS_NamedExecuteAlways ("S7_ShowPop1", 0)
+        fail
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Toggle shop key
+//
+//-------------------------------------------------------------------------------------------
+actor S7_ToggleShopToken : boolean { }
+actor S7_ToggleShopKey   : S7_CustomKey {
+    states {
+    Use:
+        TNT1 A 0 A_GiveInventory ("S7_ToggleShopToken", 1)
+        fail
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Toggle menu key
+//
+//-------------------------------------------------------------------------------------------
+actor S7_ToggleMenuToken : boolean { }
+actor S7_ToggleMenuKey   : S7_CustomKey {
+    states {
+    Use:
+        TNT1 A 0 A_GiveInventory ("S7_ToggleMenuToken", 1)
         fail
     }
 }

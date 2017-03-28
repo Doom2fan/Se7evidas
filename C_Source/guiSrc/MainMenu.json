@@ -1,0 +1,55 @@
+{
+    "name": "PM_MainMenu",
+    "flags": [ "noAutoIDs" ],
+    "hudSize": [
+        640,
+        480
+    ],
+    "initialID": 1,
+    "items": [
+        {
+            "type": "label",
+            "x": 15.0,
+            "y": 8.0,
+            "icon": {
+                "xOff": 0.0,
+                "yOff": 0.0,
+                "image": "MagiSupr"
+            }
+        },
+        {
+            "id": 0,
+            "type": "use",
+            "x": 85.0,
+            "y": 50.0,
+            "prevID": 2,
+            "nextID": 1,
+            "text": "This is a button"
+        },
+        {
+            "id": 1,
+            "type": "link",
+            "x": 15.0,
+            "y": 10.0,
+            "prevID": 0,
+            "nextID": 2,
+            "text": "durp",
+            "dest": "&PM_DerpSubmenu"
+        },
+        {
+            "id": 2,
+            "type": "link",
+            "x": 50.0,
+            "y": 45.0,
+            "text": "DEEEEEEEEEEEERP",
+            "dest": "&PM_DerpSubmenu",
+            "prevID": 1,
+            "nextID": 0
+        },
+        {
+            "type": "label",
+            "x": 105.0,
+            "y": 5.00
+        }
+    ]
+}

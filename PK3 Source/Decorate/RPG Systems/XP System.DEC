@@ -4,9 +4,9 @@
 //
 //-------------------------------------------------------------------------------------------
 
-actor S7_XP_System_Experience             : counter                        { inventory.maxAmount 400000 }
-actor S7_XP_System_Level                  : counter                        { inventory.maxAmount 35 }
-actor S7_XP_System_AttributePoints        : counter                        { inventory.maxAmount 10000 }
+actor S7_XP_System_Experience             : counter                        { inventory.maxAmount 0x7FFFFFFF }
+actor S7_XP_System_Level                  : counter                        { inventory.maxAmount 0x0000FFFF }
+actor S7_XP_System_AttributePoints        : counter                        { inventory.maxAmount 0x0000FFFF }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -14,7 +14,7 @@ actor S7_XP_System_AttributePoints        : counter                        { inv
 //
 //-------------------------------------------------------------------------------------------
 
-actor S7_Stats_System_BaseStat            : counter                        { inventory.maxAmount 25 }
+actor S7_Stats_System_BaseStat            : counter                        { inventory.maxAmount 0x7FFFFFFF }
 actor S7_Stats_System_Strength            : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Agility             : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Vitality            : S7_Stats_System_BaseStat       { }

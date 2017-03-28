@@ -131,7 +131,7 @@ optionMenu "CustomizeControls" {
     staticTextSwitchable    "ENTER to change, BACKSPACE to clear", "Press new key for control, ESC to cancel", "ControlMessage"
 
     staticText  ""
-    staticText  "Main Controls", 1
+    staticText  "Main Se7evidas Controls", 1
     staticText  "Bind these if you want to be able to play the game", 1
 
     staticText  ""
@@ -163,8 +163,15 @@ optionMenu "CustomizeControls" {
     control     "Weapon Slot 5",                        "S7_Slot 4"
 
     staticText  ""
+    staticText  "Ingame menus and utilities", 1
+    control     "Toggle Menu",                          "+user4" // "S7_MenuToggle"
+    control     "Toggle Shop",                          "+user3" // "S7_ShopToggle"
+    control     "Inventory list",                       "S7_ShowPop1"
+    //control     "Mission Objectives",                   "showpop 1"
+    //control     "Keys List",                            "showpop 2"
+
+    staticText  ""
     staticText  "Inventory", 1
-    control     "Shop Menu",                            "+user3"
     control     "Activate Item",                        "invuse"
     control     "Activate All Items",                   "invuseall"
     control     "Next Item",                            "invnext"
@@ -172,12 +179,6 @@ optionMenu "CustomizeControls" {
     control     "Drop Item",                            "invdrop"
     control     "Query Item",                           "invquery"
     control     "Drop Weapon",                          "S7_WeapDrop"
-
-    staticText  ""
-    staticText  "Info Screens", 1
-    control     "Full inventory list",                  "S7_ShowPop1"
-    //control     "Mission Objectives",                   "showpop 1"
-    //control     "Keys List",                            "showpop 2"
 
     staticText  ""
     staticText  ""
