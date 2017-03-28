@@ -29,7 +29,7 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData);
 // Functions
 void UpdatePlayerData (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -103,7 +103,7 @@ void UpdatePlayerAlpha (PlayerData_t *player) {
 
 void TakeCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\CgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction TakeCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -114,7 +114,7 @@ void TakeCash (PlayerData_t *player, int amount) {
 
 void GiveCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -134,7 +134,7 @@ void GiveCash (PlayerData_t *player, int amount) {
 
 void GiveCashNoBank (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction GiveCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -145,7 +145,7 @@ void GiveCashNoBank (PlayerData_t *player, int amount) {
 
 void SetCash (PlayerData_t *player, int amount) {
     if (!player) {
-        Log ("\CgFunction SetCash: Fatal error: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction SetCash: Fatal error: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -158,7 +158,7 @@ void SetCash (PlayerData_t *player, int amount) {
 
 void InitializePlayer (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction InitializePlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
 
@@ -195,10 +195,10 @@ void InitializePlayer (PlayerData_t *player) {
 
 bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     if (!player) {
-        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
         return FALSE;
     } else if (!saveData || saveData->isInvalid) {
-        Log ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
+        DebugLog ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
         return FALSE;
     }
 
@@ -345,67 +345,14 @@ FinishIntro:
 
 void DisconnectPlayer (PlayerData_t *player) {
     if (!player) {
-        Log ("\CgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
+        DebugLog ("\CgFunction DisconnectPlayer: Fatal error: Invalid or NULL player struct");
         return;
     }
 
     player->initialized = FALSE;
-    // Position, velocity, etc
-    player->physics.x = 0.0k; player->physics.y = 0.0k; player->physics.z = 0.0k;
-    player->physics.velX = 0.0k; player->physics.velY = 0.0k; player->physics.velZ = 0.0k;
-    player->physics.angle = 0.0k;
-    player->physics.velAngle = 0.0k;
-    player->physics.floorZ = 0.0k; player->physics.ceilZ = 0.0k;
-    player->physics.relativeZ = 0.0k;
-    player->physics.jumpZ = 0.0k;
-
-    // Health and stamina
-    player->health.health = 0;
-    player->health.maxHealth = 0;
-    player->health.stamina = 0;
-
-    // XP system stuff
-    player->xpSystem.level = 0;
-    player->xpSystem.experience  = 0;
-    player->xpSystem.attrPoints  = 0;
-    player->xpSystem.strengthLVL = 0;
-    player->xpSystem.agilityLVL  = 0;
-    player->xpSystem.vitalityLVL = 0;
-    player->xpSystem.defenseLVL  = 0;
-    player->xpSystem.magicLVL    = 0;
-
-    // Misc
-    player->misc.waterlevel = 0;
-    player->misc.dying = FALSE;
-
-    // Script data
-    player->scriptData.lastWeapon = 0;
-    // Sprint system stuff
-    player->SprintDef.OldSpeed = 1.0k;
-    player->SprintDef.Sprinting = FALSE;
-    player->scriptData.staminaEmpty = FALSE;
-    player->scriptData.staminaTics = 0;
-    // Parkour system stuff
-    player->parkourDef.dodgeCooldown = 0;
-    player->parkourDef.mjumpOnGround = TRUE;
-    player->parkourDef.mjumpCount = 0;
-    player->parkourDef.mjumpMax = 1;
-    // Thumper stuff
-    for (int i = 0; i < ArraySize (player->thumperDef.magShells); i++)
-        player->thumperDef.magShells [i] = 0;
-    player->thumperDef.currentShell = 0;
-    player->thumperDef.magIndex = -1;
-    // Shop system stuff
-    player->shopDef.open = FALSE;
-    player->shopDef.disableOpen = FALSE;
-    player->shopDef.page = NULL;
-    for (int i = 0; i < ArraySize (player->shopDef.items); i++)
-        player->shopDef.items [i] = NULL;
-    player->shopDef.position.x = 0;
-    player->shopDef.position.y = 0;
-    player->shopDef.moveDelay = 0;
-    player->shopDef.moveSpeed = 0;
-    player->shopDef.sellMode = FALSE;
+    int *pData = (int *) player;
+    for (int i = 0; i < sizeof (PlayerData_t); i++)
+        pData [i] = 0;
 }
 
 void UpdateClientsideCVars () {
