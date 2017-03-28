@@ -1,0 +1,176 @@
+//-------------------------------------------------------------------------------------------
+//
+// Shadow Corps Trooper
+//
+//-------------------------------------------------------------------------------------------
+actor S7_ScorpsEnforcerTracer : S7_BaseTracer {
+    damage (fRandom [monsterDMG] (1.0, 3.0) * 5.5)
+    health 150
+    damageType EnemyRifleTracer
+}
+actor S7_ScorpsEnforcer : S7_ScorpBase replaces chaingunGuy 32508 {
+    health 105
+    gibHealth -15
+    painChance 200
+    painSound "Monsters/SCorps1/Pain"
+    deathSound "Monsters/SCorps1/Death"
+    obituary "$OBSCORPSENFORCER"
+    species "ScorpsEnforcer"
+    tag "$SCRPSENFRTAG"
+
+    +missileMore
+
+    states {
+    // Initialize
+    Spawn:
+        SCR2 A 2 noDelay ACS_NamedExecuteAlways ("S7_ZombieScript", 0)
+    Idle:
+        TNT1 A 0 A_Jump (160.0, 2) // Maybe reload if less than 10 shots
+
+        SCR2 AAA 1 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted") // Look for enemies
+        TNT1 A   0 A_Jump (96, 2)
+        TNT1 A   0 A_SetAngle (angle + fRandom (-5, 5), SPF_Interpolate)
+        SCR2 UUU 1 A_SetTics (random (5, 15))
+
+        TNT1 A 0 A_Jump (220, 4)
+        TNT1 A 0 A_SetAngle (angle + fRandom (-8, 8), SPF_Interpolate)
+        TNT1 A 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR2 U 3 A_SetTics (random (10, 35))
+
+        TNT1 A 0 A_CheckFlag ("ambush", "Idle.Ambush") // If the ambush flag is set, loop back to Idle instead of wandering
+        TNT1 A 0 A_Jump (100, "Idle") // Don't always wander
+        goto Idle.Wander
+    Idle.Ambush: // Stay still and ambush enemies
+        TNT1 A 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR2 U 3 A_SetTics (random (3, 5))
+        TNT1 A 0 A_Jump (192, 2)
+
+        TNT1 A 0 A_Jump (128, 4)
+        TNT1 A 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        TNT1 A 0 A_SetAngle (angle + fRandom (-8, 8), SPF_Interpolate)
+        SCR2 U 3 A_SetTics (random (3, 5))
+        loop
+    Idle.Wander: // Wander around looking for enemies
+        TNT1 AA 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR2 AB 5 A_Wander
+        TNT1 AA 0 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted")
+        SCR2 CD 5 A_Wander
+        TNT1 A 0 A_Jump (64, "Idle")
+        loop
+
+    // Found enemy
+    EnemySighted:
+        TNT1 AAA 0 A_AlertMonsters
+        goto See
+    // Chasing
+    See:
+        SCR2 AABBCCDD 3 A_Chase
+        SCR2 AABBCCDD 3 A_Chase
+        loop
+
+    // Firing
+    Missile:
+        SCR2 CD 2 A_FaceTarget (90, 45)
+        SCR2 U  1 A_SetTics (random (3, 8))
+    ChooseMode:
+        TNT1 A 0 A_Jump (128, 2)
+        TNT1 A 0 A_JumpIfCloser (256.0, "Shoot.Speed2")
+        TNT1 A 0 A_SetUserVar ("user_fireMode", 0)
+        TNT1 A 0 A_SetUserVar ("user_turn", 25)
+        TNT1 A 0 A_SetUserVar ("user_spreadX", 4.5 * 65536.0)
+        TNT1 A 0 A_SetUserVar ("user_spreadY", 3.5 * 65536.0)
+        goto StartFiring
+
+    Shoot.Speed2:
+        TNT1 A 0 A_SetUserVar ("user_fireMode", 1)
+        TNT1 A 0 A_SetUserVar ("user_turn", 35)
+        TNT1 A 0 A_SetUserVar ("user_spreadX", 5.5 * 65536.0)
+        TNT1 A 0 A_SetUserVar ("user_spreadY", 4.5 * 65536.0)
+        goto StartFiring
+    StartFiring:
+        SCR2 UUUUU 1 A_FaceTarget (abs (user_turn), abs (user_turn))
+        TNT1 AAAAA 0 A_FaceTarget (0, 0)
+    DoShoot:
+        SCR2 E 1 A_FaceTarget (0, 0)
+        TNT1 A 0 A_PlaySound ("Monsters/ScorpsEnforcer/Fire", CHAN_Weapon)
+        TNT1 A 0 A_CustomMissile ("S7_ScorpsEnforcerTracer", 35.0, 10, angle + fRandom [monsterSpread] (-user_spreadX / 65536.0, user_spreadX / 65536.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-user_spreadY / 65536.0, user_spreadY / 65536.0))
+        TNT1 A 0 A_CustomMissile ("S7_RifleCasingSpawn",     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
+        SCR2 F 1 A_CustomMissile ("S7_ShotSmoke_2_Spawner",  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
+        TNT1 A 0 A_JumpIf (user_fireMode == 1, 2)
+        SCR2 U 1
+        TNT1 A 0 A_JumpIfTargetInLOS ("DoShoot", 90.0, JLOSF_DeadNoJump) // Keep firing if target on LOS
+        TNT1 A 0 A_Jump (128, "CoverFire") // Occasionally keep firing anyway
+        goto EndShoot
+
+    CoverFire:
+        TNT1 A 0 A_JumpIfInTargetInventory ("health", 1, 1)
+        goto EndShoot
+        SCR2 E 1
+        TNT1 A 0 A_PlaySound ("Monsters/ScorpsEnforcer/Fire", CHAN_Weapon)
+        TNT1 A 0 A_CustomMissile ("S7_ShotSmoke_2_Spawner",  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
+        TNT1 A 0 A_CustomMissile ("S7_RifleCasingSpawn",     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
+        SCR2 F 1 A_CustomMissile ("S7_ScorpsEnforcerTracer", 35.0, 10, angle + fRandom [monsterSpread] (-user_spreadX / 65536.0, user_spreadX / 65536.0), CMF_AbsolutePitch | CMF_AbsoluteAngle, pitch + fRandom [monsterSpread] (-user_spreadY / 65536.0, user_spreadY / 65536.0))
+        TNT1 A 0 A_JumpIf (user_fireMode == 1, 2)
+        SCR2 U 1
+        TNT1 A 0 A_JumpIfTargetInLOS ("DoShoot", 90.0) // If the target comes into LOS, go back to normal shooting
+        TNT1 A 0 A_Jump (50, "EndShoot") // Occasionally stop firing
+        loop
+
+    EndShoot:
+        SCR2 U 5
+        goto See
+
+    // Flinching
+    Pain:
+        SCR2 G 2
+        SCR2 G 2 A_Pain
+        goto See
+
+    // Dead
+    Death:
+        SCR2 H 5 A_SetUserVar ("user_deathType", 0)
+        SCR2 I 5 A_Scream
+        SCR2 J 5
+        TNT1 A 0 A_NoBlocking
+    Death_AirLoop:
+        SCR2 J 1
+        TNT1 A 0 A_CheckFloor ("Death_HitGround")
+        loop
+    Death_HitGround:
+        SCR2 KL 5
+        SCR2 M -1
+        stop
+
+    Death.Fire:
+        TNT1 A 0 A_JumpIfHealthLower (-7, "RealDeath.Fire")
+        goto Death
+    Death.Fire2:
+    RealDeath.Fire:
+        BURN ABC        5 bright A_Pain
+        BURN D          5 bright A_Pain
+        TNT1 A          0        A_NoBlocking
+        BURN EFGHIJKLMN 5 bright
+        BURN O          5 bright
+        BURN PQRSTU     5 bright
+        BURN V          1
+        wait
+
+    XDeath:
+        SCR2 N  5 A_SetUserVar ("user_deathType", 1)
+        SCR2 O  5 A_XScream
+        SCR2 P  5 A_NoBlocking
+        SCR2 QR 5
+        SCR2 S -1
+        stop
+
+    // Being revived
+    Raise:
+        SCR2 LK  5 A_JumpIf (user_deathType == 1, "XRaise")
+        SCR2 JIH 5
+        goto See
+    XRaise:
+        SCR2 R 5
+        SCR2 QPON 5
+        goto See
+    }
+}

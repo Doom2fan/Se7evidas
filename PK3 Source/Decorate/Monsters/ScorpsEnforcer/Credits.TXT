@@ -1,0 +1,6 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_ScorpsTrooper: Skulltag Team, ItsNaturetoDie, Marty Kirra, Chronos "phantombeta" Ouroboros (Recolor)
+
+Sounds: Credits in the SNDINFO files
