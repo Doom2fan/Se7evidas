@@ -115,7 +115,7 @@ bool KeyPressedMOD (int key) {
     if (!RunningInZandronum) {
         return KeyPressed2 (GetPlayerInput (-1, MODINPUT_BUTTONS), GetPlayerInput (-1, MODINPUT_OLDBUTTONS), key);
     } else { // This is really hacky, but a lot of the Zandrocrap fixes are anyway, heh.
-        int buttonsMOD = GetPlayerInput (-1, MODINPUT_BUTTONS), oldButtonsMOD = GetPlayerInput (-1, MODINPUT_OLDBUTTONS),
+        int buttonsMOD = GetPlayerInput (-1, INPUT_BUTTONS), oldButtonsMOD = GetPlayerInput (-1, INPUT_OLDBUTTONS),
         buttons = GetPlayerInput (-1, INPUT_BUTTONS);
         if (buttons != buttonsMOD && buttonsMOD == 0)
             return 0;
@@ -128,7 +128,7 @@ bool KeyReleasedMOD (int key) {
     if (!RunningInZandronum) {
         return KeyPressed2 (GetPlayerInput (-1, MODINPUT_OLDBUTTONS), GetPlayerInput (-1, MODINPUT_BUTTONS), key);
     } else { // This is really hacky, but a lot of the Zandrocrap fixes are anyway, heh.
-        int buttonsMOD = GetPlayerInput (-1, MODINPUT_BUTTONS), oldButtonsMOD = GetPlayerInput (-1, MODINPUT_OLDBUTTONS),
+        int buttonsMOD = GetPlayerInput (-1, MODINPUT_BUTTONS), oldButtonsMOD = GetPlayerInput (-1, INPUT_OLDBUTTONS),
             buttons    = GetPlayerInput (-1,    INPUT_BUTTONS);
         if (buttons != buttonsMOD && buttonsMOD == 0)
             return FALSE;
