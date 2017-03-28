@@ -86,11 +86,28 @@
     // Misc
         OB_SHRAPNEL                 = "%o was hit by a piece of shrapnel";
 // MvP
+    // Hellion
+    OBHELLIONFB                     = "%o was burnt by a Hellion";
+    // Black Panther
     OBBPANTHER_MELEE                = "%o had %h guts torn out and eaten by a Black Panther.";
     OBBPANTHER                      = "%o was torn apart by a Black Panther";
+    // Empress
     OB_EMPRESS                      = "%o was raped by an Empress";
-    OB_EMPRESSFB                    = "%o was incinerated by an Empress";
+    OB_EMPRESSFB                    = "%o was burnt to a crisp by an Empress";
+    // Succubus
     OBSUCCUBUS                      = "%o became a Succubus' favourite";
+    // Corpulent
+    OBFATSOFIREBALL                 = "%o was incinerated by a Corpulent";
+    OBFATSOFLAMETHROWER             = "%o became a Corpulent's latest meal";
+    // Terminator
+    OBTERMMGUN                      = "%o was shredded by a Terminator";
+    OBTERMGREN                      = "%o caught a Terminator's grenade";
+    OBTERMSGREN                     = "%o couldn't dodge a Terminator's grenade";
+    OBTERMPLASMA                    = "%o was vaporized by a Terminator";
+    OBTERMFLAME                     = "%o didn't realize getting anywhere near a Terminator was a bad idea";
+    // Zombies
+    OBSCORPSTROOPER                 = "%o was eliminated by a Shadow Corps Trooper";
+
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";
