@@ -1,7 +1,25 @@
-sprite HRSSB0, 86, 73 { patch HRSSA0, 0, 0 { flipX } }
-sprite HRSSC0, 86, 73 { patch HRSSA0, 0, 0 { flipY } }
-sprite HRSSD0, 86, 73 { patch HRSSA0, 0, 0 { flipX flipY } }
+sprite HRSSB0, 86, 73 {
+    offset 42, 42
+    patch HRSSA0, 0, 0 { flipX }
+}
+sprite HRSSC0, 86, 73 {
+    offset 42, 42
+    patch HRSSA0, 0, 0 { flipY }
+}
+sprite HRSSD0, 86, 73 {
+    offset 42, 42
+    patch HRSSA0, 0, 0 { flipX flipY }
+}
 
-sprite HRSSF0, 79, 83 { patch HRSSE0, 0, 0 { flipX } }
-sprite HRSSG0, 79, 83 { patch HRSSE0, 0, 0 { flipY } }
-sprite HRSSH0, 79, 83 { patch HRSSE0, 0, 0 { flipX flipY } }
+sprite HRSSF0, 79, 83 {
+    offset 37, 43
+    patch HRSSE0, 0, 0 { flipX }
+}
+sprite HRSSG0, 79, 83 {
+    offset 37, 43
+    patch HRSSE0, 0, 0 { flipY }
+}
+sprite HRSSH0, 79, 83 {
+    offset 37, 43
+    patch HRSSE0, 0, 0 { flipX flipY }
+}
