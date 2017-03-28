@@ -26,6 +26,9 @@ actor S7_FatFuck : S7_DemonBase replaces fatso 32502 {
     // Plasma/Laser damage bonus
     damageFactor "Plasma", 1.5
     damageFactor "LaserTracer", 1.25
+    // (Mini-)Boss damage reduction
+    damageFactor "ExplosionSplashDMG", 0.85
+    damageFactor "Shrapnel", 0.90
 
     monster
     +missileMore +floorClip +dontMorph +bossDeath
@@ -85,4 +88,5 @@ actor S7_FatFuck : S7_DemonBase replaces fatso 32502 {
 }
 
 actor S7_FatFuckShot : FatShot {
+    obituary "$OBFATSOFIREBALL"
 }
