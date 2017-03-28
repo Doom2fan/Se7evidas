@@ -64,7 +64,7 @@ Script_C void S7_ShowPop1 () {
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
-        Log ("\CgScript S7_ShowPop1: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        DebugLog ("\CgScript S7_ShowPop1: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
 
@@ -219,13 +219,8 @@ void ShowPop (PlayerData_t *player, SP_Data_t *data) {
     SetHudSize (0, 0, FALSE);
 }
 
-typedef struct EI_Struct {
-    bool isValid;
-    string name;
-    int health;
-    int maxHealth;
-} EI_Struct;
-
+/** Enemy health bar **/
+// Having to do this because of Zandroshit is painful, but I guess proper coding practices and lower bandwidth usage make it a tiny bit worth it...
 Script_LS EI_Struct EI_GetInfo (int playerNum) {
     EI_Struct ret;
     ret.isValid = FALSE;
@@ -270,14 +265,31 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
 
     return ret;
 }
+void EnemyInfoStoreScript () {
+    int num = PLN;
+    EI_Struct info = EI_GetInfo (num);
+
+    SetUserCVar (num, s"S7_INT_EnemyHPBar_IsValid", info.isValid);
+    SetUserCVarString (num, s"S7_INT_EnemyHPBar_Name", info.name);
+    SetUserCVar (num, s"S7_INT_EnemyHPBar_Health", info.health);
+    SetUserCVar (num, s"S7_INT_EnemyHPBar_MaxHealth", info.maxHealth);
+}
+void EnemyInfoBuildScript (EIS_Data_t *data) {
+    int num = PLN;
+
+    data->info.isValid = GetUserCVar (num, s"S7_INT_EnemyHPBar_IsValid");
+    data->info.name = GetUserCVarString (num, s"S7_INT_EnemyHPBar_Name");
+    data->info.health = GetUserCVar (num, s"S7_INT_EnemyHPBar_Health");
+    data->info.maxHealth = GetUserCVar (num, s"S7_INT_EnemyHPBar_MaxHealth");
+}
 #define EMBASEID 13000
-void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
-    if (!player)
+void EnemyInfoScript (EIS_Data_t *data) {
+    if (!data)
         return;
 
-    EI_Struct info = EI_GetInfo (PLN);
     int screenblocks = GetCVar (s"screenblocks");
     int forceDirCvar = GetUserCVar (PLN, s"S7_EnemyHPBar_ForceDir");
+    data->disableHUD = CheckInventory (DISABLEHUDTOKEN);
 
     if (forceDirCvar) {
         if (forceDirCvar == 1)
@@ -286,7 +298,7 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
             screenblocks = 10;
     }
 
-    if (data->prevScreenblocks != screenblocks || data->prevOn != GetUserCVar (PLN, s"S7_EnemyHPBar_On") || data->prevDisableHUD != player->scriptData.disableHUD)
+    if (data->prevScreenblocks != screenblocks || data->prevOn != GetUserCVar (PLN, s"S7_EnemyHPBar_On") || data->prevDisableHUD != data->disableHUD)
         data->forceClear = TRUE;
 
     if (data->forceClear) {
@@ -296,7 +308,7 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
         data->forceClear = FALSE;
     }
 
-    if (info.isValid && screenblocks <= 11 && GetUserCVar (PLN, s"S7_EnemyHPBar_On") && !player->scriptData.disableHUD) {
+    if (data->info.isValid && screenblocks <= 11 && GetUserCVar (PLN, s"S7_EnemyHPBar_On") && !data->disableHUD) {
         SetHudSize (320, 200, FALSE);
         int    x, y,
                   y2;
@@ -318,7 +330,7 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
             //bg = s"";
         }
 
-        accum hpPercent = Percent (info.health > 0 ? info.health : 0, info.maxHealth) / 100.0k;
+        accum hpPercent = Percent (data->info.health > 0 ? data->info.health : 0, data->info.maxHealth) / 100.0k;
         if (vert) {
             accum thingy = (1.0k - hpPercent) * h;
             y2 = y + RoundA (thingy);
@@ -334,32 +346,32 @@ void EnemyInfoScript (PlayerData_t *player, EIS_Data_t *data) {
         if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") > 0) {
             if (vert) {
                 if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2)
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d %%", Percent (info.health, info.maxHealth));
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d %%", Percent (data->info.health, data->info.maxHealth));
                 else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1)
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d/%d", info.health, info.maxHealth);
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 24.1k, 80.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d/%d", data->info.health, data->info.maxHealth);
             } else {
                 if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") >= 2)
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d %%", Percent (info.health, info.maxHealth));
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d %%", Percent (data->info.health, data->info.maxHealth));
                 else if (GetUserCVar (PLN, s"S7_EnemyHPBar_HPDisp") == 1) {
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 164.1k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d", info.maxHealth);
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 164.1k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d", data->info.maxHealth);
                     HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"/");
-                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 156.2k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d", info.health);
+                    HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 156.2k, 8.0k, 0.1k, 0.0k, 0.0k, 0.0k, s"%d", data->info.health);
                 }
             }
         }
 
-        if (GetUserCVar (PLN, s"S7_EnemyHPBar_NametagOn")  && info.name) {
+        if (GetUserCVar (PLN, s"S7_EnemyHPBar_NametagOn")  && data->info.name) {
             if (vert)
-                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.1k,  90.1k, 0.1k, 0.0k, 0.0k, 0.0k, s"%S", info.name);
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY,  24.1k,  90.1k, 0.1k, 0.0k, 0.0k, 0.0k, s"%S", data->info.name);
             else
-                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k,  19.1k, 0.1k, 0.0k, 0.0k, 0.0k, s"%S", info.name);
+                HudMessage_Str (HUDMSG_PLAIN, id--, CR_DARKGREY, 160.0k,  19.1k, 0.1k, 0.0k, 0.0k, 0.0k, s"%S", data->info.name);
         }
     }
 
     SetHudSize (0, 0, FALSE);
 
     data->prevScreenblocks = screenblocks;
-    data->prevDisableHUD   = player->scriptData.disableHUD;
+    data->prevDisableHUD   = data->disableHUD;
     data->prevOn           = GetUserCVar (PLN, s"S7_EnemyHPBar_On");
 }
 
