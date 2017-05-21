@@ -31,12 +31,21 @@ void ShopSystem_Script (PlayerData_t *player) {
         return;
 
     SS_ProcessToggle (player); // Process the menu toggling
-    if (player->shopDef.open) {
-        // Processing
-        SS_Movement (player); // Process the movement
 
-        // Rendering
-        if (player->shopDef.page && player->shopDef.page->renderer)
+    if (player->health.health <= 0 && (player->shopDef.open || player->shopDef.shop != NULL || player->shopDef.page != NULL)) { // Close the shop if the player died with it open
+        SS_OpenPage (player, NULL, OXF_ForceAll); // Change the page to NULL
+        player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
+        player->SprintDef.disable = FALSE; // Enable sprinting
+        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
+        player->shopDef.moveDelay = SS_ONMOVEDELAY; // Set the movement delay
+    }
+
+    // Processing
+    SS_Movement (player); // Process the movement
+
+    // Rendering
+    if (player->shopDef.page != NULL) {
+        if (player->shopDef.page->renderer)
             player->shopDef.page->renderer (player);
         else if (player->shopDef.shop && player->shopDef.shop->renderer)
             player->shopDef.shop->renderer (player);

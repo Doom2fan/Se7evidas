@@ -162,22 +162,27 @@ void SS_ProcessToggle (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressed (BT_USER3) && player->shopDef.page) { // If disableOpen is false, the shop menu is closed, the BT_USER3 key was hit and there is a page set/open...
-        SS_ChangePage (player, NULL); // Change the page to NULL
-        player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
-        player->SprintDef.disable = FALSE; // Enable sprinting
-        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
-    } else if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressed (BT_USER3)) { // If disableOpen is false, the shop menu is closed and the BT_USER3 key was hit...
-        SS_ChangePage (player, &mainSP); // Change the page to main
-        player->shopDef.open = TRUE; // Set open to TRUE
-        player->SprintDef.disable = TRUE; // Disable sprinting
-        SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN); // Freeze the player
-    } else if (player->shopDef.open && KeyPressed (BT_USER3)) {
-        SS_ChangePage (player, NULL); // Change the page to NULL
-        player->shopDef.open = FALSE; // Set open to FALSE
-        player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
-        player->SprintDef.disable = FALSE; // Enable sprinting
-        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
+    if (player->health.health > 0 && player->shopDef.moveDelay <= 0) { // If the player is alive and moveDelay is lower than or equal to zero
+        if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressedMOD (BT_USER3) && player->shopDef.page) { // If disableOpen is false, the shop menu is closed, the BT_USER3 key was hit and there is a page set/open...
+            SS_ChangePage (player, NULL); // Change the page to NULL
+            player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
+            player->SprintDef.disable = FALSE; // Enable sprinting
+            SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
+            player->shopDef.moveDelay = (SS_ONMOVEDELAY / 2); // Set the movement delay
+        } else if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressedMOD (BT_USER3)) { // If disableOpen is false, the shop menu is closed and the BT_USER3 key was hit...
+            SS_ChangePage (player, &mainSP); // Change the page to main
+            player->shopDef.open = TRUE; // Set open to TRUE
+            player->SprintDef.disable = TRUE; // Disable sprinting
+            SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN); // Freeze the player
+            player->shopDef.moveDelay = (SS_ONMOVEDELAY / 2); // Set the movement delay
+        } else if (player->shopDef.open && KeyPressed (BT_USER3)) {
+            SS_ChangePage (player, NULL); // Change the page to NULL
+            player->shopDef.open = FALSE; // Set open to FALSE
+            player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
+            player->SprintDef.disable = FALSE; // Enable sprinting
+            SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
+            player->shopDef.moveDelay = (SS_ONMOVEDELAY / 2); // Set the movement delay
+        }
     }
 }
 
@@ -213,30 +218,30 @@ void SS_ProcessUse (PlayerData_t *player, bool sellMode) {
         }
     }
 }
-#define ONMOVEDELAY 7
+
 void SS_Movement (PlayerData_t *player) {
     if (!player)
         return;
 
-    if (player->shopDef.moveDelay <= 0) { // If the movement delay/cooldown is equal to or lesser than 0...
+    if (player->shopDef.page != NULL && player->shopDef.moveDelay <= 0) { // If the movement delay/cooldown is equal to or lesser than 0...
         if (player->shopDef.shop && player->shopDef.shop->noXMove) { // If the shop has noXMove set to true
             // Do nothing
         } if (GetPlayerInput (-1, INPUT_SIDEMOVE) > 0) { // If the player has positive > 0 movement on the left/right axis...
             player->shopDef.position.x--; // Decrement x
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
+            player->shopDef.moveDelay = SS_ONMOVEDELAY; // Set the movement delay/cooldown to SS_ONMOVEDELAY
         } else if (GetPlayerInput (-1, INPUT_SIDEMOVE) < 0) { // If the player has negative < 0 movement on the left/right axis...
             player->shopDef.position.x++; // Increment x
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
+            player->shopDef.moveDelay = SS_ONMOVEDELAY; // Set the movement delay/cooldown to SS_ONMOVEDELAY
         }
 
         if (player->shopDef.shop && player->shopDef.shop->noYMove) { // If the shop has noYMove set to true
             // Do nothing
         } if (GetPlayerInput (-1, INPUT_FORWARDMOVE) > 0 && (player->shopDef.items [player->shopDef.position.y - 1]) != NULL && player->shopDef.position.y - 1 >= 0) { // If the player has positive > 0 movement on the forward/backwards axis and the item isn't NULL...
             player->shopDef.position.y--; // Increment y
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
+            player->shopDef.moveDelay = SS_ONMOVEDELAY; // Set the movement delay/cooldown to SS_ONMOVEDELAY
         } else if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && (player->shopDef.items [player->shopDef.position.y + 1]) != NULL && player->shopDef.position.y + 1 < SS_ITEMSMAX) { // If the player has negative < 0 movement on the forward/backwards axis and the item isn't NULL...
             player->shopDef.position.y++; // Decrement y
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
+            player->shopDef.moveDelay = SS_ONMOVEDELAY; // Set the movement delay/cooldown to SS_ONMOVEDELAY
         }
 
         if (KeyPressed (SS_SELLMODEKEY)) { // If the player hit SS_SELLMODEKEY...
@@ -248,7 +253,7 @@ void SS_Movement (PlayerData_t *player) {
 
         if (KeyPressed (BT_USE)) { // If the player hit the use key...
             SS_ProcessUse (player, player->shopDef.sellMode); // Process it
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
+            player->shopDef.moveDelay = SS_ONMOVEDELAY; // Set the movement delay/cooldown to SS_ONMOVEDELAY
         }
     }
 

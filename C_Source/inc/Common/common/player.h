@@ -155,7 +155,7 @@ struct ShopDef_t {
     SS_Item_t *items [100];
     int        itemsLength;
     vec2_i     position;
-    vec2_i     moveDelay, moveSpeed;
+    int        moveDelay, moveSpeed;
     bool       sellMode;
 };
 

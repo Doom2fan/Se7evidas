@@ -35,6 +35,9 @@ HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, id, CR_UNTRANSLATED, (x) + 0.1k
 #define VITEMOFF 2
 
 void SS_Render (PlayerData_t *player) {
+    if (!player->shopDef.page)
+        goto Finish;
+
     int id = SHOPBASEID; // Define id and initialize it to SHOPBASEID
 
     SetHudSize (320, 200, FALSE); // Set the hud size to 320x200
@@ -44,9 +47,6 @@ void SS_Render (PlayerData_t *player) {
     else // If not...
         SS_PrintHudMessage (id, CR_WHITE, 117.0k, 6.0k, "%LS", s"SS_SELLMODE");  // Print the shop mode
     id++; // Increment the id
-
-    if (!player->shopDef.page)
-        goto Finish;
 
     SetFont (s"SMALLFNT"); // Set the font to SMALLFNT
     SS_PrintHudMessage (id++, CR_WHITE, 6.0k, 6.0k, "%LS", player->shopDef.page->name); // Print the page name and increment the id
@@ -96,8 +96,8 @@ void SS_Render (PlayerData_t *player) {
         ClearMessage (id++); // Clear id
     }
 
-Finish:
     SS_PrintSprite (id++, -91.0k, 200.0k, s"SSTBACKG"); // Print the background and increment the id
 
+Finish:
     SetHudSize (0, 0, FALSE); // Set the hud size to 0x0 (Reset SetHudSize)
 }

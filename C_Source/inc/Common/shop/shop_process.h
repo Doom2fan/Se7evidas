@@ -22,6 +22,9 @@
 
 #include <ACS_ZDoom.h>
 
+// Defines
+#define SS_ONMOVEDELAY 7
+
 // Prototypes
 int  SS_AmmoMaxAmount (PlayerData_t *player, SS_Item_t *item);
 int  SS_BuyItem       (PlayerData_t *player, SS_Item_t *item);
