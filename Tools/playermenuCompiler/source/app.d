@@ -37,6 +37,7 @@ class MenuControl {
     float [2] pos = 0f;
     Icon icon;
     string iconCallback;
+    string font;
     string text;
     string textCallback;
     string visibleCallback;
@@ -171,8 +172,8 @@ MenuPage parseMenu (JSONValue data) {
     MenuPage menu = new MenuPage ();
     MenuControl [] labels;
     MenuControl [] buttons;
-    MenuControl lastControlWithId;
-    int prevId = 0, id = 0, firstId;
+    MenuControl firstControlWithId, lastControlWithId;
+    int prevId = -1, id = 0;
 
     if (tryParseValueOut!(string, JSON_TYPE.STRING) (data, "name", menu.name, null, true, false) == null)
         throw new ParsingException ("Menu definitions must specify a name");
@@ -216,14 +217,15 @@ MenuPage parseMenu (JSONValue data) {
             else
                 buttons ~= control;
 
-            if (i == 0 && !control.id.isNull)
-                firstId = control.id;
+            if (!firstControlWithId && !control.id.isNull)
+                firstControlWithId = control;
 
             i++;
         }
-        if (!(menu.flags & MenuFlags.NoAutoIDs) && lastControlWithId && !lastControlWithId.nextId.isNull) {
-            lastControlWithId.nextId = firstId;
-        }
+        if (!(menu.flags & MenuFlags.NoAutoIDs) && lastControlWithId && lastControlWithId.nextId.isNull)
+            lastControlWithId.nextId = firstControlWithId.id;
+        if (!(menu.flags & MenuFlags.NoAutoIDs) && firstControlWithId && firstControlWithId.prevId.isNull)
+            firstControlWithId.prevId = lastControlWithId.id;
     }
 
     menu.controls = labels ~ buttons;
@@ -266,6 +268,7 @@ MenuControl parseControl (JSONValue data, BitFlags!MenuFlags menuFlags, ref int 
     tryParseValueOut!(float, JSON_TYPE.FLOAT) (data, "x", control.pos [0], 0f, true, false);
     tryParseValueOut!(float, JSON_TYPE.FLOAT) (data, "y", control.pos [1], 0f, true, false);
 
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "font", control.font, null, true, false);
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "text", control.text, null, true, false);
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "textCallback", control.textCallback, null, true, false);
     
@@ -278,12 +281,13 @@ MenuControl parseControl (JSONValue data, BitFlags!MenuFlags menuFlags, ref int 
         writeln ("JSON parsing warning: useCallback is useless with a non-use control");
 
     if (!(menuFlags & MenuFlags.NoAutoIDs) && control.type == MenuControlType.Use || control.type == MenuControlType.Link) {
-        if (control.prevId.isNull)
+        if (control.prevId.isNull && prevId != -1)
             control.prevId = prevId;
 
         if (control.id.isNull) {
             prevId = curId;
             control.id = curId;
+            curId++;
         } else {
             prevId = control.id;
             curId = control.id + 1;
@@ -334,14 +338,10 @@ string compileMenu (MenuPage menu) {
         }
         formattedWrite (app, "\n        .id = %d,", (!control.id.isNull ? control.id : -1));
         formattedWrite (app, "\n        .pos = { %fk, %fk },", control.pos [0], control.pos [1]);
-        formattedWrite (app, "\n        .icon = { .offsets = { %fk, %fk }, .image = s\"%s\" },", control.icon.offsets [0], control.icon.offsets [1], control.icon.image);
+        formattedWrite (app, "\n        .icon = { .offsets = { %fk, %fk }, .image = %s },", control.icon.offsets [0], control.icon.offsets [1], (control.icon.image ? "s\"" ~ control.icon.image ~ "\"" : "NULL"));
         formattedWrite (app, "\n        .iconCallback = %s,", (control.iconCallback != null) ? control.iconCallback : "NULL");
-
-        if (control.text != null)
-            formattedWrite (app, "\n        .text = s\"%s\",", control.text);
-        else
-            app.put ("\n        .text = NULL,");
-
+        formattedWrite (app, "\n        .font = %s,", (control.font ? "s\"" ~ control.font ~ "\"" : "NULL"));
+        formattedWrite (app, "\n        .text = %s,", (control.text ? "s\"" ~ control.text ~ "\"" : "NULL"));
         formattedWrite (app, "\n        .textCallback = %s,", (control.textCallback != null) ? control.textCallback : "NULL");
         formattedWrite (app, "\n        .visibleCallback = %s,", (control.visibleCallback != null) ? control.visibleCallback : "NULL");
         formattedWrite (app, "\n        .nextId = %s,", (!control.nextId.isNull) ? control.nextId : -1);

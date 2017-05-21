@@ -172,7 +172,7 @@ struct WeapBinds_t {
 };
 
 struct PlayerMenu_t {
-    bool open, disable;
+    bool open, disable, pause;
     int moveDelay, moveSpeed;
     int id, curIdx;
 

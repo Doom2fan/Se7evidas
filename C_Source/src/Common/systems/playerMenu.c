@@ -19,7 +19,7 @@
 
 /*
 struct PlayerMenu_t {
-    bool open, disable;
+    bool open, disable, pause;
     int moveDelay, moveSpeed;
     int id, curIdx;
 
@@ -29,11 +29,16 @@ struct PlayerMenu_t {
 #include "includes.h"
 #include "systems/playerMenu.h"
 
+#define PMENUBASEID 15000
+
 int PM_FindControlId (PM_Page *page, int id) {
+    if (id < 0) // Control ids lower than 0 are not allowed, so skip the search.
+        return -1;
+
     int i = 0;
 
     while (page->items [i].id != id) {
-        if (page->items [i].type != PM_ListEnd)
+        if (page->items [i].type == PM_ListEnd)
             return -1;
         i++;
     }
@@ -41,75 +46,202 @@ int PM_FindControlId (PM_Page *page, int id) {
     return i;
 }
 
-void PM_ChangePage (PlayerData_t *player, PM_Page *dest) {
+bool PM_ChangePage (PlayerData_t *player, PM_Page *dest) {
+    PM_Page *oldPage = player->playerMenu.page;
     player->playerMenu.page = dest;
-    if (dest != null) {
+    if (dest != NULL) {
+        int curIdx = PM_FindControlId (dest, dest->initialId);
+        if (curIdx < 0) {
+            player->playerMenu.page = oldPage;
+            return FALSE;
+        }
         player->playerMenu.open = TRUE;
         player->playerMenu.id = dest->initialId;
-        player->playerMenu.curIdx = PM_FindControlId (player->playerMenu.page, player->playerMenu.id);
+        player->playerMenu.curIdx = curIdx;
         player->playerMenu.moveDelay = player->playerMenu.moveSpeed = 0;
+
+        for (int i = 0; i < 1000; i++)
+            ClearMessage (PMENUBASEID + i);
+
+        return TRUE;
     } else {
         player->playerMenu.open = FALSE;
         player->playerMenu.id = player->playerMenu.curIdx = player->playerMenu.moveDelay = player->playerMenu.moveSpeed = 0;
+        
+        for (int i = 0; i < 1000; i++)
+            ClearMessage (PMENUBASEID + i);
+
+        return TRUE;
     }
 }
 
 void PM_ProcessToggle (PlayerData_t *player) {
-    if (!PM_MenuDisabled (player) && !player->playerMenu.open && KeyPressed (BT_USER4)) {
-        PM_ChangePage (player, &PM_MainMenu);
-        player->playerMenu.open = TRUE;
-        player->SprintDef.disable = TRUE;
-        SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
-    } else if (player->playerMenu.open && KeyPressed (BT_USER4)) {
-        PM_ChangePage (player, NULL);
-        player->playerMenu.open = FALSE;
-        player->SprintDef.disable = FALSE;
-        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
+    if (player->health.health > 0 && player->playerMenu.moveDelay <= 0) {
+        if (!PM_MenuDisabled (player) && !player->playerMenu.open && KeyPressedMOD (BT_USER4)) {
+            if (PM_ChangePage (player, &PM_MainMenu)) {
+                player->playerMenu.open = TRUE;
+                player->shopDef.disableOpen = TRUE;
+                player->SprintDef.disable = TRUE;
+                SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
+                player->playerMenu.moveDelay = PM_OnMoveDelay;
+            } else {
+                DebugLog ("\CgFunction PM_ProcessToggle: Fatal error: Main menu is invalid");
+                return;
+            }
+        } else if (player->playerMenu.open && !player->playerMenu.pause && KeyPressed (BT_USER4)) {
+            PM_ChangePage (player, NULL);
+            player->playerMenu.open = FALSE;
+            player->shopDef.disableOpen = FALSE;
+            player->SprintDef.disable = FALSE;
+            SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
+            player->playerMenu.moveDelay = PM_OnMoveDelay;
+        }
     }
 }
 
-enum {
-    PM_OnMoveDelay = 7,
-    PM_MoveSpeedTol = 6,
-    PM_MoveSpeedMax = 4,
-    PM_MoveSpeedTotal = PM_MoveSpeedTol + PM_MoveSpeedMax,
-};
 void PM_ProcessMovement (PlayerData_t *player) {
+    if (player->playerMenu.pause)
+        return;
+
     accum move = GetPlayerInput (-1, INPUT_FORWARDMOVE);
-    PM_Page page = player->playerMenu.page;
-    if (move != 0 && page != NULL) {
+    PM_Page *page = player->playerMenu.page;
+    if (page != NULL && move != 0 && player->playerMenu.moveDelay <= 0) {
         bool dir = (move > 0) ? TRUE : FALSE; // TRUE = up
+        int newId, newIdx;
 
-        if (dir) {
-            if (player->playerMenu.curIdx >= 0) {
+        if (player->playerMenu.id >= 0 && player->playerMenu.curIdx < 0) {
+            player->playerMenu.curIdx = PM_FindControlId (player->playerMenu.page, player->playerMenu.id);
+            if (player->playerMenu.curIdx < 0)
+                return;
+        }
 
-            } else {
-                player->playerMenu.curIdx = PM_FindControlId (player->playerMenu.page, player->playerMenu.id);
-            }
+        int curIdx = player->playerMenu.curIdx;
+        newId = dir ? (page->items [curIdx].prevId) : (page->items [curIdx].nextId);
+        newIdx = PM_FindControlId (page, newId);
+
+        if (newIdx < 0)
+            return;
+
+        player->playerMenu.id = newId;
+        player->playerMenu.curIdx = newIdx;
+        if (player->playerMenu.moveDelay == -1 || (player->playerMenu.moveSpeed > 0 && dir) || (player->playerMenu.moveSpeed < 0 && !dir)) {
+            player->playerMenu.moveDelay = PM_OnMoveDelay;
+            player->playerMenu.moveSpeed = 0;
+        } else {
+            player->playerMenu.moveDelay = (abs (player->playerMenu.moveSpeed) > PM_MoveSpeedTol) ? (PM_OnMoveDelay - (abs (player->playerMenu.moveSpeed) - PM_MoveSpeedTol)) : PM_OnMoveDelay;
+            player->playerMenu.moveSpeed += dir ? -1 : 1;
+
+            if (abs (player->playerMenu.moveSpeed) > PM_MoveSpeedTotal)
+                player->playerMenu.moveSpeed = (player->playerMenu.moveSpeed > 0) ? PM_MoveSpeedTotal : -PM_MoveSpeedTotal;
         }
     }
-        } if (GetPlayerInput (-1, INPUT_FORWARDMOVE) > 0 && (player->shopDef.items [player->shopDef.position.y - 1]) != NULL && player->shopDef.position.y - 1 >= 0) { // If the player has positive > 0 movement on the forward/backwards axis and the item isn't NULL...
-            player->shopDef.position.y--; // Increment y
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
-        } else if (GetPlayerInput (-1, INPUT_FORWARDMOVE) < 0 && (player->shopDef.items [player->shopDef.position.y + 1]) != NULL && player->shopDef.position.y + 1 < SS_ITEMSMAX) { // If the player has negative < 0 movement on the forward/backwards axis and the item isn't NULL...
-            player->shopDef.position.y++; // Decrement y
-            player->shopDef.moveDelay = ONMOVEDELAY; // Set the movement delay/cooldown to ONMOVEDELAY
-        }
+
+    if (player->playerMenu.moveDelay > -1)
+        player->playerMenu.moveDelay--;
+    else if (player->playerMenu.moveDelay < -1)
+        player->playerMenu.moveDelay = -1;
 }
 
 void PM_ProcessUse (PlayerData_t *player) {
+    if (player->playerMenu.pause)
+        return;
 
+    PM_Page *page = player->playerMenu.page;
+    if (page != NULL && KeyPressed (BT_USE) && player->playerMenu.moveDelay <= 0) {
+        if (player->playerMenu.id >= 0 && player->playerMenu.curIdx < 0) {
+            player->playerMenu.curIdx = PM_FindControlId (player->playerMenu.page, player->playerMenu.id);
+            if (player->playerMenu.curIdx < 0)
+                return;
+        }
+
+        int curIdx = player->playerMenu.curIdx;
+        PM_Item *control = &(page->items [curIdx]);
+        if (control->enabledCallback != NULL && !control->enabledCallback (player, control))
+            return;
+
+        if (control->type == PM_Link) {
+            if (!PM_ChangePage (player, control->dest))
+                DebugLog ("\CgFunction PM_ProcessUse: Error: Control links to invalid page");
+        } else if (control->type == PM_Use) {
+            if (control->useCallback != NULL)
+                control->useCallback (player, control);
+        }
+
+        player->playerMenu.moveDelay = PM_OnMoveDelay;
+        player->playerMenu.moveSpeed = 0;
+    }
 }
 
 void PM_Render (PlayerData_t *player) {
+    if (player == NULL || player->playerMenu.page == NULL || player->playerMenu.page->items == NULL)
+        return;
 
+    PM_Page *page = player->playerMenu.page;
+    PM_Item *control;
+    SetHudSize (page->hudSize.x, page->hudSize.y, FALSE);
+    int hudmsgID = PMENUBASEID;
+    for (int i = 0; page->items [i].type != PM_ListEnd; i++) {
+        PM_ItemState state = 0;
+        control = &(page->items [i]);
+
+        if (control->visibleCallback != NULL && !control->visibleCallback (player, control))
+            continue;
+
+        if (control->enabledCallback != NULL && !control->enabledCallback (player, control))
+            state |= PMS_Disabled;
+
+        if (player->playerMenu.id == control->id)
+            state |= PMS_Selected;
+
+        // Display text, if set
+        if (control->text != NULL || control->textCallback != NULL) {
+            string text;
+            if (control->textCallback != NULL)
+                text = control->textCallback (player, control, 0);
+            else if (control->text != NULL)
+                text = control->text;
+
+            if (control->font == NULL)
+                SetFont (s"FSHUDFNT");
+            else
+                SetFont (control->font);
+
+            HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, hudmsgID++, (state & PMS_Selected ? CR_RED : CR_UNTRANSLATED), control->pos.x, control->pos.y, 0.1k, 0.0k, 0.0k, 0.0k, "%S", text);
+        }
+
+        // Display icon, if set
+        if (control->icon.image != NULL || control->iconCallback != NULL) {
+            vec2_k iconPos;
+            iconPos.x = (control->pos.x >> 16) << 16; iconPos.y = (control->pos.y >> 16) << 16;
+            PM_Icon icon;
+
+            if (control->iconCallback != NULL)
+                icon = control->iconCallback (player, control, 0);
+            else if (control->icon.image != NULL)
+                icon = control->icon;
+
+            if (icon.image != NULL && StrCmp (icon.image, s"TNT1A0") != 0 && StrCmp (icon.image, s"") != 0) {
+                SetFont (icon.image);
+                HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_OVERHUD, hudmsgID++, CR_UNTRANSLATED, iconPos.x + icon.offsets.x, iconPos.y + icon.offsets.y, 0.1k, 0.0k, 0.0k, 0.0k, "A");
+            }
+        }
+    }
+    SetHudSize (0, 0, FALSE);
 }
 
 void PlayerMenuScript (PlayerData_t *player) {
     PM_ProcessToggle (player);
-    if (player->playerMenu.open) {
-        PM_ProcessMovement (player);
-        PM_ProcessUse (player);
-        PM_Render (player);
+    
+    if (player->health.health <= 0 && (player->playerMenu.open || player->playerMenu.page != NULL)) { // Close the shop if the player died
+        PM_ChangePage (player, NULL);
+        player->playerMenu.open = FALSE;
+        player->shopDef.disableOpen = FALSE;
+        player->SprintDef.disable = FALSE;
+        SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
+        player->playerMenu.moveDelay = PM_OnMoveDelay;
     }
+
+    PM_ProcessMovement (player);
+    PM_ProcessUse (player);
+    PM_Render (player);
 }

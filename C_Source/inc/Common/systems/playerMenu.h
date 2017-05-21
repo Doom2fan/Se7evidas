@@ -48,6 +48,13 @@ enum PM_ItemState_t {
     PMS_Clicked  = 1 << 2,
 };
 
+enum {
+    PM_OnMoveDelay = 7,
+    PM_MoveSpeedTol = 4,
+    PM_MoveSpeedMax = 6,
+    PM_MoveSpeedTotal = PM_MoveSpeedTol + PM_MoveSpeedMax,
+};
+
 // Structs
 struct PM_Icon_t {
     vec2_k offsets; // XY offsets
@@ -61,12 +68,12 @@ struct PM_Item_t {
     vec2_k pos;
     PM_Icon icon;
     PM_Icon (*iconCallback) (PlayerData_t *player, PM_Item *item, PM_ItemState state); // If set, overrides the icon variable
+    string font;
     string text;
     string (*textCallback) (PlayerData_t *player, PM_Item *item, PM_ItemState state); // If set, overrides the text variable
     bool (*visibleCallback) (PlayerData_t *player, PM_Item *item); // If NULL, defaults to TRUE
-    int nextId, prevId;
-    // Link and Use
     bool (*enabledCallback) (PlayerData_t *player, PM_Item *item); // If NULL, defaults to TRUE
+    int nextId, prevId;
     // Link
     PM_Page *dest;
     // Use
