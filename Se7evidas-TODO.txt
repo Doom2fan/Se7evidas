@@ -1,17 +1,17 @@
-(In no particular order) (Stuff with an X is done)
+(In no particular order) (Stuff with an X is done, and stuff with a + is WIP)
 This shit has to be done before any official /beta/ releases:
-    Shop system (WIP)
+    + Shop system
 
 This shit HAS to be done before any official stable release:
-    Add more weapons
+    + Add more weapons
     X Convert inventory hacks to uservars (I converted what I could)
-    Fucking monsters (Maybe literally too...)
+    + Fucking monsters (Maybe literally too...)
     Storage system
-    Grenades
+    + Grenades
 
 Would be nice:
     Heretic support (Maybe Hexen too?)
     Chex Quest support
-    Player customizable weapon slots
+    + Player customizable weapon slots
     Achievement system
     In-game copy of the Survival Guide

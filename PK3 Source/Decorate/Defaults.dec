@@ -35,7 +35,7 @@ actor S7_DebrisGeneral {
 actor S7_ActionRunnerBase : customInventory {
     inventory.maxAmount 1
 
-    +inventory.autoActivate +inventory.quiet
+    +inventory.autoActivate +inventory.quiet +inventory.alwaysPickup
 
     states {
     Spawn:
