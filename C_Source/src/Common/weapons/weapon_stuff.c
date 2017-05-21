@@ -20,6 +20,7 @@
 #include "includes.h"
 #include "weapons/weap_data.h"
 #include "weapons/weapon_stuff.h"
+#include "utils/damage.h"
 
 const string DummyWeapons [] = {
     s"S7_NullWeapon",
@@ -278,3 +279,8 @@ Script_C int S7_GetGrenadeForce () {
     SetActivatorToTarget (0);
     return CheckInventory (s"S7_GrenadeForce");
 }
+
+/*Script_C void S7_AMGRadiusDamage (int damage, int radius) {
+    Thing_ChangeTID (0, UniqueTID (-32768, 0));
+    RadiusDMGNoBlock (GetActorPositionVec (0), damage, radius, ActivatorTID (), s"S7_Antimatter", RDNBF_ForceDMG);
+}*/

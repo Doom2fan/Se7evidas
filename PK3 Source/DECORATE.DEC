@@ -55,6 +55,7 @@ actor S7_IsLoaded {
 #INCLUDE "Decorate/Base Actors.DEC"
 #INCLUDE "Decorate/Base Weapon.DEC"
 #INCLUDE "Decorate/Bullets.DEC"
+#INCLUDE "Decorate/Utils.DEC"
 
 // RPG Systems
 #INCLUDE "Decorate/RPG Systems/Shop System.DEC"
