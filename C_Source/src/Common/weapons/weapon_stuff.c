@@ -237,25 +237,40 @@ Script_C int S7_ButterflyAkimboReload () {
         mag1Req = BUTTERFLYMAGSIZE - mag1, mag2Req = BUTTERFLYMAGSIZE - mag2,
         ammoPool = CheckInventory (s"S7_FBSysCells");
 
-    if (mag1Req + mag2Req <= 0 || ammoPool < 2)
+    if (mag1Req + mag2Req <= 0 || ammoPool <= 0)
         return FALSE;
 
-    if (mag1Req + mag2Req > ammoPool) {
-        int ammoReq = mag1Req + mag2Req;
-        for (int i = 32; i > 0; i++) {
-            if (ammoReq - i < ammoPool) {
-                GiveInventory (BUTTERFLYCLIP, mag1Req - i);
-                GiveInventory (BUTTERFLYCLIPSECOND, mag2Req - i);
-                TakeInventory (s"S7_FBSysCells", (mag1Req + mag2Req) - i);
-                return TRUE;
-            }
+    if (mag1Req + mag2Req > ammoPool) { // If not enough ammo to top both off
+        int ammoGiven = 0, ammoToGive = 0;
+
+        if (mag1Req == mag2Req && ammoPool < 2) // If 
+            return FALSE;
+
+        // Equalize the mags
+        if (mag1Req != mag2Req) {
+            int ammoDiff = ammoDiff = abs (mag1Req - mag2Req); // Get the difference
+            ammoToGive = ((ammoDiff > ammoPool) ? ammoPool : ammoDiff); // Make sure the given amount isn't greater than the available amount
+            GiveInventory ((mag1Req - mag2Req > 0) ? BUTTERFLYCLIP : BUTTERFLYCLIPSECOND, ammoToGive); // Give the ammo
+            ammoGiven += ammoToGive;
         }
-        return FALSE;
+
+        // If there's enough ammo, split it between the mags
+        if (ammoPool - ammoGiven > 1) {
+            ammoToGive = ammoPool - ammoGiven;
+            ammoToGive = ((ammoToGive & 1) ? ammoToGive - 1 : ammoToGive) / 2;  // Calculate the amount to give
+            GiveInventory (BUTTERFLYCLIP, ammoToGive); // Give the ammo
+            GiveInventory (BUTTERFLYCLIPSECOND, ammoToGive);
+            ammoGiven += ammoToGive * 2;
+        }
+
+        TakeInventory (s"S7_FBSysCells", ammoGiven); // Take the ammo from the ammo pool
     } else {
         GiveInventory (BUTTERFLYCLIP, mag1Req);
         GiveInventory (BUTTERFLYCLIPSECOND, mag2Req);
         TakeInventory (s"S7_FBSysCells", mag1Req + mag2Req);
     }
+
+    return TRUE;
 }
 
 // This script wouldn't be needed if Zandronum's netcode wasn't complete shit
