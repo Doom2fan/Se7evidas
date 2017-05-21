@@ -106,7 +106,7 @@ actor S7_PrettyShootyIonCannonGun : S7_BaseWeapon 30001 {
 
     CantFire:
         TNT1 A 0 A_TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF)
-        PIC1 A 1 A_PlaySound ("Weapons/PSICG/Error", CHAN_Weapon)
+        PIC1 A 1 A_PlaySound ("Weapons/PSICG/Error", CHAN_6)
         goto Ready2
     }
 }

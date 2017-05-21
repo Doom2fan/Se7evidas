@@ -84,9 +84,9 @@ actor S7_Fauchard   : S7_BaseWeapon 30005 {
         loop
     ReloadFinish:
         LSRF ACDEFGH   2
-        LSRF I         2 A_PlaySound ("Weapons/Fauchard/Out", CHAN_Weapon)
+        LSRF I         2 A_PlaySound ("Weapons/Fauchard/Out", CHAN_6)
         LSRF J        30
-        LSRF J        12 A_PlaySound ("Weapons/Fauchard/In", CHAN_5)
+        LSRF J        12 A_PlaySound ("Weapons/Fauchard/In", CHAN_7)
         LSRF KHGFEDCA  2
         goto Ready2
     }

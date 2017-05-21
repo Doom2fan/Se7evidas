@@ -218,7 +218,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         stop
 
     ChangeFireMode:
-        "----" A 0 A_PlaySound ("Weapons/ModeChange", CHAN_Weapon)
+        "----" A 0 A_PlaySound ("Weapons/ModeChange", CHAN_6)
         "----" A 0 A_TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF)
         "----" A 0 A_JumpIfInventory ("S7_AMG_Burst", 1, "ToFullAuto")
         "----" A 5 A_GiveInventory ("S7_AMG_Burst", 1)
@@ -264,11 +264,11 @@ actor S7_AMG : S7_BaseWeapon 30002 {
     ReloadFinish:
         AMGG A         2
         AMGR ABCDE     2
-        AMGR F         2 A_PlaySound ("Weapons/AMG/Out", CHAN_Weapon)
+        AMGR F         2 A_PlaySound ("Weapons/AMG/Out", CHAN_6)
         AMGR GHIJKLMNO 2
-        AMGR P         2 A_PlaySound ("Weapons/AMG/In", CHAN_Weapon)
+        AMGR P         2 A_PlaySound ("Weapons/AMG/In", CHAN_7)
         AMGR QR        4
-        AMGR S         7 A_PlaySound ("Weapons/AMG/Tap", CHAN_Weapon)
+        AMGR S         7 A_PlaySound ("Weapons/AMG/Tap", CHAN_6)
         AMGR TUVWXYA   2
         AMGG A         2
         goto Ready2

@@ -154,9 +154,9 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         goto Reloaded
         TNT1 A                    0 A_GiveInventory ("S7_ShotgunMag", 2)
         TNT1 A                    0 A_TakeInventory ("S7_20gaShells", 2)
-        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
-        DSGR ABCCCCBA             1
         TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5)
+        DSGR ABCCCCBA             1
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_6)
         DSGR ABCCCCBAAAAAAAAAAAAA 1
         goto InsertShells
 
@@ -168,9 +168,9 @@ actor S7_Shotgun : S7_BaseWeapon 30000 {
         goto Reloaded
         TNT1 A                    0 A_GiveInventory ("S7_ShotgunMag", 2)
         TNT1 A                    0 A_TakeInventory ("S7_20gaShells", 2)
-        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_Weapon)
-        DSGR ABCCCCBA             1
         TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5)
+        DSGR ABCCCCBA             1
+        TNT1 A                    0 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_6)
         DSGR ABCCCCBAAAAAAAAAAAAA 1
         TNT1 A                    0 A_GiveInventory ("S7_ShotgunLoaded", 2)
         SSGF G                    2 A_TakeInventory ("S7_ShotgunMag", 2)
