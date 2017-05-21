@@ -150,11 +150,11 @@ void HellbladeScript (PlayerData_t *player) {
     if (!player)
         return;
 
-    int curLvl = CheckInventory (s"S7_HellwarriorBladeAffinity");
-    int curExp = CheckInventory (s"S7_HellwarriorBladeExperience");
+    int curLvl = CheckInventory (s"S7_HellhunterBladeAffinity");
+    int curExp = CheckInventory (s"S7_HellhunterBladeExperience");
     if (curLvl < 10 && curExp >= 2500 + curLvl * 1250) {
-        GiveInventory (s"S7_HellwarriorBladeAffinity", 1);
-        TakeInventory (s"S7_HellwarriorBladeExperience", 0x7FFFFFFF);
+        GiveInventory (s"S7_HellhunterBladeAffinity", 1);
+        TakeInventory (s"S7_HellhunterBladeExperience", 0x7FFFFFFF);
     }
 }
 
@@ -204,18 +204,22 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
 
 enum {
     HELLBLADE_FORM1 = 1,
+    HELLBLADE_FORM3 = 3,
     HELLBLADE_NULL = 32767,
 };
 
 Script_C int S7_HellBladeDMG (int form, int multiplier, int baseDMG) {
-    int affinity = CheckInventory (s"S7_HellwarriorBladeAffinity");
+    int affinity = CheckInventory (s"S7_HellhunterBladeAffinity");
 
     switch (form) {
-        case HELLBLADE_FORM1: {
-            int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + (0.5k * CheckInventory (XPS_STRENGTHTOKEN)) * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
-            return RoundA (modDMG + (affinity / 10 * (modDMG / 2)));
-        }
-        break;
+        case HELLBLADE_FORM1:
+            {
+                int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + (0.5k * CheckInventory (XPS_STRENGTHTOKEN)) * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
+                return RoundA (modDMG + (affinity / 10 * (modDMG / 2)));
+            }
+            break;
+        default:
+            return RoundA (multiplier * baseDMG);
     }
 }
 
