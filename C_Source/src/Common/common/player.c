@@ -107,8 +107,9 @@ void TakeCash (PlayerData_t *player, int amount) {
         return;
     }
 
-    TakeInventory (CASHTOKENLESSER,  amount % CASHDIVPOINT);
-    TakeInventory (CASHTOKENGREATER, amount / CASHDIVPOINT);
+    int newAmount = player->cash - amount;
+    SetInventory (CASHTOKENLESSER,  newAmount % CASHDIVPOINT);
+    SetInventory (CASHTOKENGREATER, newAmount / CASHDIVPOINT);
     player->cash = (CheckInventory (CASHTOKENLESSER) * CASHDIVPOINT) + CheckInventory (CASHTOKENGREATER);
 }
 

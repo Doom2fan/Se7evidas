@@ -286,8 +286,8 @@ Script_C void S7_TerminatorScript () {
                 }
             } else if (GetUserVariable (0, s"user_GrenType") == 0) { // 5 * 95 + 400
                 vec3_k tmpSPos = sPos;
-                tmpSPos.x += 475.0k * cos (self.angle);
-                tmpSPos.y += 475.0k * sin (self.angle);
+                tmpSPos.x += 475.0k * CosA (self.angle);
+                tmpSPos.y += 475.0k * SinA (self.angle);
 
                 if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 95.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 875.0k) {
                     // Angle

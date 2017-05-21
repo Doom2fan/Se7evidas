@@ -45,8 +45,8 @@ vec5_k GetActorInfoVec (int tid) {
     ret.x = GetActorX (tid);
     ret.y = GetActorY (tid);
     ret.z = GetActorZ (tid);
-    ret.w = GetActorProperty (0, APROP_Radius);
-    ret.h = GetActorProperty (0, APROP_Height);
+    ret.w = GetActorProperty (tid, APROP_Radius);
+    ret.h = GetActorProperty (tid, APROP_Height);
 
     return ret;
 }
@@ -180,8 +180,8 @@ accum GetVelocity () { // I dunno who made this...
           y = GetActorVelY (0),
           angle = atan2A (x, y);
 
-    if (((angle + 0.125k) % 0.5k) > 0.25k) vel = y / Sin (angle);
-    else                                   vel = x / Cos (angle);
+    if (((angle + 0.125k) % 0.5k) > 0.25k) vel = y / SinA (angle);
+    else                                   vel = x / CosA (angle);
 
     return vel;
 }

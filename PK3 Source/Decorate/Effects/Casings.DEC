@@ -57,7 +57,7 @@ actor S7_CasingBase {
     Fade.Looper:
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 1, "Fade.Faster")
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 2, "Fade.EvenFaster")
-        "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 3, "Fade.FastAsFuck")
+        "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 3, "Fade.Fasterer")
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 4, "Fade.TheFlash")
         "----" A 0 A_JumpIf (callACS ("S7_GetEffectsFadeSpeed") == 5, "Fade.DearLordGoBuyANewComputerRightMotherfuckingNow")
         goto Fade.Normal

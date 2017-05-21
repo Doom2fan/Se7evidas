@@ -479,8 +479,8 @@ void DrawRadar (PlayerData_t *player) {
                 x = player->physics.x - otherPlayer->x;
                 y = player->physics.y - otherPlayer->y;
 
-                dX = x * SinA (player->physics.angle) + y * CosA (player->physics.angle);
-                dY = x * CosA (player->physics.angle) - y * SinA (player->physics.angle);
+                dX = x * SinA (-player->physics.angle) + y * CosA (-player->physics.angle);
+                dY = x * CosA (-player->physics.angle) - y * SinA (-player->physics.angle);
                 dX /= RADAR_SCALE; dX += RADAR_XPOS; dX = (dX >> 16) << 16;
                 dY /= RADAR_SCALE; dY += RADAR_YPOS; dY = (dY >> 16) << 16;
 
