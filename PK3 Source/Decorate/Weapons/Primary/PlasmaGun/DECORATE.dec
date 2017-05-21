@@ -232,7 +232,7 @@ actor S7_PlasmaGunRail : fastProjectile {
     projectile
     renderStyle add
     scale 0.015
-    damage (fRandom [weaponDamage] (1.0, 5.0) * 13)
+    damage (fRandom [weaponDamage] (1.0, 3.5) * 13)
     missileType "S7_PlasmaGunRailEffectSpawner"
     decal S7_PlasmaGunRail
 

@@ -17,8 +17,8 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight 32501 {
     tag "$BLCKPNTTAG"
 
     // (Mini-)Boss damage reduction
-    damageFactor "ExplosionSplashDMG", 0.85
-    damageFactor "Shrapnel", 0.95
+    damageFactor "ExplosionSplashDMG", 0.75
+    damageFactor "Shrapnel", 0.85
 
     states {
     Spawn:

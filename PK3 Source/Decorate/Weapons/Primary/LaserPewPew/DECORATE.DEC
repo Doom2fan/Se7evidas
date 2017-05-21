@@ -382,7 +382,7 @@ actor S7_LaserPewPew : S7_BaseWeapon 30009 {
 //
 //-------------------------------------------------------------------------------------------
 actor S7_LaserPewPew_Tracer : S7_BaseTracer {
-    damage (random [weaponDamage] (1, 5) * 8)
+    damage (fRandom [weaponDamage] (1.0, 4.25) * 8)
     health 155
     damageType LaserTracer
     scale 0.0125

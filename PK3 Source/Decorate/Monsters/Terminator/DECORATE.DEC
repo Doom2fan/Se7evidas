@@ -27,7 +27,7 @@ actor S7_Terminator : S7_DemonBase 32507 {
     damageFactor "LaserTracer", 1.25
     // Boss damage reduction
     damageFactor "ExplosionSplashDMG", 0.25
-    damageFactor "Shrapnel", 0.5
+    damageFactor "Shrapnel", 0.35
 
     monster
     +missileMore +missileEvenMore

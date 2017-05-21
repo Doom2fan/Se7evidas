@@ -27,8 +27,8 @@ actor S7_FatFuck : S7_DemonBase replaces fatso 32502 {
     damageFactor "Plasma", 1.5
     damageFactor "LaserTracer", 1.25
     // (Mini-)Boss damage reduction
-    damageFactor "ExplosionSplashDMG", 0.85
-    damageFactor "Shrapnel", 0.90
+    damageFactor "ExplosionSplashDMG", 0.75
+    damageFactor "Shrapnel", 0.80
 
     monster
     +missileMore +floorClip +dontMorph +bossDeath
