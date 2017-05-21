@@ -14,7 +14,7 @@ actor S7_XP_System_AttributePoints        : counter                        { inv
 //
 //-------------------------------------------------------------------------------------------
 
-actor S7_Stats_System_BaseStat            : counter                        { inventory.maxAmount 0x7FFFFFFF }
+actor S7_Stats_System_BaseStat            : counter                        { inventory.maxAmount 0x00007FFF }
 actor S7_Stats_System_Strength            : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Agility             : S7_Stats_System_BaseStat       { }
 actor S7_Stats_System_Vitality            : S7_Stats_System_BaseStat       { }
