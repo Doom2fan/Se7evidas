@@ -262,7 +262,7 @@ void ResetStuff (PlayerData_t *player) {
 
 Script_C void S7_ServersideRespawn RESPAWN () {
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
+    if (ServerData.gameType == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
@@ -277,7 +277,7 @@ Script_C void S7_ServersideRespawn RESPAWN () {
 
 Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP)
+    if (ServerData.gameType == GAME_TITLE_MAP)
         return;
 
     PlayerData_t *player = &PlayerData [num]; // Get the player's PlayerData_t struct

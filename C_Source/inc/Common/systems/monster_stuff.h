@@ -23,7 +23,7 @@
 #include <ACS_ZDoom.h>
 
 // Macros
-#define EMPINVDELAY (35 * 7.5k)
+#define EMPINVDELAY (262.5k) // 35 * 7.5
 #define EMPINVLIMIT 2500
 #define EMPMHEALTH 4500
 // Tokens
@@ -62,6 +62,5 @@ extern MonsterInfo_t *monsterList;
 void ClearMonsterList ();
 bool AddMonsterToList  (MonsterInfo_t *monster);
 void UpdateMonsterInfo (MonsterInfo_t *self);
-MonsterInfo_t* PlayerAsMonster (PlayerData_t *player);
 
 #endif

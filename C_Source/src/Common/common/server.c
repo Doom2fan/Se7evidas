@@ -81,6 +81,10 @@ void SetupMapEvents () {
 
 void UpdateServerData () {
     ServerData.debugMode = GetCVar (s"S7_DebugMode");
+
+    // Game info
+    ServerData.gameType = GameType ();
+
     // Parkour stuff
     ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
     ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");

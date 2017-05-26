@@ -22,21 +22,20 @@
 #include "systems/stamina.h"
 #include "systems/sprint_system.h"
 
-Script_C void S7_SprintSystem ENTER () {
+Script_C void S7_SprintSystem (PlayerData_t *player) {
     Start:
     // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
+    if (ServerData.gameType == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
-
-    int tics,
-        forwardMove,
-        sideMove;
-    PlayerData_t *player = &PlayerData [PLN];
 
     if (!player) {
         DebugLog ("\CgScript S7_SprintSystem: Fatal error: Invalid or NULL player struct for player %d.", PLN);
         return;
     }
+
+    int tics,
+        forwardMove,
+        sideMove;
 
     while (TRUE) {
         if (!PlayerInGame (PLN))

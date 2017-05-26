@@ -55,32 +55,31 @@ void UpdateMonsterInfo (MonsterInfo_t *self) {
     } else if (self->removed)
         self->removed = FALSE;
 
-    self->x = GetActorX (0); self->y = GetActorY (0); self->z = GetActorZ (0);
-    self->radius = GetActorPropertyFixed (0, APROP_Radius); self->height = GetActorPropertyFixed (0, APROP_Height);
-    self->velX = GetActorVelX (0); self->velY = GetActorVelY (0); self->velZ = GetActorVelZ (0);
-    self->angle = GetActorAngle (0); self->pitch = GetActorPitch (0);
-    self->floorZ = GetActorFloorZ (0); self->ceilZ = GetActorCeilingZ (0);
+    self->x = GetActorX (0); // XYZ coords
+    self->y = GetActorY (0);
+    self->z = GetActorZ (0);
 
-    self->health = GetActorProperty (0, APROP_Health); self->maxHealth = GetActorProperty (0, APROP_SpawnHealth);
-    if (self->health > self->maxHealth)
-        self->maxHealth = self->health;
+    self->radius = GetActorPropertyFixed (0, APROP_Radius); // Size
+    self->height = GetActorPropertyFixed (0, APROP_Height);
+
+    self->velX = GetActorVelX (0); // XYZ velocities
+    self->velY = GetActorVelY (0);
+    self->velZ = GetActorVelZ (0);
+
+    self->angle = GetActorAngle (0); // Angle and pitch
+    self->pitch = GetActorPitch (0);
+
+    self->floorZ = GetActorFloorZ (0); // Sector Z coords
+    self->ceilZ  = GetActorCeilingZ (0);
+
+    self->health    = GetActorProperty (0, APROP_Health); // Health
+    self->maxHealth = GetActorProperty (0, APROP_SpawnHealth);
+
+    /*if (self->health > self->maxHealth)
+        self->maxHealth = self->health;*/
+
     self->tid = ActivatorTID ();
     self->friendly = CheckFlag (0, s"friendly");
-}
-
-MonsterInfo_t* PlayerAsMonster (PlayerData_t *player) {
-    MonsterInfo_t *ret = allocAndClear (sizeof (MonsterInfo_t));
-
-    ret->x = player->physics.x; ret->y = player->physics.y; ret->z = player->physics.z;
-    ret->radius = player->physics.radius; ret->height = player->physics.height;
-    ret->velX = player->physics.velX; ret->velY = player->physics.velY; ret->velZ = player->physics.velZ;
-    ret->angle = player->physics.angle; ret->pitch = player->physics.pitch;
-    ret->floorZ = player->physics.floorZ; ret->ceilZ = player->physics.ceilZ;
-
-    ret->health = player->health.health; ret->maxHealth = player->health.maxHealth;
-
-    ret->friendly = TRUE;
-    return ret;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -359,7 +358,7 @@ Script_C void S7_TerminatorScript () {
 
 typedef struct SLanceBGI {
     vec3_k holderPos;
-    int holderTID; int flags;
+    int flags;
 } SLanceBGI;
 enum {
     BGIF_STOP1 = 1, BGIF_STOP2 = 1 << 1,
@@ -371,14 +370,10 @@ Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info);
 
 Script_C void S7_SLanceBeamGrab () {
     SLanceBGI info;
-    int oldTID = ActivatorTID ();
 
-    info.holderTID = UniqueTID (-10000, -5000);
     info.holderPos.x = GetActorX (0);
     info.holderPos.y = GetActorY (0);
     info.holderPos.z = GetActorZ (0);
-
-    PrintBold ("%d", info.holderTID);
 
     S7_SLanceBeamGrabP2 (&info);
 

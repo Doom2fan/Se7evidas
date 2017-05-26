@@ -21,6 +21,7 @@
 #include "includes.h"
 #undef PLAYER_C
 #include "common/player.h"
+#include "systems/monster_stuff.h"
 
 // Forward declarations
 bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
@@ -34,14 +35,21 @@ void UpdatePlayerData (PlayerData_t *player) {
     }
 
     // Position and velocity
-    player->physics.x = GetActorX (0); player->physics.y = GetActorY (0); player->physics.z = GetActorZ (0);                            // Get the XYZ coordinates
-    player->physics.radius = GetActorPropertyFixed (0, APROP_Radius); player->physics.height = GetActorPropertyFixed (0, APROP_Height); // Get the radius and height
-    player->physics.velX = GetActorVelX (0); player->physics.velY = GetActorVelY (0); player->physics.velZ = GetActorVelZ (0);          // Get the XYZ velocities
-    player->physics.angle = GetActorAngle (0); player->physics.pitch = GetActorPitch (0);                                               // Get the angle and pitch
-    player->physics.velAngle = atan2A (player->physics.velX, player->physics.velZ);                                                     // Get the movement angle
-    player->physics.floorZ = GetActorFloorZ (0); player->physics.ceilZ = GetActorCeilingZ (0);                                          // Sector Z coordinates
-    player->physics.relativeZ = player->physics.z - player->physics.floorZ;                                                             // Z coordinate relative to sector floor
-    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ);                                                                     // Jump height/velocity?
+    player->physics.x = GetActorX (0); // Get the XYZ coordinates
+    player->physics.y = GetActorY (0);
+    player->physics.z = GetActorZ (0);
+    player->physics.radius = GetActorPropertyFixed (0, APROP_Radius); // Get the player actor's size
+    player->physics.height = GetActorPropertyFixed (0, APROP_Height);
+    player->physics.velX = GetActorVelX (0); // Get the XYZ velocities
+    player->physics.velY = GetActorVelY (0);
+    player->physics.velZ = GetActorVelZ (0);
+    player->physics.angle = GetActorAngle (0); // Get the angle and pitch
+    player->physics.pitch = GetActorPitch (0);
+    player->physics.velAngle = atan2A (player->physics.velX, player->physics.velZ); // Get the movement angle
+    player->physics.floorZ = GetActorFloorZ (0);                                          // Sector Z coordinates
+    player->physics.ceilZ  = GetActorCeilingZ (0);
+    player->physics.relativeZ = player->physics.z - player->physics.floorZ; // Z coordinate relative to sector floor
+    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ); // Jump height/velocity?
 
     // Health and stamina
     player->health.health = GetActorProperty (0, APROP_Health);         // Get the health
@@ -65,6 +73,24 @@ void UpdatePlayerData (PlayerData_t *player) {
 
     // Ammo counter stuff
     SetInventory (s"S7_SSGFauxClip", CheckInventory (s"S7_SSGLeftLoaded") + CheckInventory (s"S7_SSGRightLoaded"));
+
+    // Player data as MonsterInfo struct
+    player->asMonster.x = player->physics.x; // XYZ coordinates
+    player->asMonster.y = player->physics.y;
+    player->asMonster.z = player->physics.z;
+    player->asMonster.radius = player->physics.radius; // Size
+    player->asMonster.height = player->physics.height;
+    player->asMonster.velX = player->physics.velX; // XYZ velocities
+    player->asMonster.velY = player->physics.velY;
+    player->asMonster.velZ = player->physics.velZ;
+    player->asMonster.angle = player->physics.angle; // Angle and pitch
+    player->asMonster.pitch = player->physics.pitch;
+    player->asMonster.floorZ = player->physics.floorZ; // Sector Z coordinates
+    player->asMonster.ceilZ  = player->physics.ceilZ;
+    player->asMonster.health    = player->health.health; // Health
+    player->asMonster.maxHealth = player->health.maxHealth;
+    player->asMonster.friendly = (ServerData.gameType != GAME_NET_DEATHMATCH); // Friendlyness
+    player->asMonster.removed = (ServerData.gameType == GAME_NET_DEATHMATCH); // Removed?
 }
 
 void UpdateAmmoMax (PlayerData_t *player) {

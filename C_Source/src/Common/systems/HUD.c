@@ -226,6 +226,11 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
     ret.isValid = FALSE;
 
     if (SetActivator (ActivatorTID (), AAPTR_PLAYER_GETTARGET)) {
+        if (PLN == playerNum || CheckInventory (FAKEMONSTOKEN)) {
+            ret.isValid = FALSE;
+            return ret;
+        }
+
         int actorInfo = ClassifyActor (0);
         if (actorInfo & ACTOR_MONSTER && actorInfo & ACTOR_ALIVE && CheckFlag (0, s"shootable") && !(CheckFlag (0, s"noDamage") || CheckFlag (0, s"invulnerable"))) { // Monsters
             ret.name      = GetActorPropertyString (0, APROP_NameTag);
@@ -258,9 +263,6 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
                     ret.maxHealth = 100;
             }
         }
-
-        if (PLN == playerNum || CheckInventory (FAKEMONSTOKEN))
-            ret.isValid = FALSE;
     }
 
     return ret;
@@ -424,87 +426,65 @@ void ScreenOverlays (PlayerData_t *player) {
 #define RADAR_SCALE 10.0k
 #define RADAR_MAXDIST 750
 #define RADAR_RADIUS 100.0k
-#define RADAR_XPOS (GetUserCVar (0, s"S7_Radar_XPos") + (RADAR_RADIUS / 2))
-#define RADAR_YPOS (GetUserCVar (0, s"S7_Radar_YPos") + (RADAR_RADIUS / 2))
 #define RADAR_BASEID 50000
 // Delay between each sweep in tics (5 seconds)
 #define RADAR_SWEEPTIME 175
 
+void DrawRadar_DrawCreature (PlayerData_t *player, MonsterInfo_t *creature, int msgID, int radarX, int radarY) {
+    accum x, y, dX, dY, dist;
+    int colour;
+
+    // Coords
+    dist = Distance2D (player->physics.x, player->physics.y, creature->x, creature->y);
+    x = player->physics.x - creature->x;
+    y = player->physics.y - creature->y;
+
+    dX = x * SinA (-player->physics.angle) + y * CosA (-player->physics.angle);
+    dY = x * CosA (-player->physics.angle) - y * SinA (-player->physics.angle);
+    dX /= RADAR_SCALE; dX += radarX; dX = (dX >> 16) << 16;
+    dY /= RADAR_SCALE; dY += radarY; dY = (dY >> 16) << 16;
+
+    if (creature->health <= 0)
+        colour = CR_DARKGREY;
+    else
+        colour = (creature->friendly) ? CR_GREEN : CR_RED;
+
+    if (!creature->removed && dist <= RADAR_MAXDIST && VectorLength (radarX - dX, radarY - dY) < RADAR_RADIUS / 2)
+        HudMessage (HUDMSG_PLAIN, RADAR_BASEID + msgID, colour, dX, dY, 0.1k, 0.0k, 0.0k, 0.0k, "o");
+}
+
+string RadarBGNames [18] = { s"S7RDR0", s"S7RDR1", s"S7RDR2", s"S7RDR3", s"S7RDR4", s"S7RDR5", s"S7RDR6", s"S7RDR7", s"S7RDR8", s"S7RDR9", s"S7RDR10", s"S7RDR11", s"S7RDR12", s"S7RDR13", s"S7RDR14", s"S7RDR15", s"S7RDR16", s"S7RDR17", };
 void DrawRadar (PlayerData_t *player) {
     if (GetCVar (s"screenblocks") <= 11 && !player->scriptData.disableHUD && CheckInventory (s"S7_UpgradeRadar")) {
         MonsterInfo_t *monster = monsterList;
-        accum x, y, dX, dY, dist;
-        int colour, i = 0;
+        int radarX = GetUserCVar (0, s"S7_Radar_XPos") + (RADAR_RADIUS / 2),
+            radarY = GetUserCVar (0, s"S7_Radar_YPos") + (RADAR_RADIUS / 2),
+            i = 0;
 
         SetHudSize (GetUserCVar (0, s"S7_Radar_Width"), GetUserCVar (0, s"S7_Radar_Height"), FALSE);
 
         SetFont (s"SMALLFNT");
-        HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, CR_BLUE, RADAR_XPOS, RADAR_YPOS, 0.1k, 0.0k, 0.0k, 0.0k, "@");
+        HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, CR_BLUE, radarX, radarY, 0.1k, 0.0k, 0.0k, 0.0k, "@");
 
         while (TRUE) {
             if (!monster)
                 break;
 
-            // Coords
-            dist = Distance2D (player->physics.x, player->physics.y, monster->x, monster->y);
-            x = player->physics.x - monster->x;
-            y = player->physics.y - monster->y;
-
-            dX = x * SinA (-player->physics.angle) + y * CosA (-player->physics.angle);
-            dY = x * CosA (-player->physics.angle) - y * SinA (-player->physics.angle);
-            dX /= RADAR_SCALE; dX += RADAR_XPOS; dX = (dX >> 16) << 16;
-            dY /= RADAR_SCALE; dY += RADAR_YPOS; dY = (dY >> 16) << 16;
-
-            if (monster->health <= 0)
-                colour = CR_DARKGREY;
-            else if (monster->friendly)
-                colour = CR_GREEN;
-            else
-                colour = CR_RED;
-
-            if (!monster->removed && dist <= RADAR_MAXDIST && VectorLength (RADAR_XPOS - dX, RADAR_YPOS - dY) < RADAR_RADIUS / 2)
-                HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, colour, dX, dY, 0.1k, 0.0k, 0.0k, 0.0k, "o");
-
+            DrawRadar_DrawCreature (player, monster, i++, radarX, radarY);
             monster = monster->next;
         }
 
-        // Before anyone says code duplication is bad, I know. I couldn't get it to work as a macro, though, so fuck it.
         int pNum = PLN;
-        for (int j = 0; j < MAX_PLAYERS; j++) {
-            if (j != pNum && PlayerInGame (j)) {
-                MonsterInfo_t *otherPlayer = PlayerAsMonster (&PlayerData [j]);
-
-                // Coords
-                dist = Distance2D (player->physics.x, player->physics.y, monster->x, monster->y);
-                x = player->physics.x - otherPlayer->x;
-                y = player->physics.y - otherPlayer->y;
-
-                dX = x * SinA (-player->physics.angle) + y * CosA (-player->physics.angle);
-                dY = x * CosA (-player->physics.angle) - y * SinA (-player->physics.angle);
-                dX /= RADAR_SCALE; dX += RADAR_XPOS; dX = (dX >> 16) << 16;
-                dY /= RADAR_SCALE; dY += RADAR_YPOS; dY = (dY >> 16) << 16;
-
-                if (otherPlayer->health <= 0)
-                    colour = CR_DARKGREY;
-                else
-                    colour = CR_GREEN;
-
-                if (dist <= RADAR_MAXDIST && VectorLength (RADAR_XPOS - dX, RADAR_YPOS - dY) < RADAR_RADIUS / 2)
-                    HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, colour, dX, dY, 0.1k, 0.0k, 0.0k, 0.0k, "o");
-
-                free (otherPlayer);
-                otherPlayer = NULL;
-            }
-        }
+        for (int j = 0; j < MAX_PLAYERS; j++)
+            if (j != pNum && PlayerInGame (j))
+                DrawRadar_DrawCreature (player, &(PlayerData [j].asMonster), i++, radarX, radarY);
 
         if (player->scriptData.radarSweepDelay > RADAR_SWEEPTIME + 18)
             player->scriptData.radarSweepDelay = 0;
-        int bgFrameIndex = player->scriptData.radarSweepDelay++ - RADAR_SWEEPTIME;
-        if (bgFrameIndex < 0)
-            bgFrameIndex = 0;
-        string bgFrameName = StrParam ("S7RDR%d", bgFrameIndex);
-        SetFont (bgFrameName);
-        HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, CR_UNTRANSLATED, RADAR_XPOS, RADAR_YPOS, 0.1k, 0.0k, 0.0k, 0.0k, "A");
+
+        int bgIdx = Max (0, Min (18, player->scriptData.radarSweepDelay++ - RADAR_SWEEPTIME));
+        SetFont (RadarBGNames [bgIdx]);
+        HudMessage (HUDMSG_PLAIN, RADAR_BASEID + i++, CR_UNTRANSLATED, radarX, radarY, 0.1k, 0.0k, 0.0k, 0.0k, "A");
     }
 
     SetHudSize (0, 0, FALSE);

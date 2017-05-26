@@ -23,6 +23,7 @@
 #include <ACS_ZDoom.h>
 #include "common/types.h"
 #include "systems/bank_system.h"
+#include "systems/monster_stuff.h"
 
 // Macros
 #define SS_ITEMSMAX \
@@ -205,6 +206,7 @@ typedef struct PlayerData_t {
     BankDef_t       bankData;           // Bank system stuff
     WeapBinds_t     weapBinds;          // Weapon bindings
     PlayerMenu_t    playerMenu;         // Player menu info
+    MonsterInfo_t   asMonster;          // Player data as monster data struct
 } PlayerData_t;
 
 struct SavedData_t {
