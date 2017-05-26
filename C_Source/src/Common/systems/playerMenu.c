@@ -232,7 +232,7 @@ void PM_Render (PlayerData_t *player) {
 void PlayerMenuScript (PlayerData_t *player) {
     PM_ProcessToggle (player);
     
-    if (player->health.health <= 0 && (player->playerMenu.open || player->playerMenu.page != NULL)) { // Close the shop if the player died
+    if (player->health.health <= 0 && (player->playerMenu.open || player->playerMenu.page != NULL)) { // Close the menu if the player died
         PM_ChangePage (player, NULL);
         player->playerMenu.open = FALSE;
         player->shopDef.disableOpen = FALSE;
