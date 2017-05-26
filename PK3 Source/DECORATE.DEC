@@ -49,6 +49,7 @@ actor S7_IsLoaded {
 #INCLUDE "Decorate/Effects/Parkour.DEC"
 #INCLUDE "Decorate/Effects/MapEvents.DEC"
 #INCLUDE "Decorate/Effects/Gore.DEC"
+#INCLUDE "Decorate/Effects/Fire.DEC"
 
 // Common stuff
 #INCLUDE "Decorate/CommonTokens.DEC"
