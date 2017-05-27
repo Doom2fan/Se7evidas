@@ -100,6 +100,7 @@ Script_C void S7_ShowMapInfo () {
 
 // General stuff
 Script_C void S7_ServersideEnter2 (PlayerData_t *player);
+Script_C void S7_SprintSystem     (PlayerData_t *player);
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
@@ -122,6 +123,7 @@ Script_C void S7_ServersideEnter ENTER () {
     }
 
     S7_ServersideEnter2 (player); // This has to be done like this to make sure this script runs first.
+    S7_SprintSystem (player);
 
     S7_ShowMapInfo ();
 
