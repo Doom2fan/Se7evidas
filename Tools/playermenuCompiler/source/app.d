@@ -331,7 +331,7 @@ Icon parseIcon (T) (in T data)
 
 const string baseCCode = "// Automatically generated from a playermenu JSON definition
 #include \"includes.h\"
-#include \"systems/playerMenu.h\"\n";
+#include \"gui/playerMenu.h\"";
 
 class CompilationException : Exception { mixin ExceptionCtorMixin; }
 string compileMenu (MenuPage menu) {

@@ -27,7 +27,7 @@ struct PlayerMenu_t {
 };
 */
 #include "includes.h"
-#include "systems/playerMenu.h"
+#include "gui/playerMenu.h"
 
 #define PMENUBASEID 15000
 

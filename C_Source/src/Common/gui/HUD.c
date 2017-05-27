@@ -20,7 +20,7 @@
 #include "includes.h"
 #include "systems/monster_stuff.h"
 #include "weapons/weap_data.h"
-#include "systems/hud.h"
+#include "gui/HUD.h"
 
 void HW_SetFont (string font) {
     if (GetCVar (s"screenblocks") <= 11) // if the HUD is shown...
