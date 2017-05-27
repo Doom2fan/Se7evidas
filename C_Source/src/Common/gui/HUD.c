@@ -384,6 +384,7 @@ void EnemyInfoScript (EIS_Data_t *data) {
 }*/
 
 #define SOVERBASEID 14000
+const string SO_StaticImage [] = { s"MATWSTT1", s"MATWSTT2", s"MATWSTT3", s"MATWSTT4", };
 void ScreenOverlays (PlayerData_t *player) {
     // Static
     if (MapData.mapEvent == MEVNT_PerfectHatred) {
@@ -396,7 +397,7 @@ void ScreenOverlays (PlayerData_t *player) {
             staticImage++;
 
         SetHudSize (640, 480, FALSE);
-        SetFont (StrParam ("MAWTSTT%d", staticImage / 2 + 1));
+        SetFont (SO_StaticImage [staticImage / 2]);
         HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD | HUDMSG_ALPHA | HUDMSG_FADEOUT, SOVERBASEID + 1, CR_UNTRANSLATED, -106.1k, 0.1k, 0.5k, 0.5k, staticAlpha, 0.0k, "A");
         SetHudSize (0,   0,   FALSE);
         player->scriptData.prevStaticImage = staticImage;

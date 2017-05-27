@@ -44,6 +44,8 @@ const string Thumper_PoolNames [] = {
     s"____Error____-Report-this",
 };
 
+const string Thumper_MagInv [] = { s"S7_ThumperMag1", s"S7_ThumperMag2", s"S7_ThumperMag3", s"S7_ThumperMag4", s"S7_ThumperMag5", };
+
 /* Mag scripts */
 
 Script_C bool S7_ThumperFull () {
@@ -245,17 +247,17 @@ void Thumper_ScriptClientside (PlayerData_t *player) {
 
     SetInventory (s"S7_ThumperMag", player->thumperDef.magIndex + 1 + (player->thumperDef.currentShell != S7_TH_None ? 1 : 0));
 
-    int magN = 1;
+    int magN = 0;
     for (int i = 0; i <= player->thumperDef.magIndex; i++) {
-        string mag = StrParam ("S7_ThumperMag%d", magN++);
+        string mag = Thumper_MagInv [magN++];
 
         SetInventory (mag, player->thumperDef.magShells [i]);
     }
-    string chamber = StrParam ("S7_ThumperMag%d", magN++);
+    string chamber = Thumper_MagInv [magN++];
     SetInventory (chamber, player->thumperDef.currentShell);
-    if (magN < 6) {
-        for (int j = magN - 1; j < 5; j++) {
-            string mag = StrParam ("S7_ThumperMag%d", magN++);
+    if (magN < 5) {
+        for (int j = magN; j < 5; j++) {
+            string mag = Thumper_MagInv [magN++];
 
             if (mag != S7_TH_None)
                 SetInventory (mag, 0);
