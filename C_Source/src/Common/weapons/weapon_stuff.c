@@ -25,7 +25,6 @@
 const string DummyWeapons [] = {
     s"S7_NullWeapon",
     SPRINTWEAPON,
-    QUICKMELEEWEAPON,
 };
 
 int GetWeaponName () {

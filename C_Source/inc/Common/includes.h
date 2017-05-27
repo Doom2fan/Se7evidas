@@ -95,7 +95,6 @@
 #define CASHTOKENLESSER      s"S7_CashLesser"
 #define CASHTOKENGREATER     s"S7_CashGreater"
 // Weapon stuff
-#define QUICKMELEEWEAPON     s"S7_QuickMelee"
 #define WEAPONREADYTOKEN     s"S7_WeapReady"
 // Misc
 #define BERSERKTOKEN         s"S7_BerserkToken"
