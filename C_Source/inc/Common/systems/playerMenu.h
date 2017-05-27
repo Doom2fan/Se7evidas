@@ -78,6 +78,7 @@ struct PM_Item_t {
     PM_Page *dest;
     // Use
     void (*useCallback) (PlayerData_t *player, PM_Item *item);
+    int callbackID;
 };
 
 struct PM_Page_t {

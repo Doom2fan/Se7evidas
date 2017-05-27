@@ -48,10 +48,12 @@ class MenuControl {
     string dest;
     // Use
     string useCallback;
+    Nullable!int callbackID;
 }
 
 class MenuPage {
     string name;
+    string [] includes;
     BitFlags!MenuFlags flags;
     int [2] hudSize;
     int initialID;
@@ -178,6 +180,15 @@ MenuPage parseMenu (JSONValue data) {
     if (tryParseValueOut!(string, JSON_TYPE.STRING) (data, "name", menu.name, null, true, false) == null)
         throw new ParsingException ("Menu definitions must specify a name");
 
+    if (auto includes = tryParseValue (data, "includes", JSON_TYPE.ARRAY, true, false)) {
+        foreach (val; includes.array) {
+            if (val.type == JSON_TYPE.STRING)
+                menu.includes ~= val.str;
+            else
+                throw new ParsingException ("Invalid value encountered when parsing includes");
+        }
+    }
+
     if (auto initialID = tryParseValue (data, "initialID", JSON_TYPE.INTEGER, true, false)) {
         menu.initialID = cast (uint) initialID.integer;
         id = menu.initialID;
@@ -279,6 +290,10 @@ MenuControl parseControl (JSONValue data, BitFlags!MenuFlags menuFlags, ref int 
         writeln ("JSON parsing warning: dest is useless with a non-link control");
     if (tryParseValueOut!(string, JSON_TYPE.STRING) (data, "useCallback", control.useCallback, null, true, false) && control.type != MenuControlType.Use)
         writeln ("JSON parsing warning: useCallback is useless with a non-use control");
+    
+    int callbackID;
+    if (tryParseValueOut!(int, JSON_TYPE.INTEGER) (data, "callbackID", callbackID, 0, true, false))
+        control.callbackID = callbackID;
 
     if (!(menuFlags & MenuFlags.NoAutoIDs) && control.type == MenuControlType.Use || control.type == MenuControlType.Link) {
         if (control.prevId.isNull && prevId != -1)
@@ -322,6 +337,10 @@ class CompilationException : Exception { mixin ExceptionCtorMixin; }
 string compileMenu (MenuPage menu) {
     auto app = appender (baseCCode);
 
+    foreach (string include; menu.includes)
+        formattedWrite (app, "\n#include \"%s\"", include);
+    app.put ("\n");
+
     if (menu.name == null)
         throw new CompilationException ("Encountered a menu definition with no menu name");
 
@@ -349,6 +368,7 @@ string compileMenu (MenuPage menu) {
         formattedWrite (app, "\n        .enabledCallback = %s,", (control.enabledCallback != null) ? control.enabledCallback : "NULL");
         formattedWrite (app, "\n        .dest = %s,", (control.dest != null) ? control.dest : "NULL");
         formattedWrite (app, "\n        .useCallback = %s,", (control.useCallback != null) ? control.useCallback : "NULL");
+        formattedWrite (app, "\n        .callbackID = %s,", !control.callbackID.isNull ? control.callbackID : 0);
         app.put ("\n    },");
     }
     app.put ("\n    { .type = PM_ListEnd, },");
