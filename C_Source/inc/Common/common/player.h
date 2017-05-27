@@ -111,6 +111,7 @@ struct PD_ScriptData_t {
     accum prevEyesDist;                 // Previous EYES distance
     int   prevStaticImage;              // The previous image used for the static. This is so it doesn't use the same image twice in a row
     int   radarSweepDelay;              // The current delay for the radar sweep
+    bool  weaponReady;                  // Is the weapon ready?
 };
 
 struct SprintDef_t {
@@ -168,7 +169,8 @@ struct BankDef_t {
 #define WPBND_MAXSLOTS 5
 #define WPBND_MAXWEAPS 5
 struct WeapBinds_t {
-    vec2_i curWeap;                                     // Current weapon;
+    vec2_i curWeap;                                     // Current weapon
+    vec2_i switchWeap;                                  // Weapon to be switched to
     int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
 };
 

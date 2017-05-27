@@ -36,6 +36,7 @@ actor S7_ConquerorRifle : S7_BaseWeapon 30010 {
         CQR1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         CQR1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
         CQR1 A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeMode")
+        TNT1 A 0 A_GiveInventory ("S7_WeapReady", 1)
         CQR1 A 1 A_WeaponReady (WRF_AllowZoom)
         CQR1 A 0 A_TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF)
         CQR1 A 0 A_TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF)
@@ -46,6 +47,7 @@ actor S7_ConquerorRifle : S7_BaseWeapon 30010 {
         SCP1 B 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         SCP1 B 0 A_TakeInventory ("S7_DoMelee", 0x7FFFFFFF)
         SCP1 B 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeMode")
+        TNT1 A 0 A_GiveInventory ("S7_WeapReady", 1)
         SCP1 B 1 A_WeaponReady (WRF_AllowZoom | WRF_NoBob)
         SCP1 B 0 A_TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF)
         SCP1 B 0 A_TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF)
@@ -104,9 +106,9 @@ actor S7_ConquerorRifle : S7_BaseWeapon 30010 {
         goto Fire.AnimEnd
     Fire.AnimEnd:
         CQR1 C  1 A_SetPitch (pitch + 0.15)
-        CQR1 C  1 A_WeaponReady (WRF_NoSecondary | WRF_NoSwitch | WRF_NoBob)
-        CQR1 DD 1 A_WeaponReady (WRF_NoSecondary | WRF_NoSwitch | WRF_NoBob)
-        CQR1 AA 1 A_WeaponReady (WRF_NoSecondary | WRF_NoSwitch | WRF_NoBob)
+        CQR1 C  1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob)
+        CQR1 DD 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob)
+        CQR1 AA 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob)
         goto Ready2
     Fire.Pump:
         TNT1 A 0 A_GiveInventory ("S7_ConquerorRifleLoaded", 1)
@@ -191,9 +193,9 @@ actor S7_ConquerorRifle : S7_BaseWeapon 30010 {
         goto Fire.Zoomed.AnimEnd.Anim
 
     Fire.Zoomed.AnimEnd.Anim:
-        SCP1 B  1 A_WeaponReady (WRF_NoSecondary | WRF_NoSwitch | WRF_NoBob)
-        SCP1 BB 1 A_WeaponReady (WRF_NoSecondary | WRF_NoSwitch | WRF_NoBob)
-        SCP1 BB 1 A_WeaponReady (WRF_NoSecondary | WRF_NoSwitch | WRF_NoBob)
+        SCP1 B  1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob)
+        SCP1 BB 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob)
+        SCP1 BB 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob)
         goto Ready2.Zoom
 
     Fire.Zoomed.Pump:

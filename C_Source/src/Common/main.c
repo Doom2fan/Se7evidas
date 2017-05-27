@@ -152,6 +152,9 @@ Script_C void S7_ServersideEnter ENTER () {
 
         UpdatePlayerAlpha  (player); // Update the alpha
 
+        if (CheckInventory (WEAPONREADYTOKEN))
+            TakeInventory (WEAPONREADYTOKEN, 0x7FFFFFFF);
+
         Delay (1); // Wait for a tic
 
         StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)

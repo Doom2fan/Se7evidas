@@ -48,6 +48,7 @@ actor S7_AMG : S7_BaseWeapon 30002 {
         "----" A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
         "----" A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMeleeDerp")
         "----" A 0 A_JumpIfInventory ("S7_ChangeFireMode", 1, "ChangeFireMode")
+        "----" A 0 A_GiveInventory ("S7_WeapReady", 1)
         "----" A 0 A_JumpIfInventory ("S7_ReadySequence", 1, "Ready2.P2")
         goto Ready2.P1
     Ready2.P1:

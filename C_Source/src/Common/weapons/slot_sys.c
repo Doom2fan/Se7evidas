@@ -117,10 +117,8 @@ void CWeapSlots_Slot (PlayerData_t *player, int slot, int pos) { // pos = -1: Se
         newPos.y = -1;
     }
     
-    if (CheckNPBounds (newPos) && BoundsCheck (weapBinds->weapBinds [newPos.x] [newPos.y], 0, WeaponNames_Length)) {
-        if (SetWeapon (WeaponNames [weapBinds->weapBinds [newPos.x] [newPos.y]]))
-            weapBinds->curWeap = newPos;
-    }
+    if (CheckNPBounds (newPos) && BoundsCheck (weapBinds->weapBinds [newPos.x] [newPos.y], 0, WeaponNames_Length))
+        weapBinds->switchWeap = newPos;
 }
 
 vec2_i CWeapSlots_GetNext (PlayerData_t *player) {
@@ -190,7 +188,17 @@ void CustomWeapSlotsScript (PlayerData_t *player) {
     if (!player)
         return;
 
-    
+    if (player->scriptData.weaponReady) {
+        string cWeap = WeaponNames [player->weapBinds.weapBinds [player->weapBinds.curWeap.x] [player->weapBinds.curWeap.y]];
+        string sWeap = WeaponNames [player->weapBinds.weapBinds [player->weapBinds.curWeap.x] [player->weapBinds.curWeap.y]];
+
+        if (player->weapBinds.switchWeap.x > -1 && player->weapBinds.switchWeap.y > -1) {
+            player->weapBinds.curWeap = player->weapBinds.switchWeap;
+            player->weapBinds.switchWeap.x = player->weapBinds.switchWeap.y = -1;
+            SetWeapon (sWeap);
+        } else if (!CheckWeapon (cWeap))
+            SetWeapon (cWeap);
+    }
 }
 
 Script_C void S7_CWB_Slot NET (int slot, int pos) {
@@ -225,8 +233,7 @@ Script_C void S7_CWB_WeapCycle (bool next) {
     vec2_i newPos = next ? CWeapSlots_GetNext (player) : CWeapSlots_GetPrev (player);
     if (!CheckNPBounds (newPos) || (newPos.x == player->weapBinds.curWeap.x && newPos.y == player->weapBinds.curWeap.y))
         return;
-    if (SetWeapon (CWeapSlots_GetWeap (player, newPos)))
-        player->weapBinds.curWeap = newPos;
+    player->weapBinds.switchWeap = newPos;
 }
 
 #ifdef DEBUG

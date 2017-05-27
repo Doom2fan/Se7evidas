@@ -13,6 +13,7 @@ actor S7_DisableHud            : boolean { }
 actor S7_SoulLance_BeamGrabbed : boolean { }
 actor S7_HoldingZoom           : boolean { }
 actor S7_ReadySequence         : boolean { }
+actor S7_WeapReady             : boolean { }
 /** Weapon slot tokens **/
 actor S7_Slot1Taken : boolean { }
 actor S7_Slot2Taken : boolean { }
@@ -204,7 +205,7 @@ actor S7_NullWeapon : weapon {
         TNT1 A 0 A_Lower
         wait
     Ready:
-        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
+        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_DisableSwitch)
         loop
     Fire:
         TNT1 A 1
@@ -221,14 +222,15 @@ actor S7_Sprinting    : boolean { }
 actor S7_SprintWeapon : S7_NullWeapon {
     states {
     Ready:
-        TNT1 AA 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
         TNT1 A  1 A_GiveInventory ("S7_Sprinting", 1)
+        TNT1 AA 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_DisableSwitch)
     Ready2:
         TNT1 A 0 A_JumpIfInventory ("S7_Sprinting", 1, 1)
         goto Ready3
-        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_NoSwitch)
+        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_DisableSwitch)
         loop
     Ready3:
+        TNT1 A 0 A_GiveInventory ("S7_WeapReady", 1)
         TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob)
         loop
     Deselect:
