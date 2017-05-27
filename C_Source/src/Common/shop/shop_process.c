@@ -18,6 +18,7 @@
 */
 
 #include "includes.h"
+#include "gui/playerMenu.h"
 #include "shop/shop.h"
 #include "shop/shop_items.h"
 #include "shop/shop_process.h"
@@ -163,13 +164,24 @@ void SS_ProcessToggle (PlayerData_t *player) {
         return;
 
     if (player->health.health > 0 && player->shopDef.moveDelay <= 0) { // If the player is alive and moveDelay is lower than or equal to zero
-        if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressedMOD (BT_USER3) && player->shopDef.page) { // If disableOpen is false, the shop menu is closed, the BT_USER3 key was hit and there is a page set/open...
+        if (!SS_Disabled (player) && !player->shopDef.open && KeyPressed (BT_USER3) && player->shopDef.page) { // If disableOpen is false, the shop menu is closed, the BT_USER3 key was hit and there is a page set/open...
+            if (player->playerMenu.open) {
+                PM_ChangePage (player, NULL);
+                player->playerMenu.open = FALSE;
+                player->playerMenu.moveDelay = PM_OnMoveDelay;
+            }
+
             SS_ChangePage (player, NULL); // Change the page to NULL
             player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
             player->SprintDef.disable = FALSE; // Enable sprinting
             SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN); // Unfreeze the player
             player->shopDef.moveDelay = (SS_ONMOVEDELAY / 2); // Set the movement delay
-        } else if (!player->shopDef.disableOpen && !player->shopDef.open && KeyPressedMOD (BT_USER3)) { // If disableOpen is false, the shop menu is closed and the BT_USER3 key was hit...
+        } else if (!SS_Disabled (player) && !player->shopDef.open && KeyPressed (BT_USER3)) { // If disableOpen is false, the shop menu is closed and the BT_USER3 key was hit...
+            if (player->playerMenu.open) {
+                PM_ChangePage (player, NULL);
+                player->playerMenu.moveDelay = PM_OnMoveDelay;
+            }
+
             SS_ChangePage (player, &mainSP); // Change the page to main
             player->shopDef.open = TRUE; // Set open to TRUE
             player->SprintDef.disable = TRUE; // Disable sprinting

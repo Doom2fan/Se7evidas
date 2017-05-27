@@ -17,19 +17,15 @@
 **  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SHOP_PROCESS_H
-#define SHOP_PROCESS_H
+#ifndef PMCALLBACKS_H
+#define PMCALLBACKS_H
 
 #include <ACS_ZDoom.h>
-
-// Defines
-#define SS_ONMOVEDELAY 7
+#include "gui/playerMenu.h"
+#include "includes.h"
 
 // Prototypes
-int  SS_AmmoMaxAmount (PlayerData_t *player, SS_Item_t *item);
-int  SS_BuyItem       (PlayerData_t *player, SS_Item_t *item);
-int  SS_SellItem      (PlayerData_t *player, SS_Item_t *item);
-void SS_ProcessToggle (PlayerData_t *player);
-void SS_Movement      (PlayerData_t *player);
+bool PlayerMenu_MainEnabled (PlayerData_t *player, PM_Item *item);
+void PlayerMenu_MainUse (PlayerData_t *player, PM_Item *item);
 
 #endif

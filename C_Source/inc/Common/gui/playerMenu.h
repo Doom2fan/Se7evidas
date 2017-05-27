@@ -25,7 +25,7 @@
 
 // Macros
 #define PM_TOGGLEMENUTOKEN s"S7_ToggleMenuToken"
-#define PM_MenuDisabled(p) (p->shopDef.open || p->playerMenu.disable)
+#define PM_MenuDisabled(p) (p->playerMenu.disable)
 
 // Typedefs
 typedef enum PM_ItemType_t PM_ItemType;
@@ -92,6 +92,7 @@ extern PM_Page PM_MainMenu;
 extern PM_Page PM_DerpSubmenu;
 
 // Prototypes
+bool PM_ChangePage (PlayerData_t *player, PM_Page *dest);
 void PlayerMenuScript (PlayerData_t *player);
 
 #endif

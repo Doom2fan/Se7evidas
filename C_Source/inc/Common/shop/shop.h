@@ -25,6 +25,7 @@
 // Defines
 #define SS_SELLMODEKEY BT_CROUCH
 #define SS_BACKICON s"M_BACK_D"
+#define SS_Disabled(p) (p->shopDef.disableOpen)
 
 // Typedefs
 typedef enum SS_ItemType {
@@ -110,6 +111,8 @@ struct SS_Shop_t {
 };
 
 // Prototypes
+int  SS_OpenPage (PlayerData_t *player, SS_Page_t *page, int flags);
+int  SS_OpenShop (PlayerData_t *player, SS_Shop_t *shop, int flags);
 void ShopSystem_Script (PlayerData_t *player);
 
 #endif

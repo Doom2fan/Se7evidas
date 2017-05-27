@@ -27,6 +27,7 @@ struct PlayerMenu_t {
 };
 */
 #include "includes.h"
+#include "shop/shop.h"
 #include "gui/playerMenu.h"
 
 #define PMENUBASEID 15000
@@ -77,10 +78,13 @@ bool PM_ChangePage (PlayerData_t *player, PM_Page *dest) {
 
 void PM_ProcessToggle (PlayerData_t *player) {
     if (player->health.health > 0 && player->playerMenu.moveDelay <= 0) {
-        if (!PM_MenuDisabled (player) && !player->playerMenu.open && KeyPressedMOD (BT_USER4)) {
+        if (!PM_MenuDisabled (player) && !player->playerMenu.open && KeyPressed (BT_USER4)) {
+            if (player->shopDef.open) {
+                SS_OpenPage (player, NULL, OXF_ForceAll); // Change the page to NULL
+                player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
+            }
+
             if (PM_ChangePage (player, &PM_MainMenu)) {
-                player->playerMenu.open = TRUE;
-                player->shopDef.disableOpen = TRUE;
                 player->SprintDef.disable = TRUE;
                 SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
                 player->playerMenu.moveDelay = PM_OnMoveDelay;
@@ -90,8 +94,6 @@ void PM_ProcessToggle (PlayerData_t *player) {
             }
         } else if (player->playerMenu.open && !player->playerMenu.pause && KeyPressed (BT_USER4)) {
             PM_ChangePage (player, NULL);
-            player->playerMenu.open = FALSE;
-            player->shopDef.disableOpen = FALSE;
             player->SprintDef.disable = FALSE;
             SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
             player->playerMenu.moveDelay = PM_OnMoveDelay;
@@ -234,8 +236,6 @@ void PlayerMenuScript (PlayerData_t *player) {
     
     if (player->health.health <= 0 && (player->playerMenu.open || player->playerMenu.page != NULL)) { // Close the menu if the player died
         PM_ChangePage (player, NULL);
-        player->playerMenu.open = FALSE;
-        player->shopDef.disableOpen = FALSE;
         player->SprintDef.disable = FALSE;
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
         player->playerMenu.moveDelay = PM_OnMoveDelay;

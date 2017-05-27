@@ -1,5 +1,6 @@
 {
     "name": "PM_MainMenu",
+    "includes": [ "gui/pmCallbacks.h" ],
     "hudSize": [
         320,
         200
@@ -10,7 +11,10 @@
             "x": 160.0,
             "y": 100.0,
             "font": "FSHUDFNT",
-            "text": "Shop menu"
+            "text": "Shop menu",
+            "enabledCallback": "&PlayerMenu_MainEnabled",
+            "useCallback": "&PlayerMenu_MainUse",
+            "callbackID": 1
         },
         {
             "type": "link",
