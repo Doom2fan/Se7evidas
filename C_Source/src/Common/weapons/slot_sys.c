@@ -97,7 +97,7 @@ void CWeapSlots_Slot (PlayerData_t *player, int slot, int pos) { // pos = -1: Se
 
     if (slot == weapBinds->curWeap.x && pos == -1) {
         newPos.x = slot;
-        newPos.y = weapBinds->curWeap.y;
+        newPos.y = weapBinds->switchWeap.y > -1 ? weapBinds->switchWeap.y : weapBinds->curWeap.y;
         int weapsChecked = 0;
 
         do {
@@ -121,7 +121,7 @@ void CWeapSlots_Slot (PlayerData_t *player, int slot, int pos) { // pos = -1: Se
         weapBinds->switchWeap = newPos;
 }
 
-vec2_i CWeapSlots_GetNext (PlayerData_t *player) {
+vec2_i CWeapSlots_GetNext (PlayerData_t *player, bool fromSwitch) {
     if (!player) {
         DebugLog ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
         vec2_i pos = { -1, -1 };
@@ -129,8 +129,13 @@ vec2_i CWeapSlots_GetNext (PlayerData_t *player) {
     }
 
     WeapBinds_t *weapBinds = &(player->weapBinds);
-    vec2_i newPos = weapBinds->curWeap;
+    vec2_i newPos;
     int slotsChecked = 0;
+
+    if (fromSwitch && (weapBinds->switchWeap.x > -1 && weapBinds->switchWeap.y > -1))
+        newPos = weapBinds->switchWeap;
+    else
+        newPos = weapBinds->curWeap;
 
     if (!CheckNPBounds (newPos))
         newPos.x = newPos.y = 0;
@@ -150,7 +155,7 @@ vec2_i CWeapSlots_GetNext (PlayerData_t *player) {
     return weapBinds->curWeap;
 }
 
-vec2_i CWeapSlots_GetPrev (PlayerData_t *player) {
+vec2_i CWeapSlots_GetPrev (PlayerData_t *player, bool fromSwitch) {
     if (!player) {
         DebugLog ("\CgFunction CWeapSlots_WeapNext: Fatal error: Invalid or NULL player struct");
         vec2_i pos = { -1, -1 };
@@ -158,8 +163,13 @@ vec2_i CWeapSlots_GetPrev (PlayerData_t *player) {
     }
 
     WeapBinds_t *weapBinds = &(player->weapBinds);
-    vec2_i newPos = weapBinds->curWeap;
+    vec2_i newPos;
     int slotsChecked = 0;
+
+    if (fromSwitch && (weapBinds->switchWeap.x > -1 && weapBinds->switchWeap.y > -1))
+        newPos = weapBinds->switchWeap;
+    else
+        newPos = weapBinds->curWeap;
 
     if (!CheckNPBounds (newPos))
         newPos.x = newPos.y = 0;
@@ -230,7 +240,7 @@ Script_C void S7_CWB_WeapCycle (bool next) {
     if (player->SprintDef.Sprinting || player->scriptData.beamGrab)
         return;
 
-    vec2_i newPos = next ? CWeapSlots_GetNext (player) : CWeapSlots_GetPrev (player);
+    vec2_i newPos = next ? CWeapSlots_GetNext (player, TRUE) : CWeapSlots_GetPrev (player, TRUE);
     if (!CheckNPBounds (newPos) || (newPos.x == player->weapBinds.curWeap.x && newPos.y == player->weapBinds.curWeap.y))
         return;
     player->weapBinds.switchWeap = newPos;
