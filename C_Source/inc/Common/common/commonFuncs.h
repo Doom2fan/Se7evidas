@@ -76,6 +76,9 @@ typedef struct CharNibble {
 #define LongAccumToFloat(f)      (((float)  f) / (4294967296.0f))
 #define LongAccumToDouble(f)     (((double) f) / (4294967296.0))
 
+// CVar checking
+#define CheckCheats() (GameType () == GAME_SINGLE_PLAYER || ((GameType () & (GAME_NET_COOPERATIVE | GAME_NET_DEATHMATCH)) != 0 && GetCVar (s"sv_cheats")))
+
 // Externs
 __addrdef extern __gbl_arr global_var;
 __addrdef extern __mod_arr    map_var;

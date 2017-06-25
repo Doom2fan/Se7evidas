@@ -472,13 +472,3 @@ Script_C void S7_SLanceBeamGrabP2 (SLanceBGI *info) {
         free (info);
     info = NULL;
 }
-
-Script_C void FloatTest () {
-    while (TRUE) {
-        PrintBold ("%k", GetActorPropertyFixed (0, APROP_Height));
-        Delay (1);
-    }
-    long accum lk = 262144.0lk;
-
-    PrintBold ("%k %k", (accum) lk, (accum) LongFixedSqrt (lk));
-}

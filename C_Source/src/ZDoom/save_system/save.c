@@ -280,6 +280,9 @@ Script_C void S7_SaveSysLoad NET () {
 #ifdef DEBUG
 
 Script_C void saveTest () {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {
@@ -305,6 +308,9 @@ Script_C void saveTest () {
 }
 
 Script_C void loadTest () {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
+
     PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
 
     if (!player) {

@@ -19,10 +19,13 @@
 
 #include "includes.h"
 #include "weapons/weap_data.h"
+#include "weapons/slot_sys.h"
 #include "misc/debugFuncs.h"
 
-#ifndef NODEBUGFUNCS
-Script_C void S7_DebugVelocity () {
+Script_C void S7_DebugVelocity NET () {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
+
     accum x = 0, y = 0, z = 0,
         angle = 0, speed = 0;
     while (TRUE) {
@@ -36,7 +39,10 @@ Script_C void S7_DebugVelocity () {
     }
 }
 
-Script_C void S7_DebugVelocityInKmH () {
+Script_C void S7_DebugVelocityInKmH NET () {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
+
     accum x = 0, y = 0, z = 0,
         speed = 0, speed2;
     while (TRUE) {
@@ -69,8 +75,8 @@ string PrintInv_Weapons (string inStr) {
 
     return ret;
 }
-Script_C void S7_PrintInv (int mode) {
-    if (!PlayerInGame (PLN))
+Script_C void S7_PrintInv NET (int mode) {
+    if (!CheckCheats () || !PlayerInGame (PLN))
         return;
 
     string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
@@ -100,11 +106,10 @@ Script_C void S7_PrintInv (int mode) {
     Log ("%S", inv);
 }
 
-Script_C void S7_PrintFixed (int blah) {
-    Log ("Fixed: %k", blah);
-}
+Script_C void S7_PrintServerData NET () {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
 
-Script_C void S7_PrintServerData () {
     Log ("ServerData = {\n \
     debugMode = %s; \
     dodgeCooldown = %d;\n \
@@ -113,7 +118,10 @@ Script_C void S7_PrintServerData () {
     mapCount = %d;\n};",
     ServerData.debugMode ? "TRUE" : "FALSE", ServerData.dodgeCooldown, ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
 }
-Script_C void S7_PrintMapData () {
+Script_C void S7_PrintMapData NET () {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
+
     Log ("MapData = {\n \
     name = \"%S\";\n \
     author = \"%S\";\n \
@@ -122,15 +130,65 @@ Script_C void S7_PrintMapData () {
     mapEventSet = %S;\n};",
     MapData.name, MapData.author, MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
 }
-#else
-Script_C void S7_DebugVelocity () { }
 
-Script_C void S7_DebugVelocityInKmH () { }
+Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
 
-string PrintInv_Ammo (string inStr) { }
-string PrintInv_Weapons (string inStr) { }
-Script_C void S7_PrintInv (int mode) { }
-Script_C void S7_PrintFixed (accum blah) { }
-Script_C void S7_PrintServerData () { }
-Script_C void S7_PrintMapData () { }
-#endif
+    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= CWeapSlots_GetSlotMax (slot) || weap >= WeaponNames_Length) {
+        for (int i = 0; i < WeaponNames_Length; i++)
+            Log ("%d: %S", i, WeaponNames [i]);
+        
+        return;
+    }
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+    if (!player) {
+        DebugLog ("\CgScript S7_CWB_SetBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
+    CWeapSlots_BindSlot (player, slot, pos, weap);
+}
+
+Script_C void FuckThisShit NET (bool derp) {
+    if (!CheckCheats () || !PlayerInGame (PLN))
+        return;
+
+    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
+    if (!player) {
+        DebugLog ("\CgScript FuckThisShit: Fatal error: Invalid or NULL player struct for player %d.", PLN);
+        return;
+    }
+
+    if (derp) {
+        for (int i = 0; i < WeaponNames_Length; i++)
+            player->weapBinds.weapBinds [i / WPBND_MAXSLOTS] [i % WPBND_MAXWEAPS] = i;
+    } else {
+        for (int x = 0; x < WPBND_MAXSLOTS; x++) {
+            for (int y = 0; y < WPBND_MAXWEAPS; y++) {
+                int weap = player->weapBinds.weapBinds [x] [y];
+                Log ("Slot %d, pos %d: %d/%S", x, y, weap, WeaponNames [weap]);
+            }
+        }
+    }
+}
+
+enum {
+    DbgOpts_SetSlots = 1,
+};
+
+void DebugOptsPlayer (PlayerData_t *player, bool debugOn, int debugOpts) {
+    if (!player) {
+        DebugLog ("\CgFunction DebugOptsPlayer: Fatal error: Invalid or NULL player struct.");
+        return;
+    }
+
+    if (!debugOn || !CheckCheats ())
+        return;
+
+    if ((debugOpts & DbgOpts_SetSlots) == DbgOpts_SetSlots) {
+        for (int i = 0; i < WeaponNames_Length; i++)
+            player->weapBinds.weapBinds [i / WPBND_MAXSLOTS] [i % WPBND_MAXWEAPS] = i;
+    }
+}
