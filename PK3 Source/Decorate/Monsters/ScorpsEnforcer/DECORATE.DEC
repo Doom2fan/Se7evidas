@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------------
 actor S7_ScorpsEnforcerTracer : S7_BaseTracer {
     damage (fRandom [monsterDMG] (1.0, 3.0) * 5.5)
-    health 150
+    health 250
     damageType EnemyRifleTracer
 }
 actor S7_ScorpsEnforcer : S7_ScorpBase replaces chaingunGuy 32508 {

@@ -24,7 +24,7 @@ actor S7_BaseTracer : fastProjectile {
     radius 2
     height 2
     speed 25
-    health 75
+    health 150
     scale 0.02120
     damage (fRandom [weaponDamage] (1.0, 3.0) * 4)
     missileType "S7_TracerTrail"
@@ -122,19 +122,19 @@ actor S7_BulletPuffSparks : S7_TracerEffectsBase {
 /*** Primary ***/
 actor S7_AMGTracer              : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 9)
-    health 130
+    health 260
     damageType RifleTracer
 }
 
 actor S7_AK47_Tracer              : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 8)
-    health 110
+    health 220
     damageType RifleTracer
 }
 
 actor S7_SSGTracer              : S7_BaseTracer { // 259 max DMG
     damage (fRandom [weaponDamage] (1.0, 3.0) * 2.3981)
-    health 125
+    health 250
     damageType ShotgunTracer
     missileType "S7_SSGTracerTrail"
 
@@ -158,35 +158,35 @@ actor S7_SSGTracerTrail : S7_TracerTrail {
 
 actor S7_12gaTracer             : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 6)
-    health 125
+    health 250
     damageType ShotgunTracer
     missileType "S7_SSGTracerTrail"
 }
 actor S7_ManxCarbineTracer      : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 7)
-    health 95
+    health 190
     damageType PistolTracer
 }
 actor S7_HitterSMGTracer        : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 3.0) * 6)
-    health 85
+    health 170
     damageType PistolTracer
 }
 actor S7_ConquerorRifle_Tracer  : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.0, 2.5) * 70)
-    health 275 // So you need to compensate less when firing at long range
+    health 550 // So you need to compensate less when firing at long range
     damageType SniperRifleTracer
 }
 
 /*** Secondary ***/
 actor S7_RaptorTracer           : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.5, 3.0) * 5)
-    health 80
+    health 160
     damageType PistolTracer
 }
 actor S7_RevolverTracer         : S7_BaseTracer {
     damage (fRandom [weaponDamage] (1.75, 2.5) * 40)
-    health 105
+    health 210
     damageType RevolverTracer
 }
 actor S7_TEC9Tracer             : S7_BaseTracer {

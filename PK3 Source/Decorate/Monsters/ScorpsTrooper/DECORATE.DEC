@@ -76,7 +76,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         SCR1 CD 2 A_FaceTarget (90, 45)
         SCR1 E  1 A_SetTics (random (3, 8))
     ChooseMode:
-        TNT1 A 0 A_JumpIfCloser (384.0, "Shoot.FullAuto")
+        TNT1 A 0 A_JumpIfCloser (512.0, "Shoot.FullAuto")
         TNT1 A 0 A_SetUserVar ("user_fireMode", 0)
         TNT1 A 0 A_SetUserVar ("user_turn", 20)
         TNT1 A 0 A_SetUserVar ("user_spreadX", 3.625 * 65536.0)
