@@ -52,6 +52,7 @@ typedef struct ServerData_t {
 
     // Misc map info
     int mapCount;
+    int queuedMapEvent;
 } ServerData_t;
 
 typedef struct MapData_t {

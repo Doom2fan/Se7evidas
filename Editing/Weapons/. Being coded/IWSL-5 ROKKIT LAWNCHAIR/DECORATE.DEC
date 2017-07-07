@@ -1,0 +1,105 @@
+//-------------------------------------------------------------------------------------------
+//
+// IWSL-5 (Order standard issue Rocket Launcher)
+//
+//-------------------------------------------------------------------------------------------
+actor S7_IWSL5Ammo : ammo { // Ammo pool
+	inventory.amount 1
+    inventory.maxAmount 30
+
+	states {
+	Spawn:
+		TNT1 A -1
+		stop
+	}
+}
+
+actor S7_IWSL5Mag : ammo {
+    inventory.maxAmount 5
+    ammo.backpackMaxAmount 5
+
+    +ignoreSkill
+}
+
+actor S7_IWSL5Chambered : boolean { }
+actor S7_IWSL5 : S7_BaseWeapon 30013 {
+    tag "$IWSL5"
+    inventory.pickupMessage "$IWSL5"
+    weapon.ammoType1 "S7_IWSL5Mag"
+    weapon.ammoType2 "S7_IWSL5Ammo"
+    weapon.ammoUse 1
+    weapon.ammoGive 0
+
+    states {
+    Spawn:
+        IWRL Z -1
+        stop
+
+    Ready:
+		IWRL VWXYZA 1
+    Ready2:
+        TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Reload")
+        TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee")
+        TNT1 A 0 A_TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF)
+        TNT1 A 0 A_GiveInventory ("S7_WeapReady", 1)
+        IWRL A 1 A_WeaponReady
+        loop
+
+    Deselect:
+		IWRL AZYXWV 1
+        goto TrueDeselect
+
+    Fire:
+        TNT1 A 0 A_JumpIfNoAmmo ("DryFire")
+		TNT1 A 0 A_JumpIfInventory ("S7_IWSL5Chambered", 1, 1)
+		goto Fire.Rechamber
+		TNT1 A   0 A_TakeInventory ("S7_IWSL5Chambered", 0x7FFFFFFF)
+        TNT1 A   0 A_AlertMonsters
+        TNT1 A   0 A_GunFlash
+        //TNT1 A   0 A_PlaySound ("Weapons/Fauchard/Fire", CHAN_Weapon)
+        TNT1 A   0 A_FireCustomMissile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4)
+        TNT1 A   0 A_FireCustomMissile ("S7_IWSL5Rocket", 0.0, 1, 0, -3, 0, 0.0)
+        IWRL A   1 A_SetPitch (pitch - 0.5, SPF_Interpolate)
+		IWRF C   1 A_SetPitch (pitch - 0.5, SPF_Interpolate)
+        IWRF BAA 1
+		IWRF BCD 1
+        IWRL A   2
+        goto Ready2
+	Fire.Rechamber:
+		TNT1 A 0 A_GiveInventory ("S7_IWSL5Chambered", 1)
+
+		IWRL BCDEF 1
+		IWRL GHIJ  1
+		IWRL K     4
+		IWRL LMNO  1
+		IWRL P     5
+		IWRL QRSTU 1
+        goto Ready2
+
+    Flash:
+		IWRF WXYZ 1 bright
+        stop
+
+    DryFire:
+        IWRL A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7)
+        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload")
+        goto Ready2
+
+    Reload:
+        TNT1 A 0 A_TakeInventory ("S7_Reloading", 1)
+        TNT1 A 0 A_JumpIfInventory ("S7_IWSL5Mag", 0, "Ready2")
+        TNT1 A 0 A_JumpIfInventory ("S7_IWSL5Ammo", 1, "TrueReload")
+        goto Ready2
+    TrueReload:
+        TNT1 A 0 A_JumpIfInventory ("S7_IWSL5Mag", 0, "ReloadFinish")
+        TNT1 A 0 A_JumpIfInventory ("S7_IWSL5Ammo", 1, 1)
+        goto ReloadFinish
+        TNT1 A 0 A_GiveInventory ("S7_IWSL5Mag", 1)
+        TNT1 A 0 A_TakeInventory ("S7_IWSL5Ammo", 1)
+        loop
+    ReloadFinish:
+        goto Ready2
+    }
+}
+
+actor S7_IWSL5Rocket : Rocket { }

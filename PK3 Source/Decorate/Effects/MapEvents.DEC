@@ -1,11 +1,11 @@
 /** Perfect Hatred **/
 actor S7_MEATW_EyesCounter : boolean { }
 actor S7_MEATW_Eyes {
-    scale 0.085
-    tag "S7_MEATW_Eyes"
+    scale 0.1
+    tag ""
 
     +noGravity +cannotPush +noTeleport +isMonster
-    +noDamage  +invulnerable
+    +noDamage +invulnerable +forceXYBillboard
 
     states {
     Spawn:

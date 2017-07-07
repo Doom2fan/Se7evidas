@@ -3,7 +3,7 @@
 // Black Panther
 //
 //-------------------------------------------------------------------------------------------
-actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight 32501 {
+actor S7_BlackPanther : S7_HellNobleBase 32501 {
     health 750
     speed 8
     painChance 50
@@ -50,10 +50,10 @@ actor S7_BlackPanther : S7_HellNobleBase replaces hellKnight 32501 {
         loop
     Death_HitGround:
         BPNT KLMN 5
-        BPNT O   -1
+        BPNT O   -1 A_KillMaster
         stop
     Raise:
-        BPNT O      5
+        BPNT O      5 A_RaiseMaster
         BPNT NMLKJI 5
         goto See
     }

@@ -15,7 +15,7 @@
 */
 
 /* Highest free DoomEdNums:
-** Weapons: 30013
+** Weapons: 30014
 ** Ammo: 31012
 ** Inventory: 32006
 ** Monster: 32509
@@ -72,6 +72,7 @@ actor S7_IsLoaded {
 #INCLUDE "Decorate/Monsters/FatFuck/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/Terminator/DECORATE.DEC"
 #INCLUDE "Decorate/Monsters/ScorpsEnforcer/DECORATE.DEC"
+#INCLUDE "Decorate/Monsters/Spawners.DEC"
 
 // Inventory
 #INCLUDE "Decorate/Inventory/Health.DEC"

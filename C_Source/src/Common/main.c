@@ -34,8 +34,6 @@
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
 
-static int queuedMapEvent = MEVNT_None;
-
 Script_C void S7_ServersideOpen OPEN () {
     #ifdef DEBUG
     if (RunningInZDoom)
@@ -48,13 +46,9 @@ Script_C void S7_ServersideOpen OPEN () {
         Log_Str (s"\CgSe7evidas: Debug mode is active (S7_DebugMode)");
 
     SetAirControl (0.1k);
-    //queuedMapEvent = MEVNT_PerfectHatred;
-    MapData.mapEvent = queuedMapEvent;
-    queuedMapEvent = 0;
-    MapData.mapEventSet = true;
+    SetupMapEvents ();
     if (MapData.mapEvent > 0)
         Log ("%d", MapData.mapEvent);
-    SetupMapEvents ();
 
     if (MapData.name == NULL) {
         MapData.name = StrParam ("%tS", PRINTNAME_LEVELNAME);
@@ -74,9 +68,9 @@ Script_C void S7_ServersideUnloading UNLOADING () {
 
     if (ServerData.mapCount > 0 && Random (0, 255) < 32) {
         for (int i = 0; i < 50; i++)
-            queuedMapEvent = Random (i > 25 ? MEVNT_None : MEVNT_None + 1, MEVNT_LastToken - 1);
+            ServerData.queuedMapEvent = Random (i > 25 ? MEVNT_None : MEVNT_None + 1, MEVNT_LastToken - 1);
     } else
-        queuedMapEvent = MEVNT_None;
+        ServerData.queuedMapEvent = MEVNT_None;
 
     ClearMonsterList ();
 

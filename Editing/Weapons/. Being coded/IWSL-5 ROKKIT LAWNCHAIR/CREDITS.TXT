@@ -1,0 +1,7 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    Sprites: Necronixxis
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

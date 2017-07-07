@@ -1,15 +1,8 @@
-/*// Inventory
-const int S7_MedikitScript = 900;
-const int S7_StimpackScript = 901;
-
-// Weapons
-const int S7_SynthFire = 910;
-const int S7_SynthFireAllowChange = 911;
-const int S7_QuickMelee = 919;
-
-// Misc
-const int S7_RunningInZDoom = 913;
-const int S7_GetCVar = 916;
-const int S7_GetUserCVar = 917;
-const int S7_GetUserCVarClientside = 918;
-const int S7_GetMaxHealth = 920;*/
+// Map events
+enum {
+    MEVNT_None            = 0, // This is here just in case you need to check it for some reason.
+    MEVNT_GhostTown       = 1,
+    MEVNT_PowerOutage     = 2,
+    MEVNT_NuclearMeltdown = 3,
+    MEVNT_PerfectHatred   = 4,
+};

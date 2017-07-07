@@ -26,7 +26,7 @@ all: MenuGUI $(ZDACSDIR)/S7Stuff.bin $(ZANDROACSDIR)/S7Stuff.bin
 
 .PHONY: cleanall
 cleanall:
-	-rm -rf $(OBJDIR) $(ZDACSDIR) $(ZANDROACSDIR) $(MenuGUI_OBJDIR)
+	-rm -rf "$(OBJDIR)" "$(ZDACSDIR)" "$(ZANDROACSDIR)" "$(MenuGUI_OBJDIR)"
 
 ## ===========================================
 ##

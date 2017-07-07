@@ -164,7 +164,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         loop
     Death_HitGround:
         SCR1 K  5
-        SCR1 L -1
+        SCR1 L -1 A_KillMaster
         stop
 
     Death.Fire:
@@ -178,6 +178,7 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         BURN EFGHIJKLMN 5 bright
         BURN O          5 bright
         BURN PQRSTU     5 bright
+        TNT1 A          0        A_KillMaster
         BURN V          1
         wait
 
@@ -186,11 +187,12 @@ actor S7_ScorpsTrooper : S7_ScorpBase replaces zombieman 32505 {
         SPOS N     5 A_XScream
         SPOS O     5 A_NoBlocking
         SPOS PQRST 5
-        SPOS U    -1
+        SPOS U    -1 A_KillMaster
         stop
 
     // Being revived
     Raise:
+        TNT1 A   0 A_RaiseMaster
         SCR1 K   5 A_JumpIf (user_deathType == 1, "XRaise")
         SCR1 JIH 5
         goto See

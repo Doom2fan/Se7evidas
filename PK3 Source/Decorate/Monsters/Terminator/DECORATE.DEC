@@ -258,7 +258,10 @@ actor S7_Terminator : S7_DemonBase 32507 {
         TERM STUV 4
         TNT1 AAAA 0 A_SpawnItemEx ("S7_Terminator_BloodSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_UseBloodColor)
         TERM WXYZ 4
-        TERM "[" -1 A_BossDeath
+        TERM "[" -1 A_KillMaster
+        stop
+
+    Raise:
         stop
     }
 }

@@ -144,7 +144,7 @@ actor S7_ShotSmoke_2_Spawner : S7_ShotSmoke_Spawner {
 
 actor S7_ShotSmoke_2 {
     renderStyle add
-    alpha 0.3
+    alpha 0.25
     scale 0.1
 
     +noInteraction +forceXYBillboard +clientsideOnly

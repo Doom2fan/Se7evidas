@@ -3,7 +3,7 @@
 // Succubus
 //
 //-------------------------------------------------------------------------------------------
-actor S7_Succubus : S7_SuccubusBase replaces cacodemon 32506 {
+actor S7_Succubus : S7_SuccubusBase 32506 {
     health 350
     speed 8
     painChance 90
@@ -105,7 +105,7 @@ actor S7_Succubus : S7_SuccubusBase replaces cacodemon 32506 {
         loop
     Death_HitGround:
         SUCC MNOP 3
-        SUCC Q   -1
+        SUCC Q   -1 A_KillMaster
         stop
 
     Death.Fire:
@@ -119,11 +119,12 @@ actor S7_Succubus : S7_SuccubusBase replaces cacodemon 32506 {
         BURN EFGHIJKLMN 5 bright
         BURN O          5 bright
         BURN PQRSTU     5 bright
+        TNT1 A          0        A_KillMaster
         BURN V          1
         wait
 
     Raise:
-        SUCC Q        6
+        SUCC Q        6 A_RaiseMaster
         SUCC PONMLKJI 6
         TNT1 A        0 A_JumpIf (user_Flying, "StartFlight")
         goto See

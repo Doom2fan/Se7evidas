@@ -39,7 +39,22 @@ Script_C void S7_SetMapInfo (string name, string author) {
     MapData.author = author;
 }
 
+Script_C int S7_GetMapEvent () {
+    if (!MapData.mapEventSet)
+        SetupMapEvents ();
+
+    return MapData.mapEvent;
+}
+
 void SetupMapEvents () {
+    if (MapData.mapEventSet) // Don't set map events up twice.
+        return;
+
+    ServerData.queuedMapEvent = MEVNT_PerfectHatred;
+    MapData.mapEvent = ServerData.queuedMapEvent;
+    ServerData.queuedMapEvent = MEVNT_None;
+    MapData.mapEventSet = true;
+
     switch (MapData.mapEvent) {
         case MEVNT_PowerOutage:
             ChangeSky (s"NEBSKY", s""); // Change the sky

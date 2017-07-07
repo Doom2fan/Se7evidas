@@ -3,7 +3,7 @@
 // Corpulent
 //
 //-------------------------------------------------------------------------------------------
-actor S7_FatFuck : S7_DemonBase replaces fatso 32502 {
+actor S7_FatFuck : S7_DemonBase 32502 {
     health 900
     radius 48
     height 64
@@ -82,8 +82,13 @@ actor S7_FatFuck : S7_DemonBase replaces fatso 32502 {
         FAT1 L      4
         FAT1 M      4 A_NoBlocking
         FAT1 NOPQRS 4
-        FAT1 T     -1 A_BossDeath
+        FAT1 T     -1 A_KillMaster
         stop
+
+    Raise:
+        FAT1 T 4 A_RaiseMaster
+        FAT1 SRQPONMLK 4
+        goto Spawn
     }
 }
 
