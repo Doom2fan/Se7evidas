@@ -1,16 +1,1 @@
-SUPER IMPORTANT MESSAGE: Zandronum glitches out a LOT on MP. This is because 3.0 is still beta and because the netcode is a HUGE PIECE OF SHIT.
-
-Zandronum retardedness: (Either can't fix, or the fix is so retarded that I won't even bother fixing)
-    Major: User/Client variables don't work in MP. Reason: Get/SetUserCVar doesn't work at all in (Zandronum) MP.
-    Major: The TEC-9/Kronos glitches out heavily on MP.
-    Major: A_Jump (256, ...) breaks in 0-tic frames
-
-    Major: MODINPUT_OLDBUTTONS is completely broken. // Workaround: KeyPressedMOD and KeyReleasedMOD have a special case for Zandronum. Obviously, this makes it slower.
-
-Fixed bugs:
-    (Zandronum only) Visual bug: Decals don't appear.
-    (Zandronum only) Major: The flare Thumper grenade never stops moving in MP.
-    (Zandronum only) Major: The clusterbomb and nailbomb Thumper grenades turn into 0-tic loops in MP and freeze the game. (The 0-tic loop killer kills the loop after a bit)
-    (Zandronum only) Major: The nerve gas grenade's gas clouds never stop moving in MP. // Apparently, velocity changing functions were broken
-    (Zandronum only) Major: Weapons fuck up if you use the quick melee key.
-    (Zandronum only) Major: The health actor property isn't set by clients. This breaks tracers. // Turned out it was something else, I think?
+None right now. (Then again, I need to know about the bugs to put them here :p)

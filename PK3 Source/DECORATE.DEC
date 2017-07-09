@@ -1,44 +1,20 @@
-/* Info
-** You can use anything from here. Just make sure to credit the author(s).
-**
-** Credits for the DECORATE codes are in the file or in the CREDITS file
-** contained in the same folder as the DECORATE.DEC file.
-**
-** Credits for the sound files are in the SNDINFO files.
-** Credits for a lot of shit is in the Credits folder.
-** Credits for the final muzzle flashes goes to me, Chronos "phantombeta"
-** Ouroboros.
-**
-** Credits for the sprites is in the CREDITS.txt files contained in the
-** same folder as the DECORATE code for the actor. Sprites used in multi-
-** ple actors should be in Credits/Sprites.TXT.
-*/
+/** This code is being ported to ZScript. **/
 
-/* Highest free DoomEdNums:
-** Weapons: 30014
-** Ammo: 31012
-** Inventory: 32006
-** Monster: 32509
-*/
+actor boolean : inventory {
+    inventory.maxAmount 1
+    inventory.interHubAmount 1
 
-/* Some random units:
-** 32 mapunits (Physical) = 1 meter
-** 38.4 Z mapunits (Visual) = 1 meter
-*/
-
-// So maps and other mods can check for S7
-actor S7_IsLoaded {
-    +noClip +noBlockmap +thruActors +noInteraction
-    
-    states {
-    Spawn:
-        TNT1 A 2
-        stop
-    }
+    +inventory.undroppable
+    -inventory.invBar
 }
 
-#INCLUDE "Decorate/Constants.DEC"
-#INCLUDE "Decorate/Defaults.DEC"
+actor counter : inventory {
+    inventory.maxAmount 0x7FFFFFFF
+    inventory.interHubAmount 0x7FFFFFFF
+
+    +inventory.undroppable
+    -inventory.invBar
+}
 
 // Effects
 #INCLUDE "Decorate/Effects/Smoke.DEC"
@@ -52,9 +28,6 @@ actor S7_IsLoaded {
 #INCLUDE "Decorate/Effects/Fire.DEC"
 
 // Common stuff
-#INCLUDE "Decorate/CommonTokens.DEC"
-#INCLUDE "Decorate/Base Actors.DEC"
-#INCLUDE "Decorate/Base Weapon.DEC"
 #INCLUDE "Decorate/Bullets.DEC"
 #INCLUDE "Decorate/Utils.DEC"
 

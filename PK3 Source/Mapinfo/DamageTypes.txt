@@ -1,0 +1,5 @@
+damageType TesterProjectile {
+    factor = 0.0
+
+    noArmor
+}

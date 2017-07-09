@@ -1,0 +1,172 @@
+/*
+**  Se7evidas - A GZDoom mod
+**  Copyright (C) 2015-???  Chronos Ouroboros
+**
+**  This program is free software; you can redistribute it and/or modify
+**  it under the terms of the GNU General Public License as published by
+**  the Free Software Foundation; either version 2 of the License, or
+**  (at your option) any later version.
+**
+**  This program is distributed in the hope that it will be useful,
+**  but WITHOUT ANY WARRANTY; without even the implied warranty of
+**  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**  GNU General Public License for more details.
+**
+**  You should have received a copy of the GNU General Public License along
+**  with this program; if not, write to the Free Software Foundation, Inc.,
+**  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
+#define SERVER_C
+#include "includes.h"
+#undef SERVER_C
+#include "common/server.h"
+
+ServerData_t ServerData;
+MapData_t map_var MapData;
+
+Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
+    Delay (time);
+
+    for (int i = start; i >= end; i--) {
+        Light_ChangeToValue (i, lvl);
+        Light_Stop (i);
+    }
+}
+
+Script_C void S7_SetMapInfo (string name, string author) {
+    MapData.name = name;
+    MapData.author = author;
+}
+
+Script_C int S7_GetMapEvent () {
+    if (!MapData.mapEventSet)
+        SetupMapEvents ();
+
+    return MapData.mapEvent;
+}
+
+void SetupMapEvents () {
+    if (MapData.mapEventSet) // Don't set map events up twice.
+        return;
+
+    //ServerData.queuedMapEvent = MEVNT_PerfectHatred;
+    MapData.mapEvent = ServerData.queuedMapEvent;
+    ServerData.queuedMapEvent = MEVNT_None;
+    MapData.mapEventSet = true;
+
+    switch (MapData.mapEvent) {
+        case MEVNT_PowerOutage:
+            ChangeSky (s"NEBSKY", s""); // Change the sky
+
+            Light_ChangeToValue (0, 64);
+            Light_Stop (0);
+            S7_LightLevelScript (32767,      0, 0, 64); // Change the light level to 64
+            S7_LightLevelScript (   -1, -32768, 0, 64);
+        break;
+
+        case MEVNT_PerfectHatred:
+            ChangeSky (s"ATWSKY", s""); // Change the sky
+
+            Light_ChangeToValue (0, 1);
+            Light_Stop (0);
+            S7_LightLevelScript (32767,      0, 0, 1); // Change the light level to 1
+            S7_LightLevelScript (   -1, -32768, 0, 1);
+        break;
+
+        case MEVNT_GhostTown: {
+            int tid = UniqueTID (); // Get an unused TID
+
+            SetMusic (s""); // Remove the music
+            Spawn (s"MapSpot", 0.0k, 0.0k, 0.0k, tid, 0); // Spawn a mapspot
+            PlaySound (tid, s"World/Wind", CHAN_BODY | CHAN_LISTENERZ | CHAN_NOPAUSE, 1.0k, TRUE, 0.0k); // Play a wind sound on it
+            Thing_ChangeTID (tid, 0); // Change the mapspot's TID to 0
+        }
+        break;
+
+        case MEVNT_LastToken:
+            DebugMsg (s"\CgGot MEVNT_LastToken as the map event.");
+            MapData.mapEvent = Random (MEVNT_None + 1, MEVNT_LastToken - 1);
+        break;
+
+        default:
+        break;
+    }
+}
+
+void UpdateServerData () {
+    ServerData.debugMode = GetCVar (s"S7_DebugMode");
+
+    // Game info
+    ServerData.gameType = GameType ();
+
+    // Parkour stuff
+    ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
+    ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
+
+    // RPG system stuff
+    ServerData.maxLevel = GetCVar (s"S7_MaxLevel");
+
+    PD_XPSystem_t *pData;
+    int avgLVL = 0, highLVL = -1, lowLVL = 0x7FFFFFFF, pCount = 0;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        int level = PlayerData [i].xpSystem.level;
+
+        if (!(PlayerData [i].initialized) || !PlayerInGame (i)) // If the player isn't initialized or ingame, skip it
+            continue;
+
+        pCount++;
+        avgLVL += level;
+        if (level > highLVL)
+            highLVL = level;
+        if (level < lowLVL)
+            lowLVL = level;
+    }
+    ServerData.avgLevel     = (pCount != 0) ? (avgLVL / pCount) : 0;
+    ServerData.highestLevel = highLVL;
+    ServerData.lowestLevel  = lowLVL;
+
+    // Save system stuff
+    ServerData.noSaveLoading = GetCVar (s"S7_NoSaveLoading");
+}
+
+#define ME_CLSLoop(sky, light) \
+    Light_ChangeToValue (0, light); \
+    Light_Stop (0); \
+    S7_LightLevelScript (    0, 5000, 0, light); \
+    S7_LightLevelScript (-5000,   -1, 0, light); \
+    if (MapData.meSecLoopDelay <= 0) { \
+        ChangeSky (sky, s""); \
+        S7_LightLevelScript ( 32767,  16385,  0, light); \
+        S7_LightLevelScript ( 16384,   5000, 24, light); \
+        S7_LightLevelScript ( -5000, -16384, 48, light); \
+        S7_LightLevelScript (-16385, -32768, 72, light); \
+        MapData.meSecLoopDelay = (2.5k * 60 * 35) + 74; \
+    }
+
+void UpdateMapData () {
+    if (MapData.meSecLoopDelay > 0)
+        MapData.meSecLoopDelay--;
+
+    switch (MapData.mapEvent) {
+        case MEVNT_PowerOutage:
+            ME_CLSLoop (s"NEBSKY", 64); // Change the sky; Change the light level to 64
+        break;
+
+        case MEVNT_PerfectHatred:
+            ME_CLSLoop (s"ATWSKY", 1); // Change the sky; Change the light level to 1
+        break;
+
+        case MEVNT_GhostTown:
+            SetMusic (s""); // Remove the music
+        break;
+
+        case MEVNT_LastToken:
+            DebugMsg (s"\CgGot MEVNT_LastToken as the map event.");
+            MapData.mapEvent = Random (MEVNT_None + 1, MEVNT_LastToken - 1);
+        break;
+
+        default:
+        break;
+    }
+}

@@ -30,32 +30,6 @@
 		{
 			"folder_exclude_patterns":
 			[
-				"acs",
-				"graphics",
-				"hires",
-				"models",
-				"music",
-				"sounds",
-				"sprites"
-			],
-			"path": "PK3_Source_GZDoom"
-		},
-		{
-			"folder_exclude_patterns":
-			[
-				"acs",
-				"graphics",
-				"hires",
-				"models",
-				"music",
-				"sounds",
-				"sprites"
-			],
-			"path": "PK3_Source_Zandronum"
-		},
-		{
-			"folder_exclude_patterns":
-			[
 				"obj"
 			],
 			"path": "C_Source"
@@ -64,18 +38,28 @@
 			"file_exclude_patterns":
 			[
 				"thumbs.db",
-				"*.png", "*.jpg", "*.bmp", "*.gif",
-				"*.ogg", "*.wav", "*.mp3",
-				"*.wad", "*.pk3", "*.pk7", "*.zip", "*.7z",
+				"*.png",
+				"*.jpg",
+				"*.bmp",
+				"*.gif",
+				"*.ogg",
+				"*.wav",
+				"*.mp3",
+				"*.wad",
+				"*.pk3",
+				"*.pk7",
+				"*.zip",
+				"*.7z",
 				"*.dbs",
 				"*.lnk",
-				"*.bak", "*.backup*"
+				"*.bak",
+				"*.backup*"
 			],
 			"folder_exclude_patterns":
 			[
 				"*"
 			],
-			"path": "./"
+			"path": "/C/... Chronos' Stuff/Doom/... MY OWN FUCKING MODS/Se7evidas"
 		}
 	],
 	"settings":

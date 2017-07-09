@@ -1,11 +1,11 @@
 ==================================================================================
-Advanced engine needed  : GZDoom 2.x+ or Zandronum 3.x+
+Advanced engine needed  : GZDoom 3.1.x+
 ==================================================================================
 Name                    : Se7evidas
 Publisher               : Dark Realm
 Creator                 : Chronos "phantombeta" Ouroboros
 Email Address           : doom2.fan@gmail.com
-Misc. Author Info       : Likes herms/futas and dickgirls
+Misc. Author Info       : Is a derp.
 
 Description             : <insert description here>
 ==================================================================================
@@ -25,7 +25,6 @@ Save system (currently GZDoom only)
 AWESUM SPECIAL EFFECTZORZ
 Empress butts
 Empress tits
-Empress titty milk
 
 
 * Play Information *
@@ -47,28 +46,3 @@ Build Time              : UINT64_MAX
 Programs used          : Notepad, Notepad++, SLADE 3, Sublime Text 2, SmartGit,
                          Photoshop CS6, GIMP, Code::Blocks, Visual Studio, 7-Zip,
                          GDCC, lots of other editors
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Empress titty milk <3
