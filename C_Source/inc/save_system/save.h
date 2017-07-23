@@ -28,7 +28,6 @@
 #define SD_INFO       s"S7_SaveData_Info"
 #define SD_RPGSYSTEM  s"S7_SaveData_RPGSystem"
 #define SD_SCRIPTDATA s"S7_SaveData_ScriptData"
-#define SD_THUMPERDEF s"S7_SaveData_ThumperDef"
 #define SD_BANKDATA   s"S7_SaveData_Bank"
 #define SD_IMPINV     s"S7_SaveData_ImportantInv"
 #define SD_INV        s"S7_SaveData_Inv"

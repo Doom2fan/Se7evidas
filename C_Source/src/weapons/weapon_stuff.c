@@ -141,9 +141,6 @@ Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 
 void AmmoCountersScript (PlayerData_t *player) {
     if (!player)
         return;
-
-    if (CheckInventory (s"S7_ShotgunMagCounter") != (CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded")))
-        SetInventory (s"S7_ShotgunMagCounter", CheckInventory (s"S7_ShotgunMag") + CheckInventory (s"S7_ShotgunLoaded"));
 }
 
 void HellbladeScript (PlayerData_t *player) {

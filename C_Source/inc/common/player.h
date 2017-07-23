@@ -46,7 +46,6 @@ typedef struct ShopDef_t        ShopDef_t;
 typedef struct BankDef_t        BankDef_t;
 typedef struct SprintDef_t      SprintDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
-typedef struct ThumperDef_t     ThumperDef_t;
 typedef struct WeapBinds_t      WeapBinds_t;
 typedef struct PlayerMenu_t     PlayerMenu_t;
 // Save system
@@ -140,13 +139,6 @@ struct ParkourDef_t {
     accum  wGrabOldGravity;               // The player's old gravity
 };
 
-#define THUMPERMAGSIZE 4
-struct ThumperDef_t {
-    int magShells [THUMPERMAGSIZE];     // Loaded shells in mag
-    int magIndex;                       // Current shell in mag
-    int currentShell;                   // Loaded shell in chamber
-};
-
 typedef struct SS_Item_t SS_Item_t;
 typedef struct SS_Page_t SS_Page_t;
 typedef struct SS_Shop_t SS_Shop_t;
@@ -203,7 +195,6 @@ typedef struct PlayerData_t {
     PD_ScriptData_t scriptData;         // Misc script data
     SprintDef_t     SprintDef;          // Sprint system stuff
     ParkourDef_t    parkourDef;         // Dodging system stuff
-    ThumperDef_t    thumperDef;         // Thumper stuff
     ShopDef_t       shopDef;            // Shop system stuff
     BankDef_t       bankData;           // Bank system stuff
     WeapBinds_t     weapBinds;          // Weapon bindings
@@ -223,7 +214,6 @@ struct SavedData_t {
 
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data
-    ThumperDef_t    thumperDef;         // Thumper stuff
     WeapBinds_t     weapBinds;          // Weapon bindings
 };
 

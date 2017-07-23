@@ -189,16 +189,16 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         else isSelected S7_Shotgun {
             drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
             drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-            inInventory S7_ShotgunMagCounter,  1 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -16, -32; }
-            inInventory S7_ShotgunMagCounter,  2 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -24, -31; }
-            inInventory S7_ShotgunMagCounter,  3 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -32, -32; }
-            inInventory S7_ShotgunMagCounter,  4 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -40, -31; }
-            inInventory S7_ShotgunMagCounter,  5 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -48, -32; }
-            inInventory S7_ShotgunMagCounter,  6 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -56, -31; }
-            inInventory S7_ShotgunMagCounter,  7 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -64, -32; }
-            inInventory S7_ShotgunMagCounter,  8 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -72, -31; }
-            inInventory S7_ShotgunMagCounter,  9 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -80, -32; }
-            inInventory S7_ShotgunMagCounter, 10 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -88, -31; }
+            inInventory S7_ShotgunMag,  1 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -16, -32; }
+            inInventory S7_ShotgunMag,  2 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -24, -31; }
+            inInventory S7_ShotgunMag,  3 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -32, -32; }
+            inInventory S7_ShotgunMag,  4 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -40, -31; }
+            inInventory S7_ShotgunMag,  5 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -48, -32; }
+            inInventory S7_ShotgunMag,  6 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -56, -31; }
+            inInventory S7_ShotgunMag,  7 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -64, -32; }
+            inInventory S7_ShotgunMag,  8 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -72, -31; }
+            inInventory S7_ShotgunMag,  9 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -80, -32; }
+            inInventory S7_ShotgunMag, 10 { drawImage "graphics/HUD/Cartridges/S7H20GA.png", -88, -31; }
         }
 
         else isSelected S7_HitterSMG {
@@ -330,8 +330,8 @@ statusBar fullscreen, forceScaled, fullscreenOffsets {
         else isSelected S7_SSG {
             drawNumber 5, FSHUDFNT, White, ammo2, interpolate (13), alignment (right), -6, -50;
             drawString FSHUDFNT, White, "Pool:      ", -6, -50, 0,  alignment (right);
-            inInventory S7_SSGRightLoaded { drawImage "graphics/HUD/Cartridges/S7H12GA.png", -17, -29; }
-            inInventory S7_SSGLeftLoaded  { drawImage "graphics/HUD/Cartridges/S7H12GA.png", -31, -29; }
+            inInventory S7_SSGRightLoadedToken { drawImage "graphics/HUD/Cartridges/S7H12GA.png", -17, -29; }
+            inInventory S7_SSGLeftLoadedToken  { drawImage "graphics/HUD/Cartridges/S7H12GA.png", -31, -29; }
         }
 
         else isSelected S7_AK47 {

@@ -22,15 +22,8 @@
 
 #include <ACS_ZDoom.h>
 
-// Macros
-#define EMPINVDELAY (262.5k) // 35 * 7.5
-#define EMPINVLIMIT 2500
-#define EMPMHEALTH 4500
 // Tokens
 #define EMPIDENT s"S7_IsEmpress"
-#define EMPINVTOKEN s"S7_EmpressCanCastInvuln"
-// User vars
-#define EMPHPVAR s"user_trueHealth"
 
 // Typedefs
 typedef struct MonsterInfo_t MonsterInfo_t;

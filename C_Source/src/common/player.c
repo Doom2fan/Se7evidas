@@ -72,9 +72,6 @@ void UpdatePlayerData (PlayerData_t *player) {
     // Non struct data
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
 
-    // Ammo counter stuff
-    SetInventory (s"S7_SSGFauxClip", CheckInventory (s"S7_SSGLeftLoaded") + CheckInventory (s"S7_SSGRightLoaded"));
-
     // Player data as MonsterInfo struct
     player->asMonster.x = player->physics.x; // XYZ coordinates
     player->asMonster.y = player->physics.y;
@@ -190,7 +187,6 @@ void InitializePlayer (PlayerData_t *player) {
         return;
     }
 
-    player->thumperDef.magIndex = -1;
     player->ammoMax = BASEAMMOMAX;
     player->health.milkRegenRate = 5;
     player->health.milkUseRate = 25;
@@ -246,7 +242,6 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
 
     // Script Data
     player->scriptData = saveData->scriptData;
-    player->thumperDef = saveData->thumperDef;
     player->weapBinds  = saveData->weapBinds;
 
     return TRUE;

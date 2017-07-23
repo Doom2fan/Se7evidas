@@ -1,0 +1,43 @@
+//-------------------------------------------------------------------------------------------
+//
+// Scout playerclass
+//
+//-------------------------------------------------------------------------------------------
+class S7_ScoutPlayer : S7_BasePlayer {
+    default {
+        // Damage
+        health 75;
+        player.maxHealth 75;
+        player.mugShotMaxHealth 75;
+        gibHealth -37;
+
+        // Movement
+        player.forwardMove 1.2, 1.2;
+        player.sideMove 1.2, 1.2;
+        player.jumpZ 9.797;
+
+        // Starting items
+        // Weapons:
+        player.startItem "S7_TEC9";
+        player.startItem "S7_BerserkWeap";
+        // Ammo and similars
+        player.startItem "S7_TEC9Clip", 32;
+        player.startItem "S7_9mmCartridges", 64;
+        player.startItem "S7_Stamina", 150;
+        player.startItem "S7_Mana", 250;
+        // Keys/controls
+        player.startItem "S7_ReloadKey";
+        player.startItem "S7_MeleeKey";
+        player.startItem "S7_FiringModeKey";
+        player.startItem "S7_ShowPop1Key";
+        // Tokens:
+        player.startItem "S7_IsPlayer";
+        player.startItem "S7_StaminaRegen";
+        player.startItem "S7_ManaRegen";
+        player.startItem "S7_DaggerMelee";
+        player.startItem "S7_MultiJump_Max", 2;
+
+        // Class stuff
+        player.displayName "Runner";
+    }
+}

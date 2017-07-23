@@ -22,7 +22,7 @@ actor S7_IWSL5Mag : ammo {
 }
 
 actor S7_IWSL5Chambered : boolean { }
-actor S7_IWSL5 : S7_BaseWeapon 30013 {
+actor S7_IWSL5 : S7_BaseWeapon {
     tag "$IWSL5"
     inventory.pickupMessage "$IWSL5"
     weapon.ammoType1 "S7_IWSL5Mag"

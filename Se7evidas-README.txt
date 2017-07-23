@@ -20,8 +20,8 @@ Recoil
 Reloading
 Alt-fires
 Quick meleeing
-Shop system (currently GZDoom only)
-Save system (currently GZDoom only)
+Shop system
+Save system
 AWESUM SPECIAL EFFECTZORZ
 Empress butts
 Empress tits

@@ -27,8 +27,6 @@ int  Thumper_GetUnifiedPool    ();
 int  Thumper_GetUnifiedPoolMax ();
 void Thumper_GiveShell (int typeI, int amount);
 void Thumper_TakeShell (int typeI, int amount);
-void Thumper_Script           (PlayerData_t *player);
-void Thumper_ScriptClientside (PlayerData_t *player);
 
 // Variables/Stuff
 #define TH_POOLNAMES_MAX 7

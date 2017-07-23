@@ -66,3 +66,55 @@ C_Source/src/Common/shop/shop_items/ = Shop stuff;
 
 (I think that's all)
 ======================================================================================================================================================================================
+ZScript stuff:
+    Ready2:
+        AK47 A 1 {
+            if (CheckInventory ("S7_Reloading", 1))
+                return ResolveState ("Reload");
+            if (CheckInventory ("S7_DoMelee", 1))
+                return ResolveState ("QuickMelee");
+            if (CheckInventory ("S7_ChangeFireMode", 1))
+                return ResolveState ("ChangeMode");
+
+            GiveInventory ("S7_WeapReady", 1);
+            A_WeaponReady ();
+
+            return ResolveState (null);
+        }
+        loop;
+
+    ChangeMode:
+        AK47 A 5 {
+            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+
+            if (CheckInventory ("S7_AK47SemiAuto", 1))
+                TakeInventory ("S7_AK47SemiAuto", 0x7FFFFFFF);
+            else
+                GiveInventory ("S7_AK47SemiAuto", 1);
+
+            A_PlaySound ("Weapons/ModeChange", CHAN_7);
+
+            return ResolveState (null);
+        }
+        goto Ready2;
+
+    Reload:
+        TNT1 A 0 {
+            TakeInventory ("S7_Reloading", 1);
+
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
+                return ResolveState ("Ready2");
+
+            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
+            if (ammoAmount <= 0)
+                return ResolveState ("Ready2");
+
+            GiveInventory (invoker.ammoType1, ammoAmount);
+            TakeInventory (invoker.ammoType2, ammoAmount);
+
+            return ResolveState ("ReloadFinish");
+        }
+
+{replace A_JumpIfNoAmmo with this:}
+            if (!invoker.CheckAmmo (PrimaryFire, false, true))
+                return ResolveState ("<state>");

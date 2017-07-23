@@ -69,15 +69,16 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
         return FALSE;
     }
 
-    SavedData_t  tmpData;
+    SavedData_t *tmpData = allocAndClear (sizeof (SavedData_t));
     int         *offset; *offset = 0;
+    string cvarData;
 
     // Info
-    string infoStr = GetUserCVarString (playerNum, SD_INFO);
-    if (StrLen (infoStr) < 1)
+    cvarData = GetUserCVarString (playerNum, SD_INFO);
+    if (StrLen (cvarData) < 1)
         return FALSE;
 
-    int version = SaveSys_ReadInt (infoStr, offset, 4);
+    int version = SaveSys_ReadInt (cvarData, offset, 4);
     if (version != SAVESYS_SAVEVERSION) {
         if (version < SAVESYS_SAVEVERSION)
             Log ("\CgSave system: Load failed: Save from an older version. (Save: %d, Mod: %d)", version, SAVESYS_SAVEVERSION);
@@ -85,32 +86,32 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
             Log ("\CgSave system: Load failed: Save from a newer version. (Save: %d, Mod: %d)", version, SAVESYS_SAVEVERSION);
         return FALSE;
     }
-    tmpData.gender = SaveSys_ReadInt (infoStr, offset, 1);
-    int nameLen = SaveSys_ReadInt (infoStr, offset, 3);
-    tmpData.name = SaveSys_ReadStr (infoStr, offset, nameLen);
-    if (StrLen (tmpData.name) != nameLen) {
+    tmpData->gender = SaveSys_ReadInt (cvarData, offset, 1);
+    int nameLen = SaveSys_ReadInt (cvarData, offset, 3);
+    tmpData->name = SaveSys_ReadStr (cvarData, offset, nameLen);
+    if (StrLen (tmpData->name) != nameLen) {
         SaveSys_UIError;
         return FALSE;
     }
-    SaveSys_FailLoad (infoStr, *offset);
+    SaveSys_FailLoad (cvarData, *offset);
 
     *offset = 0;
     // RPG Systems
-    string rpgSysStr = GetUserCVarString (playerNum, SD_RPGSYSTEM);
-    tmpData.xpSystem.level = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.experience  = SaveSys_ReadInt (rpgSysStr, offset, 8);
-    tmpData.xpSystem.attrPoints  = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    cvarData = GetUserCVarString (playerNum, SD_RPGSYSTEM);
+    tmpData->xpSystem.level = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.experience  = SaveSys_ReadInt (cvarData, offset, 8);
+    tmpData->xpSystem.attrPoints  = SaveSys_ReadInt (cvarData, offset, 4);
 
-    tmpData.xpSystem.strengthLVL = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.agilityLVL  = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.vitalityLVL = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.defenseLVL  = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.willLVL     = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.magicLVL    = SaveSys_ReadInt (rpgSysStr, offset, 4);
-    tmpData.xpSystem.techLVL     = SaveSys_ReadInt (rpgSysStr, offset, 4);
+    tmpData->xpSystem.strengthLVL = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.agilityLVL  = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.vitalityLVL = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.defenseLVL  = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.willLVL     = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.magicLVL    = SaveSys_ReadInt (cvarData, offset, 4);
+    tmpData->xpSystem.techLVL     = SaveSys_ReadInt (cvarData, offset, 4);
 
-    tmpData.cash = SaveSys_ReadInt (rpgSysStr, offset, 8);
-    SaveSys_FailLoad (rpgSysStr, *offset);
+    tmpData->cash = SaveSys_ReadInt (cvarData, offset, 8);
+    SaveSys_FailLoad (cvarData, *offset);
 
     *offset = 0;
     // Script Data
@@ -118,26 +119,18 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     SaveSys_FailLoad (scriptDataStr, *offset);*/
 
     *offset = 0;
-    // ThumperDef
-    string thumperDefStr = GetUserCVarString (playerNum, SD_THUMPERDEF);
-    for (int i = 0; i < THUMPERMAGSIZE; i++)
-        tmpData.thumperDef.magShells [i] = SaveSys_ReadInt (thumperDefStr, offset, 8);
-    tmpData.thumperDef.magIndex = SaveSys_ReadInt (thumperDefStr, offset, 8);
-    tmpData.thumperDef.currentShell = SaveSys_ReadInt (thumperDefStr, offset, 8);
-    SaveSys_FailLoad (thumperDefStr, *offset);
-
-    *offset = 0;
     // Custom weapon slots
-    string weapBindsStr = GetUserCVarString (playerNum, SD_WEAPBINDS);
+    cvarData = GetUserCVarString (playerNum, SD_WEAPBINDS);
     for (int x = 0; x < WPBND_MAXSLOTS; x++) {
         for (int y = 0; y < WPBND_MAXWEAPS; y++) {
-            int wp = SaveSys_ReadInt (weapBindsStr, offset, 2);
+            int wp = SaveSys_ReadInt (cvarData, offset, 2);
             data->weapBinds.weapBinds [x] [y] = ((wp & 0x80) ? (wp | 0xFFFFFF00) : (wp));
         }
     }
-    SaveSys_FailLoad (weapBindsStr, *offset);
+    SaveSys_FailLoad (cvarData, *offset);
 
-    *data = tmpData;
+    *data = *tmpData;
+    free (tmpData);
 
     player = NULL;
 
@@ -180,12 +173,6 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     // Script Data
     /*string scriptDataStr = ;
     SetUserCVarString (playerNum, SD_SCRIPTDATA, scriptDataStr);*/
-    // Thumper data
-    string thumperDefMagStr = s"";
-    for (int i = 0; i < THUMPERMAGSIZE; i++)
-        thumperDefMagStr = StrParam ("%S%.8x", thumperDefMagStr, data->thumperDef.magShells [i]);
-    string thumperDefStr = StrParam ("%S%.8x%.8x", thumperDefMagStr, data->thumperDef.magIndex, data->thumperDef.currentShell);
-    SetUserCVarString (playerNum, SD_THUMPERDEF, thumperDefStr);
 
     // Custom weapon slots
     string weapBindsStr = s"";
@@ -218,7 +205,6 @@ Script_C void S7_ClearSaveData NET () {
     SetUserCVarString (playerNum, SD_INFO,       s"");
     SetUserCVarString (playerNum, SD_RPGSYSTEM,  s"");
     SetUserCVarString (playerNum, SD_SCRIPTDATA, s"");
-    SetUserCVarString (playerNum, SD_THUMPERDEF, s"");
     for (int i = 0; i < importantInv.maxCVars; i++)
         SetUserCVarString (playerNum, StrParam ("%S%d", importantInv.cvarName, i + 1), s"");
     for (int i = 0; i < normalInv.maxCVars; i++)
@@ -244,7 +230,6 @@ Script_C void S7_SaveSysSave NET () {
 
     // Script data
     saveData.scriptData = player->scriptData; // Misc script data
-    saveData.thumperDef = player->thumperDef; // Thumper stuff
     saveData.weapBinds  = player->weapBinds;  // Custom weapon slots stuff
 
     SaveSaveData (playerNum, &saveData);
@@ -299,7 +284,6 @@ Script_C void saveTest () {
 
     // Script data
     saveData.scriptData = player->scriptData; // Misc script data
-    saveData.thumperDef = player->thumperDef; // Thumper stuff
 
     SaveSaveData (PLN, &saveData);
     PrintBold ("%S", GetActorPropertyString (0, APROP_NameTag));

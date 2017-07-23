@@ -44,13 +44,19 @@ class S7_BaseWeapon : weapon {
 
     states {
     DryFire:
-        TNT1 A 0 A_PlaySound ("Weapons/DryFire", CHAN_Weapon);
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
-        TNT1 A 1 A_Jump (256, "Ready2");
+        TNT1 A 0 {
+            A_PlaySound ("Weapons/DryFire", CHAN_Weapon);
+
+            if (CheckInventory ("S7_AutoReloading", 1))
+                return ResolveState ("Reload");
+
+            return ResolveState (null);
+        }
+        TNT1 A 0 A_Jump (256, "Ready2");
         wait;
 
     Ready:
-        TNT1 A 1 A_Jump (256, "Ready2");
+        TNT1 A 0 A_Jump (256, "Ready2");
         wait;
     Fire:
         TNT1 A 1;
@@ -58,40 +64,53 @@ class S7_BaseWeapon : weapon {
 
     Select:
     TrueSelect:
-        TNT1 A 0 A_TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
-        TNT1 A 0 A_Raise;
+        TNT1 A 0 {
+            TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
+            A_Raise ();
+        }
         loop;
     Deselect:
     TrueDeselect:
-        TNT1 A 0 A_TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_ReadySequence", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_SynthFireActive", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_SynthFire2Active", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_SynthFireRightBusy", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_SynthFireLeftBusy", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_Weap_ReadyFrame", 0x7FFFFFFF);
-        TNT1 A 0 A_TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
-        TNT1 A 0 A_ZoomFactor (1.0);
-        TNT1 A 0 A_JumpIfHealthLower (1, "Deselect.DEAD");
-        TNT1 A 0 A_Lower;
+        TNT1 A 0 {
+            TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
+            TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF);
+            TakeInventory ("S7_ReadySequence", 0x7FFFFFFF);
+            TakeInventory ("S7_SynthFireActive", 0x7FFFFFFF);
+            TakeInventory ("S7_SynthFire2Active", 0x7FFFFFFF);
+            TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF);
+            TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF);
+            TakeInventory ("S7_SynthFireRightBusy", 0x7FFFFFFF);
+            TakeInventory ("S7_SynthFireLeftBusy", 0x7FFFFFFF);
+            TakeInventory ("S7_Weap_ReadyFrame", 0x7FFFFFFF);
+            TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
+            A_ZoomFactor (1.0);
+
+            if (!health)
+                return ResolveState ("Deselect.DEAD");
+
+            A_Lower ();
+            return ResolveState (null);
+        }
         loop;
     Deselect.DEAD:
         TNT1 A 1 A_Lower;
         wait;
 
     QuickMelee:
-        TNT1 A 0 A_TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
-        TNT1 A 0 A_JumpIfInventory ("S7_DaggerMelee", 1, "DaggerMelee");
-        TNT1 A 0 A_JumpIfInventory ("S7_PunchMelee", 1, "PunchMelee");
-        TNT1 A 0 A_JumpIfInventory ("S7_KickMelee", 1, "KickMelee");
-        TNT1 A 1 A_Jump (256, "KickMelee");
-        wait;
+        TNT1 A 0 {
+            TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
+            if (CheckInventory ("S7_DaggerMelee", 1))
+                return ResolveState ("DaggerMelee");
+            if (CheckInventory ("S7_PunchMelee", 1))
+                return ResolveState ("PunchMelee");
+            if (CheckInventory ("S7_KickMelee", 1))
+                return ResolveState ("KickMelee");
+
+            return ResolveState ("KickMelee");
+        }
 
     DaggerMelee:
-        TNT1 A 1 A_Jump (256, "DaggerMelee1", "DaggerMelee2");
+        TNT1 A 0 A_Jump (256, "DaggerMelee1", "DaggerMelee2");
         wait;
     DaggerMelee1:
         DAG1 ABCD 1;
@@ -100,7 +119,7 @@ class S7_BaseWeapon : weapon {
         DAG1 G    1 A_CustomPunch (callACS ("S7_MeleeDamage", 3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
         DAG1 H    1;
         TNT1 A    5;
-        TNT1 A    1 A_Jump (256, "MeleeDone");
+        TNT1 A    0 A_Jump (256, "MeleeDone");
         wait;
     DaggerMelee2:
         DAG2 AB  1;
@@ -109,30 +128,26 @@ class S7_BaseWeapon : weapon {
         DAG2 EF  1 A_CustomPunch (callACS ("S7_MeleeDamage", 2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
         DAG2 GH  1;
         TNT1 A   5;
-        TNT1 A   1 A_Jump (256, "MeleeDone");
+        TNT1 A   0 A_Jump (256, "MeleeDone");
         wait;
 
     PunchMelee:
-        TNT1 A 0;
-        TNT1 A 1 A_Jump (256, "MeleeDone");
+        TNT1 A 0 A_Jump (256, "MeleeDone");
         wait;
 
     KickMelee:
-        KICK BCD 1;
-        TNT1 A   1 A_Jump (256, "KickMelee.Mid");
-        wait;
-    KickMelee.Mid:
-        TNT1 A 0 A_CustomPunch (callACS ("S7_MeleeDamage", 13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_MeleePuff");
-        TNT1 A 1 A_Jump (256, "KickMelee.End");
-        wait;
-    KickMelee.End:
-        KICK HHHHIGFEDCBA 1;
-        TNT1 A            1 A_Jump (256, "MeleeDone");
+        KICK BCD   1;
+        KICK H     1 A_CustomPunch (callACS ("S7_MeleeDamage", 13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_MeleePuff");
+        KICK HHHIG 1;
+        KICK FEDCB 1;
+        KICK A     1;
+
+        TNT1 A 0 A_Jump (256, "MeleeDone");
         wait;
 
     MeleeDone:
         TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee");
-        TNT1 A 1 A_Jump (256, "Ready");
+        TNT1 A 0 A_Jump (256, "Ready");
         wait;
     }
 }
@@ -142,7 +157,7 @@ class S7_BaseWeapon : weapon {
 // Melee puffs
 //
 //-------------------------------------------------------------------------------------------
-class S7_MeleePuff : Actor { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
+class S7_MeleePuff : actor { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
     default {
         damageType "Kick";
         attackSound "Weapons/Kick/HitWall";
@@ -190,7 +205,7 @@ class S7_DaggerPuffSilent : S7_DaggerPuff {
 //-------------------------------------------------------------------------------------------
 // S7_SynthFire: Does the synthfire stuff. S7_SynthFireActive must be given to the player before starting the script.
 // S7_SynthFire2: Does the synthfire stuff (alt). S7_SynthFire2Active must be given to the player before starting the script.
-// S7_SynthFireAllowChange: Returns TRUE/1 if S7_SynthFireRightBusy and S7_SynthFireLeftBusy aren't in inventory.
+// S7_SynthFireAllowChange: Returns true/1 if S7_SynthFireRightBusy and S7_SynthFireLeftBusy aren't in inventory.
 class S7_SynthFireActive    : S7_Boolean { }
 class S7_SynthFire2Active   : S7_Boolean { }
 class S7_SynthFireLeft      : S7_Boolean { }

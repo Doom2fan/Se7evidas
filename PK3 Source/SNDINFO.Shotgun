@@ -1,5 +1,4 @@
 Weapons/Shotgun/Fire             "sounds/Weapons/Primary/Shotgun/Fire.ogg"      // From DemonSteele. By TerminusEst13
-Weapons/Shotgun/AltFire          "sounds/Weapons/Primary/Shotgun/Fire.ogg"      // Ditto... Obviously, since it's literally the same file :v
 $VOLUME Weapons/Shotgun/Fire 0.8
 
 Weapons/Shotgun/Pump             "sounds/Weapons/Primary/Shotgun/Pump.ogg"      // by M-Productions from GameBanana

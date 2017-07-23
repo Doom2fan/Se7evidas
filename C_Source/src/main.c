@@ -27,7 +27,6 @@
 #include "systems/sprint_system.h"
 #include "systems/stamina.h"
 #include "systems/xp_system.h"
-#include "weapons/thumper.h"
 #include "weapons/weapon_stuff.h"
 #include "weapons/slot_sys.h"
 
@@ -137,7 +136,6 @@ Script_C void S7_ServersideEnter ENTER () {
         WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
-        Thumper_Script        (player);
         SpeedScript           (player);
         WaterScript           (player);
         AmmoCountersScript    (player);
@@ -173,7 +171,6 @@ Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
             return;
 
         HeartbeatScript          (player, &heartbeatTics);
-        Thumper_ScriptClientside (player);
         HudWeapons               (player);
         ShowPop                  (player, &sp_data);
         ScreenOverlays           (player);

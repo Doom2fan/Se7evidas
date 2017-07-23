@@ -50,7 +50,7 @@ const string ClipNames [] = {
     s"S7_ManxCarbineClip",
     s"S7_PlasmaGunMag",
     //s"S7_PrettyShootyIonCannonGunMag",
-    s"S7_ShotgunMagCounter",
+    s"S7_ShotgunMag",
     s"S7_ThumperMag",
     s"S7_RaptorClip",
     s"S7_RevolverClip",

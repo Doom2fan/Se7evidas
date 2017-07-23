@@ -1,4 +1,4 @@
-version "2.5"
+version "3.1.0"
 
 /* Info
 ** You can use anything from here. Just make sure to credit the author(s).
@@ -36,7 +36,7 @@ class S7_IsLoaded : actor {
         +thruActors
         +noInteraction
     }
-    
+
     states {
     Spawn:
         TNT1 A 2;
@@ -46,75 +46,81 @@ class S7_IsLoaded : actor {
 
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
+#INCLUDE "S7ZScript/MathExtensions.ZS"
 
 // Effects
-//#INCLUDE "S7ZScript/Effects/Smoke.ZS"
-//#INCLUDE "S7ZScript/Effects/Casings.ZS"
-//#INCLUDE "S7ZScript/Effects/Shrapnel.ZS"
-//#INCLUDE "S7ZScript/Effects/Blood.ZS"
-//#INCLUDE "S7ZScript/Effects/Teleport.ZS"
-//#INCLUDE "S7ZScript/Effects/Parkour.ZS"
-//#INCLUDE "S7ZScript/Effects/MapEvents.ZS"
-//#INCLUDE "S7ZScript/Effects/Gore.ZS"
-//#INCLUDE "S7ZScript/Effects/Fire.ZS"
+#INCLUDE "S7ZScript/Effects/Smoke.ZS"
+#INCLUDE "S7ZScript/Effects/Casings.ZS"
+#INCLUDE "S7ZScript/Effects/Shrapnel.ZS"
+#INCLUDE "S7ZScript/Effects/Blood.ZS"
+#INCLUDE "S7ZScript/Effects/Teleport.ZS"
+#INCLUDE "S7ZScript/Effects/Parkour.ZS"
+#INCLUDE "S7ZScript/Effects/MapEvents.ZS"
+#INCLUDE "S7ZScript/Effects/Gore.ZS"
+#INCLUDE "S7ZScript/Effects/Fire.ZS"
 
 // Common stuff
 #INCLUDE "S7ZScript/CommonTokens.ZS"
 #INCLUDE "S7ZScript/Base Actors.ZS"
 #INCLUDE "S7ZScript/Base Weapon.ZS"
-//#INCLUDE "S7ZScript/Bullets.ZS"
-//#INCLUDE "S7ZScript/Utils.ZS"
+#INCLUDE "S7ZScript/Bullets.ZS"
 
 // RPG Systems
-//#INCLUDE "S7ZScript/RPG Systems/Shop System.ZS"
-//#INCLUDE "S7ZScript/RPG Systems/XP System.ZS"
-//#INCLUDE "S7ZScript/RPG Systems/Upgrades.ZS"
+#INCLUDE "S7ZScript/RPG Systems/Shop System.ZS"
+#INCLUDE "S7ZScript/RPG Systems/XP System.ZS"
+#INCLUDE "S7ZScript/RPG Systems/Upgrades.ZS"
 
 // Monsters
-//#INCLUDE "S7ZScript/Monsters/ScorpsTrooper/ScorpsTrooper.ZS"
-//#INCLUDE "S7ZScript/Monsters/Hellion/Hellion.ZS"
-//#INCLUDE "S7ZScript/Monsters/Succubus/Succubus.ZS"
-//#INCLUDE "S7ZScript/Monsters/BlackPanther/BlackPanther.ZS"
-//#INCLUDE "S7ZScript/Monsters/Empress/Empress.ZS"
-//#INCLUDE "S7ZScript/Monsters/FatFuck/FatFuck.ZS"
-//#INCLUDE "S7ZScript/Monsters/Terminator/Terminator.ZS"
-//#INCLUDE "S7ZScript/Monsters/ScorpsEnforcer/ScorpsEnforcer.ZS"
-//#INCLUDE "S7ZScript/Monsters/Spawners.ZS"
+#INCLUDE "S7ZScript/Monsters/Spawners.ZS"
+#INCLUDE "S7ZScript/Monsters/ScorpsTrooper/ScorpsTrooper.ZS"
+#INCLUDE "S7ZScript/Monsters/Hellion/Hellion.ZS"
+#INCLUDE "S7ZScript/Monsters/Succubus/Succubus.ZS"
+#INCLUDE "S7ZScript/Monsters/BlackPanther/BlackPanther.ZS"
+#INCLUDE "S7ZScript/Monsters/Empress/Empress.ZS"
+#INCLUDE "S7ZScript/Monsters/Empress/Effects.ZS"
+#INCLUDE "S7ZScript/Monsters/Empress/Spawner.ZS"
+#INCLUDE "S7ZScript/Monsters/Empress/Invuln.ZS"
+#INCLUDE "S7ZScript/Monsters/FatFuck/FatFuck.ZS"
+#INCLUDE "S7ZScript/Monsters/Terminator/Terminator.ZS"
+#INCLUDE "S7ZScript/Monsters/ScorpsEnforcer/ScorpsEnforcer.ZS"
 
 // Inventory
-//#INCLUDE "S7ZScript/Inventory/Health.ZS"
-//#INCLUDE "S7ZScript/Inventory/Keys.ZS"
-//#INCLUDE "S7ZScript/Inventory/Berserk.ZS"
-//#INCLUDE "S7ZScript/Inventory/Loot.ZS"
+#INCLUDE "S7ZScript/Inventory/Health.ZS"
+#INCLUDE "S7ZScript/Inventory/Keys.ZS"
+#INCLUDE "S7ZScript/Inventory/Berserk.ZS"
+#INCLUDE "S7ZScript/Inventory/Loot.ZS"
 
 // Player stuff
-//#INCLUDE "S7ZScript/CheatThingy.ZS"
-//#INCLUDE "S7ZScript/Player.ZS"
-//#INCLUDE "S7ZScript/Scout.ZS"
+#INCLUDE "S7ZScript/CheatThingy.ZS"
+#INCLUDE "S7ZScript/Player.ZS"
+#INCLUDE "S7ZScript/Scout.ZS"
 
 // Ammo
-//#INCLUDE "S7ZScript/Inventory/Ammo.ZS"
+#INCLUDE "S7ZScript/Inventory/Ammo.ZS"
 
 // Misc
-//#INCLUDE "S7ZScript/Props.ZS"
+#INCLUDE "S7ZScript/Props.ZS"
 
 // Weapons
 // Primary
-//#INCLUDE "S7ZScript/Weapons/Primary/Shotgun/Shotgun.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/AMG/AMG.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/ManxCarbine/ManxCarbine.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/PrettyShootyIonCannonGun/PrettyShootyIonCannonGun.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/PlasmaGun/PlasmaGun.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/Thumper/Thumper.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/Hitter/Hitter.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/Fauchard/Fauchard.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/SSG/SSG.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/LaserPewPew/LaserPewPew.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/ConquerorRifle/ConquerorRifle.ZS"
-//#INCLUDE "S7ZScript/Weapons/Primary/AK47/AK47.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/Shotgun/Shotgun.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/AMG/AMG.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/ManxCarbine/ManxCarbine.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/PrettyShootyIonCannonGun/PrettyShootyIonCannonGun.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/PlasmaGun/ChargeProj.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/PlasmaGun/PlasmaGun.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/Thumper/Casings.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/Thumper/Grenades.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/Thumper/Thumper.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/Hitter/Hitter.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/Fauchard/Fauchard.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/SSG/SSG.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/LaserPewPew/LaserPewPew.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/ConquerorRifle/ConquerorRifle.ZS"
+#INCLUDE "S7ZScript/Weapons/Primary/AK47/AK47.ZS"
 // Secondary
-//#INCLUDE "S7ZScript/Weapons/Secondary/Raptor/Raptor.ZS"
-//#INCLUDE "S7ZScript/Weapons/Secondary/TEC-9/TEC-9.ZS"
-//#INCLUDE "S7ZScript/Weapons/Secondary/Revolver/Revolver.ZS"
+#INCLUDE "S7ZScript/Weapons/Secondary/Raptor/Raptor.ZS"
+#INCLUDE "S7ZScript/Weapons/Secondary/TEC-9/TEC-9.ZS"
+#INCLUDE "S7ZScript/Weapons/Secondary/Revolver/Revolver.ZS"
 // Throwables
-//#INCLUDE "S7ZScript/Weapons/Throwables/Grenade/Grenade.ZS"
+#INCLUDE "S7ZScript/Weapons/Throwables/Grenade/Grenade.ZS"

@@ -1,19 +1,28 @@
 // Add Keys
-//addKeySection "Se7evidas (Essentials)" "Se7evidas_Essentials"
-//addMenuKey    "Firing mode (Press)"         "S7_FiringMode"
-//addMenuKey    "Sprint (Hold)"               +user1
-//addMenuKey    "Buy Menu Toggle (Press)"     +user3
-//addMenuKey    "Quick Melee (Press)"         "S7_QuickMelee"
+addKeySection "Se7evidas (Weapon)" "Se7evidas_Weapon"
+addMenuKey    "Firing mode"                 "S7_FiringMode"
+addMenuKey    "Quick Melee"                 "S7_QuickMelee"
+addMenuKey    "Drop Weapon"                 "S7_WeapDrop"
+addMenuKey    "Next Weapon"                 "S7_WeapNext"
+addMenuKey    "Previous Weapon"             "S7_WeapPrev"
+addMenuKey    "Weapon Slot 1"               "S7_Slot 0"
+addMenuKey    "Weapon Slot 2"               "S7_Slot 1"
+addMenuKey    "Weapon Slot 3"               "S7_Slot 2"
+addMenuKey    "Weapon Slot 4"               "S7_Slot 3"
+addMenuKey    "Weapon Slot 5"               "S7_Slot 4"
 
-//addKeySection "Se7evidas (Optional)" "Se7evidas_Optional"
-//addMenuKey    "Reload (Press)"              "S7_Reload"
-//addMenuKey    "Dodge (Press)"               +user4
-//addMenuKey    "Drop Weapon (Press)"         "S7_WeapDrop"
+addKeySection "Se7evidas (Movement)" "Se7evidas_Movement"
+addMenuKey    "Sprint (Hold)"               "+user1"
+addMenuKey    "Dodge"                       "+user2"
+
+addKeySection "Se7evidas (Misc)" "Se7evidas_Misc"
+addMenuKey    "Player menu"                 "+user4"
+addMenuKey    "Buy Menu"                    "+user3"
+addMenuKey    "Inventory list"              "S7_ShowPop1"
 
 // Keys
 alias S7_FiringMode "Use S7_FiringModeKey"
 alias S7_QuickMelee "Use S7_MeleeKey"
-alias S7_Reload "Use S7_ReloadKey"
 alias S7_WeapDrop "Use S7_DropWeaponKey"
 alias S7_ShowPop1 "Use S7_ShowPop1Key"
 //alias S7_ShopToggle "Use S7_ToggleShopKey"

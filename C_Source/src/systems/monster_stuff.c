@@ -99,31 +99,6 @@ Script_C void S7_GenericMonsterScript () {
     }
 }
 
-Script_C void S7_SuccubusScript () {
-    MonsterInfo_t self;
-    self.boss = 0;
-    vec3_k targetPos;
-    bool flying = FALSE;
-    AddMonsterToList (&self);
-
-    while (TRUE) {
-        UpdateMonsterInfo (&self);
-        targetPos = GetActivatorPointerPos (AAPTR_TARGET);
-
-        if (self.z - targetPos.z > 96.0k)
-            flying = TRUE;
-        else if ((self.z - self.floorZ) <= 0)
-            flying = FALSE;
-        else
-            flying = TRUE;
-
-        if (GetUserVariable (0, s"user_Flying") != flying)
-            SetUserVariable (0, s"user_Flying", flying);
-
-        Delay (1);
-    }
-}
-
 Script_C void S7_ZombieScript () {
     string name = s"Reading name";
     int readDelay = Random (3, 6);
@@ -156,157 +131,24 @@ Script_C void S7_EmpressScript () {
     if (!CheckInventory (EMPIDENT))
         return;
 
-    int invulnDelay,
-        ballsCount,
-        newHealth, health;
     MonsterInfo_t self;
     self.boss = 2;
     AddMonsterToList (&self);
 
-    newHealth = GetActorProperty (0, APROP_Health);
-    health = EMPMHEALTH;
     while (TRUE) {
         UpdateMonsterInfo (&self);
 
-        ballsCount = CheckInventory (s"S7_EmpressBalls");
-        health += -(0x7FFFFFFF - newHealth);
-
-        if (health > EMPINVLIMIT || ballsCount > 0) {
-            SetInventory (EMPINVTOKEN, FALSE);
-            if (ballsCount > 0)
-                invulnDelay = EMPINVDELAY;
-        } else if (invulnDelay) {
-            SetInventory (EMPINVTOKEN, FALSE);
-            invulnDelay--;
-        } else if (health <= EMPINVLIMIT && ballsCount < 1 && invulnDelay < 1)
-            SetInventory (EMPINVTOKEN, TRUE);
-
-        SetUserVariable (0, EMPHPVAR, health);
-
         Delay (1);
-
-        if (!CheckInventory (ISDEADTOKEN)) {
-            newHealth = GetActorProperty (0, APROP_Health);
-            SetActorProperty (0, APROP_Health, 0x7FFFFFFF);
-        } else {
-            newHealth = 0x7FFFFFFF;
-
-            if (GetActorProperty (0, APROP_Health) > 0)
-                SetActorProperty (0, APROP_Health, 0x7FFFFFFF);
-        }
     }
 }
 
-Script_LS void S7_TerminatorScriptGetInfo (vec3_k *tPos, vec3_k *tVel) {
-    SetActivatorToTarget (0);
-
-    tPos->x = GetActorX (0);
-    tPos->y = GetActorY (0);
-    tPos->z = GetActorZ (0);
-    
-    tVel->x = GetActorVelX (0);
-    tVel->y = GetActorVelY (0);
-    tVel->z = GetActorVelZ (0);
-}
 Script_C void S7_TerminatorScript () {
     MonsterInfo_t self;
-    self.boss = 0;
+    self.boss = 2;
     AddMonsterToList (&self);
 
     while (TRUE) {
         UpdateMonsterInfo (&self);
-
-        if (GetUserVariable (0, s"user_ReqGrenCheck") == 1) {
-            vec3_k sPos = (*(vec3_k*)&(self.x)),
-                   tPos, tVel;
-            accum dist;
-            S7_TerminatorScriptGetInfo (&tPos, &tVel);
-            dist = Distance2Vec (sPos, tPos);
-            sPos.x += -18 * CosA (self.angle);
-            sPos.y += -18 * SinA (self.angle);
-
-            if (dist < 145.0k)
-                SetUserVariable (0, s"user_GrenType", 1);
-            else if (dist < 350.0k)
-                SetUserVariable (0, s"user_GrenType", 2);
-            else if (dist < 875.0k) // 5 * 95 + 400
-                SetUserVariable (0, s"user_GrenType", 0);
-            else
-                SetUserVariable (0, s"user_GrenType", 0);
-
-            SetUserVariable (0, s"user_ReqGrenCheck", 0);
-        } else if (GetUserVariable (0, s"user_ReqGrenCheck") == 2) {
-            vec3_k sPos = (*(vec3_k*)&(self.x)),
-                   tPos, tVel, tIntercept, angle;
-            vec2_k pitchVec;
-            accum pitch, dist;
-            bool setPitch = FALSE;
-            S7_TerminatorScriptGetInfo (&tPos, &tVel);
-            tIntercept = tPos;
-            dist = Distance2Vec (sPos, tPos);
-            sPos.x += -18 * CosA (self.angle);
-            sPos.y += -18 * SinA (self.angle);
-
-            if (GetUserVariable (0, s"user_GrenType")) {
-                if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 55.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 145.0k) {
-                    // Angle
-                    angle = GetEulerAngles (tIntercept, sPos);
-                    ChangeActorAngle (0, angle.z, TRUE);
-                    // Pitch
-                    InterceptShotPitch (80.0k, 0.2k, sPos, tIntercept, &pitchVec);
-                    setPitch = TRUE;
-                } else if (dist < 145.0k) {
-                    InterceptShotPitch (55.0k, 0.2k, sPos, tPos, &pitchVec);
-                    setPitch = TRUE;
-                } else
-                    setPitch = FALSE;
-
-                if (setPitch) {
-                    pitch = (pitchVec.x < pitchVec.y ? pitchVec.x : pitchVec.y);
-                    ChangeActorPitch (0, -pitch, TRUE);
-                }
-            } else if (GetUserVariable (0, s"user_GrenType") == 2) {
-                if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 80.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 350.0k) {
-                    // Angle
-                    angle = GetEulerAngles (tIntercept, sPos);
-                    ChangeActorAngle (0, angle.z, TRUE);
-                    // Pitch
-                    InterceptShotPitch (80.0k, 0.2k, sPos, tIntercept, &pitchVec);
-                    setPitch = TRUE;
-                } else if (dist < 350.0k) {
-                    InterceptShotPitch (80.0k, 0.2k, sPos, tPos, &pitchVec);
-                    setPitch = TRUE;
-                } else
-                    setPitch = FALSE;
-
-                if (setPitch) {
-                    pitch = (pitchVec.x < pitchVec.y ? pitchVec.x : pitchVec.y);
-                    ChangeActorPitch (0, -pitch, TRUE);
-                }
-            } else if (GetUserVariable (0, s"user_GrenType") == 0) { // 5 * 95 + 400
-                vec3_k tmpSPos = sPos;
-                tmpSPos.x += 475.0k * CosA (self.angle);
-                tmpSPos.y += 475.0k * SinA (self.angle);
-
-                if (InterceptShotPosition (*((vec2_k *) &sPos), *((vec2_k *) &tPos), *((vec2_k *) &tVel), 95.0, (vec2_k *) &tIntercept) && Distance2Vec (sPos, tIntercept) < 875.0k) {
-                    // Angle
-                    angle = GetEulerAngles (tIntercept, sPos);
-                    ChangeActorAngle (0, angle.z, TRUE);
-                    // Pitch
-                    InterceptShotPitch (95.0k, 0.2k, tmpSPos, tIntercept, &pitchVec);
-                    setPitch = TRUE;
-                } else if (dist < 875.0k) {
-                    InterceptShotPitch (95.0k, 0.2k, tmpSPos, tPos, &pitchVec);
-                    setPitch = TRUE;
-                } else
-                    setPitch = FALSE;
-
-                if (setPitch) {
-                    pitch = (pitchVec.x < pitchVec.y ? pitchVec.x : pitchVec.y);
-                    ChangeActorPitch (0, -pitch, TRUE);
-                }
-            }
-        }
 
         Delay (1);
     }
@@ -381,7 +223,6 @@ Script_C void S7_SLanceBeamGrab () {
         if (!CheckInventory (s"S7_SoulLance_BeamGrabbed") ||
              GetActorProperty (0, APROP_Health) <= 0 ||
              CheckInventory (ISDEADTOKEN) ||
-            (CheckInventory (EMPINVTOKEN) && GetUserVariable (0, EMPHPVAR) <= 0) ||
             info.flags & BGIF_STOP1) {
             TakeInventory (s"S7_SoulLance_BeamGrabbed", 0x7FFFFFFF);
             info.flags |= BGIF_STOP2;

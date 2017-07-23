@@ -1,0 +1,51 @@
+// 30011 and 30013 are commmented out because those weapons aren't in the main PK3 yet.
+// 32503 is commented out because it seems I accidentally skipped that monsters slot.
+doomEdNums {
+    // Weapons
+    30000 = S7_Shotgun
+    30001 = S7_PrettyShootyIonCannonGun
+    30002 = S7_AMG
+    30003 = S7_PlasmaGun
+    30004 = S7_Thumper
+    30005 = S7_Fauchard
+    30006 = S7_SSG
+    30007 = S7_HitterSMG
+    30008 = S7_ManxCarbine
+    30009 = S7_LaserPewPew
+    30010 = S7_ConquerorRifle
+    //30011 = S7_AntimatterGun
+    30012 = S7_AK47
+    //30013 = S7_IWSL5
+
+    // Ammo
+    31000 = S7_9mmCartridges
+    31001 = S7_44MCartridges
+    31002 = S7_762x39Cartridges
+    31003 = S7_20gaShells
+    31004 = S7_Cells
+    31005 = S7_45ACPCartridges
+    31006 = S7_Backpack
+    31007 = S7_BackpackNoAmmo
+    31008 = S7_FBSysCells
+    31009 = S7_12gaShells
+    31010 = S7_45WWCartridges
+    31011 = S7_AntimatterShells
+
+    // Inventory
+    32001 = S7_Medikit
+    32002 = S7_Stimpack
+    32003 = S7_Canteen
+    32004 = S7_Thumper_Used
+    32005 = S7_BerserkPickup
+
+    // Monsters
+    32500 = S7_EmpressPreSpawn
+    32501 = S7_BlackPanther
+    32502 = S7_FatFuck
+    //32503 =
+    32504 = S7_Hellion
+    32505 = S7_ScorpsTrooper
+    32506 = S7_Succubus
+    32507 = S7_Terminator
+    32508 = S7_ScorpsEnforcer
+}

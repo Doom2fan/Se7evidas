@@ -28,24 +28,12 @@
     ret.gender = ret.cash = 0;
 
     ret.scriptData = PD_ScriptData_t_new ();
-    ret.thumperDef = ThumperDef_t_new ();
 
     return ret;
 }*/
 
 struct PD_ScriptData_t PD_ScriptData_t_new () {
     PD_ScriptData_t ret;
-
-    return ret;
-}
-
-struct ThumperDef_t ThumperDef_t_new () {
-    ThumperDef_t ret;
-
-    for (int i = 0; i < THUMPERMAGSIZE; i++)
-        ret.magShells [i] = S7_TH_None;
-    ret.magIndex = -1;
-    ret.currentShell = S7_TH_None;
 
     return ret;
 }

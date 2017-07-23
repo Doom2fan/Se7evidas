@@ -4,53 +4,94 @@ listMenu "S7HelpTopicsMenu" {
 
     font "SMALLFONT", "Untranslated"
     position 37, 62
-    textItem "1. Introduction",                     "1", "S7HelpTopic1-1"
-    textItem "2. The leveling system",              "2", "S7HelpTopic2-1"
-    textItem "C. Main credits and special thanks",   "T", "S7Credits1"
-    //textItem "Font Test", "", "S7FontTest"
+    textItem "1. Introduction",                     "1", "S7HelpTopic-Introduction"
+    textItem "2. Controls",                         "2", "S7HelpTopic-Controls"
+    textItem "3. The leveling system",              "3", "S7HelpTopic-LevelSys"
+    textItem "C. Main credits and special thanks",  "T", "S7Credits1"
+    textItem "Font Test",                           " ", "S7FontTest"
 }
 
-listMenu "S7HelpTopic1-1" {
+listMenu "S7HelpTopic-Introduction" {
     font "DBIGFONT", "Untranslated"
     staticText 17, 8, "INTRODUCTION"
 
     font "FSHUDFNT", "Untranslated"
-    staticText 4, 29,  "Welcome to Se7evidas"
-    staticText 4, 35,  "This manual should help you figure out how to play this thing. If you"
-    staticText 4, 41,  "ever wanna know what something does in this mod, look here first, it"
-    staticText 4, 47,  "might be here."
+    staticText 4,  29, "Welcome to Se7evidas."
+    staticText 4,  36, "This manual should help you figure out how to play this thing."
+    staticText 4,  43, "If you ever wanna know what something does in this mod, look here"
+    staticText 4,  50, "first, it might be here."
 
-    staticText 4, 59,  "You play the role of someone working for Lucius, one of the biggest"
-    staticText 4, 65,  "PMCs in the universe. You can buy a variety of weapons from the"
-    staticText 4, 72,  "Armory, or grab some from somewhere in the battlefield."
-    staticText 4, 77,  "Maybe there's even a black market run by the demons. Who knows."
-    staticText 4, 83,  "(BLACK MARKET RUN BY DEMONS NOT IMPLEMENTED YET)"
+    staticText 4,  64, "You play the role of someone working for Lucius, one of the biggest"
+    staticText 4,  71, "PMCs in the universe. You can buy a variety of weapons from the"
+    staticText 4,  78, "armory, or grab some from somewhere in the battlefield."
+    staticText 4,  85, "Maybe there's even a black market run by the demons. Who knows."
+    staticText 4,  92, "(BLACK MARKET RUN BY DEMONS NOT IMPLEMENTED YET)"
 
-    staticText 4, 95,  "This mod is FREE as in free beer. If you've paid money for it or gotten"
-    staticText 4, 101, "it in a CD you bought, then you've been utterly ripped off. (In fact,"
-    staticText 4, 107, "selling this mod would be illegal.)"
+    staticText 4, 106, "This mod is FREE as in free beer. If you've paid money for it or"
+    staticText 4, 113, "gotten it in a CD you bought, then you've been utterly ripped off."
+    staticText 4, 120, "(In fact, selling this mod would be very, VERY illegal.)"
 }
 
-listMenu "S7HelpTopic2-1" {
+listMenu "S7HelpTopic-Controls" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "CONTROLS"
+
+    font "FSHUDFNT", "Untranslated"
+    staticText 4,  29, "The recommended setup for playing this mod is WASD, with the Fire and"
+    staticText 4,  36, "Altfire controls in the left and right mouse button, respectively."
+    staticText 4,  43, "You'll need to bind the built-in Weapon Reload and Weapon Zoom"
+    staticText 4,  50, "controls, and the mod-specific keys in the bottom of the Customize"
+    staticText 4,  57, "Controls menu. You'll also need to bind the mod's custom weapon"
+    staticText 4,  64, "slot/change keys."
+    staticText 4,  71, ""
+    staticText 4,  78, "WEAPONS:"
+    staticText 4,  85, "Most weapons have to be reloaded. You can do that either by pressing"
+    staticText 4,  92, "reload, or having it automatically reload by setting the"
+    staticText 4,  99, "\"Auto reloading\" option to On in the Se7evidas user options menu."
+    staticText 4, 106, "Some weapons have multiple firing modes. When using such a weapon, you"
+    staticText 4, 113, "can press the Firing Mode key to change the current firing mode."
+    staticText 4, 120, "The Weapon Zoom key can be used to use the scope or sights in some"
+    staticText 4, 134, "weapons. A few of these weapons have multiple zoom levels, which you"
+    staticText 4, 141, "can select by pressing the Weapon Zoom and Firing Mode keys together."
+    
+    position 16, 176
+    textItem "Next page", "N", "S7HelpTopic-ControlsPart2"
+}
+
+listMenu "S7HelpTopic-ControlsPart2" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "CONTROLS II"
+
+    font "FSHUDFNT", "Untranslated"
+    staticText 4,  29, "MOVEMENT:"
+    staticText 4,  36, "To increase your movement speed, press the Sprint key. You'll have to"
+    staticText 4,  43, "lower your weapon while sprinting, and will run out of stamina after"
+    staticText 4,  50, "sprinting for some time. Your stamina will start regenerating"
+    staticText 4,  57, "automatically as soon as you stop sprinting."
+    staticText 4,  64, "You can dodge by tapping the dodge key while moving in a direction"
+    staticText 4,  71, "other than forward. This also requires stamina."
+}
+
+listMenu "S7HelpTopic-LevelSys" {
     font "DBIGFONT", "Untranslated"
     staticText 17, 8, "THE LEVELING SYSTEM"
 
     font "FSHUDFNT", "Untranslated"
-    staticText 4,  29, "Se7evidas has a RPG-style leveling system where you gain experience by doing"
-    staticText 4,  35, "certain things. (For example, killing enemies)"
-    staticText 4,  41, "When you level up, you gain attribute points, which you can use to upgrade"
-    staticText 4,  47, "your stats."
+    staticText 4,  29, "Se7evidas has a RPG-style leveling system where you gain experience by"
+    staticText 4,  36, "doing certain things. (For example, killing enemies)"
+    staticText 4,  43, "When you level up, you gain attribute points, which you can use to"
+    staticText 4,  50, "upgrade your stats"
 
-    staticText 4,  59, "Strength: Affects the strength of your melee attacks and the power of some"
-    staticText 4,  65, "weapons."
+    staticText 4,  57, "Strength: Affects the strength of your melee attacks and the power of"
+    staticText 4,  64, "some weapons."
 
-    staticText 4,  77, "Vitality: Affects your max health."
+    staticText 4,  78, "Vitality: Affects your max health."
 
-    staticText 4,  89, "Agility: Affects your sprinting speed and your max stamina."
+    staticText 4,  92, "Agility: Affects your sprinting speed and your max stamina."
 
-    staticText 4, 101, "Defence: Affects the damage you take."
+    staticText 4, 106, "Defence: Affects the damage you take."
 
-    staticText 4, 113, "Magic: Affects magic weapons and your max mana."
+    staticText 4, 120, "Magic: Affects magic weapons and your max mana."
 }
 
 listMenu "S7Credits1" {
@@ -58,31 +99,26 @@ listMenu "S7Credits1" {
     staticText 17, 8, "Credits"
 
     font "FSHUDFNT", "Untranslated"
-    staticText 4,  35, "C/ACS coding:"
-    staticText 4,  41, "    Chronos \"phantombeta\" Ouroboros"
+    staticText 4,  29, "C/ACS coding:"
+    staticText 4,  36, "    Chronos \"phantombeta\" Ouroboros"
 
-    staticText 4,  53, "DECORATE coding:"
-    staticText 4,  59, "    Chronos \"phantombeta\" Ouroboros"
+    staticText 4,  50, "DECORATE coding:"
+    staticText 4,  57, "    Chronos \"phantombeta\" Ouroboros"
 
-    staticText 4,  71, "Coding help:"
-    staticText 4,  77, "    Edward850"
-    staticText 4,  83, "    marrub"
-    staticText 4,  89, "    DavidPH"
-    staticText 4,  95, "    A certain person"
-    staticText 4, 101, "    Revilution/Zanieon"
+    staticText 4,  64, "Coding help:"
+    staticText 4,  71, "    Edward850"
+    staticText 4,  78, "    marrub"
+    staticText 4,  85, "    DavidPH"
+    staticText 4,  92, "    A certain person"
+    staticText 4,  99, "    Revilution/Zanieon"
 
-    staticText 4, 113, "Weapon design and descriptions:"
-    staticText 4, 119, "    A certain person"
-    staticText 4, 125, "    Chronos \"phantombeta\" Ouroboros"
+    staticText 4, 113, "Weapon and item design and descriptions:"
+    staticText 4, 120, "    A certain person"
+    staticText 4, 134, "    Chronos \"phantombeta\" Ouroboros"
 
-    staticText 4, 137, "Monster design and descriptions:"
-    staticText 4, 143, "    A certain person"
-    staticText 4, 149, "    Chronos \"phantombeta\" Ouroboros"
-
-    staticText 4, 161, "Item design and descriptions:"
-    staticText 4, 167, "    A certain person"
-    staticText 4, 173, "    Chronos \"phantombeta\" Ouroboros"
-    
+    staticText 4, 141, "Monster design and descriptions:"
+    staticText 4, 148, "    A certain person"
+    staticText 4, 155, "    Chronos \"phantombeta\" Ouroboros"
 }
 
 listMenu "S7FontTest" {
@@ -90,9 +126,40 @@ listMenu "S7FontTest" {
     staticText 17, 8, "FONT TEST"
 
     font "FSHUDFNT", "Untranslated"
-    staticText 4, 35, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    staticText 4, 49, "abcdefghijklmnopqrstuvwxyz"
+    staticText 4, 29, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    staticText 4, 36, "abcdefghijklmnopqrstuvwxyz"
 
-    staticText 4, 63, "01234567890"
-    staticText 4, 77, "!@#$%&*-_=+:;/?,.()[]{}<>"
+    staticText 4, 50, "01234567890"
+    staticText 4, 57, "!@#$%&*-_=+:;/?,.()[]{}<>"
+
+    position 16, 176
+    textItem "Next page", "N", "S7FontTest2"
+}
+
+listMenu "S7FontTest2" {
+    font "DBIGFONT", "Untranslated"
+    staticText 17, 8, "LOREM IPSUM"
+
+    font "FSHUDFNT", "Untranslated"
+    staticText 4,  29, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacus"
+    staticText 4,  36, "quam, mattis non aliquam nec, elementum faucibus ex. Sed ultricies"
+    staticText 4,  43, "aliquam libero vitae convallis. Pellentesque ac mauris vel leo"
+    staticText 4,  50, "convallis gravida. Integer vel mauris fermentum, ullamcorper orci a,"
+    staticText 4,  57, "lobortis mauris. Pellentesque sit amet ligula diam. Morbi semper"
+    staticText 4,  64, "varius urna, quis efficitur nisl faucibus ut. Vivamus blandit enim"
+    staticText 4,  71, "suscipit ultricestristique. Praesent sagittis molestie ipsum id"
+    staticText 4,  78, "euismod. Phasellus hendrerit eget felis vel malesuada."
+    staticText 4,  85, ""
+    staticText 4,  92, "Cras suscipit cursus nibh dapibus molestie. Duis eget fermentum nisi."
+    staticText 4,  99, "Mauris imperdiet rutrum mauris. Sed ut pellentesque ipsum. Aliquam"
+    staticText 4, 106, "consequat ipsum enim, a laoreet diam dignissim fringilla. Class aptent"
+    staticText 4, 113, "taciti sociosqu ad litora torquent per conubia nostra, per inceptos"
+    staticText 4, 120, "himenaeos. Nullam efficitur nulla ac mi interdum molestie. Vestibulum"
+    staticText 4, 134, "faucibus lorem id mauris pulvinar, ut ultrices augue gravida. Maecenas"
+    staticText 4, 141, "maximus pulvinar metus, eu maximus eros euismod eget."
+    staticText 4, 148, ""
+    staticText 4, 155, "Sed rutrum ultricies suscipit. Quisque blandit, tortor in vestibulum"
+    staticText 4, 162, "efficitur, dolor arcu lobortis ex, vitae iaculis lorem felis quis sem."
+    staticText 4, 169, "Vestibulum quis augue porta, sagittis velit at, posuere dui. Morbi"
+    staticText 4, 176, "rutrum ligula a semper dignissim. Etiam in dapibus libero."
 }

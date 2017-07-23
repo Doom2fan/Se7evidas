@@ -234,15 +234,9 @@ Script_LS EI_Struct EI_GetInfo (int playerNum) {
         if (actorInfo & ACTOR_MONSTER && actorInfo & ACTOR_ALIVE && CheckFlag (0, s"shootable") && !(CheckFlag (0, s"noDamage") || CheckFlag (0, s"invulnerable"))) { // Monsters
             ret.name      = GetActorPropertyString (0, APROP_NameTag);
 
-            if (CheckInventory (EMPIDENT)) {
-                ret.health    = GetUserVariable (0, EMPHPVAR);
-                ret.maxHealth = EMPMHEALTH;
-                ret.isValid = TRUE;
-            } else {
-                ret.health    = GetActorProperty (0, APROP_Health);
-                ret.maxHealth = GetActorProperty (0, APROP_SpawnHealth);
-                ret.isValid   = TRUE;
-            }
+            ret.health    = GetActorProperty (0, APROP_Health);
+            ret.maxHealth = GetActorProperty (0, APROP_SpawnHealth);
+            ret.isValid   = TRUE;
         } else if (actorInfo & ACTOR_ALIVE && (actorInfo & ACTOR_PLAYER || actorInfo & ACTOR_BOT || actorInfo & ACTOR_VOODOODOLL)) { // Players/bots
             ret.name      = StrParam ("%tS", playerNum);
             ret.health    = GetActorProperty (0, APROP_Health);
