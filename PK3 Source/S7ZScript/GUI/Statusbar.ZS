@@ -29,7 +29,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         mHealthInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 8);
         mArmorInterpolator  = DynamicValueInterpolator.Create (0, 0.25, 1, 8);
         mStaminInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 8);
-        mCashInterpolator   = DynamicValueInterpolator.Create (0, 0.25, 1, 65536);
+        mCashInterpolator   = DynamicValueInterpolator.Create (0, 0.25, 1, 1 << 28);
         mLsrRfInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mLPPInterpolator1  = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mLPPInterpolator2  = DynamicValueInterpolator.Create (0, 0.25, 1, 25);

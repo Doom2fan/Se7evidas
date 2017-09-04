@@ -61,11 +61,11 @@ class S7_Terminator : S7_DemonBase {
         double x1, x2;
         [x1, x2] = S7_Math.InterceptShotPitch ((pos.x + cos (angle)*xyOffs, pos.y + sin (angle)*xyOffs, pos.z + zOffs), targPos, projSpeed, grav);
 
-        if (x1 == double.NaN && x2 == double.NaN) // If these are null, well fuck. Probably means we can't hit.
+        if (!(x1 != double.NaN) && !(x2 != double.NaN)) // If these are null, well fuck. Probably means we can't hit.
             return double.NaN;
-        else if (x1 == double.NaN)
+        else if (!(x1 != double.NaN))
             return x2;
-        else if (x2 == double.NaN)
+        else if (!(x2 != double.NaN))
             return x1;
 
         if (retX1)

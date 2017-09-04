@@ -33,6 +33,7 @@ class S7_AMG : S7_BaseWeapon {
     Deselect:
         AMGG A 0 {
             A_SetCrosshair (0);
+            invoker.burstCount = 0;
 
             if (invoker.zoomLevel >= 1)
                 return ResolveState ("Deselect.Zoom");
@@ -43,7 +44,6 @@ class S7_AMG : S7_BaseWeapon {
     Deselect.Zoom:
         AMGG A 8 {
             invoker.zoomLevel = 0;
-            invoker.burstCount = 0;
             A_SetBlend ("00 00 00", 1.0, 8);
             A_ZoomFactor (1.0, ZOOM_Instant);
         }
@@ -63,6 +63,9 @@ class S7_AMG : S7_BaseWeapon {
     Ready2.DoStuff:
         #### # 1 {
             invoker.burstCount = 0;
+            if (invoker.zoomLevel > 0)
+                TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
+
             if (CheckInventory ("S7_Reloading", 1))
                 return ResolveState ("Reload");
             if (CheckInventory ("S7_DoMelee", 1))

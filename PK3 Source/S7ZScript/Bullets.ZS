@@ -43,20 +43,25 @@ class S7_BaseTracer : fastProjectile {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_ScaleVelocity (1.0 / 25);
-        TNT1 A 0 A_ScaleVelocity (Abs (trueSpeed));
-        TNT1 A 0 A_Jump (256, "Idle");
-        wait;
+        TNT1 A 0 noDelay {
+            A_ScaleVelocity (1.0 / 25);
+            A_ScaleVelocity (abs (trueSpeed));
+            return ResolveState ("Idle");
+        }
     Idle:
         SPRK A 1 bright;
         wait;
 
     Death:
     Crash:
-        TNT1 AAAA 0 A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside);
-        TNT1 AAA  0 A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside);
-        SPRK A    2 bright;
-        SPRK A    2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
+        SPRK A 2 bright {
+            for (int i = 0; i < 4; i++) {
+                A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside);
+                if (i < 3)
+                    A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside);
+            }
+        }
+        SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
         stop;
     XDeath:
         TNT1 A 3 A_PlaySound ("Tracers/HitFlesh", CHAN_Body);
@@ -88,10 +93,14 @@ class S7_BulletPuff : S7_TracerEffectsBase { // replaces bulletPuff {
     Spawn:
         TNT1 A 0 noDelay A_PlaySound ("Tracers/HitWall", CHAN_Body);
     NoSound:
-        TNT1 AAAA 0 A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside);
-        TNT1 AAA  0 A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside);
-        SPRK A    2 bright;
-        SPRK A    2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
+        SPRK A 2 bright {
+            for (int i = 0; i < 4; i++) {
+                A_SpawnItemEx ("S7_BulletPuffSparks", 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside);
+                if (i < 3)
+                    A_SpawnItemEx ("S7_BulletPuffSmoke", 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside);
+            }
+        }
+        SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
         stop;
     }
 }

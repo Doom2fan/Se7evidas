@@ -40,6 +40,9 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2.DoThings;
     Ready2.DoThings:
         #### # 1 {
+            if (invoker.zoomLevel > 0)
+                TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
+
             if (CheckInventory ("S7_Reloading", 1))
                 return ResolveState ("Reload");
             if (CheckInventory ("S7_DoMelee", 1))
