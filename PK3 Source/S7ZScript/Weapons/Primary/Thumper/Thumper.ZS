@@ -258,7 +258,7 @@ class S7_Thumper : S7_BaseWeapon {
         }
         THPR E 8 {
             A_PlaySound ("Weapons/Thumper/ShellIn", CHAN_6);
-            invoker.magazine.Push (invoker.selectedPool);
+            invoker.magazine.Insert (0, invoker.selectedPool);
             TakeInventory (S7_Thumper.PoolNames [invoker.selectedPool], 1);
         }
         TNT1 A 0 A_JumpIf (!invoker.chambered, "InsertShells.Pump");
