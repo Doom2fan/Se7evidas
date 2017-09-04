@@ -95,6 +95,10 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Player.ZS"
 #INCLUDE "S7ZScript/Scout.ZS"
 
+// GUI
+#INCLUDE "S7ZScript/GUI/Statusbar.ZS"
+#INCLUDE "S7ZScript/GUI/StatusbarMisc.ZS"
+
 // Ammo
 #INCLUDE "S7ZScript/Inventory/Ammo.ZS"
 

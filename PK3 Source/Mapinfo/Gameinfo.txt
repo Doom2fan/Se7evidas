@@ -18,6 +18,7 @@ gameinfo {
     playerClasses = "S7_ScoutPlayer"
 
     // UI
+    statusBarClass = "Se7evidasStatusBar"
     dimColor = "00 33 CC"
     dimAmount = 0.2
     quitSound = "menu/quit2"
