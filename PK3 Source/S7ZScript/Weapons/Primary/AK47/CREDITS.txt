@@ -2,7 +2,7 @@ DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD Sprites: Neccronixis, WildWeasel, Chronos "phantombeta" Ouroboros
-    Pickup Sprites: ???
+    Pickup Sprites: Captain J
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file
