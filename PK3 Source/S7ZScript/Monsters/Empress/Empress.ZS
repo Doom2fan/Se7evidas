@@ -272,6 +272,7 @@ class S7_Empress : S7_DemonBase {
             A_NoBlocking ();
             A_DamageChildren (0x7FFFFFFF, "EmpressDeath");
             A_KillChildren ();
+            Destroy ();
         }
         stop;
     }
