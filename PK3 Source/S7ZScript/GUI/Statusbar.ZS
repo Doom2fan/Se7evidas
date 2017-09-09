@@ -246,6 +246,7 @@ class Se7evidasStatusBar : BaseStatusBar {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+
                 // Draw shells
                 if (CheckInventory ("S7_SSGRightLoadedToken", 1)) DrawImage ("graphics/HUD/Cartridges/S7H12GA.png", (-17, -29), DI_ITEM_LEFT_TOP);
                 if (CheckInventory ("S7_SSGLeftLoadedToken",  1)) DrawImage ("graphics/HUD/Cartridges/S7H12GA.png", (-31, -29), DI_ITEM_LEFT_TOP);
@@ -253,6 +254,7 @@ class Se7evidasStatusBar : BaseStatusBar {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+
                 // Draw ammo bar
                 DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
                     mLsrRfInterpolator.GetValue (), GetMaxAmount ("S7_FauchardMag"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
@@ -260,18 +262,27 @@ class Se7evidasStatusBar : BaseStatusBar {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+
                 // Draw ammo bar(s)
                 let lppWeap = S7_LaserPewPew (CPlayer.ReadyWeapon);
-                if (CheckInventory ("S7_LaserPewPewSecond", 1) && lppWeap.akimbo) {
+                bool hasTwo = CheckInventory ("S7_LaserPewPewSecond", 1);
+
+                if (hasTwo && lppWeap.akimbo) {
+                    DrawImage ("graphics/HUD/Fullscreen/FireMode/BLSDual.png", (5, 5), DI_ITEM_LEFT_TOP);
+
                     DrawBar ("S7LPPDFG", "S7LPPDBG", mLPPInterpolator1.GetValue (), GetMaxAmount ("S7_LaserPewPewClip"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
                     DrawBar ("S7LPPDFG", "S7LPPDBG", mLPPInterpolator2.GetValue (), GetMaxAmount ("S7_LaserPewPewClipSecond"), (-5, -23), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
                 } else {
+                    if (hasTwo)
+                        DrawImage ("graphics/HUD/Fullscreen/FireMode/BLSCycle.png", (5, 5), DI_ITEM_LEFT_TOP);
+
                     DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
                         mLPPInterpolator1.GetValue (), GetMaxAmount ("S7_LaserPewPewClip"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
                 }
             } else if (CheckWeaponSelected ("S7_Thumper")) {
                 static const string ThumperGrenNames [] = { "", "Explosive", "Fragmentation", "Incendiary", "Flare", "Clusterbomb", "Nailbomb", "Nerve Gas" };
                 static const int ThumperGrenColors [] = { Font.CR_WHITE, Font.CR_ORANGE, Font.CR_GREEN, Font.CR_DARKRED, Font.CR_WHITE, Font.CR_BLUE, Font.CR_YELLOW, Font.CR_BLACK };
+
                 // Draw ammo pools count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount ("S7_Thumper_PUnified"), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
@@ -292,6 +303,23 @@ class Se7evidasStatusBar : BaseStatusBar {
                     DrawImage (String.Format ("graphics/HUD/Cartridges/S7H50M%d.png", grenType), (-26 - 22 * i, -17), DI_ITEM_LEFT_TOP);
                 }
             } else {
+                let weap = S7_BaseWeapon (CPlayer.ReadyWeapon);
+                if (weap && weap.fireModeIcon != FMI_None) {
+                    string icon;
+
+                    if (weap.fireModeIcon == FMI_SemiAuto)
+                        icon = "graphics/HUD/Fullscreen/FireMode/SemiAuto.png";
+                    else if (weap.fireModeIcon == FMI_BurstFire)
+                        icon = "graphics/HUD/Fullscreen/FireMode/BrstFire.png";
+                    else if (weap.fireModeIcon == FMI_FullAuto)
+                        icon = "graphics/HUD/Fullscreen/FireMode/FullAuto.png";
+                    else
+                        icon = "";
+
+                    if (!(icon == ""))
+                        DrawImage (icon, (5, 5), DI_ITEM_LEFT_TOP);
+                }
+
                 for (int i = 0; i < FScreenAmmoBars.Size (); i++) {
                     if (CheckWeaponSelected (FScreenAmmoBars [i].weap)) {
                         let bar = FScreenAmmoBars [i];

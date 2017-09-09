@@ -27,6 +27,12 @@ class S7_PlasmaGun : S7_BaseWeapon {
         weapon.ammoGive 0;
     }
 
+    override void DoEffect () {
+        super.DoEffect ();
+
+        fireModeIcon = (Owner.CheckInventory ("S7_PlasmaGun_Semi", 1)) ? FMI_SemiAuto : FMI_FullAuto;
+    }
+
     states {
     Spawn:
         PLSG U -1;

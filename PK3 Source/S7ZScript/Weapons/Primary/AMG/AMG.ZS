@@ -26,6 +26,12 @@ class S7_AMG : S7_BaseWeapon {
     int burstCount,
         zoomLevel;
 
+    override void DoEffect () {
+        super.DoEffect ();
+
+        fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
+    }
+
     states {
     Spawn:
         AMGG Z -1;

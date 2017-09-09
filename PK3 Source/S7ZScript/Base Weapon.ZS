@@ -42,6 +42,8 @@ class S7_BaseWeapon : weapon {
         +weapon.ammo_Optional +weapon.noAutoFire +weapon.noAlert
     }
 
+    int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
+
     states {
     DryFire:
         TNT1 A 0 {

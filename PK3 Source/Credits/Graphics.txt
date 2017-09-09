@@ -3,7 +3,9 @@ graphics/
         Cartridges/
             All the sprites here were made by Captain J and edited by Chronos "phantombeta" Ouroboros.
         Fullscreen/
-            BLSCycle and BLSDual were made by Captain J and edited by Chronos "phantombeta" Ouroboros.
+            FireMode/
+                BLSCycle and BLSDual were made by Captain J and edited by Chronos "phantombeta" Ouroboros.
+                FullAuto, BrstFire, SemiAuto, Buckshot and Slug were made by Marrub and edited by Chronos "phantombeta" Ouroboros.
             Everything else was made from scratch by Chronos "phantombeta" Ouroboros.
         Normal/
             PRCHRGRING/
@@ -16,9 +18,6 @@ graphics/
             S7TGRICN was made by Captain J and edited by Chronos "phantombeta" Ouroboros.
 
         ENHPBFG1-2 made by Chronos "phantombeta" Ouroboros.
-
-    Statusbar/
-        FullAuto, BrstFire, SemiAuto, Buckshot and Slug were made by Marrub and edited by Chronos "phantombeta" Ouroboros.
 
 sprites/
     Burn death/

@@ -24,6 +24,12 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     bool semiAuto;
 
+    override void DoEffect () {
+        super.DoEffect ();
+
+        fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
+    }
+
     states {
     Spawn:
         MANX Z -1;

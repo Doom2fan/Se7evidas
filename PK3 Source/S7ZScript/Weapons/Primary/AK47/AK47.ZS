@@ -25,6 +25,15 @@ class S7_AK47 : S7_BaseWeapon {
     bool halfTic, reloadChamber; // Temporary stuff
     bool semiAuto, semiOnly; // Persistent stuff
 
+    override void DoEffect () {
+        super.DoEffect ();
+
+        if (semiOnly)
+            fireModeIcon = FMI_None;
+        else
+            fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
+    }
+
     states {
     Spawn:
         AK4P A -1;

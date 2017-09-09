@@ -171,7 +171,6 @@ Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
             return;
 
         HeartbeatScript          (player, &heartbeatTics);
-        HudWeapons               (player);
         ShowPop                  (player, &sp_data);
         ScreenOverlays           (player);
 

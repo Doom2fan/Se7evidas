@@ -22,41 +22,6 @@
 #include "weapons/weap_data.h"
 #include "gui/HUD.h"
 
-void HW_SetFont (string font) {
-    if (GetCVar (s"screenblocks") <= 11) // if the HUD is shown...
-        SetFont (font); // Set the font to "font"
-    else // If not
-        SetFont (TNT1A0); // Set the font to TNT1A0
-}
-
-void HudWeapons (PlayerData_t *player) { // HUD icons and stuff...
-    if (!player)
-        return;
-
-    /* Firing modes */
-    SetFont (TNT1A0); // Set the font to TNT1A0
-
-    if (!player->scriptData.disableHUD) {
-        for (int x = 0; x < S7_HW_2ModeWpns_Length; x++) { // Loop through everything in the weapons array
-            if (CheckWeapon (S7_HW_2ModeWpns [x].weap)) { // If the player is using this weapon
-                if (S7_HW_2ModeWpns [x].showToken == NULL || // if showToken isn't defined, or
-                    ((!S7_HW_2ModeWpns [x].stMode && !CheckInventory (S7_HW_2ModeWpns [x].showToken)) || // showToken is defined, stMode is FALSE, and showToken isn't in the player's inventory, or
-                    (S7_HW_2ModeWpns [x].stMode && CheckInventory (S7_HW_2ModeWpns [x].showToken)) // showToken is defined, stMode is TRUE, and showToken is in the player's inventory
-                )) {
-                    if (CheckInventory (S7_HW_2ModeWpns [x].token)) // If the player has the specified item
-                        HW_SetFont (S7_HW_2ModeWpns [x].state1); // Set the font to the first image
-                    else // If not
-                        HW_SetFont (S7_HW_2ModeWpns [x].state2); // Set the font to the second image
-
-                    break; // Break from the loop
-                }
-            }
-        }
-    }
-
-    HudMessage (HUDMSG_PLAIN | HUDMSG_NOTWITHFULLMAP | HUDMSG_LAYER_UNDERHUD, 10001, CR_UNTRANSLATED, 0.0k, 0.0k, 1, 0.0k, 0.0k, 0.0k, "A"); // Display the HUD message
-}
-
 Script_C void S7_ShowPop1 () {
     if (!PlayerInGame (PLN))
         return;

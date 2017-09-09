@@ -25,6 +25,12 @@ class S7_TEC9 : S7_BaseWeapon {
     bool burstFire;
     int burstCount;
 
+    override void DoEffect () {
+        super.DoEffect ();
+
+        fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
+    }
+
     states {
 
     Spawn:

@@ -25,6 +25,12 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     bool jammed, loaded, noPump;
     int zoomLevel;
 
+    override void DoEffect () {
+        super.DoEffect ();
+
+        fireModeIcon = noPump ? FMI_SemiAuto : FMI_None;
+    }
+
     states {
     Spawn:
         CQRP A -1;

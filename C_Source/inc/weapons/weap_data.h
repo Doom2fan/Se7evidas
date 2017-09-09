@@ -40,7 +40,4 @@ extern const int ClipNames_Length;
 extern const string AmmoNames [];
 extern const int AmmoNames_Length;
 
-extern const S7_HW_2ModeWpn S7_HW_2ModeWpns [];
-extern const int S7_HW_2ModeWpns_Length;
-
 #endif
