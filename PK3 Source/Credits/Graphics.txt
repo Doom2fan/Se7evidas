@@ -1,6 +1,22 @@
 graphics/
     HUD/
+        Cartridges/
+            All the sprites here were made by Captain J and edited by Chronos "phantombeta" Ouroboros.
+        Fullscreen/
+            BLSCycle and BLSDual were made by Captain J and edited by Chronos "phantombeta" Ouroboros.
+            Everything else was made from scratch by Chronos "phantombeta" Ouroboros.
+        Normal/
+            PRCHRGRING/
+                All sprites here made from scratch by Chronos "phantombeta" Ouroboros.
+            PRFLPMTR made from scratch by Chronos "phantombeta" Ouroboros.
+            HELMBTMR, HELMTOP, HOLOBARSGREEN, HOLOBARSGREEN, HOLOBARSYELLOW, HOLOBARSORANGE, HOLOBARSRED, HOLOBR00 and HOLOBR10: Nintendo/Retro Studios, Patrik, LanHikariDS and Chronos "phantombeta" Ouroboros.
+        Radar/
+            Everything here was made from scratch by Chronos "phantombeta" Ouroboros.
+        Throwables/
+            S7TGRICN was made by Captain J and edited by Chronos "phantombeta" Ouroboros.
+
         ENHPBFG1-2 made by Chronos "phantombeta" Ouroboros.
+
     Statusbar/
         FullAuto, BrstFire, SemiAuto, Buckshot and Slug were made by Marrub and edited by Chronos "phantombeta" Ouroboros.
 
@@ -15,7 +31,7 @@ sprites/
 
     Effects/
         Flares/
-            PICFA0, PLGFA0, LSFLC0 and FLR1A0 were made by Chronos "phantombeta" Ouroboros.
+            PICFA0, PLGFA0, LSFLC0 and FLR1A0 were made from scratch by Chronos "phantombeta" Ouroboros.
             LSFLA0, LSFLB0 and BLSFA0 were made by Chronos "phantombeta" Ouroboros with Touhou (I think) sprites ripped by Neoworm.
         Lightning/
             ZAP* is from Strife by Rogue Entertainment
@@ -25,7 +41,7 @@ sprites/
         Smoke/
             SMKS, SMOK and SMK2: I dunno who made these.
 
-        SPRKA0 was made by Chronos "phantombeta" Ouroboros.
+        SPRKA0 was made from scratch by Chronos "phantombeta" Ouroboros.
 
     Explosions/
         XPL1-3 were made by Eriance.
