@@ -302,7 +302,7 @@ class S7_EmpressMissile2 : fastProjectile {
         obituary "$OB_EMPRESSFB";
         species "S7EmpressCrap";
         scale 0.75;
-    
+
         +forceXYBillboard +seekerMissile +thruSpecies
     }
 
@@ -322,7 +322,7 @@ class S7_EmpressMissile2Trail : S7_FastProjTrailBase {
     default {
         renderStyle "add";
         scale 0.75;
-    
+
         +forceXYBillboard
     }
 
@@ -396,7 +396,7 @@ class S7_EmpressMissile1 : fastProjectile {
 class S7_EmpressMissile1Trail : S7_FastProjTrailBase {
     default {
         renderStyle "add";
-    
+
         +forceXYBillboard
     }
 
