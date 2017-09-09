@@ -121,6 +121,13 @@ class S7_BasePlayer : playerPawn {
     }
 
     bool stepFrame;
+    actor playerLineTarget;
+
+    override void Tick () {
+        super.Tick ();
+
+        playerLineTarget = AimTarget ();
+    }
 
     states {
     Spawn:

@@ -174,8 +174,6 @@ Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
         HudWeapons               (player);
         ShowPop                  (player, &sp_data);
         ScreenOverlays           (player);
-        DrawRadar                (player);
-        EnemyInfoStoreScript ();
 
         Delay (1); // Wait for a tic
     }
@@ -220,15 +218,11 @@ Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
         return;
 
-    EIS_Data_t eis_data;
-
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
             return;
 
         UpdateClientsideCVars ();
-        EnemyInfoBuildScript (&eis_data);
-        EnemyInfoScript      (&eis_data);
 
         Delay (1); // Wait for a tic
     }

@@ -75,11 +75,11 @@ optionValue "S7EnemyHPBar_HPDisp_Values" {
     1, "Exact"
     2, "Percent"
 }
-optionValue "S7EnemyHPBar_ForceDir_Values" {
+/*optionValue "S7EnemyHPBar_ForceDir_Values" {
     0, "Off"
     1, "Horizontal"
     2, "Vertical"
-}
+}*/
 
 optionMenu "S7Settings_User" {
     title "USER OPTIONS"
@@ -93,16 +93,16 @@ optionMenu "S7Settings_User" {
     option "Enemy health bar",                                                                      "S7_EnemyHPBar_On",             "OnOff"
     option "Numerical health display",                                                              "S7_EnemyHPBar_HPDisp",         "S7EnemyHPBar_HPDisp_Values"
     option "Nametag",                                                                               "S7_EnemyHPBar_NametagOn",      "OnOff"
-    option "Force Direction",                                                                       "S7_EnemyHPBar_ForceDir",       "S7EnemyHPBar_ForceDir_Values"
+    //option "Force Direction",                                                                       "S7_EnemyHPBar_ForceDir",       "S7EnemyHPBar_ForceDir_Values"
 
-    staticText " "
+    /*staticText " "
     staticText "Radar", 1
     slider "Radar X position",                                                                      "S7_Radar_XPos", 0, 1920, 8
     slider "Radar Y position",                                                                      "S7_Radar_YPos", 0, 1080, 8
     staticText "Don't use the same resolution as video mode."
     staticText "Smaller values increase graphic size"
     slider "Radar X scaled resolution",                                                             "S7_Radar_Width", 320, 1920, 5
-    slider "Radar Y scaled resolution",                                                             "S7_Radar_Height", 240, 1080, 5
+    slider "Radar Y scaled resolution",                                                             "S7_Radar_Height", 240, 1080, 5*/
 
     staticText " "
     staticText "Gameplay Options", 1

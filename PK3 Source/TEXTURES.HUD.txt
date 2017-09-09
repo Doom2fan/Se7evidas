@@ -16,6 +16,7 @@ graphic HOLOBR01, 114, 8  { }
 graphic PRFLPMTB, 9, 82   { }
 graphic S7BARBK0, 50, 3   { }
 graphic PRFPMTB2, 9, 80   { }
+graphic ENHPBBG1, 202, 16  { }
 
 /** Fullscreen HUD **/
 graphic S7LPPDBG, 52, 26 {

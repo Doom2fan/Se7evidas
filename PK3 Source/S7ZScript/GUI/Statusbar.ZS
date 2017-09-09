@@ -1,7 +1,22 @@
+/** Credits:
+ ** Normal/visor HUD:
+ **   Code: Chronos "phantombeta" Ouroboros
+ **   Graphics: Nintendo/Retro Studios, Patrik, LanHikariDS, Chronos "phantombeta" Ouroboros
+ ** Fullscreen HUD:
+ **   Code: Chronos "phantombeta" Ouroboros
+ **   Graphics: Chronos "phantombeta" Ouroboros, Captain J (Cartridges sprites)
+**/
 class Se7evidasStatusBar : BaseStatusBar {
+    // Constants
+    const RADAR_SCALE = 10.0;
+    const RADAR_MAXDIST = 750.0;
+    const RADAR_RADIUS = 50.0;
+
     // Fonts
+    HUDFont mSmallFont;
     HUDFont mNormalHUDFont;
     HUDFont mFscreenHUDFont;
+    HUDFont mRadarMarkers;
     // Interpolators
     DynamicValueInterpolator mHealthInterpolator;
     DynamicValueInterpolator mArmorInterpolator;
@@ -21,10 +36,13 @@ class Se7evidasStatusBar : BaseStatusBar {
         fullscreenOffsets = true;
 
         // Initialize the fonts
+        mSmallFont = HUDFont.Create ("SmallFont");
         Font fnt = "S7HUDFONT";
         mNormalHUDFont = HUDFont.Create (fnt, fnt.GetCharWidth ("0"), true, 1, 1);
         fnt = "S7FSHUDFNT.lmp";
         mFscreenHUDFont = HUDFont.Create (fnt, 0, false, 1, 1);
+        fnt = "Fonts/MapMarkers.FON2";
+        mRadarMarkers = HUDFont.Create (fnt, fnt.GetCharWidth ("A"), true, 1, 1);
         // Initialize the interpolators
         mHealthInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 8);
         mArmorInterpolator  = DynamicValueInterpolator.Create (0, 0.25, 1, 8);
@@ -80,14 +98,53 @@ class Se7evidasStatusBar : BaseStatusBar {
 
         if (state == HUD_StatusBar) {
             BeginHUD (1.0, true, 320, 200);
-            DrawMainBar (TicFrac);
+            DrawMainBar (TicFrac, S7_BasePlayer (CPlayer.mo));
         } else if (state == HUD_Fullscreen) {
             BeginHUD (1.0, false, 320, 200);
-            DrawFullScreenBar (TicFrac);
+            DrawFullScreenBar (TicFrac, S7_BasePlayer (CPlayer.mo));
         }
     }
 
-    protected void DrawMainBar (double TicFrac) {
+    protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos) {
+        if (CheckInventory ("S7_UpgradeRadar", 1)) {
+            DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
+
+            ThinkerIterator actorFinder = ThinkerIterator.Create ("Actor", Thinker.STAT_DEFAULT);
+            Actor curActor;
+
+            double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
+            Vector2 pPawnXYPos = pPawn.pos.xy;
+            while (curActor = Actor (actorFinder.Next ())) {
+                if (abs (pPawn.Distance2D (curActor)) > RADAR_MAXDIST) // Skip any actors that are too far away
+                    continue;
+
+                int colour;
+                if (curActor.bIsMonster) {
+                    if (curActor.health > 0)
+                        colour = (curActor.isFriend (pPawn)) ? Font.CR_GREEN : Font.CR_RED;
+                    else
+                        colour = Font.CR_DARKGRAY;
+                } else if (curActor.bSpecial && curActor is "Key")
+                    colour = Font.CR_GOLD;
+                else
+                    continue;
+
+                // Coords
+                Vector2 worldPos = pPawnXYPos - curActor.pos.xy, screenPos;
+                screenPos.x = (worldPos.x * angleSin + worldPos.y * angleCos) / RADAR_SCALE;
+                screenPos.y = (worldPos.x * angleCos - worldPos.y * angleSin) / RADAR_SCALE;
+
+                if (screenPos.Length () >= RADAR_RADIUS)
+                    continue;
+
+                // Draw
+                DrawString (mRadarMarkers, "B", (radarPos.x - 50, radarPos.y + 50) + screenPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_CENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, colour);
+            }//level.time
+            DrawString (mRadarMarkers, "A", (radarPos.x - 50, radarPos.y + 50), DI_SCREEN_RIGHT_TOP | DI_ITEM_CENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_BLUE);
+        }
+    }
+
+    protected void DrawMainBar (double TicFrac, S7_BasePlayer pPawn) {
         DrawImage ("HELMTOP", (0, 0), DI_ITEM_TOP | DI_SCREEN_HCENTER);
         DrawImage ("HELMBTML", (0, 0), DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM);
         DrawImage ("HELMBTMR", (0, 0), DI_ITEM_RIGHT_BOTTOM | DI_SCREEN_RIGHT_BOTTOM);
@@ -108,7 +165,7 @@ class Se7evidasStatusBar : BaseStatusBar {
             DrawImage (energyImg, (0, 29), DI_ITEM_TOP | DI_SCREEN_HCENTER);
 
             // Draw health/armor bars
-            DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), CPlayer.mo.GetMaxHealth (true), (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
+            DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true), (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetMaxAmount ("BasicArmor"), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             // Draw health/armor numbers
             DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ("HUD_Health"));
@@ -116,7 +173,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         }
     }
 
-    protected void DrawFullScreenBar (double TicFrac) {
+    protected void DrawFullScreenBar (double TicFrac, S7_BasePlayer pPawn) {
         // Icons
         DrawImage ("graphics/HUD/Fullscreen/S7HLTH.png", (11,  -7), DI_ITEM_LEFT_BOTTOM);
         DrawImage ("graphics/HUD/Fullscreen/S7ARMR.png", (11, -25), DI_ITEM_LEFT_BOTTOM);
@@ -126,7 +183,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (28, -30), DI_ITEM_LEFT_BOTTOM);
         DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (28, -47), DI_ITEM_LEFT_BOTTOM);
         // Bars
-        DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mHealthInterpolator.GetValue (), CPlayer.mo.GetMaxHealth (true), (29, -13), 0, 0, DI_ITEM_LEFT_BOTTOM);
+        DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true), (29, -13), 0, 0, DI_ITEM_LEFT_BOTTOM);
         DrawBar ("graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0", mArmorInterpolator.GetValue  (), GetMaxAmount ("BasicArmor"),    (29, -31), 0, 0, DI_ITEM_LEFT_BOTTOM);
         DrawBar ("graphics/HUD/Fullscreen/S7STMNBR.png", "S7BARBK0", mStaminInterpolator.GetValue (), GetMaxAmount ("S7_Stamina"),    (29, -48), 0, 0, DI_ITEM_LEFT_BOTTOM);
         // Strings
@@ -137,10 +194,51 @@ class Se7evidasStatusBar : BaseStatusBar {
         DrawString (mFScreenHUDFont, FormatNumber (mStaminInterpolator.GetValue (), 1,  5), (81, -53), DI_TEXT_ALIGN_LEFT  | DI_NOSHADOW, Font.CR_WHITE);
         DrawString (mFScreenHUDFont, FormatNumber (mCashInterpolator.GetValue   (), 1, 10), (77, -66), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
         // Selected inv
-        if (CPlayer.mo.InvSel != null) {
-            DrawInventoryIcon (CPlayer.mo.InvSel, (24, -70));
-            DrawString (mFscreenHUDFont, FormatNumber (CPlayer.mo.InvSel.Amount), (37, -76), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+        if (pPawn.InvSel != null) {
+            DrawInventoryIcon (pPawn.InvSel, (24, -70));
+            DrawString (mFscreenHUDFont, FormatNumber (pPawn.InvSel.Amount), (37, -76), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
         }
+
+        // Enemy health bar
+        CVar enHPBarOn = CVar.GetCvar ("S7_EnemyHPBar_On", CPlayer);
+        if (enHPBarOn && enHPBarOn.GetInt ()) {
+            let enemy = pPawn.playerLineTarget;
+
+            if (enemy) {
+                bool drawHPBar = false;
+                int health, maxHealth;
+                string nameTag;
+
+                if (enemy.bIsMonster && enemy.health > 0 && enemy.bShootable && !enemy.bNoDamage && !enemy.bInvulnerable) {
+                    health = enemy.health;
+                    maxHealth = enemy.SpawnHealth ();
+                    nameTag = enemy.GetTag ();
+
+                    drawHPBar = true;
+                }
+
+                if (drawHPBar) {
+                    DrawBar ("ENHPBFG1", "ENHPBBG1", enemy.health, enemy.SpawnHealth (), (0, 4), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
+
+                    CVar enHPBar_HPDisp = CVar.GetCvar ("S7_EnemyHPBar_HPDisp", CPlayer);
+                    if (enHPBar_HPDisp) {
+                        if (enHPBar_HPDisp.GetInt () >= 2)
+                            DrawString (mSmallFont, String.Format ("%d%%", (double (health) / maxHealth) * 100), (0, 8.0), DI_SCREEN_HCENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_DARKGRAY);
+                        else if (enHPBar_HPDisp.GetInt () == 1) {
+                            DrawString (mSmallFont, FormatNumber (maxHealth, 0, 10), (4, 8.0), DI_SCREEN_HCENTER | DI_TEXT_ALIGN_LEFT | DI_NOSHADOW, Font.CR_DARKGRAY);
+                            DrawString (mSmallFont, "/", (0, 8.0), DI_SCREEN_HCENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_DARKGRAY);
+                            DrawString (mSmallFont, FormatNumber (health, 0, 10), (-4, 8.0), DI_SCREEN_HCENTER | DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_DARKGRAY);
+                        }
+                    }
+
+                    CVar enHPBar_Nametag = CVar.GetCvar ("S7_EnemyHPBar_NametagOn", CPlayer);
+                    if (enHPBar_Nametag && enHPBar_Nametag.GetInt ())
+                        DrawString (mSmallFont, nameTag, (0, 20.0), DI_SCREEN_HCENTER | DI_ITEM_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_DARKGRAY);
+                }
+            }
+        }
+
+        DrawRadar (pPawn, (-40, 2));
 
         // Ammo bars
         if (CPlayer.ReadyWeapon != null) {

@@ -23,35 +23,14 @@
 #include <ACS_ZDoom.h>
 
 // Structs
-typedef struct EI_Struct {
-    bool isValid;
-    string name;
-    int health;
-    int maxHealth;
-} EI_Struct;
-
-typedef struct EIS_Data_t {
-    bool forceClear;
-    bool disableHUD;
-    EI_Struct info;
-
-    int  prevScreenblocks;
-    bool prevOn;
-    bool prevDisableHUD;
-} EIS_Data_t;
-
 typedef struct SP_Data_t {
     int  prevPopupNum;
     int  prevPageNum;
 } SP_Data_t;
 
 // Prototypes
-void EnemyInfoStoreScript ();
-void EnemyInfoBuildScript (EIS_Data_t *data);
-void EnemyInfoScript (EIS_Data_t *data);
 void HudWeapons     (PlayerData_t *player);
 void ShowPop        (PlayerData_t *player, SP_Data_t *data);
 void ScreenOverlays (PlayerData_t *player);
-void DrawRadar      (PlayerData_t *player);
 
 #endif
