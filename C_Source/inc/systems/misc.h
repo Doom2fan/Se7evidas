@@ -24,7 +24,6 @@
 
 // Prototypes
 void SpeedScript (PlayerData_t *player);
-void WaterScript (PlayerData_t *player);
 void KeysScript ();
 
 #endif

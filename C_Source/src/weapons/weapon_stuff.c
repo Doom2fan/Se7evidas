@@ -76,73 +76,6 @@ void DisableWeapon (string meh, string blah, PlayerData_t *player) {
 }
 
 // Scripts
-// SynthFire stuff
-Script_C void S7_SynthFire () {
-    while (TRUE) {
-        if (!PlayerInGame (PLN))
-            return;
-
-        if (!CheckInventory (s"S7_SynthFireActive"))
-            return;
-
-        if (KeyDownMOD (BT_ATTACK))
-            SetInventory (s"S7_SynthFireLeft", 1);
-        else
-            SetInventory (s"S7_SynthFireLeft", 0);
-
-        if (KeyDownMOD (BT_ALTATTACK))
-            SetInventory (s"S7_SynthFireRight", 1);
-        else
-            SetInventory (s"S7_SynthFireRight", 0);
-
-        Delay (1);
-    }
-}
-
-Script_C void S7_SynthFire2 () {
-    while (TRUE) {
-        if (!PlayerInGame (PLN))
-            return;
-
-        if (!CheckInventory (s"S7_SynthFire2Active"))
-            return;
-
-        if (KeyPressedMOD (BT_ATTACK))
-            SetInventory (s"S7_SynthFireLeft", 1);
-        else if (KeyReleasedMOD (BT_ATTACK))
-            SetInventory (s"S7_SynthFireLeft", 0);
-
-        if (KeyPressedMOD (BT_ALTATTACK))
-            SetInventory (s"S7_SynthFireRight", 1);
-        else if (KeyReleasedMOD (BT_ALTATTACK))
-            SetInventory (s"S7_SynthFireRight", 0);
-
-        Delay (1);
-    }
-}
-
-Script_C bool S7_SynthFireIdle () {
-    if (!CheckInventory (s"S7_SynthFireLeftBusy") && !CheckInventory (s"S7_SynthFireRightBusy"))
-        return TRUE;
-    else
-        return FALSE;
-}
-
-/*
-Script_C void S7_RecoilPitch (accum offset) { // Called like this in code: TNT1 A 0 ACS_NamedExecuteAlways ("S7_RecoilPitch", 0, 0.5k * 65536)
-    accum oldPitch = GetActorPitch (0);
-    accum scaledOffset = ScaleValueAccum (offset, -90.0k, 90.0k, -0.25k, 0.25k);
-    accum newPitch = ClampAccum (oldPitch - scaledOffset, -0.25k, 0.25k);
-
-    SetActorPitch (0, newPitch);
-}
-*/
-
-void AmmoCountersScript (PlayerData_t *player) {
-    if (!player)
-        return;
-}
-
 void HellbladeScript (PlayerData_t *player) {
     if (!player)
         return;
@@ -218,56 +151,6 @@ Script_C int S7_HellBladeDMG (int form, int multiplier, int baseDMG) {
         default:
             return RoundA (multiplier * baseDMG);
     }
-}
-
-#define BUTTERFLYMAGSIZE 32
-#define BUTTERFLYCLIP s"S7_LaserPewPewClip"
-#define BUTTERFLYCLIPSECOND s"S7_LaserPewPewClipSecond"
-Script_C void S7_PerformButterflySwap () {
-    int mag1 = CheckInventory (BUTTERFLYCLIP), mag2 = CheckInventory (BUTTERFLYCLIPSECOND);
-    SetInventory (BUTTERFLYCLIP, mag2);
-    SetInventory (s"S7_LaserPewPewClipSecond", mag1);
-}
-
-Script_C int S7_ButterflyAkimboReload () {
-    int mag1 = CheckInventory (BUTTERFLYCLIP), mag2 = CheckInventory (BUTTERFLYCLIPSECOND),
-        mag1Req = BUTTERFLYMAGSIZE - mag1, mag2Req = BUTTERFLYMAGSIZE - mag2,
-        ammoPool = CheckInventory (s"S7_FBSysCells");
-
-    if (mag1Req + mag2Req <= 0 || ammoPool <= 0)
-        return FALSE;
-
-    if (mag1Req + mag2Req > ammoPool) { // If not enough ammo to top both off
-        int ammoGiven = 0, ammoToGive = 0;
-
-        if (mag1Req == mag2Req && ammoPool < 2) // If 
-            return FALSE;
-
-        // Equalize the mags
-        if (mag1Req != mag2Req) {
-            int ammoDiff = ammoDiff = abs (mag1Req - mag2Req); // Get the difference
-            ammoToGive = ((ammoDiff > ammoPool) ? ammoPool : ammoDiff); // Make sure the given amount isn't greater than the available amount
-            GiveInventory ((mag1Req - mag2Req > 0) ? BUTTERFLYCLIP : BUTTERFLYCLIPSECOND, ammoToGive); // Give the ammo
-            ammoGiven += ammoToGive;
-        }
-
-        // If there's enough ammo, split it between the mags
-        if (ammoPool - ammoGiven > 1) {
-            ammoToGive = ammoPool - ammoGiven;
-            ammoToGive = ((ammoToGive & 1) ? ammoToGive - 1 : ammoToGive) / 2;  // Calculate the amount to give
-            GiveInventory (BUTTERFLYCLIP, ammoToGive); // Give the ammo
-            GiveInventory (BUTTERFLYCLIPSECOND, ammoToGive);
-            ammoGiven += ammoToGive * 2;
-        }
-
-        TakeInventory (s"S7_FBSysCells", ammoGiven); // Take the ammo from the ammo pool
-    } else {
-        GiveInventory (BUTTERFLYCLIP, mag1Req);
-        GiveInventory (BUTTERFLYCLIPSECOND, mag2Req);
-        TakeInventory (s"S7_FBSysCells", mag1Req + mag2Req);
-    }
-
-    return TRUE;
 }
 
 /*Script_C void S7_AMGRadiusDamage (int damage, int radius) {

@@ -31,7 +31,6 @@ class S7_ScoutPlayer : S7_BasePlayer {
         player.startItem "S7_FiringModeKey";
         player.startItem "S7_ShowPop1Key";
         // Tokens:
-        player.startItem "S7_IsPlayer";
         player.startItem "S7_StaminaRegen";
         player.startItem "S7_ManaRegen";
         player.startItem "S7_DaggerMelee";

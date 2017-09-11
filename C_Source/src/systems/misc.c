@@ -34,20 +34,6 @@ void SpeedScript (PlayerData_t *player) {
     }
 }
 
-void WaterScript (PlayerData_t *player) {
-    if (!player)
-        return;
-
-    if (player->misc.waterlevel > 2) { // if underwater...
-        GiveInventory (UNDERWATERTOKEN, 1); // give S7_IsUnderwater
-    } else if (player->misc.waterlevel <= 2) { // if not underwater
-        TakeInventory (UNDERWATERTOKEN, 1); // take S7_IsUnderwater
-    }
-
-    if (CheckInventory (AIRTIMETOKEN) != GetAirSupply (PLN)) // If S7_AirTime is not equal to the air supply...
-        SetInventory (AIRTIMETOKEN, GetAirSupply (PLN)); // Set "S7_AirTime" to the amount of air the player has left
-}
-
 void KeysScript () {
     if (KeyPressedMOD (BT_RELOAD)) // if the native reload key is pressed...
         UseInventory (s"S7_ReloadKey"); // Use the mod's reload key

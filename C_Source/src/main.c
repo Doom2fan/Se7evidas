@@ -137,8 +137,6 @@ Script_C void S7_ServersideEnter ENTER () {
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
         SpeedScript           (player);
-        WaterScript           (player);
-        AmmoCountersScript    (player);
         HellbladeScript       (player);
         CustomWeapSlotsScript (player);
         PlayerMenuScript      (player);

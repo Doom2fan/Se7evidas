@@ -75,14 +75,6 @@ class S7_BaseWeapon : weapon {
     TrueDeselect:
         TNT1 A 0 {
             TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
-            TakeInventory ("S7_ZoomHoldTime", 0x7FFFFFFF);
-            TakeInventory ("S7_ReadySequence", 0x7FFFFFFF);
-            TakeInventory ("S7_SynthFireActive", 0x7FFFFFFF);
-            TakeInventory ("S7_SynthFire2Active", 0x7FFFFFFF);
-            TakeInventory ("S7_SynthFireLeft", 0x7FFFFFFF);
-            TakeInventory ("S7_SynthFireRight", 0x7FFFFFFF);
-            TakeInventory ("S7_SynthFireRightBusy", 0x7FFFFFFF);
-            TakeInventory ("S7_SynthFireLeftBusy", 0x7FFFFFFF);
             TakeInventory ("S7_Weap_ReadyFrame", 0x7FFFFFFF);
             TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
             A_ZoomFactor (1.0);
@@ -199,21 +191,6 @@ class S7_DaggerPuffSilent : S7_DaggerPuff {
         activeSound "";
     }
 }
-
-//-------------------------------------------------------------------------------------------
-//
-// Synth-Fire stuff
-//
-//-------------------------------------------------------------------------------------------
-// S7_SynthFire: Does the synthfire stuff. S7_SynthFireActive must be given to the player before starting the script.
-// S7_SynthFire2: Does the synthfire stuff (alt). S7_SynthFire2Active must be given to the player before starting the script.
-// S7_SynthFireAllowChange: Returns true/1 if S7_SynthFireRightBusy and S7_SynthFireLeftBusy aren't in inventory.
-class S7_SynthFireActive    : S7_Boolean { }
-class S7_SynthFire2Active   : S7_Boolean { }
-class S7_SynthFireLeft      : S7_Boolean { }
-class S7_SynthFireRight     : S7_Boolean { }
-class S7_SynthFireRightBusy : S7_Boolean { }
-class S7_SynthFireLeftBusy  : S7_Boolean { }
 
 //-------------------------------------------------------------------------------------------
 //

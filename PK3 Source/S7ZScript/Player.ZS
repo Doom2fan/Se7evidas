@@ -4,53 +4,12 @@
 // Inventory tokens
 //
 //-------------------------------------------------------------------------------------------
-class S7_IsPlayer              : S7_Boolean { }
-class S7_PlayerHit             : S7_Boolean { }
-class S7_IsUnderwater          : S7_Boolean { }
 class S7_Dying                 : S7_Boolean { }
 class S7_AutoReloading         : S7_Boolean { }
 class S7_DisableHud            : S7_Boolean { }
 class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
-class S7_ReadySequence         : S7_Boolean { }
 class S7_WeapReady             : S7_Boolean { }
-/** Weapon slot tokens **/
-class S7_Slot1Taken : S7_Boolean { }
-class S7_Slot2Taken : S7_Boolean { }
-class S7_Slot3Taken : S7_Boolean { }
-class S7_Slot4Taken : S7_Boolean { }
-class S7_Slot5Taken : S7_Boolean { }
-class S7_Slot6Taken : S7_Boolean { }
-class S7_Slot7Taken : S7_Boolean { }
-class S7_Slot8Taken : S7_Boolean { }
-class S7_Slot9Taken : S7_Boolean { }
-class S7_Slot0Taken : S7_Boolean { }
-
-/** S7_Counters **/
-class S7_AirTime      : S7_Counter { default { inventory.maxAmount 700; } }
-class S7_ZoomHoldTime : S7_Counter { }
-
-/** Action Runners **/
-class S7_PlayerHitBloodGiver : S7_ActionRunnerBase {
-    default {
-        inventory.amount 1;
-        inventory.maxAmount 1;
-
-        +inventory.undroppable
-        -inventory.invBar
-    }
-
-    states {
-    Use:
-        TNT1 A 0 A_JumpIfInventory ("S7_IsPlayer", 1, "Continue");
-        TNT1 A 0 A_RailWait;
-        stop;
-    Continue:
-        TNT1 A 0 GiveInventory ("S7_PlayerHit", 1);
-        TNT1 A 0 A_RailWait;
-        stop;
-    }
-}
 
 extend class S7_ActorExtensions {
     static bool KeyPressed (Actor act, int key, int ptr = AAPTR_DEFAULT) {
@@ -92,7 +51,6 @@ class S7_BasePlayer : playerPawn {
         player.startItem "S7_ToggleShopKey";
         player.startItem "S7_ToggleMenuKey";
         // Tokens:
-        player.startItem "S7_IsPlayer";
         player.startItem "S7_StaminaRegen";
         player.startItem "S7_ManaRegen";
         player.startItem "S7_KickMelee";
@@ -151,7 +109,7 @@ class S7_BasePlayer : playerPawn {
         PLAY F 6 bright;
         goto Missile;
     Pain:
-        PLAY G 4 GiveInventory ("S7_PlayerHit", 1);
+        PLAY G 4;
         PLAY G 4 A_Pain;
         goto Spawn;
     Death.Suicide:

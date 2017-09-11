@@ -10,11 +10,8 @@ class S7_Blood : blood replaces blood {
 
     states {
     Spawn:
-        BLUD C  1 noDelay {
-            A_SpawnDebris ("S7_Flying_Blood", true); // A_SpawnItemEx ("S7_Flying_Blood", 0.0, fRandom [sfx] (-0.5, 0.5), 0.0, fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.0, 8.0), 0, SXF_TransferTranslation)
-            if (target)
-                target.GiveInventory ("S7_PlayerHitBloodGiver", 1);
-        }
+        //A_SpawnItemEx ("S7_Flying_Blood", 0.0, fRandom [sfx] (-0.5, 0.5), 0.0, fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.0, 8.0), 0, SXF_TransferTranslation)
+        BLUD C  1 noDelay A_SpawnDebris ("S7_Flying_Blood", true);
         BLUD BA 1;
         stop;
     }
