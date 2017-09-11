@@ -7,3 +7,7 @@ damageType TesterProjectile {
 damageType NerveGas {
     noArmor
 }
+
+damageType SoulLanceSelfDamage {
+    noArmor
+}
