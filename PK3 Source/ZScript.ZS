@@ -1,4 +1,4 @@
-version "3.1.0"
+version "2.5"
 
 /* Info
 ** You can use anything from here. Just make sure to credit the author(s).
