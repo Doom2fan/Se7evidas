@@ -44,9 +44,15 @@ class S7_IsLoaded : actor {
     }
 }
 
+#INCLUDE "S7ZScript/zgui/zgui.ZS"
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
 #INCLUDE "S7ZScript/MathExtensions.ZS"
+
+// ZGui stuff
+#include "S7ZScript/GUI/BaseMenu.ZS"
+#include "S7ZScript/GUI/ZGuiControls/Button.ZS"
+#include "S7ZScript/GUI/ZGuiControls/Label.ZS"
 
 // Effects
 #INCLUDE "S7ZScript/Effects/Smoke.ZS"
@@ -69,6 +75,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/RPG Systems/Shop System.ZS"
 #INCLUDE "S7ZScript/RPG Systems/XP System.ZS"
 #INCLUDE "S7ZScript/RPG Systems/Upgrades.ZS"
+#INCLUDE "S7ZScript/RPG Systems/XPSystemMenu.ZS"
 
 // Monsters
 #INCLUDE "S7ZScript/Monsters/Spawners.ZS"

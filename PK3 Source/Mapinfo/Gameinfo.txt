@@ -14,6 +14,9 @@ gameinfo {
     defaultBloodParticleColor = "ff 00 00"
     backpackType = "Backpack"
 
+    // Event handlers
+    addEventHandlers = "S7_XPSysMenuEventHandler"
+
     // Player classes
     playerClasses = "S7_ScoutPlayer"
 

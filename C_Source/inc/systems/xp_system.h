@@ -22,6 +22,5 @@
 
 #include <ACS_ZDoom.h>
 
-void UpdateXPSystem (PlayerData_t *player);
 
 #endif

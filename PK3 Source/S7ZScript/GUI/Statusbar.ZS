@@ -14,6 +14,7 @@ class Se7evidasStatusBar : BaseStatusBar {
 
     // Fonts
     HUDFont mSmallFont;
+    HUDFont mBigFont;
     HUDFont mNormalHUDFont;
     HUDFont mFscreenHUDFont;
     HUDFont mRadarMarkers;
@@ -37,6 +38,7 @@ class Se7evidasStatusBar : BaseStatusBar {
 
         // Initialize the fonts
         mSmallFont = HUDFont.Create ("SmallFont");
+        mBigFont = HUDFont.Create ("BigFont");
         Font fnt = "S7HUDFONT";
         mNormalHUDFont = HUDFont.Create (fnt, fnt.GetCharWidth ("0"), true, 1, 1);
         fnt = "S7FSHUDFNT.lmp";
@@ -93,7 +95,7 @@ class Se7evidasStatusBar : BaseStatusBar {
     override void Draw (int state, double TicFrac) {
         Super.Draw (state, TicFrac);
 
-        if (CPlayer == null)
+        if (!CPlayer)
             return;
 
         if (state == HUD_StatusBar) {
@@ -194,7 +196,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         DrawString (mFScreenHUDFont, FormatNumber (mStaminInterpolator.GetValue (), 1,  5), (81, -53), DI_TEXT_ALIGN_LEFT  | DI_NOSHADOW, Font.CR_WHITE);
         DrawString (mFScreenHUDFont, FormatNumber (mCashInterpolator.GetValue   (), 1, 10), (77, -66), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
         // Selected inv
-        if (pPawn.InvSel != null) {
+        if (pPawn.InvSel) {
             DrawInventoryIcon (pPawn.InvSel, (24, -70));
             DrawString (mFscreenHUDFont, FormatNumber (pPawn.InvSel.Amount), (37, -76), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
         }
@@ -241,7 +243,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         DrawRadar (pPawn, (-40, 2));
 
         // Ammo bars
-        if (CPlayer.ReadyWeapon != null) {
+        if (CPlayer.ReadyWeapon) {
             if (CheckWeaponSelected ("S7_SSG")) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
@@ -326,9 +328,9 @@ class Se7evidasStatusBar : BaseStatusBar {
 
                         // Draw ammo pool count
                         int poolAmount = -1;
-                        if (bar.poolType == "Inventory" && CPlayer.ReadyWeapon.AmmoType2 != null)
+                        if (bar.poolType == "Inventory" && CPlayer.ReadyWeapon.AmmoType2)
                             poolAmount = GetAmount (CPlayer.ReadyWeapon.AmmoType2);
-                        else if (bar.poolType != "Inventory" && bar.poolType != null)
+                        else if (bar.poolType != "Inventory" && bar.poolType)
                             GetAmount (bar.poolType);
 
                         if (poolAmount >= 0) {

@@ -73,7 +73,7 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         }
     Idle:
         TNT1 A 1 {
-            if (tracer == null || tracer.health <= 0) {
+            if (!tracer || tracer.health <= 0) {
                 A_BossDeath ();
                 Destroy ();
             }

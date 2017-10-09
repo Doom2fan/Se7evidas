@@ -126,7 +126,6 @@ Script_C void S7_ServersideEnter ENTER () {
         if (!PlayerInGame (PLN))
             return;
 
-        UpdateXPSystem   (player); // Update everything related to the XP System
         UpdatePlayerData (player); // Update the player's data
         UpdateAmmoMax    (player); // Update the max ammo
         StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
