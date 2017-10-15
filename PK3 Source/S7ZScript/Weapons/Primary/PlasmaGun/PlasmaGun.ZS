@@ -25,6 +25,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         weapon.ammoType2 "S7_Cells";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "PLSGU0";
     }
 
     override void DoEffect () {

@@ -80,12 +80,38 @@ class S7_BasePlayer : playerPawn {
 
     bool stepFrame;
     actor playerLineTarget;
+    S7_XPSystemWorker xpSys;
+
+    override void PostBeginPlay () {
+        super.PostBeginPlay ();
+
+        if (Player.mo) {
+            let pPawn = Player.mo;
+            xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+
+            if (!xpSys) {
+                pPawn.GiveInventory ("S7_XPSystemWorker", 1);
+                xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+            }
+
+            if (!pPawn.FindInventory ("S7_WeapBindsSystem"))
+                pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
+        }
+    }
 
     override void Tick () {
         super.Tick ();
 
         playerLineTarget = AimTarget ();
     }
+
+    clearscope int GetStrengthStat () { return ((xpSys) ? xpSys.strengthStat : 0); }
+    clearscope int GetAgilityStat  () { return ((xpSys) ? xpSys.agilityStat  : 0); }
+    clearscope int GetVitalityStat () { return ((xpSys) ? xpSys.vitalityStat : 0); }
+    clearscope int GetDefenseStat  () { return ((xpSys) ? xpSys.defenseStat  : 0); }
+    clearscope int GetWillStat     () { return ((xpSys) ? xpSys.willStat     : 0); }
+    clearscope int GetMagicStat    () { return ((xpSys) ? xpSys.magicStat    : 0); }
+    clearscope int GetTechStat     () { return ((xpSys) ? xpSys.techStat     : 0); }
 
     states {
     Spawn:

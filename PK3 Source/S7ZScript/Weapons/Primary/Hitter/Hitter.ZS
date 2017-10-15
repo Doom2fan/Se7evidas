@@ -20,6 +20,7 @@ class S7_HitterSMG : S7_BaseWeapon {
         weapon.ammoType2 "S7_45ACPCartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "SR20Z0";
     }
 
     bool upperJammed, lowerJammed;

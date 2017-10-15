@@ -27,7 +27,7 @@ extern SS_Page_t          mainSP;
 extern SS_Page_t          ammoSP;
 extern SS_Page_t    bulletAmmoSP;
 extern SS_Page_t batteriesAmmoSP;
-extern SS_Page_t   thumperAmmoSP;
+//extern SS_Page_t   thumperAmmoSP;
 extern SS_Page_t       weaponsSP;
 
 #endif

@@ -20,6 +20,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         weapon.ammoType2 "S7_45WWCartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "CQRPA0";
     }
 
     bool jammed, loaded, noPump;

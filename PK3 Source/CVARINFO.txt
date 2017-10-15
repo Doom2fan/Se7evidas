@@ -47,7 +47,6 @@ user string S7_SaveData_Info            = "";
 user string S7_SaveData_RPGSystem       = "";
 user string S7_SaveData_ScriptData      = "";
 user string S7_SaveData_ThumperDef      = "";
-user string S7_SaveData_WeapBinds       = "";
 // Important inventory data
 user string S7_SaveData_ImportantInv1   = "";
 user string S7_SaveData_ImportantInv2   = "";

@@ -20,6 +20,7 @@ class S7_TEC9 : S7_BaseWeapon {
         weapon.ammoType2 "S7_9mmCartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "TEC9Z0";
     }
 
     bool burstFire;

@@ -122,7 +122,8 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
         mulBonus = RandomFixed (0.0k, 2.0k);
     }
 
-    return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
+    //return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
+    return RoundA ((baseDamage * baseMul + 0.5k) * (mul + mulBonus));
 }
 
 /*Script_C void S7_BerserkWeapToggle () {
@@ -144,7 +145,8 @@ Script_C int S7_HellBladeDMG (int form, int multiplier, int baseDMG) {
     switch (form) {
         case HELLBLADE_FORM1:
             {
-                int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + (0.5k * CheckInventory (XPS_STRENGTHTOKEN)) * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
+                //int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + (0.5k * CheckInventory (XPS_STRENGTHTOKEN)) * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
+                int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + 0.5k * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
                 return RoundA (modDMG + (affinity / 10 * (modDMG / 2)));
             }
             break;

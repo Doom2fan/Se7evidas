@@ -29,6 +29,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         weapon.ammoType2 "S7_FBSysCells";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "BLSP0";
     }
 
     bool akimbo, sights;

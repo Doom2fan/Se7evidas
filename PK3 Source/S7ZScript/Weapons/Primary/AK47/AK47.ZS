@@ -20,6 +20,7 @@ class S7_AK47 : S7_BaseWeapon {
         weapon.ammoType2 "S7_762x39Cartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "AK4PA0";
     }
 
     bool halfTic, reloadChamber; // Temporary stuff

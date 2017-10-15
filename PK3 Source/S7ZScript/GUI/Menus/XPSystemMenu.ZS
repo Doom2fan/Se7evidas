@@ -83,10 +83,7 @@ class S7_XPSystemMenuElement : S7_BaseMenu {
 
     override void OnCreate () {
         mRect = Rect.FromXYWH (0, 0, Screen.GetWidth (), Screen.GetHeight ());
-
-        // approximately tries to scale to 4:3 800x600, if the resolution is larger.
-        // otherwise at least try to make it readable (don't try to scale smaller than 1x1 px)
-        mScale = max (1.0, double (int (double (Screen.GetHeight ()) / 600.0 + 1)));
+        mScale = max (1.0, Screen.GetWidth () / 800.0);
 
         selectedButton = 0;
         SmallFont = Font.GetFont ('SmallFont');
@@ -120,7 +117,8 @@ class S7_XPSystemMenuElement : S7_BaseMenu {
 
     void SetStatLabel (out S7_Menu_Label label, string text, int fontHeight) {
         label.Text = text;
-        label.mRect = Rect.FromXYWH (label.mRect.x, label.mRect.y, SmallFont.StringWidth (text), fontHeight);
+        label.mRect.Width = SmallFont.StringWidth (text);
+        label.mRect.Height = fontHeight;
     }
     override void Tick () {
         if (!CPlayer || !CPlayer.mo)
@@ -223,7 +221,6 @@ class S7_XPSystemMenuElement : S7_BaseMenu {
     }
 }
 
-class SplitResult { Array<String> Result; }
 class S7_XPSysMenuEventHandler : EventHandler {
     override void NetworkProcess (ConsoleEvent e) {
         if (e.IsManual || e.Player < 0) // Don't execute this if it was called manually or the player isn't given/valid

@@ -19,6 +19,7 @@ class S7_GrenadeWeap : S7_BaseWeapon {
         weapon.ammoType "S7_GrenadeCount";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "TGRNZ0";
     }
 
     states {

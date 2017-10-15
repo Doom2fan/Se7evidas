@@ -40,6 +40,7 @@ class S7_Thumper : S7_BaseWeapon {
         weapon.ammoType1 "S7_ThumperMag";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "THMPU0";
 
         +weapon.noAutoAim
     }

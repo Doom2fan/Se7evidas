@@ -81,7 +81,7 @@ Script_C void S7_SprintSystem (PlayerData_t *player) {
                     goto Start;
                 }
 
-                accum speedBonus = 1.0k + 0.1k * player->xpSystem.agilityLVL;
+                accum speedBonus = 1.0k + 0.1k; // * player->xpSystem.agilityLVL;
                 if (CheckInventory (SPRINTINGTOKEN)) {
                     if (abs (forwardMove) > 6400 || abs (sideMove) > 6144)
                         SetActorPropertyFixed (0, APROP_Speed, 1.0k + speedBonus);

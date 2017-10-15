@@ -195,11 +195,6 @@ void InitializePlayer (PlayerData_t *player) {
     SetInventory (DISABLEHUDTOKEN, 1);
     player->scriptData.disableHUD = TRUE;
 
-    for (int x = 0; x < WPBND_MAXSLOTS; x++) {
-        for (int y = 0; y < WPBND_MAXWEAPS; y++)
-            player->weapBinds.weapBinds [x] [y] = -1;
-    }
-
     SavedData_t saveData = {
         .isInvalid = TRUE,
     };
@@ -227,22 +222,11 @@ bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
     }
 
     // RPG Systems
-    SetInventory (XPS_LEVELTOKEN,      saveData->xpSystem.level);
-    SetInventory (XPS_EXPTOKEN,        saveData->xpSystem.experience);
-    SetInventory (XPS_ATTRPOINTSTOKEN, saveData->xpSystem.attrPoints);
-    SetInventory (XPS_STRENGTHTOKEN,   saveData->xpSystem.strengthLVL);
-    SetInventory (XPS_AGILITYTOKEN,    saveData->xpSystem.agilityLVL);
-    SetInventory (XPS_VITALITYTOKEN,   saveData->xpSystem.vitalityLVL);
-    SetInventory (XPS_DEFENSETOKEN,    saveData->xpSystem.defenseLVL);
-    SetInventory (XPS_WILLTOKEN,       saveData->xpSystem.willLVL);
-    SetInventory (XPS_MAGICTOKEN,      saveData->xpSystem.magicLVL);
-    SetInventory (XPS_TECHTOKEN,       saveData->xpSystem.techLVL);
     SetCash      (player,              saveData->cash);
     player->bankData = saveData->bankData;
 
     // Script Data
     player->scriptData = saveData->scriptData;
-    player->weapBinds  = saveData->weapBinds;
 
     return TRUE;
 }

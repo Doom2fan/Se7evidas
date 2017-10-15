@@ -1,15 +1,15 @@
-class S7_Menu_Button : Element {
+class S7_Menu_Button : S7_Menu_BaseControl {
     protected bool IsDown;
     protected bool IsClicked;
     protected bool IsHovered;
     
     // Background
-    Vector2 backgroundOffset;
-    protected TextureID backgroundDisabled;
-    protected TextureID backgroundHover;
-    protected TextureID backgroundFocused;
-    protected TextureID backgroundPressed;
-    protected TextureID background;
+    Vector2 BackgroundOffset;
+    TextureID BackgroundDisabled;
+    TextureID BackgroundHover;
+    TextureID BackgroundFocused;
+    TextureID BackgroundPressed;
+    TextureID Background;
     // Colors
     int DisabledColour;
     int HoverColour;
@@ -20,15 +20,16 @@ class S7_Menu_Button : Element {
     bool IsEnabled;
     bool IsFocused;
     // Text
+    Vector2 TextOffset;
     Font TextFont;
     String Text;
 
     void SetBackground (string img, string imgHover = "", string imgFocused = "", string imgPressed = "", string imgDisabled = "") {
-        background = TexMan.CheckForTexture (img, TexMan.Type_Any);
-        backgroundHover = TexMan.CheckForTexture (imgHover, TexMan.Type_Any);
-        backgroundFocused = TexMan.CheckForTexture (imgFocused, TexMan.Type_Any);
-        backgroundPressed = TexMan.CheckForTexture (imgPressed, TexMan.Type_Any);
-        backgroundDisabled = TexMan.CheckForTexture (imgDisabled, TexMan.Type_Any);
+        Background = TexMan.CheckForTexture (img, TexMan.Type_Any);
+        BackgroundHover = TexMan.CheckForTexture (imgHover, TexMan.Type_Any);
+        BackgroundFocused = TexMan.CheckForTexture (imgFocused, TexMan.Type_Any);
+        BackgroundPressed = TexMan.CheckForTexture (imgPressed, TexMan.Type_Any);
+        BackgroundDisabled = TexMan.CheckForTexture (imgDisabled, TexMan.Type_Any);
     }
     
     // Returns true if this button was clicked in this or previous tick
@@ -37,6 +38,8 @@ class S7_Menu_Button : Element {
     }
 
     override void OnCreate () {
+        super.OnCreate ();
+
         DisabledColour = Font.CR_DARKGRAY; // Default colors
         HoverColour = Font.CR_BRICK;
         FocusedColour = Font.CR_RED;
@@ -59,23 +62,23 @@ class S7_Menu_Button : Element {
 
         if (!IsEnabled) {
             curColour = DisabledColour;
-            bg = backgroundDisabled;
+            bg = BackgroundDisabled;
         } else if (IsHovered && !IsDown) {
             curColour = HoverColour;
-            bg = backgroundHover;
+            bg = BackgroundHover;
         } else if (IsFocused && !IsDown) {
             curColour = FocusedColour;
-            bg = backgroundFocused;
+            bg = BackgroundFocused;
         } else if (!IsDown) {
             curColour = Colour;
-            bg = background;
+            bg = Background;
         } else {
             curColour = PressedColour;
-            bg = backgroundPressed;
+            bg = BackgroundPressed;
         }
 
-        d.DrawText (TextFont, curColour, 0.0, 0.0, Text, 1.0, Drawer.Align_Left);
-        d.DrawTexture (bg, true, backgroundOffset.X, backgroundOffset.Y, 1.0);
+        d.DrawText (TextFont, curColour, TextOffset.X, TextOffset.Y, Text, Alpha, Drawer.Align_Left);
+        d.DrawTexture (bg, true, BackgroundOffset.X, BackgroundOffset.Y, Alpha);
     }
     
     override bool Process (ElementEvent e) {

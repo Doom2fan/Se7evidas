@@ -30,6 +30,10 @@ class S7_KickMelee    : S7_Boolean { }
 //
 //-------------------------------------------------------------------------------------------
 class S7_BaseWeapon : weapon {
+    String weapIcon;
+
+    property Icon: weapIcon;
+
     default {
         inventory.pickupSound "misc/gunpickup";
         weapon.bobRangeX 0.3;
@@ -37,12 +41,30 @@ class S7_BaseWeapon : weapon {
         weapon.bobSpeed 2.0;
         weapon.bobStyle "inverseSmooth";
         weapon.kickback 100;
+        S7_BaseWeapon.Icon "";
 
         +inventory.undroppable
         +weapon.ammo_Optional +weapon.noAutoFire +weapon.noAlert
     }
 
     int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
+
+    override void AttachToOwner (Actor other) { // Override this so we can disable selection on pickup
+        StateProvider.AttachToOwner (other);
+
+        Ammo1 = AddAmmo (Owner, AmmoType1, AmmoGive1);
+        Ammo2 = AddAmmo (Owner, AmmoType2, AmmoGive2);
+        SisterWeapon = AddWeapon (SisterWeaponType);
+        if (Owner.player != NULL) {
+            if (Owner.player.mo == players [consoleplayer].camera)
+                StatusBar.ReceivedWeapon (self);
+        }
+        GivenAsMorphWeapon = false; // will be set explicitly by morphing code
+    }
+
+    override bool Use (bool pickup) { // Override Use so it can't be used to bypass the weapon limits
+        return false;
+    }
 
     states {
     DryFire:

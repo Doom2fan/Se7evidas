@@ -20,6 +20,7 @@ class S7_Fauchard : S7_BaseWeapon {
         weapon.ammoType2 "S7_FBSysCells";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "LRFPA0";
     }
 
     bool halfTic;

@@ -19,7 +19,6 @@
 
 #include "includes.h"
 #include "weapons/weap_data.h"
-#include "weapons/slot_sys.h"
 #include "misc/debugFuncs.h"
 
 Script_C void S7_DebugVelocity NET () {
@@ -131,52 +130,8 @@ Script_C void S7_PrintMapData NET () {
     MapData.name, MapData.author, MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
 }
 
-Script_C void S7_CWB_SetBind NET (int slot, int pos, int weap) {
-    if (!CheckCheats () || !PlayerInGame (PLN))
-        return;
-
-    if (slot < 0 || pos < 0 || weap < -1 || slot >= WPBND_MAXSLOTS || pos >= CWeapSlots_GetSlotMax (slot) || weap >= WeaponNames_Length) {
-        for (int i = 0; i < WeaponNames_Length; i++)
-            Log ("%d: %S", i, WeaponNames [i]);
-        
-        return;
-    }
-
-    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-    if (!player) {
-        DebugLog ("\CgScript S7_CWB_SetBind: Fatal error: Invalid or NULL player struct for player %d.", PLN);
-        return;
-    }
-
-    CWeapSlots_BindSlot (player, slot, pos, weap);
-}
-
-Script_C void FuckThisShit NET (bool derp) {
-    if (!CheckCheats () || !PlayerInGame (PLN))
-        return;
-
-    PlayerData_t *player = &PlayerData [PLN]; // Get the player's PlayerData_t struct
-    if (!player) {
-        DebugLog ("\CgScript FuckThisShit: Fatal error: Invalid or NULL player struct for player %d.", PLN);
-        return;
-    }
-
-    if (derp) {
-        for (int i = 0; i < WeaponNames_Length; i++)
-            player->weapBinds.weapBinds [i / WPBND_MAXSLOTS] [i % WPBND_MAXWEAPS] = i;
-    } else {
-        for (int x = 0; x < WPBND_MAXSLOTS; x++) {
-            for (int y = 0; y < WPBND_MAXWEAPS; y++) {
-                int weap = player->weapBinds.weapBinds [x] [y];
-                Log ("Slot %d, pos %d: %d/%S", x, y, weap, WeaponNames [weap]);
-            }
-        }
-    }
-}
-
-enum {
-    DbgOpts_SetSlots = 1,
-};
+/*enum {
+};*/
 
 void DebugOptsPlayer (PlayerData_t *player, bool debugOn, int debugOpts) {
     if (!player) {
@@ -186,9 +141,4 @@ void DebugOptsPlayer (PlayerData_t *player, bool debugOn, int debugOpts) {
 
     if (!debugOn || !CheckCheats ())
         return;
-
-    if ((debugOpts & DbgOpts_SetSlots) == DbgOpts_SetSlots) {
-        for (int i = 0; i < WeaponNames_Length; i++)
-            player->weapBinds.weapBinds [i / WPBND_MAXSLOTS] [i % WPBND_MAXWEAPS] = i;
-    }
 }

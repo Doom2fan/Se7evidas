@@ -20,6 +20,7 @@ class S7_AMG : S7_BaseWeapon {
         weapon.ammoType2 "S7_762x39Cartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "AMGGZ0";
     }
 
     bool burstFire;

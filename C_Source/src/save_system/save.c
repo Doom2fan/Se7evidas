@@ -98,17 +98,6 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     *offset = 0;
     // RPG Systems
     cvarData = GetUserCVarString (playerNum, SD_RPGSYSTEM);
-    tmpData->xpSystem.level = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.experience  = SaveSys_ReadInt (cvarData, offset, 8);
-    tmpData->xpSystem.attrPoints  = SaveSys_ReadInt (cvarData, offset, 4);
-
-    tmpData->xpSystem.strengthLVL = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.agilityLVL  = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.vitalityLVL = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.defenseLVL  = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.willLVL     = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.magicLVL    = SaveSys_ReadInt (cvarData, offset, 4);
-    tmpData->xpSystem.techLVL     = SaveSys_ReadInt (cvarData, offset, 4);
 
     tmpData->cash = SaveSys_ReadInt (cvarData, offset, 8);
     SaveSys_FailLoad (cvarData, *offset);
@@ -117,17 +106,6 @@ bool LoadSaveDataToPointer (int playerNum, SavedData_t *data) {
     // Script Data
     /*string scriptDataStr = GetUserCVarString (playerNum, SD_SCRIPTDATA);
     SaveSys_FailLoad (scriptDataStr, *offset);*/
-
-    *offset = 0;
-    // Custom weapon slots
-    cvarData = GetUserCVarString (playerNum, SD_WEAPBINDS);
-    for (int x = 0; x < WPBND_MAXSLOTS; x++) {
-        for (int y = 0; y < WPBND_MAXWEAPS; y++) {
-            int wp = SaveSys_ReadInt (cvarData, offset, 2);
-            data->weapBinds.weapBinds [x] [y] = ((wp & 0x80) ? (wp | 0xFFFFFF00) : (wp));
-        }
-    }
-    SaveSys_FailLoad (cvarData, *offset);
 
     *data = *tmpData;
     free (tmpData);
@@ -152,19 +130,7 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     SetUserCVarString (playerNum, SD_INFO, infoStr);
 
     // RPG Systems
-    string statPoints = StrParam ("%.4x%.4x%.4x%.4x%.4x%.4x%.4x",
-        data->xpSystem.strengthLVL & 0xFFFF,
-        data->xpSystem.agilityLVL  & 0xFFFF,
-        data->xpSystem.vitalityLVL & 0xFFFF,
-        data->xpSystem.defenseLVL  & 0xFFFF,
-        data->xpSystem.willLVL     & 0xFFFF,
-        data->xpSystem.magicLVL    & 0xFFFF,
-        data->xpSystem.techLVL     & 0xFFFF);
-    string rpgSysStr = StrParam ("%.4x%.8x%.4x%s%.8x",
-        data->xpSystem.level,
-        data->xpSystem.experience,
-        data->xpSystem.attrPoints,
-        statPoints,
+    string rpgSysStr = StrParam ("%.8x",
         data->cash
     );
 
@@ -173,16 +139,6 @@ bool SaveSaveData (int playerNum, SavedData_t *data) {
     // Script Data
     /*string scriptDataStr = ;
     SetUserCVarString (playerNum, SD_SCRIPTDATA, scriptDataStr);*/
-
-    // Custom weapon slots
-    string weapBindsStr = s"";
-    for (int x = 0; x < WPBND_MAXSLOTS; x++) {
-        for (int y = 0; y < WPBND_MAXWEAPS; y++) {
-            int bind = data->weapBinds.weapBinds [x] [y];
-            weapBindsStr = StrParam ("%S%.2x", weapBindsStr, ((bind & 0x0000007F) | ((bind >> 24) & 0x00000080)) & 0x000000FF);
-        }
-    }
-    SetUserCVarString (playerNum, SD_WEAPBINDS, weapBindsStr);
 
     // Bank System
     if (!SaveSys_SaveBank (playerNum, data)) {
@@ -224,13 +180,11 @@ Script_C void S7_SaveSysSave NET () {
 
     saveData.name = StrParam ("%tS", playerNum);
     saveData.gender = GetPlayerInfo (playerNum, PLAYERINFO_GENDER);
-    saveData.xpSystem = player->xpSystem;     // Level system stuff
     saveData.bankData = player->bankData;     // Bank system stuff
     saveData.cash = player->cash;             // Cash
 
     // Script data
     saveData.scriptData = player->scriptData; // Misc script data
-    saveData.weapBinds  = player->weapBinds;  // Custom weapon slots stuff
 
     SaveSaveData (playerNum, &saveData);
 
@@ -279,7 +233,6 @@ Script_C void saveTest () {
 
     saveData.name = s"DUUUUUUUURRRRR";
     saveData.gender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
-    saveData.xpSystem = player->xpSystem;     // Level system stuff
     saveData.cash = player->cash;             // Cash
 
     // Script data

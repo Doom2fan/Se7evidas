@@ -20,6 +20,7 @@ class S7_Revolver : S7_BaseWeapon {
         weapon.ammoType2 "S7_44MCartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "RVLVZ0";
     }
 
     states {

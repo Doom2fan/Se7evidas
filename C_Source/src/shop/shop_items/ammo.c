@@ -52,7 +52,7 @@ SS_Item_t ammoItems [] = {
         .icon               = s"SSTTHGAM",
         .itemType           = IT_PageLink,
         .linkType           = LT_Always,
-        .link               = &thumperAmmoSP,
+        //.link               = &thumperAmmoSP,
         .next               = NULL,
     },
 

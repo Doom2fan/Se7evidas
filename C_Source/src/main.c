@@ -26,9 +26,7 @@
 #include "systems/parkour.h"
 #include "systems/sprint_system.h"
 #include "systems/stamina.h"
-#include "systems/xp_system.h"
 #include "weapons/weapon_stuff.h"
-#include "weapons/slot_sys.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
@@ -137,7 +135,6 @@ Script_C void S7_ServersideEnter ENTER () {
         ShopSystem_Script     (player); // Run the shop system
         SpeedScript           (player);
         HellbladeScript       (player);
-        CustomWeapSlotsScript (player);
         PlayerMenuScript      (player);
         KeysScript ();
 

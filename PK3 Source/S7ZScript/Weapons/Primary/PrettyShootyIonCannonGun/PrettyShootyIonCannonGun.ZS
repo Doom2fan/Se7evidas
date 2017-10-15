@@ -13,6 +13,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         //weapon.ammoType2 "S7_Cells";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "PIC1Z0";
     }
 
     int readyFrame;

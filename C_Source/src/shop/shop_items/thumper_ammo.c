@@ -21,11 +21,10 @@
 #include "shop/shop.h"
 #include "shop/shop_items/externs.h"
 #include "shop/shop_process.h"
-#include "weapons/thumper.h"
 
 // Functions
 // Thumper grenades buy callback
-int SS_TH_BuyItem (PlayerData_t *player, SS_Item_t *item) {
+/*int SS_TH_BuyItem (PlayerData_t *player, SS_Item_t *item) {
     if (!player) {
         Log ("\CFunction SS_TH_BuyItem: Fatal error: Invalid or NULL player struct");
         return BC_InvalidPlayer;
@@ -192,4 +191,4 @@ SS_Item_t thumperAmmoItems [] = {
 SS_Page_t thumperAmmoSP = {
     .name       = s"SS_THGRENADES",
     .items      = &thumperAmmoItems [0],
-};
+};*/

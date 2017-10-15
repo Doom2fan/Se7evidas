@@ -20,6 +20,7 @@ class S7_Shotgun : S7_BaseWeapon {
         weapon.ammoType2 "S7_20gaShells";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "DTUPA0";
     }
 
     int loaded;

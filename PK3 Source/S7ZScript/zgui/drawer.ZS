@@ -75,8 +75,9 @@ class Drawer ui
 			DTA_ClipLeft, int(ClipLeft),
 			DTA_ClipBottom, int(ClipBottom),
 			DTA_ClipRight, int(ClipRight),
-			DTA_Alpha, alpha
-		
+			DTA_Alpha, alpha,
+			DTA_TopOffset, 0,
+			DTA_LeftOffset, 0
 		);
 	}
 	

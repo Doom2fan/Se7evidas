@@ -36,8 +36,6 @@ typedef struct PD_AmmoType_t    PD_AmmoType_t;
 // Player data
 typedef struct PD_Physics_t     PD_Physics_t;   // Physics
 typedef struct PD_Health_t      PD_Health_t;    // Health
-// RPG Systems
-typedef struct PD_XPSystem_t    PD_XPSystem_t;  // XP System
 // Misc
 typedef struct PD_Misc_t        PD_Misc_t;
 // Script Data
@@ -46,7 +44,6 @@ typedef struct ShopDef_t        ShopDef_t;
 typedef struct BankDef_t        BankDef_t;
 typedef struct SprintDef_t      SprintDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
-typedef struct WeapBinds_t      WeapBinds_t;
 typedef struct PlayerMenu_t     PlayerMenu_t;
 // Save system
 typedef struct SavedData_t      SavedData_t;
@@ -79,19 +76,6 @@ struct PD_Health_t {
     int stamina;                        // Stamina
     int milkRegenRate;                  // Canteen regen rate
     int milkUseRate;                    // Canteen use rate
-};
-
-struct PD_XPSystem_t {
-    int level;                          // Current level
-    int experience;                     // Amount of experience
-    int attrPoints;                     // Attribute points
-    int strengthLVL;                    // Strength stat
-    int agilityLVL;                     // Agility stat
-    int vitalityLVL;                    // Vitality stat
-    int defenseLVL;                     // Defense stat
-    int willLVL;                        // Will stat
-    int magicLVL;                       // Magic stat
-    int techLVL;                        // Tech stat
 };
 
 struct PD_Misc_t {
@@ -158,14 +142,6 @@ struct BankDef_t {
     BS_Item_t itemStorage [500];
 };
 
-#define WPBND_MAXSLOTS 5
-#define WPBND_MAXWEAPS 5
-struct WeapBinds_t {
-    vec2_i curWeap;                                     // Current weapon
-    vec2_i switchWeap;                                  // Weapon to be switched to
-    int    weapBinds [WPBND_MAXSLOTS] [WPBND_MAXWEAPS]; // Weapon bindings array
-};
-
 struct PlayerMenu_t {
     bool open, disable, pause;
     int moveDelay, moveSpeed;
@@ -184,7 +160,6 @@ typedef struct PlayerData_t {
     PD_Health_t     health;             // Health related stuff
 
     // RPG system stuff
-    PD_XPSystem_t   xpSystem;           // Level system stuff
     int             cash;               // Cash
     int             ammoMax;            // Ammo max mul
 
@@ -197,7 +172,6 @@ typedef struct PlayerData_t {
     ParkourDef_t    parkourDef;         // Dodging system stuff
     ShopDef_t       shopDef;            // Shop system stuff
     BankDef_t       bankData;           // Bank system stuff
-    WeapBinds_t     weapBinds;          // Weapon bindings
     PlayerMenu_t    playerMenu;         // Player menu info
     MonsterInfo_t   asMonster;          // Player data as monster data struct
 } PlayerData_t;
@@ -208,13 +182,11 @@ struct SavedData_t {
     int             gender;             // Player gender
 
     // RPG Systems
-    PD_XPSystem_t   xpSystem;           // Level system stuff
     BankDef_t       bankData;           // Bank system stuff
     int             cash;               // Cash
 
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data
-    WeapBinds_t     weapBinds;          // Weapon bindings
 };
 
 // Prototypes

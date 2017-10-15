@@ -22,6 +22,7 @@ class S7_SSG : S7_BaseWeapon {
         weapon.ammoType2 "S7_12gaShells";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
+        S7_BaseWeapon.Icon "SSGPA0";
     }
 
     bool leftLoaded, rightLoaded, firingBoth;
