@@ -88,17 +88,13 @@ class S7_BaseWeapon : weapon {
 
     Select:
     TrueSelect:
-        TNT1 A 0 {
-            TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
-            A_Raise ();
-        }
+        TNT1 A 0 A_Raise ();
         loop;
     Deselect:
     TrueDeselect:
         TNT1 A 0 {
             TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
             TakeInventory ("S7_Weap_ReadyFrame", 0x7FFFFFFF);
-            TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
             A_ZoomFactor (1.0);
 
             if (!health)

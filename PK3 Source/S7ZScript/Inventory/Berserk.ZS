@@ -76,7 +76,6 @@ class S7_BerserkWeap : S7_BaseWeapon {
             TakeInventory ("S7_Reloading", 0x7FFFFFFF);
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
 
             return ResolveState (null);

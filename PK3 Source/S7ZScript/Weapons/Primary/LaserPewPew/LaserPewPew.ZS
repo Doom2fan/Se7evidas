@@ -66,7 +66,6 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
             }
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady (WRF_AllowZoom | WRF_NoSecondary);
 
             return ResolveState (null);
@@ -294,7 +293,6 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 return ResolveState ("ChangeMode");
             TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch);
 
             return ResolveState (null);

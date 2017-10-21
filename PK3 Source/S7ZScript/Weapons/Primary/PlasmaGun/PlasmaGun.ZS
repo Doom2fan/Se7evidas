@@ -50,7 +50,6 @@ class S7_PlasmaGun : S7_BaseWeapon {
             if (CheckInventory ("S7_ChangeFireMode", 1))
                 return ResolveState ("ChangeMode");
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
 
             return ResolveState (null);

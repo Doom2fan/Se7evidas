@@ -37,9 +37,7 @@ class S7_HitterSMG : S7_BaseWeapon {
                 return ResolveState ("Reload");
             if (CheckInventory ("S7_DoMelee", 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_WeapReady", 0x7FFFFFFF);
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
 
             return ResolveState (null);

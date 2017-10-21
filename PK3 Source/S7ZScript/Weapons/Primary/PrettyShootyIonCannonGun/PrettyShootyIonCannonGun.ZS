@@ -35,7 +35,6 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                 return ResolveState ("ChangeMode");*/
             TakeInventory ("S7_ChangeFireMode", 1);
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
 
             return ResolveState (null);

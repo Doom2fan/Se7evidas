@@ -65,7 +65,6 @@ class S7_SSG : S7_BaseWeapon {
             if (altAttack)
                 return ResolveState ("Fire.Right");
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady (WRF_NoFire);
 
             return ResolveState (null);

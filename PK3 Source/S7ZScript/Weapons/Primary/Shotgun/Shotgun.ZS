@@ -39,7 +39,6 @@ class S7_Shotgun : S7_BaseWeapon {
                 return ResolveState ("QuickMelee");
             TakeInventory ("S7_ChangeFireMode", 1);
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
 
             return ResolveState (null);

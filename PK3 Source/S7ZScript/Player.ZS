@@ -9,7 +9,6 @@ class S7_AutoReloading         : S7_Boolean { }
 class S7_DisableHud            : S7_Boolean { }
 class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
-class S7_WeapReady             : S7_Boolean { }
 
 extend class S7_ActorExtensions {
     static bool KeyPressed (Actor act, int key) {

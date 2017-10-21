@@ -80,7 +80,6 @@ class S7_AMG : S7_BaseWeapon {
             if (CheckInventory ("S7_ChangeFireMode", 1))
                 return ResolveState ("ChangeMode");
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady (WRF_AllowZoom | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
 
             return ResolveState (null);

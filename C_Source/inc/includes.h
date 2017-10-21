@@ -82,8 +82,6 @@
 // Shop system
 #define CASHTOKENLESSER      s"S7_CashLesser"
 #define CASHTOKENGREATER     s"S7_CashGreater"
-// Weapon stuff
-#define WEAPONREADYTOKEN     s"S7_WeapReady"
 // Misc
 #define BERSERKTOKEN         s"S7_BerserkToken"
 #define MANATOKEN            s"S7_Mana"
