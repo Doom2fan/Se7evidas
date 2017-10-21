@@ -58,14 +58,14 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 return ResolveState ("ChangeMode");
 
             GiveInventory ("S7_WeapReady", 1);
-            A_WeaponReady (WRF_AllowZoom);
+            A_WeaponReady (WRF_AllowZoom | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
 
             return ResolveState (null);
         }
         #### # 0 TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch);
+        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
         goto Ready2;
 
     Zoom:
