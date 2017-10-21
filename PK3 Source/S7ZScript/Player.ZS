@@ -10,17 +10,6 @@ class S7_DisableHud            : S7_Boolean { }
 class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
 
-extend class S7_ActorExtensions {
-    static bool KeyPressed (Actor act, int key) {
-        if (!act.player)
-            return false;
-
-        int newbuttons = (act.player.cmd.buttons ^ act.player.oldbuttons & act.player.cmd.buttons);
-
-        return (newbuttons & key) == key;
-    }
-}
-
 class S7_PlayerData : Inventory {
     /** Movement **/
     // Dodging

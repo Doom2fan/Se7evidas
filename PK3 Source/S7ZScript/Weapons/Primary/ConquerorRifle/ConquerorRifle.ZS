@@ -102,7 +102,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         #### # 5 {
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
 
-            if (invoker.zoomLevel > 0 && ((GetPlayerInput (MODINPUT_Buttons) & BT_Zoom) || (GetPlayerInput (MODINPUT_OldButtons) & BT_Zoom)))
+            if (invoker.zoomLevel > 0 && ((player.cmd.buttons & BT_Zoom) || (player.oldbuttons & BT_Zoom)))
                 return ResolveState ("ToggleZoomLevel");
 
             if (invoker.noPump)

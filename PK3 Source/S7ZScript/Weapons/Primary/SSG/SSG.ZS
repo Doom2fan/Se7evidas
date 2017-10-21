@@ -57,7 +57,7 @@ class S7_SSG : S7_BaseWeapon {
                 return ResolveState ("QuickMelee");
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
 
-            bool attack = S7_ActorExtensions.KeyPressed (invoker.Owner, BT_ATTACK), altAttack = S7_ActorExtensions.KeyPressed (invoker.Owner, BT_ALTATTACK);
+            bool attack = (!(player.cmd.buttons & BT_ATTACK) && (player.oldbuttons & BT_ATTACK)), altAttack = (!(player.cmd.buttons & BT_ALTATTACK) && (player.oldbuttons & BT_ALTATTACK));
             if (attack && altAttack)
                 return ResolveState ("Fire.Both2");
             if (attack)
@@ -79,7 +79,7 @@ class S7_SSG : S7_BaseWeapon {
     Fire.Left:
         SSG0 A 1;
         SSG5 A 1 {
-            if (S7_ActorExtensions.KeyPressed (invoker.Owner, BT_ALTATTACK))
+            if (!(player.cmd.buttons & BT_ALTATTACK) && (player.oldbuttons & BT_ALTATTACK))
                 return ResolveState ("Fire.Both");
 
             if (!invoker.leftLoaded)
@@ -104,7 +104,7 @@ class S7_SSG : S7_BaseWeapon {
     Fire.Right:
         SSG0 A 1;
         SSG5 A 1 {
-            if (S7_ActorExtensions.KeyPressed (invoker, BT_ATTACK))
+            if (!(player.cmd.buttons & BT_ATTACK) && (player.oldbuttons & BT_ATTACK))
                 return ResolveState ("Fire.Both");
 
             if (!invoker.rightLoaded)

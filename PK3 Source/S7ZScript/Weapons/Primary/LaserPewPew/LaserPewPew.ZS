@@ -379,7 +379,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLS2 C 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
         BLS2 B 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
         BLS2 A 1;
-        BLS2 A 1 A_JumpIf (GetPlayerInput (MODINPUT_BUTTONS) & BT_ALTATTACK, "AkimboLeft.Fire");
+        BLS2 A 1 A_JumpIf (player.cmd.buttons & BT_ALTATTACK, "AkimboLeft.Fire");
         goto AkimboLeft.Ready;
 
     AkimboRight.Dryfire:
