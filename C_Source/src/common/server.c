@@ -101,7 +101,6 @@ void UpdateServerData () {
     ServerData.gameType = GameType ();
 
     // Parkour stuff
-    ServerData.dodgeCooldown = GetCVar      (s"S7_DodgeCooldown");
     ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
 
     // RPG system stuff

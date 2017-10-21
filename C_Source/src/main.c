@@ -24,7 +24,6 @@
 #include "systems/misc.h"
 #include "systems/monster_stuff.h"
 #include "systems/parkour.h"
-#include "systems/sprint_system.h"
 #include "systems/stamina.h"
 #include "weapons/weapon_stuff.h"
 
@@ -88,7 +87,6 @@ Script_C void S7_ShowMapInfo () {
 
 // General stuff
 Script_C void S7_ServersideEnter2 (PlayerData_t *player);
-Script_C void S7_SprintSystem     (PlayerData_t *player);
 void DebugOptsPlayer (PlayerData_t *player, bool debugOn, int debugOpts);
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
@@ -113,10 +111,8 @@ Script_C void S7_ServersideEnter ENTER () {
     }
 
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    player->SprintDef.OldSpeed = 1.0k;
 
     S7_ServersideEnter2 (player); // This has to be done like this to make sure this script runs first.
-    S7_SprintSystem (player);
 
     S7_ShowMapInfo ();
 
@@ -129,7 +125,6 @@ Script_C void S7_ServersideEnter ENTER () {
         StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
         WallJumpScript           (player);
         MultiJumpScript          (player);
-        DodgeScriptP1            (player);
         WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
@@ -146,7 +141,6 @@ Script_C void S7_ServersideEnter ENTER () {
         Delay (1); // Wait for a tic
 
         StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)
-        DodgeScriptP2            (player);
     }
 }
 
@@ -232,11 +226,7 @@ void ResetStuff (PlayerData_t *player) {
     player->scriptData.staminaEmpty = FALSE;
     player->scriptData.staminaTics = 0;
     player->scriptData.beamGrab = FALSE;
-    player->parkourDef.dodgeCooldown = 0;
-    player->parkourDef.dodgeInvulnTics = 0;
     player->parkourDef.mjumpCount = 0;
-    SetInventory (DODGEINVULITEM,  0);
-    SetInventory (DODGETRAILITEM,  0);
     SetInventory (DISABLEHUDTOKEN, 0);
 
     SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
@@ -257,7 +247,6 @@ Script_C void S7_ServersideRespawn RESPAWN () {
     ResetStuff (player);
 
     SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-    player->SprintDef.OldSpeed = 1.0k;
 }
 
 Script_C void S7_ServersideDisconnect DISCONNECT (int num) {

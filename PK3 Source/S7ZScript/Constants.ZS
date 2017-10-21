@@ -14,3 +14,8 @@ enum FiringModeIcon {
     FMI_BurstFire = 2,
     FMI_FullAuto  = 3,
 }
+
+// Player data
+const S7C_DodgeStamina = 30;
+const S7C_SprintStamina = 5;
+const S7C_BaseSprintFactor = 0.5;

@@ -111,11 +111,10 @@ Script_C void S7_PrintServerData NET () {
 
     Log ("ServerData = {\n \
     debugMode = %s; \
-    dodgeCooldown = %d;\n \
     mjumpZMul = %kk;\n \
     noSaveLoading = %s;\n \
     mapCount = %d;\n};",
-    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.dodgeCooldown, ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
+    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
 }
 Script_C void S7_PrintMapData NET () {
     if (!CheckCheats () || !PlayerInGame (PLN))

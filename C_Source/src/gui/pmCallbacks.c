@@ -45,7 +45,6 @@ void PlayerMenu_MainUse (PlayerData_t *player, PM_Item *item) {
                 PM_ChangePage (player, NULL); // Close the menu
                 SS_OpenPage (player, &mainSP, OXF_ForceAll); // Change the page to main
                 player->shopDef.open = TRUE; // Set open to TRUE
-                player->SprintDef.disable = TRUE; // Disable sprinting
                 SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN); // Freeze the player
                 player->shopDef.moveDelay = (SS_ONMOVEDELAY / 2); // Set the movement delay
             }

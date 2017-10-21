@@ -40,7 +40,6 @@ typedef struct ServerData_t {
     int gameType;
 
     // Parkour stuff
-    int   dodgeCooldown;
     accum mjumpZMul;
 
     // Save system stuff

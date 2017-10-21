@@ -22,59 +22,6 @@
 #include "weapons/weapon_stuff.h"
 #include "utils/damage.h"
 
-const string DummyWeapons [] = {
-    s"S7_NullWeapon",
-    SPRINTWEAPON,
-};
-
-int GetWeaponName () {
-    for (int x = 0; x < ArraySize (DummyWeapons); x++)
-        if (CheckWeapon (DummyWeapons [x]))
-            return -1;
-
-    for (int y = 0; y < WeaponNames_Length; y++)
-        if (CheckWeapon (WeaponNames [y]))
-            return y;
-
-    return -1;
-}
-
-void ChangeLastWeapon (bool mode, PlayerData_t *player) {
-    if (!player) {
-        DebugLog ("\CgFunction ChangeLastWeapon: Fatal error: Invalid or NULL player struct");
-        return;
-    }
-
-    int weaponNumber = 0;
-    if (mode) {
-        weaponNumber = player->scriptData.lastWeapon;
-        if (weaponNumber < 0 || weaponNumber > WeaponNames_Length - 1)
-            return;
-        SetWeapon (WeaponNames [weaponNumber]);
-    } else {
-        weaponNumber = GetWeaponName ();
-        if (weaponNumber < 0 || weaponNumber > WeaponNames_Length - 1)
-            return;
-        player->scriptData.lastWeapon = weaponNumber;
-    }
-}
-
-void DisableWeapon (string meh, string blah, PlayerData_t *player) {
-    if (!player) {
-        DebugLog ("\CgFunction DisableWeapon: Fatal error: Invalid or NULL player struct");
-        return;
-    }
-
-    if (CheckWeapon (meh)) {
-        TakeInventory (blah, 0x7FFFFFFF);
-        ChangeLastWeapon (1, player);
-        return;
-    }
-    GiveInventory (meh, 1);
-    SetWeapon (meh);
-    ChangeLastWeapon (0, player);
-}
-
 // Scripts
 void HellbladeScript (PlayerData_t *player) {
     if (!player)

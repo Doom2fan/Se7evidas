@@ -42,7 +42,6 @@ typedef struct PD_Misc_t        PD_Misc_t;
 typedef struct PD_ScriptData_t  PD_ScriptData_t;
 typedef struct ShopDef_t        ShopDef_t;
 typedef struct BankDef_t        BankDef_t;
-typedef struct SprintDef_t      SprintDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct PlayerMenu_t     PlayerMenu_t;
 // Save system
@@ -97,17 +96,7 @@ struct PD_ScriptData_t {
     bool  weaponReady;                  // Is the weapon ready?
 };
 
-struct SprintDef_t {
-    accum OldSpeed;                     // The player's old speed
-    bool  Sprinting;                    // Is the player sprinting?
-    bool  disable;                      // Disable sprinting
-};
-
 struct ParkourDef_t {
-    /* Dodging */
-    int    dodgeCooldown;                 // The cooldown before you can dodge again
-    int    dodgeInvulnTics;               // The time you stay invulnerable
-
     /* Multi-jumping */
     bool   mjumpOnGround;                 // Is the player on the ground?
     int    mjumpCount, mjumpMax;          // Count and max
@@ -168,7 +157,6 @@ typedef struct PlayerData_t {
 
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data
-    SprintDef_t     SprintDef;          // Sprint system stuff
     ParkourDef_t    parkourDef;         // Dodging system stuff
     ShopDef_t       shopDef;            // Shop system stuff
     BankDef_t       bankData;           // Bank system stuff

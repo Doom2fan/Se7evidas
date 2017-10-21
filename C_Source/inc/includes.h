@@ -79,7 +79,6 @@
 // Spriting system
 #define STAMINATOKEN         s"S7_Stamina"
 #define SPRINTWEAPON         s"S7_SprintWeapon"
-#define SPRINTINGTOKEN       s"S7_Sprinting"
 // Shop system
 #define CASHTOKENLESSER      s"S7_CashLesser"
 #define CASHTOKENGREATER     s"S7_CashGreater"

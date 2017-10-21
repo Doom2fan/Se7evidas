@@ -22,13 +22,7 @@
 
 #include <ACS_ZDoom.h>
 
-// Macros
-#define DODGEINVULITEM s"S7_PowerDodgeInvuln"
-#define DODGETRAILITEM s"S7_PowerDodgeTrail"
-
 // Prototypes
-void DodgeScriptP1   (PlayerData_t *player);
-void DodgeScriptP2   (PlayerData_t *player);
 void MultiJumpScript (PlayerData_t *player);
 void WallJumpScript  (PlayerData_t *player);
 void WallHoldScript  (PlayerData_t *player);

@@ -116,7 +116,7 @@ void UpdatePlayerAlpha (PlayerData_t *player) {
     accum oldAlpha = GetActorPropertyFixed (0, APROP_Alpha);
     int   oldRenderStyle = GetActorProperty (0, APROP_RenderStyle);
 
-    if (player->parkourDef.dodgeInvulnTics > 0)
+    if (CheckInventory (s"S7_PowerDodgeInvuln") > 0)
         newRenderStyle = STYLE_Shadow;
 
     if (newAlpha != oldAlpha)

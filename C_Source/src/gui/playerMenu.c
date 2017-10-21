@@ -85,7 +85,6 @@ void PM_ProcessToggle (PlayerData_t *player) {
             }
 
             if (PM_ChangePage (player, &PM_MainMenu)) {
-                player->SprintDef.disable = TRUE;
                 SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);
                 player->playerMenu.moveDelay = PM_OnMoveDelay;
             } else {
@@ -94,7 +93,6 @@ void PM_ProcessToggle (PlayerData_t *player) {
             }
         } else if (player->playerMenu.open && !player->playerMenu.pause && KeyPressed (BT_USER4)) {
             PM_ChangePage (player, NULL);
-            player->SprintDef.disable = FALSE;
             SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
             player->playerMenu.moveDelay = PM_OnMoveDelay;
         }
@@ -236,7 +234,6 @@ void PlayerMenuScript (PlayerData_t *player) {
     
     if (player->health.health <= 0 && (player->playerMenu.open || player->playerMenu.page != NULL)) { // Close the menu if the player died
         PM_ChangePage (player, NULL);
-        player->SprintDef.disable = FALSE;
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
         player->playerMenu.moveDelay = PM_OnMoveDelay;
     }

@@ -37,8 +37,6 @@ void StaminaRegenerationPart1 (PlayerData_t *player) {
 
         if (player->scriptData.staminaTics > 0 && player->health.stamina == GetMaxStamina (player) || player->scriptData.staminaTics > 0 && CheckWeapon (SPRINTWEAPON))
             player->scriptData.staminaTics = 0;
-        if (player->scriptData.staminaEmpty == TRUE && player->health.stamina >= 50)
-            player->scriptData.staminaEmpty = FALSE;
 
         if (!CheckWeapon (SPRINTWEAPON)) {
             if (!player->misc.dying && player->scriptData.staminaTics >= 1)

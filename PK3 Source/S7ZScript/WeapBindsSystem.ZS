@@ -5,8 +5,10 @@ class S7_WeapBindsSystem : Inventory {
     Array<S7_BaseWeapon> Binds [10];
     // The maximum amount of weapons in a slot.
     int SlotMaximum [10];
+    // The last selected weapon;
+    S7_BaseWeapon LastWeapon;
 
-    override void AttachToOwner (Actor other) { // Override this so we can disable selection on pickup
+    override void AttachToOwner (Actor other) {
         super.AttachToOwner (other);
 
         for (int i = 0; i < 10; i++) {
@@ -22,6 +24,8 @@ class S7_WeapBindsSystem : Inventory {
 
             if (weap)
                 Binds [2].Push (weap);
+
+            LastWeapon = weap;
         }
     }
 
@@ -45,6 +49,7 @@ class S7_WeapBindsSystem : Inventory {
 
         if (player.PendingWeapon != WP_NOCHANGE) {
             let weap = S7_BaseWeapon (player.PendingWeapon);
+
             if (!weap)
                 return -1, -1;
             return LocateWeapon (weap);
@@ -208,16 +213,25 @@ class S7_WeapBindsSystem_EventHandler : EventHandler {
                 return;
 
             S7_BaseWeapon weapon = weapBinds.PickWeapon (slot, false);
-            if (player.ReadyWeapon != weapon)
+
+            if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
+                weapBinds.LastWeapon = weapon;
+            }
         } else if (commandStrings.Result [1] == "next") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (false, false);
-            if (player.ReadyWeapon != weapon)
+
+            if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
+                weapBinds.LastWeapon = weapon;
+            }
         } else if (commandStrings.Result [1] == "prev") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false);
-            if (player.ReadyWeapon != weapon)
+
+            if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
+                weapBinds.LastWeapon = weapon;
+            }
         } else if (commandStrings.Result [1] == "test") {
             for (int i = 1; i <= 5; i++)
                 weapBinds.SlotMaximum [i] = 3;

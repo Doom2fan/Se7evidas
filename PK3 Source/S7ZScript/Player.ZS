@@ -12,10 +12,33 @@ class S7_HoldingZoom           : S7_Boolean { }
 class S7_WeapReady             : S7_Boolean { }
 
 extend class S7_ActorExtensions {
-    static bool KeyPressed (Actor act, int key, int ptr = AAPTR_DEFAULT) {
-        int newbuttons = (act.GetPlayerInput (MODINPUT_BUTTONS, ptr) ^ act.GetPlayerInput (MODINPUT_OLDBUTTONS, ptr)) & act.GetPlayerInput (MODINPUT_BUTTONS, ptr);
+    static bool KeyPressed (Actor act, int key) {
+        if (!act.player)
+            return false;
+
+        int newbuttons = (act.player.cmd.buttons ^ act.player.oldbuttons & act.player.cmd.buttons);
 
         return (newbuttons & key) == key;
+    }
+}
+
+class S7_PlayerData : Inventory {
+    /** Movement **/
+    // Dodging
+    int dodgeCooldown;
+    // Sprinting
+    bool   sprinting;
+    int    sprintTics, oldAgility; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
+                                   // oldAgility: This is used for checking if the agility stat changed.
+    double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
+
+    override double GetSpeedFactor () {
+        return 1 + sprintSpeedFactor;
+    }
+
+    override void AttachToOwner (Actor other) {
+        super.AttachToOwner (other);
+        oldAgility = -1;
     }
 }
 
@@ -78,24 +101,37 @@ class S7_BasePlayer : playerPawn {
         +solid +noSkin
     }
 
+
     bool stepFrame;
     actor playerLineTarget;
     S7_XPSystemWorker xpSys;
+    S7_WeapBindsSystem weapBinds;
+    S7_PlayerData playerData;
 
     override void PostBeginPlay () {
         super.PostBeginPlay ();
 
-        if (Player.mo) {
-            let pPawn = Player.mo;
+        if (player && player.mo) {
+            let pPawn = player.mo;
+
             xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+            weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
+            playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
 
-            if (!xpSys) {
-                pPawn.GiveInventory ("S7_XPSystemWorker", 1);
-                xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+            if (self == player.mo) {
+                if (!xpSys) {
+                    pPawn.GiveInventory ("S7_XPSystemWorker", 1);
+                    xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+                }
+                if (!weapBinds) {
+                    pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
+                    weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
+                }
+                if (!playerData) {
+                    pPawn.GiveInventory ("S7_PlayerData", 1);
+                    playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
+                }
             }
-
-            if (!pPawn.FindInventory ("S7_WeapBindsSystem"))
-                pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
         }
     }
 
@@ -103,6 +139,118 @@ class S7_BasePlayer : playerPawn {
         super.Tick ();
 
         playerLineTarget = AimTarget ();
+        if (player && player.mo) {
+            let pPawn = player.mo;
+
+            if (self == player.mo) {
+                if (!xpSys) {
+                    if (!(xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker")))) {
+                        pPawn.GiveInventory ("S7_XPSystemWorker", 1);
+                        xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+                    }
+                }
+                if (!weapBinds) {
+                    if (!(weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem")))) {
+                        pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
+                        weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
+                    }
+                }
+                if (!playerData) {
+                    if (!(playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData")))) {
+                        pPawn.GiveInventory ("S7_PlayerData", 1);
+                        playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
+                    }
+                }
+
+                Movement_Dodging ();
+                Movement_Sprinting ();
+            }
+        }
+    }
+
+    void Movement_Dodging () {
+        if (health > 0) {
+            // Dodging
+            if (playerData.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
+                // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
+                if (!(player.cmd.buttons & BT_USER2) && (player.oldbuttons & BT_USER2) &&
+                    !playerData.sprinting && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && CheckInventory ("S7_Stamina", S7C_DodgeStamina)) {
+                    int forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
+                    int sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
+
+                    if (forwardMove != 0 || sideMove != 0) { // If the player is trying to move
+                        TakeInventory ("S7_Stamina", S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
+
+                        A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
+
+                        GiveInventory ("S7_PowerDodgeEffects", 1);
+                        Thrust (18, (angle - 90) + atan2 (forwardMove, sideMove));
+                        vel.Z += -85;
+
+                        playerData.dodgeCooldown = S7_DodgeCooldown;
+                    }
+                }
+            } else
+                playerData.dodgeCooldown--;
+        } else
+            TakeInventory ("S7_PowerDodgeEffects", 0x7FFFFFFF);
+    }
+
+    void Movement_Sprinting () {
+        double forwardMove = abs (player.cmd.forwardmove) / 12800;
+        double sideMove = abs (player.cmd.sidemove) / 10240;
+
+        if (health > 0) {
+            // This is here just in case something fucks up and the player keeps the sprint "weapon" for some reason.
+            if (player.ReadyWeapon is "S7_SprintWeapon" && !playerData.sprinting)
+                player.PendingWeapon = weapBinds.LastWeapon;
+            else if (!playerData.sprinting && CheckInventory ("S7_SprintWeapon", 1))
+                TakeInventory ("S7_SprintWeapon", 0x7FFFFFFF);
+
+            if (playerData.sprintTics == -1 && CheckInventory ("S7_Stamina", 75))
+                playerData.sprintTics = 0;
+
+            // Start/stop sprinting
+            if (!playerData.sprinting && playerData.sprintTics != -1 && (player.cmd.buttons & BT_USER1) && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && CheckInventory ("S7_Stamina", S7C_SprintStamina)) {
+                playerData.sprinting = true;
+                playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
+                playerData.sprintTics = 0;
+                playerData.oldAgility = -1;
+
+                GiveInventory ("S7_SprintWeapon", 1);
+                player.PendingWeapon = Weapon (FindInventory ("S7_SprintWeapon"));
+            } else if (playerData.sprinting && (!(player.cmd.buttons & BT_USER1) || CheckInventory ("S7_SoulLance_BeamGrabbed", 1) || CountInv ("S7_Stamina") < S7C_SprintStamina)) {
+                if (playerData.sprintTics < 5)
+                    TakeInventory ("S7_Stamina", playerData.sprintTics);
+
+                playerData.sprinting = false;
+                playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
+                playerData.sprintTics = (!CheckInventory ("S7_Stamina", 5)) ? -1 : 0;
+
+                player.PendingWeapon = weapBinds.LastWeapon;
+            }
+            if (playerData.sprinting && player.ReadyWeapon is "S7_SprintWeapon") {
+                if (playerData.sprintTics++ >= 5 && (forwardMove != 0.0 || sideMove != 0.0)) {
+                    playerData.sprintTics = 0;
+                    TakeInventory ("S7_Stamina", S7C_SprintStamina);
+                } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
+                    playerData.sprintTics++;
+
+                int newAgility = GetAgilityStat ();
+                if (newAgility != playerData.oldAgility) {
+                    if (newAgility > 0) // Just so it doesn't explode
+                        playerData.sprintSpdFacPproc = 0.1 * log (newAgility);
+                    else
+                        playerData.sprintSpdFacPproc = 0;
+                    playerData.oldAgility = newAgility;
+                }
+
+                if (forwardMove > 0.5 || sideMove > 0.5)
+                    playerData.sprintSpeedFactor = Clamp (0.5 + playerData.sprintSpdFacPproc, 0.0, 2.5);
+                else
+                    playerData.sprintSpeedFactor = Clamp (0.5 + (0.5 + playerData.sprintSpdFacPproc) * 2, 0.0, 2.5);
+            }
+        }
     }
 
     clearscope int GetStrengthStat () { return ((xpSys) ? xpSys.strengthStat : 0); }
@@ -184,7 +332,7 @@ class S7_BasePlayer : playerPawn {
 
 //-------------------------------------------------------------------------------------------
 //
-// Null weapon
+// Null weapon(s)
 //
 //-------------------------------------------------------------------------------------------
 class S7_NullWeapon : weapon {
@@ -198,51 +346,23 @@ class S7_NullWeapon : weapon {
 
     states {
     Spawn:
-        TNT1 A 0;
         stop;
+
     Select:
-        TNT1 A 1 A_Raise;
         TNT1 A 0 A_Raise;
         wait;
     Deselect:
         TNT1 A 0 A_Lower;
         wait;
     Ready:
-        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_DisableSwitch);
+        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob);// | WRF_DisableSwitch);
         loop;
     Fire:
         TNT1 A 1;
         goto Ready;
     }
 }
-
-//-------------------------------------------------------------------------------------------
-//
-// Sprinting null weapon
-//
-//-------------------------------------------------------------------------------------------
-class S7_Sprinting    : S7_Boolean { }
-class S7_SprintWeapon : S7_NullWeapon {
-    states {
-    Ready:
-        TNT1 A  1 GiveInventory ("S7_Sprinting", 1);
-        TNT1 AA 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_DisableSwitch);
-    Ready2:
-        TNT1 A 0 A_JumpIfInventory ("S7_Sprinting", 1, 1);
-        goto Ready3;
-        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob | WRF_DisableSwitch);
-        loop;
-    Ready3:
-        TNT1 A 0 GiveInventory ("S7_WeapReady", 1);
-        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob);
-        loop;
-    Deselect:
-        TNT1 AA 1 TakeInventory ("S7_Sprinting", 0x7FFFFFFF);
-        TNT1 A  1 A_Lower;
-        TNT1 A  0 A_Lower;
-        wait;
-    }
-}
+class S7_SprintWeapon : S7_NullWeapon { }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -370,17 +490,45 @@ class S7_Mana          : ammo       { default { inventory.maxAmount 250; +invent
 class S7_MultiJump_Max : S7_Counter { default { inventory.maxAmount 200; } }
 
 // Dodging
-class S7_PowerDodgeInvuln : powerInvulnerable {
+class S7_DodgeTrail : PlayerSpeedTrail { default { renderStyle "Shadow"; } }
+class S7_PowerDodgeEffects : powerInvulnerable {
     default {
-        powerup.duration -60;
+        inventory.interHubAmount 0; // I dunno, just in case...
         inventory.icon "";
+        powerup.duration 24;
+
+        +inventory.noTeleportFreeze
     }
-}
-class S7_PowerDodgeTrail : powerSpeed {
-    default {
-        speed 1.0;
-        powerup.duration 2;
-        inventory.icon "";
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (!Owner || !Owner.player) // Return if it doesn't have an owner
+            return;
+
+        if (Owner.player.cheats & CF_PREDICTING) // Return if running player prediction
+            return;
+
+        if (level.time & 1)
+            return;
+
+        Actor speedMo = Spawn ("S7_DodgeTrail", Owner.Pos, NO_REPLACE);
+        if (speedMo) {
+            speedMo.Angle = Owner.Angle;
+            speedMo.Translation = Owner.Translation;
+            speedMo.target = Owner;
+            speedMo.sprite = Owner.sprite;
+            speedMo.frame = Owner.frame;
+            speedMo.Floorclip = Owner.Floorclip;
+
+            // [BC] Also get the scale from the owner.
+            speedMo.Scale = Owner.Scale;
+
+            if (Owner == players[consoleplayer].camera &&
+                !(Owner.player.cheats & CF_CHASECAM)) {
+                speedMo.bInvisible = true;
+            }
+        }
     }
 }
 
