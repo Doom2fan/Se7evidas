@@ -67,7 +67,6 @@ void UpdatePlayerData (PlayerData_t *player) {
     player->scriptData.disableHUD = CheckInventory (DISABLEHUDTOKEN);
     player->parkourDef.mjumpMax = CheckInventory (MJUMP_MAXTOKEN);
     player->scriptData.beamGrab = CheckInventory (SLANCE_BEAMGRABTOKEN);
-    player->scriptData.weaponReady = CheckInventory (WEAPONREADYTOKEN);
 
     // Non struct data
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));

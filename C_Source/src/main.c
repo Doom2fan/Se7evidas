@@ -135,9 +135,6 @@ Script_C void S7_ServersideEnter ENTER () {
 
         UpdatePlayerAlpha  (player); // Update the alpha
 
-        if (CheckInventory (WEAPONREADYTOKEN))
-            TakeInventory (WEAPONREADYTOKEN, 0x7FFFFFFF);
-
         Delay (1); // Wait for a tic
 
         StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)
@@ -223,7 +220,6 @@ void ResetStuff (PlayerData_t *player) {
 
     player->misc.waterlevel = 0;
     player->misc.dying = FALSE;
-    player->scriptData.staminaEmpty = FALSE;
     player->scriptData.staminaTics = 0;
     player->scriptData.beamGrab = FALSE;
     player->parkourDef.mjumpCount = 0;

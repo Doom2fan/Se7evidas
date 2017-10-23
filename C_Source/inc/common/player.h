@@ -85,15 +85,12 @@ struct PD_Misc_t {
 struct PD_ScriptData_t {
     bool  disableHUD;                   // Disable HUD
     int   lastWeapon;                   // The last weapon the player selected
-    bool  staminaEmpty;                 // Did the player run out of stamina?
     int   staminaTics;                  // Used for the stamina regeneration
     int   popupNum;                     // Current popup
     int   pPageNum;                     // Current popup page
     bool  beamGrab;                     // Soul lance beam grabbed
     accum prevEyesDist;                 // Previous EYES distance
     int   prevStaticImage;              // The previous image used for the static. This is so it doesn't use the same image twice in a row
-    int   radarSweepDelay;              // The current delay for the radar sweep
-    bool  weaponReady;                  // Is the weapon ready?
 };
 
 struct ParkourDef_t {
