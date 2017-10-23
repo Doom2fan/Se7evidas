@@ -2,14 +2,6 @@
 addKeySection "Se7evidas (Weapon)" "Se7evidas_Weapon"
 addMenuKey    "Firing mode"                 "S7_FiringMode"
 addMenuKey    "Quick Melee"                 "S7_QuickMelee"
-addMenuKey    "Drop Weapon"                 "S7_WeapDrop"
-addMenuKey    "Next Weapon"                 "S7_WeapNext"
-addMenuKey    "Previous Weapon"             "S7_WeapPrev"
-addMenuKey    "Weapon Slot 1"               "S7_Slot 0"
-addMenuKey    "Weapon Slot 2"               "S7_Slot 1"
-addMenuKey    "Weapon Slot 3"               "S7_Slot 2"
-addMenuKey    "Weapon Slot 4"               "S7_Slot 3"
-addMenuKey    "Weapon Slot 5"               "S7_Slot 4"
 
 addKeySection "Se7evidas (Movement)" "Se7evidas_Movement"
 addMenuKey    "Sprint (Hold)"               "+user1"
@@ -21,12 +13,9 @@ addMenuKey    "Buy Menu"                    "+user3"
 addMenuKey    "Inventory list"              "S7_ShowPop1"
 
 // Keys
-alias S7_FiringMode "Use S7_FiringModeKey"
-alias S7_QuickMelee "Use S7_MeleeKey"
-alias S7_WeapDrop "Use S7_DropWeaponKey"
+alias S7_FiringMode "netevent \"S7_Keys:FiringMode\""
+alias S7_QuickMelee "netevent \"S7_Keys:Melee\""
 alias S7_ShowPop1 "Use S7_ShowPop1Key"
-//alias S7_ShopToggle "Use S7_ToggleShopKey"
-//alias S7_MenuToggle "Use S7_ToggleMenuKey"
 
 // Aliases
 alias S7_ListInv "pukename S7_PrintInv always %1"
@@ -34,9 +23,6 @@ alias S7_LogServerData "pukename S7_PrintServerData always"
 alias S7_LogMapData "pukename S7_PrintMapData always"
 
 // Custom weapon slot system aliases
-alias S7_WeapPrev "pukename S7_CWB_WeapCycle always 0"
-alias S7_WeapNext "pukename S7_CWB_WeapCycle always 1"
-alias S7_Slot "pukename S7_CWB_Slot always %1 -1"
 
 // Save system aliases
 alias S7_ClearSaveData "pukename \"S7_ClearSaveData\" always"

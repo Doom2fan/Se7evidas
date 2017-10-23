@@ -26,7 +26,6 @@ class S7_ScoutPlayer : S7_BasePlayer {
         player.startItem "S7_Stamina", 150;
         player.startItem "S7_Mana", 250;
         // Keys/controls
-        player.startItem "S7_ReloadKey";
         player.startItem "S7_MeleeKey";
         player.startItem "S7_FiringModeKey";
         player.startItem "S7_ShowPop1Key";

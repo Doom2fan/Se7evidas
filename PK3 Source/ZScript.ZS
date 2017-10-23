@@ -117,6 +117,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Props.ZS"
 
 // Weapons
+#INCLUDE "S7ZScript/Weapons/Unarmed.ZS"
 // Primary
 #INCLUDE "S7ZScript/Weapons/Primary/Shotgun/Shotgun.ZS"
 #INCLUDE "S7ZScript/Weapons/Primary/AMG/AMG.ZS"

@@ -32,6 +32,32 @@ class S7_PlayerData : Inventory {
 
 //-------------------------------------------------------------------------------------------
 //
+// Event handler
+//
+//-------------------------------------------------------------------------------------------
+class S7_PlayerEventHandler : EventHandler {
+    override void NetworkProcess (ConsoleEvent e) {
+        if (e.Player < 0) // Don't execute this if the player isn't given/valid
+            return;
+        if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
+            return;
+
+        let pPawn = players [e.Player].mo;
+        SplitResult strings;
+
+        strings = S7_Extensions.Split (e.Name, ":");
+        if (strings.Result.Size () != 2 || strings.Result [0] != "S7_Keys") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_Keys"
+            return;
+
+        if (strings.Result [1] == "Melee")
+            pPawn.SetInventory ("S7_DoMelee", 1);
+        else if (strings.Result [1] == "FiringMode")
+            pPawn.SetInventory ("S7_ChangeFireMode", 1);
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Base playerpawn
 //
 //-------------------------------------------------------------------------------------------
@@ -55,13 +81,8 @@ class S7_BasePlayer : playerPawn {
         player.startItem "S7_Stamina", 150;
         player.startItem "S7_Mana", 250;
         // Keys/controls
-        player.startItem "S7_ReloadKey";
-        player.startItem "S7_MeleeKey";
-        player.startItem "S7_FiringModeKey";
         player.startItem "S7_ShowPop1Key";
-        player.startItem "S7_ToggleShopKey";
-        player.startItem "S7_ToggleMenuKey";
-        // Tokens:
+        // Tokens
         player.startItem "S7_StaminaRegen";
         player.startItem "S7_ManaRegen";
         player.startItem "S7_KickMelee";
@@ -149,6 +170,9 @@ class S7_BasePlayer : playerPawn {
                         playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
                     }
                 }
+
+                if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
+                    SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
 
                 Movement_Dodging ();
                 Movement_Sprinting ();
@@ -320,135 +344,18 @@ class S7_BasePlayer : playerPawn {
 
 //-------------------------------------------------------------------------------------------
 //
-// Null weapon(s)
-//
-//-------------------------------------------------------------------------------------------
-class S7_NullWeapon : weapon {
-    default {
-        tag "Unarmed";
-
-        +noInteraction
-        +inventory.undroppable
-        +weapon.wimpy_Weapon +weapon.cheatNotWeapon +weapon.noAlert
-    }
-
-    states {
-    Spawn:
-        stop;
-
-    Select:
-        TNT1 A 0 A_Raise;
-        wait;
-    Deselect:
-        TNT1 A 0 A_Lower;
-        wait;
-    Ready:
-        TNT1 A 1 A_WeaponReady (WRF_NoFire | WRF_NoBob);// | WRF_DisableSwitch);
-        loop;
-    Fire:
-        TNT1 A 1;
-        goto Ready;
-    }
-}
-class S7_SprintWeapon : S7_NullWeapon { }
-
-//-------------------------------------------------------------------------------------------
-//
-// Quick melee key
-//
-//-------------------------------------------------------------------------------------------
-class S7_DoMelee  : S7_Boolean { }
-class S7_MeleeKey : S7_CustomKey {
-    states {
-    Use:
-        TNT1 A 0 GiveInventory ("S7_DoMelee", 1);
-        fail;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Reload key
+// Keys
 //
 //-------------------------------------------------------------------------------------------
 class S7_Reloading : S7_Boolean { }
-class S7_ReloadKey : S7_CustomKey {
-    states {
-    Use:
-        TNT1 A 0 A_JumpIfInventory ("S7_Reloading", 1, "Take");
-        TNT1 A 0 GiveInventory ("S7_Reloading", 1);
-        fail;
-    Take:
-        TNT1 A 0 TakeInventory ("S7_Reloading", 1);
-        fail;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Change firing mode key
-//
-//-------------------------------------------------------------------------------------------
+class S7_DoMelee  : S7_Boolean { }
 class S7_ChangeFireMode : S7_Boolean { }
-class S7_FiringModeKey  : S7_CustomKey {
-    states {
-    Use:
-        TNT1 A 0 GiveInventory ("S7_ChangeFireMode", 1);
-        fail;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Drop weapon key
-//
-//-------------------------------------------------------------------------------------------
 class S7_DropDatWeapon : S7_Boolean { }
-class S7_DropWeaponKey : S7_CustomKey {
-    states {
-    Use:
-        TNT1 A 0 GiveInventory ("S7_DropDatWeapon", 1);
-        fail;
-    }
-}
 
-//-------------------------------------------------------------------------------------------
-//
-// Show popup 1 key (Full inventory list)
-//
-//-------------------------------------------------------------------------------------------
 class S7_ShowPop1Key : S7_CustomKey {
     states {
     Use:
         TNT1 A 0 ACS_NamedExecuteAlways ("S7_ShowPop1", 0);
-        fail;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Toggle shop key
-//
-//-------------------------------------------------------------------------------------------
-class S7_ToggleShopToken : S7_Boolean { }
-class S7_ToggleShopKey   : S7_CustomKey {
-    states {
-    Use:
-        TNT1 A 0 GiveInventory ("S7_ToggleShopToken", 1);
-        fail;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Toggle menu key
-//
-//-------------------------------------------------------------------------------------------
-class S7_ToggleMenuToken : S7_Boolean { }
-class S7_ToggleMenuKey   : S7_CustomKey {
-    states {
-    Use:
-        TNT1 A 0 GiveInventory ("S7_ToggleMenuToken", 1);
         fail;
     }
 }

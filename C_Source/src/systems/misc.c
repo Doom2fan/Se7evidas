@@ -34,11 +34,6 @@ void SpeedScript (PlayerData_t *player) {
     }
 }
 
-void KeysScript () {
-    if (KeyPressedMOD (BT_RELOAD)) // if the native reload key is pressed...
-        UseInventory (s"S7_ReloadKey"); // Use the mod's reload key
-}
-
 Script_C void S7_GiveEverythingCheat () { // To make debugging easier
     int i;
     for (i = 0; i < WeaponNames_Length; i++)
