@@ -36,7 +36,6 @@ class S7_Gauntlets : S7_BaseWeapon {
             if (CheckInventory ("S7_Reloading", 1))
                 return ResolveState ("ChangeModeReverse");
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
 
             return ResolveState (null);

@@ -23,7 +23,6 @@ class S7_HellhunterBladeForm3 : S7_BaseWeapon {
             if (CheckInventory ("S7_DoMelee", 1))
                 return ResolveState ("QuickMelee");
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
             invoker.attacking = false;
             invoker.lastAttack = 0;

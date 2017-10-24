@@ -30,7 +30,6 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
             if (CheckInventory ("S7_DoMelee", 1))
                 return ResolveState ("QuickMelee");
 
-            GiveInventory ("S7_WeapReady", 1);
             A_WeaponReady ();
             invoker.comboCounter = 0;
 

@@ -46,11 +46,7 @@ class S7_AntimatterGun : S7_BaseWeapon {
             if (CheckInventory ("S7_ChangeFireMode", 1))
                 return ResolveState ("ChangeMode");
 
-            GiveInventory ("S7_WeapReady", 1);
-            if (invoker.zoomLevel >= 1)
-                A_WeaponReady (WRF_AllowZoom | WRF_NoBob);
-            else
-                A_WeaponReady (WRF_AllowZoom);
+            A_WeaponReady (WRF_AllowZoom | (invoker.zoomLevel ? WRF_NoBob : 0));
 
             return ResolveState (null);
         }
