@@ -1,0 +1,8 @@
+DECORATE: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    HUD Sprites: Neoworm, Chronos "phantombeta" Ouroboros
+	Pickup Sprites: Neoworm
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file

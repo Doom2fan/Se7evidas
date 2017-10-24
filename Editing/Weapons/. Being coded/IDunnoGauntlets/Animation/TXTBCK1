@@ -1,0 +1,181 @@
+Sprite SGTSA0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNA0, 254, 156
+	Patch GAUNA0, 12, 153
+	{
+		FlipX
+	}
+}
+
+Sprite SGTSB0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNA0, 246, 148
+	Patch GAUNA0, 20, 145
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTA0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNA0, 238, 140
+	Patch GAUNA0, 28, 137
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTB0, 354, 200
+{
+	Offset 96, 0
+	Patch GAUNC0, 0, 120
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTC0, 354, 200
+{
+	Offset 59, 0
+	Patch GAUNC0, 0, 111
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTD0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 7, 105
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTE0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 40, 100
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTF0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 67, 97
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTG0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 115, 97
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTH0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 137, 101
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTI0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 172, 112
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTJ0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 207, 127
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTK0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 248, 151
+	{
+		FlipX
+	}
+}
+
+Sprite SGNTL0, 354, 200
+{
+	Offset -62, 0
+	Patch GAUNC0, 247, 120
+	{
+	}
+}
+
+Sprite SGNTM0, 354, 200
+{
+	Offset -25, 0
+	Patch GAUNC0, 247, 111
+}
+
+Sprite SGNTN0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 240, 105
+}
+
+Sprite SGNTO0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 207, 100
+}
+
+Sprite SGNTP0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 180, 97
+}
+
+Sprite SGNTQ0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 132, 97
+}
+
+Sprite SGNTR0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 110, 101
+}
+
+Sprite SGNTS0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 75, 112
+}
+
+Sprite SGNTT0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 40, 127
+}
+
+Sprite SGNTU0, 354, 200
+{
+	Offset 17, 0
+	Patch GAUNC0, 0, 151
+}

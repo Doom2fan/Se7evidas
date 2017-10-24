@@ -1,0 +1,24 @@
+$RANDOM Weapons/Gauntlets/Hit {
+	Weapons/Gauntlets/Hit1
+	Weapons/Gauntlets/Hit2
+}
+Weapons/Gauntlets/Hit1										"sounds/Weapons/Gauntlets/Slashing/Hit1.ogg" // From Quake 4
+Weapons/Gauntlets/Hit2										"sounds/Weapons/Gauntlets/Slashing/Hit2.ogg" // Ditto
+
+$RANDOM Weapons/Gauntlets/Swing {
+	Weapons/Gauntlets/Swing1
+	Weapons/Gauntlets/Swing2
+	Weapons/Gauntlets/Swing3
+}
+Weapons/Gauntlets/Swing1									"sounds/Weapons/Gauntlets/Slashing/Swing1.ogg" // From Quake 4
+Weapons/Gauntlets/Swing2									"sounds/Weapons/Gauntlets/Slashing/Swing2.ogg" // Ditto
+Weapons/Gauntlets/Swing3									"sounds/Weapons/Gauntlets/Slashing/Swing3.ogg" // Ditto
+
+$RANDOM Weapons/Gauntlets/FireballFire {
+	Weapons/Gauntlets/FireballFire1
+	Weapons/Gauntlets/FireballFire2
+	Weapons/Gauntlets/FireballFire3
+}
+Weapons/Gauntlets/FireballFire1								"sounds/Weapons/Gauntlets/Fireball/Fire1.ogg" // From Doom 3. Modified by Chronos "phantombeta" Ouroboros
+Weapons/Gauntlets/FireballFire2								"sounds/Weapons/Gauntlets/Fireball/Fire2.ogg" // From Doom 3. Heavily modified by Chronos "phantombeta" Ouroboros
+Weapons/Gauntlets/FireballFire3								"sounds/Weapons/Gauntlets/Fireball/Fire3.ogg" // Ditto

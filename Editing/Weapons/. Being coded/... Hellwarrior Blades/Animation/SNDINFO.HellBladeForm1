@@ -1,0 +1,18 @@
+$RANDOM Weapons/HHunterBladeF1/Swing {
+    Weapons/HHunterBladeF1/Swing1
+    Weapons/HHunterBladeF1/Swing2
+    Weapons/HHunterBladeF1/Swing3
+}
+
+Weapons/HHunterBladeF1/Swing1		"sounds/Weapons/Uniques/Hellhunter Blade/Form1/Swing1.ogg" // From Quake 4
+Weapons/HHunterBladeF1/Swing2		"sounds/Weapons/Uniques/Hellhunter Blade/Form1/Swing2.ogg" // From Quake 4
+Weapons/HHunterBladeF1/Swing3		"sounds/Weapons/Uniques/Hellhunter Blade/Form1/Swing3.ogg" // From Quake 4
+
+Weapons/HHunterBladeF1/Stab		"sounds/Weapons/Uniques/Hellhunter Blade/Form1/Stab.ogg" // From Quake 4
+
+$RANDOM Weapons/HHunterBladeF1/HitWall {
+    Weapons/HHunterBladeF1/HitWall1
+    Weapons/HHunterBladeF1/HitWall2
+}
+Weapons/HHunterBladeF1/HitWall1	"sounds/Weapons/Uniques/Hellhunter Blade/Form1/HitWall1.ogg" // From Quake 4
+Weapons/HHunterBladeF1/HitWall2	"sounds/Weapons/Uniques/Hellhunter Blade/Form1/HitWall2.ogg" // From Quake 4
