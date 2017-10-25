@@ -1,0 +1,7 @@
+ZScript: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    HUD Sprites: Id Software, Uboa, Chronos "phantombeta" Ouroboros
+    Animation: Chronos "phantombeta" Ouroboros
+
+Sounds: None yet :v

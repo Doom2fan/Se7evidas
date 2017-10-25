@@ -261,6 +261,8 @@ class S7_WeapBindsSystem_EventHandler : EventHandler {
             // Special
             player.mo.GiveInventory ("S7_GrenadeWeap", 1);
             weapBinds.Binds [5].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_GrenadeWeap")));
+            player.mo.GiveInventory ("S7_SoulLance", 1);
+            weapBinds.Binds [5].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_SoulLance")));
         }
     }
 }
