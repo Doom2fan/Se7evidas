@@ -32,32 +32,6 @@ class S7_PlayerData : Inventory {
 
 //-------------------------------------------------------------------------------------------
 //
-// Event handler
-//
-//-------------------------------------------------------------------------------------------
-class S7_PlayerEventHandler : EventHandler {
-    override void NetworkProcess (ConsoleEvent e) {
-        if (e.Player < 0) // Don't execute this if the player isn't given/valid
-            return;
-        if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
-            return;
-
-        let pPawn = players [e.Player].mo;
-        SplitResult strings;
-
-        strings = S7_Extensions.Split (e.Name, ":");
-        if (strings.Result.Size () != 2 || strings.Result [0] != "S7_Keys") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_Keys"
-            return;
-
-        if (strings.Result [1] == "Melee")
-            pPawn.SetInventory ("S7_DoMelee", 1);
-        else if (strings.Result [1] == "FiringMode")
-            pPawn.SetInventory ("S7_ChangeFireMode", 1);
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
 // Base playerpawn
 //
 //-------------------------------------------------------------------------------------------
