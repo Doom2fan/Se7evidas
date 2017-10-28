@@ -1,7 +1,7 @@
 DECORATE: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    S7_Empress: Raven Software, mazmon, Chronos "phantombeta" Ouroboros (Recolor, misc edits)
+    S7_Empress: Raven Software, Skelegant, Chronos "phantombeta" Ouroboros (Recolor, misc edits)
     EPTF* sprites: Raven Software and Chronos "phantombeta" Ouroboros.
     HRSF* and HRSS* sprites: Chronos "phantombeta" Ouroboros.
 
