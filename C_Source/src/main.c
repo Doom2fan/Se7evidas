@@ -140,21 +140,19 @@ Script_C void S7_ServersideEnter ENTER () {
     }
 }
 
-// Clientside-ish (HUD, popups, heartbeats, etc.) stuff
+// Clientside-ish (HUD, popups, etc.) stuff
 Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
     if (!player) {
         DebugLog ("\CgScript S7_ServersideEnter2: Fatal error: Invalid or NULL player struct.");
         return;
     }
 
-    int        heartbeatTics = 0;
     SP_Data_t  sp_data;
 
     while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
             return;
 
-        HeartbeatScript          (player, &heartbeatTics);
         ShowPop                  (player, &sp_data);
         ScreenOverlays           (player);
 

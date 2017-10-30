@@ -19,6 +19,8 @@ class S7_PlayerData : Inventory {
     int    sprintTics, oldAgility; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
                                    // oldAgility: This is used for checking if the agility stat changed.
     double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
+    /** Misc **/
+    int heartbeatTics; // heartbeats thing.
 
     override double GetSpeedFactor () {
         return 1 + sprintSpeedFactor;
@@ -150,10 +152,12 @@ class S7_BasePlayer : playerPawn {
 
                 Movement_Dodging ();
                 Movement_Sprinting ();
+                Misc_Heartbeats ();
             }
         }
     }
 
+    /** Movement **/
     void Movement_Dodging () {
         if (health > 0) {
             // Dodging
@@ -236,6 +240,28 @@ class S7_BasePlayer : playerPawn {
                 else
                     playerData.sprintSpeedFactor = Clamp (0.5 + (0.5 + playerData.sprintSpdFacPproc) * 2, 0.0, 2.5);
             }
+        }
+    }
+
+    /** Misc **/
+    void Misc_Heartbeats () {
+        if (health <= 0)
+            return;
+
+        CVar heartbeats = CVar.GetCVar ("S7_HeartbeatsOn", players [consoleplayer]);
+        if (heartbeats && heartbeats.GetInt ()) {
+            if ((health <= 25 && health > 15 && playerData.heartbeatTics >= 89) || // I couldn't find a better way to do this... >.>
+                (health <= 15 && health > 10 && playerData.heartbeatTics >= 71) ||
+                (health <= 10 && health > 5  && playerData.heartbeatTics >= 53) ||
+                (health <= 5  && health > 2  && playerData.heartbeatTics >= 35) ||
+                (health <= 2  &&                playerData.heartbeatTics >= 18)
+            ) {
+                A_PlaySound ("Player/Heartbeat", CHAN_Body, 1.0, false, ATTN_NONE, true);
+                playerData.heartbeatTics = 0;
+            } else if (health > 25) // If health is greater than 25...
+                playerData.heartbeatTics = 0; // Set heartbeatTics to 0
+            else // if neither...
+                playerData.heartbeatTics++; // Add one to heartbeatTics
         }
     }
 
