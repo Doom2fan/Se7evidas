@@ -124,7 +124,6 @@ Script_C void S7_ServersideEnter ENTER () {
         UpdateAmmoMax    (player); // Update the max ammo
         StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
         WallJumpScript           (player);
-        MultiJumpScript          (player);
         WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system

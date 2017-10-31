@@ -22,33 +22,6 @@
 #include "systems/stamina.h"
 #include "systems/parkour.h"
 
-#define MJUMPMINDIFF 15
-void MultiJumpScript (PlayerData_t *player) {
-    if (!player)
-        return;
-
-    int mJumpMax = player->scriptData.beamGrab ? player->parkourDef.mjumpMax / 2 : player->parkourDef.mjumpMax;
-    if (mJumpMax < 1)
-        mJumpMax = 1;
-
-    accum force = 40.0k * ServerData.mjumpZMul;
-    if (player->physics.relativeZ == 0) { // If the player is on the ground...
-        player->parkourDef.mjumpOnGround = TRUE; // Set mjumpOnGround to TRUE
-        if (player->parkourDef.mjumpCount > 0) // If the player has multijumped at least once...
-            player->parkourDef.mjumpCount = 0; // Reset the counter to 0
-    } else { // If not...
-        player->parkourDef.mjumpOnGround = FALSE; // Set mjumpOnGround to FALSE
-    }
-
-    // If the player is alive, their floor-relative Z is greater than MJUMPMINDIFF, their Z velocity is lower than or equal to 32, they're is not on the ground, their multijump
-    // counter isn't equal to mJumpMax, they pressed jump, the sv_nojump CVAR isn't TRUE, they're not dead, and they haven't gotten beamgrabbed...
-    if (KeyPressedMOD (BT_JUMP) && !GetCVar (s"sv_nojump") && player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.mjumpOnGround && !player->parkourDef.wjumpJustJumped &&
-        player->parkourDef.mjumpCount < mJumpMax && abs (player->physics.relativeZ) >= MJUMPMINDIFF && player->physics.velZ <= 32) {
-        SpawnForced (s"S7_MultiJump_Marker", player->physics.x, player->physics.y, player->physics.z, 0, player->physics.angle); // Spawn a multijump marker
-        ThrustThingZ (0, force, 0, FALSE); // Thrust the player up
-        player->parkourDef.mjumpCount++; // Increment the jump counter by 1
-    }
-}
 int sign (int x) {
     if (x < 0) { return -1; }
     return 1;

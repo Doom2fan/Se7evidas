@@ -14,6 +14,8 @@ class S7_PlayerData : Inventory {
     /** Movement **/
     // Dodging
     int dodgeCooldown;
+    // Multijump
+    int mJumpCount;
     // Sprinting
     bool   sprinting;
     int    sprintTics, oldAgility; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
@@ -151,6 +153,7 @@ class S7_BasePlayer : playerPawn {
                     SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
 
                 Movement_Dodging ();
+                Movement_MultiJump ();
                 Movement_Sprinting ();
                 Misc_Heartbeats ();
             }
@@ -184,6 +187,31 @@ class S7_BasePlayer : playerPawn {
                 playerData.dodgeCooldown--;
         } else
             TakeInventory ("S7_PowerDodgeEffects", 0x7FFFFFFF);
+    }
+
+    void Movement_MultiJump () {
+        if (!level.IsJumpingAllowed () || health <= 0 || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+            return;
+
+        if (player.onground || bOnMobj) {
+            playerData.mjumpCount = 0;
+            return;
+        }
+
+        int mJumpMax = CountInv ("S7_MultiJump_Max");
+        if (mJumpMax < 1 || playerData.mjumpCount >= mJumpMax)
+            return;
+
+        double force = (JumpZ * 35 / TICRATE) * S7_MultiJumpZMul;
+        if (force <= 0.0)
+            return;
+
+        if ((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && abs (floorZ - pos.Z) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
+            let marker = Spawn ("S7_MultiJump_Marker", pos); // Spawn the multijump effect
+            marker.angle = angle;
+            vel.Z = force;
+            playerData.mjumpCount++; // Increment the jump counter by 1
+        }
     }
 
     void Movement_Sprinting () {
