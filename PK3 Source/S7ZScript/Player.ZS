@@ -166,7 +166,7 @@ class S7_BasePlayer : playerPawn {
             // Dodging
             if (playerData.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
-                if (!(player.cmd.buttons & BT_USER2) && (player.oldbuttons & BT_USER2) &&
+                if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) &&
                     !playerData.sprinting && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && CheckInventory ("S7_Stamina", S7C_DodgeStamina)) {
                     int forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
                     int sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
