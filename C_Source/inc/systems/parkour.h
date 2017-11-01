@@ -23,7 +23,6 @@
 #include <ACS_ZDoom.h>
 
 // Prototypes
-void WallJumpScript  (PlayerData_t *player);
 void WallHoldScript  (PlayerData_t *player);
 
 #endif

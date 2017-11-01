@@ -16,6 +16,8 @@ class S7_PlayerData : Inventory {
     int dodgeCooldown;
     // Multijump
     int mJumpCount;
+    // Walljump
+    int wjumpJustJumped;
     // Sprinting
     bool   sprinting;
     int    sprintTics, oldAgility; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
@@ -153,6 +155,7 @@ class S7_BasePlayer : playerPawn {
                     SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
 
                 Movement_Dodging ();
+                Movement_WallJump ();
                 Movement_MultiJump ();
                 Movement_Sprinting ();
                 Misc_Heartbeats ();
@@ -190,7 +193,7 @@ class S7_BasePlayer : playerPawn {
     }
 
     void Movement_MultiJump () {
-        if (!level.IsJumpingAllowed () || health <= 0 || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+        if (!level.IsJumpingAllowed () || health <= 0 || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
             return;
 
         if (player.onground || bOnMobj) {
@@ -206,11 +209,85 @@ class S7_BasePlayer : playerPawn {
         if (force <= 0.0)
             return;
 
-        if ((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && abs (floorZ - pos.Z) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
+        if ((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
             let marker = Spawn ("S7_MultiJump_Marker", pos); // Spawn the multijump effect
             marker.angle = angle;
             vel.Z = force;
             playerData.mjumpCount++; // Increment the jump counter by 1
+        }
+    }
+
+    const WallJumpHitCount = 12.0;
+    const WallJumpHitInterval = 45.0 / WallJumpHitCount;
+    const WallJumpZVel = 10.0;
+    void Movement_WallJump () {
+        if (playerData.wjumpJustJumped)
+            playerData.wjumpJustJumped--;
+
+        if (health <= 0 || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+            return;
+
+        Actor marker, puff;
+        if (player.cmd.forwardmove < 0 && (player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && (pos.Z - GetZAt ()) >= 16.0) {
+            Vector3 normal, randomVec;
+            double xyLen = cos (-pitch);
+            normal.x = xyLen * cos (-angle);
+            normal.y = xyLen * sin (angle);
+            normal.z = sin (-pitch);
+            normal = normal.Unit ();
+            do {
+                randomVec = (frandom (-1, 1), frandom (-1, 1), frandom (-1, 1)).Unit();
+            } while (randomVec == normal);
+            Vector3 normalPerp1 = (normal cross randomVec).Unit ();
+            Vector3 normalPerp2 = (normal cross normalPerp1).Unit ();
+            Vector3 center = pos + (0, 0, (height / 2) + attackZOffset);
+            Vector3 point1, point2;
+            point1 = center + cos (45) * normalPerp1 + sin (45) * normalPerp2;
+            point2 = center + cos (-90) * normalPerp1 + sin (-90) * normalPerp2;
+
+            for (int i = 0; i < WallJumpHitCount + 1; i++) {
+                double hitAngle = angle + (WallJumpHitInterval * ((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
+
+                for (int j = 0; j < WallJumpHitCount + 1; j++) {
+                    double hitPitch = pitch + (WallJumpHitInterval * ((-1) ^ ((j+1) & 1) * ((j+1) >> 1)));
+                    puff = LineAttack (hitAngle, 24, hitPitch, 0, "None", "S7_WalljumpPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
+                    if (puff && (puff.pos.Z - puff.GetZAt ()) >= 0.5) {
+                        Vector3 hitPos1, hitPos2, hitPos3;
+                        // Get hit position 1
+                        hitPos1 = puff.pos;
+                        puff.Destroy ();
+
+                        // Get hit position 2
+                        marker = Spawn ("S7_WalljumpMarker", point1);
+                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WalljumpPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
+                        if (!puff) { marker.Destroy (); continue; }
+                        hitPos2 = puff.pos; puff.Destroy ();
+                        marker.Destroy ();
+
+                        // Get hit position 3
+                        marker = Spawn ("S7_WalljumpMarker", point2);
+                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WalljumpPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
+                        if (!puff) { marker.Destroy (); continue; }
+                        hitPos3 = puff.pos; puff.Destroy ();
+                        marker.Destroy ();
+
+                        Vector3 wallNormal = ((hitPos3 - hitPos2) cross (hitPos1 - hitPos2)).Unit ();
+                        if (wallNormal dot normal > 0) wallNormal = -wallNormal;
+                        Vector3 velChange = wallNormal;
+                        velChange.X *= 10; velChange.Y *= 10;
+
+                        if (velChange.Z == 0.0)     velChange.Z  =  WallJumpZVel;
+                        else if (velChange.Z < 0.0) velChange.Z *= -WallJumpZVel;
+                        else                        velChange.Z *=  WallJumpZVel;
+
+                        playerData.wjumpJustJumped = S7C_WJumpDelay;
+                        vel = velChange;
+                        A_SetPitch (VectorAngle (wallNormal.XY.Length (), wallNormal.Z), SPF_ForceClamp | SPF_Interpolate);
+                        A_SetAngle (VectorAngle (wallNormal.X, wallNormal.Y), SPF_ForceClamp | SPF_Interpolate);
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -456,6 +533,30 @@ class S7_PowerDodgeEffects : powerInvulnerable {
 }
 
 // Walljumping
+class S7_WalljumpPuff : actor {
+    default {
+        radius 1;
+        height 1;
+
+        +thruActors +noTimeFreeze +noBlockmap +allowThruFlags
+        +noInteraction
+    }
+
+    states {
+    Spawn:
+    Death:
+        TNT1 A 1;
+        stop;
+    }
+}
+class S7_WalljumpMarker : S7_WalljumpPuff {
+    default {
+        radius 0;
+        height 0;
+
+        -solid -shootable
+    }
+}
 // Based on code by Ijon Tichy
 class S7_WallChecker : fastProjectile {
     default {

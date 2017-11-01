@@ -29,46 +29,6 @@ int sign (int x) {
 
 // Some code taken from Parkmore by Ijon Tichy
 #define WJUMPDELAY 5
-void WallJumpScript (PlayerData_t *player) {
-    if (!player)
-        return;
-
-    if (player->parkourDef.wjumpJustJumped)
-        player->parkourDef.wjumpJustJumped--;
-
-    if (player->health.health > 0 && !player->scriptData.beamGrab && !player->parkourDef.wjumpJustJumped && GetPlayerInputFixed (-1, MODINPUT_FORWARDMOVE) < 0 && KeyPressedMOD (BT_JUMP) && player->physics.relativeZ > 24.0k) {
-        bool canBounce;
-        int j;
-        accum x = 20 * CosA (player->physics.angle), y = 20 * SinA (player->physics.angle);
-        accum x2 = 8 * CosA (player->physics.angle), y2 = 8 * SinA (player->physics.angle);
-        accum x3, y3, z;
-
-        /*if (AbsA (x) > AbsA (y)) {
-            y = y * (20.0k / AbsA (x));
-            x = 20.0k * sign (x);
-        } else {
-            x = x * (20.0k / AbsA (y));
-            y = 20.0k * sign (y);
-        }*/
-
-        for (int i = 0; i < 10; i++) {
-            x3 = player->physics.x + x + (x2 * i);
-            y3 = player->physics.y + y + (y2 * i);
-            z  = player->physics.z + 16.0k;
-
-            j = Spawn (s"S7_WallChecker", x3, y3, z, 0); // -500);
-            if (!j) {
-                int byteAngle = (player->physics.angle << 16) >> 8;
-                player->parkourDef.wjumpJustJumped = WJUMPDELAY;
-                ThrustThing (byteAngle + 128, 18, 1, 0);
-                ThrustThingZ (0, 40.0k, 0, 0);
-                ChangeActorAngle (0, player->physics.angle + 0.5k, TRUE);
-                break;
-            }
-        }
-    }
-}
-
 void CancelWallHold (PlayerData_t *player) {
     if (!player)
         return;

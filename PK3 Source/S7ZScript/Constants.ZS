@@ -20,3 +20,4 @@ const S7C_DodgeStamina = 30;
 const S7C_SprintStamina = 5;
 const S7C_BaseSprintFactor = 0.5;
 const S7C_MJumpMinDiff = 15;
+const S7C_WJumpDelay = 5;
