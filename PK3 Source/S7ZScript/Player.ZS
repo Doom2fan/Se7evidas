@@ -154,11 +154,14 @@ class S7_BasePlayer : playerPawn {
                 if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
                     SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
 
+                // Movement
                 Movement_Dodging ();
                 Movement_WallJump ();
                 Movement_MultiJump ();
                 Movement_Sprinting ();
+                // Misc
                 Misc_Heartbeats ();
+                Misc_HellhunterBlade ();
             }
         }
     }
@@ -367,6 +370,16 @@ class S7_BasePlayer : playerPawn {
                 playerData.heartbeatTics = 0; // Set heartbeatTics to 0
             else // if neither...
                 playerData.heartbeatTics++; // Add one to heartbeatTics
+        }
+    }
+
+    void Misc_HellhunterBlade () {
+        int curLvl = CountInv ("S7_HellhunterBladeAffinity");
+        int curExp = CountInv ("S7_HellhunterBladeExperience");
+        int nxtLvl = 2500 + curLvl * 1250;
+        if (curLvl < 10 && curExp >= nxtLvl) {
+            GiveInventory ("S7_HellhunterBladeAffinity", 1);
+            TakeInventory ("S7_HellhunterBladeExperience", nxtLvl);
         }
     }
 

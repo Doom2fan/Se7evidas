@@ -22,7 +22,4 @@
 
 #include <ACS_ZDoom.h>
 
-// Prototypes
-void HellbladeScript (PlayerData_t *player);
-
 #endif

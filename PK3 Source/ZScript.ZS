@@ -139,5 +139,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Weapons/Secondary/Raptor/Raptor.ZS"
 #INCLUDE "S7ZScript/Weapons/Secondary/TEC-9/TEC-9.ZS"
 #INCLUDE "S7ZScript/Weapons/Secondary/Revolver/Revolver.ZS"
+// Special
+#INCLUDE "S7ZScript/Weapons/Special/HellBlade/Common.ZS"
 // Throwables
 #INCLUDE "S7ZScript/Weapons/Throwables/Grenade/Grenade.ZS"

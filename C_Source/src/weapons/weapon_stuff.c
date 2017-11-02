@@ -23,18 +23,6 @@
 #include "utils/damage.h"
 
 // Scripts
-void HellbladeScript (PlayerData_t *player) {
-    if (!player)
-        return;
-
-    int curLvl = CheckInventory (s"S7_HellhunterBladeAffinity");
-    int curExp = CheckInventory (s"S7_HellhunterBladeExperience");
-    if (curLvl < 10 && curExp >= 2500 + curLvl * 1250) {
-        GiveInventory (s"S7_HellhunterBladeAffinity", 1);
-        TakeInventory (s"S7_HellhunterBladeExperience", 0x7FFFFFFF);
-    }
-}
-
 /*#define PSICGFIREBOOL s"S7_PSICG_CanFire"
 Script_C void S7_PSICG_FireTest () {
     accum puffX, puffY, puffZ;
