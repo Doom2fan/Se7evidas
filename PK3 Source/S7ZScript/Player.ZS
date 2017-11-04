@@ -127,7 +127,11 @@ class S7_BasePlayer : playerPawn {
     override void Tick () {
         super.Tick ();
 
-        playerLineTarget = AimTarget ();
+        FTranslatedLineTarget lTarget; // Do a trace to get the actor under the crosshair
+        let puff = LineAttack (angle, 8192, pitch, 0, "None", "S7_TraceTestPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, lTarget);
+        if (puff) puff.Destroy ();
+        playerLineTarget = lTarget.linetarget;
+
         if (player && player.mo) {
             let pPawn = player.mo;
 
@@ -253,7 +257,7 @@ class S7_BasePlayer : playerPawn {
 
                 for (int j = 0; j < WallJumpHitCount + 1; j++) {
                     double hitPitch = pitch + (WallJumpHitInterval * ((-1) ^ ((j+1) & 1) * ((j+1) >> 1)));
-                    puff = LineAttack (hitAngle, 24, hitPitch, 0, "None", "S7_WalljumpPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
+                    puff = LineAttack (hitAngle, 24, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
                     if (puff && (puff.pos.Z - puff.GetZAt ()) >= 0.5) {
                         Vector3 hitPos1, hitPos2, hitPos3;
                         // Get hit position 1
@@ -262,14 +266,14 @@ class S7_BasePlayer : playerPawn {
 
                         // Get hit position 2
                         marker = Spawn ("S7_WalljumpMarker", point1);
-                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WalljumpPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
+                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
                         if (!puff) { marker.Destroy (); continue; }
                         hitPos2 = puff.pos; puff.Destroy ();
                         marker.Destroy ();
 
                         // Get hit position 3
                         marker = Spawn ("S7_WalljumpMarker", point2);
-                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WalljumpPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
+                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
                         if (!puff) { marker.Destroy (); continue; }
                         hitPos3 = puff.pos; puff.Destroy ();
                         marker.Destroy ();
@@ -546,13 +550,14 @@ class S7_PowerDodgeEffects : powerInvulnerable {
 }
 
 // Walljumping
-class S7_WalljumpPuff : actor {
+class S7_WalljumpMarker : actor {
     default {
-        radius 1;
-        height 1;
+        radius 0;
+        height 0;
 
-        +thruActors +noTimeFreeze +noBlockmap +allowThruFlags
+         +thruActors +noTimeFreeze +noBlockmap +allowThruFlags
         +noInteraction
+        -solid -shootable
     }
 
     states {
@@ -560,14 +565,6 @@ class S7_WalljumpPuff : actor {
     Death:
         TNT1 A 1;
         stop;
-    }
-}
-class S7_WalljumpMarker : S7_WalljumpPuff {
-    default {
-        radius 0;
-        height 0;
-
-        -solid -shootable
     }
 }
 // Based on code by Ijon Tichy

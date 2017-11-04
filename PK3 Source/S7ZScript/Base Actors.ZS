@@ -247,3 +247,27 @@ class S7_FastProjTrailBase : actor {
         +cannotPush +noInteraction +clientsideOnly -solid
     }
 }
+
+/** Trace test puffs **/
+class S7_TraceTestPuff : actor {
+    default {
+        radius 1;
+        height 1;
+
+        +noBlockmap +allowThruFlags +noInteraction +noTimeFreeze
+        +bloodlessImpact +painless
+    }
+
+    states {
+    Spawn:
+    Death:
+        TNT1 A 1;
+        stop;
+    }
+}
+
+class S7_WallCheckPuff : S7_TraceTestPuff {
+    default {
+        +thruActors
+    }
+}
