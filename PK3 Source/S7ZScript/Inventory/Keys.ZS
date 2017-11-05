@@ -1,5 +1,5 @@
 /* Keycard credits:
-** DECORATE: Chronos "phantombeta" Ouroboros
+** Coding: Chronos "phantombeta" Ouroboros
 ** Sprites: Blue Shadow
 */
 

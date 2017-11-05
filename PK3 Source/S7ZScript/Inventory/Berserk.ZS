@@ -1,5 +1,5 @@
 /* Credits:
-** DECORATE: Chronos "phantombeta" Ouroboros, Xaser
+** Coding: Chronos "phantombeta" Ouroboros, Xaser
 **
 ** Sprites:
 **   HUD Sprites: Xaser, Chronos "phantombeta" Ouroboros

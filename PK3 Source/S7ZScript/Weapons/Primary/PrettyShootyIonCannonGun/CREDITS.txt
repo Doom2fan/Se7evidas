@@ -1,4 +1,4 @@
-DECORATE: Chronos "phantombeta" Ouroboros
+Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD Sprites: Blox, Captain J, Kronos, LucasArts, chronoteeth, Chronos "phantombeta" Ouroboros (Edits)

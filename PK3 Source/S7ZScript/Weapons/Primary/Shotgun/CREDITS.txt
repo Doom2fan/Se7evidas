@@ -1,4 +1,4 @@
-DECORATE: Chronos "phantombeta" Ouroboros
+Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD Sprites: Scuba Steve, Snarboo, Xaser, Cory Whittle, Marty Kirra, Chronos "phantombeta" Ouroboros

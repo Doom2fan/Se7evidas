@@ -1,0 +1,79 @@
+This file is just a general "acknowledgement" credits file.
+Detailed credits are located inside the PK3 file.
+
+Coding:
+    Chronos "phantombeta" Ouroboros.
+
+Some code taken from:
+    Vaecrius
+    WildWeasel
+    Jekyll Grim Payne
+    TerminusEst13
+
+Graphics:
+    Nintendo
+    Chronos "phantombeta" Ouroboros
+    Marrub
+    Patrik
+    LanHikariDS
+
+Sprites:
+    Id Software
+    Midway Entertainment
+    Raven Software
+    Rogue Entertainment
+    3D Realms
+    Apocalyptic Studio
+    Chronos "phantombeta" Ouroboros
+    Aerial
+    Captain J
+    chronoteeth
+    Cory Whittle
+    DoomNukem
+    Eriance
+    IMX
+    ItsNaturetoDie
+    Marty Kirra
+    MidoriMan
+    Mike12
+    Neccronixis
+    Neoworm
+    Pisstepank
+    Ravage
+    ScubaSteve
+    Skelegant
+    Skulltag Team
+    Snarboo
+    Tormentor667
+    Uboa
+    Vader
+    Vegeta
+    WildWeasel
+    Xaser
+    YuraoftheHairFan
+
+Sounds:
+    Id Software (Doom 1/2, Doom 3 and Quake 4 sounds)
+    Raven Software (Raven sounds)
+    Valve (Counter-Strike, Half-Life 2 and Team Fortress 2/SFM sounds)
+    Turtle Rock Studios (Counter-Strike: Condition Zero sounds)
+    Sony Computer Entertainment/Santa Monica Studio (God of War 2 sounds)
+    Chronos "phantombeta" Ouroboros
+    kannoe (from GAMEBANANA)
+    M-Productions (from GAMEBANANA)
+    NightmareMutant (from GAMEBANANA)
+    ajoyce86 (from Freesound.org)
+    bennychico11 (from Freesound.org)
+    Dredile (from Freesound.org)
+    cakeje (from freeSFX)
+    icytux
+    Mor'ladim
+    Per Kristian
+    TerminusEst13
+    WildWeasel
+    Zanieon
+
+
+Special thanks to:
+    Gutawer: For helping out quite a bit with ZScript, and for the walljumping math.
+    TheZombieKiller: ZScript help.

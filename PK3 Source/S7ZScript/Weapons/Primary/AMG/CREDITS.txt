@@ -1,4 +1,4 @@
-DECORATE: Chronos "phantombeta" Ouroboros
+Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD Sprites: ScubaSteve, Uboa, Chronos "phantombeta" Ouroboros

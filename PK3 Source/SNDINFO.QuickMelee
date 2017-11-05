@@ -7,8 +7,8 @@ $RANDOM Weapons/Kick/Strong {
 Weapons/Kick/Strong1            "sounds/Weapons/Kick/S7Strong1.ogg"
 Weapons/Kick/Strong2            "sounds/Weapons/Kick/S7Strong2.ogg"
 Weapons/Kick/Strong3            "sounds/Weapons/Kick/S7Strong3.ogg"
-Weapons/Kick/Swing              "sounds/Weapons/Kick/S7Swing.ogg"     // from Diaz:Last Hours of Purity
-Weapons/Kick/HitWall            "sounds/Weapons/Kick/S7Wall.ogg"      // from Diaz:Last Hours of Purity
+Weapons/Kick/Swing              "sounds/Weapons/Kick/S7Swing.ogg"     // from Diaz: Last Hours of Purity
+Weapons/Kick/HitWall            "sounds/Weapons/Kick/S7Wall.ogg"      // from Diaz: Last Hours of Purity
 
 $RANDOM Weapons/Tridagger/Swing {
     Weapons/Tridagger/Swing1

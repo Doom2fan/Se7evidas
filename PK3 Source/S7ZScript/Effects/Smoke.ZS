@@ -145,7 +145,7 @@ class S7_SmokingPieceSmoke : S7_ShotSmokeTrail {
 }
 
 /** Shot smoke 2 **/
-// DECORATE by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
+// Coding by Chronos "phantombeta" Ouroboros. I dunno who made the sprites.
 class S7_ShotSmoke_2_Spawner : S7_ShotSmoke_Spawner {
     states {
     Death:

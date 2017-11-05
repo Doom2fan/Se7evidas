@@ -1,4 +1,4 @@
-DECORATE: Chronos "phantombeta" Ouroboros
+Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
     S7_Succubus: YuraoftheHairFan
