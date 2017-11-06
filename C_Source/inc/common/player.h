@@ -156,7 +156,6 @@ typedef struct PlayerData_t {
     ShopDef_t       shopDef;            // Shop system stuff
     BankDef_t       bankData;           // Bank system stuff
     PlayerMenu_t    playerMenu;         // Player menu info
-    MonsterInfo_t   asMonster;          // Player data as monster data struct
 } PlayerData_t;
 
 struct SavedData_t {

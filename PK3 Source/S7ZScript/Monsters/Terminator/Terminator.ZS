@@ -76,8 +76,6 @@ class S7_Terminator : S7_DemonBase {
 
     states {
     Spawn:
-        TERM A 1 noDelay ACS_NamedExecuteAlways ("S7_TerminatorScript", 0);
-    Idle:
         TERM A 10 A_Look;
         loop;
 

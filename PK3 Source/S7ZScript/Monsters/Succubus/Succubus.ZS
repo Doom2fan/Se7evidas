@@ -40,8 +40,6 @@ class S7_Succubus : S7_SuccubusBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            ACS_NamedExecuteAlways ("S7_GenericMonsterScript", 0);
-
             if (pos.z - floorZ > 0)
                 ChangeFlying (true);
         }

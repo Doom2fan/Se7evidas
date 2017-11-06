@@ -24,8 +24,6 @@ class S7_BlackPanther : S7_HellNobleBase {
 
     states {
     Spawn:
-        BPNT A 0 noDelay ACS_NamedExecuteAlways ("S7_GenericMonsterScript", 0);
-    Idle:
         BPNT A 10 A_Look;
         loop;
     See:

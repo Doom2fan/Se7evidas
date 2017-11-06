@@ -24,10 +24,13 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         +missileMore
     }
 
+    override void PostBeginPlay () {
+        SetTag (S7_Utils.GenName_Male_Eng ());
+    }
+
     states {
     // Initialize
     Spawn:
-        SCR2 A 2 noDelay ACS_NamedExecuteAlways ("S7_ZombieScript", 0);
     Idle:
         SCR2 AAA 1 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
 

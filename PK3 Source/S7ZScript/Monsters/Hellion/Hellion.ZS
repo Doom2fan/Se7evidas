@@ -25,8 +25,6 @@ class S7_Hellion : S7_DemonBase {
 
     states {
     Spawn:
-        HELN A 0 noDelay ACS_NamedExecuteAlways ("S7_GenericMonsterScript", 0);
-    Idle:
         HELN A 10 A_Look;
         loop;
     See:

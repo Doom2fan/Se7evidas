@@ -70,24 +70,6 @@ void UpdatePlayerData (PlayerData_t *player) {
 
     // Non struct data
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
-
-    // Player data as MonsterInfo struct
-    player->asMonster.x = player->physics.x; // XYZ coordinates
-    player->asMonster.y = player->physics.y;
-    player->asMonster.z = player->physics.z;
-    player->asMonster.radius = player->physics.radius; // Size
-    player->asMonster.height = player->physics.height;
-    player->asMonster.velX = player->physics.velX; // XYZ velocities
-    player->asMonster.velY = player->physics.velY;
-    player->asMonster.velZ = player->physics.velZ;
-    player->asMonster.angle = player->physics.angle; // Angle and pitch
-    player->asMonster.pitch = player->physics.pitch;
-    player->asMonster.floorZ = player->physics.floorZ; // Sector Z coordinates
-    player->asMonster.ceilZ  = player->physics.ceilZ;
-    player->asMonster.health    = player->health.health; // Health
-    player->asMonster.maxHealth = player->health.maxHealth;
-    player->asMonster.friendly = (ServerData.gameType != GAME_NET_DEATHMATCH); // Friendlyness
-    player->asMonster.removed = (ServerData.gameType == GAME_NET_DEATHMATCH); // Removed?
 }
 
 void UpdateAmmoMax (PlayerData_t *player) {

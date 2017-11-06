@@ -23,12 +23,15 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         +missileMore
     }
 
+    override void PostBeginPlay () {
+        SetTag (S7_Utils.GenName_Male_Eng ());
+    }
+
     states {
     // Initialize
     Spawn:
-        SCR1 A 2 noDelay {
-            ACS_NamedExecuteAlways ("S7_ZombieScript", 0);
-            ammo = random [monsterAmmo] (3, 23);
+        TNT1 A 0 noDelay {
+            ammo = random [monsterAmmo] (8, 23);
         }
     Idle:
         SCR1 AAA 1 {

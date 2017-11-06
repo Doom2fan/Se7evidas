@@ -66,6 +66,8 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Effects/Fire.ZS"
 
 // Common stuff
+#INCLUDE "S7ZScript/NamesList.ZS"
+#INCLUDE "S7ZScript/Utils.ZS"
 #INCLUDE "S7ZScript/CommonTokens.ZS"
 #INCLUDE "S7ZScript/Base Actors.ZS"
 #INCLUDE "S7ZScript/Base Weapon.ZS"

@@ -83,7 +83,6 @@ class S7_Empress : S7_DemonBase {
         TNT1 A 0 noDelay {
             GiveInventory ("S7_IsEmpress", 1);
             trueHealth = 4500;
-            ACS_NamedExecuteAlways ("S7_EmpressScript", 0);
             TakeInventory ("S7_IsDead", 0x7FFFFFFF);
             initialized = true;
         }

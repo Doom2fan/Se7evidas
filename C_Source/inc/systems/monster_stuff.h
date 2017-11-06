@@ -25,35 +25,4 @@
 // Tokens
 #define EMPIDENT s"S7_IsEmpress"
 
-// Typedefs
-typedef struct MonsterInfo_t MonsterInfo_t;
-
-// Structs
-struct MonsterInfo_t {
-    MonsterInfo_t *next;        // Pointer to the next monster
-    bool removed;               // This is true if the monster actor was removed
-
-    // Physics and movement
-    accum x, y, z;              // XYZ coordinates
-    accum radius, height;       // Sizes (Radius and height)
-    accum velX, velY, velZ;     // XYZ velocities
-    accum angle, pitch;         // Rotations (Angle and pitch)
-    accum floorZ, ceilZ;        // Sector Z coordinates
-
-    // Health and stuff
-    int health, maxHealth;      // Health and max health
-    int tid;                    // The monster's TID
-
-    // Flags
-    bool friendly;              // The monster's friendliness
-    bool boss;                  // Is the monster any kind of boss? (0: Not a boss, (normal monsters) 1: Miniboss, (Corpulents, etc.) 2: Boss, (Empress, Terminators, etc.) 3: Megaboss)
-};
-
-extern MonsterInfo_t *monsterList;
-
-// Prototypes
-void ClearMonsterList ();
-bool AddMonsterToList  (MonsterInfo_t *monster);
-void UpdateMonsterInfo (MonsterInfo_t *self);
-
 #endif
