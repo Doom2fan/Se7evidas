@@ -108,9 +108,6 @@ void UpdateServerData () {
     ServerData.avgLevel     = 1;
     ServerData.highestLevel = 1;
     ServerData.lowestLevel  = 0;
-
-    // Save system stuff
-    ServerData.noSaveLoading = GetCVar (s"S7_NoSaveLoading");
 }
 
 #define ME_CLSLoop(sky, light) \

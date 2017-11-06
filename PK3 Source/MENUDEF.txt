@@ -58,7 +58,6 @@ optionMenu "S7Settings" {
 
     subMenu "Arbitrator Options",   "S7Settings_Server"
     subMenu "User Options",         "S7Settings_User"
-    subMenu "Save System",          "S7Settings_SaveSys"
 }
 
 optionMenu "S7Settings_Server" {
@@ -118,21 +117,4 @@ optionMenu "S7Settings_User" {
     staticText "Toaster Options (Singleplayer only)", 1
     option "Effects stay time",                                                                     "S7_EffectStayTime",            "EffectsStayTimeOptions"
     option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",           "EffectsFadeSpeedOptions"
-}
-
-optionMenu "S7Settings_SaveSys" {
-    title "SAVE SYSTEM"
-
-    staticText "Arbitrator Options", 1
-    option "No save loading",                                                                       "S7_NoSaveLoading",             "OnOff"
-    staticText " "
-
-    staticText "User Options", 1
-    option "Load save on new game",                                                                 "S7_LoadSaveDataOnNewGame",     "OnOff"
-
-    staticText " "
-    staticText "Commands", 1
-    safeCommand "Clear save data",  "S7_ClearSaveData"
-    command     "Save",             "S7_SaveSysSave"
-    command     "Load",             "S7_SaveSysLoad"
 }

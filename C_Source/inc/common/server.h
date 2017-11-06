@@ -42,9 +42,6 @@ typedef struct ServerData_t {
     // Parkour stuff
     accum mjumpZMul;
 
-    // Save system stuff
-    bool noSaveLoading;
-
     // RPG system stuff
     int maxLevel;
     int avgLevel, highestLevel, lowestLevel;

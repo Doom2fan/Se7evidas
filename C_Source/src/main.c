@@ -84,7 +84,6 @@ Script_C void S7_ShowMapInfo () {
 
 // General stuff
 Script_C void S7_ServersideEnter2 (PlayerData_t *player);
-void DebugOptsPlayer (PlayerData_t *player, bool debugOn, int debugOpts);
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
@@ -100,7 +99,6 @@ Script_C void S7_ServersideEnter ENTER () {
 
     if (!player->initialized) {
         InitializePlayer (player);
-        DebugOptsPlayer (player, GetCVar (s"S7_DebugMode"), GetCVar (s"S7_DebugOpts"));
     } else {
         FadeRange (0, 0, 0, 1.0k, 0, 0, 0, 0.0k, TicsToSecs (9));
         SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);

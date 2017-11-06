@@ -20,18 +20,6 @@
 #include "includes.h"
 #include "misc/construct.h"
 
-/*struct SavedData_t SavedData_t_new () {
-    SavedData_t ret;
-
-    ret.isInvalid = FALSE;
-    ret.name = NULL;
-    ret.gender = ret.cash = 0;
-
-    ret.scriptData = PD_ScriptData_t_new ();
-
-    return ret;
-}*/
-
 struct PD_ScriptData_t PD_ScriptData_t_new () {
     PD_ScriptData_t ret;
 

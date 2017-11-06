@@ -24,8 +24,7 @@
 #include "systems/monster_stuff.h"
 
 // Forward declarations
-bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData);
-Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData);
+Script_C void RunIntro (PlayerData_t *player);
 
 // Functions
 void UpdatePlayerData (PlayerData_t *player) {
@@ -174,49 +173,11 @@ void InitializePlayer (PlayerData_t *player) {
     SetInventory (DISABLEHUDTOKEN, 1);
     player->scriptData.disableHUD = TRUE;
 
-    SavedData_t saveData = {
-        .isInvalid = TRUE,
-    };
-
-    if (!(ServerData.noSaveLoading) && GetUserCVar (PLN, s"S7_LoadSaveDataOnNewGame")) {
-        saveData = LoadSaveData (PLN);
-        if (!saveData.isInvalid)
-            PD_DoLoadSave (player, &saveData);
-    }
-
     UpdatePlayerData (player);
     UpdateAmmoMax (player);
 
-    RunIntro (player, &saveData);
+    RunIntro (player);
     player->initialized = TRUE;
-}
-
-bool PD_DoLoadSave (PlayerData_t *player, SavedData_t *saveData) {
-    if (!player) {
-        DebugLog ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL player struct");
-        return FALSE;
-    } else if (!saveData || saveData->isInvalid) {
-        DebugLog ("\CgFunction PD_DoLoadSave: Fatal error: Invalid or NULL save data struct");
-        return FALSE;
-    }
-
-    // RPG Systems
-    SetCash      (player,              saveData->cash);
-    player->bankData = saveData->bankData;
-
-    // Script Data
-    player->scriptData = saveData->scriptData;
-
-    return TRUE;
-}
-
-bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData) {
-    if (!PD_DoLoadSave (player, saveData))
-        return FALSE;
-
-    UpdatePlayerData (player);
-    UpdateAmmoMax (player);
-    return TRUE;
 }
 
 #define BASEINTROID 12000
@@ -235,23 +196,13 @@ static const cstr RInt_SpinnyThing [] = {
     (cstr) "-",
     (cstr) "\\",
 };
-Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
+Script_C void RunIntro (PlayerData_t *player) {
     if (!PlayerInGame (PLN) || PlayerIsBot (PLN))
         return;
 
     string  curName = StrParam ("%tS", PLN);
     int     curGender = GetPlayerInfo (PLN, PLAYERINFO_GENDER);
-    string  savedName = s"";
-    int     savedGender = 0;
     int     corruptIndex = Random (0, ArraySize (RInt_CorruptNone) - 1);
-
-    if (saveData->isInvalid) {
-        savedName = curName;
-        savedGender = curGender;
-    } else {
-        savedName = saveData->name;
-        savedGender = saveData->gender;
-    }
 
     player->shopDef.disableOpen = TRUE;
     GiveInventory (DISABLEHUDTOKEN, 1);
@@ -293,30 +244,10 @@ Script_C void RunIntro (PlayerData_t *player, SavedData_t *saveData) {
     for (int i = 0; i < 35; i++)
         ClearMessage (BASEINTROID + i);
 
-    bool nameEqual = StrCmp (savedName, curName) == 0 ? TRUE : FALSE;
-    bool genderEqual = curGender == savedGender ? TRUE : FALSE;
     ActivatorSound (s"Comp/Access", 127);
     RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: %S", curName);
     RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: %LS", PD_Gender [curGender]);
-    if (!nameEqual || !genderEqual) {
-        Delay (17);
-        ActivatorSound (s"Comp/Err", 127);
-        Delay (19);
-
-        if (!nameEqual)
-            RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: <Rechecking user database>");
-        if (!genderEqual)
-            RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: <Rechecking user database>");
-
-        ActivatorSound (s"Comp/Ok", 127);
-        Delay (24);
-
-        if (!nameEqual)
-            RIntPrintText (BASEINTROID, -0.125k, -0.150k, CR_GREEN, 0.0k, "Name: %S, formerly %S", curName, savedName);
-        if (!genderEqual)
-            RIntPrintText (BASEINTROID + 1, -0.125k, -0.175k, CR_GREEN, 0.0k, "Gender: %LS, formerly %LS", PD_Gender [curGender], PD_Gender [savedGender]);
-    } else
-        Delay (7);
+    Delay (7);
     ActivatorSound (s"Comp/Ok", 127);
     Delay (45);
 

@@ -112,9 +112,8 @@ Script_C void S7_PrintServerData NET () {
     Log ("ServerData = {\n \
     debugMode = %s; \
     mjumpZMul = %kk;\n \
-    noSaveLoading = %s;\n \
     mapCount = %d;\n};",
-    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.mjumpZMul, ServerData.noSaveLoading ? "TRUE" : "FALSE", ServerData.mapCount);
+    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.mjumpZMul, ServerData.mapCount);
 }
 Script_C void S7_PrintMapData NET () {
     if (!CheckCheats () || !PlayerInGame (PLN))
@@ -127,17 +126,4 @@ Script_C void S7_PrintMapData NET () {
     meSecLoopDelay = %d;\n \
     mapEventSet = %S;\n};",
     MapData.name, MapData.author, MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
-}
-
-/*enum {
-};*/
-
-void DebugOptsPlayer (PlayerData_t *player, bool debugOn, int debugOpts) {
-    if (!player) {
-        DebugLog ("\CgFunction DebugOptsPlayer: Fatal error: Invalid or NULL player struct.");
-        return;
-    }
-
-    if (!debugOn || !CheckCheats ())
-        return;
 }

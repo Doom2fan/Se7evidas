@@ -44,13 +44,6 @@ typedef struct ShopDef_t        ShopDef_t;
 typedef struct BankDef_t        BankDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct PlayerMenu_t     PlayerMenu_t;
-// Save system
-typedef struct SavedData_t      SavedData_t;
-
-// Blerghled Prototypes
-bool        LoadSaveDataToPointer (int playerNum, SavedData_t *data);
-SavedData_t LoadSaveData          (int playerNum);
-bool        SaveSaveData          (int playerNum, SavedData_t *data);
 
 // Structs
 struct PD_AmmoType_t {
@@ -158,19 +151,6 @@ typedef struct PlayerData_t {
     PlayerMenu_t    playerMenu;         // Player menu info
 } PlayerData_t;
 
-struct SavedData_t {
-    bool            isInvalid;          // Is the save data invalid?
-    string          name;               // Player name
-    int             gender;             // Player gender
-
-    // RPG Systems
-    BankDef_t       bankData;           // Bank system stuff
-    int             cash;               // Cash
-
-    // Script data
-    PD_ScriptData_t scriptData;         // Misc script data
-};
-
 // Prototypes
 void TakeCash       (PlayerData_t *player, int amount);
 void GiveCash       (PlayerData_t *player, int amount);
@@ -183,8 +163,6 @@ void UpdatePlayerData  (PlayerData_t *player);
 void UpdateAmmoMax     (PlayerData_t *player);
 void UpdatePlayerAlpha (PlayerData_t *player);
 void UpdateClientsideCVars ();
-bool PD_DoLoadSave  (PlayerData_t *player, SavedData_t *saveData);
-bool PD_PerformLoad (PlayerData_t *player, SavedData_t *saveData);
 
 // Externs (The definitions for these is in playerDefs.c, not player.c)
 extern PlayerData_t PlayerData [MAX_PLAYERS];

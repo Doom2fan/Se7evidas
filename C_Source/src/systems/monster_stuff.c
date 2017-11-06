@@ -18,7 +18,6 @@
 */
 
 #include "includes.h"
-#include "misc/names.h"
 #include "systems/monster_stuff.h"
 
 //-------------------------------------------------------------------------------------------
