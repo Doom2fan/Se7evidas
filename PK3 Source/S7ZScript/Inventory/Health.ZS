@@ -63,7 +63,7 @@ class S7_Stimpack : customInventory replaces stimpack {
 // Canteen
 //
 //-------------------------------------------------------------------------------------------
-class S7_Canteen : customInventory {
+class S7_Canteen : Inventory {
     default {
         tag "$CANTEEN";
         inventory.maxAmount 2000;
@@ -74,13 +74,29 @@ class S7_Canteen : customInventory {
         +inventory.invBar +inventory.undroppable +inventory.keepDepleted +inventory.untossable
     }
 
+    override bool Use (bool pickup) {
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || pPawn.health <= 0)
+            return false;
+
+        if (pPawn.health >= pPawn.maxHealth || Amount < pPawn.playerData.milkUseRate)
+            return false;
+
+        while (pPawn.health < pPawn.maxHealth && Amount >= pPawn.playerData.milkUseRate) {
+            pPawn.GiveBody (pPawn.playerData.milkRegenRate, 0);
+            Amount -= pPawn.playerData.milkUseRate;
+        }
+
+        pPawn.A_SetBlend ("00 28 78", 0.5, 14);
+        pPawn.A_PlaySound ("Inventory/CanteenUse", CHAN_ITEM);
+
+        return false;
+    }
+
     states {
     Spawn:
         CANT A -1;
         stop;
-    Use:
-        TNT1 A 0 ACS_NamedExecuteAlways ("S7_CanteenScript");
-        TNT1 A 0 A_RailWait;
-        fail;
     }
 }

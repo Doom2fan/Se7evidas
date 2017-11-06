@@ -187,8 +187,6 @@ void InitializePlayer (PlayerData_t *player) {
     }
 
     player->ammoMax = BASEAMMOMAX;
-    player->health.milkRegenRate = 5;
-    player->health.milkUseRate = 25;
     player->parkourDef.wGrabOldGravity = 1.0k;
     player->parkourDef.wGrabHolding = FALSE;
     SetInventory (DISABLEHUDTOKEN, 1);

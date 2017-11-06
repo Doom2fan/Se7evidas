@@ -24,7 +24,10 @@ class S7_PlayerData : Inventory {
                                    // oldAgility: This is used for checking if the agility stat changed.
     double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
     /** Misc **/
-    int heartbeatTics; // heartbeats thing.
+    // Canteen
+    int milkUseRate, milkRegenRate;
+    // Heartbeats thing.
+    int heartbeatTics;
 
     override double GetSpeedFactor () {
         return 1 + sprintSpeedFactor;
@@ -33,6 +36,8 @@ class S7_PlayerData : Inventory {
     override void AttachToOwner (Actor other) {
         super.AttachToOwner (other);
         oldAgility = -1;
+        milkRegenRate = 5;
+        milkUseRate = 25;
     }
 }
 

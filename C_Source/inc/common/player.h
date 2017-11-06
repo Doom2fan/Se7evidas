@@ -73,8 +73,6 @@ struct PD_Health_t {
     int health;                         // Health
     int maxHealth;                      // Max health
     int stamina;                        // Stamina
-    int milkRegenRate;                  // Canteen regen rate
-    int milkUseRate;                    // Canteen use rate
 };
 
 struct PD_Misc_t {
