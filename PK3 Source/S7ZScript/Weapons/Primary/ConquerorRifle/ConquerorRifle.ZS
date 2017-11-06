@@ -23,7 +23,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         S7_BaseWeapon.Icon "CQRPA0";
     }
 
-    bool jammed, loaded, noPump;
+    bool jammed, loaded, noPump, noEject; // noEject is just for telling the reloading anim not to spawn casings
     int zoomLevel;
 
     override void DoEffect () {
@@ -182,20 +182,26 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         CQR1 B 1 A_SetPitch (pitch + 0.15);
         CQR1 C 1 {
             if (invoker.noPump) {
-                invoker.loaded = true;
-                if (random [weaponSpc] (0, 255) < 2)
-                    invoker.jammed = true;
-                else
-                    invoker.jammed = false;
-            }
+                if (invoker.CheckAmmo (PrimaryFire, false, true)) {
+                    invoker.loaded = true;
+
+                    if (random [weaponSpc] (0, 255) < 2)
+                        invoker.jammed = true;
+                    else
+                        invoker.jammed = false;
+                } else
+                    invoker.noEject = true;
+            } else
+                invoker.noEject = false; // Reset noEject
         }
 
         CQR1 CDDAA 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob);
         goto Ready2;
     Fire.Pump:
         CQR1 A   1 {
-
             invoker.loaded = true;
+            invoker.noEject = false; // Reset noEject
+
             if (random [weaponSpc] (0, 255) < 2)
                 invoker.jammed = true;
             else
@@ -249,12 +255,17 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
         SCP1 B 1 {
             if (invoker.noPump) {
-                invoker.loaded = true;
-                if (random [weaponSpc] (0, 255) < 2)
-                    invoker.jammed = true;
-                else
-                    invoker.jammed = false;
-            }
+                if (invoker.CheckAmmo (PrimaryFire, false, true)) {
+                    invoker.loaded = true;
+
+                    if (random [weaponSpc] (0, 255) < 2)
+                        invoker.jammed = true;
+                    else
+                        invoker.jammed = false;
+                } else
+                    invoker.noEject = true;
+            } else
+                invoker.noEject = false; // Reset noEject
 
             if (invoker.zoomLevel == 1)
                 A_ZoomFactor (5.9);
@@ -361,13 +372,19 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
 
             invoker.loaded = true;
+
             if (random [weaponSpc] (0, 255) < 2)
                 invoker.jammed = true;
             else
                 invoker.jammed = false;
         }
         CQR1 EFG 1;
-        CQR1 H   6 A_FireProjectile ("S7_45WWCasingSpawnRifle", 0, 0, 12, -14);
+        CQR1 H   6 {
+            if (!invoker.noEject)
+                A_FireProjectile ("S7_45WWCasingSpawnRifle", 0, 0, 12, -14);
+
+            invoker.noEject = false; // Reset noEject
+        }
         CQR1 H   1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
         CQR1 GFE 1;
         goto Ready2;
