@@ -66,6 +66,18 @@ class S7_BaseWeapon : weapon {
         return false;
     }
 
+    action int S7_GetMeleeDamage (double baseDamage, double mul) {
+        double baseMul  = 1.0;
+        double mulBonus = 0.0;
+
+        if (CheckInventory ("S7_BerserkToken", 1)) {
+            baseMul = 3.0;
+            mulBonus = fRandom (0.0, 2.0);
+        }
+
+        return ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus));
+    }
+
     states {
     DryFire:
         TNT1 A 0 {
@@ -126,18 +138,18 @@ class S7_BaseWeapon : weapon {
         wait;
     DaggerMelee1:
         DAG1 ABCD 1;
-        DAG1 E    1 A_CustomPunch (callACS ("S7_MeleeDamage", 3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
-        DAG1 F    1 A_CustomPunch (callACS ("S7_MeleeDamage", 3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuff");
-        DAG1 G    1 A_CustomPunch (callACS ("S7_MeleeDamage", 3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
+        DAG1 E    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
+        DAG1 F    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuff");
+        DAG1 G    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
         DAG1 H    1;
         TNT1 A    5;
         TNT1 A    0 A_Jump (256, "MeleeDone");
         wait;
     DaggerMelee2:
         DAG2 AB  1;
-        DAG2 C   1 A_CustomPunch (callACS ("S7_MeleeDamage", 2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
-        DAG2 D   1 A_CustomPunch (callACS ("S7_MeleeDamage", 2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuff");
-        DAG2 EF  1 A_CustomPunch (callACS ("S7_MeleeDamage", 2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
+        DAG2 C   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
+        DAG2 D   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuff");
+        DAG2 EF  1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
         DAG2 GH  1;
         TNT1 A   5;
         TNT1 A   0 A_Jump (256, "MeleeDone");
@@ -149,7 +161,7 @@ class S7_BaseWeapon : weapon {
 
     KickMelee:
         KICK BCD   1;
-        KICK H     1 A_CustomPunch (callACS ("S7_MeleeDamage", 13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_MeleePuff");
+        KICK H     1 A_CustomPunch (S7_GetMeleeDamage (13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_MeleePuff");
         KICK HHHIG 1;
         KICK FEDCB 1;
         KICK A     1;

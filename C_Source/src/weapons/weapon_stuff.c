@@ -48,19 +48,6 @@ Script_C void S7_PSICG_FireTest () {
         TakeInventory (PSICGFIREBOOL, 0x7FFFFFFF);
 }*/
 
-Script_C int S7_MeleeDamage (int baseDamage, int mul) {
-    accum baseMul  = 1.0k;
-    accum mulBonus = 0.0k;
-
-    if (CheckInventory (BERSERKTOKEN)) {
-        baseMul = 3.0k;
-        mulBonus = RandomFixed (0.0k, 2.0k);
-    }
-
-    //return RoundA ((baseDamage * baseMul + (0.5k * CheckInventory (XPS_STRENGTHTOKEN))) * (mul + mulBonus));
-    return RoundA ((baseDamage * baseMul + 0.5k) * (mul + mulBonus));
-}
-
 /*Script_C void S7_BerserkWeapToggle () {
     if (!PlayerInGame (PLN))
         return;
