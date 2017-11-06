@@ -47,6 +47,7 @@ class S7_Thumper : S7_BaseWeapon {
 
     bool chambered;
     int selectedPool;
+    string casingType;
     Array<int> magazine;
 
     static const Class<Inventory> PoolNames [] = {
@@ -125,7 +126,7 @@ class S7_Thumper : S7_BaseWeapon {
             if (!invoker.chambered)
                 return ResolveState ("Pump");
 
-            string casingType, projType;
+            string projType;
             int grenType = invoker.magazine [invoker.magazine.Size () - 1];
             invoker.magazine.Pop ();
             switch (grenType) {
@@ -134,31 +135,31 @@ class S7_Thumper : S7_BaseWeapon {
                     return ResolveState ("Ready2"); // Shouldn't happen, but better safe than sorry.
                     break;
                 case S7_TH_Exp:
-                    casingType = "S7_50mmCasingSpawn";
+                    invoker.casingType = "S7_50mmCasingSpawn";
                     projType = "S7_ThumperGrenade";
                     break;
                 case S7_TH_Frag:
-                    casingType = "S7_50mmCasingSpawnFrag";
+                    invoker.casingType = "S7_50mmCasingSpawnFrag";
                     projType = "S7_ThumperGrenadeFrag";
                     break;
                 case S7_TH_Therm:
-                    casingType = "S7_50mmCasingSpawnTherm";
+                    invoker.casingType = "S7_50mmCasingSpawnTherm";
                     projType = "S7_ThumperGrenadeTherm";
                     break;
                 case S7_TH_Flare:
-                    casingType = "S7_50mmCasingSpawnFlare";
+                    invoker.casingType = "S7_50mmCasingSpawnFlare";
                     projType = "S7_ThumperGrenadeFlare";
                     break;
                 case S7_TH_Cluster:
-                    casingType = "S7_50mmCasingSpawnCluster";
+                    invoker.casingType = "S7_50mmCasingSpawnCluster";
                     projType = "S7_ThumperGrenadeCluster";
                     break;
                 case S7_TH_Nail:
-                    casingType = "S7_50mmCasingSpawnNail";
+                    invoker.casingType = "S7_50mmCasingSpawnNail";
                     projType = "S7_ThumperGrenadeNail";
                     break;
                 case S7_TH_NGas:
-                    casingType = "S7_50mmCasingSpawnNGas";
+                    invoker.casingType = "S7_50mmCasingSpawnNGas";
                     projType = "S7_ThumperGrenadeNGas";
                     break;
             }
@@ -167,7 +168,6 @@ class S7_Thumper : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            A_FireProjectile (casingType, 0, 0, 10, -9);
             A_FireProjectile (projType, 0, 0, 8, -5, 0, -3.0);
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 4);
             invoker.chambered = false;
@@ -216,7 +216,14 @@ class S7_Thumper : S7_BaseWeapon {
             return ResolveState (null);
         }
         THPP A   2;
-        THPP B   1 A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+        THPP B   1 {
+            A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+
+            if (invoker.casingType != "")
+                A_FireProjectile (invoker.casingType, 0, 0, 10, -9);
+
+            invoker.casingType = "";
+        }
         THPP C   1;
         THPP D   6;
         THPP CBA 1;
@@ -275,7 +282,14 @@ class S7_Thumper : S7_BaseWeapon {
             return ResolveState (null);
         }
         THPP A     2;
-        THPP B     1 A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+        THPP B     1 {
+            A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+
+            if (invoker.casingType != "")
+                A_FireProjectile (invoker.casingType, 0, 0, 10, -9);
+
+            invoker.casingType = "";
+        }
         THPP C     1;
         THPP D     6;
         THPP CBA   1;
