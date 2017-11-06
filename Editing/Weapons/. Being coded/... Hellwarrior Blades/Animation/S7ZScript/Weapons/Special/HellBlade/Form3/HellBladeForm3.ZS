@@ -9,6 +9,10 @@ class S7_HellhunterBladeForm3 : S7_BaseWeapon {
     bool attacking;
     int lastAttack;
 
+    action int GetDamage (double multiplier, double baseDMG) {
+        return multiplier * baseDMG;
+    }
+
     states {
     Spawn:
         HWBP C -1;
@@ -54,13 +58,13 @@ class S7_HellhunterBladeForm3 : S7_BaseWeapon {
 
     Fire1:
         HB31 EFG 1;
-        HB31 H   1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM3, random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
+        HB31 H   1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
         HB31 I   1;
         HB31 J   1 { invoker.lastAttack = 1; }
         goto Fire.ContinueCombo;
     Fire2:
         HB31 KLM 1;
-        HB31 N   1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM3, random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
+        HB31 N   1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
         HB31 O   1;
         HB31 P   1 { invoker.lastAttack = 2; }
         goto Fire.ContinueCombo;

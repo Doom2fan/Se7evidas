@@ -68,28 +68,6 @@ Script_C int S7_MeleeDamage (int baseDamage, int mul) {
     DisableWeapon (s"S7_BerserkWeap", s"", &PlayerData [PLN]);
 }*/
 
-enum {
-    HELLBLADE_FORM1 = 1,
-    HELLBLADE_FORM3 = 3,
-    HELLBLADE_NULL = 32767,
-};
-
-Script_C int S7_HellBladeDMG (int form, int multiplier, int baseDMG) {
-    int affinity = CheckInventory (s"S7_HellhunterBladeAffinity");
-
-    switch (form) {
-        case HELLBLADE_FORM1:
-            {
-                //int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + (0.5k * CheckInventory (XPS_STRENGTHTOKEN)) * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
-                int modDMG = (multiplier + RandomFixed (0.0k, 2.0k)) * baseDMG + 0.5k * (CheckInventory (BERSERKTOKEN) ? 3.0k : 1.0k);
-                return RoundA (modDMG + (affinity / 10 * (modDMG / 2)));
-            }
-            break;
-        default:
-            return RoundA (multiplier * baseDMG);
-    }
-}
-
 /*Script_C void S7_AMGRadiusDamage (int damage, int radius) {
     Thing_ChangeTID (0, UniqueTID (-32768, 0));
     RadiusDMGNoBlock (GetActorPositionVec (0), damage, radius, ActivatorTID (), s"S7_Antimatter", RDNBF_ForceDMG);

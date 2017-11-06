@@ -15,6 +15,11 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         specialActive = false;
     }
 
+    action int GetDamage (double multiplier, double baseDMG) {
+        double modDMG = (multiplier + fRandom (0.0, 2.0)) * baseDMG + 0.5 * (CheckInventory ("S7_BerserkToken", 1) ? 3 : 1);
+        return ceil (modDMG + (CountInv ("S7_HellhunterBladeAffinity") / 10 * (modDMG / 2)));
+    }
+
     states {
     Spawn:
         HWBP A -1;
@@ -82,14 +87,14 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         HB11 G    1 A_JumpIf (invoker.specialActive, "Fire1.Special");
         HB11 H    1 A_PlaySound ("Weapons/HHunterBladeF1/Swing", CHAN_Weapon);
         HB11 IJK  1;
-        HB11 L    1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_Puff", 112.0);
+        HB11 L    1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_Puff", 112.0);
         HB11 MNOP 1;
         goto Fire.ContinueCombo;
     Fire1.Special:
         HB13 E    1;
         HB13 F    1 A_PlaySound ("Weapons/HHunterBladeF1/Swing", CHAN_Weapon);
         HB13 GHI  1;
-        HB13 J    1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
+        HB13 J    1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
         HB13 KLMN 1;
         HB13 OP   1;
         goto Fire.ContinueCombo;
@@ -102,14 +107,14 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         }
         HB11 Z    1;
         HB12 A    1;
-        HB12 B    1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_Puff", 112.0);
+        HB12 B    1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_Puff", 112.0);
         HB12 CDEF 1;
         goto Fire.ContinueCombo;
     Fire2.Special:
         HB13 T   1;
         HB13 U   1;
         HB13 V   1;
-        HB13 W   1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
+        HB13 W   1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
         HB13 XYZ 1;
         HB14 A   1;
         goto Fire.ContinueCombo;
@@ -118,14 +123,14 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         HB12 G     1 A_JumpIf (invoker.specialActive, "Fire3.Special");
         HB12 H     1 A_PlaySound ("Weapons/HHunterBladeF1/Swing", CHAN_Weapon);
         HB12 IJ    1;
-        HB12 K     1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_Puff", 112.0);
+        HB12 K     1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_Puff", 112.0);
         HB12 LMNOP 1;
         goto Fire.ContinueCombo;
     Fire3.Special:
         HB14 B     1;
         HB14 C     1 A_PlaySound ("Weapons/HHunterBladeF1/Swing", CHAN_Weapon);
         HB14 DE    1;
-        HB14 F     1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
+        HB14 F     1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 20), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
         HB14 GHIJK 1;
         goto Fire.ContinueCombo;
 
@@ -133,14 +138,14 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         //TNT1 A      0 A_JumpIf (invoker.specialActive, "Fire4.Special");
         HB11 Q      1 A_PlaySound ("Weapons/HHunterBladeF1/Swing", CHAN_Weapon);
         HB11 S      1;
-        HB11 U      1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 35), TRUE, 0, "S7_HBForm1_PuffStab", 112.0);
+        HB11 U      1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 35), TRUE, 0, "S7_HBForm1_PuffStab", 112.0);
         HB11 UUTSRQ 1;
         TNT1 A     15;
         goto Fire.End;
     Fire4.Special:
         HB13 O      1 A_PlaySound ("Weapons/HHunterBladeF1/Swing", CHAN_Weapon);
         HB13 Q      1;
-        HB13 S      1 A_CustomPunch (callACS ("S7_HellBladeDMG", HELLBLADE_FORM1, random [weaponDamage] (1, 3), 35), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
+        HB13 S      1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 35), TRUE, 0, "S7_HBForm1_PuffSpc", 112.0);
         HB13 SSRQPO 1;
         TNT1 A     15;
         goto Fire.End;
@@ -164,7 +169,7 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         HB11 A    2 {
             if (invoker.specialActive)
                 return ResolveState ("CancelSpecial");
-            if (CheckInventory ("S7_HellhunterBladeLust", 5))
+            if (!CheckInventory ("S7_HellhunterBladeLust", 5))
                 return ResolveState ("Ready2");
 
             A_SetBlend ("7F0000", 1.0, 2);
