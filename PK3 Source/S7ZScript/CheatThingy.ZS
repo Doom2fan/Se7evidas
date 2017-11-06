@@ -29,10 +29,10 @@ class S7_CheatThingy : customInventory {
         TNT1 A 0 GiveInventory ("S7_Stats_System_Magic",      25);
         TNT1 A 0 GiveInventory ("S7_Stats_System_Technology", 25);*/
         // Inventory
-        TNT1 A 0 GiveInventory ("S7_BerserkPickup", 0x7FFFFFFF);
-        TNT1 A 0 GiveInventory ("S7_Medikit",       0x7FFFFFFF);
-        TNT1 A 0 GiveInventory ("S7_Stimpack",      0x7FFFFFFF);
-        TNT1 A 0 GiveInventory ("S7_Canteen",       0x7FFFFFFF);
+        TNT1 A 0 GiveInventory ("S7_Berserk",  0x7FFFFFFF);
+        TNT1 A 0 GiveInventory ("S7_Medikit",  0x7FFFFFFF);
+        TNT1 A 0 GiveInventory ("S7_Stimpack", 0x7FFFFFFF);
+        TNT1 A 0 GiveInventory ("S7_Canteen",  0x7FFFFFFF);
         // Upgrades
         TNT1 A 0 GiveInventory ("S7_UpgradeRadar", 1);
         TNT1 A 0 GiveInventory ("S7_UpgradeSlot1", 1);

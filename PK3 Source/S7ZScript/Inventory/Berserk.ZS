@@ -8,28 +8,6 @@
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
 
-class S7_BerserkPickup : customInventory {
-    default {
-        tag "$BERSERK";
-        inventory.icon "BSRKA0";
-        inventory.pickupMessage "$BERSERK";
-        inventory.amount 0;
-        inventory.maxAmount 0;
-        inventory.interHubAmount 0;
-    }
-
-    states {
-    Pickup:
-        TNT1 A 0 A_JumpIfInventory ("S7_Berserk", 0, "Nope");
-        TNT1 A 0 GiveInventory ("S7_Berserk", 1);
-        TNT1 A 0 A_RailWait;
-        stop;
-    Nope:
-        TNT1 A 0 A_RailWait;
-        fail;
-    }
-}
-
 class S7_Berserk : ammo {
     default {
         tag "$BERSERK";
@@ -40,6 +18,15 @@ class S7_Berserk : ammo {
         inventory.interHubAmount 5;
 
         +inventory.invBar
+    }
+
+    override bool Use (bool pickup) {
+        let bsrkWeap = Owner.FindInventory ("S7_BerserkWeap");
+
+        if (bsrkWeap)
+            bsrkWeap.Use (false);
+
+        return false;
     }
 }
 
@@ -53,6 +40,10 @@ class S7_BerserkWeap : S7_BaseWeapon {
         weapon.ammoUse1 1;
 
         +inventory.undroppable +inventory.untossable
+    }
+
+    override bool Use (bool pickup) {
+        return !pickup ? Weapon.Use (false) : false;
     }
 
     states {
