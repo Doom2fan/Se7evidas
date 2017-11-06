@@ -25,7 +25,6 @@
 #include "systems/monster_stuff.h"
 #include "systems/parkour.h"
 #include "systems/stamina.h"
-#include "weapons/weapon_stuff.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);

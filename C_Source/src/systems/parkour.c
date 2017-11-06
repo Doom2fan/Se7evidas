@@ -18,7 +18,6 @@
 */
 
 #include "includes.h"
-#include "weapons/weapon_stuff.h"
 #include "systems/stamina.h"
 #include "systems/parkour.h"
 

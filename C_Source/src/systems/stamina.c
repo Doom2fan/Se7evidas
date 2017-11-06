@@ -18,7 +18,6 @@
 */
 
 #include "includes.h"
-#include "weapons/weapon_stuff.h"
 #include "systems/stamina.h"
 
 #define SRGN_DoRegenCommon(x) \
