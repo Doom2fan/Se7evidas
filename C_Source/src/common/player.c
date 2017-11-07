@@ -53,7 +53,6 @@ void UpdatePlayerData (PlayerData_t *player) {
     // Health and stamina
     player->health.health = GetActorProperty (0, APROP_Health);         // Get the health
     player->health.maxHealth = GetActorProperty (0, APROP_SpawnHealth); // Get the max health
-    player->health.stamina = CheckInventory (STAMINATOKEN);             // Get the stamina
 
     // Shop system stuff
     player->cash = (CheckInventory (CASHTOKENGREATER) * CASHDIVPOINT) + CheckInventory (CASHTOKENLESSER);

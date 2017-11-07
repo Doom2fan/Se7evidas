@@ -18,7 +18,6 @@
 */
 
 #include "includes.h"
-#include "systems/stamina.h"
 #include "systems/parkour.h"
 
 int sign (int x) {

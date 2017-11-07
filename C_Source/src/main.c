@@ -24,7 +24,6 @@
 #include "systems/misc.h"
 #include "systems/monster_stuff.h"
 #include "systems/parkour.h"
-#include "systems/stamina.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
@@ -117,7 +116,6 @@ Script_C void S7_ServersideEnter ENTER () {
 
         UpdatePlayerData (player); // Update the player's data
         UpdateAmmoMax    (player); // Update the max ammo
-        StaminaRegenerationPart1 (player); // Regenerate stamina (Part 1)
         WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
@@ -127,8 +125,6 @@ Script_C void S7_ServersideEnter ENTER () {
         UpdatePlayerAlpha  (player); // Update the alpha
 
         Delay (1); // Wait for a tic
-
-        StaminaRegenerationPart2 (player); // Regenerate stamina (Part 2)
     }
 }
 
@@ -209,7 +205,6 @@ void ResetStuff (PlayerData_t *player) {
 
     player->misc.waterlevel = 0;
     player->misc.dying = FALSE;
-    player->scriptData.staminaTics = 0;
     player->scriptData.beamGrab = FALSE;
     player->parkourDef.mjumpCount = 0;
     SetInventory (DISABLEHUDTOKEN, 0);

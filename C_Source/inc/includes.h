@@ -77,7 +77,6 @@
 
 // Actor names
 // Spriting system
-#define STAMINATOKEN         s"S7_Stamina"
 #define SPRINTWEAPON         s"S7_SprintWeapon"
 // Shop system
 #define CASHTOKENLESSER      s"S7_CashLesser"

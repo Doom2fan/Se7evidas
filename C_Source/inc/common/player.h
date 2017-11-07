@@ -65,7 +65,6 @@ struct PD_Physics_t {
 struct PD_Health_t {
     int health;                         // Health
     int maxHealth;                      // Max health
-    int stamina;                        // Stamina
 };
 
 struct PD_Misc_t {
@@ -76,7 +75,6 @@ struct PD_Misc_t {
 struct PD_ScriptData_t {
     bool  disableHUD;                   // Disable HUD
     int   lastWeapon;                   // The last weapon the player selected
-    int   staminaTics;                  // Used for the stamina regeneration
     int   popupNum;                     // Current popup
     int   pPageNum;                     // Current popup page
     bool  beamGrab;                     // Soul lance beam grabbed

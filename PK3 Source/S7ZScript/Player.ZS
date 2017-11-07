@@ -11,6 +11,8 @@ class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
 
 class S7_PlayerData : Inventory {
+    /** Health **/
+    bool dying;
     /** Movement **/
     // Dodging
     int dodgeCooldown;
@@ -24,6 +26,8 @@ class S7_PlayerData : Inventory {
                                    // oldAgility: This is used for checking if the agility stat changed.
     double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
     /** Misc **/
+    // Stamina regen
+    int staminaTics;
     // Canteen
     int milkUseRate, milkRegenRate;
     // Heartbeats thing.
@@ -163,12 +167,15 @@ class S7_BasePlayer : playerPawn {
                 if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
                     SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
 
+                playerData.dying = health < (maxHealth * 0.2);
+
                 // Movement
                 Movement_Dodging ();
                 Movement_WallJump ();
                 Movement_MultiJump ();
                 Movement_Sprinting ();
                 // Misc
+                Misc_StaminaRegen ();
                 Misc_Heartbeats ();
                 Misc_HellhunterBlade ();
             }
@@ -361,6 +368,32 @@ class S7_BasePlayer : playerPawn {
     }
 
     /** Misc **/
+    void Misc_StaminaRegen () {
+        int curStamina = CountInv ("S7_Stamina");
+        int maxStamina = GetMaxStamina ();
+
+        if (health <= 0 || curStamina == maxStamina || playerData.sprinting) {
+            playerData.staminaTics = 0;
+            return;
+        }
+
+        bool berserkActive = CheckInventory ("S7_BerserkToken", 1);
+        int count = 1, interval = 1;
+
+        if (berserkActive)
+            count = (!playerData.dying) ? 4 : 2;
+        if (playerData.dying)
+            interval = berserkActive ? 2 : 3;
+
+        if (playerData.staminaTics >= interval) {
+            GiveInventory ("S7_Stamina", count);
+            playerData.staminaTics = 0;
+        }
+
+        if (curStamina != maxStamina)
+            playerData.staminaTics++;
+    }
+
     void Misc_Heartbeats () {
         if (health <= 0)
             return;
@@ -399,6 +432,8 @@ class S7_BasePlayer : playerPawn {
     clearscope int GetWillStat     () { return ((xpSys) ? xpSys.willStat     : 0); }
     clearscope int GetMagicStat    () { return ((xpSys) ? xpSys.magicStat    : 0); }
     clearscope int GetTechStat     () { return ((xpSys) ? xpSys.techStat     : 0); }
+    clearscope int GetMaxStamina   () { return ((xpSys) ? (150 + 10 * xpSys.agilityStat) : 0); }
+    clearscope int GetMaxMana      () { return ((xpSys) ? (250 + 15 * xpSys.magicStat)   : 0); }
 
     states {
     Spawn:
