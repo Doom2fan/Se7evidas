@@ -325,7 +325,9 @@ class S7_BasePlayer : playerPawn {
                 playerData.sprintTics = 0;
 
             // Start/stop sprinting
-            if (!playerData.sprinting && playerData.sprintTics != -1 && (player.cmd.buttons & BT_USER1) && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && CheckInventory ("S7_Stamina", S7C_SprintStamina)) {
+            if (!playerData.sprinting && playerData.sprintTics != -1 &&
+                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ("S7_Stamina", S7C_SprintStamina) && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
+                ) {
                 playerData.sprinting = true;
                 playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
                 playerData.sprintTics = 0;
@@ -333,7 +335,9 @@ class S7_BasePlayer : playerPawn {
 
                 GiveInventory ("S7_SprintWeapon", 1);
                 player.PendingWeapon = Weapon (FindInventory ("S7_SprintWeapon"));
-            } else if (playerData.sprinting && (!(player.cmd.buttons & BT_USER1) || CheckInventory ("S7_SoulLance_BeamGrabbed", 1) || CountInv ("S7_Stamina") < S7C_SprintStamina)) {
+            } else if (playerData.sprinting &&
+                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ("S7_Stamina") < S7C_SprintStamina) || CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
+                ) {
                 if (playerData.sprintTics < 5)
                     TakeInventory ("S7_Stamina", playerData.sprintTics);
 
