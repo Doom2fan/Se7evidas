@@ -39,6 +39,9 @@ class S7_PlayerData : Inventory {
 
     override void AttachToOwner (Actor other) {
         super.AttachToOwner (other);
+        dying = sprinting = false;
+        dodgeCooldown = mjumpCount = wjumpJustJumped = sprintTics = staminaTics = heartbeatTics = 0;
+        sprintSpeedFactor = sprintSpdFacPproc = 0;
         oldAgility = -1;
         milkRegenRate = 5;
         milkUseRate = 25;
