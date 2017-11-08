@@ -34,16 +34,6 @@ void SpeedScript (PlayerData_t *player) {
     }
 }
 
-Script_C void S7_GiveEverythingCheat () { // To make debugging easier
-    int i;
-    for (i = 0; i < WeaponNames_Length; i++)
-        GiveInventory (WeaponNames [i], 0x7FFFFFFF);
-    for (i = 0; i < ClipNames_Length; i++)
-        GiveInventory (ClipNames [i], 0x7FFFFFFF);
-    for (i = 0; i < AmmoNames_Length; i++)
-        GiveInventory (AmmoNames [i], 0x7FFFFFFF);
-}
-
 #ifndef DISABLEBDCCOMPAT
 Script_C void S7_BrutalDoomCompatibility OPEN () { // Not gonna comment this one.
     // Not needed or desired in Titlemaps.

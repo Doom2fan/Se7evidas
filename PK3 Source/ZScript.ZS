@@ -73,6 +73,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Base Weapon.ZS"
 #INCLUDE "S7ZScript/Bullets.ZS"
 #INCLUDE "S7ZScript/EventHandlers.ZS"
+#INCLUDE "S7ZScript/Weapons/WeapData.ZS"
 
 // RPG Systems
 #INCLUDE "S7ZScript/RPG Systems/Shop System.ZS"
