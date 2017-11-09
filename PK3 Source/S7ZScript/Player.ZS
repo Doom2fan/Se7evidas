@@ -25,6 +25,8 @@ class S7_PlayerData : Inventory {
     int    sprintTics, oldAgility; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
                                    // oldAgility: This is used for checking if the agility stat changed.
     double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
+    /** Weapons **/
+    double ammoMaxMult;
     /** Misc **/
     // Stamina regen
     int staminaTics;
@@ -177,6 +179,8 @@ class S7_BasePlayer : playerPawn {
                 Movement_WallJump ();
                 Movement_MultiJump ();
                 Movement_Sprinting ();
+                // Weapons
+                Weapon_SetAmmoMax ();
                 // Misc
                 Misc_StaminaRegen ();
                 Misc_Heartbeats ();
@@ -372,6 +376,31 @@ class S7_BasePlayer : playerPawn {
                     playerData.sprintSpeedFactor = Clamp (0.5 + (0.5 + playerData.sprintSpdFacPproc) * 2, 0.0, 2.5);
             }
         }
+    }
+
+    /** Weapon stuff **/
+    const BaseAmmoMax = 6;
+    void Weapon_SetAmmoMax () {
+        double ammoMax = BaseAmmoMax;
+
+        if (CheckInventory ("S7_BackpackToken", 1))
+            ammoMax += 2;
+
+        if (ammoMax != playerData.ammoMaxMult) { // Only update if it changed...
+            for (int i = 0; i < S7_Constants.S7_AmmoTypesData.Size (); i++) {
+                let res = S7_Extensions.Split (S7_Constants.S7_AmmoTypesData [i], ":");
+                if (res.Result.Size () != 2) // Uhhh... Should always equal two exactly...
+                    continue;
+
+                Ammo ammoInv = Ammo (FindInventory (res.Result [0]));
+                int maxAmount = floor (res.Result [1].ToInt () * ammoMax);
+
+                if (ammoInv && ammoInv.maxAmount != maxAmount)
+                    ammoInv.maxAmount = maxAmount;
+            }
+        }
+
+        playerData.ammoMaxMult = ammoMax;
     }
 
     /** Misc **/

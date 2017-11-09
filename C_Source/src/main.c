@@ -115,7 +115,6 @@ Script_C void S7_ServersideEnter ENTER () {
             return;
 
         UpdatePlayerData (player); // Update the player's data
-        UpdateAmmoMax    (player); // Update the max ammo
         WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
@@ -178,22 +177,6 @@ Script_C void S7_MapStart ENTER () {
 
         default:
         break;
-    }
-}
-
-// Truly clientside stuff
-Script_C void S7_ClientsideEnter ENTER CLIENTSIDE () {
-    // Not needed or desired in TitleMaps.
-    if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
-        return;
-
-    while (TRUE) { // Loop forever
-        if (!PlayerInGame (PLN))
-            return;
-
-        UpdateClientsideCVars ();
-
-        Delay (1); // Wait for a tic
     }
 }
 

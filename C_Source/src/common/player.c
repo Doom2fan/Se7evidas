@@ -70,22 +70,6 @@ void UpdatePlayerData (PlayerData_t *player) {
     SetInventory (s"S7_AutoReloading", GetUserCVar (PLN, s"S7_AutoReloading"));
 }
 
-void UpdateAmmoMax (PlayerData_t *player) {
-    if (!player)
-        return;
-
-    player->ammoMax = BASEAMMOMAX;
-
-    if (CheckInventory (s"S7_BackpackToken"))
-        player->ammoMax += 2;
-
-    for (int i = 0; i < PD_AmmoTypes_Length; i++) {
-        int maxAmount = PD_AmmoTypes [i].magSize * player->ammoMax;
-        if (GetAmmoCapacity (PD_AmmoTypes [i].name) != maxAmount)
-            SetAmmoCapacity (PD_AmmoTypes [i].name, maxAmount);
-    }
-}
-
 void UpdatePlayerAlpha (PlayerData_t *player) {
     if (!player)
         return;
@@ -173,7 +157,6 @@ void InitializePlayer (PlayerData_t *player) {
     player->scriptData.disableHUD = TRUE;
 
     UpdatePlayerData (player);
-    UpdateAmmoMax (player);
 
     RunIntro (player);
     player->initialized = TRUE;
@@ -270,15 +253,3 @@ void DisconnectPlayer (PlayerData_t *player) {
     for (int i = 0; i < sizeof (PlayerData_t); i++)
         pData [i] = 0;
 }
-
-void UpdateClientsideCVars () {
-    /*for (int i = 0; i < ReqClientsideCVars_Length; i++) {
-        SetCVar (ReqClientsideCVars [i] [1], GetCVar (ReqClientsideCVars [i] [0]));
-        SetUserCVar (PLN, ReqClientsideCVars [i] [1], GetCVar (ReqClientsideCVars [i] [0]));
-        PukeScriptFunction (9800, i, PLN, GetCVar (ReqClientsideCVars [i] [0]));
-    }*/
-}
-
-/*ACS_I_SCRIPT (9800) void TakeCVarToServer NET (int number, int playerNum, int value) {
-    SetUserCVar (playerNum, ReqClientsideCVars [number] [1], value);
-}*/

@@ -32,7 +32,6 @@
 )
 
 // Typedefs
-typedef struct PD_AmmoType_t    PD_AmmoType_t;
 // Player data
 typedef struct PD_Physics_t     PD_Physics_t;   // Physics
 typedef struct PD_Health_t      PD_Health_t;    // Health
@@ -46,11 +45,6 @@ typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct PlayerMenu_t     PlayerMenu_t;
 
 // Structs
-struct PD_AmmoType_t {
-    string name;
-    int    magSize;
-};
-
 struct PD_Physics_t {
     accum x, y, z;                      // XYZ coordinates
     accum radius, height;               // Radius and height
@@ -158,17 +152,11 @@ void SetCash        (PlayerData_t *player, int amount);
 void InitializePlayer  (PlayerData_t *player);
 void DisconnectPlayer  (PlayerData_t *player);
 void UpdatePlayerData  (PlayerData_t *player);
-void UpdateAmmoMax     (PlayerData_t *player);
 void UpdatePlayerAlpha (PlayerData_t *player);
-void UpdateClientsideCVars ();
 
 // Externs (The definitions for these is in playerDefs.c, not player.c)
 extern PlayerData_t PlayerData [MAX_PLAYERS];
 extern string PD_Gender [];
-extern PD_AmmoType_t PD_AmmoTypes [];
-extern string ReqClientsideCVars [] [2];
 extern int PD_Gender_Length;
-extern int PD_AmmoTypes_Length;
-extern int ReqClientsideCVars_Length;
 
 #endif
