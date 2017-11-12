@@ -36,7 +36,6 @@ Script_C void S7_ServersideOpen OPEN () {
     if (GetCVar (s"S7_DebugMode"))
         Log_Str (s"\CgSe7evidas: Debug mode is active (S7_DebugMode)");
 
-    SetAirControl (0.1k);
     if (MapData.name == NULL) {
         MapData.name = StrParam ("%tS", PRINTNAME_LEVELNAME);
         MapData.author = s"";
