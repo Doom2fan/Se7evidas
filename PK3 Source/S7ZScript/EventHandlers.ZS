@@ -147,20 +147,20 @@ class S7_PlayerEventHandler : EventHandler {
         if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
             return;
 
-        SplitResult strings;
-        strings = S7_Extensions.Split (e.Name, ":");
+        Array<String> strings;
+        e.Name.Split (strings, ":");
 
-        if (strings.Result.Size () < 2) // Return if the array has less than two strings
+        if (strings.Size () < 2) // Return if the array has less than two strings
             return;
 
-        if (strings.Result [0] == "S7_Keys") {
+        if (strings [0] == "S7_Keys") {
             let pPawn = players [e.Player].mo;
 
-            if (strings.Result [1] == "Melee")
+            if (strings [1] == "Melee")
                 pPawn.SetInventory ("S7_DoMelee", 1);
-            else if (strings.Result [1] == "FiringMode")
+            else if (strings [1] == "FiringMode")
                 pPawn.SetInventory ("S7_ChangeFireMode", 1);
-        } else if (strings.Result [0] == "S7_WeapBindsSystem")
+        } else if (strings [0] == "S7_WeapBindsSystem")
             WeapBindsSystem (e);
     }
 
@@ -171,16 +171,16 @@ class S7_PlayerEventHandler : EventHandler {
         if (!weapBinds) // Return if weapBinds is null
             return;
 
-        SplitResult commandStrings;
-        commandStrings = S7_Extensions.Split (e.Name, ":");
-        if (commandStrings.Result.Size () < 2) // Return if the array contains less than two strings
+        Array<String> commandStrings;
+        e.Name.Split (commandStrings, ":");
+        if (commandStrings.Size () < 2) // Return if the array contains less than two strings
             return;
 
-        if (commandStrings.Result [1] == "slot") {
-            if (commandStrings.Result.Size () < 3) // Return if the array contains less than 3 strings
+        if (commandStrings [1] == "slot") {
+            if (commandStrings.Size () < 3) // Return if the array contains less than 3 strings
                 return;
 
-            int slot = commandStrings.Result [2].ToInt ();
+            int slot = commandStrings [2].ToInt ();
             if (slot < 0 || slot > 9)
                 return;
 
@@ -190,21 +190,21 @@ class S7_PlayerEventHandler : EventHandler {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
-        } else if (commandStrings.Result [1] == "next") {
+        } else if (commandStrings [1] == "next") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (false, false);
 
             if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
-        } else if (commandStrings.Result [1] == "prev") {
+        } else if (commandStrings [1] == "prev") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false);
 
             if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
-        } else if (commandStrings.Result [1] == "test") {
+        } else if (commandStrings [1] == "test") {
             for (int i = 1; i <= 5; i++)
                 weapBinds.SlotMaximum [i] = 3;
 

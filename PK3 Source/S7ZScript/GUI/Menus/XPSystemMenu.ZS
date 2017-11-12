@@ -229,22 +229,24 @@ class S7_XPSysMenuEventHandler : EventHandler {
             return;
 
         let xpSys = S7_XPSystemWorker (players [e.Player].mo.FindInventory ("S7_XPSystemWorker"));
-        SplitResult strings;
-        strings = S7_Extensions.Split (e.Name, ":");
-        if (strings.Result.Size () != 2 || strings.Result [0] != "S7_XPSysMenuConfirm") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_XPSysMenuConfirm"
+        Array<String> strings;
+        e.Name.Split (strings, ":");
+        if (strings.Size () != 2 || strings [0] != "S7_XPSysMenuConfirm") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_XPSysMenuConfirm"
             return;
 
-        strings = S7_Extensions.Split (strings.Result [1], ",");
-        if (strings.Result.Size () != 7) // Return if the array doesn't contain exactly seven strings
+        string values = strings [1];
+        strings.Clear ();
+        values.Split (strings, ",");
+        if (strings.Size () != 7) // Return if the array doesn't contain exactly seven strings
             return;
 
-        int strengthAdd = strings.Result [0].ToInt (),
-            agilityAdd  = strings.Result [1].ToInt (),
-            vitalityAdd = strings.Result [2].ToInt (),
-            defenseAdd  = strings.Result [3].ToInt (),
-            willAdd     = strings.Result [4].ToInt (),
-            magicAdd    = strings.Result [5].ToInt (),
-            techAdd     = strings.Result [6].ToInt ();
+        int strengthAdd = strings [0].ToInt (),
+            agilityAdd  = strings [1].ToInt (),
+            vitalityAdd = strings [2].ToInt (),
+            defenseAdd  = strings [3].ToInt (),
+            willAdd     = strings [4].ToInt (),
+            magicAdd    = strings [5].ToInt (),
+            techAdd     = strings [6].ToInt ();
         int totalStatsAdded = strengthAdd + agilityAdd + vitalityAdd + defenseAdd + willAdd + magicAdd + techAdd;
 
         if (totalStatsAdded > xpSys.attrPoints) // Return if we're trying to spend more attribute points than we have

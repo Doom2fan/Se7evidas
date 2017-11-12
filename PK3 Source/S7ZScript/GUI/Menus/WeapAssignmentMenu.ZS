@@ -257,9 +257,9 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
         if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
             return;
 
-        SplitResult strings;
-        strings = S7_Extensions.Split (e.Name, ":");
-        if (strings.Result.Size () != 2 || strings.Result [0] != "S7_WeapBindsSystem") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_WeapBindsSystem"
+        Array<String> strings;
+        e.Name.Split (strings, ":");
+        if (strings.Size () != 2 || strings [0] != "S7_WeapBindsSystem") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_WeapBindsSystem"
             return;
 
     }

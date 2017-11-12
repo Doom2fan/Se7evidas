@@ -388,12 +388,13 @@ class S7_BasePlayer : playerPawn {
 
         if (ammoMax != playerData.ammoMaxMult) { // Only update if it changed...
             for (int i = 0; i < S7_Constants.S7_AmmoTypesData.Size (); i++) {
-                let res = S7_Extensions.Split (S7_Constants.S7_AmmoTypesData [i], ":");
-                if (res.Result.Size () != 2) // Uhhh... Should always equal two exactly...
+                Array<String> res;
+                S7_Constants.S7_AmmoTypesData [i].Split (res, ":");
+                if (res.Size () != 2) // Uhhh... Should always equal two exactly...
                     continue;
 
-                Ammo ammoInv = Ammo (FindInventory (res.Result [0]));
-                int maxAmount = floor (res.Result [1].ToInt () * ammoMax);
+                Ammo ammoInv = Ammo (FindInventory (res [0]));
+                int maxAmount = floor (res [1].ToInt () * ammoMax);
 
                 if (ammoInv && ammoInv.maxAmount != maxAmount)
                     ammoInv.maxAmount = maxAmount;
