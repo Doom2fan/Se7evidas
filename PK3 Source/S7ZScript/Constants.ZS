@@ -1,10 +1,11 @@
 // Map events
 enum MapEventTypes {
     MEVNT_None            = 0, // This is here just in case you need to check it for some reason.
-    MEVNT_GhostTown       = 1,
-    MEVNT_PowerOutage     = 2,
-    MEVNT_NuclearMeltdown = 3,
-    MEVNT_PerfectHatred   = 4,
+    MEVNT_GhostTown          ,
+    MEVNT_PowerOutage        ,
+    MEVNT_NuclearMeltdown    ,
+    MEVNT_PerfectHatred      ,
+    MEVNT_LastToken          , // This is here just so you don't have to keep track of the last event, it's not an actual event.
 };
 
 // Firing mode icons
@@ -13,7 +14,12 @@ enum FiringModeIcon {
     FMI_SemiAuto  = 1,
     FMI_BurstFire = 2,
     FMI_FullAuto  = 3,
-}
+};
+
+// ACS helper script
+enum S7_ACSHelper_Funcs {
+    S7_ACS_ChangeSky = 0,
+};
 
 // Player data
 const S7C_DodgeStamina = 30;

@@ -112,8 +112,8 @@ Script_C void S7_PrintServerData NET () {
     Log ("ServerData = {\n \
     debugMode = %s; \
     mjumpZMul = %kk;\n \
-    mapCount = %d;\n};",
-    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.mjumpZMul, ServerData.mapCount);
+    };",
+    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.mjumpZMul);
 }
 Script_C void S7_PrintMapData NET () {
     if (!CheckCheats () || !PlayerInGame (PLN))
@@ -122,8 +122,6 @@ Script_C void S7_PrintMapData NET () {
     Log ("MapData = {\n \
     name = \"%S\";\n \
     author = \"%S\";\n \
-    mapEvent = %d;\n \
-    meSecLoopDelay = %d;\n \
-    mapEventSet = %S;\n};",
-    MapData.name, MapData.author, MapData.mapEvent, MapData.meSecLoopDelay, MapData.mapEventSet ? s"TRUE" : s"FALSE");
+    };",
+    MapData.name, MapData.author);
 }

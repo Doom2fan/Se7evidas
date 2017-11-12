@@ -194,7 +194,7 @@ void ShowPop (PlayerData_t *player, SP_Data_t *data) {
 const string SO_StaticImage [] = { s"MATWSTT1", s"MATWSTT2", s"MATWSTT3", s"MATWSTT4", };
 void ScreenOverlays (PlayerData_t *player) {
     // Static
-    if (MapData.mapEvent == MEVNT_PerfectHatred) {
+    /*if (MapData.mapEvent == MEVNT_PerfectHatred) {
         int   staticImage;
         accum staticAlpha = 0.025k;
         staticImage = player->scriptData.prevStaticImage;
@@ -208,7 +208,7 @@ void ScreenOverlays (PlayerData_t *player) {
         HudMessage (HUDMSG_PLAIN | HUDMSG_LAYER_UNDERHUD | HUDMSG_ALPHA | HUDMSG_FADEOUT, SOVERBASEID + 1, CR_UNTRANSLATED, -106.1k, 0.1k, 0.5k, 0.5k, staticAlpha, 0.0k, "A");
         SetHudSize (0,   0,   FALSE);
         player->scriptData.prevStaticImage = staticImage;
-    }
+    }*/
 
     // EYES overlay
     /*vec3_k playerPos;

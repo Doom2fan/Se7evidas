@@ -37,10 +37,6 @@ Script_C void S7_ServersideOpen OPEN () {
         Log_Str (s"\CgSe7evidas: Debug mode is active (S7_DebugMode)");
 
     SetAirControl (0.1k);
-    SetupMapEvents ();
-    if (MapData.mapEvent > 0)
-        Log ("%d", MapData.mapEvent);
-
     if (MapData.name == NULL) {
         MapData.name = StrParam ("%tS", PRINTNAME_LEVELNAME);
         MapData.author = s"";
@@ -48,28 +44,10 @@ Script_C void S7_ServersideOpen OPEN () {
 
     while (TRUE) {
         UpdateServerData (); // Update server data
-        UpdateMapData    (); // Update map data
 
         Delay (1);
     }
 }
-
-Script_C void S7_ServersideUnloading UNLOADING () {
-    ServerData.mapCount++;
-
-    if (ServerData.mapCount > 0 && Random (0, 255) < 32) {
-        for (int i = 0; i < 50; i++)
-            ServerData.queuedMapEvent = Random (i > 25 ? MEVNT_None : MEVNT_None + 1, MEVNT_LastToken - 1);
-    } else
-        ServerData.queuedMapEvent = MEVNT_None;
-
-    for (int i = 0; i < MAX_PLAYERS; i++) {
-        PlayerData_t *player = &PlayerData [i];
-        if (player)
-            ResetStuff (player);
-    }
-}
-
 Script_C void S7_ShowMapInfo () {
     SetHudSize (640, 480, FALSE);
     Delay (20);
@@ -148,7 +126,7 @@ Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
 }
 
 Script_C void S7_MapStart ENTER () {
-    if (!MapData.mapEventSet)
+    /*if (!MapData.mapEventSet)
         while (!MapData.mapEventSet)
             Delay (1);
 
@@ -177,7 +155,7 @@ Script_C void S7_MapStart ENTER () {
 
         default:
         break;
-    }
+    }*/
 }
 
 void ResetStuff (PlayerData_t *player) {
@@ -225,4 +203,19 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
     }
 
     DisconnectPlayer (player);
+}
+
+enum S7_ACSHelper_Funcs {
+    S7_ACS_ChangeSky = 0,
+};
+
+Script_C void S7_ACSHelper (int whatToDo, int arg) {
+    switch (whatToDo) {
+        case S7_ACS_ChangeSky:
+            if (arg == 0)
+                ChangeSky (s"NEBSKY", s"");
+            else if (arg == 1)
+                ChangeSky (s"ATWSKY", s"");
+        break;
+    }
 }

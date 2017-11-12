@@ -3,6 +3,115 @@
 // Player event handler
 //
 //-------------------------------------------------------------------------------------------
+class S7_ServerEventHandler : EventHandler {
+    override void WorldLoaded (WorldEvent e) {
+        let serverData = S7_ServerData.Get ();
+        let mapData = S7_MapData.Get ();
+
+        SetupMapEvents (serverData, mapData);
+
+        if (mapData.mapEvent > 0)
+            Console.PrintF ("%d", mapData.mapEvent);
+    }
+
+    void SetAllLight (int lightLevel, bool removeEffects) {
+        if (removeEffects) {
+            ThinkerIterator it = ThinkerIterator.Create ("Lighting");
+            Lighting effect;
+
+            while (effect = Lighting (it.Next ()))
+                effect.Destroy ();
+        }
+
+        for (int i = 0; i < level.Sectors.Size(); i++) {
+            Sector s = level.Sectors[i];
+            s.SetLightLevel (lightLevel);
+        }
+    }
+
+    void SetupMapEvents (S7_ServerData serverData, S7_MapData mapData) {
+        if (mapData.mapEventSet) // Don't set map events up twice.
+            return;
+
+        serverData.queuedMapEvent = S7_DebugOpts;//MEVNT_PowerOutage;
+        mapData.mapEvent = serverData.queuedMapEvent;
+        serverData.queuedMapEvent = MEVNT_None;
+
+        do {
+            mapData.mapEventSet = true;
+
+            switch (mapData.mapEvent) {
+                case MEVNT_PowerOutage:
+                    ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 0); // Change the sky
+
+                    SetAllLight (64, true);
+                break;
+
+                case MEVNT_PerfectHatred:
+                    ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 1);
+                    S_ChangeMusic ("", force: true); // Remove the music
+
+                    SetAllLight (2, true);
+                break;
+
+                case MEVNT_GhostTown: {
+                    S_ChangeMusic ("", force: true); // Remove the music
+                    let spot = Actor.Spawn ("MapSpot", (0.0, 0.0, 0.0)); // Spawn a mapspot
+                    spot.A_PlaySound ("MapEvents/GhostTown/Wind", CHAN_Body | CHAN_ListenerZ | CHAN_NoPause, 1.0, true, ATTN_None); // Play a wind sound on it
+                }
+                break;
+
+                default:
+                    MapData.mapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
+                    mapData.mapEventSet = false; // Set it back to false. This will make it loop.
+                break;
+            }
+        } while (!mapData.mapEventSet);
+    }
+
+    override void WorldUnloaded (WorldEvent e) {
+        let serverData = S7_ServerData.Get ();
+
+        serverData.mapCount++;
+
+        if (serverData.mapCount > 0 && random [S7_MapEvents] (0, 255) < 32)
+            serverData.queuedMapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
+        else
+            serverData.queuedMapEvent = MEVNT_None;
+    }
+
+    override void WorldTick () {
+        let mapData = S7_MapData.Get ();
+
+        TickMapEvents (mapData);   
+    }
+
+    void TickMapEvents (S7_MapData mapData) {
+        switch (MapData.mapEvent) {
+            case MEVNT_PowerOutage:
+                ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 0); // Change the sky
+                SetAllLight (64, ((level.time % 5) == 0));
+            break;
+
+            case MEVNT_PerfectHatred:
+                ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 1); // Change the sky
+                S_ChangeMusic ("", force: true); // Remove the music
+
+                SetAllLight (2, ((level.time % 5) == 0));
+            break;
+
+            case MEVNT_GhostTown:
+                S_ChangeMusic ("", force: true); // Remove the music
+            break;
+        }
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Player event handler
+//
+//-------------------------------------------------------------------------------------------
 class S7_PlayerEventHandler : EventHandler {
     static const String KeyBindsCCMDs [] = {
         "slot 1", "slot 2", "slot 3", "slot 4", "slot 5",

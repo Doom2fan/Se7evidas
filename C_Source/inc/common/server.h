@@ -45,19 +45,11 @@ typedef struct ServerData_t {
     // RPG system stuff
     int maxLevel;
     int avgLevel, highestLevel, lowestLevel;
-
-    // Misc map info
-    int mapCount;
-    int queuedMapEvent;
 } ServerData_t;
 
 typedef struct MapData_t {
     string name;
     string author;
-
-    int mapEvent;
-    int meSecLoopDelay;
-    bool mapEventSet;
 } MapData_t;
 
 // Struct declarations
@@ -65,9 +57,7 @@ extern ServerData_t ServerData;
 extern MapData_t map_var MapData;
 
 // Prototypes
-void SetupMapEvents   ();
 void UpdateServerData ();
-void UpdateMapData    ();
 Script_C void S7_SetMapInfo (string name, string author);
 
 #endif
