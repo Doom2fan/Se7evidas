@@ -20,10 +20,6 @@
 #include "includes.h"
 #include "gui/HUD.h"
 #include "gui/playerMenu.h"
-#include "systems/health.h"
-#include "systems/misc.h"
-#include "systems/monster_stuff.h"
-#include "systems/parkour.h"
 
 void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
@@ -92,10 +88,8 @@ Script_C void S7_ServersideEnter ENTER () {
             return;
 
         UpdatePlayerData (player); // Update the player's data
-        WallHoldScript           (player);
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
         ShopSystem_Script     (player); // Run the shop system
-        SpeedScript           (player);
         PlayerMenuScript      (player);
 
         UpdatePlayerAlpha  (player); // Update the alpha
