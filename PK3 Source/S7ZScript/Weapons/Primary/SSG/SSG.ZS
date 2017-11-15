@@ -57,9 +57,9 @@ class S7_SSG : S7_BaseWeapon {
                 return ResolveState ("QuickMelee");
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
 
-            bool attack = (!(player.cmd.buttons & BT_ATTACK) && (player.oldbuttons & BT_ATTACK)), altAttack = (!(player.cmd.buttons & BT_ALTATTACK) && (player.oldbuttons & BT_ALTATTACK));
+            bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK)), altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
             if (attack && altAttack)
-                return ResolveState ("Fire.Both2");
+                return ResolveState ("Fire.Both");
             if (attack)
                 return ResolveState ("Fire.Left");
             if (altAttack)
@@ -77,9 +77,8 @@ class S7_SSG : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire.Left:
-        SSG0 A 1;
         SSG5 A 1 {
-            if (!(player.cmd.buttons & BT_ALTATTACK) && (player.oldbuttons & BT_ALTATTACK))
+            if ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK))
                 return ResolveState ("Fire.Both");
 
             if (!invoker.leftLoaded)
@@ -102,9 +101,8 @@ class S7_SSG : S7_BaseWeapon {
         SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate);
         goto Ready2;
     Fire.Right:
-        SSG0 A 1;
         SSG5 A 1 {
-            if (!(player.cmd.buttons & BT_ATTACK) && (player.oldbuttons & BT_ATTACK))
+            if ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK))
                 return ResolveState ("Fire.Both");
 
             if (!invoker.rightLoaded)
@@ -127,8 +125,6 @@ class S7_SSG : S7_BaseWeapon {
         SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate);
         goto Ready2;
 
-    Fire.Both2:
-        SSG0 A 1;
     Fire.Both:
         SSG5 A 1 {
             if (!invoker.leftLoaded && !invoker.rightLoaded)
