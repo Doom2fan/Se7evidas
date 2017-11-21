@@ -9,7 +9,7 @@ class S7_RedTorchFire : S7_FireBase {
 
     states {
     Spawn:
-        FIR1 ABCDEFHIJKL 1;
+        FIR1 ABCDEFHIJKL 1 bright;
         stop;
     Nope:
         TNT1 A 0;
@@ -53,7 +53,7 @@ class S7_GreenTorchFire : S7_RedTorchFire {
     states {
     Spawn:
         TNT1 A 0 noDelay A_CheckSight ("Nope");
-        FIR2 ABCDEFHIJKL 1;
+        FIR2 ABCDEFHIJKL 1 bright;
         stop;
     }
 }
@@ -70,7 +70,7 @@ class S7_BlueTorchFire : S7_RedTorchFire {
     states {
     Spawn:
         TNT1 A 0 noDelay A_CheckSight ("Nope");
-        FIR3 ABCDEFHIJKL 1;
+        FIR3 ABCDEFHIJKL 1 bright;
         stop;
     }
 }
