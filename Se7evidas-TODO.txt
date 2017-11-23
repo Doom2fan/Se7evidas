@@ -9,6 +9,7 @@ This shit HAS to be done before any official stable release:
     + Fucking monsters (Maybe literally too...)
     Storage system
     + Grenades
+    Revamp the Soul Lance. As much as I hate hitscans, beam grabbing would work way better if the Soul Lance used hitscans or something.
 
 Would be nice:
     Heretic support (Maybe Hexen too?)
