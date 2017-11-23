@@ -14,6 +14,6 @@ This shit HAS to be done before any official stable release:
 Would be nice:
     Heretic support (Maybe Hexen too?)
     Chex Quest support
-    + Player customizable weapon slots
+    X Player customizable weapon slots (Turned into core gameplay feature)
     Achievement system
     In-game copy of the Survival Guide
