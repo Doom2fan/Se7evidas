@@ -166,6 +166,10 @@ class S7_PlayerEventHandler : EventHandler {
 
     void WeapBindsSystem (ConsoleEvent e) {
         PlayerInfo player = players [e.Player];
+
+        if (!player) // Return if the player is null
+            return;
+
         let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ("S7_WeapBindsSystem"));
 
         if (!weapBinds) // Return if weapBinds is null
@@ -209,30 +213,38 @@ class S7_PlayerEventHandler : EventHandler {
                 weapBinds.SlotMaximum [i] = 3;
 
             // Medium
-            player.mo.GiveInventory ("S7_AK47", 1);
-            player.mo.GiveInventory ("S7_Fauchard", 1);
-            player.mo.GiveInventory ("S7_SSG", 1);
-            weapBinds.Binds [1].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_AK47")));
-            weapBinds.Binds [1].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_Fauchard")));
-            weapBinds.Binds [1].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_SSG")));
+            WeapBindsSystem_Derp (player, 1, "S7_AK47");
+            WeapBindsSystem_Derp (player, 1, "S7_Fauchard");
+            WeapBindsSystem_Derp (player, 1, "S7_SSG");
             // Light
-            player.mo.GiveInventory ("S7_Revolver", 1);
-            player.mo.GiveInventory ("S7_HitterSMG", 1);
-            player.mo.GiveInventory ("S7_LaserPewPew", 1);
             weapBinds.Binds [2].Clear ();
-            weapBinds.Binds [2].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_Revolver")));
-            weapBinds.Binds [2].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_HitterSMG")));
+            WeapBindsSystem_Derp (player, 2, "S7_Revolver");
+            WeapBindsSystem_Derp (player, 2, "S7_HitterSMG");
+            WeapBindsSystem_Derp (player, 2, "S7_LaserPewPew");
             // Heavy
-            player.mo.GiveInventory ("S7_ConquerorRifle", 1);
-            player.mo.GiveInventory ("S7_Thumper", 1);
-            weapBinds.Binds [3].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_ConquerorRifle")));
-            weapBinds.Binds [3].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_Thumper")));
+            WeapBindsSystem_Derp (player, 3, "S7_ConquerorRifle");
+            WeapBindsSystem_Derp (player, 3, "S7_Thumper");
             // Area-damage
-            player.mo.GiveInventory ("S7_PrettyShootyIonCannonGun", 1);
-            weapBinds.Binds [4].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_PrettyShootyIonCannonGun")));
+            WeapBindsSystem_Derp (player, 4, "S7_PrettyShootyIonCannonGun");
             // Special
-            player.mo.GiveInventory ("S7_GrenadeWeap", 1);
-            weapBinds.Binds [5].Push (S7_BaseWeapon (player.mo.FindInventory ("S7_GrenadeWeap")));
+            WeapBindsSystem_Derp (player, 5, "S7_GrenadeWeap");
+            WeapBindsSystem_Derp (player, 5, "S7_SoulLance");
         }
+    }
+    void WeapBindsSystem_Derp (PlayerInfo player, int slot, string weapon) {
+        if (!player) return;
+        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ("S7_WeapBindsSystem"));
+        if (!weapBinds) return;
+        let weapInv = S7_BaseWeapon (player.mo.FindInventory (weapon));
+
+        if (!weapInv || weapInv.Amount <= 0) {
+            if (!player.mo.GiveInventory (weapon, 1))
+                return;
+
+            weapInv = S7_BaseWeapon (player.mo.FindInventory (weapon));
+        }
+
+        if (weapBinds.Binds [slot].Find (weapInv) == weapBinds.Binds [slot].Size ())
+            weapBinds.Binds [slot].Push (weapInv);
     }
 }
