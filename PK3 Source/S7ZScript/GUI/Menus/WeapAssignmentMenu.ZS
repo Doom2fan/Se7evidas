@@ -1,5 +1,5 @@
 class S7_WeapAssignMenuHandler : S7_ZF_Handler {
-    S7_WeapAssignMenu menu;
+    S7_WeapAssignMenu link;
 
     override void buttonCommand (string command) {
     }
@@ -26,7 +26,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         CPlayer = players [consolePlayer];
 
         handler = new ("S7_WeapAssignMenuHandler");
-        handler.menu = self;
+        handler.link = self;
 
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('SmallFont');
