@@ -1,223 +1,156 @@
-class S7_XPSystemMenu : GenericMenu {
-    S7_XPSystemMenuElement e;
+class S7_XPSystemMenuHandler : S7_ZF_Handler {
+    S7_XPSystemMenu link;
 
-    override void Init (Menu parent) {
-        Super.Init (parent);
-        dontDim = true;
-        e = S7_XPSystemMenuElement (new ('S7_XPSystemMenuElement').Init ());
-        e.CPlayer = players [consoleplayer];
-    }
-
-    override void Ticker () {
-        super.Ticker ();
-        if (e) e.OnTick();
-    }
-
-    override void Drawer () {
-        if (e) e.OnDraw ();
-    }
-
-    override bool OnUIEvent (UIEvent ev) {
-        if (e) return e.OnProcessUi (ev);
-        return false;
-    }
-
-    override bool OnInputEvent (InputEvent ev) {
-        if (e) return e.OnProcessInput (ev);
-        return false;
-    }
-
-    override bool MenuEvent (int mkey, bool fromcontroller) {
-        if (e && e.MenuEvent (mkey, fromcontroller))
-            return true;
-        return Menu.MenuEvent (mkey, fromcontroller);
-    }
-}
-
-class S7_XPSystemMenuElement : S7_BaseMenu {
-    Font SmallFont;
-
-    PlayerInfo CPlayer;
-    int strengthAdd, agilityAdd, vitalityAdd, defenseAdd, willAdd, magicAdd, techAdd;
-
-    // Labels
-    S7_Menu_Label lStrength; S7_Menu_Label lStrengthBase; S7_Menu_Label lStrengthAdded;
-    S7_Menu_Label lAgility;  S7_Menu_Label lAgilityBase;  S7_Menu_Label lAgilityAdded;
-    S7_Menu_Label lVitality; S7_Menu_Label lVitalityBase; S7_Menu_Label lVitalityAdded;
-    S7_Menu_Label lDefense;  S7_Menu_Label lDefenseBase;  S7_Menu_Label lDefenseAdded;
-    S7_Menu_Label lWill;     S7_Menu_Label lWillBase;     S7_Menu_Label lWillAdded;
-    S7_Menu_Label lMagic;    S7_Menu_Label lMagicBase;    S7_Menu_Label lMagicAdded;
-    S7_Menu_Label lTech;     S7_Menu_Label lTechBase;     S7_Menu_Label lTechAdded;
-    // Buttons
-    S7_Menu_Button bStrengthAdd; S7_Menu_Button bStrengthSub;
-    S7_Menu_Button bAgilityAdd;  S7_Menu_Button bAgilitySub;
-    S7_Menu_Button bVitalityAdd; S7_Menu_Button bVitalitySub;
-    S7_Menu_Button bDefenseAdd;  S7_Menu_Button bDefenseSub;
-    S7_Menu_Button bWillAdd;     S7_Menu_Button bWillSub;
-    S7_Menu_Button bMagicAdd;    S7_Menu_Button bMagicSub;
-    S7_Menu_Button bTechAdd;     S7_Menu_Button bTechSub;
-    S7_Menu_Button bReset;
-    S7_Menu_Button bAccept;
-
-    private int selectedButton;
-    private Array<S7_Menu_Button> mButtons;
-    private S7_Menu_Label AddLabel (string text, Vector2 coords) {
-        S7_Menu_Label label = new ('S7_Menu_Label');
-        label.Init ();
-        AddChild (label);
-        label.mRect = Rect.FromXYWH (coords.x, coords.y, SmallFont.StringWidth (text), SmallFont.GetHeight ());
-        label.Text = text;
-
-        return label;
-    }
-    private S7_Menu_Button AddButton (string text, Vector2 coords) {
-        S7_Menu_Button button = new ('S7_Menu_Button');
-        button.Init ();
-        AddChild (button);
-        button.mRect = Rect.FromXYWH (coords.x, coords.y, SmallFont.StringWidth (text), SmallFont.GetHeight ());
-        button.Text = text;
-        mButtons.Push (button);
-
-        return button;
-    }
-
-    override void OnCreate () {
-        mRect = Rect.FromXYWH (0, 0, Screen.GetWidth (), Screen.GetHeight ());
-        mScale = max (1.0, Screen.GetWidth () / 800.0);
-
-        selectedButton = 0;
-        SmallFont = Font.GetFont ('SmallFont');
-
-        // Labels
-        lStrength = AddLabel ("Strength:", (140,  80)); lStrengthBase = AddLabel ("0", (220,  80)); lStrengthAdded = AddLabel ("+0", (250,  80));
-        lAgility  = AddLabel ("Agility:",  (140,  90)); lAgilityBase  = AddLabel ("0", (220,  90)); lAgilityAdded  = AddLabel ("+0", (250,  90));
-        lVitality = AddLabel ("Vitality:", (140, 100)); lVitalityBase = AddLabel ("0", (220, 100)); lVitalityAdded = AddLabel ("+0", (250, 100));
-        lDefense  = AddLabel ("Defense:",  (140, 110)); lDefenseBase  = AddLabel ("0", (220, 110)); lDefenseAdded  = AddLabel ("+0", (250, 110));
-        lWill     = AddLabel ("Will:",     (140, 120)); lWillBase     = AddLabel ("0", (220, 120)); lWillAdded     = AddLabel ("+0", (250, 120));
-        lMagic    = AddLabel ("Magic:",    (140, 130)); lMagicBase    = AddLabel ("0", (220, 130)); lMagicAdded    = AddLabel ("+0", (250, 130));
-        lTech     = AddLabel ("Tech:",     (140, 140)); lTechBase     = AddLabel ("0", (220, 140)); lTechAdded     = AddLabel ("+0", (250, 140));
-        // Buttons
-        bStrengthAdd = AddButton ("+", (280,  80)); bStrengthSub = AddButton ("-", (285,  80));
-        bAgilityAdd  = AddButton ("+", (280,  90)); bAgilitySub  = AddButton ("-", (285,  90));
-        bVitalityAdd = AddButton ("+", (280, 100)); bVitalitySub = AddButton ("-", (285, 100));
-        bDefenseAdd  = AddButton ("+", (280, 110)); bDefenseSub  = AddButton ("-", (285, 110));
-        bWillAdd     = AddButton ("+", (280, 120)); bWillSub     = AddButton ("-", (285, 120));
-        bMagicAdd    = AddButton ("+", (280, 130)); bMagicSub    = AddButton ("-", (285, 130));
-        bTechAdd     = AddButton ("+", (280, 140)); bTechSub     = AddButton ("-", (285, 140));
-        bAccept = AddButton ("Back", (150, 160));
-        bReset = AddButton ("Reset", (220, 160));
-    }
-
-    override void Draw () {
-        Rect r = GetClientRect ();
-        Drawer d = GetDrawer ();
-
-        d.Dim (0x000000, 0.5, 0, 0, r.Width, r.Height);
-    }
-
-    void SetStatLabel (out S7_Menu_Label label, string text, int fontHeight) {
-        label.Text = text;
-        label.mRect.Width = SmallFont.StringWidth (text);
-        label.mRect.Height = fontHeight;
-    }
-    override void Tick () {
-        if (!CPlayer || !CPlayer.mo)
-            return;
-
-        int fontHeight = SmallFont.GetHeight ();
-        int totalStatsAdded = strengthAdd + agilityAdd + vitalityAdd + defenseAdd + willAdd + magicAdd + techAdd;
-        let xpSys = S7_XPSystemWorker (CPlayer.mo.FindInventory ("S7_XPSystemWorker"));
-
-        bReset.IsEnabled = !(totalStatsAdded < 1);
-        bAccept.Text = ((totalStatsAdded < 1) ? "Back" : "Confirm");
-        bAccept.mRect = Rect.FromXYWH (bAccept.mRect.x, bAccept.mRect.y, SmallFont.StringWidth (bAccept.Text), fontHeight);
-
-        SetStatLabel (lStrengthBase, String.Format ("%d", xpSys.strengthStat), fontHeight); SetStatLabel (lStrengthAdded, String.Format ("+%d", strengthAdd), fontHeight);
-        SetStatLabel (lAgilityBase,  String.Format ("%d", xpSys.agilityStat),  fontHeight); SetStatLabel (lAgilityAdded,  String.Format ("+%d", agilityAdd),  fontHeight);
-        SetStatLabel (lVitalityBase, String.Format ("%d", xpSys.vitalityStat), fontHeight); SetStatLabel (lVitalityAdded, String.Format ("+%d", vitalityAdd), fontHeight);
-        SetStatLabel (lDefenseBase,  String.Format ("%d", xpSys.defenseStat),  fontHeight); SetStatLabel (lDefenseAdded,  String.Format ("+%d", defenseAdd),  fontHeight);
-        SetStatLabel (lWillBase,     String.Format ("%d", xpSys.willStat),     fontHeight); SetStatLabel (lWillAdded,     String.Format ("+%d", willAdd),     fontHeight);
-        SetStatLabel (lMagicBase,    String.Format ("%d", xpSys.magicStat),    fontHeight); SetStatLabel (lMagicAdded,    String.Format ("+%d", magicAdd),    fontHeight);
-        SetStatLabel (lTechBase,     String.Format ("%d", xpSys.techStat),     fontHeight); SetStatLabel (lTechAdded,     String.Format ("+%d", techAdd),     fontHeight);
-
-        if (bStrengthAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) strengthAdd++;
-        else if (bStrengthSub.CheckClicked () && strengthAdd > 0) strengthAdd--;
-
-        if (bAgilityAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) agilityAdd++;
-        else if (bAgilitySub.CheckClicked () && agilityAdd > 0) agilityAdd--;
-
-        if (bVitalityAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) vitalityAdd++;
-        else if (bVitalitySub.CheckClicked () && vitalityAdd > 0) vitalityAdd--;
-
-        if (bDefenseAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) defenseAdd++;
-        else if (bDefenseSub.CheckClicked () && defenseAdd > 0) defenseAdd--;
-
-        if (bWillAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) willAdd++;
-        else if (bWillSub.CheckClicked () && willAdd > 0) willAdd--;
-
-        if (bMagicAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) magicAdd++;
-        else if (bMagicSub.CheckClicked () && magicAdd > 0) magicAdd--;
-
-        if (bTechAdd.CheckClicked () && totalStatsAdded < xpSys.attrPoints) techAdd++;
-        else if (bTechSub.CheckClicked () && techAdd > 0) techAdd--;
-
-
-        if (bReset.CheckClicked ())
-            strengthAdd = agilityAdd = vitalityAdd = defenseAdd = willAdd = magicAdd = techAdd = 0;
-        if (bAccept.CheckClicked ()) {
-            if (totalStatsAdded > 0) {
-                if (totalStatsAdded <= xpSys.attrPoints) {
-                    EventHandler.SendNetworkEvent (String.Format ("S7_XPSysMenuConfirm:%d,%d,%d,%d,%d,%d,%d", strengthAdd, agilityAdd, vitalityAdd, defenseAdd, willAdd, magicAdd, techAdd));
-                    strengthAdd = agilityAdd = vitalityAdd = defenseAdd = willAdd = magicAdd = techAdd = 0;
-                }
-            } else
-                Menu.GetCurrentMenu().Close();
-        }
-    }
-
-    override void SetFocus (Element control) {
-        if (control == null) { // Probably just a very small increase in performance, but whatever
-            selectedButton = 0;
-            for (int i = 0; i < mButtons.Size (); i++)
-                mButtons [i].IsFocused = false;
+    override void buttonCommand (string command) {
+        if (command.IndexOf (":") < 0) {
+            if (command == "AcceptButton")
+                AcceptStats ();
+            else if (command == "ResetButton")
+                ResetStatAdds ();
         } else {
-            for (int i = 0; i < mButtons.Size (); i++) {
-                bool theButton = (mButtons [i] == control);
-                mButtons [i].IsFocused = theButton;
-                if (theButton)
-                    selectedButton = i;
+            Array<String> commandStrings;
+            command.Split (commandStrings, ":");
+            
+            if (commandStrings.Size () == 2) {
+                if (commandStrings [0] == "StatAdd")
+                    GiveStat (commandStrings [1], false);
+                else if (commandStrings [0] == "StatDec")
+                    GiveStat (commandStrings [1], true);
             }
         }
     }
 
-    bool MenuEvent (int mkey, bool fromcontroller) {
-        switch (mkey) {
-            case Menu.MKEY_Up:
-                if (selectedButton > 0) {
-                    do {
-                        selectedButton--;
-                    } while (selectedButton > 0 && !mButtons [selectedButton].IsEnabled);
-                }
+    void ResetStatAdds () {
+        link.strengthAdd = link.agilityAdd = link.vitalityAdd = link.defenseAdd = link.willAdd = link.magicAdd = link.techAdd = 0;
+    }
 
-                SetFocus (mButtons [selectedButton]);
-                return true;
+    void AcceptStats () {
+        int statsTotal = link.strengthAdd + link.agilityAdd + link.vitalityAdd + link.defenseAdd + link.willAdd + link.magicAdd + link.techAdd;
+        if (statsTotal > 0) {
+            string xpData = String.Format ("S7_XPSysMenuConfirm:%d,%d,%d,%d,%d,%d,%d", link.strengthAdd, link.agilityAdd, link.vitalityAdd, link.defenseAdd, link.willAdd, link.magicAdd, link.techAdd);
+            EventHandler.SendNetworkEvent (xpData);
+            ResetStatAdds ();
+        } else
+            link.Close ();
+    }
 
-            case Menu.MKEY_Down:
-                if (selectedButton < mButtons.Size () - 1) {
-                    do {
-                        selectedButton++;
-                    } while (selectedButton < mButtons.Size () && !mButtons [selectedButton].IsEnabled);
-                }
+    void GiveStat (string stat, bool take) {
+        if (!link.CPlayer || !link.CPlayer.mo)
+            return;
 
-                SetFocus (mButtons [selectedButton]);
-                return true;
+        let xpSys = S7_XPSystemWorker (link.CPlayer.mo.FindInventory ("S7_XPSystemWorker"));
+        int amount = take ? -1 : 1;
 
-            case Menu.MKEY_Enter:
-                mButtons [selectedButton].Click ();
-                return true;
+        if (!xpSys)
+            return;
+
+        if (!take) {
+            int statsTotal = link.strengthAdd + link.agilityAdd + link.vitalityAdd + link.defenseAdd + link.willAdd + link.magicAdd + link.techAdd;
+            if (statsTotal >= xpSys.attrPoints)
+                return;
         }
 
-        return false;
+        if (stat == "Strength" && (!take || link.strengthAdd > 0))
+            link.strengthAdd += amount;
+        if (stat == "Agility" && (!take || link.agilityAdd > 0))
+            link.agilityAdd += amount;
+        if (stat == "Vitality" && (!take || link.vitalityAdd > 0))
+            link.vitalityAdd += amount;
+        if (stat == "Defense" && (!take || link.defenseAdd > 0))
+            link.defenseAdd += amount;
+        if (stat == "Will" && (!take || link.willAdd > 0))
+            link.willAdd += amount;
+        if (stat == "Magic" && (!take || link.magicAdd > 0))
+            link.magicAdd += amount;
+        if (stat == "Tech" && (!take || link.techAdd > 0))
+            link.techAdd += amount;
+    }
+}
+ 
+class S7_XPSystemMenu : S7_ZF_GenericMenu {
+    S7_XPSystemMenuHandler handler;
+
+    PlayerInfo CPlayer;
+    int strengthAdd, agilityAdd, vitalityAdd, defenseAdd, willAdd, magicAdd, techAdd;
+
+    Font bigFont;
+    Font smallFont;
+    S7_ZF_Frame statsFrame;
+    S7_ZF_Label statLabels [7];
+    S7_ZF_Label statBaseLabels [7];
+    S7_ZF_Label statAddLabels [7];
+    S7_ZF_Button statButtons [2] [7];
+    S7_ZF_Button resetButton, acceptButton;
+    static const String statNames [] = {
+        "Strength", "Agility", "Vitality", "Defense", "Will", "Magic", "Tech"
+    };
+    override void Init (Menu parent) {
+        Super.Init (parent);
+        SetBaseResolution ((640, 480));
+
+        CPlayer = players [consolePlayer];
+
+        handler = new ("S7_XPSystemMenuHandler");
+        handler.link = self;
+
+        bigFont = Font.GetFont ('BigFont');
+        smallFont = Font.GetFont ('SmallFont');
+
+        statsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 240));
+        statsFrame.Pack (mainFrame);
+
+        for (int i = 0; i < 7; i++) {
+            double yCoords = 80 + (13 * i);
+            string statName = statNames [i];
+
+            statLabels [i] = new ("S7_ZF_Label").Init ((140, yCoords + 1), (0, SmallFont.GetHeight ()), String.Format ("%s:", statName), smallFont, false, true, 1, Font.CR_WHITE);
+            statLabels [i].Pack (statsFrame);
+            statBaseLabels [i] = new ("S7_ZF_Label").Init ((220, yCoords + 1), (0, SmallFont.GetHeight ()), "0", smallFont, false, true, 1, Font.CR_WHITE);
+            statBaseLabels [i].Pack (statsFrame);
+            statAddLabels [i] = new ("S7_ZF_Label").Init ((250, yCoords + 1), (0, SmallFont.GetHeight ()), "+0", smallFont, false, true, 1, Font.CR_WHITE);
+            statAddLabels [i].Pack (statsFrame);
+
+            statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", handler, String.Format ("StatAdd:%s", statName), null, null, null);
+            statButtons [i] [0].SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png");
+            statButtons [i] [0].Pack (statsFrame);
+            statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", handler, String.Format ("StatDec:%s", statName), null, null, null);
+            statButtons [i] [1].SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png");
+            statButtons [i] [1].Pack (statsFrame);
+        }
+        acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", handler, "AcceptButton", null, null, null);
+        acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton2.png", "graphics/Menu/XPSys/StatButton2Hover.png", "graphics/Menu/XPSys/StatButton2Pressed.png");
+        acceptButton.Pack (statsFrame);
+        resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", handler, "ResetButton", null, null, null);
+        resetButton.SetTexture ("graphics/Menu/XPSys/StatButton2.png", "graphics/Menu/XPSys/StatButton2Hover.png", "graphics/Menu/XPSys/StatButton2Pressed.png");
+        resetButton.Pack (statsFrame);
+
+        //dontDim = true;
+    }
+
+    override void Ticker () {
+        super.Ticker ();
+
+        if (!CPlayer || !CPlayer.mo)
+            return;
+
+        let xpSys = S7_XPSystemWorker (CPlayer.mo.FindInventory ("S7_XPSystemWorker"));
+
+        if (!xpSys)
+            return;
+
+        int statsTotal = strengthAdd + agilityAdd + vitalityAdd + defenseAdd + willAdd + magicAdd + techAdd;
+        if (statsTotal > 0)
+            acceptButton.text = "Accept";
+        else
+            acceptButton.text = "Back";
+
+        statBaseLabels [0].text = String.Format ("%d", xpSys.strengthStat); statAddLabels [0].text = String.Format ("+%d", strengthAdd);
+        statBaseLabels [1].text = String.Format ("%d", xpSys.agilityStat);  statAddLabels [1].text = String.Format ("+%d", agilityAdd);
+        statBaseLabels [2].text = String.Format ("%d", xpSys.vitalityStat); statAddLabels [2].text = String.Format ("+%d", vitalityAdd);
+        statBaseLabels [3].text = String.Format ("%d", xpSys.defenseStat);  statAddLabels [3].text = String.Format ("+%d", defenseAdd);
+        statBaseLabels [4].text = String.Format ("%d", xpSys.willStat);     statAddLabels [4].text = String.Format ("+%d", willAdd);
+        statBaseLabels [5].text = String.Format ("%d", xpSys.magicStat);    statAddLabels [5].text = String.Format ("+%d", magicAdd);
+        statBaseLabels [6].text = String.Format ("%d", xpSys.techStat);     statAddLabels [6].text = String.Format ("+%d", techAdd);
     }
 }
 
