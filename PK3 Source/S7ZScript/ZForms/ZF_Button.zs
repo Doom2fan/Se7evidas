@@ -20,6 +20,7 @@ class S7_ZF_Button : S7_ZF_Element {
 	int buttonState;
 	
 	Vector2 mousePos;
+	bool isFocused;
 
 	void setTexture(string inactive, string hover, string click) {
 		self.btnTextures[B_INACTIVE] = inactive;
@@ -94,13 +95,22 @@ class S7_ZF_Button : S7_ZF_Element {
 		// if the player's mouse has moved, update the tracked position and do a quick hover check
 		else if (ev.type == UIEvent.Type_MouseMove) {
 			mousePos = (ev.mouseX, ev.mouseY);
+			bool hover = box.pointCollides(master.screenToRel(mousePos));
 			if (buttonState != B_CLICK) {
-				if (box.pointCollides(master.screenToRel(mousePos))) {
+				if (hover) {
 					buttonState = B_HOVER;
 				}
 				else {
 					buttonState = B_INACTIVE;
 				}
+			}
+			if (hover && !isFocused) {
+				handler.buttonFocusChanged(command, false);
+				isFocused = true;
+			}
+			else if (!hover && isFocused) {
+				handler.buttonFocusChanged(command, true);
+				isFocused = false;
 			}
 		}
 	}

@@ -33,7 +33,7 @@ class S7_ServerEventHandler : EventHandler {
         if (mapData.mapEventSet) // Don't set map events up twice.
             return;
 
-        serverData.queuedMapEvent = S7_DebugOpts;//MEVNT_PowerOutage;
+        //serverData.queuedMapEvent = S7_DebugOpts;//MEVNT_PowerOutage;
         mapData.mapEvent = serverData.queuedMapEvent;
         serverData.queuedMapEvent = MEVNT_None;
 
@@ -41,6 +41,8 @@ class S7_ServerEventHandler : EventHandler {
             mapData.mapEventSet = true;
 
             switch (mapData.mapEvent) {
+                case MEVNT_None: break;
+
                 case MEVNT_PowerOutage:
                     ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 0); // Change the sky
 

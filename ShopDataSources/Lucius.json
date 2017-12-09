@@ -1,0 +1,132 @@
+{
+    "intName": "mainShop",
+    "name": "$SS_MAINSHOP",
+    "mainPage": "mainPage",
+
+    "pages": [
+        {
+            "intName": "mainPage",
+            "name": "",
+
+            "items": [
+                {
+                    "id": [ "M", "P", "A", "M" ],
+                    "name": "$SS_AMMO",
+                    "desc": "$SS_AMMO_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/AmmoPage.png",
+                    "itemType": "pageLink",
+                    "link": "ammoPage",
+                    "global": false
+                },
+                {
+                    "id": [ "M", "P", "W", "P" ],
+                    "name": "$SS_WEAPONS",
+                    "desc": "$SS_WEAPONS_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/WeapsPage.png",
+                    "itemType": "pageLink",
+                    "link": "weaponsPage",
+                    "global": false
+                }
+            ]
+        },
+
+        {
+            "intName": "ammoPage",
+            "name": "$SS_AMMO",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "B", "L", "T" ],
+                    "name": "$SS_BULLETS",
+                    "desc": "$SS_BULLETS_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/BulletsPage.png",
+                    "itemType": "pageLink",
+                    "link": "cartridgesPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "B", "T", "R" ],
+                    "name": "$SS_BATTERIES",
+                    "desc": "$SS_BATTERIES_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/BattPage.png",
+                    "itemType": "pageLink",
+                    "link": "batteriesPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "T", "H", "G" ],
+                    "name": "$SS_THGRENADES",
+                    "desc": "$SS_THGRENADES_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/ThmpGrenPage.png",
+                    "itemType": "pageLink",
+                    "link": "thumperGrenadesPage",
+                    "global": false
+                }
+            ]
+        },
+
+        {
+            "intName": "cartridgesPage",
+            "name": "$SS_BULLETS",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "ammoPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "9", "M", "M" ],
+                    "name": "$9MM",
+                    "desc": "$SS_9MMDESC",
+                    "info": "$SS_9MMINFO",
+                    "icon": "graphics/Menu/Shop/Icons/9mmCartridges.png",
+                    "itemType": "buySellItem",
+                    "buyPrice": 240,
+                    "buyAmount": 30,
+                    "sellPrice": 120,
+                    "sellAmount": 30,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "batteriesPage",
+            "name": "$SS_BATTERIES",
+
+            "items": [
+            ]
+        },
+
+        {
+            "intName": "thumperGrenadesPage",
+            "name": "$SS_THGRENADES",
+
+            "items": [
+            ]
+        },
+
+        {
+            "intName": "weaponsPage",
+            "name": "$SS_WEAPONS",
+
+            "items": [
+            ]
+        }
+    ]
+}

@@ -21,7 +21,6 @@
 #include "gui/HUD.h"
 #include "gui/playerMenu.h"
 
-void ShopSystem_Script (PlayerData_t *player);
 void ResetStuff (PlayerData_t *player);
 
 Script_C void S7_ServersideOpen OPEN () {
@@ -89,7 +88,6 @@ Script_C void S7_ServersideEnter ENTER () {
 
         UpdatePlayerData (player); // Update the player's data
         UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
-        ShopSystem_Script     (player); // Run the shop system
         PlayerMenuScript      (player);
 
         UpdatePlayerAlpha  (player); // Update the alpha

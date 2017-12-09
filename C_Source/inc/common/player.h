@@ -25,12 +25,6 @@
 #include "systems/bank_system.h"
 #include "systems/monster_stuff.h"
 
-// Macros
-#define SS_ITEMSMAX \
-( \
- (ArraySize (player->shopDef.items)) \
-)
-
 // Typedefs
 // Player data
 typedef struct PD_Physics_t     PD_Physics_t;   // Physics
@@ -39,7 +33,6 @@ typedef struct PD_Health_t      PD_Health_t;    // Health
 typedef struct PD_Misc_t        PD_Misc_t;
 // Script Data
 typedef struct PD_ScriptData_t  PD_ScriptData_t;
-typedef struct ShopDef_t        ShopDef_t;
 typedef struct BankDef_t        BankDef_t;
 typedef struct ParkourDef_t     ParkourDef_t;
 typedef struct PlayerMenu_t     PlayerMenu_t;
@@ -92,20 +85,6 @@ struct ParkourDef_t {
     accum  wGrabOldGravity;               // The player's old gravity
 };
 
-typedef struct SS_Item_t SS_Item_t;
-typedef struct SS_Page_t SS_Page_t;
-typedef struct SS_Shop_t SS_Shop_t;
-struct ShopDef_t {
-    bool       open, disableOpen;
-    SS_Shop_t *shop;
-    SS_Page_t *page;
-    SS_Item_t *items [100];
-    int        itemsLength;
-    vec2_i     position;
-    int        moveDelay, moveSpeed;
-    bool       sellMode;
-};
-
 struct BankDef_t {
     unsigned long int cash;
     BS_Item_t itemStorage [500];
@@ -138,17 +117,11 @@ typedef struct PlayerData_t {
     // Script data
     PD_ScriptData_t scriptData;         // Misc script data
     ParkourDef_t    parkourDef;         // Dodging system stuff
-    ShopDef_t       shopDef;            // Shop system stuff
     BankDef_t       bankData;           // Bank system stuff
     PlayerMenu_t    playerMenu;         // Player menu info
 } PlayerData_t;
 
 // Prototypes
-void TakeCash       (PlayerData_t *player, int amount);
-void GiveCash       (PlayerData_t *player, int amount);
-void GiveCashNoBank (PlayerData_t *player, int amount);
-void SetCash        (PlayerData_t *player, int amount);
-
 void InitializePlayer  (PlayerData_t *player);
 void DisconnectPlayer  (PlayerData_t *player);
 void UpdatePlayerData  (PlayerData_t *player);

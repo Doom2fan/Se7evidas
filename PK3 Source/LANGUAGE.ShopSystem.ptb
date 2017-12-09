@@ -2,6 +2,7 @@
 SS_BUYMODE                      = "Comprar";
 SS_SELLMODE                     = "Vender";
 SS_BACK                         = "Voltar";
+SS_MAINSHOP                     = "Arsenal Lucius";
 // Page names
 SS_MAIN                         = "Loja";
 

@@ -4,6 +4,7 @@ CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
 MenuGUI_Compiler = Tools/playermenuCompiler/playermenucompiler
+ShopData_Compiler = Tools/shopDataCompiler/shopdatacompiler
 MKDIRCMD = gmkdir
 COM_FLAGS = --bc-target=ZDoom
 CC_FLAGS = $(COM_FLAGS) -DDEBUG
@@ -20,11 +21,30 @@ rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcard
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
 
 .PHONY: all
-all: MenuGUI $(OBJDIR)/S7Stuff.bin
+all: MenuGUI ShopData $(OBJDIR)/S7Stuff.bin
 
 .PHONY: cleanall
 cleanall:
-	-rm -rf "$(OBJDIR)" "$(MenuGUI_OBJDIR)"
+	-rm -rf "$(OBJDIR)" "$(MenuGUI_OBJDIR)" 
+
+## ===========================================
+##
+## Shop Data
+##
+## ===========================================
+ShopData_SRCDIR = ShopDataSources
+ShopData_OBJDIR = $(ShopData_SRCDIR)/fuck._ignore_.Make
+ShopData_OUTDIR = PK3 Source/S7ZScript/RPG Systems/ShopData/
+ShopData_SRC = $(call rwildcard, $(ShopData_SRCDIR), %.json)
+ShopData_OBJ = $(ShopData_SRC:$(ShopData_SRCDIR)/%.json=$(ShopData_OBJDIR)/%.fuckMake)
+
+$(ShopData_OBJDIR)/%.fuckMake: $(ShopData_SRCDIR)/%.json
+	@$(MKDIRCMD) -p "$(@D)"
+	"$(ShopData_Compiler)" --file $< --out "$(ShopData_OUTDIR)"
+	@touch $@
+
+.PHONY: ShopData
+ShopData: $(ShopData_OBJ)
 
 ## ===========================================
 ##
@@ -53,8 +73,9 @@ MenuGUI_SRC = $(call rwildcard, $(MenuGUI_SRCDIR), %.json)
 MenuGUI_OBJ = $(MenuGUI_SRC:$(MenuGUI_SRCDIR)/%.json=$(MenuGUI_OBJDIR)/%.c)
 
 $(MenuGUI_OBJDIR)/%.c: $(MenuGUI_SRCDIR)/%.json
+	@echo $(ShopData_OBJ)
 	@$(MKDIRCMD) -p "$(@D)"
-	$(MenuGUI_Compiler)  --file $< --out $(MenuGUI_OBJDIR)
+	$(MenuGUI_Compiler) --file $< --out $(MenuGUI_OBJDIR)
 
 .PHONY: MenuGUI
 MenuGUI: $(MenuGUI_OBJ)

@@ -78,12 +78,15 @@ class S7_IsLoaded : actor {
 
 // RPG Systems
 #INCLUDE "S7ZScript/RPG Systems/Shop System.ZS"
+#INCLUDE "S7ZScript/RPG Systems/ShopData.ZS"
+#INCLUDE "S7ZScript/RPG Systems/ShopData/Lucius.ZS"
 #INCLUDE "S7ZScript/RPG Systems/XP System.ZS"
 #INCLUDE "S7ZScript/RPG Systems/Upgrades.ZS"
 
 // Menus
 #INCLUDE "S7ZScript/GUI/Menus/XPSystemMenu.ZS"
 #INCLUDE "S7ZScript/GUI/Menus/WeapAssignmentMenu.ZS"
+#INCLUDE "S7ZScript/GUI/Menus/ShopMenu.ZS"
 
 // Monsters
 #INCLUDE "S7ZScript/Monsters/Spawners.ZS"

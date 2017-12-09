@@ -20,6 +20,7 @@ class S7_MapData : Thinker {
 }
 
 class S7_ServerData : Thinker {
+    S7_ShopData shopData;
     uint mapCount;
     // Map events
     int queuedMapEvent;
@@ -33,11 +34,21 @@ class S7_ServerData : Thinker {
     }
 
     static S7_ServerData Get () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_ServerData", STAT_INFO);
+        ThinkerIterator it = ThinkerIterator.Create ("S7_ServerData", STAT_STATIC);
         let p = S7_ServerData (it.Next ());
 
         if (!p)
             p = new ("S7_ServerData").Init ();
+
+        return p;
+    }
+
+    clearscope static S7_ServerData GetSpecial () {
+        ThinkerIterator it = ThinkerIterator.Create ("S7_ServerData", STAT_STATIC);
+        let p = S7_ServerData (it.Next ());
+
+        if (!p)
+            return null;
 
         return p;
     }

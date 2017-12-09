@@ -69,18 +69,9 @@
 #define APROP_NoTarget  19
 #define APROP_NoTrigger 23
 
-// Shop system stuff
-#define CASHDIVPOINT 1000
-#define CASHLESSERMAX 999
-#define CASHGREATERMAX 30000
-#define CASHMAXAMOUNT (CASHGREATERMAX * CASHDIVPOINT)
-
 // Actor names
 // Spriting system
 #define SPRINTWEAPON         s"S7_SprintWeapon"
-// Shop system
-#define CASHTOKENLESSER      s"S7_CashLesser"
-#define CASHTOKENGREATER     s"S7_CashGreater"
 // Misc
 #define BERSERKTOKEN         s"S7_BerserkToken"
 #define MANATOKEN            s"S7_Mana"

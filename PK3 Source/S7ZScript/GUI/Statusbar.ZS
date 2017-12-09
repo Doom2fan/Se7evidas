@@ -86,7 +86,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         mHealthInterpolator.Update (CPlayer.health);
         mArmorInterpolator.Update  (GetArmorAmount ());
         mStaminInterpolator.Update (GetAmount ("S7_Stamina"));
-        mCashInterpolator.Update   (GetAmount ("S7_CashCounter"));
+        mCashInterpolator.Update   (GetAmount ("S7_Cash"));
         mLsrRfInterpolator.Update (GetAmount ("S7_FauchardMag"));
         mLPPInterpolator1.Update  (GetAmount ("S7_LaserPewPewClip"));
         mLPPInterpolator2.Update  (GetAmount ("S7_LaserPewPewClipSecond"));

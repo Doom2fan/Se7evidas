@@ -7,6 +7,19 @@ graphics/
                 BLSCycle and BLSDual were made by Captain J and edited by Chronos "phantombeta" Ouroboros.
                 FullAuto, BrstFire, SemiAuto, Buckshot and Slug were made by Marrub and edited by Chronos "phantombeta" Ouroboros.
             Everything else was made from scratch by Chronos "phantombeta" Ouroboros.
+        Menu/
+            Shop/
+                Icons/
+                    9mmCartridges: Id Software, Chronos "phantombeta" Ouroboros
+                    AmmoPage: Captain J, Id Software, Chronos "phantombeta" Ouroboros
+                    ThmpGrenPage: Captain J, Chronos "phantombeta" Ouroboros
+                    BulletsPage: Captain J, Chronos "phantombeta" Ouroboros
+                All graphics by Chronos "phantombeta" Ouroboros
+            WeapAssignment/
+                All graphics by Chronos "phantombeta" Ouroboros
+            XPSys/
+                All graphics by Chronos "phantombeta" Ouroboros
+            ADVISOR by Chronos "phantombeta" Ouroboros
         Normal/
             PRCHRGRING/
                 All sprites here made from scratch by Chronos "phantombeta" Ouroboros.

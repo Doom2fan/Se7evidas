@@ -1,0 +1,2 @@
+This copy of ZForms has been modified specifically for use in this mod. It does not represent the official version of ZForms. It may break.
+You can get the unmodified code from https://gitlab.com/Gutawer/gzdoom-zforms

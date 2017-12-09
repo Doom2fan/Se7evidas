@@ -2,18 +2,27 @@
 SS_BUYMODE                      = "Buy";
 SS_SELLMODE                     = "Sell";
 SS_BACK                         = "Back";
+SS_BACK_DESC                    = "Returns to the previous page";
+SS_MAINSHOP                     = "Lucius armoury";
 // Page names
-SS_MAIN                         = "Shop menu";
-
 SS_WEAPONS                      = "Weapons";
 
 SS_AMMO                         = "Ammo";
 SS_BULLETS                      = "Cartridges";
 SS_BATTERIES                    = "Energy cells";
-SS_BATTERIESLINK                = "Energy cells";
 SS_THGRENADES                   = "50mm grenades";
 
 SS_LOOT                         = "Loot";
+
+// Page descriptions
+SS_WEAPONS_DESC                 = "Buy or sell weapons";
+
+SS_AMMO_DESC                    = "Buy ammunition for your weapons or sell your excess ammo";
+SS_BULLETS_DESC                 = "Cartridges and shells";
+SS_BATTERIES_DESC               = "Batteries and energy cells";
+SS_THGRENADES_DESC              = "50mm grenades for the XPL-50 \"Thumper\" Grenade Launcher";
+
+SS_LOOT_DESC                    = "Sell items useless to you";
 
 // Names
 // Ammo
@@ -31,11 +40,22 @@ SS_TH_NGAS                      = "Nerve gas";
 
 // Descriptions
 // Cartridges
-SS_9MMDESC                      = "Box of 30 9x19mm cartridges";
+SS_9MMDESC                      = "Box of 9x19mm cartridges";
 SS_44MDESC                      = ".44 Magnum speedloader";
-SS_762X39DESC                   = "7.62x39mm magazine";
-SS_20GADESC                     = "Bandolier with 10 20ga #2 buckshot shells";
-SS_12GADESC                     = "Box of 16 12ga #00 buckshot shells";
+SS_762X39DESC                   = "Box of 7.62x39mm cartridges";
+SS_20GADESC                     = "Bandolier with 20ga #2 buckshot shells";
+SS_12GADESC                     = "Box of 12ga #00 buckshot shells";
 // Batteries/Cells
 SS_CELLSDESC                    = "Two Type A energy cells";
 SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";
+
+// Info
+// Cartridges
+SS_9MMINFO                      = "Amount: 30 cartridges";
+SS_44MINFO                      = "Amount: 6 cartridges";
+SS_762X39INFO                   = "Amount: 35 cartridges";
+SS_20GAINFO                     = "Amount: 10 shells";
+SS_12GAINFO                     = "Amount: 16 shells";
+// Batteries/Cells
+SS_CELLSINFO                    = "Capacity: 36";
+SS_FBSYSCELLSINFO               = "Capacity: 23";

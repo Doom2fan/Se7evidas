@@ -27,7 +27,6 @@ struct PlayerMenu_t {
 };
 */
 #include "includes.h"
-#include "shop/shop.h"
 #include "gui/playerMenu.h"
 
 #define PMENUBASEID 15000
@@ -79,10 +78,6 @@ bool PM_ChangePage (PlayerData_t *player, PM_Page *dest) {
 void PM_ProcessToggle (PlayerData_t *player) {
     if (player->health.health > 0 && player->playerMenu.moveDelay <= 0) {
         if (!PM_MenuDisabled (player) && !player->playerMenu.open && KeyPressed (BT_USER4)) {
-            if (player->shopDef.open) {
-                SS_OpenPage (player, NULL, OXF_ForceAll); // Change the page to NULL
-                player->shopDef.sellMode = FALSE; // Set sellMode to FALSE
-            }
 
             if (PM_ChangePage (player, &PM_MainMenu)) {
                 SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN);

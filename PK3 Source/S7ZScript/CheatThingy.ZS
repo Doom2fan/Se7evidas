@@ -34,7 +34,7 @@ class S7_CheatThingy : customInventory {
             GiveInventory ("S7_UpgradeSlot4", 1);
             GiveInventory ("S7_UpgradeSlot5", 1);
             // Cash
-            GiveInventory ("S7_CashGreater", 30000);
+            GiveInventory ("S7_Cash", 0x7FFFFFFF);
             // Misc
             for (int i = 0; i < S7_WeapData.S7_WeaponNames.Size (); i++)
                 GiveInventory (S7_WeapData.S7_WeaponNames [i], 0x7FFFFFFF);

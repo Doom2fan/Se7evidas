@@ -18,21 +18,13 @@
 */
 
 #include "includes.h"
-#include "shop/shop.h"
-#include "shop/shop_process.h"
-#include "shop/shop_items/externs.h"
 #include "gui/pmCallbacks.h"
 
-enum {
-    PMMU_ShopUse = 1,
-};
+/*enum {
+};*/
 
 bool PlayerMenu_MainEnabled (PlayerData_t *player, PM_Item *item) {
     switch (item->callbackID) {
-        case PMMU_ShopUse:
-            return !player->shopDef.disableOpen;
-            break;
-
         default:
             return TRUE;
             break;
@@ -41,15 +33,6 @@ bool PlayerMenu_MainEnabled (PlayerData_t *player, PM_Item *item) {
 
 void PlayerMenu_MainUse (PlayerData_t *player, PM_Item *item) {
     switch (item->callbackID) {
-        case PMMU_ShopUse: { // Open the shop
-                PM_ChangePage (player, NULL); // Close the menu
-                SS_OpenPage (player, &mainSP, OXF_ForceAll); // Change the page to main
-                player->shopDef.open = TRUE; // Set open to TRUE
-                SetPlayerProperty (FALSE, ON, PROP_TOTALLYFROZEN); // Freeze the player
-                player->shopDef.moveDelay = (SS_ONMOVEDELAY / 2); // Set the movement delay
-            }
-            break;
-
         default:
             break;
     }
