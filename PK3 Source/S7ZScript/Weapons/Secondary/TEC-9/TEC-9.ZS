@@ -66,9 +66,9 @@ class S7_TEC9 : S7_BaseWeapon {
             A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.8, 4.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1.8, 4.5);
             A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 9, -2);
-            A_FireProjectile ("S7_TEC9Tracer", fRandom [weaponSpread] (-0.45, 0.45), 1, 3, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
+            A_FireProjectile ("S7_TEC9Tracer", fRandom [weaponSpread] (-0.45, 0.45), 1, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
 
             if (invoker.burstFire) {
                 A_SetPitch (pitch - 0.5, SPF_Interpolate);

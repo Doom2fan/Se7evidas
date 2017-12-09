@@ -1,136 +1,155 @@
-// Firing
-sprite TEC9B0, 110, 112 {
-    offset -182, -76
-    patch TEC9A0, 0, 0
+sprite "TEC9B0", 110, 112 {
+    offset -174, -76
+    patch "TEC9A0", 0, 0
     patch "graphics/Weapons/TEC-9/Part1.png", 32, 59
 }
 
-sprite TEC9C0, 110, 112 {
-    offset -184, -78
-    patch TEC9A0, 0, 0
+sprite "TEC9C0", 110, 112 {
+    offset -176, -78
+    patch "TEC9A0", 0, 0
     patch "graphics/Weapons/TEC-9/Part1.png", 32, 59
     patch "graphics/Weapons/TEC-9/Part2.png", 15, 17
 }
 
-sprite TEC9D0, 110, 112 {
-    offset -184, -78
-    patch TEC9A0, 0, 0
+sprite "TEC9D0", 110, 112 {
+    offset -176, -78
+    patch "TEC9A0", 0, 0
     patch "graphics/Weapons/TEC-9/Part1.png", 32, 59
     patch "graphics/Weapons/TEC-9/Part3.png", 15, 17
 }
 
-// Reloading
-sprite TECRA0, 320, 200 {
+sprite "TECRA0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 105
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRB0, 320, 200 {
+sprite "TECRB0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 129
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRC0, 320, 200 {
+sprite "TECRC0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 153
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRD0, 320, 200 {
+sprite "TECRD0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 177
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRE0, 320, 200 {
+sprite "TECRE0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRF0, 320, 200 {
+sprite "TECRF0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame2.png", 90, 172
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRG0, 320, 200 {
+sprite "TECRG0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame2.png", 95, 164
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRH0, 320, 200 {
+sprite "TECRH0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame2.png", 98, 153
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRI0, 320, 200 {
+sprite "TECRI0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame2.png", 99, 136
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRJ0, 320, 200 {
+sprite "TECRJ0", 320, 200 {
+    offset 8, 0
     patch "graphics/Weapons/TEC-9/Frame2.png", 99, 130
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRK0, 320, 200 {
-    patch "graphics/Hands/HAND-001.png", 158, 150
+sprite "TECRK0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-001.png", 158, 150
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 132
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRL0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 162, 143
+sprite "TECRL0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 162, 143
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 132
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRM0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 162, 151
+sprite "TECRM0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 162, 151
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 132
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRN0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 165, 161
+sprite "TECRN0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 165, 161
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 132
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRO0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 163, 174
+sprite "TECRO0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 163, 174
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 132
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRP0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 165, 164
+sprite "TECRP0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 165, 164
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 132
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRQ0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 167, 151
+sprite "TECRQ0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 167, 151
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 116
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRR0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 167, 156
+sprite "TECRR0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 167, 156
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 116
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRS0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 167, 141
+sprite "TECRS0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 167, 141
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 105
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRT0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 158, 149
+sprite "TECRT0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 158, 149
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 105
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
 
-sprite TECRU0, 320, 200 {
-    patch "graphics/Hands/HAND-002.png", 149, 161
+sprite "TECRU0", 320, 200 {
+    offset 8, 0
+    patch "graphics/Hands/Hand-002.png", 149, 161
     patch "graphics/Weapons/TEC-9/Frame3.png", 204, 105
     patch "graphics/Weapons/TEC-9/Frame1.png", 182, 76
 }
