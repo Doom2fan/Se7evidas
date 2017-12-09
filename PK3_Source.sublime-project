@@ -67,5 +67,22 @@
 		"default_line_ending": "windows",
 		"tab_size": 4,
 		"translate_tabs_to_spaces": true
-	}
+	},
+	"build_systems":
+    [
+        {
+        	"selector": "source.zscript",
+            "name": "Run",
+            "working_dir": "$project_path",
+            "cmd": [".\\STTest.bat"],
+
+    		"variants": [
+    			{
+					"name": "Run with args",
+    				"cmd": [".\\STTest.bat", "-i"],
+    				"target": "console_exec"
+    			}
+    		]
+        }
+    ]
 }
