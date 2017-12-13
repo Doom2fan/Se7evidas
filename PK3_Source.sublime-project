@@ -35,6 +35,13 @@
 			"path": "C_Source"
 		},
 		{
+			"folder_exclude_patterns":
+			[
+				"*"
+			],
+			"path": "ShopDataSources"
+		},
+		{
 			"file_exclude_patterns":
 			[
 				"thumbs.db",

@@ -3,8 +3,8 @@
 CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
-MenuGUI_Compiler = Tools/playermenuCompiler/playermenucompiler
-ShopData_Compiler = Tools/shopDataCompiler/shopdatacompiler
+MenuGUI_Compiler = Tools/playermenuCompiler
+ShopData_Compiler = Tools/shopDataCompiler
 MKDIRCMD = gmkdir
 COM_FLAGS = --bc-target=ZDoom
 CC_FLAGS = $(COM_FLAGS) -DDEBUG
