@@ -55,7 +55,7 @@ class S7_BerserkWeap : S7_BaseWeapon {
         SYR0 A              1 A_JumpIfNoAmmo ("Ready2");
         SYR0 BCDEFGHIJKLMNO 1;
     Ready2:
-        SYR1 A 0 A_JumpIfNoAmmo ("Ready2");
+        SYR1 A 0 A_JumpIfNoAmmo ("Ready2.NoAmmo");
         goto Ready2.DoThings;
     Ready2.NoAmmo:
         TNT1 A 0;
