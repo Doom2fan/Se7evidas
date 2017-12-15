@@ -44,6 +44,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/ZForms/ZF_Include.ZS"
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
+#INCLUDE "S7ZScript/Extensions.ZS"
 #INCLUDE "S7ZScript/MathExtensions.ZS"
 
 // Effects

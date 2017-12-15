@@ -220,7 +220,7 @@ class S7_SSG : S7_BaseWeapon {
                   SSG0 A 2 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7); goto DryFireEnd;
 
     DryFireEnd:
-        TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && CheckInventory ("S7_AutoReloading", 1), "Reload");
+        TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
     Reload:

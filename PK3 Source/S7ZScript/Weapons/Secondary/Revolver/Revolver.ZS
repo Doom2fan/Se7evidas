@@ -66,7 +66,7 @@ class S7_Revolver : S7_BaseWeapon {
 
     DryFire:
         RVLV A 3 A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
     Reload:

@@ -91,7 +91,7 @@ class S7_Raptor : S7_BaseWeapon {
             A_ClearRefire ();
             invoker.doubleTap = false;
         }
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
     Reload:

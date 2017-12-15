@@ -180,7 +180,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto DryFire.End;
     DryFire.End:
         #### # 3 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
-        #### # 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        #### # 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
     Zoom:
@@ -385,7 +385,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AkimboRight.Dryfire:
         BLS2 A 7 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
         TNT1 A 0 {
-            if (CheckInventory ("S7_AutoReloading", 1) && !CheckInventory ("S7_LaserPewPewClipSecond", 1)) // Check the opposite ammo, if there's none, we can go ahead and reload
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ("S7_LaserPewPewClipSecond", 1)) // Check the opposite ammo, if there's none, we can go ahead and reload
                 return ResolveState ("AkimboRight.Reload");
             return ResolveState (null);
         }
@@ -393,7 +393,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AkimboLeft.Dryfire:
         BLS2 A 7 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_6);
         TNT1 A 0 {
-            if (CheckInventory ("S7_AutoReloading", 1) && !CheckInventory ("S7_LaserPewPewClip", 1))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ("S7_LaserPewPewClip", 1))
                 return ResolveState ("AkimboLeft.Reload");
             return ResolveState (null);
         }

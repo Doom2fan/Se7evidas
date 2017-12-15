@@ -325,7 +325,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         SCP1 B 3;
         goto DryFire2;
     DryFire2:
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
     Reload.Zoomed:

@@ -83,7 +83,7 @@ class S7_BaseWeapon : weapon {
         TNT1 A 0 {
             A_PlaySound ("Weapons/DryFire", CHAN_Weapon);
 
-            if (CheckInventory ("S7_AutoReloading", 1))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
                 return ResolveState ("Reload");
 
             return ResolveState (null);

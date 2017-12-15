@@ -5,7 +5,6 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_Dying                 : S7_Boolean { }
-class S7_AutoReloading         : S7_Boolean { }
 class S7_DisableHud            : S7_Boolean { }
 class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }

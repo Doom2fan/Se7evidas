@@ -189,7 +189,7 @@ class S7_Shotgun : S7_BaseWeapon {
     DryFire:
         SSGR A 3 A_PlaySound ("Weapons/Misc/DryFire", CHAN_7);
         TNT1 A 0 {
-            if (CheckInventory ("S7_AutoReloading", 1)) {
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading")) {
                 GiveInventory ("S7_Reloading", 1);
                 return ResolveState ("Reload");
             }
