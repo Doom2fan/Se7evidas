@@ -41,18 +41,10 @@ class S7_IsLoaded : actor {
     }
 }
 
-#INCLUDE "S7ZScript/zgui/zgui.ZS"
 #INCLUDE "S7ZScript/ZForms/ZF_Include.ZS"
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
 #INCLUDE "S7ZScript/MathExtensions.ZS"
-
-// ZGui stuff
-#include "S7ZScript/GUI/BaseMenu.ZS"
-#include "S7ZScript/GUI/ZGuiControls/BaseControl.ZS"
-#include "S7ZScript/GUI/ZGuiControls/Button.ZS"
-#include "S7ZScript/GUI/ZGuiControls/Label.ZS"
-#include "S7ZScript/GUI/ZGuiControls/Image.ZS"
 
 // Effects
 #INCLUDE "S7ZScript/Effects/Smoke.ZS"
