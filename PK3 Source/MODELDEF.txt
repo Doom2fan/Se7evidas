@@ -20,3 +20,14 @@ model S7_MultiJump_Marker {
 
     frameIndex MJMP A 0 0
 }
+
+/*model S7_SoulLance_Beam {
+    path "models/Beam"
+    model 0 "1mubeam.md3" // Model by kodi
+    skin 0 "SoulLance.png" //
+    scale 10 10 1.2 //the 10's here are radius. Set to 1 if you want to scale to exact dimensions in zscript
+
+    useActorPitch
+
+    frameIndex SLCF A 0 0
+}*/

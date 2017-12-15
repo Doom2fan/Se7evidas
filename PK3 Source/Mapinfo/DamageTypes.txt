@@ -9,5 +9,8 @@ damageType NerveGas {
 }
 
 damageType SoulLanceSelfDamage {
+    obituary = "$SLANCESELFKILL"
+
+    replaceFactor
     noArmor
 }

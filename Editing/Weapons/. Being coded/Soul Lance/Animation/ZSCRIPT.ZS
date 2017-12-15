@@ -1,3 +1,5 @@
+version "3.3"
+
 class S7_SLance_BeamHeld_Fire : S7_Boolean { }
 class S7_SoulLance : S7_BaseWeapon {
     default {
@@ -8,6 +10,41 @@ class S7_SoulLance : S7_BaseWeapon {
         -weapon.noAlert
     }
 
+    S7_SoulLance_Beam beamActor;
+    Actor beamHit;
+
+    action void S7_A_MaintainBeam () {
+        let pPawn = PlayerPawn (self);
+        if (!invoker.beamActor || !pPawn)
+            return;
+
+        double cospitch = cos (pitch), maxDist = radius * radius;
+        double spawnOff = 20.0;
+        FTranslatedLineTarget lTarget;
+        let puff = LineAttack (angle, 8192.0, pitch, 0, "None", "S7_SoulLancePuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, lTarget);
+        invoker.beamHit = lTarget.linetarget;
+        let tmpPoint = (spawnOff * cospitch * cos (angle), spawnOff * cospitch * sin (angle), spawnOff * -sin (pitch));
+
+        do {
+            tmpPoint *= 0.5;
+        } while ((tmpPoint.XY dot tmpPoint.XY) >= maxDist);
+
+        let posOff = (0.0, 2.25, ((height / 2.0) + pPawn.attackZOffset) - 2.25);
+        invoker.beamActor.Warp (self, posOff.X, posOff.Y, posOff.Z, flags: WARPF_NoCheckPosition | WARPF_CopyInterpolation);
+        invoker.beamActor.SetOrigin (invoker.beamActor.Vec3Offset (tmpPoint.X, tmpPoint.Y, tmpPoint.Z), false);
+
+        invoker.beamActor.scale.Y = -invoker.beamActor.Distance3D (puff);
+        invoker.beamActor.A_Face (puff, 0, 0);
+        invoker.beamActor.pitch += 90.0;
+    }
+
+    action void S7_A_BeamDamage () {
+        if (!invoker.beamHit)
+            return;
+
+        invoker.beamHit.DamageMobj (self, self, random (1, 2) * 5, "S7_SoulLance_Beam", DMG_No_Armor | DMG_Thrustless | DMG_PlayerAttack);
+    }
+
     states {
     Ready:
         SLNC ABCD     1;
@@ -15,8 +52,6 @@ class S7_SoulLance : S7_BaseWeapon {
         SLNC FGHIJKLM 1;
     Ready2:
         SLNC M 1 {
-            if (CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
-                return ResolveState ("Fire.Grabbed");
             if (CheckInventory ("S7_DoMelee", 1))
                 return ResolveState ("QuickMelee");
             TakeInventory ("S7_Reloading", 0x7FFFFFFF);
@@ -30,42 +65,38 @@ class S7_SoulLance : S7_BaseWeapon {
     Fire:
         SLNC NOPQRS 1;
         SLNC TU     2;
-        TNT1 A      0 A_JumpIfInventory ("S7_SoulLance_BeamGrabbed", 1, "Hold.Grabbed");
-    Hold:
-        SLNC V       2 {
-            A_FireProjectile ("S7_SoulLance_Mutilator", 0, 0, 0, 0);
-            A_FireProjectile ("S7_SoulLance_Beam", 0.0, 0, 5, 0, 0, 0.0);
+        TNT1 A      0 {
+            invoker.beamActor = S7_SoulLance_Beam (Spawn ("S7_SoulLance_Beam"));
+            if (invoker.beamActor) {
+                invoker.beamActor.target = self;
+                invoker.beamActor.goAway = false; // Just to make sure
+            }
         }
-        SLNC W       2;
-        SLNC X       2 A_FireProjectile ("S7_SoulLance_Beam", 0.0, 0, 5, 0, 0, 0.0);
-        SLNC Y       2;
+    Hold:
+        SLNC V       1 { // Effects and damage here
+            A_DamageSelf (2, "SoulLanceSelfDamage");
+            S7_A_MaintainBeam ();
+            S7_A_BeamDamage ();
+        }
+        SLNC VWW     1 S7_A_MaintainBeam ();
+        SLNC X       1 { // Effects and damage here
+            S7_A_MaintainBeam ();
+            S7_A_BeamDamage ();
+        }
+        SLNC XYY     1 S7_A_MaintainBeam ();
         SLNC U       2 {
-            if (CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
-                return ResolveState ("Hold.Grabbed");
+            S7_A_MaintainBeam ();
 
             A_Refire ();
 
             return ResolveState (null);
         }
-        SLNC T       2;
-        SLNC SRQPONM 1;
-        goto Ready2;
-
-    Fire.Grabbed:
-        SLNC N     1 A_FireProjectile ("S7_SoulLance_Beam_GrabbedSpawner", 0.0, 0, 0, 0, 0, 0.0);
-        SLNC OPQRS 1;
-        SLNC TU    2;
-    Hold.Grabbed:
-        SLNC V       2 {
-            A_FireProjectile ("S7_SoulLance_Mutilator", 0, 0, 0, 0);
-            GiveInventory ("S7_SLance_BeamHeld_Fire", 1);
+        SLNC T        1 {
+            if (invoker.beamActor)
+                invoker.beamActor.goAway = true;
+            invoker.beamActor = null;
         }
-        SLNC W       2;
-        SLNC X       2 GiveInventory ("S7_SLance_BeamHeld_Fire", 1);
-        SLNC Y       2;
-        SLNC U       2 A_JumpIfInventory ("S7_SoulLance_BeamGrabbed", 1, "Hold.Grabbed");
-        SLNC T       2;
-        SLNC SRQPONM 1;
+        SLNC TSRQPONM 1;
         goto Ready2;
 
     Select:
@@ -91,110 +122,50 @@ class S7_SoulLance : S7_BaseWeapon {
     }
 }
 
-class S7_SoulLance_Mutilator : actor {
+class S7_SoulLancePuff : S7_TraceTestPuff {
     default {
-        damageType "SoulLanceSelfDamage";
-        obituary "$SLANCESELFKILL";
-
-        +noInteraction +noGravity +invisible +cantSeek
-        +noBlockmap +noTrigger +neverRespawn +dontSplash
-        +noExtremeDeath +foilInvul +noDamageThrust
+        +alwaysPuff +puffOnActors +skyExplode
     }
 
     states {
-    Death:
     Spawn:
-        TNT1 A 1 {
-            A_RearrangePointers (AAPTR_Default, AAPTR_TARGET, AAPTR_TARGET);
-            A_DamageMaster (2, "SoulLanceSelfDamage");
-        }
+    Death:
+        TNT1 A 1;
         stop;
     }
 }
 
-class S7_SoulLance_Beam_GrabbedSpawner : actor {
+class S7_SoulLance_Beam : Actor {
     default {
-        radius 2;
-        height 2;
-        speed 0;
-        renderStyle "none";
+        radius 8;
+        height 8;
+        renderStyle "add";
+        //decal "Scorch";
+        alpha 1.0;
+        renderRadius 8200;
 
-        projectile;
-        +invulnerable +noDamage +noBlockmap +noTeleport
-        +thruActors +noClip +noGravity +ghost
-        +dontSplash +invisible +noInteraction
+        +noGravity +noInteraction
     }
 
-    int user_off [3];
+    bool goAway;
 
     states {
     Spawn:
-        TNT1 A 1 noDelay {
-            A_Warp (AAPTR_Target, user_off [0], user_off [1], user_off [2], 0, WARPF_NoCheckPosition | WARPF_Interpolate | WARPF_UseCallerAngle);
-
-            if (!CheckLOF (CLOFF_JumpEnemy | CLOFF_JumpFriend | CLOFF_JumpObject | CLOFF_JumpNonHostile | CLOFF_SkipTarget, 0.0, 0.0, angle, -pitch))
-                return ResolveState ("NoLOF");
-
-            if (target && target.CheckInventory ("S7_SLance_BeamHeld_Fire", 1))
-                return ResolveState ("ShootStuff");
+        SLCF A 1 bright {
+            if (!target || target.health <= 0)
+                return ResolveState ("Null");
+            if (goAway)
+                return ResolveState ("Death");
 
             return ResolveState (null);
         }
         loop;
-
-    ShootStuff:
-        TNT1 A 0 {
-            A_SpawnProjectile ("S7_SoulLance_Beam", 0.0, 5, angle, CMF_AimDirection | CMF_TrackOwner | CMF_AbsoluteAngle | CMF_AbsolutePitch, pitch);
-            A_TakeFromTarget ("S7_SLance_BeamHeld_Fire", 0x7FFFFFFF);
-        }
-        goto Spawn;
-
-    NoLOF:
-        TNT1 A 1 A_TakeFromTarget ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF);
-        stop;
-    }
-}
-
-class S7_SoulLance_Beam : fastProjectile {
-    default {
-        radius 8;
-        height 8;
-        speed 25;
-        health 200;
-        renderStyle "add";
-        scale 0.060;
-        damageFunction (random (1, 2) * 5);
-        damageType "S7_SoulLance_Beam";
-        missileType "S7_SoulLance_Beam_Trail";
-        missileHeight 8;
-        decal "Scorch";
-        alpha 1.0;
-
-        projectile;
-        +noDamageThrust +forceXYBillboard +ripper +forceRadiusDMG
-    }
-
-    states {
-    Spawn:
-        TNT1 A 0 noDelay {
-            A_ScaleVelocity (1.0 / (25 * 1.0));
-            A_ScaleVelocity (health);
-        }
-    Idle:
-        SLCF A 1 bright;
-        loop;
     Death:
-        //TNT1 A 0 A_Explode (random (1, 3) * 128, 32, 0);
-        TNT1 A 0 {
-            A_SpawnItemEx ("S7_SoulLance_Beam_Explosion", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside);
-            for (int i = 0; i < 4; i++) {
-                A_SpawnItemEx ("S7_SoulLance_Sparks",  0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
-                A_SpawnItemEx ("S7_SoulLance_Sparks2", 0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
-                A_SpawnItemEx ("S7_SoulLance_Sparks3", 0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
-                A_SpawnItemEx ("S7_SoulLance_Sparks4", 0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
-            }
+        SLCF A 1 {
+            A_FadeOut (0.06);
+            scale.X *= 0.65;
         }
-        stop;
+        loop;
     }
 }
 
@@ -208,7 +179,15 @@ class S7_SoulLance_Beam_Explosion : S7_SoulLance_Beam {
 
     states {
     Spawn:
-        PLSE ABCDE 2 bright;
+        PLSE A 2 bright {
+            for (int i = 0; i < 4; i++) {
+                A_SpawnItemEx ("S7_SoulLance_Sparks",  0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
+                A_SpawnItemEx ("S7_SoulLance_Sparks2", 0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
+                A_SpawnItemEx ("S7_SoulLance_Sparks3", 0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
+                A_SpawnItemEx ("S7_SoulLance_Sparks4", 0.0, 0.0, 0.0, frandom [sfx] (-2.5, 2.5), frandom [sfx] (-2.5, 2.5), frandom [sfx] (-0.5, 3.5), 0, SXF_Clientside);
+            }
+        }
+        PLSE BCDE 2 bright;
         stop;
     }
 }

@@ -81,6 +81,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/GUI/Menus/ShopMenu.ZS"
 
 // Monsters
+#INCLUDE "S7ZScript/Monsters/Base Monsters.ZS"
 #INCLUDE "S7ZScript/Monsters/Spawners.ZS"
 #INCLUDE "S7ZScript/Monsters/ScorpsTrooper/ScorpsTrooper.ZS"
 #INCLUDE "S7ZScript/Monsters/Hellion/Hellion.ZS"
