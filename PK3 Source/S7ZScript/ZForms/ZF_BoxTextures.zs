@@ -6,32 +6,32 @@ class S7_ZF_BoxTextures ui {
 		C_BOTTOMLEFT,
 		C_BOTTOMRIGHT
 	}
-	
+
 	enum SideIndices {
 		S_TOP,
 		S_BOTTOM,
 		S_LEFT,
 		S_RIGHT
 	}
-	
+
 	string corners[4];
 	string sides[4];
 	string midTex;
-	
+
 	void setCorners(string topLeft, string topRight, string bottomLeft, string bottomRight) {
 		corners[C_TOPLEFT] = topLeft;
 		corners[C_TOPRIGHT] = topRight;
 		corners[C_BOTTOMLEFT] = bottomLeft;
 		corners[C_BOTTOMRIGHT] = bottomRight;
 	}
-	
+
 	void setSides(string top, string bottom, string left, string right) {
 		sides[S_TOP] = top;
 		sides[S_BOTTOM] = bottom;
 		sides[S_LEFT] = left;
 		sides[S_RIGHT] = right;
 	}
-	
+
 	void setMidTex(string tex) {
 		midTex = tex;
 	}

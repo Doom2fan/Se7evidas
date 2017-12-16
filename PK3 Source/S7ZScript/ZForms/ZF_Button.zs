@@ -5,33 +5,35 @@ class S7_ZF_Button : S7_ZF_Element {
 		B_CLICK,
 		B_DISABLED
 	}
-	
+
 	S7_ZF_Handler handler;
 	string command;
-	
+
 	Font fnt;
 	string text;
 	double textScale;
-	
+
 	S7_ZF_BoxTextures textures[4];
 	string btnTextures [4];
 	bool singleTex;
-	
+
 	int buttonState;
-	
+
 	Vector2 mousePos;
 	bool isFocused;
 
-	void setTexture(string inactive, string hover, string click) {
+	void setTexture(string inactive, string hover, string click, string disabled) {
 		self.btnTextures[B_INACTIVE] = inactive;
 		self.btnTextures[B_HOVER] = hover;
 		self.btnTextures[B_CLICK] = click;
+		self.btnTextures[B_DISABLED] = disabled;
 		self.singleTex = true;
 	}
-	
+
 	void config(string text = "", S7_ZF_Handler handler = NULL, string command = "",
 	            S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL,
-	            S7_ZF_BoxTextures click = NULL, Font fnt = NULL, double textScale = 1) {
+	            S7_ZF_BoxTextures click = NULL, S7_ZF_BoxTextures disabled = NULL,
+	            Font fnt = NULL, double textScale = 1) {
 		if (fnt == NULL) {
 			self.fnt = smallfont;
 		}
@@ -45,22 +47,26 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.textures[B_INACTIVE] = inactive;
 		self.textures[B_HOVER] = hover;
 		self.textures[B_CLICK] = click;
+		self.textures[B_DISABLED] = disabled;
 		self.singleTex = false;
 	}
-	
-	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler handler = NULL, string command = "", 
+
+	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler handler = NULL, string command = "",
 	               S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
-	               Font fnt = NULL, double textScale = 1) {
-		self.config(text, handler, command, inactive, hover, click, fnt, textScale);
+	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1) {
+		self.config(text, handler, command, inactive, hover, click, disabled, fnt, textScale);
 		self.setBox(pos, size);
-		
+
 		return self;
 	}
-	
+
 	override void ticker() {
 	}
-	
-	override void drawer() {		
+
+	override void drawer() {
+		if (!isShown ())
+			return;
+
 		if (singleTex) {
 			string texture = btnTextures[buttonState];
 			drawImage((0, 0), texture, true);
@@ -68,25 +74,28 @@ class S7_ZF_Button : S7_ZF_Element {
 			S7_ZF_BoxTextures textures = textures[buttonState];
 			drawBox((0, 0), box.size, textures);
 		}
-		
+
 		// draw the text in the middle of the button
 		Vector2 textSize = (fnt.stringWidth(text), fnt.getHeight()) * textScale;
 		Vector2 textPos = (box.size - textSize) / 2;
 		drawText(textPos, fnt, text, Font.CR_WHITE, textScale);
 	}
-	
+
 	override void onUIEvent(UIEvent ev) {
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			if (box.pointCollides(master.screenToRel(mousePos))) {
+			if (isEnabled() && box.pointCollides(master.screenToRel(mousePos))) {
 				buttonState = B_CLICK;
 			}
 		}
 		// if the player's releasing, check if their mouse is still in the correct range and trigger method if it was
 		else if (ev.type == UIEvent.Type_LButtonUp) {
-			if (box.pointCollides(master.screenToRel(mousePos)) && buttonState == B_CLICK) {
+			if (!isEnabled()) {
+				buttonState = B_DISABLED;
+			}
+			else if (box.pointCollides(master.screenToRel(mousePos)) && buttonState == B_CLICK) {
 				buttonState = B_HOVER;
-				handler.buttonCommand(command);
+				handler.buttonCommand(self, command);
 			}
 			else {
 				buttonState = B_INACTIVE;
@@ -96,7 +105,10 @@ class S7_ZF_Button : S7_ZF_Element {
 		else if (ev.type == UIEvent.Type_MouseMove) {
 			mousePos = (ev.mouseX, ev.mouseY);
 			bool hover = box.pointCollides(master.screenToRel(mousePos));
-			if (buttonState != B_CLICK) {
+			if (!isEnabled()) {
+				buttonState = B_DISABLED;
+			}
+			else if (buttonState != B_CLICK) {
 				if (hover) {
 					buttonState = B_HOVER;
 				}
@@ -105,11 +117,11 @@ class S7_ZF_Button : S7_ZF_Element {
 				}
 			}
 			if (hover && !isFocused) {
-				handler.buttonFocusChanged(command, false);
+				handler.buttonFocusChanged(self, command, false);
 				isFocused = true;
 			}
 			else if (!hover && isFocused) {
-				handler.buttonFocusChanged(command, true);
+				handler.buttonFocusChanged(self, command, true);
 				isFocused = false;
 			}
 		}

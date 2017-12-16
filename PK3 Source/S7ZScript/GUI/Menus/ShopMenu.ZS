@@ -1,12 +1,12 @@
 class S7_ShopMenuHandler : S7_ZF_Handler {
     S7_ShopMenu link;
 
-    override void buttonCommand (string command) {
+    override void buttonCommand (S7_ZF_Button button, string command) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings;
             command.Split (commandStrings, ":");
-            
+
             if (commandStrings.Size () >= 2) {
                 if (commandStrings [0] == "List") {
                     if (commandStrings [1] == "Entry" && commandStrings.Size () == 3)
@@ -64,15 +64,15 @@ class S7_ShopMenuHandler : S7_ZF_Handler {
         }
     }
 
-    override void buttonFocusChanged (string command, bool lostFocus) {
+    override void buttonFocusChanged (S7_ZF_Button button, string command, bool lostFocus) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings;
             command.Split (commandStrings, ":");
-            
+
             if (commandStrings.Size () >= 2) {
                 if (commandStrings [0] == "List") {
-                    if (commandStrings [1] == "Entry" && commandStrings.Size () == 3)
+                    if (button && button.isEnabled () && commandStrings [1] == "Entry" && commandStrings.Size () == 3)
                         ListHover (commandStrings [2], lostFocus);
                 }
             }
@@ -182,8 +182,8 @@ class S7_ShopMenu_List : S7_ZF_Frame {
                 texSize = TexMan.GetScaledSize (tex);
 
             // Clickable area
-            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", link.handler, String.Format ("List:Entry:0x%.8X", item.id), null, null, null);
-            button.SetTexture ("", "", "");
+            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", link.handler, String.Format ("List:Entry:0x%.8X", item.id), null, null, null, null, null);
+            button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             itemControls.clickableArea = button;
 
@@ -307,8 +307,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         infoLabel = new ("S7_ZF_Label").Init ((250, 355), (345, 80), "", smallFont, true, false, 1, Font.CR_WHITE);
         infoLabel.Pack (shopFrame);
 
-        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), "Buy", handler, "BuyButton", null, null, null);
-        buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png");
+        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), "Buy", handler, "BuyButton", null, null, null, null, null);
+        buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
         buyButton.Pack (shopFrame);
 
         SetPage (shopData.mainPage);

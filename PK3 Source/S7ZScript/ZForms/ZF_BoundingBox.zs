@@ -2,7 +2,7 @@
 class S7_ZF_AABB {
 	Vector2 pos;
 	Vector2 size;
-	
+
 	bool pointCollides(Vector2 point) {
 		if (point.x > pos.x && point.x < pos.x + size.x &&
 		    point.y > pos.y && point.y < pos.y + size.y   ) {
@@ -10,7 +10,7 @@ class S7_ZF_AABB {
 		}
 		return false;
 	}
-	
+
 	S7_ZF_AABB rectOfIntersection(S7_ZF_AABB other) {
 		double left = max(pos.x, other.pos.x);
 		double right = min(pos.x + size.x, other.pos.x + other.size.x);

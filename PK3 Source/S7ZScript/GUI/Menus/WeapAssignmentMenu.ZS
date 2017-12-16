@@ -1,10 +1,10 @@
 class S7_WeapAssignMenuHandler : S7_ZF_Handler {
     S7_WeapAssignMenu link;
 
-    override void buttonCommand (string command) {
+    override void buttonCommand (S7_ZF_Button button, string command) {
     }
 }
- 
+
 class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     S7_WeapAssignMenuHandler handler;
 
@@ -49,8 +49,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             for (int y = 0; y < 3; y++) {
                 double yCoords = 72.0 + ((40.0 + 8.0) * y);
                 // Button
-                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), "", handler, "SetSlot", null, null, null);
-                slotButtons [x] [y].SetTexture ("graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png", "graphics/Menu/WeapAssignment/WeapSlotPressed.png");
+                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), "", handler, "SetSlot", null, null, null, null);
+                slotButtons [x] [y].SetTexture ("graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png", "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "");
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
                 slotImages [x] [y] = new ("S7_ZF_Image").Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignCenter, noOffsets: true);
@@ -68,7 +68,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             return;
 
         let weapBinds = S7_WeapBindsSystem (CPlayer.mo.FindInventory ("S7_WeapBindsSystem"));
-        
+
         Array<S7_BaseWeapon> weapons;
         S7_BaseWeapon weap;
         for (int x = 0; x < 5; x++) {

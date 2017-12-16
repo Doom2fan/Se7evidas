@@ -1,6 +1,6 @@
 class S7_ZF_Handler ui {
-    virtual void buttonCommand(string command) {
+    virtual void buttonCommand(S7_ZF_Button button, string command) {
     }
-	virtual void buttonFocusChanged(string command, bool lostFocus) {
+	virtual void buttonFocusChanged(S7_ZF_Button button, string command, bool lostFocus) {
 	}
 }
