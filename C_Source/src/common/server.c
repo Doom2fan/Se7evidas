@@ -25,36 +25,15 @@
 ServerData_t ServerData;
 MapData_t map_var MapData;
 
-Script_C void S7_LightLevelScript (int start, int end, int time, int lvl) {
-    Delay (time);
-
-    for (int i = start; i >= end; i--) {
-        Light_ChangeToValue (i, lvl);
-        Light_Stop (i);
-    }
-}
-
 Script_C void S7_SetMapInfo (string name, string author) {
     MapData.name = name;
     MapData.author = author;
 }
 
-Script_C int S7_GetMapEvent () {
-    return 0;
-}
-
 void UpdateServerData () {
-    ServerData.debugMode = GetCVar (s"S7_DebugMode");
-
-    // Game info
+    // Server data
     ServerData.gameType = GameType ();
 
-    // Parkour stuff
-    ServerData.mjumpZMul     = GetCVarFixed (s"S7_MultiJumpZMul");
-
-    // RPG system stuff
-    ServerData.maxLevel = GetCVar (s"S7_MaxLevel");
-    ServerData.avgLevel     = 1;
-    ServerData.highestLevel = 1;
-    ServerData.lowestLevel  = 0;
+    // Map data
+    MapData.mapEvent = ScriptCall (s"S7_ACSBridge", s"GetMapEvent");
 }

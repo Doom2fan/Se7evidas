@@ -41,11 +41,22 @@ class S7_IsLoaded : actor {
     }
 }
 
+// Common stuff
 #INCLUDE "S7ZScript/ZForms/ZF_Include.ZS"
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
-#INCLUDE "S7ZScript/Extensions.ZS"
-#INCLUDE "S7ZScript/MathExtensions.ZS"
+#INCLUDE "S7ZScript/Common/Extensions.ZS"
+#INCLUDE "S7ZScript/Common/MathExtensions.ZS"
+#INCLUDE "S7ZScript/Common/Utils.ZS"
+#INCLUDE "S7ZScript/Common/ServerData.ZS"
+#INCLUDE "S7ZScript/Common/CommonTokens.ZS"
+#INCLUDE "S7ZScript/EventHandlers.ZS"
+#INCLUDE "S7ZScript/Weapons/WeapData.ZS"
+
+// Bases
+#INCLUDE "S7ZScript/Bases/Base Actors.ZS"
+#INCLUDE "S7ZScript/Bases/Base Weapon.ZS"
+#INCLUDE "S7ZScript/Bases/Bullets.ZS"
 
 // Effects
 #INCLUDE "S7ZScript/Effects/Smoke.ZS"
@@ -57,17 +68,6 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Effects/MapEvents.ZS"
 #INCLUDE "S7ZScript/Effects/Gore.ZS"
 #INCLUDE "S7ZScript/Effects/Fire.ZS"
-
-// Common stuff
-#INCLUDE "S7ZScript/NamesList.ZS"
-#INCLUDE "S7ZScript/Utils.ZS"
-#INCLUDE "S7ZScript/ServerData.ZS"
-#INCLUDE "S7ZScript/CommonTokens.ZS"
-#INCLUDE "S7ZScript/Base Actors.ZS"
-#INCLUDE "S7ZScript/Base Weapon.ZS"
-#INCLUDE "S7ZScript/Bullets.ZS"
-#INCLUDE "S7ZScript/EventHandlers.ZS"
-#INCLUDE "S7ZScript/Weapons/WeapData.ZS"
 
 // RPG Systems
 #INCLUDE "S7ZScript/RPG Systems/Shop System.ZS"
@@ -103,10 +103,9 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Inventory/Loot.ZS"
 
 // Player stuff
-#INCLUDE "S7ZScript/CheatThingy.ZS"
-#INCLUDE "S7ZScript/Player.ZS"
-#INCLUDE "S7ZScript/WeapBindsSystem.ZS"
-#INCLUDE "S7ZScript/Scout.ZS"
+#INCLUDE "S7ZScript/Player/Player.ZS"
+#INCLUDE "S7ZScript/Player/WeapBindsSystem.ZS"
+#INCLUDE "S7ZScript/Player/Scout.ZS"
 
 // GUI
 #INCLUDE "S7ZScript/GUI/Statusbar.ZS"
@@ -116,7 +115,10 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Inventory/Ammo.ZS"
 
 // Misc
-#INCLUDE "S7ZScript/Props.ZS"
+#INCLUDE "S7ZScript/Misc/Props.ZS"
+#INCLUDE "S7ZScript/Misc/NamesList.ZS"
+#INCLUDE "S7ZScript/Misc/ACSBridge.ZS"
+#INCLUDE "S7ZScript/Misc/CheatThingy.ZS"
 
 // Weapons
 #INCLUDE "S7ZScript/Weapons/Unarmed.ZS"

@@ -17,6 +17,16 @@ class S7_MapData : Thinker {
 
         return p;
     }
+
+    clearscope static S7_MapData GetSpecial () {
+        ThinkerIterator it = ThinkerIterator.Create ("S7_MapData", STAT_STATIC);
+        let p = S7_MapData (it.Next ());
+
+        if (!p)
+            return null;
+
+        return p;
+    }
 }
 
 class S7_ServerData : Thinker {

@@ -50,40 +50,9 @@
 #define Gender_Male  0
 #define Gender_Fem   1
 #define Gender_Other 2
-#define Gender_Herm  3
 
 #define M_PIk 3.141592653589793238462643383279502884k
 #define M_PI_2k 1.570796326794896619231321691639751442k
-
-#define PlayerClass_Scout 0
-
-#define BASEAMMOMAX 6
-
-#define MOD_VERSION_CSTR    "0.1"
-#define MOD_VERSION_STRING s"0.1"
-#define MOD_VERSION_MAJOR   0
-#define MOD_VERSION_MINOR   1
-#define MOD_VERSION_FLOAT   MOD_VERSION_MAJOR.MOD_VERSION_MINOR
-
-// Actor properties
-#define APROP_NoTarget  19
-#define APROP_NoTrigger 23
-
-// Actor names
-// Spriting system
-#define SPRINTWEAPON         s"S7_SprintWeapon"
-// Misc
-#define BERSERKTOKEN         s"S7_BerserkToken"
-#define MANATOKEN            s"S7_Mana"
-#define CANTEENITEM          s"S7_Canteen"
-#define DYINGTOKEN           s"S7_Dying"
-#define ISDEADTOKEN          s"S7_IsDead"
-#define FAKEMONSTOKEN        s"S7_NotRealMonster"
-#define UNDERWATERTOKEN      s"S7_IsUnderwater"
-#define AIRTIMETOKEN         s"S7_AirTime"
-#define DISABLEHUDTOKEN      s"S7_DisableHud"
-#define MJUMP_MAXTOKEN       s"S7_MultiJump_Max"
-#define SLANCE_BEAMGRABTOKEN s"S7_SoulLance_BeamGrabbed"
 
 // Script types
 #define UNLOADING    [[script ("Unloading") ]]
@@ -95,14 +64,14 @@
 #define Script_CS    ACS_SS_SCRIPT
 #define Script_LS    SS_SCRIPT
 
+// Actor names
+#define DISABLEHUDTOKEN      s"S7_DisableHud"
+
 // Includes
 #include <float.h>
 #include <assert.h>
 #include "common/util.h"
 #include "common/util_math.h"
-#include "common/types.h"
-#include "common/enum.h"
-#include "misc/construct.h"
 #include "common/commonFuncs.h"
 #include "misc/debugFuncs.h"
 #ifndef SERVER_C
@@ -112,13 +81,7 @@
 #include "common/player.h"
 #endif
 
-// Misc
-#define TNT1A0 s"TNT1A0"
-
 // Typedefs
 typedef char * cstr;
-
-// Prototypes
-void PukeScriptFunction (int number, int arg0, int arg1, int arg2);
 
 #endif

@@ -18,14 +18,14 @@
 */
 
 #include "includes.h"
-#include "gui/HUD.h"
-#include "gui/playerMenu.h"
 
 void ResetStuff (PlayerData_t *player);
 
 Script_C void S7_ServersideOpen OPEN () {
+    ServerData.version = ScriptCallString (s"S7_ACSBridge", s"GetVersion");
+
     #ifdef DEBUG
-    Log_Str (s"Se7evidas version %s\nSe7evidas ACSVM Library compiled at %s %s.", MOD_VERSION_CSTR, __DATE__, __TIME__);
+    Log_Str (s"Se7evidas version %S\nSe7evidas ACSVM Library compiled at %s %s.", ServerData.version, __DATE__, __TIME__);
     #endif
 
     if (GetCVar (s"S7_DebugMode"))
@@ -43,18 +43,16 @@ Script_C void S7_ServersideOpen OPEN () {
     }
 }
 Script_C void S7_ShowMapInfo () {
-    SetHudSize (640, 480, FALSE);
     Delay (20);
     SetFont (s"BIGFONT");
-    HudMessage (HUDMSG_FADEINOUT, 0, CR_RED, 320.0k, 300.0k, 4.0k, 1.0k, 1.0k, 0.0k, "%S", MapData.name);
+    HudMessage (HUDMSG_FADEINOUT, 0, CR_RED, 0.5k, 0.625k, 4.0k, 1.0k, 1.0k, 0.0k, "%S", MapData.name);
     if (StrCmp (MapData.author, s"") != 0) {
         SetFont (s"SMALLFNT");
-        HudMessage (HUDMSG_FADEINOUT, 0, CR_WHITE, 320.0k, 315.0k, 4.0k, 1.0k, 1.0k, 0.0k, "By %S", MapData.author);
+        HudMessage (HUDMSG_FADEINOUT, 0, CR_WHITE, 0.5k, 0.65625k, 4.0k, 1.0k, 1.0k, 0.0k, "By %S", MapData.author);
     }
 }
 
 // General stuff
-Script_C void S7_ServersideEnter2 (PlayerData_t *player);
 Script_C void S7_ServersideEnter ENTER () {
     // Not needed or desired in TitleMaps.
     if (GameType () == GAME_TITLE_MAP || !PlayerInGame (PLN))
@@ -76,51 +74,20 @@ Script_C void S7_ServersideEnter ENTER () {
         TakeInventory (DISABLEHUDTOKEN, 0x7FFFFFFF);
     }
 
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
-
-    S7_ServersideEnter2 (player); // This has to be done like this to make sure this script runs first.
-
     S7_ShowMapInfo ();
 
-    while (TRUE) { // Loop forever
+    ResetPlayer (player);
+
+    /*while (TRUE) { // Loop forever
         if (!PlayerInGame (PLN))
             return;
 
-        UpdatePlayerData (player); // Update the player's data
-        UpdatePlayerData      (player); // Update the player's data again because of the parkour stuff
-        PlayerMenuScript      (player);
-
-        UpdatePlayerAlpha  (player); // Update the alpha
 
         Delay (1); // Wait for a tic
-    }
-}
-
-// Clientside-ish (HUD, popups, etc.) stuff
-Script_C void S7_ServersideEnter2 (PlayerData_t *player) {
-    if (!player) {
-        DebugLog ("\CgScript S7_ServersideEnter2: Fatal error: Invalid or NULL player struct.");
-        return;
-    }
-
-    SP_Data_t  sp_data;
-
-    while (TRUE) { // Loop forever
-        if (!PlayerInGame (PLN))
-            return;
-
-        ShowPop                  (player, &sp_data);
-        ScreenOverlays           (player);
-
-        Delay (1); // Wait for a tic
-    }
+    }*/
 }
 
 Script_C void S7_MapStart ENTER () {
-    /*if (!MapData.mapEventSet)
-        while (!MapData.mapEventSet)
-            Delay (1);
-
     SetHudSize (640, 480, FALSE);
     switch (MapData.mapEvent) {
         case MEVNT_GhostTown:
@@ -146,22 +113,7 @@ Script_C void S7_MapStart ENTER () {
 
         default:
         break;
-    }*/
-}
-
-void ResetStuff (PlayerData_t *player) {
-    if (!player) {
-        DebugLog ("\CgFunction ResetStuff: Fatal error: Invalid or NULL player struct");
-        return;
     }
-
-    player->misc.waterlevel = 0;
-    player->misc.dying = FALSE;
-    player->scriptData.beamGrab = FALSE;
-    player->parkourDef.mjumpCount = 0;
-    SetInventory (DISABLEHUDTOKEN, 0);
-
-    SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
 
 Script_C void S7_ServersideRespawn RESPAWN () {
@@ -176,9 +128,7 @@ Script_C void S7_ServersideRespawn RESPAWN () {
         return;
     }
 
-    ResetStuff (player);
-
-    SetActorPropertyFixed (0, APROP_Speed, 1.0k);
+    ResetPlayer (player);
 }
 
 Script_C void S7_ServersideDisconnect DISCONNECT (int num) {

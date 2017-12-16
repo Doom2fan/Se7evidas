@@ -24,32 +24,26 @@
 
 // Enums
 enum {
-    MEVNT_None            = 0, // This is here just so you don't have to keep track of the first event, it's not an actual event.
-    MEVNT_GhostTown       = 1,
-    MEVNT_PowerOutage     = 2,
-    MEVNT_NuclearMeltdown = 3,
-    MEVNT_PerfectHatred   = 4,
+    MEVNT_None            = 0, // This is here just in case you need to check it for some reason.
+    MEVNT_GhostTown          ,
+    MEVNT_PowerOutage        ,
+    MEVNT_NuclearMeltdown    ,
+    MEVNT_PerfectHatred      ,
     MEVNT_LastToken          , // This is here just so you don't have to keep track of the last event, it's not an actual event.
 };
 
 // Structs
 typedef struct ServerData_t {
-    bool debugMode;
+    string version;
 
-    // Game info
     int gameType;
-
-    // Parkour stuff
-    accum mjumpZMul;
-
-    // RPG system stuff
-    int maxLevel;
-    int avgLevel, highestLevel, lowestLevel;
 } ServerData_t;
 
 typedef struct MapData_t {
     string name;
     string author;
+
+    int mapEvent;
 } MapData_t;
 
 // Struct declarations

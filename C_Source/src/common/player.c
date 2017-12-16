@@ -21,65 +21,18 @@
 #include "includes.h"
 #undef PLAYER_C
 #include "common/player.h"
-#include "systems/monster_stuff.h"
+
+// Definitions
+PlayerData_t PlayerData [MAX_PLAYERS];
+string PD_Gender [] = {
+    s"GEN_MALE",
+    s"GEN_FEM",
+    s"GEN_OTHER",
+};
+int PD_Gender_Length = ArraySize (PD_Gender);
 
 // Forward declarations
 Script_C void RunIntro (PlayerData_t *player);
-
-// Functions
-void UpdatePlayerData (PlayerData_t *player) {
-    if (!player) {
-        DebugLog ("\CgFunction UpdatePlayerData: Fatal error: Invalid or NULL player struct");
-        return;
-    }
-
-    // Position and velocity
-    player->physics.x = GetActorX (0); // Get the XYZ coordinates
-    player->physics.y = GetActorY (0);
-    player->physics.z = GetActorZ (0);
-    player->physics.radius = GetActorPropertyFixed (0, APROP_Radius); // Get the player actor's size
-    player->physics.height = GetActorPropertyFixed (0, APROP_Height);
-    player->physics.velX = GetActorVelX (0); // Get the XYZ velocities
-    player->physics.velY = GetActorVelY (0);
-    player->physics.velZ = GetActorVelZ (0);
-    player->physics.angle = GetActorAngle (0); // Get the angle and pitch
-    player->physics.pitch = GetActorPitch (0);
-    player->physics.velAngle = atan2A (player->physics.velX, player->physics.velZ); // Get the movement angle
-    player->physics.floorZ = GetActorFloorZ (0);                                          // Sector Z coordinates
-    player->physics.ceilZ  = GetActorCeilingZ (0);
-    player->physics.relativeZ = player->physics.z - player->physics.floorZ; // Z coordinate relative to sector floor
-    player->physics.jumpZ = GetActorPropertyFixed (0, APROP_JumpZ); // Jump height/velocity?
-
-    // Health and stamina
-    player->health.health = GetActorProperty (0, APROP_Health);         // Get the health
-    player->health.maxHealth = GetActorProperty (0, APROP_SpawnHealth); // Get the max health
-
-    // Misc
-    player->misc.waterlevel = GetActorProperty (0, APROP_Waterlevel); // Get the waterlevel/how deep in water the player is
-
-    // Script data
-    player->scriptData.disableHUD = CheckInventory (DISABLEHUDTOKEN);
-    player->parkourDef.mjumpMax = CheckInventory (MJUMP_MAXTOKEN);
-    player->scriptData.beamGrab = CheckInventory (SLANCE_BEAMGRABTOKEN);
-}
-
-void UpdatePlayerAlpha (PlayerData_t *player) {
-    if (!player)
-        return;
-
-    accum newAlpha = 1.0k;
-    int   newRenderStyle = STYLE_Normal;
-    accum oldAlpha = GetActorPropertyFixed (0, APROP_Alpha);
-    int   oldRenderStyle = GetActorProperty (0, APROP_RenderStyle);
-
-    if (CheckInventory (s"S7_PowerDodgeInvuln") > 0)
-        newRenderStyle = STYLE_Shadow;
-
-    if (newAlpha != oldAlpha)
-        SetActorPropertyFixed (0, APROP_Alpha, newAlpha);
-    if (newRenderStyle != oldRenderStyle)
-        SetActorProperty      (0, APROP_RenderStyle, newRenderStyle);
-}
 
 void InitializePlayer (PlayerData_t *player) {
     if (!player) {
@@ -87,16 +40,19 @@ void InitializePlayer (PlayerData_t *player) {
         return;
     }
 
-    player->ammoMax = BASEAMMOMAX;
-    player->parkourDef.wGrabOldGravity = 1.0k;
-    player->parkourDef.wGrabHolding = FALSE;
     SetInventory (DISABLEHUDTOKEN, 1);
-    player->scriptData.disableHUD = TRUE;
-
-    UpdatePlayerData (player);
 
     RunIntro (player);
     player->initialized = TRUE;
+}
+void ResetPlayer (PlayerData_t *player) {
+    if (!player) {
+        DebugLog ("\CgFunction ResetPlayer: Fatal error: Invalid or NULL player struct");
+        return;
+    }
+
+    SetInventory (DISABLEHUDTOKEN, 0);
+    SetPlayerProperty (FALSE, OFF, PROP_TOTALLYFROZEN);
 }
 
 #define BASEINTROID 12000

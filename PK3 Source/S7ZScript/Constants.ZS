@@ -1,3 +1,7 @@
+// Version
+const S7C_MajorVersion = 0;
+const S7C_MinorVersion = 1;
+
 // Map events
 enum MapEventTypes {
     MEVNT_None            = 0, // This is here just in case you need to check it for some reason.

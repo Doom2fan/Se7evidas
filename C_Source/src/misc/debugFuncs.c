@@ -18,7 +18,6 @@
 */
 
 #include "includes.h"
-#include "weapons/weap_data.h"
 #include "misc/debugFuncs.h"
 
 Script_C void S7_DebugVelocity NET () {
@@ -54,74 +53,4 @@ Script_C void S7_DebugVelocityInKmH NET () {
 
         Delay (1);
     }
-}
-
-string PrintInv_Generic (string inStr, const string arr [], int arrSize) {
-    string ret = inStr;
-
-    for (int i = 0; i < arrSize; i++)
-        if (CheckInventory (arr [i]))
-            ret = StrParam ("%S\n  %S (%d)", ret, arr [i], CheckInventory (arr [i]));
-
-    return ret;
-}
-string PrintInv_Weapons (string inStr) {
-    string ret = inStr;
-
-    for (int i = 0; i < WeaponNames_Length; i++)
-        if (CheckInventory (WeaponNames [i]))
-            ret = StrParam ("%S\n  %S", ret, WeaponNames [i]);
-
-    return ret;
-}
-Script_C void S7_PrintInv NET (int mode) {
-    if (!CheckCheats () || !PlayerInGame (PLN))
-        return;
-
-    string inv = s"S7_PrintInv: String \"inv\" wasn't set. Error?";
-
-    switch (mode) {
-        case 1:
-            inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
-        break;
-        
-        case 2:
-            inv = PrintInv_Weapons (s"Weapons:");
-        break;
-
-        case 3:
-            inv = PrintInv_Generic (s"Ammo in weapons:", ClipNames, ClipNames_Length);
-        break;
-
-        case 4: break;
-
-        default:
-            inv = PrintInv_Generic (s"Ammo:", AmmoNames, AmmoNames_Length);
-            inv = PrintInv_Weapons (StrParam ("%S\n\nWeapons:", inv));
-            inv = PrintInv_Generic (StrParam ("%S\n\nAmmo in weapons:", inv), ClipNames, ClipNames_Length);
-        break;
-    }
-
-    Log ("%S", inv);
-}
-
-Script_C void S7_PrintServerData NET () {
-    if (!CheckCheats () || !PlayerInGame (PLN))
-        return;
-
-    Log ("ServerData = {\n \
-    debugMode = %s; \
-    mjumpZMul = %kk;\n \
-    };",
-    ServerData.debugMode ? "TRUE" : "FALSE", ServerData.mjumpZMul);
-}
-Script_C void S7_PrintMapData NET () {
-    if (!CheckCheats () || !PlayerInGame (PLN))
-        return;
-
-    Log ("MapData = {\n \
-    name = \"%S\";\n \
-    author = \"%S\";\n \
-    };",
-    MapData.name, MapData.author);
 }

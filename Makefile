@@ -3,7 +3,6 @@
 CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
-MenuGUI_Compiler = Tools/playermenuCompiler
 ShopData_Compiler = Tools/shopDataCompiler
 MKDIRCMD = gmkdir
 COM_FLAGS = --bc-target=ZDoom
@@ -21,11 +20,11 @@ rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcard
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
 
 .PHONY: all
-all: MenuGUI ShopData $(OBJDIR)/S7Stuff.bin
+all: ShopData $(OBJDIR)/S7Stuff.bin
 
 .PHONY: cleanall
 cleanall:
-	-rm -rf "$(OBJDIR)" "$(MenuGUI_OBJDIR)" 
+	-rm -rf "$(OBJDIR)"
 
 ## ===========================================
 ##
@@ -66,23 +65,8 @@ $(LIBDIR)/libGDCC.ir:
 ##
 ## ===========================================
 
-## Playermenu GUI ##
-MenuGUI_SRCDIR = $(SOURCEDIRECTORY)/guiSrc
-MenuGUI_OBJDIR = $(SRCDIR)/guiSrc
-MenuGUI_SRC = $(call rwildcard, $(MenuGUI_SRCDIR), %.json)
-MenuGUI_OBJ = $(MenuGUI_SRC:$(MenuGUI_SRCDIR)/%.json=$(MenuGUI_OBJDIR)/%.c)
-
-$(MenuGUI_OBJDIR)/%.c: $(MenuGUI_SRCDIR)/%.json
-	@echo $(ShopData_OBJ)
-	@$(MKDIRCMD) -p "$(@D)"
-	$(MenuGUI_Compiler) --file $< --out $(MenuGUI_OBJDIR)
-
-.PHONY: MenuGUI
-MenuGUI: $(MenuGUI_OBJ)
-
-## Common ##
 S7Stuff_OBJDIR = $(OBJDIR)/S7Stuff
-S7Stuff_SRC = $(sort $(call rwildcard, $(SRCDIR), %.c) $(MenuGUI_OBJ))
+S7Stuff_SRC = $(call rwildcard, $(SRCDIR), %.c)
 S7Stuff_OBJ = $(S7Stuff_SRC:$(SRCDIR)/%.c=$(S7Stuff_OBJDIR)/%.ir)
 
 $(S7Stuff_OBJ): $(S7Stuff_OBJDIR)/%.ir: $(SRCDIR)/%.c
