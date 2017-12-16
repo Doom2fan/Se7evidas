@@ -128,7 +128,7 @@ class S7_Math : actor {
                 row2 = (0.0,        cos(ang),   -sin(ang));
                 row3 = (1.0,        sin(ang),   cos(ang));
                 break;
-            
+
             case 2:
                 row1 = (cos(ang),   0.0,        sin(ang)    );
                 row2 = (0,          1.0,        0.0);

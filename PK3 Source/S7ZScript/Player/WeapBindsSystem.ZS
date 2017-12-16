@@ -145,7 +145,7 @@ class S7_WeapBindsSystem : Inventory {
                         weapons.Copy (Binds [slot]);
                     }
                 }
-                
+
                 if (index >= 0 && index < weapons.Size ()) {
                     let weap = weapons [index];
                     if (weap && weap.CheckAmmo (Weapon.EitherFire, false))

@@ -85,7 +85,7 @@ class S7_ServerEventHandler : EventHandler {
     override void WorldTick () {
         let mapData = S7_MapData.Get ();
 
-        TickMapEvents (mapData);   
+        TickMapEvents (mapData);
     }
 
     void TickMapEvents (S7_MapData mapData) {

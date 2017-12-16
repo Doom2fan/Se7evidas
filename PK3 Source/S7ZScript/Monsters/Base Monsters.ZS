@@ -24,7 +24,7 @@ class S7_MonsterBase : actor {
     Actor grabbedShooter;
 
     action void S7_A_GrabBeam () {
-        
+
     }
 }
 

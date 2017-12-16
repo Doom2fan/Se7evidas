@@ -42,7 +42,7 @@ class S7_XPSystemWorker : Inventory {
 
                 sBar.DrawString (sBar.mBigFont, "Level up!", (0, 0), BaseStatusBar.DI_SCREEN_CENTER | BaseStatusBar.DI_TEXT_ALIGN_CENTER | BaseStatusBar.DI_NOSHADOW, Font.CR_UNTRANSLATED);
                 //sBar.
-                
+
                 if (message != "" && !additional)
                     sBar.DrawString (sBar.mSmallFont, message, (0, -10), BaseStatusBar.DI_SCREEN_CENTER | BaseStatusBar.DI_TEXT_ALIGN_CENTER | BaseStatusBar.DI_NOSHADOW, Font.CR_UNTRANSLATED);
                 else {
