@@ -1,2 +1,2 @@
 Slightly (SLIGHTLY) inspired by Se7eNytes' Crossfire and Black And Grey, Vaecrius' Hideous Destructor, Aenima's Mercenaries Doom/mercs2.pk3, (probably) TerminusEst13's DemonSteele and lots of other mods.
-Requires GZDoom 3.1.0 or newer.
+Requires GZDoom 3.2.3 or newer.

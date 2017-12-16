@@ -1,5 +1,5 @@
 ==================================================================================
-Advanced engine needed  : GZDoom 3.1.x+
+Advanced engine needed  : GZDoom 3.2.3+
 ==================================================================================
 Name                    : Se7evidas
 Publisher               : Dark Realm
@@ -43,6 +43,6 @@ Difficulty Settings     : Yes, kinda
 
 Build Time              : UINT64_MAX
 ==================================================================================
-Programs used          : Notepad, Notepad++, SLADE 3, Sublime Text 2, SmartGit,
-                         Photoshop CS6, GIMP, Code::Blocks, Visual Studio, 7-Zip,
-                         GDCC, lots of other editors
+Programs used          : Notepad, Notepad++, SLADE 3, Sublime Text 2/3, SmartGit,
+                         Photoshop CS6, GIMP, Visual Studio, 7-Zip, GDCC,
+                         lots of other editors
