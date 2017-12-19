@@ -1,6 +1,14 @@
 [default enu en]
 SS_BUYMODE                      = "Buy";
 SS_SELLMODE                     = "Sell";
+SS_BUYCONFIRM                   = "Buy";
+SS_SELLCONFIRM                  = "Sell";
+SS_SELLTTIP                     = "Press the Shift key to toggle between the buy and sell modes.";
+
+SS_TOTAL                        = "Total amount";
+SS_COUNT                        = "Count";
+SS_PRICE                        = "Price";
+
 SS_BACK                         = "Back";
 SS_BACK_DESC                    = "Returns to the previous page";
 SS_MAINSHOP                     = "Lucius armoury";

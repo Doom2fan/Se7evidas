@@ -82,6 +82,7 @@ extend class S7_ShopDataEventHandler {
             desc:          "$SS_9MMDESC",
             info:          "$SS_9MMINFO",
             icon:          "graphics/Menu/Shop/Icons/9mmCartridges.png",
+            inventoryName: "S7_9mmCartridges",
             itemType:      IT_BuySellItem,
             buyPrice:      240,
             buyAmount:     30,

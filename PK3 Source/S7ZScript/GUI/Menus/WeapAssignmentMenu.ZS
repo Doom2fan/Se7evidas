@@ -62,7 +62,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     }
 
     override void Ticker () { // GetClassName
-        super.Ticker ();
+        Super.Ticker ();
 
         if (!CPlayer || !CPlayer.mo)
             return;

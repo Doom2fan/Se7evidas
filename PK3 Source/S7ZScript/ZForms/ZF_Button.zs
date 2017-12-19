@@ -11,6 +11,7 @@ class S7_ZF_Button : S7_ZF_Element {
 
 	Font fnt;
 	string text;
+	int textColor;
 	double textScale;
 
 	S7_ZF_BoxTextures textures[4];
@@ -33,7 +34,7 @@ class S7_ZF_Button : S7_ZF_Element {
 	void config(string text = "", S7_ZF_Handler handler = NULL, string command = "",
 	            S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL,
 	            S7_ZF_BoxTextures click = NULL, S7_ZF_BoxTextures disabled = NULL,
-	            Font fnt = NULL, double textScale = 1) {
+	            Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE) {
 		if (fnt == NULL) {
 			self.fnt = smallfont;
 		}
@@ -49,12 +50,13 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.textures[B_CLICK] = click;
 		self.textures[B_DISABLED] = disabled;
 		self.singleTex = false;
+		self.textColor = textColor;
 	}
 
 	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler handler = NULL, string command = "",
 	               S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
-	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1) {
-		self.config(text, handler, command, inactive, hover, click, disabled, fnt, textScale);
+	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE) {
+		self.config(text, handler, command, inactive, hover, click, disabled, fnt, textScale, textColor);
 		self.setBox(pos, size);
 
 		return self;
@@ -78,7 +80,7 @@ class S7_ZF_Button : S7_ZF_Element {
 		// draw the text in the middle of the button
 		Vector2 textSize = (fnt.stringWidth(text), fnt.getHeight()) * textScale;
 		Vector2 textPos = (box.size - textSize) / 2;
-		drawText(textPos, fnt, text, Font.CR_WHITE, textScale);
+		drawText(textPos, fnt, text, textColor, textScale);
 	}
 
 	override void onUIEvent(UIEvent ev) {

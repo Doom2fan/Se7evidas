@@ -27,6 +27,9 @@ class S7_PlayerData : Inventory {
     /** Weapons **/
     double ammoMaxMult;
     /** Misc **/
+    // Shop menu
+    bool transactDone, transactSell;
+    int transactResult;
     // Stamina regen
     int staminaTics;
     // Canteen

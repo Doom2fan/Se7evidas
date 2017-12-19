@@ -16,6 +16,7 @@ ShopDef parseShop (JSONValue data) {
 
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "name", shop.name, "", true, false);
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "mainPage", shop.mainPage, null, true, true);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "defaultCashItem", shop.defCashItem, null, true, false);
 
     auto pages = tryParseValue (data, "pages", JSON_TYPE.ARRAY, true, true).array;
     ShopPage [] pageDefs = new ShopPage [pages.length];
@@ -33,6 +34,7 @@ ShopPage parsePage (JSONValue data) {
         throw new ParsingException ("Shop definitions must specify an internal name");
 
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "name", page.name, "", true, false);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "defaultCashItem", page.defCashItem, null, true, false);
 
     auto items = tryParseValue (data, "items", JSON_TYPE.ARRAY, true, true).array;
     ShopItem [] itemDefs = new ShopItem [items.length];
@@ -70,6 +72,7 @@ ShopItem parseItem (JSONValue data) {
         default: item.itemType = cast (ItemType) -1; break;
     }
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "link", item.link, null, true, false);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "cashItem", item.cashItem, null, true, false);
 
     int maxAmount, buyPrice, buyAmount, sellPrice, sellAmount;
     if (tryParseValueOut!(int, JSON_TYPE.INTEGER) (data, "maxAmount",  maxAmount,  -1, true, false) !is null) item.maxAmount = maxAmount;

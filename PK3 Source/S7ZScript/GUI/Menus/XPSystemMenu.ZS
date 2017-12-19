@@ -111,24 +111,24 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statAddLabels [i].Pack (statsFrame);
 
             statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", handler, String.Format ("StatAdd:%s", statName), null, null, null, null);
-            statButtons [i] [0].SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
+            statButtons [i] [0].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [0].Pack (statsFrame);
             statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", handler, String.Format ("StatDec:%s", statName), null, null, null, null);
-            statButtons [i] [1].SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
+            statButtons [i] [1].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [1].Pack (statsFrame);
         }
         acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", handler, "AcceptButton", null, null, null, null);
-        acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton2.png", "graphics/Menu/XPSys/StatButton2Hover.png", "graphics/Menu/XPSys/StatButton2Pressed.png", "");
+        acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         acceptButton.Pack (statsFrame);
         resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", handler, "ResetButton", null, null, null, null);
-        resetButton.SetTexture ("graphics/Menu/XPSys/StatButton2.png", "graphics/Menu/XPSys/StatButton2Hover.png", "graphics/Menu/XPSys/StatButton2Pressed.png", "");
+        resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         resetButton.Pack (statsFrame);
 
         //dontDim = true;
     }
 
     override void Ticker () {
-        super.Ticker ();
+        Super.Ticker ();
 
         if (!CPlayer || !CPlayer.mo)
             return;

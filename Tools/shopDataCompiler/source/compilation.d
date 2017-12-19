@@ -56,7 +56,7 @@ string compileShop (ShopDef shop) {
         if (page.intName == shop.mainPage)
             mainPageFound = true;
 
-        compilePage (page, pageDefs [i], pageData [i]);
+        compilePage (shop, page, pageDefs [i], pageData [i]);
     }
 
     code = code.replace ("##PageDefs##", pageDefs.join (newline))
@@ -67,7 +67,7 @@ string compileShop (ShopDef shop) {
     return code;
 }
 
-void compilePage (ShopPage page, out string pageDef, out string pageData) {
+void compilePage (ShopDef shop, ShopPage page, out string pageDef, out string pageData) {
     pageDef = format ("\t\tS7_SSPage %s = new (\"S7_SSPage\");", page.intName);
     string [] tmpData;
     tmpData.reserve ((page.items.length * 14) + 2);
@@ -81,16 +81,22 @@ void compilePage (ShopPage page, out string pageDef, out string pageData) {
         tmpData ~= format ("\t\t%s.Create (", item.itemClass);
 
         itemData ~= format ("\t\t\tS7_Utils.MakeUID (\"%c\", \"%c\", \"%c\", \"%c\")", item.id [0], item.id [1], item.id [2], item.id [3]);
+
         if (item.name !is null)
             itemData ~= format ("\t\t\tname:          \"%s\"", item.name);
+
         if (item.description !is null)
             itemData ~= format ("\t\t\tdesc:          \"%s\"", item.description);
+
         if (item.info !is null)
             itemData ~= format ("\t\t\tinfo:          \"%s\"", item.info);
+
         if (item.icon !is null)
             itemData ~= format ("\t\t\ticon:          \"%s\"", item.icon);
+
         if (item.inventoryName !is null)
             itemData ~= format ("\t\t\tinventoryName: \"%s\"", item.inventoryName);
+
         if (item.itemType != cast (ItemType) -1) {
             string itemType;
             final switch (item.itemType) {
@@ -101,18 +107,32 @@ void compilePage (ShopPage page, out string pageDef, out string pageData) {
             }
             itemData ~= format ("\t\t\titemType:      %s", itemType);
         }
+
         if (item.link !is null)
             itemData ~= format ("\t\t\tlink:          %s", item.link);
+
+        string cashItem;
+        if      (item.cashItem    !is null) cashItem = item.cashItem;
+        else if (page.defCashItem !is null) cashItem = page.defCashItem;
+        else if (shop.defCashItem !is null) cashItem = shop.defCashItem;
+        if (cashItem !is null)
+            itemData ~= format ("\t\t\tcashItem:      %s", cashItem);
+
         if (!item.maxAmount.isNull)
             itemData ~= format ("\t\t\tmaxAmount:     %s", item.maxAmount);
+
         if (!item.buyPrice.isNull)
             itemData ~= format ("\t\t\tbuyPrice:      %s", item.buyPrice);
+
         if (!item.buyAmount.isNull)
             itemData ~= format ("\t\t\tbuyAmount:     %s", item.buyAmount);
+
         if (!item.sellPrice.isNull)
             itemData ~= format ("\t\t\tsellPrice:     %s", item.sellPrice);
+
         if (!item.sellAmount.isNull)
             itemData ~= format ("\t\t\tsellAmount:    %s", item.sellAmount);
+
         if (item.descShowType != cast (DescShowType) -1) {
             string showType;
             final switch (item.descShowType) {

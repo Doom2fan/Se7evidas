@@ -20,6 +20,7 @@ class ShopDef {
 
     string name;
     string mainPage;
+    string defCashItem;
     ShopPage [] pages;
 }
 
@@ -27,6 +28,7 @@ class ShopPage {
     string intName;
 
     string name;
+    string defCashItem;
     ShopItem [] items;
 }
 
@@ -42,6 +44,7 @@ class ShopItem {
     string inventoryName;
     ItemType itemType;
     string link;
+    string cashItem;
     Nullable!int maxAmount;
     Nullable!int buyPrice;
     Nullable!int buyAmount;

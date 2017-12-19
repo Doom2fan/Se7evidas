@@ -3,7 +3,7 @@
 // Cash
 //
 //-------------------------------------------------------------------------------------------
-class S7_Cash : S7_Counter { default { inventory.maxAmount 0x7FFFFFFF; +inventory.keepDepleted } }
+class S7_Cash : S7_Counter { default { inventory.maxAmount 0x7FFFFFFE; +inventory.keepDepleted } }
 
 // Constants
 enum SS_ItemType {
@@ -69,11 +69,13 @@ class S7_SSItem {
     string inventoryName;
     SS_ItemType itemType;
     S7_SSPage link;
+    string cashItem;
     S7_SSItemInfo info;
     SS_DescShowType descShowType;
 
     static S7_SSItem Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, int maxAmount = 0, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0, SS_DescShowType descShowType = DS_Both
+        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = 0, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
+        SS_DescShowType descShowType = DS_Both
     ) {
         S7_SSItem ret = new ("S7_SSItem");
 
@@ -85,6 +87,7 @@ class S7_SSItem {
         ret.inventoryName   = inventoryName;
         ret.itemType        = itemType;
         ret.link            = link;
+        ret.cashItem        = cashItem;
         ret.info            = new ("S7_SSItemInfo");
         ret.info.maxAmount  = maxAmount;
         ret.info.buyPrice   = buyPrice;
@@ -104,7 +107,7 @@ class S7_SSItem {
         ret.sellPrice *= amount;
         ret.sellAmount *= amount;
 
-        return info.Copy ();
+        return ret;
     }
 
     virtual play SS_BuyCode BuyItem (S7_BasePlayer player, int amount, double discount = 0.0) {
@@ -112,15 +115,15 @@ class S7_SSItem {
             return BC_InvalidPlayer;
 
         let itemInfo = self.GetInfo (player, amount);
-        int finalPrice = (itemInfo.buyPrice * amount) - ((itemInfo.buyPrice * amount) * discount);
-        int finalAmount = itemInfo.buyAmount * amount;
+        int finalPrice = (itemInfo.buyPrice) - ((itemInfo.buyPrice) * discount);
+        int finalAmount = itemInfo.buyAmount;
 
         if (player.CountInv (self.inventoryName) + finalAmount > itemInfo.maxAmount)
             return BC_InventoryFull;
-        if (player.CountInv ("S7_Cash") < finalPrice)
+        if (player.CountInv (self.cashItem) < finalPrice)
             return BC_NotEnoughMoney;
 
-        player.TakeInventory ("S7_Cash", finalPrice);
+        player.TakeInventory (self.cashItem, finalPrice);
         player.GiveInventory (self.inventoryName, finalAmount);
 
         return BC_Success;
@@ -131,15 +134,15 @@ class S7_SSItem {
             return SC_InvalidPlayer;
 
         let itemInfo = self.GetInfo (player, amount);
-        int finalPrice = (itemInfo.sellPrice * amount) + ((itemInfo.sellPrice * amount) * bonus);
-        int finalAmount = itemInfo.sellAmount * amount;
+        int finalPrice = (itemInfo.sellPrice) + ((itemInfo.sellPrice) * bonus);
+        int finalAmount = itemInfo.sellAmount;
 
         if (player.CountInv (self.inventoryName) < finalAmount)
             return SC_NotEnoughOfItem;
-        if (player.CountInv ("S7_Cash") + finalPrice >= player.FindInventory ("S7_Cash").maxAmount)
+        if (player.CountInv (self.cashItem) + finalPrice >= player.FindInventory (self.cashItem).maxAmount)
             return SC_TooMuchMoney;
 
-        player.GiveInventory ("S7_Cash", finalPrice);
+        player.GiveInventory (self.cashItem, finalPrice);
         player.TakeInventory (self.inventoryName, finalAmount);
 
         return SC_Success;
@@ -178,7 +181,8 @@ class S7_SSItem {
 
 class S7_SSItem_Ammo : S7_SSItem {
     static S7_SSItem_Ammo Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0, SS_DescShowType descShowType = DS_Both
+        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
+        SS_DescShowType descShowType = DS_Both
     ) {
         S7_SSItem_Ammo ret = new ("S7_SSItem_Ammo");
 
@@ -190,6 +194,7 @@ class S7_SSItem_Ammo : S7_SSItem {
         ret.inventoryName   = inventoryName;
         ret.itemType        = itemType;
         ret.link            = link;
+        ret.cashItem        = cashItem;
         ret.info            = new ("S7_SSItemInfo");
         ret.info.maxAmount  = maxAmount;
         ret.info.buyPrice   = buyPrice;
@@ -209,7 +214,7 @@ class S7_SSItem_Ammo : S7_SSItem {
 
             if (player && (inv = player.FindInventory (self.inventoryName)))
                 ret.maxAmount = inv.maxAmount;
-            else {
+            else if (self.inventoryName != "") {
                 let defaults = GetDefaultByType ((Class<Ammo>) (self.inventoryName));
                 ret.maxAmount = defaults ? defaults.maxAmount : 0;
             }
