@@ -66,8 +66,10 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         Super.Ticker ();
         menuactive = Menu.OnNoPause;
 
-        if (!CPlayer || !CPlayer.mo)
+        if (!CPlayer || !CPlayer.mo || CPlayer.mo.health < 1) {
+            self.Close ();
             return;
+        }
 
         let weapBinds = S7_WeapBindsSystem (CPlayer.mo.FindInventory ("S7_WeapBindsSystem"));
 

@@ -150,7 +150,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     override bool OnUIEvent (UIEvent ev) {
-        if (ev.type == UIEvent.Type_KeyDown && ev.KeyChar == UIEvent.Key_Tab) {
+        if (!shopFrame.disabled && ev.type == UIEvent.Type_KeyDown && ev.KeyChar == UIEvent.Key_Tab) {
             sellMode = !sellMode;
             return true;
         }
@@ -161,6 +161,11 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     override void Ticker () {
         Super.Ticker ();
         menuactive = Menu.OnNoPause;
+
+        if (!CPlayer || !CPlayer.mo || CPlayer.mo.health < 1) {
+            self.Close ();
+            return;
+        }
 
         if (buyButton) {
             buyButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);

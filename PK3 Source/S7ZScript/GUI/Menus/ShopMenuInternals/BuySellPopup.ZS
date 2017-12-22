@@ -97,7 +97,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), "", handler, "Accept", null, null, null, null, null);
         acceptButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         acceptButton.Pack (self);
-        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), "Cancel", handler, "Cancel", null, null, null, null, null);
+        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), StringTable.Localize ("$SS_CANCELBUTTON", true), handler, "Cancel", null, null, null, null, null);
         cancelButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         cancelButton.Pack (self);
 

@@ -1,8 +1,9 @@
 [ptb]
 SS_BUYMODE                      = "Comprar";
 SS_SELLMODE                     = "Vender";
-SS_BUYBUTTON                    = "Comprar";
-SS_SELLBUTTON                   = "Vender";
+SS_BUYBUTTON                    = "Compr.";
+SS_SELLBUTTON                   = "Vend.";
+SS_CANCELBUTTON                 = "Cancel.";
 SS_SELLTTIP                     = "Pressione a tecla Tab para alternar entre os modos de compra e venda.";
 
 SS_TOTAL                        = "Quant. total";

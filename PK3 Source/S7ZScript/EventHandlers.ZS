@@ -158,11 +158,11 @@ class S7_PlayerEventHandler : EventHandler {
         if (strings [0] == "S7_Keys") {
             let pPawn = players [e.Player].mo;
 
-            if (strings [1] == "Melee")
+            if (pPawn && strings [1] == "Melee")
                 pPawn.SetInventory ("S7_DoMelee", 1);
-            else if (strings [1] == "FiringMode")
+            else if (pPawn && strings [1] == "FiringMode")
                 pPawn.SetInventory ("S7_ChangeFireMode", 1);
-            if (e.Player == consoleplayer && strings [1] == "OpenLuciusShop")
+            else if (e.Player == consoleplayer && pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
                 Menu.SetMenu ("S7_LuciusShopMenu");
         } else if (strings [0] == "S7_WeapBindsSystem")
             WeapBindsSystem (e);
