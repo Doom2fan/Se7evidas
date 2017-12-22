@@ -8,15 +8,16 @@ addMenuKey    "Sprint (Hold)"               "+user1"
 addMenuKey    "Dodge"                       "+user2"
 
 addKeySection "Se7evidas (Misc)" "Se7evidas_Misc"
-addMenuKey    "Player menu"                 "+user4"
+addMenuKey    "Player menu"                 "S7_PlayerMenu"
 addMenuKey    "Buy Menu"                    "S7_LuciusShop"
 addMenuKey    "Inventory list"              "S7_ShowPop1"
 
 // Keys
 alias S7_FiringMode "netevent \"S7_Keys:FiringMode\""
 alias S7_QuickMelee "netevent \"S7_Keys:Melee\""
-alias S7_ShowPop1 "Use S7_ShowPop1Key"
+alias S7_PlayerMenu "netevent \"S7_Keys:OpenPlayerMenu\""
 alias S7_LuciusShop "netevent \"S7_Keys:OpenLuciusShop\""
+alias S7_ShowPop1 "Use S7_ShowPop1Key"
 
 // Aliases
 alias S7_ListInv "pukename S7_PrintInv always %1"

@@ -58,6 +58,13 @@
 
     // Melee
 
+// Menus
+    // Player menu
+    PLAYERMENUHEADER                = "PLAYER MENU";
+    PLAYERMENU_XPMENU               = "Statisticas";
+    PLAYERMENU_LUCIUSSHOP           = "Arsenal Lucius";
+    PLAYERMENU_WEAPASSIGN           = "Atribuicao de armas";
+
 // Deaths
     OB_DEFAULT                      = "%o morreu.";
 

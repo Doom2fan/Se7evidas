@@ -67,6 +67,13 @@
 
     // Melee
 
+// Menus
+    // Player menu
+    PLAYERMENUHEADER                = "PLAYER MENU";
+    PLAYERMENU_XPMENU               = "Stats";
+    PLAYERMENU_LUCIUSSHOP           = "Lucius Armory";
+    PLAYERMENU_WEAPASSIGN           = "Weapon assignment";
+
 // Deaths
     OB_DEFAULT                      = "%o was eaten by a grue.";
 
