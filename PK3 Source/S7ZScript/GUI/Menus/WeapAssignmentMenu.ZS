@@ -22,6 +22,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     override void Init (Menu parent) {
         Super.Init (parent);
         SetBaseResolution ((640, 480));
+        menuactive = Menu.OnNoPause;
 
         CPlayer = players [consolePlayer];
 
@@ -63,6 +64,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
     override void Ticker () { // GetClassName
         Super.Ticker ();
+        menuactive = Menu.OnNoPause;
 
         if (!CPlayer || !CPlayer.mo)
             return;
