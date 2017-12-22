@@ -3,8 +3,8 @@ class S7_ShopMenuHandler : S7_ZF_Handler {
 
     override void buttonCommand (S7_ZF_Button button, string command) {
         if (command.IndexOf (":") < 0) {
-            if (command == "BuyButton") {
-                link.ShowBuySellPopup (false);
+            if (command == "BuySellButton") {
+                link.ShowBuySellPopup ();
             }
         } /*else {
             Array<String> commandStrings;
@@ -36,10 +36,14 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     S7_ZF_Label nameLabel, descLabel, infoLabel, tooltipLabel;
     S7_ZF_Button buyButton;
 
-    S7_ZF_Frame shopFrame, popupFrame;
+    S7_ZF_Frame shopFrame;
+    S7_ZF_Frame popupFrame;
+
     S7_ShopMenu_List itemsList;
     S7_ShopMenu_BuySellPopup bsPopup;
+
     S7_ShopMenu_ListItem selectedItem, hoveredItem;
+    bool sellMode;
 
     virtual S7_SSShop GetShop () { return null; }
 
@@ -103,9 +107,10 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         tooltipLabel.Pack (popupFrame);
         SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
 
-        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), "Buy", handler, "BuyButton", null, null, null, null, null);
+        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), handler, "BuySellButton", null, null, null, null, null);
         buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
         buyButton.Pack (shopFrame);
+        sellMode = false;
 
         SetPage (shopData.mainPage);
 
@@ -137,16 +142,31 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     void SetTooltip (string text) {
         tooltipLabel.text = text;
         tooltipLabel.box.size = (smallFont.StringWidth (text), smallFont.GetHeight ());
-        tooltipLabel.box.pos = (smallFont.StringWidth (text),  450 + (30 - smallFont.GetHeight ()) / 2);
+        tooltipLabel.box.pos = ((640 - smallFont.StringWidth (text)) / 2,  450 + (30 - smallFont.GetHeight ()) / 2);
     }
 
-    void ShowBuySellPopup (bool sellMode) {
+    void ShowBuySellPopup () {
         bsPopup.Activate (sellMode);
+    }
+
+    override bool OnUIEvent (UIEvent ev) {
+        if (ev.type == UIEvent.Type_KeyDown && ev.KeyChar == UIEvent.Key_Tab) {
+            sellMode = !sellMode;
+            return true;
+        }
+
+        return Super.OnUIEvent (ev);
     }
 
     override void Ticker () {
         Super.Ticker ();
         menuactive = Menu.OnNoPause;
+
+        if (buyButton) {
+            buyButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
+            buyButton.textColor = (selectedItem ? Font.CR_WHITE : Font.CR_DARKGRAY);
+            buyButton.disabled = !selectedItem;
+        }
 
         if (hoveredItem && hoveredItem.itemData)
             Hover (hoveredItem.itemData);

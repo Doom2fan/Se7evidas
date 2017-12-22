@@ -1,9 +1,9 @@
 [ptb]
 SS_BUYMODE                      = "Comprar";
 SS_SELLMODE                     = "Vender";
-SS_BUYCONFIRM                   = "Comprar";
-SS_SELLCONFIRM                  = "Vender";
-SS_SELLTTIP                     = "Pressione a tecla Shift para alternar entre os modos de compra e venda.";
+SS_BUYBUTTON                    = "Comprar";
+SS_SELLBUTTON                   = "Vender";
+SS_SELLTTIP                     = "Pressione a tecla Tab para alternar entre os modos de compra e venda.";
 
 SS_TOTAL                        = "Quant. total";
 SS_COUNT                        = "Quantidade";

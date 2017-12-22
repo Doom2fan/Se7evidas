@@ -124,7 +124,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         self.disabled = false;
 
         modeLabel.text = StringTable.Localize ((sellMode ? "$SS_SELLMODE" : "$SS_BUYMODE"), true);
-        acceptButton.text = StringTable.Localize ((sellMode ? "$SS_SELLCONFIRM" : "$SS_BUYCONFIRM"), true);
+        acceptButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
 
         let tex = TexMan.CheckForTexture (selectedItem.icon, TexMan.Type_Any);
         Vector2 texSize = (0, 0);
@@ -192,26 +192,43 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             info.Destroy ();
         info = selectedItem.GetInfo (pPawn, amount);
 
-        int total = (sellMode ? info.sellAmount : info.buyAmount);
-        int price = (sellMode ? info.sellPrice  : info.buyPrice);
+        uint total = (sellMode ? info.sellAmount : info.buyAmount);
+        uint price = (sellMode ? info.sellPrice  : info.buyPrice);
         totalAmount.text = String.Format ("%s: %d", StringTable.Localize ("$SS_TOTAL", true), total);
         selAmount.text = String.Format ("%s: %d", StringTable.Localize ("$SS_COUNT", true), amount);
         priceLabel.text = String.Format ("%s: %d", StringTable.Localize ("$SS_PRICE", true), price);
 
         totalAmount.textColor = Font.CR_WHITE;
         selAmount.textColor = Font.CR_WHITE;
+        priceLabel.textColor = Font.CR_WHITE;
         acceptButton.textColor = Font.CR_WHITE;
 
         addButton.disabled = false;
         decButton.disabled = false;
         acceptButton.disabled = false;
 
-        if (pPawn.CountInv (selectedItem.cashItem) < price) {
+        class<Inventory> cashInvType = (class<Inventory>) (selectedItem.cashItem);
+        uint cash = uint (pPawn.CountInv (cashInvType)), maxCash;
+        
+        let cashInv = pPawn.FindInventory (cashInvType);
+        if (cashInv)
+            maxCash = cashInv.maxAmount;
+        else {
+            let defaults = GetDefaultByType (cashInvType);
+            if (defaults) maxCash = defaults.maxAmount;
+        }
+
+        if ((!sellMode && cash < price) || // If buying, check if there's not enough money
+            (sellMode && (cash + price) >= maxCash) // If selling, check if there's too much money
+        ) {
             priceLabel.textColor = Font.CR_DARKRED;
             acceptButton.textColor = Font.CR_DARKGRAY;
 
             acceptButton.disabled = true;
-        } else if (pPawn.CountInv (selectedItem.inventoryName) + total > info.maxAmount) {
+        } else if (
+            (!sellMode && (pPawn.CountInv (selectedItem.inventoryName) + total) > info.maxAmount) || // If buying, check if there's too much of the item
+            (sellMode && total > pPawn.CountInv (selectedItem.inventoryName)) // If selling, check if there's not enough of the item
+        ) {
             selAmount.textColor = Font.CR_DARKRED;
             totalAmount.textColor = Font.CR_DARKRED;
             acceptButton.textColor = Font.CR_DARKGRAY;

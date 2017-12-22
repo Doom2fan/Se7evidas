@@ -162,6 +162,8 @@ class S7_PlayerEventHandler : EventHandler {
                 pPawn.SetInventory ("S7_DoMelee", 1);
             else if (strings [1] == "FiringMode")
                 pPawn.SetInventory ("S7_ChangeFireMode", 1);
+            if (e.Player == consoleplayer && strings [1] == "OpenLuciusShop")
+                Menu.SetMenu ("S7_LuciusShopMenu");
         } else if (strings [0] == "S7_WeapBindsSystem")
             WeapBindsSystem (e);
     }

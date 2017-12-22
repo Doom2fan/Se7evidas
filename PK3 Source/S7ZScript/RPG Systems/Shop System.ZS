@@ -47,11 +47,11 @@ class S7_SSPage {
 }
 
 class S7_SSItemInfo {
-    int maxAmount;
-    int buyPrice;
-    int buyAmount;
-    int sellPrice;
-    int sellAmount;
+    uint maxAmount;
+    uint buyPrice;
+    uint buyAmount;
+    uint sellPrice;
+    uint sellAmount;
     S7_SSItemInfo Copy () {
         let ret = new ("S7_SSItemInfo");
         ret.maxAmount = self.maxAmount;
@@ -139,7 +139,7 @@ class S7_SSItem {
 
         if (player.CountInv (self.inventoryName) < finalAmount)
             return SC_NotEnoughOfItem;
-        if (player.CountInv (self.cashItem) + finalPrice >= player.FindInventory (self.cashItem).maxAmount)
+        if (uint (uint (player.CountInv (self.cashItem)) + uint (finalPrice)) >= player.FindInventory (self.cashItem).maxAmount)
             return SC_TooMuchMoney;
 
         player.GiveInventory (self.cashItem, finalPrice);

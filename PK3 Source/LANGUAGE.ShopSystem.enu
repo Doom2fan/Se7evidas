@@ -1,9 +1,9 @@
 [default enu en]
 SS_BUYMODE                      = "Buy";
 SS_SELLMODE                     = "Sell";
-SS_BUYCONFIRM                   = "Buy";
-SS_SELLCONFIRM                  = "Sell";
-SS_SELLTTIP                     = "Press the Shift key to toggle between the buy and sell modes.";
+SS_BUYBUTTON                    = "Buy";
+SS_SELLBUTTON                   = "Sell";
+SS_SELLTTIP                     = "Press the Tab key to toggle between the buy and sell modes.";
 
 SS_TOTAL                        = "Total amount";
 SS_COUNT                        = "Count";
