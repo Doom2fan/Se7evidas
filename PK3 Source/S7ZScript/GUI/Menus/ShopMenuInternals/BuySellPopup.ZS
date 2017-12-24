@@ -119,6 +119,10 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             return;
         }
 
+        let pPawn = S7_BasePlayer (link.CPlayer.mo);
+        if (pPawn)
+            info = selectedItem.GetInfo (pPawn, 1);
+
         link.shopFrame.disabled = true;
         self.hidden = false;
         self.disabled = false;
@@ -139,13 +143,19 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         itemName.box.size = (smallFont.StringWidth (itemName.text), smallFont.GetHeight ());
         itemName.box.pos =
             (8 + texSize.X + ((texSize.X > 0) ? 4 : 0),
-             itemIcon.box.pos.Y + (texSize.Y - smallFont.GetHeight ()) / 2
+             itemIcon.box.pos.Y + (texSize.Y > 0 ? (texSize.Y - smallFont.GetHeight ()) / 2 : 0)
         );
 
-        let actualBox = ((texSize != (0, 0)) ? itemIcon.box : itemName.box);
-        selAmount.box.pos = (8, (actualBox.pos.Y + actualBox.size.Y) + 4);
-        totalAmount.box.pos = (8, (selAmount.box.pos.Y + selAmount.box.size.Y) + 4);
-        priceLabel.box.pos = (8, (totalAmount.box.pos.Y + totalAmount.box.size.Y) + 4);
+        let actualBox = ((texSize.X > 0 && texSize.Y > 0) ? itemIcon.box : itemName.box);
+        if (info && info.maxAmount != 1) {
+            selAmount.box.pos = (8, (actualBox.pos.Y + actualBox.size.Y) + 2);
+            totalAmount.box.pos = (8, (selAmount.box.pos.Y + selAmount.box.size.Y) + 2);
+            priceLabel.box.pos = (8, (totalAmount.box.pos.Y + totalAmount.box.size.Y) + 2);
+            selAmount.hidden = totalAmount.hidden = false;
+        } else {
+            selAmount.hidden = totalAmount.hidden = true;
+            priceLabel.box.pos = (8, (actualBox.pos.Y + actualBox.size.Y) + 4);
+        }
 
         addButton.box.pos = ((selAmount.box.pos.X + selAmount.box.size.X) + 4, selAmount.box.pos.Y - 1);
         decButton.box.pos = ((addButton.box.pos.X + addButton.box.size.X) + 4, addButton.box.pos.Y);
@@ -157,7 +167,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
     void SetAmount (int addAmount) {
         amount += addAmount;
-        if (amount > 9999)
+
+        if (info && amount > 9999)
             amount = 9999;
         if (amount < 1)
             amount = 1;
@@ -203,8 +214,6 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         priceLabel.textColor = Font.CR_WHITE;
         acceptButton.textColor = Font.CR_WHITE;
 
-        addButton.disabled = false;
-        decButton.disabled = false;
         acceptButton.disabled = false;
 
         class<Inventory> cashInvType = (class<Inventory>) (selectedItem.cashItem);
@@ -236,7 +245,12 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             acceptButton.disabled = true;
         }
 
-        if (amount >= 9999)
+        bool noShowQuant = info.maxAmount == 1;
+        addButton.disabled = decButton.disabled = noShowQuant;
+        addButton.hidden = decButton.hidden = noShowQuant;
+        totalAmount.hidden = selAmount.hidden = noShowQuant;
+        
+        if (amount >= info.maxAmount)
             addButton.disabled = true;
         if (amount <= 1)
             decButton.disabled = true;

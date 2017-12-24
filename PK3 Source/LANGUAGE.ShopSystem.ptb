@@ -15,6 +15,13 @@ SS_BACK_DESC                    = "Retorna para a pagina anterior";
 SS_MAINSHOP                     = "Arsenal Lucius";
 // Page names
 SS_WEAPONS                      = "Armas";
+SS_PG_SMGS                      = "Submetralhadoras";
+SS_PG_RIFLES                    = "Fuzis";
+SS_PG_MGS                       = "Metralhadoras";
+SS_PG_SGS                       = "Espingardas";
+SS_PG_SNIPERS                   = "Fuzis de precisao";
+SS_PG_AOE                       = "Armas de dano em area";
+SS_PG_UNIQ                      = "Armas unicas/especiais";
 
 SS_AMMO                         = "Municao";
 SS_BULLETS                      = "Cartuchos";

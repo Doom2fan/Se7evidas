@@ -15,6 +15,13 @@ SS_BACK_DESC                    = "Returns to the previous page";
 SS_MAINSHOP                     = "Lucius armoury";
 // Page names
 SS_WEAPONS                      = "Weapons";
+SS_PG_SMGS                      = "Sub-machineguns";
+SS_PG_RIFLES                    = "Rifles";
+SS_PG_MGS                       = "Machineguns";
+SS_PG_SGS                       = "Shotguns";
+SS_PG_SNIPERS                   = "Sniper rifles";
+SS_PG_AOE                       = "Area damage weapons";
+SS_PG_UNIQ                      = "Unique/Special weapons";
 
 SS_AMMO                         = "Ammo";
 SS_BULLETS                      = "Cartridges";

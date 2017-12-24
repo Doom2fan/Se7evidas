@@ -227,6 +227,69 @@
             "name": "$SS_WEAPONS",
 
             "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+                {
+                    "id": [ "W", "S", "M", "G" ],
+                    "name": "$SS_PG_SMGS",
+                    "itemType": "pageLink",
+                    "link": "wpPage_SMGs",
+                    "global": false
+                }
+            ]
+        },
+
+        {
+            "intName": "wpPage_SMGs",
+            "name": "$SS_PG_SMGS",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "weaponsPage",
+                    "global": false
+                },
+                {
+                    "id": [ "H", "T", "T", "R" ],
+                    "name": "$SHORTHITTERSMG",
+                    "desc": "$SS_HITTERSMGDESC",
+                    "info": "$SS_HITTERSMGINFO",
+                    "icon": "sprites/Weapons/Primary/HitterSMG/SR20Z0.png",
+                    "inventoryName": "S7_HitterSMG",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 2500,
+                    "buyAmount": 1,
+                    "sellPrice": 1875,
+                    "sellAmount": 1,
+                    "global": true
+                },
+                {
+                    "id": [ "L", "P", "E", "W" ],
+                    "name": "$SHORTBUTTFLY",
+                    "desc": "$SS_LSR_PEW_PEWDESC",
+                    "info": "$SS_LSR_PEW_PEWINFO",
+                    "icon": "sprites/Weapons/Primary/LaserPewPew/BLSPA0.png",
+                    "inventoryName": "S7_LaserPewPew",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 6000,
+                    "buyAmount": 1,
+                    "sellPrice": 4500,
+                    "sellAmount": 1,
+                    "global": true
+                }
             ]
         }
     ]
