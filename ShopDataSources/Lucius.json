@@ -103,6 +103,66 @@
                     "sellAmount": 30,
                     "itemClass": "S7_SSItem_Ammo",
                     "global": true
+                },
+                {
+                    "id": [ "A", "A", "C", "P" ],
+                    "name": "$45ACP",
+                    "desc": "$SS_45ACPDESC",
+                    "info": "$SS_45ACPINFO",
+                    "icon": "graphics/Menu/Shop/Icons/45ACPCartridges.png",
+                    "inventoryName": "S7_45ACPCartridges",
+                    "itemType": "buySellItem",
+                    "buyPrice": 386,
+                    "buyAmount": 62,
+                    "sellPrice": 193,
+                    "sellAmount": 62,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
+                },
+                {
+                    "id": [ "A", "4", "4", "M" ],
+                    "name": "$44M",
+                    "desc": "$SS_44MDESC",
+                    "info": "$SS_44MINFO",
+                    "icon": "graphics/Menu/Shop/Icons/44MCartridges.png",
+                    "inventoryName": "S7_44MCartridges",
+                    "itemType": "buySellItem",
+                    "buyPrice": 150,
+                    "buyAmount": 6,
+                    "sellPrice": 75,
+                    "sellAmount": 6,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
+                },
+                {
+                    "id": [ "A", "7", "6", "2" ],
+                    "name": "$762X39",
+                    "desc": "$SS_762X39DESC",
+                    "info": "$SS_762X39INFO",
+                    "icon": "graphics/Menu/Shop/Icons/762x39Cartridges.png",
+                    "inventoryName": "S7_762x39Cartridges",
+                    "itemType": "buySellItem",
+                    "buyPrice": 613,
+                    "buyAmount": 35,
+                    "sellPrice": 307,
+                    "sellAmount": 35,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
+                },
+                {
+                    "id": [ "A", "2", "0", "g" ],
+                    "name": "$SS_20GA",
+                    "desc": "$SS_20GADESC",
+                    "info": "$SS_20GAINFO",
+                    "icon": "graphics/Menu/Shop/Icons/20gaShells.png",
+                    "inventoryName": "S7_20gaShells",
+                    "itemType": "buySellItem",
+                    "buyPrice": 200,
+                    "buyAmount": 10,
+                    "sellPrice": 100,
+                    "sellAmount": 10,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
                 }
             ]
         },
@@ -112,6 +172,45 @@
             "name": "$SS_BATTERIES",
 
             "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "ammoPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "C", "E", "L" ],
+                    "name": "$CELLS",
+                    "desc": "$SS_CELLSDESC",
+                    "info": "$SS_CELLSINFO",
+                    "icon": "graphics/Menu/Shop/Icons/Cells.png",
+                    "inventoryName": "S7_Cells",
+                    "itemType": "buySellItem",
+                    "buyPrice": 800,
+                    "buyAmount": 36,
+                    "sellPrice": 120,
+                    "sellAmount": 36,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
+                },
+                {
+                    "id": [ "A", "F", "B", "C" ],
+                    "name": "$FBSYSCELLS",
+                    "desc": "$SS_FBSYSCELLSDESC",
+                    "info": "$SS_FBSYSCELLSINFO",
+                    "icon": "graphics/Menu/Shop/Icons/FBSysCells.png",
+                    "inventoryName": "S7_FBSysCells",
+                    "itemType": "buySellItem",
+                    "buyPrice": 850,
+                    "buyAmount": 23,
+                    "sellPrice": 150,
+                    "sellAmount": 23,
+                    "itemClass": "S7_SSItem_Ammo",
+                    "global": true
+                }
             ]
         },
 

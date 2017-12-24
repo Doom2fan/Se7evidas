@@ -50,6 +50,7 @@ SS_TH_NGAS                      = "Nerve gas";
 // Descriptions
 // Cartridges
 SS_9MMDESC                      = "Box of 9x19mm cartridges";
+SS_45ACPDESC                    = "Magazine of .45 ACP cartridges";
 SS_44MDESC                      = ".44 Magnum speedloader";
 SS_762X39DESC                   = "Box of 7.62x39mm cartridges";
 SS_20GADESC                     = "Bandolier with 20ga #2 buckshot shells";
@@ -61,6 +62,7 @@ SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";
 // Info
 // Cartridges
 SS_9MMINFO                      = "Amount: 30 cartridges";
+SS_45ACPINFO                    = "Amount: 62 cartridges";
 SS_44MINFO                      = "Amount: 6 cartridges";
 SS_762X39INFO                   = "Amount: 35 cartridges";
 SS_20GAINFO                     = "Amount: 10 shells";

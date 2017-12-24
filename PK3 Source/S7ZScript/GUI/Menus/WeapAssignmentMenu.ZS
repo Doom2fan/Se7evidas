@@ -50,7 +50,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             for (int y = 0; y < 3; y++) {
                 double yCoords = 72.0 + ((40.0 + 8.0) * y);
                 // Button
-                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), "", handler, "SetSlot", null, null, null, null);
+                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), "", handler, String.Format ("SetSlot:%d,%d", x, y), null, null, null, null);
                 slotButtons [x] [y].SetTexture ("graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png", "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "");
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
