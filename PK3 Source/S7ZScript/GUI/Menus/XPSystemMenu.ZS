@@ -1,7 +1,7 @@
 class S7_XPSystemMenuHandler : S7_ZF_Handler {
     S7_XPSystemMenu link;
 
-    override void buttonCommand (S7_ZF_Button button, string command) {
+    override void buttonCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) {
             if (command == "AcceptButton")
                 AcceptStats ();

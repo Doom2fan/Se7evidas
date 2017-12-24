@@ -27,7 +27,7 @@ class S7_ZF_Frame : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (!isShown ())
+		if (!isShown())
 			return;
 
 		// stuff in the frame shouldn't draw outside the frame
@@ -51,6 +51,10 @@ class S7_ZF_Frame : S7_ZF_Element {
 	}
 
 	override void onUIEvent(UIEvent ev) {
+		if (ev.type == UIEvent.Type_MouseMove) {
+            doHover((ev.mouseX, ev.mouseY));
+        }
+
 		for (int i = 0; i < elements.size(); i++) {
 			if (elements[i] != NULL) {
 				elements[i].onUIEvent(ev);
@@ -74,7 +78,6 @@ class S7_ZF_Frame : S7_ZF_Element {
 		return master.screenScaledToRel(screenPos - box.pos);
 	}
 
-	// Added by Chronos "phantombeta" Ouroboros
 	override bool isEnabled() {
 		if (master == NULL) {
 			return !disabled;

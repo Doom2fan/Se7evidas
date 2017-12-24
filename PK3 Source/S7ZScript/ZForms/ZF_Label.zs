@@ -45,8 +45,9 @@ class S7_ZF_Label : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (!isShown ())
+		if (!isShown()) {
 			return;
+		}
 
 		S7_ZF_AABB beforeClip = getClipAABB();
 		S7_ZF_AABB clipTest = boxToScreen();
@@ -68,5 +69,11 @@ class S7_ZF_Label : S7_ZF_Element {
 		}
 
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+
+	override void onUIEvent(UIEvent ev) {
+		if (ev.type == UIEvent.Type_MouseMove) {
+			doHover((ev.mouseX, ev.mouseY));
+		}
 	}
 }

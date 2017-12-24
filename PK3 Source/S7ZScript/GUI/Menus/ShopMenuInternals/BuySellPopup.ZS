@@ -2,7 +2,7 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
     S7_ShopMenu_BuySellPopup link;
     S7_ShopMenu menuLink;
 
-    override void buttonCommand (S7_ZF_Button button, string command) {
+    override void buttonCommand (S7_ZF_Button caller, string command) {
         if (command == "Accept" && link.amount > 0 && link.amount <= 9999) {
             if (!link.sellMode)
                 BuyItem ();
@@ -137,7 +137,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
         itemName.text = StringTable.Localize (selectedItem.name, true);
         itemName.box.size = (smallFont.StringWidth (itemName.text), smallFont.GetHeight ());
-        itemName.box.pos = 
+        itemName.box.pos =
             (8 + texSize.X + ((texSize.X > 0) ? 4 : 0),
              itemIcon.box.pos.Y + (texSize.Y - smallFont.GetHeight ()) / 2
         );
@@ -209,7 +209,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
         class<Inventory> cashInvType = (class<Inventory>) (selectedItem.cashItem);
         uint cash = uint (pPawn.CountInv (cashInvType)), maxCash;
-        
+
         let cashInv = pPawn.FindInventory (cashInvType);
         if (cashInv)
             maxCash = cashInv.maxAmount;

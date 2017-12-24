@@ -1,7 +1,7 @@
 class S7_WeapAssignMenuHandler : S7_ZF_Handler {
     S7_WeapAssignMenu link;
 
-    override void buttonCommand (S7_ZF_Button button, string command) {
+    override void buttonCommand (S7_ZF_Button caller, string command) {
     }
 }
 

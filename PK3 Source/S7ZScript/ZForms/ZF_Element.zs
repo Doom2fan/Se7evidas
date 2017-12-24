@@ -1,10 +1,14 @@
 class S7_ZF_Element ui {
 	S7_ZF_Frame master;
 
+	S7_ZF_Handler cmdHandler;
+	string command;
+
 	Vector2 baseScreenSize;
 	S7_ZF_AABB box;
 	bool disabled;
 	bool hidden;
+	bool isHovered;
 
 	int round(double roundee) {
 		if (roundee < 0) {
@@ -225,5 +229,22 @@ class S7_ZF_Element ui {
 	}
 	virtual bool isShown() {
 		return (master.isShown() ? !hidden : false);
+	}
+
+	virtual void doHover (Vector2 mousePos) {
+		bool hover = boxToScreen().pointCollides(mousePos);
+
+		if (hover && !isHovered) {
+			if (cmdHandler) {
+				cmdHandler.elementHoverChanged(self, command, false);
+			}
+			isHovered = true;
+		}
+		else if (!hover && isHovered) {
+			if (cmdHandler) {
+				cmdHandler.elementHoverChanged(self, command, true);
+			}
+			isHovered = false;
+		}
 	}
 }

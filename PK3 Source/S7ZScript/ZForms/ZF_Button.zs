@@ -6,9 +6,6 @@ class S7_ZF_Button : S7_ZF_Element {
 		B_DISABLED
 	}
 
-	S7_ZF_Handler handler;
-	string command;
-
 	Font fnt;
 	string text;
 	int textColor;
@@ -21,7 +18,6 @@ class S7_ZF_Button : S7_ZF_Element {
 	int buttonState;
 
 	Vector2 mousePos;
-	bool isFocused;
 
 	void setTexture(string inactive, string hover, string click, string disabled) {
 		self.btnTextures[B_INACTIVE] = inactive;
@@ -31,7 +27,7 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.singleTex = true;
 	}
 
-	void config(string text = "", S7_ZF_Handler handler = NULL, string command = "",
+	void config(string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
 	            S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL,
 	            S7_ZF_BoxTextures click = NULL, S7_ZF_BoxTextures disabled = NULL,
 	            Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE) {
@@ -41,7 +37,7 @@ class S7_ZF_Button : S7_ZF_Element {
 		else {
 			self.fnt = fnt;
 		}
-		self.handler = handler;
+		self.cmdHandler = cmdHandler;
 		self.command = command;
 		self.text = text;
 		self.textScale = textScale;
@@ -53,10 +49,10 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.textColor = textColor;
 	}
 
-	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler handler = NULL, string command = "",
+	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
 	               S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
 	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE) {
-		self.config(text, handler, command, inactive, hover, click, disabled, fnt, textScale, textColor);
+		self.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor);
 		self.setBox(pos, size);
 
 		return self;
@@ -66,8 +62,9 @@ class S7_ZF_Button : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (!isShown ())
+		if (!isShown()) {
 			return;
+		}
 
 		if (singleTex) {
 			string texture = btnTextures[buttonState];
@@ -97,7 +94,7 @@ class S7_ZF_Button : S7_ZF_Element {
 			}
 			else if (boxToScreen().pointCollides(mousePos) && buttonState == B_CLICK) {
 				buttonState = B_HOVER;
-				handler.buttonCommand(self, command);
+				cmdHandler.buttonCommand(self, command);
 			}
 			else {
 				buttonState = B_INACTIVE;
@@ -106,26 +103,18 @@ class S7_ZF_Button : S7_ZF_Element {
 		// if the player's mouse has moved, update the tracked position and do a quick hover check
 		else if (ev.type == UIEvent.Type_MouseMove) {
 			mousePos = (ev.mouseX, ev.mouseY);
-			bool hover = boxToScreen().pointCollides(mousePos);
 			if (!isEnabled()) {
 				buttonState = B_DISABLED;
 			}
 			else if (buttonState != B_CLICK) {
-				if (hover) {
+				if (boxToScreen().pointCollides(mousePos)) {
 					buttonState = B_HOVER;
 				}
 				else {
 					buttonState = B_INACTIVE;
 				}
 			}
-			if (hover && !isFocused) {
-				handler.buttonFocusChanged(self, command, false);
-				isFocused = true;
-			}
-			else if (!hover && isFocused) {
-				handler.buttonFocusChanged(self, command, true);
-				isFocused = false;
-			}
+			doHover(mousePos);
 		}
 	}
 }

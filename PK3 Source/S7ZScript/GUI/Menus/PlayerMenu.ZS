@@ -1,7 +1,7 @@
 class S7_PlayerMenuHandler : S7_ZF_Handler {
     S7_PlayerMenu link;
 
-    override void buttonCommand (S7_ZF_Button button, string command) {
+    override void buttonCommand (S7_ZF_Button caller, string command) {
         if (command == "openXPSysMenu")
             Menu.SetMenu ("S7_XPSystemMenu");
         else if (command == "openLuciusShop")
@@ -75,8 +75,8 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
             return;
         }
 
-        xpSysButton.textColor      = (     xpSysButton.isFocused ? Font.CR_RED : Font.CR_WHITE);
-        luciusShopButton.textColor = (luciusShopButton.isFocused ? Font.CR_RED : Font.CR_WHITE);
-        weapAssignButton.textColor = (weapAssignButton.isFocused ? Font.CR_RED : Font.CR_WHITE);
+        xpSysButton.textColor      = (     xpSysButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        luciusShopButton.textColor = (luciusShopButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        weapAssignButton.textColor = (weapAssignButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
     }
 }

@@ -1,2 +1,3 @@
-This copy of ZForms has been modified specifically for use in this mod. It does not represent the official version of ZForms. It may break.
-You can get the unmodified code from https://gitlab.com/Gutawer/gzdoom-zforms
+This copy of ZForms is my own modified version. Usually this is the "bleeding edge" copy of my ZForms modifications.
+If you want a more stable version of my ZForms modifications, you can get them from the GitLab repo at https://gitlab.com/phantombeta/gzdoom-zforms.
+If you want the original version of ZForms by Gutawer, you can get it from https://gitlab.com/Gutawer/gzdoom-zforms.

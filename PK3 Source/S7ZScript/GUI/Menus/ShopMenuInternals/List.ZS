@@ -1,7 +1,7 @@
 class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     S7_ShopMenu link;
 
-    override void buttonCommand (S7_ZF_Button button, string command) {
+    override void buttonCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings;
@@ -43,7 +43,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
         }
     }
 
-    override void buttonFocusChanged (S7_ZF_Button button, string command, bool lostFocus) {
+    override void elementHoverChanged (S7_ZF_Element caller, string command, bool lostFocus) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings;
@@ -51,7 +51,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
 
             if (commandStrings.Size () >= 2) {
                 if (commandStrings [0] == "Entry")
-                    ListHover (commandStrings [1], lostFocus, (button && button.isEnabled ()));
+                    ListHover (commandStrings [1], lostFocus, (caller && caller.isEnabled ()));
             }
         }
     }
