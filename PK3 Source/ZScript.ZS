@@ -78,10 +78,10 @@ class S7_IsLoaded : actor {
 
 // Menus
 #INCLUDE "S7ZScript/GUI/Menus/XPSystemMenu.ZS"
-#INCLUDE "S7ZScript/GUI/Menus/WeapAssignmentMenu.ZS"
-#INCLUDE "S7ZScript/GUI/Menus/ShopMenuInternals/List.ZS"
-#INCLUDE "S7ZScript/GUI/Menus/ShopMenuInternals/BuySellPopup.ZS"
-#INCLUDE "S7ZScript/GUI/Menus/ShopMenu.ZS"
+#INCLUDE "S7ZScript/GUI/Menus/WeapAssignmentMenu/Main.ZS"
+#INCLUDE "S7ZScript/GUI/Menus/ShopMenu/List.ZS"
+#INCLUDE "S7ZScript/GUI/Menus/ShopMenu/BuySellPopup.ZS"
+#INCLUDE "S7ZScript/GUI/Menus/ShopMenu/Main.ZS"
 #INCLUDE "S7ZScript/GUI/Menus/PlayerMenu.ZS"
 
 // Monsters
