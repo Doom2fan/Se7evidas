@@ -58,19 +58,6 @@ class S7_ZF_Frame : S7_ZF_Element {
 		}
 	}
 
-	/// Return a bounding box which uses absolute coordinates.
-	override S7_ZF_AABB boxToScreen() {
-		S7_ZF_AABB ret = new("S7_ZF_AABB");
-		if (master != NULL) {
-			ret.pos = relToScreen((0, 0)) * getScale();
-		}
-		else {
-			ret.pos = box.pos * getScale();
-		}
-		ret.size = box.size * getScale();
-		return ret;
-	}
-
 	/// Converts relative positioning to screen positioning.
 	override Vector2 relToScreen(Vector2 relPos) {
 		if (master == NULL) {

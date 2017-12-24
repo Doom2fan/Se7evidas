@@ -86,7 +86,7 @@ class S7_ZF_Button : S7_ZF_Element {
 	override void onUIEvent(UIEvent ev) {
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			if (isEnabled() && box.pointCollides(master.screenToRel(mousePos))) {
+			if (isEnabled() && boxToScreen().pointCollides(mousePos)) {
 				buttonState = B_CLICK;
 			}
 		}
@@ -95,7 +95,7 @@ class S7_ZF_Button : S7_ZF_Element {
 			if (!isEnabled()) {
 				buttonState = B_DISABLED;
 			}
-			else if (box.pointCollides(master.screenToRel(mousePos)) && buttonState == B_CLICK) {
+			else if (boxToScreen().pointCollides(mousePos) && buttonState == B_CLICK) {
 				buttonState = B_HOVER;
 				handler.buttonCommand(self, command);
 			}
@@ -106,7 +106,7 @@ class S7_ZF_Button : S7_ZF_Element {
 		// if the player's mouse has moved, update the tracked position and do a quick hover check
 		else if (ev.type == UIEvent.Type_MouseMove) {
 			mousePos = (ev.mouseX, ev.mouseY);
-			bool hover = box.pointCollides(master.screenToRel(mousePos));
+			bool hover = boxToScreen().pointCollides(mousePos);
 			if (!isEnabled()) {
 				buttonState = B_DISABLED;
 			}

@@ -61,6 +61,11 @@ class S7_ZF_Element ui {
 		S7_ZF_AABB ret = new("S7_ZF_AABB");
 		ret.pos = relToScreen((0, 0)) * getScale();
 		ret.size = box.size * getScale();
+
+		if (master != NULL) {
+			ret = ret.rectOfIntersection(master.boxToScreen());
+		}
+
 		return ret;
 	}
 
