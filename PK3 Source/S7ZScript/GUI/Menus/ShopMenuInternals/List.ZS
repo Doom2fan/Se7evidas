@@ -82,18 +82,23 @@ class S7_ShopMenu_List : S7_ZF_Frame {
 
     Font bigFont, smallFont;
     S7_ZF_Image background;
-    S7_ZF_Frame itemsFrame;
+    S7_ZF_Frame clippingFrame, itemsFrame;
     Array<S7_ShopMenu_ListItem> items;
+    double lowestCoord;
 
     S7_ShopMenu_List InitList (S7_ShopMenu menuLink, S7_ZF_Frame frame, S7_SSShop shopData) {
         self.Init ((25, 50), (200, 400));
         self.Pack (frame);
         link = menuLink;
 
-        background = new ("S7_ZF_Image").Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignTopLeft);
-        background.Pack (self);
         bigFont = Font.GetFont ("BigFont");
         smallFont = Font.GetFont ("SmallFont");
+
+        background = new ("S7_ZF_Image").Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignTopLeft);
+        background.Pack (self);
+
+        clippingFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 400 - 3));
+        clippingFrame.Pack (self);
 
         handler = new ("S7_ShopMenu_ListHandler");
         handler.link = link;
@@ -101,6 +106,36 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         SetShop (shopData);
 
         return self;
+    }
+
+    override void Ticker () {
+        Super.Ticker ();
+        UpdateScroll ();
+    }
+
+    override void OnUIEvent (UIEvent ev) { // Type_WheelUp
+        Super.OnUIEvent (ev);
+
+        if (itemsFrame && !itemsFrame.disabled) {
+            if (ev.type == UIEvent.Type_WheelDown) {
+                itemsFrame.box.pos.Y -= 15;
+                UpdateScroll ();
+            } else if (ev.type == UIEvent.Type_WheelUp) {
+                itemsFrame.box.pos.Y += 15;
+                UpdateScroll ();
+            }
+        }
+    }
+
+    void UpdateScroll () {
+        if (itemsFrame) {
+            if (clippingFrame.box.size.Y > itemsFrame.box.size.Y)
+                itemsFrame.box.pos.Y = 0;
+            else if (itemsFrame.box.pos.Y <= -lowestCoord)
+                itemsFrame.box.pos.Y = -lowestCoord;
+            else if (itemsFrame.box.pos.Y > 0)
+                itemsFrame.box.pos.Y = 0;
+        }
     }
 
     bool SetShop (S7_SSShop newShopData, bool setPage = true) {
@@ -117,8 +152,8 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     bool SetPage (S7_SSPage page) {
         if (!page)
             return false;
-        if (itemsFrame && elements.Find (itemsFrame) != elements.Size ()) {
-            elements.Delete (elements.Find (itemsFrame));
+        if (itemsFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
+            clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
             itemsFrame.master = NULL;
             itemsFrame.Destroy ();
             itemsFrame = NULL;
@@ -135,13 +170,14 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             }
             items.Clear ();
         }
-        itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 400 - 3));
-        itemsFrame.Pack (self);
+        itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 0));
+        itemsFrame.Pack (clippingFrame);
 
         curPage = page;
 
         double yCoords = 0.0; // We have to do it like this because entries have variable lengths based on contents
-        for (int i = 0; i < curPage.items.Size (); i++) {
+        int loopLimit = curPage.items.Size ();
+        for (int i = 0; i < loopLimit; i++) {
             let item = curPage.items [i];
             if (!item)
                 continue;
@@ -193,8 +229,12 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             itemControls.icon = icon;
 
             items.Push (itemControls);
+            lowestCoord = yCoords;
             yCoords += button.box.size.Y;
         }
+
+        itemsFrame.box.size.Y = yCoords;
+        itemsFrame.box.pos.Y = 0;
 
         return true;
     }
