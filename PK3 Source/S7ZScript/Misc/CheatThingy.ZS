@@ -36,12 +36,12 @@ class S7_CheatThingy : customInventory {
             // Cash
             GiveInventory ("S7_Cash", 0x7FFFFFFF);
             // Misc
-            for (int i = 0; i < S7_WeapData.S7_WeaponNames.Size (); i++)
-                GiveInventory (S7_WeapData.S7_WeaponNames [i], 0x7FFFFFFF);
-            for (int i = 0; i < S7_WeapData.S7_ClipNames.Size (); i++)
-                GiveInventory (S7_WeapData.S7_ClipNames [i], 0x7FFFFFFF);
-            for (int i = 0; i < S7_WeapData.S7_AmmoNames.Size (); i++)
-                GiveInventory (S7_WeapData.S7_AmmoNames [i], 0x7FFFFFFF);
+            for (int i = 0; i < S7_WeapData.WeaponNames.Size (); i++)
+                GiveInventory (S7_WeapData.WeaponNames [i], 0x7FFFFFFF);
+            for (int i = 0; i < S7_WeapData.ClipNames.Size (); i++)
+                GiveInventory (S7_WeapData.ClipNames [i], 0x7FFFFFFF);
+            for (int i = 0; i < S7_WeapData.AmmoNames.Size (); i++)
+                GiveInventory (S7_WeapData.AmmoNames [i], 0x7FFFFFFF);
         }
         stop;
     }

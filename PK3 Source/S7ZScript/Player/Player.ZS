@@ -389,9 +389,9 @@ class S7_BasePlayer : playerPawn {
             ammoMax += 2;
 
         if (ammoMax != playerData.ammoMaxMult) { // Only update if it changed...
-            for (int i = 0; i < S7_Constants.S7_AmmoTypesData.Size (); i++) {
+            for (int i = 0; i < S7_WeapData.AmmoTypesData.Size (); i++) {
                 Array<String> res;
-                S7_Constants.S7_AmmoTypesData [i].Split (res, ":");
+                S7_WeapData.AmmoTypesData [i].Split (res, ":");
                 if (res.Size () != 2) // Uhhh... Should always equal two exactly...
                     continue;
 
