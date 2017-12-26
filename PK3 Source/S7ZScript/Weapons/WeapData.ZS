@@ -85,7 +85,29 @@ class S7_WeapData {
     };
 
     static const String WeaponDescs [] = {
+        // Sidearms
+        "S7_TEC9:$WPDSC_TEC9",
+        "S7_Revolver:$WPDSC_REVOLVER",
+        "S7_Raptor:$WPDSC_RAPTOR",
+        // SMGs
         "S7_HitterSMG:$WPDSC_HITTER",
-        "S7_TEC9:$WPDSC_TEC9"
+        "S7_LaserPewPew:$WPDSC_BUTTFLY",
+        // Rifles
+        "S7_AK47:$WPDSC_AK47",
+        "S7_AMG:$WPDSC_AMG",
+        "S7_Fauchard:$WPDSC_FAUCHARD",
+        "S7_ManxCarbine:$WPDSC_MANX",
+        // Machineguns
+        "S7_PlasmaGun:$WPDSC_PLASMAMG",
+        // Shotguns
+        "S7_Shotgun:$WPDSC_SHOTGUN",
+        "S7_SSG:$WPDSC_SSG",
+        // Area-damage
+        "S7_Thumper:$WPDSC_THUMPER",
+        "S7_PrettyShootyIonCannonGun:$WPDSC_IONCANNON",
+        // Sniper rifles
+        "S7_ConquerorRifle:$WPDSC_CONQUEROR",
+        // Throwables
+        "S7_GrenadeWeap:$WPDSC_GRENADES"
     };
 }
