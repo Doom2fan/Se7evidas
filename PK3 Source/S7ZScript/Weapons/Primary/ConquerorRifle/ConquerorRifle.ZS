@@ -307,10 +307,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.loaded)
                 TakeInventory ("S7_ConquerorRifleClip", 1);
 
-            if (invoker.zoomLevel > 0)
-                return ResolveState ("Fire.Zoomed.Pump");
-            else
-                return ResolveState ("Fire.Pump");
+            return ResolveState ("Fire.Pump");
         }
 
     DryFire:
