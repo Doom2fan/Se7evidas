@@ -31,8 +31,12 @@ class S7_KickMelee    : S7_Boolean { }
 //-------------------------------------------------------------------------------------------
 class S7_BaseWeapon : weapon {
     String weapIcon;
+    String shortTag;
+    S7_WeaponSlots bindSlot;
 
     property Icon: weapIcon;
+    property ShortTag: shortTag;
+    property BindSlot: bindSlot;
 
     default {
         inventory.pickupSound "misc/gunpickup";
@@ -42,6 +46,7 @@ class S7_BaseWeapon : weapon {
         weapon.bobStyle "inverseSmooth";
         weapon.kickback 100;
         S7_BaseWeapon.Icon "";
+        S7_BaseWeapon.bindSlot -1;
 
         +inventory.undroppable
         +weapon.ammo_Optional +weapon.noAutoFire +weapon.noAlert

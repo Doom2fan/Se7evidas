@@ -64,6 +64,8 @@
     PLAYERMENU_XPMENU               = "Statisticas";
     PLAYERMENU_LUCIUSSHOP           = "Arsenal Lucius";
     PLAYERMENU_WEAPASSIGN           = "Atribuicao de armas";
+    // Weap assignment menu
+    WPBNDMENU_UNSETWP               = "Desatribuir";
 
 // Deaths
     OB_DEFAULT                      = "%o morreu.";

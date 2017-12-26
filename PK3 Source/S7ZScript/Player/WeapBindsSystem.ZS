@@ -29,8 +29,32 @@ class S7_WeapBindsSystem : Inventory {
         }
     }
 
+    clearscope S7_BaseWeapon GetBind (int slot, int pos) {
+        if (slot < 0 || pos < 0 || pos >= Binds [slot].Size ())
+            return NULL;
+
+        Array<S7_BaseWeapon> weapons;
+        weapons.Copy (Binds [slot]);
+        let weap = weapons [pos];
+        weapons.Clear ();
+
+        return weap;
+    }
+
+    clearscope bool BindUsed (int slot, int pos) {
+        if (slot < 0 || pos < 0 || pos >= Binds [slot].Size ())
+            return false;
+
+        Array<S7_BaseWeapon> weapons;
+        weapons.Copy (Binds [slot]);
+        bool ret = weapons [pos] != NULL;
+        weapons.Clear ();
+
+        return ret;
+    }
+
     // Finds the slot and index of a weapon
-    int, int LocateWeapon (S7_BaseWeapon weap) {
+    clearscope int, int LocateWeapon (S7_BaseWeapon weap) {
         int i, j;
 
         for (i = 0; i < NUM_WEAPON_SLOTS; i++) {
@@ -43,8 +67,16 @@ class S7_WeapBindsSystem : Inventory {
         return -1, -1;
     }
 
+    // Checks if a weapon is bound
+    clearscope bool WeaponBound (S7_BaseWeapon weap) {
+        int x, y;
+        [x, y] = LocateWeapon (weap);
+
+        return (x >= 0 && y >= 0);
+    }
+
     // Finds the weapon most recently used
-    int, int FindMostRecentWeapon () {
+    clearscope int, int FindMostRecentWeapon () {
         PlayerInfo player = PlayerPawn (Owner).player;
 
         if (player.PendingWeapon != WP_NOCHANGE) {
@@ -156,5 +188,22 @@ class S7_WeapBindsSystem : Inventory {
         }
 
         return S7_BaseWeapon (player.ReadyWeapon);
+    }
+
+    void SetBind (int slot, int pos, S7_BaseWeapon weap) {
+        if (slot < 0 || pos < 0 || (!weap && pos >= Binds [slot].Size ()))
+            return;
+
+        if (!weap) {
+            Binds [slot].Delete (pos, 1);
+            return;
+        }
+
+        if (pos <= Binds [slot].Size ())
+            Binds [slot].Push (weap);
+        else {
+            Binds [slot].Delete (pos, 1);
+            Binds [slot].Insert (pos, weap);
+        }
     }
 }

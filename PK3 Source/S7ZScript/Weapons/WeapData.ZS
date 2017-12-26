@@ -83,4 +83,9 @@ class S7_WeapData {
         "S7_Thumper_PNail:5",
         "S7_Thumper_PNGas:5"
     };
+
+    static const String WeaponDescs [] = {
+        "S7_HitterSMG:$WPDSC_HITTER",
+        "S7_TEC9:$WPDSC_TEC9"
+    };
 }

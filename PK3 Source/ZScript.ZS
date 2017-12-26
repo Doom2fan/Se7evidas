@@ -78,6 +78,7 @@ class S7_IsLoaded : actor {
 
 // Menus
 #INCLUDE "S7ZScript/GUI/Menus/XPSystemMenu.ZS"
+#INCLUDE "S7ZScript/GUI/Menus/WeapAssignmentMenu/WeapSelList.ZS"
 #INCLUDE "S7ZScript/GUI/Menus/WeapAssignmentMenu/Main.ZS"
 #INCLUDE "S7ZScript/GUI/Menus/ShopMenu/List.ZS"
 #INCLUDE "S7ZScript/GUI/Menus/ShopMenu/BuySellPopup.ZS"
