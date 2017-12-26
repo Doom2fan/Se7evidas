@@ -41,6 +41,8 @@ class S7_Thumper : S7_BaseWeapon {
         weapon.ammoUse 0;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "THMPU0";
+        S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
+        S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
 
         +weapon.noAutoAim
     }

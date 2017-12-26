@@ -21,6 +21,8 @@ class S7_HitterSMG : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "SR20Z0";
+        S7_BaseWeapon.ShortTag "$SHORTHITTERSMG";
+        S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
     bool upperJammed, lowerJammed;

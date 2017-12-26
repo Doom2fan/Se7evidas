@@ -21,6 +21,8 @@ class S7_TEC9 : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "TEC9Z0";
+        S7_BaseWeapon.ShortTag "$SHORTTEC9";
+        S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
     bool burstFire;

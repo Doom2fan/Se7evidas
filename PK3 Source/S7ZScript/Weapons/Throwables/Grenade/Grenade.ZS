@@ -20,6 +20,8 @@ class S7_GrenadeWeap : S7_BaseWeapon {
         weapon.ammoUse 0;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "TGRNZ0";
+        S7_BaseWeapon.ShortTag "$GRENADEWEAP";
+        S7_BaseWeapon.BindSlot WpSlot_Special;
     }
 
     states {

@@ -21,6 +21,8 @@ class S7_Revolver : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "RVLVZ0";
+        S7_BaseWeapon.ShortTag "$SHORTREVOLVER";
+        S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
     states {

@@ -26,6 +26,8 @@ class S7_PlasmaGun : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "PLSGU0";
+        S7_BaseWeapon.ShortTag "$SHORTPLASMAGUN";
+        S7_BaseWeapon.BindSlot WpSlot_Heavy;
     }
 
     override void DoEffect () {

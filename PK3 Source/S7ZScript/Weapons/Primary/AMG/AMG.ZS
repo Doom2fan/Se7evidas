@@ -21,6 +21,8 @@ class S7_AMG : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "AMGGZ0";
+        S7_BaseWeapon.ShortTag "$SHORTAMG";
+        S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
     bool burstFire;

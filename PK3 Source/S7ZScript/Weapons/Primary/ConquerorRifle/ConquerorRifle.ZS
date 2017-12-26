@@ -21,6 +21,8 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "CQRPA0";
+        S7_BaseWeapon.ShortTag "$SHORTCONQUERORSRIFLE";
+        S7_BaseWeapon.BindSlot WpSlot_Heavy;
     }
 
     bool jammed, loaded, noPump, noEject; // noEject is just for telling the reloading anim not to spawn casings

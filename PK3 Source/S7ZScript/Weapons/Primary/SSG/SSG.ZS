@@ -23,6 +23,8 @@ class S7_SSG : S7_BaseWeapon {
         weapon.ammoUse 0;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "SSGPA0";
+        S7_BaseWeapon.ShortTag "$SHORTSSG";
+        S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
     bool leftLoaded, rightLoaded, firingBoth;

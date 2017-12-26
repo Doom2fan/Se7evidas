@@ -21,6 +21,8 @@ class S7_Shotgun : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "DTUPA0";
+        S7_BaseWeapon.ShortTag "$SHORTSHOTGUN";
+        S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
     int loaded;

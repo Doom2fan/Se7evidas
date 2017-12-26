@@ -20,7 +20,9 @@ class S7_Raptor : S7_BaseWeapon {
         weapon.ammoType2 "S7_9mmCartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
-        S7_BaseWeapon.Icon "RPTP0";
+        S7_BaseWeapon.Icon "RPTPA0";
+        S7_BaseWeapon.ShortTag "$SHORTRAPTOR";
+        S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
     bool doubleTap;

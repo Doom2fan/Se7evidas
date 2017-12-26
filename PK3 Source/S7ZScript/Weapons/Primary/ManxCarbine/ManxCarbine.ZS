@@ -21,6 +21,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "MANXZ0";
+        S7_BaseWeapon.ShortTag "$SHORTMANXCARBINE";
+        S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
     bool semiAuto;

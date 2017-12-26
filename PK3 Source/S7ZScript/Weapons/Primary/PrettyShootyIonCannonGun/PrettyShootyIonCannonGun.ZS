@@ -14,6 +14,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         weapon.ammoUse 0;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "PIC1Z0";
+        S7_BaseWeapon.ShortTag "$SHORTIONCANNON";
+        S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
     }
 
     int readyFrame;

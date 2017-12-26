@@ -21,6 +21,8 @@ class S7_AK47 : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "AK4PA0";
+        S7_BaseWeapon.ShortTag "$SHORTAK47";
+        S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
     bool halfTic, reloadChamber; // Temporary stuff

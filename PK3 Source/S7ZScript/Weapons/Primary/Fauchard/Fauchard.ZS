@@ -21,6 +21,8 @@ class S7_Fauchard : S7_BaseWeapon {
         weapon.ammoUse 1;
         weapon.ammoGive 0;
         S7_BaseWeapon.Icon "LRFPA0";
+        S7_BaseWeapon.ShortTag "$SHORTFAUCHARD";
+        S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
     bool halfTic;
