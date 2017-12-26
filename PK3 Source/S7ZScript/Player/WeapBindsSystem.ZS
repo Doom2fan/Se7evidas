@@ -199,7 +199,7 @@ class S7_WeapBindsSystem : Inventory {
             return;
         }
 
-        if (pos <= Binds [slot].Size ())
+        if (pos >= Binds [slot].Size ())
             Binds [slot].Push (weap);
         else {
             Binds [slot].Delete (pos, 1);
