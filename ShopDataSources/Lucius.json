@@ -219,6 +219,15 @@
             "name": "$SS_THGRENADES",
 
             "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                }
             ]
         },
 
