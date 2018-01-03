@@ -152,13 +152,14 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     bool SetPage (S7_SSPage page) {
         if (!page)
             return false;
-        if (itemsFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
+
+        if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
             clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
             itemsFrame.master = NULL;
             itemsFrame.Destroy ();
             itemsFrame = NULL;
         }
-        if (items.Size () > 0) {
+        if (items.Size () >= 0) {
             for (int i = items.Size () - 1; i > 0; i--) {
                 items [i].itemData = NULL;
                 items [i].clickableArea.Destroy ();
@@ -170,6 +171,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             }
             items.Clear ();
         }
+
         itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 0));
         itemsFrame.Pack (clippingFrame);
 

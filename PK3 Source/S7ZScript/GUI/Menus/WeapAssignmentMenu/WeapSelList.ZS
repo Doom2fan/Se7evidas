@@ -102,7 +102,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
     }
 
     void UpdateScroll () {
-        if (itemsFrame) {
+        if (itemsFrame && clippingFrame) {
             if (clippingFrame.box.size.Y > itemsFrame.box.size.Y)
                 itemsFrame.box.pos.Y = 0;
             else if (itemsFrame.box.pos.Y <= -lowestCoord)
@@ -148,8 +148,14 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         if (!CPlayer || slot < 0)
             return false;
 
+        if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
+            clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
+            itemsFrame.master = NULL;
+            itemsFrame.Destroy ();
+            itemsFrame = NULL;
+        }
         if (items.Size () > 0) {
-            for (int i = items.Size () - 1; i > 0; i--) {
+            for (int i = items.Size () - 1; i >= 0; i--) {
                 if (!items [i])
                     continue;
 
@@ -166,12 +172,6 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                 items [i].Destroy ();
             }
             items.Clear ();
-        }
-        if (itemsFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
-            clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
-            itemsFrame.master = NULL;
-            itemsFrame.Destroy ();
-            itemsFrame = NULL;
         }
 
         itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 0));
