@@ -6,6 +6,7 @@ $RANDOM Weapons/Shell {
 Weapons/Shell1 "sounds/Effects/Casings/Shell1.ogg"      // Shell1-3 are from Doom 3
 Weapons/Shell2 "sounds/Effects/Casings/Shell2.ogg"
 Weapons/Shell3 "sounds/Effects/Casings/Shell3.ogg"
+$VOLUME Weapons/Shell 0.85
 
 $RANDOM Weapons/Brass {
     Weapons/Brass1
@@ -19,6 +20,7 @@ Weapons/Brass2 "sounds/Effects/Casings/Brass2.ogg"
 Weapons/Brass3 "sounds/Effects/Casings/Brass3.ogg"
 Weapons/Brass4 "sounds/Effects/Casings/Brass4.ogg"
 Weapons/Brass5 "sounds/Effects/Casings/Brass5.ogg"
+$VOLUME Weapons/Brass 0.5
 // $LIMIT Weapons/Casing 5
 
 /* Mag sounds
