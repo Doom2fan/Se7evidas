@@ -9,6 +9,7 @@ class S7_CasingSmoke : S7_ShotSmokeTrail {
     default {
         scale 0.05;
         alpha 0.35;
+        floatBobPhase 0;
     }
 
     states {
@@ -21,6 +22,7 @@ class S7_CasingSmoke : S7_ShotSmokeTrail {
 class S7_CasingSpawnerBase : actor {
     default {
         speed 20;
+        floatBobPhase 0;
         projectile;
 
         +noClip
@@ -33,6 +35,7 @@ class S7_CasingBase : actor {
         radius 2;
         speed 6;
         bounceType "doom";
+        floatBobPhase 0;
 
         +windThrust +clientsideOnly +ghost +canBounceWater
         +moveWithSector +missile +noBlockmap +noTeleport
@@ -41,24 +44,18 @@ class S7_CasingBase : actor {
     }
 
     int timer;
-    CVar stayTime;
-    CVar fadeSpeed;
 
     static const int StayTics [] = { 10000, 5000, 2500, 1250, 625, 313, 157, 70, 35 };
     static const float FadeAmount [] = { 0.03, 0.06, 0.09, 0.12, 0.15, 2.0 };
     static const int FadeTics [] = { 3, 3, 2, 1, 1, 1 };
 
-    override void BeginPlay () {
-        super.BeginPlay ();
-        stayTime = CVar.GetCVar ("S7_EffectStayTime", players [consolePlayer]);
-        fadeSpeed = CVar.GetCVar ("S7_EffectFadeSpeed", players [consolePlayer]);
-    }
-
     states {
     Delaying:
         #### # 1 {
+            let stayTime = CVar.GetCVar ("S7_EffectStayTime", players [consolePlayer]);
+
             if (stayTime.GetInt () > -3) {
-                if (timer == StayTics [stayTime.GetInt () + 2])
+                if (timer >= StayTics [stayTime.GetInt () + 2])
                     return ResolveState ("Fade");
 
                 timer++;
@@ -72,6 +69,7 @@ class S7_CasingBase : actor {
     Fade:
     Fade.Looper:
         #### # 1 {
+            let fadeSpeed = CVar.GetCVar ("S7_EffectFadeSpeed", players [consolePlayer]);
             A_FadeOut (FadeAmount [fadeSpeed.GetInt ()]);
             A_SetTics (FadeTics [fadeSpeed.GetInt ()]);
         }
