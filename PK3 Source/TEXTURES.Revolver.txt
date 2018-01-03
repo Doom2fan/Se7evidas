@@ -1,11 +1,179 @@
-sprite RVLVC0, 320, 200 {
-    patch "sprites/Weapons/Secondary/Revolver/RVLVA0.PNG", 207, 75
+sprite "RVLVD0", 115, 138 {
+    offset -176, -47
+    patch "graphics/Weapons/Revolver/Frame1.png", 0, 0
 }
 
-sprite RVLVD0, 320, 200 {
-    patch "sprites/Weapons/Secondary/Revolver/RVLVA0.PNG", 205, 73
+sprite "RVLVE0", 115, 149 {
+    offset -182, -30
+    patch "graphics/Weapons/Revolver/Frame2.png", 0, 0
 }
 
-sprite RVLVE0, 320, 200 {
-    patch "sprites/Weapons/Secondary/Revolver/RVLVA0.PNG", 203, 71
+sprite "RVLVF0", 115, 149 {
+    offset -178, -35
+    patch "graphics/Weapons/Revolver/Frame2.png", 0, 0
+}
+
+sprite "RVLVG0", 115, 143 {
+    offset -175, -45
+    patch "graphics/Weapons/Revolver/Frame3.png", 0, 0
+}
+
+sprite "RVLVH0", 85, 106 {
+    offset -165, -69
+    patch "RVLVA0", 0, 0
+}
+
+sprite "RVLVI0", 320, 200 {
+    patch "RVLVA0", 159, 75
+    patch "graphics/Hands/Hand-009.png", 73, 160
+}
+
+sprite "RVLVJ0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "graphics/Hands/Hand-009.png", 82, 149
+}
+
+sprite "RVLVK0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "graphics/Hands/Hand-009.png", 95, 139
+}
+
+sprite "RVLVL0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "graphics/Hands/Hand-009.png", 113, 118
+}
+
+sprite "RVLVM0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "graphics/Hands/Hand-009.png", 132, 93
+}
+
+sprite "RVLVN0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame4.png", 154, 80
+    patch "graphics/Hands/Hand-009.png", 127, 90
+}
+
+sprite "RVLVO0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame5.png", 140, 80
+    patch "graphics/Hands/Hand-009.png", 114, 96
+}
+
+sprite "RVLVP0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame6.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 108, 105
+}
+
+sprite "RVLVQ0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame6.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 102, 109
+}
+
+sprite "RVLVR0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 92, 111
+    patch "graphics/Weapons/Revolver/Frame6.png", 137, 80
+}
+
+sprite "RVLVS0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 95, 97
+    patch "graphics/Weapons/Revolver/Frame6.png", 137, 80
+}
+
+sprite "RVLVT0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 95, 97
+    patch "graphics/Weapons/Revolver/Frame7.png", 137, 80
+}
+
+sprite "RVLVU0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 95, 97
+    patch "graphics/Weapons/Revolver/Frame8.png", 137, 80
+}
+
+sprite "RVLVV0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 87, 103
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+}
+
+sprite "RVLVW0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 67, 117
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+}
+
+sprite "RVLVX0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 39, 136
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+}
+
+sprite "RVLVY0", 320, 200 {
+    patch "graphics/Hands/Hand-001.png", 1, 159
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+}
+
+sprite "RVLVZ0", 102, 106 {
+    offset -137, -80
+    patch "graphics/Weapons/Revolver/Frame9.png", 0, 0
+}
+
+sprite "RVL2A0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 88, 161
+}
+
+sprite "RVL2B0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 104, 140
+}
+
+sprite "RVL2C0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 113, 126
+}
+
+sprite "RVL2D0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 118, 108
+}
+
+sprite "RVL2E0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame9.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 120, 96
+}
+
+sprite "RVL2F0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame6.png", 137, 80
+    patch "graphics/Hands/Hand-009.png", 117, 94
+}
+
+sprite "RVL2G0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame5.png", 140, 80
+    patch "graphics/Hands/Hand-009.png", 119, 91
+}
+
+sprite "RVL2H0", 320, 200 {
+    patch "graphics/Weapons/Revolver/Frame4.png", 154, 80
+    patch "graphics/Hands/Hand-009.png", 127, 89
+}
+
+sprite "RVL2I0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "graphics/Hands/Hand-009.png", 114, 98
+}
+
+sprite "RVL2J0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "graphics/Hands/Hand-001.png", 87, 111
+}
+
+sprite "RVL2K0", 320, 200 {
+    patch "RVLVA0", 159, 75
+    patch "graphics/Hands/Hand-001.png", 69, 126
+}
+
+sprite "RVL2L0", 320, 200 {
+    patch "RVLVA0", 165, 69
+    patch "graphics/Hands/Hand-001.png", 52, 139
+}
+
+sprite "RVL2M0", 320, 200 {
+    patch "RVLVA0", 170, 64
+    patch "graphics/Hands/Hand-001.png", 33, 155
 }

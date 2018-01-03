@@ -1,8 +1,8 @@
 Weapons/Revolver/Fire            "sounds/Weapons/Secondary/Revolver/Fire.ogg"       // By WildWeasel (I guess?). "It's a mixture of sounds from Action Half-Life and Killing Floor
                                                                                     // IJC Weapon Pack"
-Weapons/Revolver/Dryfire         "sounds/Weapons/Secondary/Revolver/Dryfire.ogg"    // By bennychico11 from Freesound.org. Edited by Chronos "phantombeta" Ouroboros.
-Weapons/Revolver/Open            "sounds/Weapons/Secondary/Revolver/Open.ogg"       // 
+Weapons/Revolver/Dryfire         "sounds/Weapons/Secondary/Revolver/Dryfire.ogg"    // By bennychico11, Freesound.org, CC-BY.
+Weapons/Revolver/Open            "sounds/Weapons/Secondary/Revolver/Open.ogg"       // By ylearkisto, Freesound.org, CC-BY.
 Weapons/Revolver/Eject           "sounds/Weapons/Secondary/Revolver/Eject.ogg"      // From wwhc-diaz. Originally called "WEBEJECT". I couldn't find credits for this file.
-Weapons/Revolver/In              "sounds/Weapons/Secondary/Revolver/In.ogg"         // 
-Weapons/Revolver/Close           "sounds/Weapons/Secondary/Revolver/Close.ogg"      // By ajoyce86 from Freesound.org. Edited by Chronos "phantombeta" Ouroboros.
-Weapons/Revolver/Spin            "sounds/Weapons/Secondary/Revolver/Spin.ogg"       // By Dredile from Freesound.org. Edited by Chronos "phantombeta" Ouroboros.
+$VOLUME Weapons/Revolver/Eject 0.5
+Weapons/Revolver/In              "sounds/Weapons/Secondary/Revolver/In.ogg"         // By Dredile, Freesound.org id 177863, CC0. Edited by Chronos "phantombeta" Ouroboros, edit licensed as CC-BY-SA.
+Weapons/Revolver/Close           "sounds/Weapons/Secondary/Revolver/Close.ogg"      // By ajoyce86, Freesound.org id 240698, CC0. Edited by Chronos "phantombeta" Ouroboros, edit licensed as CC-BY-SA.

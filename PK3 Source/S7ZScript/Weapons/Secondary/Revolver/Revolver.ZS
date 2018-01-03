@@ -46,28 +46,29 @@ class S7_Revolver : S7_BaseWeapon {
         loop;
 
     Fire:
-        RVLV A  1 {
+        RVLV AABB 1;
+        RVLV C  1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
             A_PlaySound ("Weapons/Revolver/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 5);
-            A_FireProjectile ("S7_RevolverTracer", fRandom [weaponSpread] (-0.5, 0.5), 1, 7, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 5);
+            A_FireProjectile ("S7_RevolverTracer", fRandom [weaponSpread] (-0.5, 0.5), 1, 5, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
 
             A_SetPitch (pitch - 1.75, SPF_Interpolate);
 
             return ResolveState (null);
         }
-        RVLV B  1 A_SetPitch (pitch - 1.75, SPF_Interpolate);
-        RVLV C  1;
-        RVLV DE 1;
-        RVLV A 15;
+        RVLV D  1 A_SetPitch (pitch - 1.75, SPF_Interpolate);
+        RVLV EE 1;
+        RVLV FG 1;
+        RVLV A  2;
         goto Ready2;
 
     DryFire:
-        RVLV A 3 A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
+        RVLV C 3 A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
@@ -88,35 +89,33 @@ class S7_Revolver : S7_BaseWeapon {
             return ResolveState ("ReloadFinish");
         }
     ReloadFinish:
-        RVLV A 1;
         // Open
-        REVR A      1 A_PlaySound ("Weapons/Revolver/Open", CHAN_5);
-        REVR BCDEFG 1;
+        RVLV AHIJ 1;
+        RVLV KL   1;
+        RVLV M    2 A_PlaySound ("Weapons/Revolver/Open", CHAN_5);
+        RVLV NOP  1;
+        RVLV QRR  1;
+        RVLV S    3;
         // Eject
-        REVR H     1 {
+        RVLV T     1 {
             A_PlaySound ("Weapons/Revolver/Eject", CHAN_6);
             for (int i = 0; i < 3; i++) {
                 A_FireProjectile ("S7_RevolverCasingSpawn", 0, 0, 8 + i, -2);
                 A_FireProjectile ("S7_RevolverCasingSpawn", 0, 0, 8 + i, -3);
             }
         }
-        REVR IJKLM 1;
+        RVLV U     5;
+        RVLV VWXYZ 1;
         // Insert
-        REVR NOPQR 1;
-        REVR S     1 A_PlaySound ("Weapons/Revolver/In", CHAN_7);
-        REVR TUV   1;
+        RVL2 ABCD 1;
+        RVL2 E    3 A_PlaySound ("Weapons/Revolver/In", CHAN_7);
+        RVL2 F    3;
         // Close
-        REVR W   1 A_PlaySound ("Weapons/Revolver/Close", CHAN_5);
-        REVR XYZ 1;
-        RVR2 AB  1;
-        // Spin
-        RVR2 C    1 A_PlaySound ("Weapons/Revolver/Spin", CHAN_6);
-        RVR2 DEF  1;
-        RVLV BABA 1;
-        RVLV BABA 1;
-        RVLV BABA 2;
-        RVLV BABA 3;
-        RVLV A    1;
+        RVL2 G   1;
+        RVL2 H   1 A_PlaySound ("Weapons/Revolver/Close", CHAN_Weapon);
+        RVL2 IJK 1;
+        RVL2 LM  1;
+        RVLV A   3;
         goto Ready2;
     }
 }

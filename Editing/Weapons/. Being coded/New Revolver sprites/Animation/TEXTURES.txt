@@ -1,0 +1,179 @@
+sprite "RVLVD0", 115, 138 {
+    offset -176, -47
+    patch "Frame1", 0, 0
+}
+
+sprite "RVLVE0", 115, 149 {
+    offset -182, -30
+    patch "Frame2", 0, 0
+}
+
+sprite "RVLVF0", 115, 149 {
+    offset -178, -35
+    patch "Frame2", 0, 0
+}
+
+sprite "RVLVG0", 115, 143 {
+    offset -175, -45
+    patch "Frame3", 0, 0
+}
+
+sprite "RVLVH0", 85, 106 {
+    offset -165, -69
+    patch "RVLVA0", 0, 0
+}
+
+sprite "RVLVI0", 320, 200 {
+    patch "RVLVA0", 159, 75
+    patch "Hand-009", 73, 160
+}
+
+sprite "RVLVJ0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "Hand-009", 82, 149
+}
+
+sprite "RVLVK0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "Hand-009", 95, 139
+}
+
+sprite "RVLVL0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "Hand-009", 113, 118
+}
+
+sprite "RVLVM0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "Hand-009", 132, 93
+}
+
+sprite "RVLVN0", 320, 200 {
+    patch "Frame4", 154, 80
+    patch "Hand-009", 127, 90
+}
+
+sprite "RVLVO0", 320, 200 {
+    patch "Frame5", 140, 80
+    patch "Hand-009", 114, 96
+}
+
+sprite "RVLVP0", 320, 200 {
+    patch "Frame6", 137, 80
+    patch "Hand-009", 108, 105
+}
+
+sprite "RVLVQ0", 320, 200 {
+    patch "Frame6", 137, 80
+    patch "Hand-009", 102, 109
+}
+
+sprite "RVLVR0", 320, 200 {
+    patch "Hand-001", 92, 111
+    patch "Frame6", 137, 80
+}
+
+sprite "RVLVS0", 320, 200 {
+    patch "Hand-001", 95, 97
+    patch "Frame6", 137, 80
+}
+
+sprite "RVLVT0", 320, 200 {
+    patch "Hand-001", 95, 97
+    patch "Frame7", 137, 80
+}
+
+sprite "RVLVU0", 320, 200 {
+    patch "Hand-001", 95, 97
+    patch "Frame8", 137, 80
+}
+
+sprite "RVLVV0", 320, 200 {
+    patch "Hand-001", 87, 103
+    patch "Frame9", 137, 80
+}
+
+sprite "RVLVW0", 320, 200 {
+    patch "Hand-001", 67, 117
+    patch "Frame9", 137, 80
+}
+
+sprite "RVLVX0", 320, 200 {
+    patch "Hand-001", 39, 136
+    patch "Frame9", 137, 80
+}
+
+sprite "RVLVY0", 320, 200 {
+    patch "Hand-001", 1, 159
+    patch "Frame9", 137, 80
+}
+
+sprite "RVLVZ0", 102, 106 {
+    offset -137, -80
+    patch "Frame9", 0, 0
+}
+
+sprite "RVL2A0", 320, 200 {
+    patch "Frame9", 137, 80
+    patch "Hand-009", 88, 161
+}
+
+sprite "RVL2B0", 320, 200 {
+    patch "Frame9", 137, 80
+    patch "Hand-009", 104, 140
+}
+
+sprite "RVL2C0", 320, 200 {
+    patch "Frame9", 137, 80
+    patch "Hand-009", 113, 126
+}
+
+sprite "RVL2D0", 320, 200 {
+    patch "Frame9", 137, 80
+    patch "Hand-009", 118, 108
+}
+
+sprite "RVL2E0", 320, 200 {
+    patch "Frame9", 137, 80
+    patch "Hand-009", 120, 96
+}
+
+sprite "RVL2F0", 320, 200 {
+    patch "Frame6", 137, 80
+    patch "Hand-009", 117, 94
+}
+
+sprite "RVL2G0", 320, 200 {
+    patch "Frame5", 140, 80
+    patch "Hand-009", 119, 91
+}
+
+sprite "RVL2H0", 320, 200 {
+    patch "Frame4", 154, 80
+    patch "Hand-009", 127, 89
+}
+
+sprite "RVL2I0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "Hand-009", 114, 98
+}
+
+sprite "RVL2J0", 320, 200 {
+    patch "RVLVA0", 154, 80
+    patch "Hand-001", 87, 111
+}
+
+sprite "RVL2K0", 320, 200 {
+    patch "RVLVA0", 159, 75
+    patch "Hand-001", 69, 126
+}
+
+sprite "RVL2L0", 320, 200 {
+    patch "RVLVA0", 165, 69
+    patch "Hand-001", 52, 139
+}
+
+sprite "RVL2M0", 320, 200 {
+    patch "RVLVA0", 170, 64
+    patch "Hand-001", 33, 155
+}
