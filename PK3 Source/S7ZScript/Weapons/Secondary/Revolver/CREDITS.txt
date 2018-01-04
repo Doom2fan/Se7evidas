@@ -1,8 +1,8 @@
 Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    HUD Sprites: Pisstepank, Chronos "phantombeta" Ouroboros
-    Pickup Sprites: DoomNukem, Chronos "phantombeta" Ouroboros (Edits)
+    HUD Sprites: Romeo (L), Tosty, BuLL5H1T, UncleGAY, Kopter, Chronos "phantombeta" Ouroboros
+    Pickup Sprites: Romeo (L), Tosty, BuLL5H1T, UncleGAY, Kopter, Chronos "phantombeta" Ouroboros
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file
