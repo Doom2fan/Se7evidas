@@ -20,14 +20,14 @@ class S7_Revolver : S7_BaseWeapon {
         weapon.ammoType2 "S7_44MCartridges";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
-        S7_BaseWeapon.Icon "RVLVZ0";
+        S7_BaseWeapon.Icon "RVLPA0";
         S7_BaseWeapon.ShortTag "$SHORTREVOLVER";
         S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
     states {
     Spawn:
-        RVLV Z -1;
+        RVLP A -1;
         loop;
 
     Ready:
@@ -64,7 +64,7 @@ class S7_Revolver : S7_BaseWeapon {
         RVLV D  1 A_SetPitch (pitch - 1.75, SPF_Interpolate);
         RVLV EE 1;
         RVLV FG 1;
-        RVLV A  2;
+        RVLV A  1;
         goto Ready2;
 
     DryFire:
