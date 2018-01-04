@@ -21,6 +21,9 @@ acs.err
 /*.PK3
 *.sublime-workspace
 *._ignore_.*
+*.blend1
+*.blend2
+*.blend3
 
 /Editing/Font/AdobeFnt*.lst
 /C_Source/obj/
