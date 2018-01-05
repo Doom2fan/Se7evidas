@@ -21,8 +21,8 @@ class S7_PlayerData : Inventory {
     int wjumpJustJumped;
     // Sprinting
     bool   sprinting;
-    int    sprintTics, oldAgility; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
-                                   // oldAgility: This is used for checking if the agility stat changed.
+    int    sprintTics; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
+    double oldAgility; // oldAgility: This is used for checking if the agility stat changed.
     double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
     /** Weapons **/
     double ammoMaxMult;
@@ -46,7 +46,7 @@ class S7_PlayerData : Inventory {
         dying = sprinting = false;
         dodgeCooldown = mjumpCount = wjumpJustJumped = sprintTics = staminaTics = heartbeatTics = 0;
         sprintSpeedFactor = sprintSpdFacPproc = 0;
-        oldAgility = -1;
+        oldAgility = double.NaN;
         milkRegenRate = 5;
         milkUseRate = 25;
     }
@@ -109,7 +109,7 @@ class S7_BasePlayer : playerPawn {
 
     bool stepFrame;
     actor playerLineTarget;
-    S7_XPSystemWorker xpSys;
+    S7_PlayerXPSystem xpSys;
     S7_WeapBindsSystem weapBinds;
     S7_PlayerData playerData;
 
@@ -119,14 +119,14 @@ class S7_BasePlayer : playerPawn {
         if (player && player.mo) {
             let pPawn = player.mo;
 
-            xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+            xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem"));
             weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
             playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
 
             if (self == player.mo) {
                 if (!xpSys) {
-                    pPawn.GiveInventory ("S7_XPSystemWorker", 1);
-                    xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+                    pPawn.GiveInventory ("S7_PlayerXPSystem", 1);
+                    xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem"));
                 }
                 if (!weapBinds) {
                     pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
@@ -153,9 +153,9 @@ class S7_BasePlayer : playerPawn {
 
             if (self == player.mo) {
                 if (!xpSys) {
-                    if (!(xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker")))) {
-                        pPawn.GiveInventory ("S7_XPSystemWorker", 1);
-                        xpSys = S7_XPSystemWorker (pPawn.FindInventory ("S7_XPSystemWorker"));
+                    if (!(xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem")))) {
+                        pPawn.GiveInventory ("S7_PlayerXPSystem", 1);
+                        xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem"));
                     }
                 }
                 if (!weapBinds) {
@@ -340,7 +340,7 @@ class S7_BasePlayer : playerPawn {
                 playerData.sprinting = true;
                 playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
                 playerData.sprintTics = 0;
-                playerData.oldAgility = -1;
+                playerData.oldAgility = double.NaN;
 
                 GiveInventory ("S7_SprintWeapon", 1);
                 player.PendingWeapon = Weapon (FindInventory ("S7_SprintWeapon"));
@@ -363,7 +363,7 @@ class S7_BasePlayer : playerPawn {
                 } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
                     playerData.sprintTics++;
 
-                int newAgility = GetAgilityStat ();
+                double newAgility = xpSys.GetStat (S7Stat_Agility);
                 if (newAgility != playerData.oldAgility) {
                     if (newAgility > 0) // Just so it doesn't explode
                         playerData.sprintSpdFacPproc = 0.1 * log (newAgility);
@@ -464,15 +464,9 @@ class S7_BasePlayer : playerPawn {
         }
     }
 
-    clearscope int GetStrengthStat () { return ((xpSys) ? xpSys.strengthStat : 0); }
-    clearscope int GetAgilityStat  () { return ((xpSys) ? xpSys.agilityStat  : 0); }
-    clearscope int GetVitalityStat () { return ((xpSys) ? xpSys.vitalityStat : 0); }
-    clearscope int GetDefenseStat  () { return ((xpSys) ? xpSys.defenseStat  : 0); }
-    clearscope int GetWillStat     () { return ((xpSys) ? xpSys.willStat     : 0); }
-    clearscope int GetMagicStat    () { return ((xpSys) ? xpSys.magicStat    : 0); }
-    clearscope int GetTechStat     () { return ((xpSys) ? xpSys.techStat     : 0); }
-    clearscope int GetMaxStamina   () { return ((xpSys) ? (150 + 10 * xpSys.agilityStat) : 0); }
-    clearscope int GetMaxMana      () { return ((xpSys) ? (250 + 15 * xpSys.magicStat)   : 0); }
+    clearscope int S7_GetMaxHealth () { return ((xpSys) ? (SpawnHealth () * (1.0 + 0.06 * xpSys.GetStat (S7Stat_Vitality))) : 0); }
+    clearscope int GetMaxStamina   () { return ((xpSys) ? (150 + 10 * xpSys.GetStat (S7Stat_Agility)) : 0); }
+    clearscope int GetMaxMana      () { return ((xpSys) ? (250 + 15 * xpSys.GetStat (S7Stat_Magic))   : 0); }
 
     states {
     Spawn:

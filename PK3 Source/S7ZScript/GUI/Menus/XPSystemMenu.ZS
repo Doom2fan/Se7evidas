@@ -38,7 +38,7 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
         if (!link.CPlayer || !link.CPlayer.mo)
             return;
 
-        let xpSys = S7_XPSystemWorker (link.CPlayer.mo.FindInventory ("S7_XPSystemWorker"));
+        let xpSys = S7_PlayerXPSystem (link.CPlayer.mo.FindInventory ("S7_PlayerXPSystem"));
         int amount = take ? -1 : 1;
 
         if (!xpSys)
@@ -133,7 +133,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         if (!CPlayer || !CPlayer.mo)
             return;
 
-        let xpSys = S7_XPSystemWorker (CPlayer.mo.FindInventory ("S7_XPSystemWorker"));
+        let xpSys = S7_PlayerXPSystem (CPlayer.mo.FindInventory ("S7_PlayerXPSystem"));
 
         if (!xpSys)
             return;
@@ -161,7 +161,7 @@ class S7_XPSysMenuEventHandler : EventHandler {
         if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
             return;
 
-        let xpSys = S7_XPSystemWorker (players [e.Player].mo.FindInventory ("S7_XPSystemWorker"));
+        let xpSys = S7_PlayerXPSystem (players [e.Player].mo.FindInventory ("S7_PlayerXPSystem"));
         Array<String> strings;
         e.Name.Split (strings, ":");
         if (strings.Size () != 2 || strings [0] != "S7_XPSysMenuConfirm") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_XPSysMenuConfirm"

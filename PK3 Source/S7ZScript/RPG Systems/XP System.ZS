@@ -3,99 +3,164 @@
 // XP System
 //
 //-------------------------------------------------------------------------------------------
-class S7_XP_System_Experience : S7_Counter { default { inventory.maxAmount 0x7FFFFFFF; } }
-class S7_XPSystemWorker : Inventory {
+enum S7_StatType {
+    S7Stat_Strength = 1,
+    S7Stat_Agility,
+    S7Stat_Vitality,
+    S7Stat_Defense,
+    S7Stat_Will,
+    S7Stat_Magic,
+    S7Stat_Tech,
+}
+
+class S7_StatModifier { // Buffs and debuffs, essentially.
+    S7_StatType stat;
+    double factor;
+
+    bool hasFactorFunc;
+    virtual double FactorFunc (Actor act, S7_XPSystem xpSys) { return double.NaN; } // Returns NaN to make sure you notice if you set hasFactorFunc but don't override this
+
+    bool hasTickFunc;
+    virtual void Tick (actor act, S7_XPSystem xpSys) { }
+}
+
+class S7_XPSystem : Inventory {
     const BaseXPGoal = 2500;
+    bool canLevelUp;
+    bool randomStats;
+    property canLevelUp: canLevelUp;
+    property randomStats: canLevelUp;
 
     default {
         inventory.maxAmount 1;
         inventory.interHubAmount 1;
+        S7_XPSystem.canLevelUp false;
+        S7_XPSystem.randomStats false;
 
         +inventory.undroppable +inventory.untossable
-        //-inventory.invBar
-        +inventory.invBar
-        inventory.icon "PISTA0";
+        -inventory.invBar
     }
 
-    int level;
-    int attrPoints;
+    Array<S7_StatModifier> statMods;
+    int level, xpPoints;
     int strengthStat, agilityStat, vitalityStat, defenseStat, willStat, magicStat, techStat;
+    double softness;
 
-    override bool Use (bool pickup) {
-        Menu.SetMenu ('S7_XPSystemMenu');
-        return false;
-    }
+    clearscope double GetStatMod (S7_StatType stat) {
+        double ret = 1.0;
 
-    void LevelUpMessage (int level, int attrPoints, string message = "", bool additional = true) {
-        if (!Owner)
-            return;
-
-        PlayerInfo p = players [consoleplayer];
-        let pPawn = PlayerPawn (Owner);
-
-        /*if (p && p == pPawn.Player) {
-            CVar msgsOn = CVar.GetCvar ("S7_MsgsOn", pPawn.Player);
-
-            if (msgsOn && msgsOn.GetInt ()) {
-                let sBar = Se7evidasStatusBar (StatusBar);
-                sBar.AttachToPlayer (p);
-
-                sBar.DrawString (sBar.mBigFont, "Level up!", (0, 0), BaseStatusBar.DI_SCREEN_CENTER | BaseStatusBar.DI_TEXT_ALIGN_CENTER | BaseStatusBar.DI_NOSHADOW, Font.CR_UNTRANSLATED);
-                //sBar.
-
-                if (message != "" && !additional)
-                    sBar.DrawString (sBar.mSmallFont, message, (0, -10), BaseStatusBar.DI_SCREEN_CENTER | BaseStatusBar.DI_TEXT_ALIGN_CENTER | BaseStatusBar.DI_NOSHADOW, Font.CR_UNTRANSLATED);
-                else {
-                    sBar.DrawString (sBar.mSmallFont, String.Format ("You've reached level %d.\nYou have gained %d attribute points.", lvl, attrPts),
-                        (0, -10), BaseStatusBar.DI_SCREEN_CENTER | BaseStatusBar.DI_TEXT_ALIGN_CENTER | BaseStatusBar.DI_NOSHADOW, Font.CR_UNTRANSLATED);
-
-                    if (message != "" && additional)
-                        sBar.DrawString (sBar.mSmallFont, message, (0, -18), BaseStatusBar.DI_SCREEN_CENTER | BaseStatusBar.DI_TEXT_ALIGN_CENTER | BaseStatusBar.DI_NOSHADOW, Font.CR_UNTRANSLATED);
-                }
-            }
-        }*/
-
-        if (Owner)
-            Owner.A_PlaySound ("Player/LevelUp", CHAN_UI);
-    }
-
-    override void DoEffect () {
-        let pPawn = PlayerPawn (Owner);
-
-        if (!pPawn)
-            return;
-
-        int reqXP = BaseXPGoal * (1.0 + 2 * level),
-            nextLevel = level + 1;
-
-        if (pPawn.CountInv ("S7_XP_System_Experience") >= reqXP && level < S7_MaxLevel) {
-            switch (nextLevel) {
-            default:
-                LevelUpMessage (nextLevel, attrPoints);
-                level = nextLevel;
-                attrPoints += 4;
-                pPawn.TakeInventory ("S7_XP_System_Experience", reqXP);
-                break;
+        for (int i = 0; i < statMods.Size (); i++) {
+            if (statMods [i] && statMods [i].stat == stat) {
+                if (!statMods [i].hasFactorFunc)
+                    ret *= statMods [i].factor;
+                else
+                    ret *= statMods [i].FactorFunc (Owner, self);
             }
         }
 
-        // Agility
-        let staminaItem = pPawn.FindInventory ("S7_Stamina");
-        if (staminaItem)
-            staminaItem.maxAmount = 150 + 10 * agilityStat;
+        return ret;
+    }
 
-        // Vitality
-        int baseHealth = 100;
-        if (pPawn is "S7_ScoutPlayer")
-            baseHealth = 75;
-        pPawn.maxHealth = baseHealth * (1.0 + 0.06 * vitalityStat);
+    clearscope double GetStat (S7_StatType stat, bool noMods = false) {
+        double ret;
 
-        // Defense
-        pPawn.damageFactor = clamp (1.0 - (0.01 * defenseStat), 0.1, 1.0);
+        switch (stat) {
+            case S7Stat_Strength: ret = strengthStat; break;
+            case S7Stat_Agility:  ret = agilityStat; break;
+            case S7Stat_Vitality: ret = vitalityStat; break;
+            case S7Stat_Defense:  ret = defenseStat; break;
+            case S7Stat_Will:     ret = willStat; break;
+            case S7Stat_Magic:    ret = magicStat; break;
+            case S7Stat_Tech:     ret = techStat; break;
+        }
 
-        // Magic
-        let manaItem = pPawn.FindInventory ("S7_Mana");
-        if (manaItem)
-            manaItem.maxAmount = 250 + 15 * magicStat;
+        if (!noMods)
+            return ret * GetStatMod (stat);
+        else
+            return ret;
+    }
+
+    bool SetStat (S7_StatType stat, int amount, bool additive = true) {
+        int setAmount = -1;
+
+        if (additive) {
+            int curAmount = GetStat (stat);
+            setAmount = curAmount + amount;
+
+            if ((setAmount > 0 && setAmount < curAmount) || // If this is true it means we over/underflowed, so nope the fuck out of there.
+                (setAmount < 0 && setAmount > curAmount))
+                return false;
+        } else
+            setAmount = amount;
+
+        if (setAmount < 0) // Nope.
+            return false;
+
+        switch (stat) {
+            case S7Stat_Strength: strengthStat = setAmount; break;
+            case S7Stat_Agility:  agilityStat  = setAmount; break;
+            case S7Stat_Vitality: vitalityStat = setAmount; break;
+            case S7Stat_Defense:  defenseStat  = setAmount; break;
+            case S7Stat_Will:     willStat     = setAmount; break;
+            case S7Stat_Magic:    magicStat    = setAmount; break;
+            case S7Stat_Tech:     techStat     = setAmount; break;
+        }
+
+        return true;
+    }
+
+    override void DoEffect () {
+        if (!Owner)
+            return;
+
+        if (canLevelUp) {
+            int reqXP = BaseXPGoal * (1.0 + 2 * level),
+                nextLevel = level + 1;
+
+            if (xpPoints >= reqXP && level < S7_MaxLevel) {
+                level = nextLevel;
+                xpPoints -= reqXP;
+                OnLevelUp ();
+            }
+        }
+
+        for (int i = 0; i < statMods.Size (); i++) {
+            if (statMods [i] && statMods [i].hasTickFunc)
+                statMods [i].Tick (Owner, self);
+        }
+
+        if (!(Owner is "S7_BasePlayer" && Owner.player)) {
+            // Defense
+            Owner.damageFactor = clamp (1.0 - (0.01 * GetStat (S7Stat_Defense)), 0.1, 1.0);
+        }
+    }
+
+    static const S7_StatType MonsterUsableStats [] = {
+        S7Stat_Strength,
+        S7Stat_Agility,
+        //S7Stat_Vitality,
+        S7Stat_Defense,
+        S7Stat_Will
+        //S7Stat_Magic
+    };
+    virtual void OnLevelUp () {
+        if (Owner is "S7_BasePlayer" && Owner.player)
+            return;
+
+        int attrPoints = random [XPSys] (4, 6);
+        S7_StatType statToSet = S7Stat_Strength;
+
+        while (attrPoints > 0) {
+            if (randomStats)
+                statToSet = MonsterUsableStats [random [XPSys] (0, MonsterUsableStats.Size ())];
+            else {
+                for (int i = 0; i < MonsterUsableStats.Size (); i++)
+                    if (GetStat (MonsterUsableStats [i], true) < GetStat (statToSet, true))
+                        statToSet = MonsterUsableStats [i];
+            }
+
+            SetStat (statToSet, 1);
+            attrPoints--;
+        }
     }
 }

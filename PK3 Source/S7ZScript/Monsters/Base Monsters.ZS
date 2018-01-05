@@ -23,6 +23,10 @@ class S7_MonsterBase : actor {
     int monsDeathType;
     Actor grabbedShooter;
 
+    S7_XPSystem GetXPSystem () {
+        return S7_XPSystem (FindInventory ("S7_XPSystem", true));
+    }
+
     action void S7_A_GrabBeam () {
 
     }
