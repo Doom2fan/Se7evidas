@@ -109,6 +109,13 @@ class S7_XPSystem : Inventory {
         return true;
     }
 
+    void GiveXP (int amount) {
+        if (amount <= 0)
+            return;
+
+        xpPoints += amount;
+    }
+
     override void DoEffect () {
         if (!Owner)
             return;
@@ -127,11 +134,6 @@ class S7_XPSystem : Inventory {
         for (int i = 0; i < statMods.Size (); i++) {
             if (statMods [i] && statMods [i].hasTickFunc)
                 statMods [i].Tick (Owner, self);
-        }
-
-        if (!(Owner is "S7_BasePlayer" && Owner.player)) {
-            // Defense
-            Owner.damageFactor = clamp (1.0 - (0.01 * GetStat (S7Stat_Defense)), 0.1, 1.0);
         }
     }
 

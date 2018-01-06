@@ -38,8 +38,44 @@ class S7_ServerData : Thinker {
     int maxLevel;
     int avgLevel, highestLevel, lowestLevel;
 
+    override void Tick () {
+        avgLevel = 0;
+        highestLevel = int.min;
+        lowestLevel = int.max;
+
+        int pCount;
+        for (int i = 0; i < MAXPLAYERS; i++) {
+            if (playeringame [i] && players [i].mo) {
+                if (!(players [i].mo is "S7_BasePlayer"))
+                    continue;
+
+                let pPawn = S7_BasePlayer (players [i].mo);
+                if (!pPawn) continue;
+                let xpSys = pPawn.xpSys;
+                if (!xpSys) continue;
+
+                if (xpSys.level < lowestLevel)
+                    lowestLevel = xpSys.level;
+                if (xpSys.level > highestLevel)
+                    highestLevel = xpSys.level;
+
+                avgLevel += xpSys.level;
+                pCount++;
+            }
+        }
+
+        if (highestLevel == int.min)
+            highestLevel = 0;
+        if (lowestLevel == int.max)
+            lowestLevel = 0;
+
+        if (pCount > 0)
+            avgLevel /= pCount;
+    }
+
     S7_ServerData Init () {
         ChangeStatNum (STAT_STATIC);
+        Tick ();
         return self;
     }
 

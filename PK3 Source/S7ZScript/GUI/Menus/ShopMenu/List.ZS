@@ -18,7 +18,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
         S7_ShopMenu_ListItem item;
         let list = link.itemsList;
         for (int i = 0; i < list.items.Size (); i++) {
-            if (list.items [i].id == itemId.ToInt ()) {
+            if (list.items [i] && list.items [i].id == itemId.ToInt ()) {
                 item = list.items [i];
                 break;
             }
@@ -60,7 +60,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
         S7_ShopMenu_ListItem item;
         let list = link.itemsList;
         for (int i = 0; i < list.items.Size (); i++) {
-            if (list.items [i].id == itemId.ToInt ()) {
+            if (list.items [i] && list.items [i].id == itemId.ToInt ()) {
                 item = list.items [i];
                 break;
             }
@@ -244,6 +244,9 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     void Select (S7_ShopMenu_ListItem item) {
         Array<S7_ZF_Label> labels;
         for (int i = 0; i < items.Size (); i++) {
+            if (!items [i])
+                return;
+
             labels.Copy (items [i].labels);
             for (int j = 0; j < labels.Size (); j++)
                 labels [j].textColor = (items [i] == item ? Font.CR_RED : Font.CR_WHITE);

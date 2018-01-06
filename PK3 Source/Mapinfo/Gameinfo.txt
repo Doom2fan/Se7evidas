@@ -15,7 +15,7 @@ gameinfo {
     backpackType = "Backpack"
 
     // Event handlers
-    addEventHandlers = "S7_XPSysMenuEventHandler", "S7_WeapAssignMenu_EventHandler", "S7_PlayerEventHandler", "S7_ServerEventHandler", "S7_ShopDataEventHandler", "S7_ShopMenu_EventHandler", "S7_InputManager"
+    addEventHandlers = "S7_XPSysMenuEventHandler", "S7_WeapAssignMenu_EventHandler", "S7_PlayerEventHandler", "S7_ServerEventHandler", "S7_ShopDataEventHandler", "S7_ShopMenu_EventHandler", "S7_InputManager", "S7_HudMessage"
 
     // Player classes
     playerClasses = "S7_ScoutPlayer"

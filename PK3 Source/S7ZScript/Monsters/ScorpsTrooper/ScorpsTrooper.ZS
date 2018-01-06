@@ -23,8 +23,68 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         +missileMore
     }
 
+    S7_XPSystem xpSys;
+
     override void PostBeginPlay () {
         SetTag (S7_Utils.GenName_Male_Eng ());
+        if (!xpSys) {
+            GiveInventory ("S7_XPSystem", 1);
+            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+        }
+
+        let serverData = S7_ServerData.Get ();
+        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 20);
+        int attrPts = xpSys.level * 4;
+        int attrPts2 = attrPts * .25;
+        attrPts *= .75;
+
+        while (attrPts > 0) {
+            int rnd = random [monsterStats] (0, 3);
+
+            switch (rnd) {
+            case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
+            case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
+            case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
+            case 3:
+                int rnd2 = random (0, 4);
+                if (rnd > 1)
+                    xpSys.SetStat (S7Stat_Agility, 1);
+                else
+                    xpSys.SetStat (S7Stat_Will, 1);
+                break;
+            }
+
+            attrPts--;
+        }
+
+        // Vitality
+        startHealth = health *= 1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality));
+    }
+
+    override void Tick () {
+        Super.Tick ();
+
+        if (!xpSys) {
+            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            if (!xpSys) {
+                GiveInventory ("S7_XPSystem", 1);
+                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            }
+        }
+
+        // Strength
+        damageMultiply = 1.0 + (0.02 * xpSys.GetStat (S7Stat_Strength / 2));
+        // Defense
+        damageFactor = clamp (1.0 - (0.01 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+    }
+
+    override void OnDeath (Actor source, Actor inflictor, int dmgflags) {
+        if (source) {
+            let xpSys = GetXPSystem ();
+            double level = xpSys ? xpSys.level : 1;
+            GiveXP (source, 50 * max (1, level / 3));
+            source.GiveInventory ("S7_Cash", 50 * max (1, level / 4));
+        }
     }
 
     states {

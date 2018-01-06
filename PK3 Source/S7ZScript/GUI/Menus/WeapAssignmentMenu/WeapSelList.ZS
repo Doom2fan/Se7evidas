@@ -28,7 +28,7 @@ class S7_WeapAssignMenu_ListHandler : S7_ZF_Handler {
         S7_WeapAssignMenu_ListWeap item;
         let list = link.itemsList;
         for (int i = 0; i < list.items.Size (); i++) {
-            if (list.items [i].weaponName ~== weaponName) {
+            if (list.items [i] && list.items [i].weaponName ~== weaponName) {
                 item = list.items [i];
                 break;
             }
@@ -136,7 +136,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             }
             items.Clear ();
         }
-        if (itemsFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
+        if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
             clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
             itemsFrame.master = NULL;
             itemsFrame.Destroy ();
@@ -299,6 +299,9 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
     void Select (S7_WeapAssignMenu_ListWeap item) {
         Array<S7_ZF_Label> labels;
         for (int i = 0; i < items.Size (); i++) {
+            if (!items [i])
+                continue;
+
             labels.Copy (items [i].labels);
             for (int j = 0; j < labels.Size (); j++)
                 labels [j].textColor = (items [i] == item ? Font.CR_RED : Font.CR_WHITE);

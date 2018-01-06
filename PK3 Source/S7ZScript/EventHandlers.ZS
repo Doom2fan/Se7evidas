@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------------------------
 //
-// Player event handler
+// Server event handler
 //
 //-------------------------------------------------------------------------------------------
 class S7_ServerEventHandler : EventHandler {
@@ -84,6 +84,10 @@ class S7_ServerEventHandler : EventHandler {
 
     override void WorldTick () {
         let mapData = S7_MapData.Get ();
+        let serverData = S7_ServerData.Get ();
+
+        mapData.Tick ();
+        serverData.Tick ();
 
         TickMapEvents (mapData);
     }
@@ -162,12 +166,25 @@ class S7_PlayerEventHandler : EventHandler {
                 pPawn.SetInventory ("S7_DoMelee", 1);
             else if (pPawn && strings [1] == "FiringMode")
                 pPawn.SetInventory ("S7_ChangeFireMode", 1);
-            else if (e.Player == consoleplayer && pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu")
-                Menu.SetMenu ("S7_PlayerMenu");
-            else if (e.Player == consoleplayer && pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
-                Menu.SetMenu ("S7_LuciusShopMenu");
         } else if (strings [0] == "S7_WeapBindsSystem")
             WeapBindsSystem (e);
+    }
+
+    override void ConsoleProcess (ConsoleEvent e) {
+        Array<String> strings;
+        e.Name.Split (strings, ":");
+
+        if (strings.Size () < 2) // Return if the array has less than two strings
+            return;
+
+        if (strings [0] == "S7_Keys") {
+            let pPawn = players [consoleplayer].mo;
+
+            if (pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu")
+                Menu.SetMenu ("S7_PlayerMenu");
+            else if (pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
+                Menu.SetMenu ("S7_LuciusShopMenu");
+        }
     }
 
     void WeapBindsSystem (ConsoleEvent e) {

@@ -15,8 +15,8 @@ addMenuKey    "Inventory list"              "S7_ShowPop1"
 // Keys
 alias S7_FiringMode "netevent \"S7_Keys:FiringMode\""
 alias S7_QuickMelee "netevent \"S7_Keys:Melee\""
-alias S7_PlayerMenu "netevent \"S7_Keys:OpenPlayerMenu\""
-alias S7_LuciusShop "netevent \"S7_Keys:OpenLuciusShop\""
+alias S7_PlayerMenu "event \"S7_Keys:OpenPlayerMenu\""
+alias S7_LuciusShop "event \"S7_Keys:OpenLuciusShop\""
 alias S7_ShowPop1 "Use S7_ShowPop1Key"
 
 // Aliases

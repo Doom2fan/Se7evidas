@@ -23,8 +23,26 @@ class S7_MonsterBase : actor {
     int monsDeathType;
     Actor grabbedShooter;
 
+    override void Die (Actor source, Actor inflictor, int dmgflags) {
+        Super.Die (source, inflictor, dmgflags);
+        OnDeath (source, inflictor, dmgflags);
+    }
+    virtual void OnDeath (Actor source, Actor inflictor, int dmgflags) { }
+
     S7_XPSystem GetXPSystem () {
         return S7_XPSystem (FindInventory ("S7_XPSystem", true));
+    }
+
+    void GiveXP (Actor act, int amount) {
+        if (!act || amount <= 0)
+            return;
+
+        S7_XPSystem xpSys = S7_XPSystem (act.FindInventory ("S7_XPSystem", true));
+
+        if (!xpSys)
+            return;
+
+        xpSys.GiveXP (amount);
     }
 
     action void S7_A_GrabBeam () {
