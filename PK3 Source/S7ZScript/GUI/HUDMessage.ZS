@@ -63,13 +63,13 @@ class S7_HudMessageFadeData : S7_HudMessageData {
     protected int inTics, outTics;
 
     override bool Tick () {
-        if (inTics <= finalInTics) {
+        if (inTics < finalInTics) {
             alpha = finalAlpha * (Clamp (double (inTics), 0, finalInTics) / finalInTics);
             inTics++;
-        } else if (tics <= finalTics) {
+        } else if (tics < finalTics) {
             alpha = finalAlpha;
             tics++;
-        } else if (outTics <= finalOutTics) {
+        } else if (outTics < finalOutTics) {
             alpha = finalAlpha * (1 - (Clamp (double (outTics), 0, finalOutTics) / finalOutTics));
             outTics++;
         } else
