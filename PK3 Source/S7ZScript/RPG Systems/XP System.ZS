@@ -14,14 +14,20 @@ enum S7_StatType {
 }
 
 class S7_StatModifier { // Buffs and debuffs, essentially.
-    S7_StatType stat;
+    S7_StatType stats;
     double factor;
+    int ticsLeft;
 
     bool hasFactorFunc;
-    virtual double FactorFunc (Actor act, S7_XPSystem xpSys) { return double.NaN; } // Returns NaN to make sure you notice if you set hasFactorFunc but don't override this
+    virtual double FactorFunc (Actor act, S7_XPSystem xpSys, S7_StatType stat) { return double.NaN; } // Returns NaN to make sure you notice if you set hasFactorFunc but don't override this
 
     bool hasTickFunc;
-    virtual void Tick (actor act, S7_XPSystem xpSys) { }
+    virtual void Tick (actor act, S7_XPSystem xpSys) {
+        if (ticsLeft > 0)
+            ticsLeft--;
+        else
+            ticsLeft = -1;
+    }
 }
 
 class S7_XPSystem : Inventory {
@@ -49,12 +55,13 @@ class S7_XPSystem : Inventory {
     clearscope double GetStatMod (S7_StatType stat) {
         double ret = 1.0;
 
+        int statMask = 1 << (stat - 1);
         for (int i = 0; i < statMods.Size (); i++) {
-            if (statMods [i] && statMods [i].stat == stat) {
+            if (statMods [i] && statMods [i].stats & statMask) {
                 if (!statMods [i].hasFactorFunc)
                     ret *= statMods [i].factor;
                 else
-                    ret *= statMods [i].FactorFunc (Owner, self);
+                    ret *= statMods [i].FactorFunc (Owner, self, stat);
             }
         }
 
@@ -135,6 +142,15 @@ class S7_XPSystem : Inventory {
             if (statMods [i] && statMods [i].hasTickFunc)
                 statMods [i].Tick (Owner, self);
         }
+
+        for (int i = statMods.Size () - 1; i >= 0; i--) {
+            if (!statMods [i] || statMods [i].ticsLeft == -1) {
+                let tmp = statMods [i];
+                statMods.Delete  (i, 1);
+                if (tmp)
+                    tmp.Destroy ();
+            }
+        }
     }
 
     static const S7_StatType MonsterUsableStats [] = {
@@ -149,7 +165,7 @@ class S7_XPSystem : Inventory {
         if (Owner is "S7_BasePlayer" && Owner.player)
             return;
 
-        int attrPoints = random [XPSys] (4, 6);
+        int attrPoints = random [XPSys] (3, 5);
         S7_StatType statToSet = S7Stat_Strength;
 
         while (attrPoints > 0) {
