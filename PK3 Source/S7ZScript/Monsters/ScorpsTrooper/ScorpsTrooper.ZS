@@ -33,8 +33,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 20);
-        int attrPts = xpSys.level * 4;
+        xpSys.level = random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 20);
+        int attrPts = xpSys.level * 1;
         int attrPts2 = attrPts * .25;
         attrPts *= .75;
 
@@ -58,7 +58,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = health *= 1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality));
     }
 
     override void Tick () {
