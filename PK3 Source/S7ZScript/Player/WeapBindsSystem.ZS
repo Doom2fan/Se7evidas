@@ -15,18 +15,6 @@ class S7_WeapBindsSystem : Inventory {
             Binds [i].Clear ();
             SlotMaximum [i] = ((i > 0 && i <= 5) ? 1 : 0);
         }
-
-        if (Owner.player != NULL) {
-            S7_BaseWeapon weap;
-
-            if (Owner is "S7_ScoutPlayer")
-                weap = S7_TEC9 (Owner.FindInventory ("S7_TEC9"));
-
-            if (weap)
-                Binds [2].Push (weap);
-
-            LastWeapon = weap;
-        }
     }
 
     clearscope S7_BaseWeapon GetBind (int slot, int pos) {

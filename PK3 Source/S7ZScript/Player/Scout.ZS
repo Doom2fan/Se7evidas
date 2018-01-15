@@ -16,25 +16,24 @@ class S7_ScoutPlayer : S7_BasePlayer {
         player.sideMove 1.2, 1.2;
         player.jumpZ 9.797;
 
-        // Starting items
-        // Weapons:
-        player.startItem "S7_TEC9";
-        player.startItem "S7_BerserkWeap";
-        // Ammo and similars
-        player.startItem "S7_TEC9Clip", 32;
-        player.startItem "S7_9mmCartridges", 64;
-        player.startItem "S7_Stamina", 150;
-        player.startItem "S7_Mana", 250;
-        // Keys/controls
-        player.startItem "S7_ShowPop1Key";
-        // Tokens:
-        player.startItem "S7_StaminaRegen";
-        player.startItem "S7_ManaRegen";
-        player.startItem "S7_DaggerMelee";
-        player.startItem "S7_MultiJump_Max", 2;
-
         // Class stuff
         player.displayName "Runner";
+    }
+
+    override void GiveBasics_ClassSpecific () {
+        GiveInventory ("S7_DaggerMelee", 1);
+        GiveInventory ("S7_MultiJump_Max", 1); // Scouts can do double jumps from the start
+        // Equipment
+        GiveInventory ("S7_TEC9", 1);
+        GiveInventory ("S7_TEC9Clip", 32);
+        GiveInventory ("S7_9mmCartridges", 130);
+
+        S7_BaseWeapon tec9 = S7_TEC9 (FindInventory ("S7_TEC9"));
+
+        if (tec9)
+            weapBinds.Binds [2].Push (tec9);
+
+        weapBinds.LastWeapon = tec9;
     }
 
     states {

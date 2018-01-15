@@ -58,6 +58,7 @@ class S7_PlayerData : Inventory {
 //
 //-------------------------------------------------------------------------------------------
 class S7_BasePlayer : playerPawn {
+    // This class is split across this file and the PlayerE_*.ZS files for readability reasons
     default {
         // Damage
         gibHealth -50;
@@ -67,22 +68,6 @@ class S7_BasePlayer : playerPawn {
         // Movement
         player.forwardMove 0.8, 0.8;
         player.sideMove 0.8, 0.8;
-
-        /** Starting items **/
-        // Weapons
-        /*player.startItem "S7_Raptor";
-        player.startItem "S7_RaptorClip", 8;*/
-        player.startItem "S7_BerserkWeap";
-        // Ammo and similars
-        player.startItem "S7_Stamina", 150;
-        player.startItem "S7_Mana", 250;
-        // Keys/controls
-        player.startItem "S7_ShowPop1Key";
-        // Tokens
-        player.startItem "S7_StaminaRegen";
-        player.startItem "S7_ManaRegen";
-        player.startItem "S7_KickMelee";
-        player.startItem "S7_MultiJump_Max", 1;
 
         // Class stuff
         player.displayName "Player";
@@ -113,31 +98,60 @@ class S7_BasePlayer : playerPawn {
     S7_WeapBindsSystem weapBinds;
     S7_PlayerData playerData;
 
+    void GiveBasics () {
+        if (!player || player.mo != self)
+            return;
+
+        bool doGive = !playerData && !weapBinds && !xpSys;
+
+        if (!playerData) {
+            if (!(playerData = S7_PlayerData (FindInventory ("S7_PlayerData")))) {
+                GiveInventory ("S7_PlayerData", 1);
+                playerData = S7_PlayerData (FindInventory ("S7_PlayerData"));
+            }
+        }
+        if (!weapBinds) {
+            if (!(weapBinds = S7_WeapBindsSystem (FindInventory ("S7_WeapBindsSystem")))) {
+                GiveInventory ("S7_WeapBindsSystem", 1);
+                weapBinds = S7_WeapBindsSystem (FindInventory ("S7_WeapBindsSystem"));
+            }
+        }
+        if (!xpSys) {
+            if (!(xpSys = S7_PlayerXPSystem (FindInventory ("S7_PlayerXPSystem")))) {
+                GiveInventory ("S7_PlayerXPSystem", 1);
+                xpSys = S7_PlayerXPSystem (FindInventory ("S7_PlayerXPSystem"));
+            }
+        }
+
+        if (doGive) {
+            Weapon_SetAmmoMax ();
+
+            if (S7_InitialCashAmount > 0)
+                GiveInventory ("S7_Cash", S7_InitialCashAmount);
+            GiveInventory ("S7_BerserkWeap", 1);
+
+            // Equipment
+            GiveInventory ("S7_Canteen", 2000);
+            // Ammo and similars
+            GiveInventory ("S7_Stamina", 0x7FFFFFFF);
+            GiveInventory ("S7_Mana", 0x7FFFFFFF);
+            // Tokens
+            GiveInventory ("S7_StaminaRegen", 1);
+            GiveInventory ("S7_ManaRegen", 1);
+            
+            GiveBasics_ClassSpecific ();
+        }
+    }
+
+    virtual void GiveBasics_ClassSpecific () {
+        GiveInventory ("S7_KickMelee", 1); // Default to kick melee
+    }
+
     override void PostBeginPlay () {
         super.PostBeginPlay ();
 
-        if (player && player.mo) {
-            let pPawn = player.mo;
-
-            xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem"));
-            weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
-            playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
-
-            if (self == player.mo) {
-                if (!xpSys) {
-                    pPawn.GiveInventory ("S7_PlayerXPSystem", 1);
-                    xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem"));
-                }
-                if (!weapBinds) {
-                    pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
-                    weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
-                }
-                if (!playerData) {
-                    pPawn.GiveInventory ("S7_PlayerData", 1);
-                    playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
-                }
-            }
-        }
+        if (!playerData || !weapBinds || !xpSys)
+            GiveBasics ();
     }
 
     override void Tick () {
@@ -148,320 +162,28 @@ class S7_BasePlayer : playerPawn {
         if (puff) puff.Destroy ();
         playerLineTarget = lTarget.linetarget;
 
-        if (player && player.mo) {
-            let pPawn = player.mo;
-
-            if (self == player.mo) {
-                if (!xpSys) {
-                    if (!(xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem")))) {
-                        pPawn.GiveInventory ("S7_PlayerXPSystem", 1);
-                        xpSys = S7_PlayerXPSystem (pPawn.FindInventory ("S7_PlayerXPSystem"));
-                    }
-                }
-                if (!weapBinds) {
-                    if (!(weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem")))) {
-                        pPawn.GiveInventory ("S7_WeapBindsSystem", 1);
-                        weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
-                    }
-                }
-                if (!playerData) {
-                    if (!(playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData")))) {
-                        pPawn.GiveInventory ("S7_PlayerData", 1);
-                        playerData = S7_PlayerData (pPawn.FindInventory ("S7_PlayerData"));
-                    }
-                }
-
-                if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
-                    SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
-
-                playerData.dying = health < (maxHealth * 0.2);
-
-                // Movement
-                Movement_Dodging ();
-                Movement_WallJump ();
-                Movement_MultiJump ();
-                Movement_Sprinting ();
-                // Weapons
-                Weapon_SetAmmoMax ();
-                // Misc
-                Misc_StaminaRegen ();
-                Misc_Heartbeats ();
-                Misc_HellhunterBlade ();
-            }
-        }
-    }
-
-    /** Movement **/
-    void Movement_Dodging () {
-        if (health > 0) {
-            // Dodging
-            if (playerData.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
-                // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
-                if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) &&
-                    !playerData.sprinting && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && CheckInventory ("S7_Stamina", S7C_DodgeStamina)) {
-                    int forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
-                    int sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
-
-                    if (forwardMove != 0 || sideMove != 0) { // If the player is trying to move
-                        TakeInventory ("S7_Stamina", S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
-
-                        A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
-
-                        GiveInventory ("S7_PowerDodgeEffects", 1);
-                        Thrust (18, (angle - 90) + atan2 (forwardMove, sideMove));
-                        vel.Z += -85;
-
-                        playerData.dodgeCooldown = S7_DodgeCooldown;
-                    }
-                }
-            } else
-                playerData.dodgeCooldown--;
-        } else
-            TakeInventory ("S7_PowerDodgeEffects", 0x7FFFFFFF);
-    }
-
-    void Movement_MultiJump () {
-        if (!level.IsJumpingAllowed () || health <= 0 || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+        if (!player || !player.mo || player.mo != self)
             return;
 
-        if (player.onground || bOnMobj) {
-            playerData.mjumpCount = 0;
-            return;
-        }
+        if (!playerData || !weapBinds || !xpSys)
+                GiveBasics ();
 
-        int mJumpMax = CountInv ("S7_MultiJump_Max");
-        if (mJumpMax < 1 || playerData.mjumpCount >= mJumpMax)
-            return;
+        if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
+            SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
 
-        double force = (JumpZ * 35 / TICRATE) * S7_MultiJumpZMul;
-        if (force <= 0.0)
-            return;
+        playerData.dying = health < (maxHealth * 0.2);
 
-        if ((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
-            let marker = Spawn ("S7_MultiJump_Marker", pos); // Spawn the multijump effect
-            marker.angle = angle;
-            vel.Z = force;
-            playerData.mjumpCount++; // Increment the jump counter by 1
-        }
-    }
-
-    const WallJumpHitCount = 12.0;
-    const WallJumpHitInterval = 45.0 / WallJumpHitCount;
-    const WallJumpZVel = 10.0;
-    void Movement_WallJump () {
-        if (playerData.wjumpJustJumped)
-            playerData.wjumpJustJumped--;
-
-        if (health <= 0 || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
-            return;
-
-        Actor marker, puff;
-        if (player.cmd.forwardmove < 0 && (player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && (pos.Z - GetZAt ()) >= 16.0) {
-            Vector3 normal, randomVec;
-            double xyLen = cos (-pitch);
-            normal.x = xyLen * cos (-angle);
-            normal.y = xyLen * sin (angle);
-            normal.z = sin (-pitch);
-            normal = normal.Unit ();
-            do {
-                randomVec = (frandom (-1, 1), frandom (-1, 1), frandom (-1, 1)).Unit();
-            } while (randomVec == normal);
-            Vector3 normalPerp1 = (normal cross randomVec).Unit ();
-            Vector3 normalPerp2 = (normal cross normalPerp1).Unit ();
-            Vector3 center = pos + (0, 0, (height / 2) + attackZOffset);
-            Vector3 point1, point2;
-            point1 = center + cos (45) * normalPerp1 + sin (45) * normalPerp2;
-            point2 = center + cos (-90) * normalPerp1 + sin (-90) * normalPerp2;
-
-            for (int i = 0; i < WallJumpHitCount + 1; i++) {
-                double hitAngle = angle + (WallJumpHitInterval * ((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
-
-                for (int j = 0; j < WallJumpHitCount + 1; j++) {
-                    double hitPitch = pitch + (WallJumpHitInterval * ((-1) ^ ((j+1) & 1) * ((j+1) >> 1)));
-                    puff = LineAttack (hitAngle, 24, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
-                    if (puff && (puff.pos.Z - puff.GetZAt ()) >= 0.5) {
-                        Vector3 hitPos1, hitPos2, hitPos3;
-                        // Get hit position 1
-                        hitPos1 = puff.pos;
-                        puff.Destroy ();
-
-                        // Get hit position 2
-                        marker = Spawn ("S7_WalljumpMarker", point1);
-                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
-                        if (!puff) { marker.Destroy (); continue; }
-                        hitPos2 = puff.pos; puff.Destroy ();
-                        marker.Destroy ();
-
-                        // Get hit position 3
-                        marker = Spawn ("S7_WalljumpMarker", point2);
-                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
-                        if (!puff) { marker.Destroy (); continue; }
-                        hitPos3 = puff.pos; puff.Destroy ();
-                        marker.Destroy ();
-
-                        Vector3 wallNormal = ((hitPos3 - hitPos2) cross (hitPos1 - hitPos2)).Unit ();
-                        if (wallNormal dot normal > 0) wallNormal = -wallNormal;
-                        Vector3 velChange = wallNormal;
-                        velChange.X *= 10; velChange.Y *= 10;
-
-                        if (velChange.Z == 0.0)     velChange.Z  =  WallJumpZVel;
-                        else if (velChange.Z < 0.0) velChange.Z *= -WallJumpZVel;
-                        else                        velChange.Z *=  WallJumpZVel;
-
-                        playerData.wjumpJustJumped = S7C_WJumpDelay;
-                        vel = velChange;
-                        A_SetPitch (VectorAngle (wallNormal.XY.Length (), wallNormal.Z), SPF_ForceClamp | SPF_Interpolate);
-                        A_SetAngle (VectorAngle (wallNormal.X, wallNormal.Y), SPF_ForceClamp | SPF_Interpolate);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    void Movement_Sprinting () {
-        double forwardMove = abs (player.cmd.forwardmove) / 12800;
-        double sideMove = abs (player.cmd.sidemove) / 10240;
-
-        if (health > 0) {
-            // This is here just in case something fucks up and the player keeps the sprint "weapon" for some reason.
-            if (player.ReadyWeapon is "S7_SprintWeapon" && !playerData.sprinting)
-                player.PendingWeapon = weapBinds.LastWeapon;
-            else if (!playerData.sprinting && CheckInventory ("S7_SprintWeapon", 1))
-                TakeInventory ("S7_SprintWeapon", 0x7FFFFFFF);
-
-            if (playerData.sprintTics == -1 && CheckInventory ("S7_Stamina", 75))
-                playerData.sprintTics = 0;
-
-            // Start/stop sprinting
-            if (!playerData.sprinting && playerData.sprintTics != -1 &&
-                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ("S7_Stamina", S7C_SprintStamina) && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
-                ) {
-                playerData.sprinting = true;
-                playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
-                playerData.sprintTics = 0;
-                playerData.oldAgility = double.NaN;
-
-                GiveInventory ("S7_SprintWeapon", 1);
-                player.PendingWeapon = Weapon (FindInventory ("S7_SprintWeapon"));
-            } else if (playerData.sprinting &&
-                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ("S7_Stamina") < S7C_SprintStamina) || CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
-                ) {
-                if (playerData.sprintTics < 5)
-                    TakeInventory ("S7_Stamina", playerData.sprintTics);
-
-                playerData.sprinting = false;
-                playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
-                playerData.sprintTics = (!CheckInventory ("S7_Stamina", 5)) ? -1 : 0;
-
-                player.PendingWeapon = weapBinds.LastWeapon;
-            }
-            if (playerData.sprinting && player.ReadyWeapon is "S7_SprintWeapon") {
-                if (playerData.sprintTics++ >= 5 && (forwardMove != 0.0 || sideMove != 0.0)) {
-                    playerData.sprintTics = 0;
-                    TakeInventory ("S7_Stamina", S7C_SprintStamina);
-                } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
-                    playerData.sprintTics++;
-
-                double newAgility = xpSys.GetStat (S7Stat_Agility);
-                if (newAgility != playerData.oldAgility) {
-                    if (newAgility > 0) // Just so it doesn't explode
-                        playerData.sprintSpdFacPproc = 0.1 * log (newAgility);
-                    else
-                        playerData.sprintSpdFacPproc = 0;
-                    playerData.oldAgility = newAgility;
-                }
-
-                if (forwardMove > 0.5 || sideMove > 0.5)
-                    playerData.sprintSpeedFactor = Clamp (0.5 + playerData.sprintSpdFacPproc, 0.0, 2.5);
-                else
-                    playerData.sprintSpeedFactor = Clamp (0.5 + (0.5 + playerData.sprintSpdFacPproc) * 2, 0.0, 2.5);
-            }
-        }
-    }
-
-    /** Weapon stuff **/
-    const BaseAmmoMax = 6;
-    void Weapon_SetAmmoMax () {
-        double ammoMax = BaseAmmoMax;
-
-        if (CheckInventory ("S7_BackpackToken", 1))
-            ammoMax += 2;
-
-        if (ammoMax != playerData.ammoMaxMult) { // Only update if it changed...
-            for (int i = 0; i < S7_WeapData.AmmoTypesData.Size (); i++) {
-                Array<String> res;
-                S7_WeapData.AmmoTypesData [i].Split (res, ":");
-                if (res.Size () != 2) // Uhhh... Should always equal two exactly...
-                    continue;
-
-                Ammo ammoInv = Ammo (FindInventory (res [0]));
-                int maxAmount = floor (res [1].ToInt () * ammoMax);
-
-                if (ammoInv && ammoInv.maxAmount != maxAmount)
-                    ammoInv.maxAmount = maxAmount;
-            }
-        }
-
-        playerData.ammoMaxMult = ammoMax;
-    }
-
-    /** Misc **/
-    void Misc_StaminaRegen () {
-        int curStamina = CountInv ("S7_Stamina");
-        int maxStamina = GetMaxStamina ();
-
-        if (health <= 0 || curStamina == maxStamina || playerData.sprinting) {
-            playerData.staminaTics = 0;
-            return;
-        }
-
-        bool berserkActive = CheckInventory ("S7_BerserkToken", 1);
-        int count = 1, interval = 1;
-
-        if (berserkActive)
-            count = (!playerData.dying) ? 4 : 2;
-        if (playerData.dying)
-            interval = berserkActive ? 2 : 3;
-
-        if (playerData.staminaTics >= interval) {
-            GiveInventory ("S7_Stamina", count);
-            playerData.staminaTics = 0;
-        }
-
-        if (curStamina != maxStamina)
-            playerData.staminaTics++;
-    }
-
-    void Misc_Heartbeats () {
-        if (health <= 0)
-            return;
-
-        CVar heartbeats = CVar.GetCVar ("S7_HeartbeatsOn", players [consoleplayer]);
-        if (heartbeats && heartbeats.GetInt ()) {
-            if ((health <= 25 && health > 15 && playerData.heartbeatTics >= 89) || // I couldn't find a better way to do this... >.>
-                (health <= 15 && health > 10 && playerData.heartbeatTics >= 71) ||
-                (health <= 10 && health > 5  && playerData.heartbeatTics >= 53) ||
-                (health <= 5  && health > 2  && playerData.heartbeatTics >= 35) ||
-                (health <= 2  &&                playerData.heartbeatTics >= 18)
-            ) {
-                A_PlaySound ("Player/Heartbeat", CHAN_Body, 1.0, false, ATTN_NONE, true);
-                playerData.heartbeatTics = 0;
-            } else if (health > 25) // If health is greater than 25...
-                playerData.heartbeatTics = 0; // Set heartbeatTics to 0
-            else // if neither...
-                playerData.heartbeatTics++; // Add one to heartbeatTics
-        }
-    }
-
-    void Misc_HellhunterBlade () {
-        int curLvl = CountInv ("S7_HellhunterBladeAffinity");
-        int curExp = CountInv ("S7_HellhunterBladeExperience");
-        int nxtLvl = 2500 + curLvl * 1250;
-        if (curLvl < 10 && curExp >= nxtLvl) {
-            GiveInventory ("S7_HellhunterBladeAffinity", 1);
-            TakeInventory ("S7_HellhunterBladeExperience", nxtLvl);
-        }
+        // Movement
+        Movement_Dodging ();
+        Movement_WallJump ();
+        Movement_MultiJump ();
+        Movement_Sprinting ();
+        // Weapons
+        Weapon_SetAmmoMax ();
+        // Misc
+        Misc_StaminaRegen ();
+        Misc_Heartbeats ();
+        Misc_HellhunterBlade ();
     }
 
     clearscope int S7_GetMaxHealth () { return ((xpSys) ? (SpawnHealth () * (1.0 + 0.06 * xpSys.GetStat (S7Stat_Vitality))) : 0); }

@@ -108,6 +108,9 @@ class S7_IsLoaded : actor {
 
 // Player stuff
 #INCLUDE "S7ZScript/Player/Player.ZS"
+#INCLUDE "S7ZScript/Player/PlayerE_Movement.ZS"
+#INCLUDE "S7ZScript/Player/PlayerE_Weapon.ZS"
+#INCLUDE "S7ZScript/Player/PlayerE_Misc.ZS"
 #INCLUDE "S7ZScript/Player/PlayerXPSystem.ZS"
 #INCLUDE "S7ZScript/Player/WeapBindsSystem.ZS"
 #INCLUDE "S7ZScript/Player/Scout.ZS"
