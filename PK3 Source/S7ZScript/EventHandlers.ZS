@@ -224,6 +224,12 @@ class S7_PlayerEventHandler : EventHandler {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
+
+            CVar dispTags = CVar.GetCVar ("displaynametags", player);
+            CVar tagColor = CVar.GetCVar ("nametagcolor", player);
+            if (dispTags && weapon && (dispTags.GetInt () & 2))
+                S7_HudMessage.ShowFade (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
+                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: "SmallFont");
         } else if (commandStrings [1] == "prev") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false);
 
@@ -231,6 +237,12 @@ class S7_PlayerEventHandler : EventHandler {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
+
+            CVar dispTags = CVar.GetCVar ("displaynametags", player);
+            CVar tagColor = CVar.GetCVar ("nametagcolor", player);
+            if (dispTags && weapon && (dispTags.GetInt () & 2))
+                S7_HudMessage.ShowFade (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
+                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: "SmallFont");
         } else if (commandStrings [1] == "test") {
             for (int i = 1; i <= 5; i++)
                 weapBinds.SlotMaximum [i] = 3;
