@@ -251,6 +251,13 @@
                     "itemType": "pageLink",
                     "link": "wpPage_SMGs",
                     "global": false
+                },
+                {
+                    "id": [ "W", "P", "A", "R" ],
+                    "name": "$SS_PG_RIFLES",
+                    "itemType": "pageLink",
+                    "link": "wpPage_Rifles",
+                    "global": false
                 }
             ]
         },
@@ -293,9 +300,71 @@
                     "inventoryName": "S7_LaserPewPew",
                     "itemType": "buySellItem",
                     "maxAmount": 1,
-                    "buyPrice": 6000,
+                    "buyPrice": 5000,
                     "buyAmount": 1,
-                    "sellPrice": 4500,
+                    "sellPrice": 3750,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "wpPage_Rifles",
+            "name": "$SS_PG_RIFLES",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "weaponsPage",
+                    "global": false
+                },
+                {
+                    "id": [ "M", "A", "N", "X" ],
+                    "name": "$SHORTMANXCARBINE",
+                    "desc": "$SS_MANXDESC",
+                    "info": "$SS_MANXINFO",
+                    "icon": "sprites/Weapons/Primary/ManxCarbine/MANXZ0.png",
+                    "inventoryName": "S7_ManxCarbine",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 6500,
+                    "buyAmount": 1,
+                    "sellPrice": 4875,
+                    "sellAmount": 1,
+                    "global": true
+                },
+                {
+                    "id": [ "M", "A", "R", "S" ],
+                    "name": "$SHORTAMG",
+                    "desc": "$SS_AMGDESC",
+                    "info": "$SS_AMGINFO",
+                    "icon": "sprites/Weapons/Primary/AMG/AMGGZ0.png",
+                    "inventoryName": "S7_AMG",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 11000,
+                    "buyAmount": 1,
+                    "sellPrice": 8250,
+                    "sellAmount": 1,
+                    "global": true
+                },
+                {
+                    "id": [ "F", "C", "H", "D" ],
+                    "name": "$SHORTFAUCHARD",
+                    "desc": "$SS_FAUCHARDDESC",
+                    "info": "$SS_FAUCHARDINFO",
+                    "icon": "sprites/Weapons/Primary/Fauchard/LRFPA0.png",
+                    "inventoryName": "S7_Fauchard",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 16500,
+                    "buyAmount": 1,
+                    "sellPrice": 12375,
                     "sellAmount": 1,
                     "global": true
                 }
