@@ -43,7 +43,6 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
     Font bigFont;
     Font smallFont;
-    Font textFont;
 
     S7_ZF_Frame slotsFrame, weapSelFrame;
     S7_WeapAssignMenu_List itemsList;
@@ -70,8 +69,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         handler.link = self;
 
         bigFont = Font.GetFont ('BigFont');
-        smallFont = Font.GetFont ('SmallFont');
-        textFont = Font.GetFont ('S7TxtFnt.FON2');
+        smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         slotsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 210));
         slotsFrame.Pack (mainFrame);
@@ -107,7 +105,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         infoBG = new ("S7_ZF_Image").Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignTopLeft, noOffsets: true);
         infoBG.Pack (weapSelFrame);
-        infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - 5, 246 - 5), "", textFont, true, false, 1, Font.CR_WHITE);
+        infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - 5, 246 - 5), "", smallFont, true, false, 1, Font.CR_WHITE);
         infoLabel.Pack (weapSelFrame);
         itemsList = S7_WeapAssignMenu_List (new ("S7_WeapAssignMenu_List").InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo)));
 

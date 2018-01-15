@@ -63,7 +63,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         link = menuLink;
 
         bigFont = Font.GetFont ("BigFont");
-        smallFont = Font.GetFont ("SmallFont");
+        smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         background = new ("S7_ZF_Image").Init ((0, 0), (200, 246), "graphics/Menu/WeapAssignment/ListBG.png", S7_ZF_Image.AlignTopLeft);
         background.Pack (self);

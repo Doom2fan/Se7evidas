@@ -61,7 +61,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         link = menuLink;
 
         bigFont = Font.GetFont ("BigFont");
-        smallFont = Font.GetFont ("SmallFont");
+        smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         handler = new ("S7_ShopMenu_BuySellPopupHandler");
         handler.link = self;

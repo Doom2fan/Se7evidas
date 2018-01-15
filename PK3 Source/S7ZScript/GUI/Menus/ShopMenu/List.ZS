@@ -92,7 +92,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         link = menuLink;
 
         bigFont = Font.GetFont ("BigFont");
-        smallFont = Font.GetFont ("SmallFont");
+        smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         background = new ("S7_ZF_Image").Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignTopLeft);
         background.Pack (self);

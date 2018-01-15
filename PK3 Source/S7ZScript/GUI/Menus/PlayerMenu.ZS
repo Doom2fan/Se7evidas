@@ -32,7 +32,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         handler.link = self;
 
         bigFont = Font.GetFont ('BigFont');
-        smallFont = Font.GetFont ('SmallFont');
+        smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         menusFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 480));
         menusFrame.Pack (mainFrame);

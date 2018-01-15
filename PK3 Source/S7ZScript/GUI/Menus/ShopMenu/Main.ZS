@@ -63,7 +63,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         menuactive = Menu.OnNoPause;
 
         bigFont = Font.GetFont ('BigFont');
-        smallFont = Font.GetFont ('SmallFont');
+        smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         CPlayer = players [consolePlayer];
 
