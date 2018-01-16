@@ -15,8 +15,14 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     }
 
     void ListSelect (string itemId) {
+        if (!link)
+            return;
+
         S7_ShopMenu_ListItem item;
         let list = link.itemsList;
+        if (!list)
+            return;
+
         for (int i = 0; i < list.items.Size (); i++) {
             if (list.items [i] && list.items [i].id == itemId.ToInt ()) {
                 item = list.items [i];
@@ -57,8 +63,15 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     }
 
     void ListHover (string itemId, bool lostFocus, bool buttonEnabled) {
+        if (!link)
+            return;
+
         S7_ShopMenu_ListItem item;
         let list = link.itemsList;
+
+        if (!list)
+            return;
+
         for (int i = 0; i < list.items.Size (); i++) {
             if (list.items [i] && list.items [i].id == itemId.ToInt ()) {
                 item = list.items [i];
@@ -128,7 +141,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     }
 
     void UpdateScroll () {
-        if (itemsFrame) {
+        if (itemsFrame && clippingFrame) {
             if (clippingFrame.box.size.Y > itemsFrame.box.size.Y)
                 itemsFrame.box.pos.Y = 0;
             else if (itemsFrame.box.pos.Y <= -lowestCoord)
@@ -153,23 +166,34 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         if (!page)
             return false;
 
-        if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
-            clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
+        if (items.Size () >= 0) {
+            for (int i = items.Size () - 1; i > 0; i--) {
+                if (!items [i])
+                    continue;
+
+                items [i].itemData = NULL;
+                if (items [i].clickableArea) {
+                    items [i].clickableArea.master = NULL;
+                    items [i].clickableArea.Destroy ();
+                    items [i].clickableArea = NULL;
+                }
+                items [i].labels.Clear ();
+                if (items [i].icon) {
+                    items [i].icon.master = NULL;
+                    items [i].icon.Destroy ();
+                    items [i].icon = NULL;
+                }
+            }
+            items.Clear ();
+        }
+
+        if (itemsFrame && clippingFrame) {
+            if (clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ())
+                clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
+
             itemsFrame.master = NULL;
             itemsFrame.Destroy ();
             itemsFrame = NULL;
-        }
-        if (items.Size () >= 0) {
-            for (int i = items.Size () - 1; i > 0; i--) {
-                items [i].itemData = NULL;
-                items [i].clickableArea.Destroy ();
-                items [i].clickableArea = NULL;
-                items [i].labels.Clear ();
-                items [i].icon.Destroy ();
-                items [i].icon = NULL;
-                items [i].Destroy ();
-            }
-            items.Clear ();
         }
 
         itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 0));

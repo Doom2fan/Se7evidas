@@ -181,13 +181,17 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     void ActivateSelFrame (S7_WeaponSlots slot) {
         bool deactivate = slot < 0;
 
-        weapSelFrame.disabled = deactivate;
-        weapSelFrame.hidden = deactivate;
+        if (weapSelFrame) {
+            weapSelFrame.disabled = deactivate;
+            weapSelFrame.hidden = deactivate;
+        }
 
-        if (!deactivate)
-            itemsList.Activate (slot);
-        else
-            itemsList.Deactivate ();
+        if (itemsList) {
+            if (!deactivate)
+                itemsList.Activate (slot);
+            else
+                itemsList.Deactivate ();
+        }
     }
 
     void SetWeapon (string weap) {
@@ -201,6 +205,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         selectedX = selectedY = -1;
         ActivateSelFrame (-1);
+        UpdateData ();
     }
 
     void SetInfo (S7_BaseWeapon weap) {

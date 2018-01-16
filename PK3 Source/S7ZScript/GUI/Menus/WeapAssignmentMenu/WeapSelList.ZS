@@ -8,7 +8,7 @@ class S7_WeapAssignMenu_ListHandler : S7_ZF_Handler {
             command.Split (commandStrings, ":");
 
             if (commandStrings.Size () >= 2) {
-                if (commandStrings [0] == "Weapon")
+                if (link && commandStrings [0] == "Weapon")
                     link.SetWeapon (commandStrings [1]);
             }
         }
@@ -25,8 +25,14 @@ class S7_WeapAssignMenu_ListHandler : S7_ZF_Handler {
     }
 
     void ListHover (string weaponName, bool lostFocus) {
+        if (!link)
+            return;
+
         S7_WeapAssignMenu_ListWeap item;
         let list = link.itemsList;
+        if (!list)
+            return;
+
         for (int i = 0; i < list.items.Size (); i++) {
             if (list.items [i] && list.items [i].weaponName ~== weaponName) {
                 item = list.items [i];
@@ -132,7 +138,6 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                     items [i].icon.Destroy ();
                     items [i].icon = NULL;
                 }
-                items [i].Destroy ();
             }
             items.Clear ();
         }
@@ -169,7 +174,6 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                     items [i].icon.Destroy ();
                     items [i].icon = NULL;
                 }
-                items [i].Destroy ();
             }
             items.Clear ();
         }

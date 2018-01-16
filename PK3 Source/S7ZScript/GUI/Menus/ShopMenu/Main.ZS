@@ -134,15 +134,19 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             labelText = "";
 
         int width = bigFont.StringWidth (labelText);
-        nameLabel.text = labelText;
-        nameLabel.box.size.X = width;
-        nameLabel.box.pos.X = (640.0 - width) / 2.0;
+        if (nameLabel) {
+            nameLabel.text = labelText;
+            nameLabel.box.size.X = width;
+            nameLabel.box.pos.X = (640.0 - width) / 2.0;
+        }
     }
 
     void SetTooltip (string text) {
-        tooltipLabel.text = text;
-        tooltipLabel.box.size = (smallFont.StringWidth (text), smallFont.GetHeight ());
-        tooltipLabel.box.pos = ((640 - smallFont.StringWidth (text)) / 2,  450 + (30 - smallFont.GetHeight ()) / 2);
+        if (tooltipLabel) {
+            tooltipLabel.text = text;
+            tooltipLabel.box.size = (smallFont.StringWidth (text), smallFont.GetHeight ());
+            tooltipLabel.box.pos = ((640 - smallFont.StringWidth (text)) / 2,  450 + (30 - smallFont.GetHeight ()) / 2);
+        }
     }
 
     void ShowBuySellPopup () {
@@ -159,13 +163,13 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     override void Ticker () {
-        Super.Ticker ();
-        menuactive = Menu.OnNoPause;
-
         if (!CPlayer || !CPlayer.mo || CPlayer.mo.health < 1) {
             self.Close ();
             return;
         }
+
+        Super.Ticker ();
+        menuactive = Menu.OnNoPause;
 
         if (buyButton) {
             buyButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
@@ -190,8 +194,10 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             info = StringTable.Localize (item.infoText, true);
         }
 
-        descLabel.text = desc;
-        infoLabel.text = info;
+        if (descLabel)
+            descLabel.text = desc;
+        if (infoLabel)
+            infoLabel.text = info;
     }
 
     void Hover (S7_SSItem item) {
@@ -206,8 +212,10 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         if (!desc.Length () && !info.Length ())
             return;
 
-        descLabel.text = desc;
-        infoLabel.text = info;
+        if (descLabel)
+            descLabel.text = desc;
+        if (infoLabel)
+            infoLabel.text = info;
     }
 }
 
