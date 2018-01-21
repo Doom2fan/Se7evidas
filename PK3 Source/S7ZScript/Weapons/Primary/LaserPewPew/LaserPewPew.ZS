@@ -5,16 +5,16 @@
 //-------------------------------------------------------------------------------------------
 class S7_LaserPewPewClip : ammo {
     default {
-        inventory.maxAmount 32;
-        ammo.backpackMaxAmount 32;
+        inventory.maxAmount S7_LaserPewPew.MagSize;
+        ammo.backpackMaxAmount S7_LaserPewPew.MagSize;
 
         +inventory.ignoreSkill
     }
 }
 class S7_LaserPewPewClipSecond : ammo {
     default {
-        inventory.maxAmount 32;
-        ammo.backpackMaxAmount 32;
+        inventory.maxAmount S7_LaserPewPew.MagSize;
+        ammo.backpackMaxAmount S7_LaserPewPew.MagSize;
 
         +inventory.ignoreSkill
     }
@@ -22,6 +22,8 @@ class S7_LaserPewPewClipSecond : ammo {
 
 class S7_LaserPewPewSecond : S7_Boolean { } // This one stays as an inventory token because we don't want it to be removed if the gun is removed or dropped.
 class S7_LaserPewPew : S7_BaseWeapon {
+    const MagSize = 32;
+
     default {
         tag "$BUTTFLY";
         inventory.pickupMessage "$BUTTFLY";
@@ -182,7 +184,15 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto DryFire.End;
     DryFire.End:
         #### # 3 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
-        #### # 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
+        #### # 0 {
+            if (CheckInventory ("S7_LaserPewPewSecond", 1) && CheckInventory ("S7_LaserPewPewClipSecond", 1))
+                return ResolveState ("Reload.SwapGuns");
+
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
+                return ResolveState ("Reload");
+
+            return ResolveState (null);
+        }
         goto Ready2;
 
     Zoom:
@@ -239,8 +249,6 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
             if (invoker.sights)
                 return ResolveState ("Reload.Sights");
-            if (CheckInventory ("S7_LaserPewPewSecond", 1) && CheckInventory ("S7_LaserPewPewClipSecond", 16))
-                return ResolveState ("Reload.SwapGuns");
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");
@@ -263,7 +271,11 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto Ready2;
     Reload.SwapGuns: // Gun swapping
         BLSG AZYXWV 1;
-        TNT1 A      5 ACS_NamedExecuteAlways ("S7_PerformButterflySwap", 0);
+        TNT1 A      5 {
+            int mag1 = CountInv ("S7_LaserPewPewClip"), mag2 = CountInv ("S7_LaserPewPewClipSecond");
+            SetInventory ("S7_LaserPewPewClip", mag2);
+            SetInventory ("S7_LaserPewPewClipSecond", mag1);
+        }
         BLSG VWXYZA 1;
         goto Ready2;
 
@@ -408,10 +420,44 @@ class S7_LaserPewPew : S7_BaseWeapon {
         TNT1 A 0 {
             TakeInventory ("S7_Reloading", 0x7FFFFFFF);
 
-            if (CallACS ("S7_ButterflyAkimboReload"))
-                return ResolveState ("AkimboRight.ReloadAnim");
+            int mag1 = CountInv ("S7_LaserPewPewClip"), mag2 = CountInv ("S7_LaserPewPewClipSecond"),
+                mag1Req = S7_LaserPewPew.MagSize - mag1, mag2Req = S7_LaserPewPew.MagSize - mag2,
+                ammoPool = CountInv ("S7_FBSysCells");
 
-            return ResolveState (null);
+            if (mag1Req + mag2Req <= 0 || ammoPool <= 0)
+                return ResolveState (null);
+
+            if (mag1Req + mag2Req > ammoPool) { // If not enough ammo to top both off
+                int ammoGiven = 0, ammoToGive = 0;
+
+                if (mag1Req == mag2Req && ammoPool < 2) // If they require the same amount and there's less than 2 ammo.
+                    return ResolveState (null);
+
+                // Equalize the mags
+                if (mag1Req != mag2Req) {
+                    int ammoDiff = abs (mag1Req - mag2Req); // Get the difference
+                    ammoToGive = ((ammoDiff > ammoPool) ? ammoPool : ammoDiff); // Make sure the given amount isn't greater than the available amount
+                    GiveInventory ((mag1Req - mag2Req > 0) ? "S7_LaserPewPewClip" : "S7_LaserPewPewClipSecond", ammoToGive); // Give the ammo
+                    ammoGiven += ammoToGive;
+                }
+
+                // If there's enough ammo, split it between the mags
+                if (ammoPool - ammoGiven > 1) {
+                    ammoToGive = ammoPool - ammoGiven;
+                    ammoToGive = ((ammoToGive & 1) ? ammoToGive - 1 : ammoToGive) / 2;  // Calculate the amount to give
+                    GiveInventory ("S7_LaserPewPewClip", ammoToGive); // Give the ammo
+                    GiveInventory ("S7_LaserPewPewClipSecond", ammoToGive);
+                    ammoGiven += ammoToGive * 2;
+                }
+
+                TakeInventory ("S7_FBSysCells", ammoGiven); // Take the ammo from the ammo pool
+            } else {
+                GiveInventory ("S7_LaserPewPewClip", mag1Req);
+                GiveInventory ("S7_LaserPewPewClipSecond", mag2Req);
+                TakeInventory ("S7_FBSysCells", mag1Req + mag2Req);
+            }
+
+            return ResolveState ("AkimboRight.ReloadAnim");
         }
         goto AkimboRight.Ready;
     AkimboRight.ReloadAnim:
