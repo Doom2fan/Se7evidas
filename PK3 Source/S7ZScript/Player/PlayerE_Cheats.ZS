@@ -10,7 +10,6 @@ extend class S7_BasePlayer {
     };
 
     override void CheatGive (String name, int amount) {
-
         let player = self.player;
 
         if (player.mo == NULL || player.health <= 0)
