@@ -107,7 +107,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         }
     }
 
-    protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos) {
+    protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos, double TicFrac) {
         if (CheckInventory ("S7_UpgradeRadar", 1)) {
             DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
 
@@ -115,7 +115,7 @@ class Se7evidasStatusBar : BaseStatusBar {
             Actor curActor;
 
             double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
-            Vector2 pPawnXYPos = pPawn.pos.xy;
+            Vector3 pPawnXYPos = (pPawn.prev + (TicFrac * (pPawn.pos - pPawn.prev)));
             while (curActor = Actor (actorFinder.Next ())) {
                 if (abs (pPawn.Distance2D (curActor)) > RADAR_MAXDIST) // Skip any actors that are too far away
                     continue;
@@ -132,9 +132,11 @@ class Se7evidasStatusBar : BaseStatusBar {
                     continue;
 
                 // Coords
-                Vector2 worldPos = pPawnXYPos - curActor.pos.xy, screenPos;
-                screenPos.x = (worldPos.x * angleSin + worldPos.y * angleCos) / RADAR_SCALE;
-                screenPos.y = (worldPos.x * angleCos - worldPos.y * angleSin) / RADAR_SCALE;
+                Vector3 actorPos = (curActor.prev + (TicFrac * (curActor.pos - curActor.prev)));
+                Vector2 worldPos = pPawnXYPos.xy - actorPos.xy, screenPos;
+                worldPos /= RADAR_SCALE;
+                screenPos.x = (worldPos.x * angleSin + worldPos.y * angleCos);
+                screenPos.y = (worldPos.x * angleCos - worldPos.y * angleSin);
 
                 if (screenPos.Length () >= RADAR_RADIUS)
                     continue;
@@ -240,7 +242,7 @@ class Se7evidasStatusBar : BaseStatusBar {
             }
         }
 
-        DrawRadar (pPawn, (-40, 2));
+        DrawRadar (pPawn, (-40, 2), TicFrac);
 
         // Ammo bars
         if (CPlayer.ReadyWeapon) {
