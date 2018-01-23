@@ -25,6 +25,6 @@ alias S7_LogServerData "pukename S7_PrintServerData always"
 alias S7_LogMapData "pukename S7_PrintMapData always"
 
 // Reset to default CVars
-alias S7_ResetServerCVars "S7_DodgeCooldown 35; S7_MultiJumpZMul 1.0; S7_ForceIntro FALSE; S7_MaxLevel 75; S7_DebugMode FALSE;"
-alias S7_ResetUserCVars   "S7_MsgsOn TRUE; S7_LogLVLUpMsgs TRUE; S7_AutoReloading TRUE; S7_HeartbeatsOn TRUE; S7_NoIntro FALSE; S7_NoIntroOnMP FALSE; S7_EnemyHPBar_On TRUE; S7_EnemyHPBar_HPDisp 1; S7_EnemyHPBar_NametagOn TRUE; S7_EffectStayTime 0; S7_EffectFadeSpeed 0;"
+alias S7_ResetServerCVars "event \"S7_ResetServerCVars\""
+alias S7_ResetUserCVars   "event \"S7_ResetUserCVars\""
 alias S7_ResetCVars       "S7_ResetServerCVars; S7_ResetUserCVars;"

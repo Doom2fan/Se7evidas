@@ -58,6 +58,10 @@ optionMenu "S7Settings" {
 
     subMenu "Arbitrator Options",   "S7Settings_Server"
     subMenu "User Options",         "S7Settings_User"
+
+    staticText ""
+    safeCommand "Reset server CVars", "S7_ResetServerCVars"
+    safeCommand "Reset user CVars", "S7_ResetUserCVars"
 }
 
 optionMenu "S7Settings_Server" {

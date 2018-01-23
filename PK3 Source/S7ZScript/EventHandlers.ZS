@@ -170,20 +170,48 @@ class S7_PlayerEventHandler : EventHandler {
             WeapBindsSystem (e);
     }
 
+    static const string serverCVars [] = {
+        "S7_DodgeCooldown", "S7_MultiJumpZMul", "S7_ForceIntro", "S7_MaxLevel",
+        "S7_InitialCashAmount", "S7_DebugMode", "S7_DebugOpts"
+    };
+    static const string userCVars [] = {
+        "S7_MsgsOn", "S7_LogLVLUpMsgs", "S7_AutoReloading", "S7_HeartbeatsOn", "S7_NoIntro",
+        "S7_NoIntroOnMP", "S7_EnemyHPBar_On", "S7_EnemyHPBar_HPDisp", "S7_EnemyHPBar_NametagOn",
+        "S7_EffectStayTime", "S7_EffectFadeSpeed"
+    };
     override void ConsoleProcess (ConsoleEvent e) {
-        Array<String> strings;
-        e.Name.Split (strings, ":");
+        if (e.Name.IndexOf (":") < 0) {
+            if (e.Name == "S7_ResetServerCVars") {
+                for (int i = 0; i < serverCVars.Size (); i++) {
+                    CVar cv = CVar.FindCVar (serverCVars [i]);
 
-        if (strings.Size () < 2) // Return if the array has less than two strings
-            return;
+                    if (!cv)
+                        continue;
 
-        if (strings [0] == "S7_Keys") {
-            let pPawn = players [consoleplayer].mo;
+                    cv.ResetToDefault ();
+                }
+            } else if (e.Name == "S7_ResetUserCVars") {
+                for (int i = 0; i < userCVars.Size (); i++) {
+                    CVar cv = CVar.FindCVar (userCVars [i]);
 
-            if (pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu")
-                Menu.SetMenu ("S7_PlayerMenu");
-            else if (pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
-                Menu.SetMenu ("S7_LuciusShopMenu");
+                    if (!cv)
+                        continue;
+
+                    cv.ResetToDefault ();
+                }
+            }
+        } else {
+            Array<String> strings;
+            e.Name.Split (strings, ":");
+
+            if (strings [0] == "S7_Keys") {
+                let pPawn = players [consoleplayer].mo;
+
+                if (pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu")
+                    Menu.SetMenu ("S7_PlayerMenu");
+                else if (pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
+                    Menu.SetMenu ("S7_LuciusShopMenu");
+            }
         }
     }
 
