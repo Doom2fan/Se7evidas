@@ -47,7 +47,7 @@ class S7_Terminator : S7_DemonBase {
         if (targ.vel.x != 0 || targ.vel.y != 0 || targ.vel.z != 0) { // If the target is moving, lead it.
             Vector3 tempTargPos = S7_Math.CalculateInterceptShotPosition (pos, targPos, targ.vel, projSpeed);
 
-            if (targPos.x != double.NaN && targPos.y != double.NaN && targPos.z != double.NaN)
+            if (!(targPos.x != targPos.x) && !(targPos.y != targPos.y) && !(targPos.z != targPos.z))
                 targPos = tempTargPos;
         }
 
@@ -61,12 +61,8 @@ class S7_Terminator : S7_DemonBase {
         double x1, x2;
         [x1, x2] = S7_Math.InterceptShotPitch ((pos.x + cos (angle)*xyOffs, pos.y + sin (angle)*xyOffs, pos.z + zOffs), targPos, projSpeed, grav);
 
-        if (!(x1 != double.NaN) && !(x2 != double.NaN)) // If these are null, well fuck. Probably means we can't hit.
+        if ((retX1 && x1 != x1) || (!retX1 && x2 != x2)) // If these are null, well fuck. Probably means we can't hit.
             return double.NaN;
-        else if (!(x1 != double.NaN))
-            return x2;
-        else if (!(x2 != double.NaN))
-            return x1;
 
         if (retX1)
             return x1;
@@ -285,7 +281,7 @@ class S7_Terminator : S7_DemonBase {
         goto Missile.End;
 
     /** Launcher **/
-    /**Missile.Grenade: // Well, right now pitch calculation is broken. And probably always was. We'll fix that later.
+    Missile.Grenade: // Well, right now pitch calculation is broken. And probably always was. We'll fix that later.
         TERM J 1 {
             //if (!CheckIfCloser (target, 875.0))
                 //return ResolveState ("Missile.NoGrenade");
@@ -301,24 +297,31 @@ class S7_Terminator : S7_DemonBase {
             Vector3 targPos = LeadTarget (target, 75.0);
             double newPitch = PitchCorrection (targPos, -18.0, 35.0, 75.0, 0.2);
 
-            if (newPitch == double.NaN)
+            if (newPitch != newPitch)
                 return ResolveState ("Missile.GrenadeStronger");
 
             A_SetPitch (-newPitch);
+            A_SpawnProjectile ("S7_TerminatorGrenade", 35.0, -18, fRandom [monsterSpread] (-1.0, 1.0), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.75, 0.75));
             A_PlaySound ("Terminator/GrenadeFire", CHAN_Weapon); // Play the firing sound
-            A_SpawnProjectile ("S7_TerminatorGrenade", 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
-
-            newPitch = PitchCorrection (targPos, -18.0, 35.0, 75.0, 0.2, true);
-            A_SetPitch (-newPitch);
-            A_SpawnProjectile ("S7_TerminatorGrenade", 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
 
             return ResolveState (null);
         }
         TERM KK 1 bright;
         goto Missile.Grenade.End;
-    Missile.GrenadeStronger: // speed 110
-        TNT1 A  0 A_PlaySound ("Terminator/GrenadeStrongerFire", CHAN_Weapon); // Play the firing sound
-        TERM K  1 bright A_SpawnProjectile ("S7_TerminatorGrenadeStronger", 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
+    Missile.GrenadeStronger:
+        TERM K  1 bright {
+            Vector3 targPos = LeadTarget (target, 110.0);
+            double newPitch = PitchCorrection (targPos, -18.0, 35.0, 110.0, 0.2);
+
+            if (newPitch != newPitch)
+                return ResolveState ("Missile.Nail");
+
+            A_SetPitch (-newPitch);
+            A_SpawnProjectile ("S7_TerminatorGrenadeStronger", 35.0, -18, fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-1.0, 1.0));
+            A_PlaySound ("Terminator/GrenadeStrongerFire", CHAN_Weapon); // Play the firing sound
+
+            return ResolveState (null);
+        }
         TERM KK 1 bright;
         goto Missile.Grenade.End;
     Missile.Nail: // speed 130
@@ -337,7 +340,7 @@ class S7_Terminator : S7_DemonBase {
 
     Missile.Grenade.End:
         TERM JJJJJ 1;
-        goto Missile.End;*/
+        goto Missile.End;
 
     Missile.End:
         goto See;
@@ -453,10 +456,11 @@ class S7_TerminatorTracer : S7_BaseTracer {
     }
 }
 
-class S7_TerminatorGrenade : Actor {
+class S7_TerminatorGrenade : FastProjectile {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 3.8) * 10);
-        speed 1;
+        //speed 1;
+        speed 75;
         deathSound "Explosions/Explosion1";
         gravity 0.2;
         obituary "$OBTERMGREN";
@@ -465,16 +469,19 @@ class S7_TerminatorGrenade : Actor {
         -noGravity
     }
 
+    override void Tick () {
+        Super.Tick ();
+        vel.Z += -GetGravity ();
+    }
+
     states {
     Spawn:
-        TNT1 A 0 noDelay A_ScaleVelocity (75.0);
-    Flight:
         GRN2 BA 1;
         loop;
     Death:
         XPL1 A    3 {
             bNoGravity = true;
-            S7_ActorExtensions.A_S7SpawnShrapnel (self, 200);
+            S7_ActorExtensions.A_S7SpawnShrapnel (self, 100);
             A_SetDamageType ("ExplosionSplashDMG");
             A_Explode (96, 128);
         }
@@ -486,7 +493,7 @@ class S7_TerminatorGrenade : Actor {
 class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 6.0) * 14.166666666666666666666666666667);
-        speed 1;
+        speed 110;
         deathSound "Explosions/Explosion2";
         obituary "$OBTERMSGREN";
         /*missileType "S7_TerminatorGrenadeShockwave";
@@ -495,15 +502,13 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_ScaleVelocity (110.0);
-    Flight:
         GRN2 BB 1 A_SpawnItemEx ("S7_TerminatorGrenadeShockwave");
         GRN2 AA 1 A_SpawnItemEx ("S7_TerminatorGrenadeShockwave");
         loop;
     Death:
         XPL2 A     3 {
             bNoGravity = true;
-            S7_ActorExtensions.A_S7SpawnShrapnel (self, 100);
+            S7_ActorExtensions.A_S7SpawnShrapnel (self, 50);
             A_SetDamageType ("ExplosionSplashDMG");
             A_Explode (72, 104);
         }
@@ -529,22 +534,24 @@ class S7_TerminatorNail : fastProjectile {
         /*radius 2;
         height 2;*/
         damageFunction (fRandom [monsterDMG] (1.0, 4.0) * 15);
-        speed 1;
-        missileType "S7_HeatSmokeStatic";
-        missileHeight 8;
-        gravity 0.5;
+        speed 130;
+        gravity 0.35;
         obituary "$OBTERMNAIL";
 
         projectile;
-        +noGravity +bloodSplatter +noExtremeDeath +noDamageThrust
+        -noGravity +bloodSplatter +noExtremeDeath +noDamageThrust
+    }
+
+    override void Tick () {
+        Super.Tick ();
+        vel.Z += -GetGravity ();
     }
 
     states {
     Spawn:
-        NAIL A 5 noDelay A_ScaleVelocity (130.0);
-        TNT1 A 0 { bNoGravity = false; }
+        NAIL A 3;
     Flight:
-        NAIL A 1;
+        NAIL A 1 A_SpawnItemEx ("S7_HeatSmokeStatic", flags: SXF_NoCheckPosition | SXF_Clientside);
         loop;
     Death:
         NAIL A 500;

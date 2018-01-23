@@ -82,20 +82,16 @@ class S7_Math : actor {
     ** Returns:
     **  The pitch that the projectile will need to be fired at. Actually returns two doubles.
     */
-    static double, double InterceptShotPitch (Vector3 shooterPos, Vector3 targetPos, double v, double grav) {
-        double g = grav * 9.807,
-            x = (targetPos.xy - shooterPos.xy).Length (),
-            y = targetPos.z - shooterPos.z;
+    static double, double InterceptShotPitch (Vector3 shooterPos, Vector3 targetPos, double v, double g) {
+        double x = (targetPos.xy - shooterPos.xy).Length (),
+               y = targetPos.z - shooterPos.z;
 
         double sq = (v*v*v*v) - g*(g*(x*x) + 2 * y * (v*v));
 
-        if (sq >= 0 && sq != double.NaN) {
+        if (sq >= 0 && !(sq != sq)) {
             sq = sqrt (sq);
             double x1 = atan2 ((v*v) + sq, g * x);
             double x2 = atan2 ((v*v) - sq, g * x);
-
-            Console.Printf ("shooter (x: %f, y: %f, z: %f)\ntarget (x: %f, y: %f, z: %f)\nx1: %f\nx2: %f\ng: %f, x: %f, y: %f",
-                shooterPos.x, shooterPos.y, shooterPos.z, targetPos.x, targetPos.y, targetPos.z, x1, x2, g, x, y);
 
             return x1, x2;
         } else
