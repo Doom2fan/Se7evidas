@@ -75,8 +75,12 @@ class S7_BaseWeapon : weapon {
         double baseMul  = 1.0;
         double mulBonus = 0.0;
 
+        let pPawn = S7_BasePlayer (invoker.Owner);
+        if (pPawn)
+            baseMul += pPawn.xpSys.GetStat (S7Stat_Strength, false) * 0.025;
+
         if (CheckInventory ("S7_BerserkToken", 1)) {
-            baseMul = 3.0;
+            baseMul *= 3.0;
             mulBonus = fRandom (0.0, 2.0);
         }
 
