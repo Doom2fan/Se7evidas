@@ -62,58 +62,35 @@ extend class S7_BasePlayer {
         if (health <= 0 || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
             return;
 
-        Actor marker, puff;
         if (player.cmd.forwardmove < 0 && (player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && (pos.Z - GetZAt ()) >= 16.0) {
-            Vector3 normal, randomVec;
+            Vector3 normal;
             double xyLen = cos (-pitch);
             normal.x = xyLen * cos (-angle);
             normal.y = xyLen * sin (angle);
             normal.z = sin (-pitch);
             normal = normal.Unit ();
-            do {
-                randomVec = (frandom (-1, 1), frandom (-1, 1), frandom (-1, 1)).Unit();
-            } while (randomVec == normal);
-            Vector3 normalPerp1 = (normal cross randomVec).Unit ();
-            Vector3 normalPerp2 = (normal cross normalPerp1).Unit ();
-            Vector3 center = pos + (0, 0, (height / 2) + attackZOffset);
-            Vector3 point1, point2;
-            point1 = center + cos (45) * normalPerp1 + sin (45) * normalPerp2;
-            point2 = center + cos (-90) * normalPerp1 + sin (-90) * normalPerp2;
-
+            
+            FLineTraceData traceData;
             for (int i = 0; i < WallJumpHitCount + 1; i++) {
                 double hitAngle = angle + (WallJumpHitInterval * ((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
 
                 for (int j = 0; j < WallJumpHitCount + 1; j++) {
                     double hitPitch = pitch + (WallJumpHitInterval * ((-1) ^ ((j+1) & 1) * ((j+1) >> 1)));
-                    puff = LineAttack (hitAngle, 24, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
-                    if (puff && (puff.pos.Z - puff.GetZAt ()) >= 0.5) {
-                        Vector3 hitPos1, hitPos2, hitPos3;
-                        // Get hit position 1
-                        hitPos1 = puff.pos;
-                        puff.Destroy ();
+                    LineTrace (hitAngle, 24, hitPitch, flags: TRF_ThruHitscan | TRF_NoSky, offsetz: (height / 2) + (AttackZOffset * player.crouchfactor), data: traceData);
 
-                        // Get hit position 2
-                        marker = Spawn ("S7_WalljumpMarker", point1);
-                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
-                        if (!puff) { marker.Destroy (); continue; }
-                        hitPos2 = puff.pos; puff.Destroy ();
-                        marker.Destroy ();
+                    if (traceData.HitType == TRACE_HitWall && traceData.HitLine) {
+                        Vector2 lineAngle = AngleToVector (VectorAngle (traceData.HitLine.delta.X, traceData.HitLine.delta.Y) - 90., 1.);
+                        Vector3 wallNormal = (lineAngle.X, lineAngle.Y, 0).Unit ();
 
-                        // Get hit position 3
-                        marker = Spawn ("S7_WalljumpMarker", point2);
-                        puff = marker.LineAttack (hitAngle, 32, hitPitch, 0, "None", "S7_WallCheckPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, null);
-                        if (!puff) { marker.Destroy (); continue; }
-                        hitPos3 = puff.pos; puff.Destroy ();
-                        marker.Destroy ();
+                        if (wallNormal dot normal > 0)
+                            wallNormal = -wallNormal;
 
-                        Vector3 wallNormal = ((hitPos3 - hitPos2) cross (hitPos1 - hitPos2)).Unit ();
-                        if (wallNormal dot normal > 0) wallNormal = -wallNormal;
                         Vector3 velChange = wallNormal;
                         velChange.X *= 10; velChange.Y *= 10;
 
-                        if (velChange.Z == 0.0)     velChange.Z  =  WallJumpZVel;
-                        else if (velChange.Z < 0.0) velChange.Z *= -WallJumpZVel;
-                        else                        velChange.Z *=  WallJumpZVel;
+                        if (velChange.Z == 0.0)     velChange.Z  = WallJumpZVel;
+                        else if (velChange.Z < 0.0) velChange.Z  = WallJumpZVel * -velChange.Z;
+                        else                        velChange.Z *= WallJumpZVel;
 
                         playerData.wjumpJustJumped = S7C_WJumpDelay;
                         vel = velChange;
