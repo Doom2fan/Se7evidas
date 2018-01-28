@@ -157,16 +157,15 @@ class S7_BasePlayer : playerPawn {
     override void Tick () {
         super.Tick ();
 
-        FTranslatedLineTarget lTarget; // Do a trace to get the actor under the crosshair
-        let puff = LineAttack (angle, 8192, pitch, 0, "None", "S7_TraceTestPuff", LAF_NoRandomPuffZ | LAF_NoImpactDecal, lTarget);
-        if (puff) puff.Destroy ();
-        playerLineTarget = lTarget.linetarget;
+        FLineTraceData traceData; // Do a trace to get the actor under the crosshair
+        LineTrace (angle, 8192, pitch, flags: TRF_ThruBlock | TRF_ThruHitscan, offsetz: (height / 2) + (AttackZOffset * player.crouchfactor), data: traceData);
+        playerLineTarget = traceData.HitActor;
 
         if (!player || !player.mo || player.mo != self)
             return;
 
         if (!playerData || !weapBinds || !xpSys)
-                GiveBasics ();
+            GiveBasics ();
 
         if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
             SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
