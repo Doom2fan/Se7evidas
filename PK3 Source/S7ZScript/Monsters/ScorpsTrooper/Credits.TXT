@@ -1,6 +1,6 @@
 Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    S7_ScorpsTrooper: Id Software, ???
+    S7_ScorpsTrooper: Id Software, Rogue Entertainment, KDiZD, Captain Toenail
 
 Sounds: Credits in the SNDINFO files
