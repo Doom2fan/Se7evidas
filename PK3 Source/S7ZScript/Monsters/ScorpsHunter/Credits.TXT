@@ -1,0 +1,6 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_ScorpsHunter: Id Software, Ghastly_dragon, Eriance, Xim, scalliano, Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO files

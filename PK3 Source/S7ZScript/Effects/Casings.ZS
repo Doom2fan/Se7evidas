@@ -143,6 +143,14 @@ class S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
     }
 }
 
+class S7_12gaShellCasingSpawn2 : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnProjectile ("S7_12gaShellCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        stop;
+    }
+}
+
 class S7_12gaShellCasing : S7_CasingBase {
     default {
         bounceSound "Weapons/Shell";

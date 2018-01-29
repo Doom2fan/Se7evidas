@@ -17,3 +17,7 @@ Monsters/SCorps1/Pain2                       "sounds/Monsters/SCorps1/Pain2.ogg"
 Monsters/SCorps1/Pain3                       "sounds/Monsters/SCorps1/Pain3.ogg"
 
 Monsters/ScorpsEnforcer/Fire                 "sounds/Monsters/Scorps/EnforcerFire.ogg"
+
+Monsters/ScorpsHunter/Fire                   "sounds/Monsters/Scorps/HunterFire.ogg"    // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
+Monsters/ScorpsHunter/ClipOut                "sounds/Monsters/Scorps/HunterClipOut.ogg" // From Quake 4.
+Monsters/ScorpsHunter/ClipIn                 "sounds/Monsters/Scorps/HunterClipIn.ogg"  // From Quake 4.

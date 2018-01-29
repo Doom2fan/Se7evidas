@@ -5,6 +5,7 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
         return GetDropItems ();
     }
 }
+
 //-------------------------------------------------------------------------------------------
 //
 // Zombieman spawner
@@ -13,6 +14,17 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
 class S7_ZombiemanSpawner : S7_ReplacementSpawner replaces zombieman {
     default {
         DropItem "S7_ScorpsTrooper", 256, 1;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Shotgun Guy spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_ShotgunGuySpawner : S7_ReplacementSpawner replaces shotgunGuy {
+    default {
+        DropItem "S7_ScorpsHunter", 256, 1;
     }
 }
 

@@ -99,6 +99,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Monsters/FatFuck/FatFuck.ZS"
 #INCLUDE "S7ZScript/Monsters/Terminator/Terminator.ZS"
 #INCLUDE "S7ZScript/Monsters/ScorpsEnforcer/ScorpsEnforcer.ZS"
+#INCLUDE "S7ZScript/Monsters/ScorpsHunter/ScorpsHunter.ZS"
 
 // Inventory
 #INCLUDE "S7ZScript/Inventory/Health.ZS"
