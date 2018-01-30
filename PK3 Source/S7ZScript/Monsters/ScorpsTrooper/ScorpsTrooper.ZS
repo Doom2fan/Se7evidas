@@ -14,8 +14,9 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         health 30;
         gibHealth -15;
         painChance 200;
-        painSound "Monsters/SCorps1/Pain";
-        deathSound "Monsters/SCorps1/Death";
+        seeSound "Monsters/ScorpsTrooper/Sight";
+        painSound "Monsters/ScorpsTrooper/Pain";
+        deathSound "Monsters/ScorpsTrooper/Death";
         obituary "$OBSCORPSTROOPER";
         species "ScorpsTrooper";
         tag "$SCRPSTROOTAG";

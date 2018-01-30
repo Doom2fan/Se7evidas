@@ -1,23 +1,41 @@
-$RANDOM Monsters/SCorps1/Death {
-    Monsters/SCorps1/Death1
-    Monsters/SCorps1/Death2
-    Monsters/SCorps1/Death3
-}
-Monsters/SCorps1/Death1                      "sounds/Monsters/SCorps1/Death1.ogg"
-Monsters/SCorps1/Death2                      "sounds/Monsters/SCorps1/Death2.ogg"
-Monsters/SCorps1/Death3                      "sounds/Monsters/SCorps1/Death3.ogg"
-
-$RANDOM Monsters/SCorps1/Pain {
-    Monsters/SCorps1/Pain1
-    Monsters/SCorps1/Pain2
-    Monsters/SCorps1/Pain3
-}
-Monsters/SCorps1/Pain1                       "sounds/Monsters/SCorps1/Pain1.ogg"
-Monsters/SCorps1/Pain2                       "sounds/Monsters/SCorps1/Pain2.ogg"
-Monsters/SCorps1/Pain3                       "sounds/Monsters/SCorps1/Pain3.ogg"
-
 Monsters/ScorpsEnforcer/Fire                 "sounds/Monsters/Scorps/EnforcerFire.ogg"
 
-Monsters/ScorpsHunter/Fire                   "sounds/Monsters/Scorps/HunterFire.ogg"    // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
-Monsters/ScorpsHunter/ClipOut                "sounds/Monsters/Scorps/HunterClipOut.ogg" // From Quake 4.
-Monsters/ScorpsHunter/ClipIn                 "sounds/Monsters/Scorps/HunterClipIn.ogg"  // From Quake 4.
+/** Trooper **/
+$RANDOM Monsters/ScorpsTrooper/Sight {
+    Monsters/ScorpsTrooper/Sight1
+    Monsters/ScorpsTrooper/Sight2
+    Monsters/ScorpsTrooper/Sight3
+    Monsters/SCorpsTrooper/Sight4
+}
+Monsters/SCorpsTrooper/Sight1                "sounds/Monsters/SCorps/Trooper/Sight1.ogg"
+Monsters/SCorpsTrooper/Sight2                "sounds/Monsters/SCorps/Trooper/Sight2.ogg"
+Monsters/SCorpsTrooper/Sight3                "sounds/Monsters/SCorps/Trooper/Sight3.ogg"
+Monsters/SCorpsTrooper/Sight4                "sounds/Monsters/SCorps/Trooper/Sight4.ogg"
+
+$RANDOM Monsters/ScorpsTrooper/Pain {
+    Monsters/ScorpsTrooper/Pain1
+    Monsters/ScorpsTrooper/Pain2
+    Monsters/ScorpsTrooper/Pain3
+    Monsters/SCorpsTrooper/Pain4
+    Monsters/SCorpsTrooper/Pain5
+    Monsters/SCorpsTrooper/Pain6
+}
+Monsters/SCorpsTrooper/Pain1                "sounds/Monsters/SCorps/Trooper/Pain1.ogg"
+Monsters/SCorpsTrooper/Pain2                "sounds/Monsters/SCorps/Trooper/Pain2.ogg"
+Monsters/SCorpsTrooper/Pain3                "sounds/Monsters/SCorps/Trooper/Pain3.ogg"
+Monsters/SCorpsTrooper/Pain4                "sounds/Monsters/SCorps/Trooper/Pain4.ogg"
+Monsters/SCorpsTrooper/Pain5                "sounds/Monsters/SCorps/Trooper/Pain5.ogg"
+Monsters/SCorpsTrooper/Pain6                "sounds/Monsters/SCorps/Trooper/Pain6.ogg"
+
+$RANDOM Monsters/ScorpsTrooper/Death {
+    Monsters/ScorpsTrooper/Death1
+    Monsters/ScorpsTrooper/Death2
+    Monsters/ScorpsTrooper/Death3
+}
+Monsters/SCorpsTrooper/Death1                "sounds/Monsters/SCorps/Trooper/Death1.ogg"
+Monsters/SCorpsTrooper/Death2                "sounds/Monsters/SCorps/Trooper/Death2.ogg"
+Monsters/SCorpsTrooper/Death3                "sounds/Monsters/SCorps/Trooper/Death3.ogg"
+
+Monsters/ScorpsHunter/Fire                   "sounds/Monsters/Scorps/Hunter/Fire.ogg"    // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
+Monsters/ScorpsHunter/ClipOut                "sounds/Monsters/Scorps/Hunter/ClipOut.ogg" // From Quake 4.
+Monsters/ScorpsHunter/ClipIn                 "sounds/Monsters/Scorps/Hunter/ClipIn.ogg"  // From Quake 4.

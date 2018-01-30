@@ -101,7 +101,6 @@ class S7_ScorpBase : S7_MonsterBase {
         radius 16;
         height 56;
         activeSound "Monsters/Nova/RadioChatter";
-        seeSound "Monsters/Nova/RadioSight";
 
         /** Damage factors **/
         // Reanimated flesh damage reduction
