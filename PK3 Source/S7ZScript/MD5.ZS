@@ -10,10 +10,9 @@ class S7_MD5 {
         return ret;
     }
 
-    static string FromString (string input) {
+    static string FromStream (TZK_Stream stream) {
         let md5 = S7_MD5.Create ();
 
-        let stream = TZK_StringStream.Create (input);
         let tmpArr = new ("TZK_ArrayI32");
 
         for (int i = 0; i < stream.Length (); i++)
@@ -24,6 +23,14 @@ class S7_MD5 {
         string ret = md5.Finish ();
 
         md5.Reset (); md5 = NULL;
+
+        return ret;
+    }
+
+    static string FromString (string input) {
+        let stream = TZK_StringStream.Create (input);
+        
+        string ret = FromStream (stream);
         stream = NULL;
 
         return ret;
@@ -45,13 +52,16 @@ class S7_MD5 {
         for (int i = 0; i < hash.Length (); i++) {
             int c = hash.CharCodeAt (i);
 
-            if ((c >= 65 && c <= 70) || (c > 48 && c < 57))
+            if ((c >= 65 && c <= 70) || (c >= 48 && c <= 57)) // Continue if char matches [0-9A-Z]
+                continue;
+
+            if (i == (hash.Length () - 1) && c == ASCII_NUL) // Ignore NULs
                 continue;
 
             return false;
         }
 
-        return false;
+        return true;
     }
 
     private uint _state [4]; // state (ABCD)
