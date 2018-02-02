@@ -40,8 +40,10 @@ class TZK_Token
 {
     ETokenType type;
     string value;
+    int line;
+    int charPos;
 
-    string TypeString()
+    static string AsString(ETokenType type)
     {
         switch(type)
         {
@@ -81,6 +83,11 @@ class TZK_Token
         case TOK_Unknown: return "TOK_Unknown";
         }
     }
+
+    string TypeString()
+    {
+        return AsString(type);
+    }
 }
 
 class TZK_Tokenizer
@@ -89,6 +96,9 @@ class TZK_Tokenizer
 
     static TZK_Tokenizer Create(TZK_Stream input)
     {
+        if(!input.CanRead() || !input.CanSeek ())
+            return null;
+
         let tok = new("TZK_Tokenizer");
         tok.m_Stream = input;
         return tok;
@@ -98,6 +108,37 @@ class TZK_Tokenizer
     {
         while(TZK_Character.IsWhitespace(m_Stream.Peek()))
             m_Stream.Read();
+    }
+
+    virtual int, int CurPos()
+    {
+        int pos = m_Stream.Position();
+        int curChar;
+        int lines = 0;
+        int lastLinePos = 0;
+
+        m_Stream.Seek(0, SEEK_Begin);
+        while(m_Stream.Position() <= pos && !m_Stream.EOF())
+        {
+            curChar = m_Stream.Read();
+
+            if(curChar == ASCII_LF) {
+                lines++;
+                lastLinePos = m_Stream.Position();
+            }
+        }
+
+        m_Stream.Seek(lastLinePos, SEEK_Begin);
+        int charPos = 0;
+        while(m_Stream.Position() <= pos && !m_Stream.EOF())
+        {
+            curChar = m_Stream.Read();
+            charPos++;
+        }
+
+        m_Stream.Seek(pos, SEEK_Begin);
+
+        return lines + 1, charPos;
     }
 
     virtual TZK_Token Peek()
@@ -120,6 +161,7 @@ class TZK_Tokenizer
             return tk;
         }
 
+        [tk.line, tk.charPos] = CurPos ();
         let c    = m_Stream.Read();
         tk.value = TZK_Character.ToString(c);
         switch(c)

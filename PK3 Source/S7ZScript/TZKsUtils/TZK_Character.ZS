@@ -11,6 +11,7 @@ class TZK_Character
         case ASCII_FF:
         case ASCII_CR:
         case ASCII_Space:
+        case ASCII_NUL:
              return true;
         default:
              return false;
