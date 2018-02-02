@@ -40,7 +40,7 @@ class S7_Exception : S7_Error {
                 if (e.innerException != NULL && src)
                     curLine.AppendFormat ("-------------------------------------------------------------------------------\n");
 
-                curLine.AppendFormat ("%s: %s\n", e.GetClassName (), msg);
+                curLine.AppendFormat ("%s [%s]\n", e.GetClassName (), msg);
             }
             if (src)
                 curLine.AppendFormat ("  called from %s", src);
