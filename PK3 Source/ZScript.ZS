@@ -46,6 +46,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/TZKsUtils/TZK_Include.ZS"
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
+#INCLUDE "S7ZScript/Common/ErrorHandling.ZS"
 #INCLUDE "S7ZScript/Common/Extensions.ZS"
 #INCLUDE "S7ZScript/Common/MathExtensions.ZS"
 #INCLUDE "S7ZScript/Common/Utils.ZS"
