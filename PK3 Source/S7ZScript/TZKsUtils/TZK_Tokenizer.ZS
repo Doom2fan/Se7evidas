@@ -49,6 +49,7 @@ class TZK_Token
         {
         case TOK_Identifier: return "TOK_Identifier";
         case TOK_Number: return "TOK_Number";
+        case TOK_String: return "TOK_String";
         case TOK_Bang: return "TOK_Bang";
         case TOK_Hash: return "TOK_Hash";
         case TOK_Dollar: return "TOK_Dollar";
