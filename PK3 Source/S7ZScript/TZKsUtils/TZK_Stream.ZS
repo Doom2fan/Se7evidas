@@ -21,6 +21,7 @@ enum ESeekOrigin
     virtual int Read() { return -1; }
     virtual int Peek() { return -1; }
     virtual void Write(int c) {}
+    virtual void Flush() {}
     virtual bool EOF() { return Position() >= Length(); }
 
     virtual int Seek(int offset, ESeekOrigin origin)

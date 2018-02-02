@@ -5,11 +5,13 @@
 // A stream that operates on byte arrays
 class TZK_ByteStream : TZK_Stream {
     protected TZK_ArrayI32 m_Data;
+    protected TZK_ArrayI32 m_WriteBuffer;
 
     override bool CanRead () { return true; }
-    override bool CanWrite () { return false; }
+    override bool CanWrite () { return true; }
     override int Length () { int ret = m_Data.Size (); return ret; }
     override bool EOF () { return Position () >= Length (); }
+    override void Write (int c) { m_WriteBuffer.Push (c & 0xFF); }
 
     override int Read () {
         if (EOF ()) return -1;
@@ -25,11 +27,20 @@ class TZK_ByteStream : TZK_Stream {
         return b;
     }
 
+    override void Flush () {
+        for (int i = 0; i < m_WriteBuffer.Size (); i++)
+            m_Data.Push (m_WriteBuffer.Values [i]);
+
+        m_WriteBuffer.Clear ();
+        Seek (0, SEEK_End);
+    }
+
     static TZK_ByteStream Create (TZK_ArrayI32 data) {
         let bs = new ("TZK_ByteStream");
         bs.m_Data = new ("TZK_ArrayI32");
         bs.m_Data.Clear ();
-        bs.m_Data.Copy (data);
+        if (data) bs.m_Data.Copy (data);
+        bs.m_WriteBuffer = new ("TZK_ArrayI32");
         return bs;
     }
 }

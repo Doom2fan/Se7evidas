@@ -5,10 +5,12 @@
 // A stream that operates on strings
 class TZK_StringStream : TZK_Stream
 {
+    protected bool m_Writable;
     protected string m_Data;
+    protected string m_WriteBuffer;
 
     override bool CanRead() { return true; }
-    override bool CanWrite() { return false; }
+    override bool CanWrite() { return m_Writable; }
     override int Length() { return m_Data.Length(); }
     override bool EOF() { return Position() >= Length(); }
 
@@ -28,10 +30,28 @@ class TZK_StringStream : TZK_Stream
         return c;
     }
 
-    static TZK_StringStream Create(string data)
+    override void Write (int c) {
+        if (!m_Writable)
+            return;
+
+        m_WriteBuffer.AppendFormat ("%c", c & 0xFF);
+    }
+
+    override void Flush () {
+        if (!m_Writable)
+            return;
+
+        m_Data.AppendFormat ("%s", m_WriteBuffer);
+        m_WriteBuffer = "";
+        Seek (0, SEEK_End);
+    }
+
+    static TZK_StringStream Create(string data, bool writable = false)
     {
         let ss = new("TZK_StringStream");
         ss.m_Data = data;
+        ss.m_Writable = writable;
+        ss.m_WriteBuffer = "";
         return ss;
     }
 }

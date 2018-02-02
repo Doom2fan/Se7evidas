@@ -4,6 +4,11 @@
 
 class TZK_LumpStream : TZK_StringStream
 {
+    override bool CanWrite() { return false; }
+    override int Length() { return m_Data.Length() - 1; }
+    override void Write(int c) { }
+    override void Flush() { }
+
     static TZK_LumpStream Create(int lumpID)
     {
         let ss = new("TZK_LumpStream");
