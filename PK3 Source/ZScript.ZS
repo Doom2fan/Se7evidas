@@ -43,6 +43,7 @@ class S7_IsLoaded : actor {
 
 // Common stuff
 #INCLUDE "S7ZScript/ZForms/ZF_Include.ZS"
+#INCLUDE "S7ZScript/TZKsUtils/TZK_Include.ZS"
 #INCLUDE "S7ZScript/Constants.ZS"
 #INCLUDE "S7ZScript/Defaults.ZS"
 #INCLUDE "S7ZScript/Common/Extensions.ZS"
@@ -52,6 +53,7 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Common/CommonTokens.ZS"
 #INCLUDE "S7ZScript/EventHandlers.ZS"
 #INCLUDE "S7ZScript/Weapons/WeapData.ZS"
+#INCLUDE "S7ZScript/MD5.ZS"
 
 // Bases
 #INCLUDE "S7ZScript/Bases/Base Actors.ZS"

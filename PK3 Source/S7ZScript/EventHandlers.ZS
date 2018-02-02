@@ -199,7 +199,8 @@ class S7_PlayerEventHandler : EventHandler {
 
                     cv.ResetToDefault ();
                 }
-            }
+            } else if (e.name ~== "S7_GetMapHash")
+                Console.Printf ("\ck%s", level.GetChecksum ());
         } else {
             Array<String> strings;
             e.Name.Split (strings, ":");
