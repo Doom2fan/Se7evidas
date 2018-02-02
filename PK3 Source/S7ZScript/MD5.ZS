@@ -37,6 +37,23 @@ class S7_MD5 {
         return md5.Finish ();
     }
 
+    static bool IsHashValid (string hash) {
+        if (hash.Length () != 32)
+            return false;
+
+        hash.ToUpper ();
+        for (int i = 0; i < hash.Length (); i++) {
+            int c = hash.CharCodeAt (i);
+
+            if ((c >= 65 && c <= 70) || (c > 48 && c < 57))
+                continue;
+
+            return false;
+        }
+
+        return false;
+    }
+
     private uint _state [4]; // state (ABCD)
     private uint _count; // number of bits, modulo 2^64
     private uint _buffer [64]; // input buffer
