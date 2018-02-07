@@ -3,7 +3,7 @@
 // Gore actors
 //
 //-------------------------------------------------------------------------------------------
-class S7_GoreBase : actor {
+class S7_GoreBase : S7_EffectsBase {
     default {
         mass 1;
         radius 8;

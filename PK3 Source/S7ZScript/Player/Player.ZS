@@ -36,6 +36,8 @@ class S7_PlayerData : Inventory {
     int milkUseRate, milkRegenRate;
     // Heartbeats thing.
     int heartbeatTics;
+    // Hack for getting viewbob in morphed players
+    double bob;
 
     override double GetSpeedFactor () {
         return 1 + sprintSpeedFactor;
@@ -90,7 +92,6 @@ class S7_BasePlayer : playerPawn {
 
         +solid +noSkin
     }
-
 
     bool stepFrame;
     actor playerLineTarget;
@@ -147,25 +148,18 @@ class S7_BasePlayer : playerPawn {
         GiveInventory ("S7_KickMelee", 1); // Default to kick melee
     }
 
-    override void PostBeginPlay () {
-        super.PostBeginPlay ();
-
-        if (!playerData || !weapBinds || !xpSys)
-            GiveBasics ();
-    }
-
     override void Tick () {
         super.Tick ();
-
-        FLineTraceData traceData; // Do a trace to get the actor under the crosshair
-        LineTrace (angle, 8192, pitch, flags: TRF_ThruBlock | TRF_ThruHitscan, offsetz: (height / 2) + (AttackZOffset * player.crouchfactor), data: traceData);
-        playerLineTarget = traceData.HitActor;
 
         if (!player || !player.mo || player.mo != self)
             return;
 
         if (!playerData || !weapBinds || !xpSys)
             GiveBasics ();
+
+        FLineTraceData traceData; // Do a trace to get the actor under the crosshair
+        LineTrace (angle, 8192, pitch, flags: TRF_ThruBlock | TRF_ThruHitscan, offsetz: (height / 2) + (AttackZOffset * player.crouchfactor), data: traceData);
+        playerLineTarget = traceData.HitActor;
 
         if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
             SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
@@ -183,6 +177,101 @@ class S7_BasePlayer : playerPawn {
         Misc_StaminaRegen ();
         Misc_Heartbeats ();
         Misc_HellhunterBlade ();
+    }
+
+    override void DeathThink () {
+        super.DeathThink ();
+
+        if (player.morphTics && (player.mo is "S7_BasePlayer"))
+            S7_BasePlayer (player.mo).CustCalcHeight ();
+    }
+
+    override void PlayerThink () {
+        super.PlayerThink ();
+
+        CustCalcHeight ();
+    }
+
+    const GZD_MAXBOB = 16.0;
+    virtual void CustCalcHeight () {
+        if (!player.morphTics || !playerData)
+            return;
+
+        double bobAngle;
+        double bob;
+        bool   still = false;
+
+        if (player.cheats & CF_NOCLIP2)
+            playerData.bob = 0;
+        else if (player.mo.bNoGravity && !player.onground)
+            playerData.bob = 0.5;
+        else {
+            playerData.bob = vel dot vel;
+            if (playerData.bob == 0)
+                still = true;
+            else {
+                playerData.bob *= S7_PlayerCVar.GetFloat (player, "movebob");
+
+                if (playerData.bob > GZD_MAXBOB)
+                    playerData.bob = GZD_MAXBOB;
+            }
+        }
+
+        double defaultviewheight = player.mo.ViewHeight + player.crouchviewdelta;
+
+        if (player.cheats & CF_NOVELOCITY) {
+            player.viewz = player.mo.pos.z + defaultviewheight;
+
+            if (player.viewz > player.mo.ceilingz - 4)
+                player.viewz = player.mo.ceilingz - 4;
+
+            return;
+        }
+
+        if (still) {
+            if (player.health > 0) {
+                bobAngle = level.time / (120 * TICRATE / 35.) * 360.;
+                bob = S7_PlayerCVar.GetFloat (player, "stillbob") * sin (bobAngle);
+            }
+            else
+                bob = 0;
+        }
+        else {
+            bobAngle = level.time / (20 * TICRATE / 35.) * 360.;
+            bob = playerData.bob * sin (bobAngle) * (player.mo.waterlevel > 1 ? 0.25f : 0.5f);
+        }
+
+        // move viewheight
+        if (player.playerstate == PST_LIVE) {
+            player.viewheight += player.deltaviewheight;
+
+            if (player.viewheight > defaultviewheight) {
+                player.viewheight = defaultviewheight;
+                player.deltaviewheight = 0;
+            } else if (player.viewheight < (defaultviewheight / 2)) {
+                player.viewheight = defaultviewheight / 2;
+                if (player.deltaviewheight <= 0)
+                    player.deltaviewheight = 1 / 65536.;
+            }
+            
+            if (player.deltaviewheight) {
+                player.deltaviewheight += 0.25;
+
+                if (!player.deltaviewheight)
+                    player.deltaviewheight = 1 / 65536.;
+            }
+        }
+
+        player.viewz = player.mo.pos.z + player.viewheight + (bob * player.mo.ViewBob); // [SP] Allow DECORATE changes to view bobbing speed.
+
+        if (player.mo.Floorclip && player.playerstate != PST_DEAD && player.mo.pos.Z <= player.mo.floorz)
+            player.viewz -= player.mo.Floorclip;
+
+        if (player.viewz > player.mo.ceilingz - 4)
+            player.viewz = player.mo.ceilingz - 4;
+
+        if (player.viewz < player.mo.floorz + 4)
+            player.viewz = player.mo.floorz + 4;
     }
 
     clearscope int S7_GetMaxHealth () { return ((xpSys) ? (SpawnHealth () * (1.0 + 0.06 * xpSys.GetStat (S7Stat_Vitality))) : 0); }
@@ -340,43 +429,6 @@ class S7_PowerDodgeEffects : powerInvulnerable {
                 speedMo.bInvisible = true;
             }
         }
-    }
-}
-
-// Walljumping
-class S7_WalljumpMarker : actor {
-    default {
-        radius 0;
-        height 0;
-
-         +thruActors +noTimeFreeze +noBlockmap +allowThruFlags
-        +noInteraction
-        -solid -shootable
-    }
-
-    states {
-    Spawn:
-    Death:
-        TNT1 A 1;
-        stop;
-    }
-}
-// Based on code by Ijon Tichy
-class S7_WallChecker : fastProjectile {
-    default {
-        radius 4;
-        height 16;
-
-        +thruActors +painless +bloodlessImpact +puffGetsOwner
-        +cannotpush +noDamageThrust +noTimeFreeze +moveWithSector
-        -activateImpact -activatePCross
-    }
-
-    states {
-    Spawn:
-    Death:
-        TNT1 A 1;
-        stop;
     }
 }
 

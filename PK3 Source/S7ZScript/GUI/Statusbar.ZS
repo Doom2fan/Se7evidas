@@ -69,7 +69,7 @@ class Se7evidasStatusBar : BaseStatusBar {
     }
 
     override void NewGame () {
-        Super.NewGame();
+        Super.NewGame ();
 
         mHealthInterpolator.Reset (0);
         mArmorInterpolator.Reset  (0);
@@ -80,12 +80,24 @@ class Se7evidasStatusBar : BaseStatusBar {
         mLPPInterpolator2.Reset  (0);
     }
 
+    int GetStamina (bool max) {
+        let dracoPlayer = S7_DracoPlayer (CPlayer.mo);
+
+        if (max) {
+            if (!dracoPlayer) return GetMaxAmount ("S7_Stamina");
+            else return 500;
+        } else {
+            if (!dracoPlayer) return GetAmount ("S7_Stamina");
+            else return dracoPlayer.defenseMatrixEnergy;
+        }
+    }
+
     override void Tick () {
         super.Tick ();
 
         mHealthInterpolator.Update (CPlayer.health);
         mArmorInterpolator.Update  (GetArmorAmount ());
-        mStaminInterpolator.Update (GetAmount ("S7_Stamina"));
+        mStaminInterpolator.Update (GetStamina (false));
         mCashInterpolator.Update   (GetAmount ("S7_Cash"));
         mLsrRfInterpolator.Update (GetAmount ("S7_FauchardMag"));
         mLPPInterpolator1.Update  (GetAmount ("S7_LaserPewPewClip"));
@@ -187,9 +199,9 @@ class Se7evidasStatusBar : BaseStatusBar {
         DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (28, -30), DI_ITEM_LEFT_BOTTOM);
         DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (28, -47), DI_ITEM_LEFT_BOTTOM);
         // Bars
-        DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true), (29, -13), 0, 0, DI_ITEM_LEFT_BOTTOM);
-        DrawBar ("graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0", mArmorInterpolator.GetValue  (), GetMaxAmount ("BasicArmor"),    (29, -31), 0, 0, DI_ITEM_LEFT_BOTTOM);
-        DrawBar ("graphics/HUD/Fullscreen/S7STMNBR.png", "S7BARBK0", mStaminInterpolator.GetValue (), GetMaxAmount ("S7_Stamina"),    (29, -48), 0, 0, DI_ITEM_LEFT_BOTTOM);
+        DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true),   (29, -13), 0, 0, DI_ITEM_LEFT_BOTTOM);
+        DrawBar ("graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0", mArmorInterpolator.GetValue  (), GetMaxAmount ("BasicArmor"), (29, -31), 0, 0, DI_ITEM_LEFT_BOTTOM);
+        DrawBar ("graphics/HUD/Fullscreen/S7STMNBR.png", "S7BARBK0", mStaminInterpolator.GetValue (), GetStamina (true),           (29, -48), 0, 0, DI_ITEM_LEFT_BOTTOM);
         // Strings
         DrawString (mFScreenHUDFont, "Cash: ", (11, -66), DI_TEXT_ALIGN_LEFT | DI_NOSHADOW, Font.CR_WHITE);
         // Numbers

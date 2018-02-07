@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------------
 /** White **/
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
-class S7_WhiteSmoke : actor {
+class S7_WhiteSmoke : S7_EffectsBase {
     default {
         renderStyle "add";
         alpha 0.3;

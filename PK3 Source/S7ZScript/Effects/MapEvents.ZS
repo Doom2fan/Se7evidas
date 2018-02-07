@@ -1,6 +1,6 @@
 /** Perfect Hatred **/
 class S7_MEATW_EyesCounter : S7_Boolean { }
-class S7_MEATW_Eyes : actor {
+class S7_MEATW_Eyes : S7_EffectsBase {
     default {
         scale 0.1;
         tag "";

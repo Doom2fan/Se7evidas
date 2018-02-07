@@ -33,7 +33,7 @@ class S7_BloodSplatter : S7_Blood replaces bloodSplatter {
 // Flying blood actors
 //
 //-------------------------------------------------------------------------------------------
-class S7_Flying_Blood : actor {
+class S7_Flying_Blood : S7_EffectsBase {
     default {
         health 1;
         mass 1;
@@ -56,7 +56,7 @@ class S7_Flying_Blood : actor {
     }
 }
 
-class S7_Flying_Blood_Trail : actor {
+class S7_Flying_Blood_Trail : S7_EffectsBase {
     default {
         +lowGravity +noTeleport +noBlockmap +clientsideOnly
         +noInteraction

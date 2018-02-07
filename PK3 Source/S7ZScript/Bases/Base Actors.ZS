@@ -147,7 +147,7 @@ class S7_MEvntNoMonster : actor {
 }
 
 /** FastProjectile trail base **/
-class S7_FastProjTrailBase : actor {
+class S7_FastProjTrailBase : S7_EffectsBase {
     default {
         +noBlockmap +noGravity +noTeleport +thruActors
         +cannotPush +noInteraction +clientsideOnly -solid

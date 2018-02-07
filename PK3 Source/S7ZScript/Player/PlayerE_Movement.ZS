@@ -5,7 +5,9 @@ extend class S7_BasePlayer {
             if (playerData.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
                 if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) &&
-                    !playerData.sprinting && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && CheckInventory ("S7_Stamina", S7C_DodgeStamina)) {
+                    !(self is "S7_DracoPlayer") && !playerData.sprinting && CheckInventory ("S7_Stamina", S7C_DodgeStamina) &&
+                    !CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
+                ) {
                     int forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
                     int sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
 
@@ -59,7 +61,7 @@ extend class S7_BasePlayer {
         if (playerData.wjumpJustJumped)
             playerData.wjumpJustJumped--;
 
-        if (health <= 0 || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+        if (health <= 0 || (self is "S7_DracoPlayer") || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
             return;
 
         if (player.cmd.forwardmove < 0 && (player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && (pos.Z - GetZAt ()) >= 16.0) {
@@ -119,7 +121,7 @@ extend class S7_BasePlayer {
 
             // Start/stop sprinting
             if (!playerData.sprinting && playerData.sprintTics != -1 &&
-                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ("S7_Stamina", S7C_SprintStamina) && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
+                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ("S7_Stamina", S7C_SprintStamina) && !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && !(self is "S7_DracoPlayer")
                 ) {
                 playerData.sprinting = true;
                 playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
@@ -129,7 +131,7 @@ extend class S7_BasePlayer {
                 GiveInventory ("S7_SprintWeapon", 1);
                 player.PendingWeapon = Weapon (FindInventory ("S7_SprintWeapon"));
             } else if (playerData.sprinting &&
-                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ("S7_Stamina") < S7C_SprintStamina) || CheckInventory ("S7_SoulLance_BeamGrabbed", 1)
+                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ("S7_Stamina") < S7C_SprintStamina || CheckInventory ("S7_SoulLance_BeamGrabbed", 1) || (self is "S7_DracoPlayer"))
                 ) {
                 if (playerData.sprintTics < 5)
                     TakeInventory ("S7_Stamina", playerData.sprintTics);

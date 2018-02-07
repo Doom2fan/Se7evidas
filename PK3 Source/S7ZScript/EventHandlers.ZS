@@ -227,6 +227,8 @@ class S7_PlayerEventHandler : EventHandler {
         if (!weapBinds) // Return if weapBinds is null
             return;
 
+        bool isDraco = (player.mo is "S7_DracoPlayer");
+
         Array<String> commandStrings;
         e.Name.Split (commandStrings, ":");
         if (commandStrings.Size () < 2) // Return if the array contains less than two strings
@@ -240,14 +242,14 @@ class S7_PlayerEventHandler : EventHandler {
             if (slot < 0 || slot > 9)
                 return;
 
-            S7_BaseWeapon weapon = weapBinds.PickWeapon (slot, false);
+            S7_BaseWeapon weapon = weapBinds.PickWeapon (slot, false, isDraco);
 
             if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
         } else if (commandStrings [1] == "next") {
-            S7_BaseWeapon weapon = weapBinds.CycleWeapons (false, false);
+            S7_BaseWeapon weapon = weapBinds.CycleWeapons (false, false, isDraco);
 
             if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;
@@ -260,7 +262,7 @@ class S7_PlayerEventHandler : EventHandler {
                 S7_HudMessage.ShowFade (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
                     color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: "SmallFont");
         } else if (commandStrings [1] == "prev") {
-            S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false);
+            S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false, isDraco);
 
             if (player.ReadyWeapon != weapon) {
                 player.PendingWeapon = weapon;

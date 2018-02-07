@@ -190,7 +190,7 @@ class S7_BaseWeapon : weapon {
 // Melee puffs
 //
 //-------------------------------------------------------------------------------------------
-class S7_MeleePuff : actor { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
+class S7_MeleePuff : S7_EffectsBase { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
     default {
         damageType "Kick";
         attackSound "Weapons/Kick/HitWall";

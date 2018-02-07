@@ -353,6 +353,7 @@ class S7_EmpressMissile1 : fastProjectile {
     states {
     Spawn:
         TNT1 A 0 noDelay {
+            bMissile = false; // remove the MISSILE flag so the Draco's defense system won't target it
             rotAngle = angle;
             loopCount = 15;
             savedVel = vel;
@@ -376,6 +377,7 @@ class S7_EmpressMissile1 : fastProjectile {
     Flight:
         BAL1 A 1 A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
         TNT1 A 0 {
+            bMissile = true; // Make it a projectile again
             vel = savedVel; // Restore the projectile's velocity
             A_FaceTracer (0, 0); // Face the target
             A_SeekerMissile (1, 360, SMF_Precise | SMF_CurSpeed); // Make sure our direction gets adjusted

@@ -3,7 +3,7 @@
 // Telefog
 //
 //-------------------------------------------------------------------------------------------
-class S7_TeleportFog : actor {
+class S7_TeleportFog : S7_EffectsBase {
     default {
         renderStyle "add";
 

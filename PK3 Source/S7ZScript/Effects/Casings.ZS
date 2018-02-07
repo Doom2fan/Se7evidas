@@ -19,7 +19,7 @@ class S7_CasingSmoke : S7_ShotSmokeTrail {
     }
 }
 
-class S7_CasingSpawnerBase : actor {
+class S7_CasingSpawnerBase : S7_EffectsBase {
     default {
         speed 20;
         floatBobPhase 0;
@@ -29,7 +29,7 @@ class S7_CasingSpawnerBase : actor {
     }
 }
 
-class S7_CasingBase : actor {
+class S7_CasingBase : S7_EffectsBase {
     default {
         height 2;
         radius 2;

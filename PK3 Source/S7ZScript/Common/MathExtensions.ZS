@@ -98,6 +98,18 @@ class S7_Math : actor {
             return double.NaN, double.NaN;
     }
 
+    static bool CheckActorCollision (Actor a, Actor b) {
+        double blockDist = b.radius + a.radius;
+
+        if (abs (b.pos.x - a.pos.x) >= blockDist || abs (b.pos.y - a.pos.y) >= blockDist)
+            return false;
+
+        if (a.pos.z > (b.pos.z + b.height) || (a.pos.z + a.height) <= b.pos.z)
+            return false;
+       
+        return true;
+    }
+
 
     /** 3D vector rotation **/
     /* Summary:

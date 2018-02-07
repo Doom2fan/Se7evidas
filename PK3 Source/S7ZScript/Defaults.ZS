@@ -20,7 +20,7 @@ class S7_Counter : inventory {
 }
 
 // By Jekyll Grim Payne "Aka" zer0
-class S7_DebrisGeneral : actor {
+class S7_DebrisGeneral : S7_EffectsBase {
     default {
         radius 1;
         height 1;
@@ -30,10 +30,18 @@ class S7_DebrisGeneral : actor {
         +missile +noBlockmap +noGravity +dropOff
         +noTeleport +forceXYBillboard +ghost
     }
+
+    override void PostBeginPlay () {
+        super.PostBeginPlay ();
+        target = NULL;
+    }
 }
 
 // By Chronos "phantombeta" Ouroboros
+class S7_EffectsBase : actor { }
+
 class S7_ActorExtensions : actor { }
+
 class S7_PositionMarker : actor { // For when an actor needs to mark a position.
     default {
         radius 0;

@@ -119,6 +119,8 @@ class S7_IsLoaded : actor {
 #INCLUDE "S7ZScript/Player/PlayerXPSystem.ZS"
 #INCLUDE "S7ZScript/Player/WeapBindsSystem.ZS"
 #INCLUDE "S7ZScript/Player/Scout.ZS"
+#INCLUDE "S7ZScript/Player/Draco/DracoPlayer.ZS"
+#INCLUDE "S7ZScript/Player/Draco/DefenseMatrix.ZS"
 
 // GUI
 #INCLUDE "S7ZScript/GUI/HUDMessage.ZS"

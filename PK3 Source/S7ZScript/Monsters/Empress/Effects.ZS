@@ -1,4 +1,4 @@
-class S7_Empress_FXBase : Actor {
+class S7_Empress_FXBase : S7_EffectsBase {
     default {
         renderStyle "add";
 

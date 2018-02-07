@@ -3,7 +3,7 @@
 // Multijump marker
 //
 //-------------------------------------------------------------------------------------------
-class S7_MultiJump_Marker : actor {
+class S7_MultiJump_Marker : S7_EffectsBase {
     default {
         height 2;
         radius 2;
