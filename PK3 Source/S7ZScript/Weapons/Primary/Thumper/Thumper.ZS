@@ -75,7 +75,7 @@ class S7_Thumper : S7_BaseWeapon {
         if (selectedPool <= S7_TH_None || selectedPool >= S7_TH_EndToken)
             return -1;
 
-        return CountInv (PoolNames [selectedPool]);
+        return Owner.CountInv (PoolNames [selectedPool]);
     }
 
     override void AttachToOwner (Actor other) {
