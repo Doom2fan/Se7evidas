@@ -194,7 +194,7 @@ class S7_BasePlayer : playerPawn {
 
     const GZD_MAXBOB = 16.0;
     virtual void CustCalcHeight () {
-        if (!player.morphTics || !playerData)
+        if (!player || !player.morphTics || !playerData)
             return;
 
         double bobAngle;

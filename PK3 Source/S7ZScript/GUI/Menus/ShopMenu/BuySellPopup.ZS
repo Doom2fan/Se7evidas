@@ -87,17 +87,17 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             "", smallFont, false, false, 1, Font.CR_WHITE);
         priceLabel.Pack (self);
 
-        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", handler, "Add", null, null, null, null, null);
+        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", handler, "Add", fnt: smallFont);
         addButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         addButton.Pack (self);
-        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", handler, "Dec", null, null, null, null, null);
+        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", handler, "Dec", fnt: smallFont);
         decButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         decButton.Pack (self);
 
-        acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), "", handler, "Accept", null, null, null, null, null);
+        acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), "", handler, "Accept", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         acceptButton.Pack (self);
-        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), StringTable.Localize ("$SS_CANCELBUTTON", true), handler, "Cancel", null, null, null, null, null);
+        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), StringTable.Localize ("$SS_CANCELBUTTON", true), handler, "Cancel", fnt: smallFont);
         cancelButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         cancelButton.Pack (self);
 

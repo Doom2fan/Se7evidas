@@ -54,6 +54,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     int selectedX, selectedY;
     S7_BaseWeapon hoveredWeap;
 
+    bool isDraco;
+
     static const String weapLabelsText [] = {
         "Medium", "Light", "Heavy", "Area-damage", "Special"
     };
@@ -75,6 +77,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         slotsFrame.Pack (mainFrame);
         weapSelFrame = new ("S7_ZF_Frame").Init ((0, 210), (640, 270));
         weapSelFrame.Pack (mainFrame);
+
+        OnInit ();
 
         string labelText = "WEAPON SLOT ASSIGNMENT";
         S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), labelText, bigFont, false, true, 1, Font.CR_WHITE);
@@ -107,12 +111,14 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         infoBG.Pack (weapSelFrame);
         infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - 5, 246 - 5), "", smallFont, true, false, 1, Font.CR_WHITE);
         infoLabel.Pack (weapSelFrame);
-        itemsList = S7_WeapAssignMenu_List (new ("S7_WeapAssignMenu_List").InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo)));
+        itemsList = S7_WeapAssignMenu_List (new ("S7_WeapAssignMenu_List").InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
 
         selectedX = selectedY = -1;
 
         //dontDim = true;
     }
+
+    virtual void OnInit () { isDraco = false; }
 
     override void Ticker () { // GetClassName
         Super.Ticker ();
@@ -132,22 +138,18 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         S7_BaseWeapon selectedWeap;
 
-        Array<S7_BaseWeapon> weapons;
         S7_BaseWeapon weap;
         for (int x = 0; x < 5; x++) {
-            weapons.Clear ();
-            weapons.Copy (weapBinds.Binds [x + 1]);
-
-            if (x == selectedX && weapons.Size () > selectedY)
-                selectedWeap = weapons [selectedY];
+            if (x == selectedX && weapBinds.SlotCount (x + 1, isDraco) > selectedY)
+                selectedWeap = weapBinds.GetBind (x + 1, selectedY, isDraco);
 
             for (int y = 0; y < 3; y++) {
-                if (y < weapBinds.Binds [x + 1].Size () && (weap = weapons [y]))
+                if (y < weapBinds.SlotCount (x + 1, isDraco) && y < weapBinds.GetSlotMaximum (x + 1, isDraco) && (weap = weapBinds.GetBind (x + 1, y, isDraco)))
                     slotImages [x] [y].image = weap.weapIcon;
                 else {
                     slotButtons [x] [y].disabled = false;
                     slotImages [x] [y].image = "";
-                    if (y > weapBinds.Binds [x + 1].Size ())
+                    if (y > weapBinds.SlotCount (x + 1, isDraco) || y >= weapBinds.GetSlotMaximum (x + 1, isDraco))
                         slotButtons [x] [y].disabled = true;
                 }
                 if (x == selectedX && y == selectedY) {
@@ -163,7 +165,6 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
                 }
             }
         }
-        weapons.Clear ();
 
         if (selectedX > -1 && selectedY > -1 && (weapSelFrame.disabled || weapSelFrame.hidden))
             ActivateSelFrame (selectedX + 1);
@@ -199,11 +200,12 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             return;
 
         if (weap == "@__NoWeapon__")
-            EventHandler.SendNetworkEvent ("S7_WeapBindsSystem:UnsetSlot", selectedX + 1, selectedY);
+            EventHandler.SendNetworkEvent ("S7_WeapBindsSystem:UnsetSlot", selectedX + 1, selectedY, (isDraco ? 1 : 0));
         else
-            EventHandler.SendNetworkEvent (String.Format ("S7_WeapBindsSystem:SetSlot:%s", weap), selectedX + 1, selectedY);
+            EventHandler.SendNetworkEvent (String.Format ("S7_WeapBindsSystem:SetSlot:%s", weap), selectedX + 1, selectedY, (isDraco ? 1 : 0));
 
         selectedX = selectedY = -1;
+        hoveredWeap = NULL;
         ActivateSelFrame (-1);
         UpdateData ();
     }
@@ -257,7 +259,7 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
             if (!weap)
                 return;
 
-            weapBinds.SetBind (slot, pos, weap);
+            weapBinds.SetBind (slot, pos, weap, !!e.args [2]);
         } else if (strings [1] == "UnsetSlot") {
             if (!pPawn)
                 return;
@@ -268,7 +270,11 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
 
             int slot = e.Args [0], pos = e.Args [1];
 
-            weapBinds.SetBind (slot, pos, NULL);
+            weapBinds.SetBind (slot, pos, NULL, !!e.args [2]);
         }
     }
+}
+
+class S7_DracoWeapAssignMenu : S7_WeapAssignMenu {
+    override void OnInit () { isDraco = true; }
 }

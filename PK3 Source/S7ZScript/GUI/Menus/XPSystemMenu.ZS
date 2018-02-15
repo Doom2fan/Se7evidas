@@ -110,17 +110,17 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statAddLabels [i] = new ("S7_ZF_Label").Init ((250, yCoords + 1), (0, SmallFont.GetHeight ()), "+0", smallFont, false, true, 1, Font.CR_WHITE);
             statAddLabels [i].Pack (statsFrame);
 
-            statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", handler, String.Format ("StatAdd:%s", statName), null, null, null, null);
+            statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", handler, String.Format ("StatAdd:%s", statName), fnt: smallFont);
             statButtons [i] [0].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [0].Pack (statsFrame);
-            statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", handler, String.Format ("StatDec:%s", statName), null, null, null, null);
+            statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", handler, String.Format ("StatDec:%s", statName), fnt: smallFont);
             statButtons [i] [1].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [1].Pack (statsFrame);
         }
-        acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", handler, "AcceptButton", null, null, null, null);
+        acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", handler, "AcceptButton", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         acceptButton.Pack (statsFrame);
-        resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", handler, "ResetButton", null, null, null, null);
+        resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", handler, "ResetButton", fnt: smallFont);
         resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         resetButton.Pack (statsFrame);
 

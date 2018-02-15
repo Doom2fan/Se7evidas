@@ -107,7 +107,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         tooltipLabel.Pack (popupFrame);
         SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
 
-        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), handler, "BuySellButton", null, null, null, null, null);
+        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), handler, "BuySellButton", fnt: smallFont);
         buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
         buyButton.Pack (shopFrame);
         sellMode = false;

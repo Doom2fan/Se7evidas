@@ -1,35 +1,66 @@
 class S7_WeapBindsSystem : Inventory {
     const NUM_WEAPON_SLOTS = 10;
+    const NUM_WEAPON_SLOTS_DRACO = 4;
 
     // The actual weapon binds.
-    Array<S7_BaseWeapon> Binds [10];
+    Array<S7_BaseWeapon> Binds [NUM_WEAPON_SLOTS];
     // The weapon binds for the Draco
-    Array<S7_BaseWeapon> DracoBinds [4];
+    Array<S7_BaseWeapon> DracoBinds [NUM_WEAPON_SLOTS_DRACO];
     // The maximum amount of weapons in a slot.
-    int SlotMaximum [10];
+    int SlotMaximum [NUM_WEAPON_SLOTS];
     // The last selected weapon;
     S7_BaseWeapon LastWeapon;
 
     override void AttachToOwner (Actor other) {
         super.AttachToOwner (other);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < NUM_WEAPON_SLOTS; i++) {
             Binds [i].Clear ();
-            if (i < 4)
+            if (i < NUM_WEAPON_SLOTS_DRACO)
                 DracoBinds [i].Clear ();
 
             SlotMaximum [i] = ((i > 0 && i <= 5) ? 1 : 0);
         }
     }
 
+    override void DoEffect () {
+        for (int i = 0; i < NUM_WEAPON_SLOTS; i++) {
+            //if (i < NUM_WEAPON_SLOTS_DRACO) { }
+            if (Binds [i].Size () > SlotMaximum [i])
+                Binds [i].Delete (SlotMaximum [i], 0x7FFFFFFF);
+        }
+    }
+
+    clearscope int GetSlotMaximum (int slot, bool draco = false) {
+        if (slot < (!draco ? 0 : 1) || slot > 9) return -1; // If slot is outside the range 0-9, return -1.
+
+        if (draco)
+            return (slot >= 1 && slot <= 4) ? 1 : -1;
+
+        return SlotMaximum [slot];
+    }
+
+    clearscope int SlotCount (int slot, bool draco = false) {
+        if (slot < (!draco ? 0 : 1) || slot > 9) return -1; // If slot is outside the range 0-9, return -1.
+
+        if (draco)
+            return (slot >= 1 && slot <= 4) ? DracoBinds [slot-1].Size () : -1;
+
+        return Binds [slot].Size ();
+    }
+
     clearscope S7_BaseWeapon GetBind (int slot, int pos, bool draco = false) {
-        if (slot < 0 || pos < 0 || pos >= Binds [slot].Size ())
+        if (slot < (!draco ? 0 : 1) || pos < 0)
+            return NULL;
+        if (!draco && (slot > NUM_WEAPON_SLOTS-1 || pos >= Binds [slot].Size ()))
+            return NULL;
+        if (draco && (slot > NUM_WEAPON_SLOTS_DRACO || pos >= DracoBinds [slot-1].Size ()))
             return NULL;
 
         Array<S7_BaseWeapon> weapons;
 
         if (!draco) weapons.Copy (     Binds [slot]);
-        else        weapons.Copy (DracoBinds [slot]);
+        else        weapons.Copy (DracoBinds [slot-1]);
 
         let weap = weapons [pos];
         weapons.Clear ();
@@ -38,13 +69,17 @@ class S7_WeapBindsSystem : Inventory {
     }
 
     clearscope bool BindUsed (int slot, int pos, bool draco = false) {
-        if (slot < 0 || pos < 0 || pos >= Binds [slot].Size ())
+        if (slot < (!draco ? 0 : 1) || pos < 0)
+            return false;
+        if (!draco && (slot > NUM_WEAPON_SLOTS-1 || pos >= Binds [slot].Size ()))
+            return false;
+        if (draco && (slot > NUM_WEAPON_SLOTS_DRACO || pos >= DracoBinds [slot-1].Size ()))
             return false;
 
         Array<S7_BaseWeapon> weapons;
 
         if (!draco) weapons.Copy (     Binds [slot]);
-        else        weapons.Copy (DracoBinds [slot]);
+        else        weapons.Copy (DracoBinds [slot-1]);
 
         bool ret = weapons [pos] != NULL;
         weapons.Clear ();
@@ -55,8 +90,9 @@ class S7_WeapBindsSystem : Inventory {
     // Finds the slot and index of a weapon
     clearscope int, int LocateWeapon (S7_BaseWeapon weap, bool draco = false) {
         int i, j;
+        int slotsCount = (!draco ? NUM_WEAPON_SLOTS : NUM_WEAPON_SLOTS_DRACO);
 
-        for (i = 0; i < NUM_WEAPON_SLOTS; i++) {
+        for (i = 0; i < slotsCount; i++) {
             j = (!draco ? (Binds [i].Find (weap)) : (DracoBinds [i].Find (weap)));
 
             if (j != (!draco ? (Binds [i].Size ()) : (DracoBinds [i].Size ())))
@@ -90,7 +126,7 @@ class S7_WeapBindsSystem : Inventory {
 
             int slot, index;
             [slot, index] = LocateWeapon (weap, draco);
-            if (!slot) { // If the current weapon wasn't found and is powered up, look for its non-powered up version.
+            if (slot == -1) { // If the current weapon wasn't found and is powered up, look for its non-powered up version.
                 if (weap.bPowered_Up && weap.SisterWeapon) {
                     weap = S7_BaseWeapon (weap.SisterWeapon);
                     if (!weap)
@@ -107,16 +143,19 @@ class S7_WeapBindsSystem : Inventory {
 
     // Picks the next weapon in the specified slot
     S7_BaseWeapon PickWeapon (uint slot, bool checkAmmo = false, bool draco = false) {
+        if (slot < (!draco ? 0 : 1) || (!draco && slot > NUM_WEAPON_SLOTS-1) || (draco && slot > NUM_WEAPON_SLOTS_DRACO))
+            return NULL;
+
         PlayerInfo player = PlayerPawn (Owner).player;
         Array<S7_BaseWeapon> weapons;
 
-        if (slot < 0 || slot > 9) // Return if the slot number is out of bounds.
+        if (slot < (!draco ? 0 : 1) || slot > 9) // Return if the slot number is out of bounds.
             return S7_BaseWeapon (player.ReadyWeapon);
-        if ((!draco && Binds [slot].Size () < 1) || (draco && DracoBinds [slot].Size () < 1)) // Return if the slot is empty
+        if ((!draco && Binds [slot].Size () < 1) || (draco && DracoBinds [slot-1].Size () < 1)) // Return if the slot is empty
             return S7_BaseWeapon (player.ReadyWeapon);
 
         if (!draco) weapons.Copy (     Binds [slot]);
-        else        weapons.Copy (DracoBinds [slot]);
+        else        weapons.Copy (DracoBinds [slot-1]);
 
         int i, j;
         if (player.ReadyWeapon) {
@@ -141,13 +180,14 @@ class S7_WeapBindsSystem : Inventory {
         PlayerInfo player = PlayerPawn (Owner).player;
         int startSlot, startIndex;
         int slotsChecked = 0;
+        int slotsCount = (!draco ? NUM_WEAPON_SLOTS : NUM_WEAPON_SLOTS_DRACO);
 
         [startSlot, startIndex] = FindMostRecentWeapon (draco);
         if (!player.ReadyWeapon || (startSlot >= 0 && startIndex >= 0)) {
             int slot, index;
 
             if (!player.ReadyWeapon) {
-                startSlot = !prev ? (NUM_WEAPON_SLOTS - 1) : 0;
+                startSlot = !prev ? (slotsCount - 1) : 0;
                 if (!draco) startIndex = !prev ? (     Binds [startSlot].Size () - 1) : 0;
                 else        startIndex = !prev ? (DracoBinds [startSlot].Size () - 1) : 0;
             }
@@ -159,10 +199,10 @@ class S7_WeapBindsSystem : Inventory {
             else        weapons.Copy (DracoBinds [slot]);
             do {
                 if (!prev) {
-                    if (++index >= (!draco ? (Binds [slot].Size ()) : (DracoBinds [slot].Size ()))) {
+                    if (++index >= weapons.Size ()) {
                         index = 0;
                         slotsChecked++;
-                        if (++slot >= NUM_WEAPON_SLOTS)
+                        if (++slot >= slotsCount)
                             slot = 0;
 
                         weapons.Clear ();
@@ -173,12 +213,14 @@ class S7_WeapBindsSystem : Inventory {
                     if (--index < 0) {
                         slotschecked++;
                         if (--slot < 0)
-                            slot = NUM_WEAPON_SLOTS - 1;
-                        index = (!draco ? (Binds [slot].Size ()) : (DracoBinds [slot].Size ())) - 1;
+                            slot = slotsCount - 1;
 
                         weapons.Clear ();
+
                         if (!draco) weapons.Copy (     Binds [slot]);
                         else        weapons.Copy (DracoBinds [slot]);
+
+                        index = weapons.Size () - 1;
                     }
                 }
 
@@ -187,33 +229,32 @@ class S7_WeapBindsSystem : Inventory {
                     if (weap && weap.CheckAmmo (Weapon.EitherFire, false))
                         return weap;
                 }
-            }
-            while ((slot != startSlot || index != startIndex) && slotsChecked <= NUM_WEAPON_SLOTS);
+            } while ((slot != startSlot || index != startIndex) && slotsChecked <= slotsCount);
         }
 
         return S7_BaseWeapon (player.ReadyWeapon);
     }
 
     void SetBind (int slot, int pos, S7_BaseWeapon weap, bool draco = false) {
-        if (slot < 0 || pos < 0 || (!weap && pos >= (!draco ? (Binds [slot].Size ()) : (DracoBinds [slot].Size ()))))
+        if (slot < (!draco ? 0 : 1) || pos < 0 || (!weap && pos >= (!draco ? (Binds [slot].Size ()) : (DracoBinds [slot-1].Size ()))))
             return;
 
         if (!weap) {
-            if (!draco) Binds [slot].Delete (pos, 1);
-            else   DracoBinds [slot].Delete (pos, 1);
+            if (!draco) Binds [slot  ].Delete (pos, 1);
+            else   DracoBinds [slot-1].Delete (pos, 1);
             return;
         }
 
         if (pos >= Binds [slot].Size ()) {
-            if (!draco) Binds [slot].Push (weap);
-            else   DracoBinds [slot].Push (weap);
+            if (!draco) Binds [slot  ].Push (weap);
+            else   DracoBinds [slot-1].Push (weap);
         } else {
             if (!draco) {
                 Binds [slot].Delete (pos, 1);
                 Binds [slot].Insert (pos, weap);
             } else {
-                DracoBinds [slot].Delete (pos, 1);
-                DracoBinds [slot].Insert (pos, weap);
+                DracoBinds [slot-1].Delete (pos, 1);
+                DracoBinds [slot-1].Insert (pos, weap);
             }
         }
     }

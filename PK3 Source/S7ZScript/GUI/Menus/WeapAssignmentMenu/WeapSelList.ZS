@@ -62,11 +62,13 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
     Array<S7_WeapAssignMenu_ListWeap> items;
     double lowestCoord;
     Vector2 mousePos;
+    bool isDraco;
 
-    S7_WeapAssignMenu_List InitList (S7_WeapAssignMenu menuLink, S7_ZF_Frame frame, S7_BasePlayer pPawn) {
+    S7_WeapAssignMenu_List InitList (S7_WeapAssignMenu menuLink, S7_ZF_Frame frame, S7_BasePlayer pPawn, bool draco) {
         self.Init ((19, 12), (200, 246));
         self.Pack (frame);
         link = menuLink;
+        isDraco = draco;
 
         bigFont = Font.GetFont ("BigFont");
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
@@ -183,7 +185,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
         double yCoords = 0.0; // We have to do it like this because entries have variable lengths based on contents
 
-        if (link.selectedX >= 0 && link.selectedY >= 0 && link.weapBinds.BindUsed (link.selectedX + 1, link.selectedY)) {
+        if (link.selectedX >= 0 && link.selectedY >= 0 && link.weapBinds.BindUsed (link.selectedX + 1, link.selectedY, isDraco)) {
             let weapControls = new ("S7_WeapAssignMenu_ListWeap");
             weapControls.weaponName = "@__NoWeapon__";
             weapControls.weaponInst = NULL;
@@ -229,14 +231,17 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
         let inv = CPlayer.inv;
         while (inv) {
-            if (!(inv is "S7_BaseWeapon")) {
+            if (!(inv is "S7_BaseWeapon") ||
+                (!isDraco &&  (inv is "S7_DracoWeapon")) ||
+                ( isDraco && !(inv is "S7_DracoWeapon"))
+            ) {
                 inv = inv.inv;
                 continue;
             }
 
             let weap = S7_BaseWeapon (inv);
             let tex = TexMan.CheckForTexture (weap.weapIcon, TexMan.Type_Any);
-            if ((weap.shortTag == "" && !tex.IsValid ()) || weap.bindSlot != slot || link.weapBinds.WeaponBound (weap)) {
+            if ((weap.shortTag == "" && !tex.IsValid ()) || (!isDraco && weap.bindSlot != slot) || link.weapBinds.WeaponBound (weap, isDraco)) {
                 inv = inv.inv;
                 continue;
             }

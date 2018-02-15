@@ -138,10 +138,11 @@ class S7_PSICG_FireTester : S7_DistanceTestProjectile {
 // Main projectile
 //
 //-------------------------------------------------------------------------------------------
-class S7_IonCannonProjectile : fastProjectile {
+class S7_IonCannonProjectile : S7_Projectile {
     int realDamage;
 
     default {
+        S7_Projectile.MovementMode FastProjectile;
         radius 20;
         height 16;
         speed 20;
@@ -153,7 +154,6 @@ class S7_IonCannonProjectile : fastProjectile {
         missileHeight 8;
         decal "S7_IonCannon";
 
-        projectile;
         +forceXYBillboard +forceRadiusDMG +bloodlessImpact +noDamageThrust
     }
 
@@ -222,11 +222,12 @@ class S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
 // Rails
 //
 //-------------------------------------------------------------------------------------------
-class S7_IonCannonRail : fastProjectile {
+class S7_IonCannonRail : S7_Projectile {
     int realDamage;
     int realDistTrav;
 
     default {
+        S7_Projectile.MovementMode FastProjectile;
         radius 4;
         height 4;
         speed 25;
@@ -238,7 +239,6 @@ class S7_IonCannonRail : fastProjectile {
         damageType "IonCannonRail";
         missileType "S7_IonCannonRailEffectSpawner";
 
-        projectile;
         +noDamageThrust +forceXYBillboard +ripper +forceRadiusDMG
         +bloodlessImpact
     }

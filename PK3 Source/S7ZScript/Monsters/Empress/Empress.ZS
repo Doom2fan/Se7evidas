@@ -290,8 +290,9 @@ class S7_EmpressDeathSmokeSpawner : Actor {
     }
 }
 
-class S7_EmpressMissile2 : fastProjectile {
+class S7_EmpressMissile2 : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
         damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4);
         speed 45;
         missileType "S7_EmpressMissile2Trail";
@@ -332,8 +333,9 @@ class S7_EmpressMissile2Trail : S7_FastProjTrailBase {
     }
 }
 
-class S7_EmpressMissile1 : fastProjectile {
+class S7_EmpressMissile1 : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
         damageFunction (fRandom [monsterDMG] (2.0, 4.0) * 7);
         speed 45;
         missileType "S7_EmpressMissile1Trail";

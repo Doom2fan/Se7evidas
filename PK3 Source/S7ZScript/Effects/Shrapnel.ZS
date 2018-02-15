@@ -3,8 +3,9 @@
 // Shrapnel
 //
 //-------------------------------------------------------------------------------------------
-class S7_Shrapnel : fastProjectile { // By Chronos "phantombeta" Ouroboros. (Heavily) Based on Hideous Destructor's shrapnel actor
+class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heavily) Based on Hideous Destructor's shrapnel actor
     default {
+        S7_Projectile.MovementMode FastProjectile;
         radius 1;
         height 1;
         speed 1;

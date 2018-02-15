@@ -86,7 +86,7 @@ class S7_GrenadeWeap : S7_BaseWeapon {
 // Thrown grenade
 //
 //-------------------------------------------------------------------------------------------
-class S7_ThrownHandGrenade : actor {
+class S7_ThrownHandGrenade : S7_Projectile {
     default {
         radius 5;
         height 5;
@@ -99,7 +99,6 @@ class S7_ThrownHandGrenade : actor {
         bounceFactor 0.1;
         scale 0.3;
 
-        projectile;
         +canBounceWater +noExplodeFloor +activateMCross +forceXYBillboard
         +skyExplode +noBlood +useBounceState
         -noTeleport -noGravity -floorClip

@@ -447,7 +447,7 @@ class S7_Terminator_Arm : S7_GoreBase {
 // Projectiles
 //
 //-------------------------------------------------------------------------------------------
-class S7_TerminatorTracer : S7_BaseTracer {
+class S7_TerminatorTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 8.5);
         S7_BaseTracer.trueSpeed 200;
@@ -456,8 +456,9 @@ class S7_TerminatorTracer : S7_BaseTracer {
     }
 }
 
-class S7_TerminatorGrenade : FastProjectile {
+class S7_TerminatorGrenade : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
         damageFunction (fRandom [monsterDMG] (1.0, 3.8) * 10);
         //speed 1;
         speed 75;
@@ -465,13 +466,7 @@ class S7_TerminatorGrenade : FastProjectile {
         gravity 0.2;
         obituary "$OBTERMGREN";
 
-        projectile;
         -noGravity
-    }
-
-    override void Tick () {
-        Super.Tick ();
-        vel.Z += -GetGravity ();
     }
 
     states {
@@ -529,8 +524,9 @@ class S7_TerminatorGrenadeShockwave : S7_FastProjTrailBase {
     }
 }
 
-class S7_TerminatorNail : fastProjectile {
+class S7_TerminatorNail : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
         /*radius 2;
         height 2;*/
         damageFunction (fRandom [monsterDMG] (1.0, 4.0) * 15);
@@ -538,7 +534,6 @@ class S7_TerminatorNail : fastProjectile {
         gravity 0.35;
         obituary "$OBTERMNAIL";
 
-        projectile;
         -noGravity +bloodSplatter +noExtremeDeath +noDamageThrust
     }
 
@@ -564,8 +559,9 @@ class S7_TerminatorNail : fastProjectile {
     }
 }
 
-class S7_TerminatorPlasma : fastProjectile {
+class S7_TerminatorPlasma : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
         damageFunction (fRandom [monsterDMG] (1.0, 8.0) * 22);
         speed 75;
         renderStyle "add";

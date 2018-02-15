@@ -73,6 +73,7 @@
     PLAYERMENU_XPMENU               = "Stats";
     PLAYERMENU_LUCIUSSHOP           = "Lucius Armory";
     PLAYERMENU_WEAPASSIGN           = "Weapon assignment";
+    PLAYERMENU_DRACOWEAPASSIGN      = "Draco weapon assignment";
     // Weap assignment menu
     WPBNDMENU_UNSETWP               = "Unassign";
 

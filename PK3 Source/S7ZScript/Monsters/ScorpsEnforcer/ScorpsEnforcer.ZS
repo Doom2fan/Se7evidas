@@ -3,7 +3,7 @@
 // Shadow Corps Trooper
 //
 //-------------------------------------------------------------------------------------------
-class S7_ScorpsEnforcerTracer : S7_BaseTracer {
+class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 5.5);
         S7_BaseTracer.trueSpeed 250;

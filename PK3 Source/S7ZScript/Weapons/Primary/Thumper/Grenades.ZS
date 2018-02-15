@@ -11,12 +11,11 @@
 // Normal/Explosive
 //
 //-------------------------------------------------------------------------------------------
-class S7_ThumperGrenade : actor {
+class S7_ThumperGrenade : S7_Projectile {
     default {
         radius 10;
         height 10;
         speed 75;
-        projectile;
         damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 18);
         scale 0.8;
         gravity 0.25;
@@ -124,7 +123,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     }
 }
 
-class S7_ThumperGrenadeTherm_Fire : actor {
+class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
     default {
         radius 1;
         height 1;
@@ -133,7 +132,6 @@ class S7_ThumperGrenadeTherm_Fire : actor {
         renderStyle "add";
         damageFunction 0;
         damageType "ThermiteFire";
-        projectile;
 
         +thruActors +noDamageThrust +bloodlessImpact +forceRadiusDMG
         +forceXYBillboard +dontSplash
@@ -308,14 +306,13 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
     }
 }
 
-class S7_ThumperGrenadeCluster_Bomb : actor {
+class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
     default {
         radius 1;
         height 1;
         damageFunction (8);
         bounceCount 2;
         BounceSound "Bounce/MetalSmall";
-        projectile;
 
         +bounceOnCeilings +bounceOnFloors +bounceOnWalls +canBounceWater
         +forceXYBillboard
@@ -379,8 +376,9 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
     }
 }
 
-class S7_ThumperGrenadeNail_Nail : fastProjectile {
+class S7_ThumperGrenadeNail_Nail : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
         radius 2;
         height 2;
         damageFunction (fRandom [weaponDamage] (3.0, 5.0));
@@ -388,7 +386,6 @@ class S7_ThumperGrenadeNail_Nail : fastProjectile {
         missileType "S7_HeatSmokeStatic";
         missileHeight 8;
 
-        projectile;
         +noGravity +bloodSplatter +noExtremeDeath +noDamageThrust
         +ripper
     }

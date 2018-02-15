@@ -34,6 +34,7 @@ class S7_ScoutPlayer : S7_BasePlayer {
             weapBinds.Binds [2].Push (tec9);
 
         weapBinds.LastWeapon = tec9;
+        EventHandler.SendNetworkEvent ("S7_WeapBindsSystem:slot:2");
     }
 
     states {

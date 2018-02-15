@@ -1,4 +1,5 @@
 extend class S7_DracoPlayer {
+    const MaxDefMatEnergy = 500;
     int defenseMatrixEnergy;
     int dmEnergyRegenTime;
     int laserCooldown;
@@ -7,10 +8,10 @@ extend class S7_DracoPlayer {
         if (laserCooldown > 0)
             laserCooldown--;
 
-        if (defenseMatrixEnergy > 500)
-            defenseMatrixEnergy = 500;
-        else if (!dmEnergyRegenTime) {
-            defenseMatrixEnergy += 5;
+        if (defenseMatrixEnergy > MaxDefMatEnergy)
+            defenseMatrixEnergy = MaxDefMatEnergy;
+        else if (defenseMatrixEnergy < MaxDefMatEnergy && !dmEnergyRegenTime) {
+            defenseMatrixEnergy = min (defenseMatrixEnergy + 5, MaxDefMatEnergy);
             dmEnergyRegenTime = 17;
         } else if (dmEnergyRegenTime > 0)
             dmEnergyRegenTime--;
@@ -22,6 +23,15 @@ extend class S7_DracoPlayer {
             while (mo = Actor (actorFinder.Next ())) {
                 if (mo is "S7_EffectsBase" || !mo.bMissile || mo.bKilled || !mo.target || mo.target == self || isFriend (mo.target))
                     continue;
+
+                if (defenseMatrixEnergy >= 5 && abs (Distance3D (mo)) <= 160.0 && !(random [dracoADM] (0, 256) < 8)) {
+                    let zap = Spawn ("S7_DracoADMZap", mo.pos, ALLOW_REPLACE);
+                    zap.target = self;
+                    mo.ExplodeMissile (NULL, zap, false);
+
+                    defenseMatrixEnergy -= 5;
+                    continue;
+                }
 
                 if (defenseMatrixEnergy >= 6 && !laserCooldown && !(random [dracoADM] (0, 256) < 16)) {
                     if (mo.bSeekerMissile && mo.tracer == self && abs (mo.Distance2D (mo.target)) >= (mo.target.radius * 1.5)) {
@@ -36,14 +46,6 @@ extend class S7_DracoPlayer {
                             defenseMatrixEnergy -= 3;
                         }
                     }
-                }
-
-                if (defenseMatrixEnergy >= 5 && abs (Distance3D (mo)) <= 160.0 && !(random [dracoADM] (0, 256) < 8)) {
-                    let zap = Spawn ("S7_DracoADMZap", mo.pos, ALLOW_REPLACE);
-                    zap.target = self;
-                    mo.ExplodeMissile (NULL, zap, false);
-
-                    defenseMatrixEnergy -= 5;
                 }
             }
         }
@@ -160,6 +162,7 @@ class S7_DracoADMZapSparks : S7_DebrisGeneral {
 
 class S7_DracoADMLaser : S7_BaseTracer {
     default {
+        S7_Projectile.MovementMode OldFastProj;
         damageFunction (fRandom [weaponDamage] (1.0, 4.0));
         speed 350;
         damageType "LaserTracer";

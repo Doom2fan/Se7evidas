@@ -20,22 +20,21 @@ class S7_TracerEffectsBase : S7_FastProjTrailBase {
     }
 }
 
-class S7_BaseTracer : fastProjectile {
+class S7_BaseTracer : S7_Projectile {
     int trueSpeed;
     property trueSpeed: trueSpeed;
 
     default {
+        S7_Projectile.MovementMode FastProjectile;
+        S7_Projectile.interpMove false;
         alpha 1.0;
         renderStyle "add";
         radius 2;
         height 2;
         speed 25;
-        scale 0.02120;
         S7_BaseTracer.trueSpeed 150;
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 4);
-        missileType "S7_TracerTrail";
         missileHeight 8;
-        decal "BulletChip";
 
         +bloodSplatter +noExtremeDeath +noDamageThrust +puffGetsOwner
         +forceXYBillboard
@@ -48,6 +47,16 @@ class S7_BaseTracer : fastProjectile {
             A_ScaleVelocity (abs (trueSpeed));
             return ResolveState ("Idle");
         }
+    }
+}
+class S7_BulletTracer : S7_BaseTracer {
+    default {
+        scale 0.02120;
+        missileType "S7_TracerTrail";
+        decal "BulletChip";
+    }
+
+    states {
     Idle:
         SPRK A 1 bright;
         wait;
@@ -72,7 +81,8 @@ class S7_BaseTracer : fastProjectile {
 class S7_TracerTrail : S7_TracerEffectsBase {
     states {
     Spawn:
-        SPRK AAA 1 bright A_FadeOut (0.4);
+        //SPRK AAA 1 bright A_FadeOut (0.4);
+        SPRK A 2 bright;
         stop;
     }
 }
@@ -145,7 +155,7 @@ class S7_BulletPuffSparks : S7_TracerEffectsBase {
 //
 //-------------------------------------------------------------------------------------------
 /*** Primary ***/
-class S7_AMGTracer : S7_BaseTracer {
+class S7_AMGTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 9);
         S7_BaseTracer.trueSpeed 260;
@@ -153,7 +163,7 @@ class S7_AMGTracer : S7_BaseTracer {
     }
 }
 
-class S7_AK47_Tracer : S7_BaseTracer {
+class S7_AK47_Tracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 8);
         S7_BaseTracer.trueSpeed 220;
@@ -161,7 +171,7 @@ class S7_AK47_Tracer : S7_BaseTracer {
     }
 }
 
-class S7_SSGTracer : S7_BaseTracer { // 259 max DMG
+class S7_SSGTracer : S7_BulletTracer { // 259 max DMG
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 2.3981);
         S7_BaseTracer.trueSpeed 250;
@@ -187,7 +197,7 @@ class S7_SSGTracerTrail : S7_TracerTrail {
     }
 }
 
-class S7_12gaTracer : S7_BaseTracer {
+class S7_12gaTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 6);
         S7_BaseTracer.trueSpeed 250;
@@ -195,21 +205,21 @@ class S7_12gaTracer : S7_BaseTracer {
         missileType "S7_SSGTracerTrail";
     }
 }
-class S7_ManxCarbineTracer : S7_BaseTracer {
+class S7_ManxCarbineTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 7);
         S7_BaseTracer.trueSpeed 190;
         damageType "PistolTracer";
     }
 }
-class S7_HitterSMGTracer : S7_BaseTracer {
+class S7_HitterSMGTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 6);
         S7_BaseTracer.trueSpeed 170;
         damageType "PistolTracer";
     }
 }
-class S7_ConquerorRifle_Tracer : S7_BaseTracer {
+class S7_ConquerorRifle_Tracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 2.5) * 70);
         S7_BaseTracer.trueSpeed 550; // So you need to compensate less when firing at long range
@@ -218,21 +228,21 @@ class S7_ConquerorRifle_Tracer : S7_BaseTracer {
 }
 
 /*** Secondary ***/
-class S7_RaptorTracer : S7_BaseTracer {
+class S7_RaptorTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.5, 3.0) * 5);
         S7_BaseTracer.trueSpeed 160;
         damageType "PistolTracer";
     }
 }
-class S7_RevolverTracer : S7_BaseTracer {
+class S7_RevolverTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.75, 2.5) * 40);
         S7_BaseTracer.trueSpeed 210;
         damageType "RevolverTracer";
     }
 }
-class S7_TEC9Tracer : S7_BaseTracer {
+class S7_TEC9Tracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.5, 3.0) * 5);
         damageType "PistolTracer";

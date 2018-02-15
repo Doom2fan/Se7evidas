@@ -3,14 +3,14 @@
 // Projectile bases
 //
 //-------------------------------------------------------------------------------------------
-class S7_FireballBase : actor {
+class S7_FireballBase : S7_Projectile {
     default {
+        S7_Projectile.MovementMode Normal;
         radius 6;
         height 16;
         speed 15;
         fastSpeed 20;
         damage 8;
-        projectile;
         renderStyle "add";
         alpha 1.0;
         seeSound "baron/attack";
@@ -175,5 +175,282 @@ class S7_TraceTestPuff : actor {
 class S7_WallCheckPuff : S7_TraceTestPuff {
     default {
         +thruActors
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Projectile base
+//
+//-------------------------------------------------------------------------------------------
+class S7_Projectile_Trace : LineTracer play {
+    S7_Projectile sourceActor;
+    Array<Actor> actorsToIgnore;
+    
+    override ETraceStatus TraceCallback () {
+        /*if (!sourceActor)
+            return TRACE_Skip;*/
+
+        switch (Results.HitType) {
+            case TRACE_HitActor:
+                if (sourceActor.bThruActors)
+                    return TRACE_Skip;
+
+                let mo = Results.HitActor;
+
+                if (actorsToIgnore.Size () > 0) {
+                    for (int i = 0; i < actorsToIgnore.Size (); i++) {
+                        if (mo == actorsToIgnore [i])
+                            return TRACE_Skip;
+                    }
+                }
+
+                if (mo != sourceActor && (sourceActor.bMissile && mo != sourceActor.Target)) {
+                    if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
+                        return TRACE_Skip;
+                    if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
+                        return TRACE_Skip;
+
+                    return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
+                } else
+                    return TRACE_Skip;
+            break;
+
+            case TRACE_HitFloor:
+            case TRACE_HitCeiling:
+                return TRACE_Stop;
+            break;
+
+            case TRACE_HitWall:
+                if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower) return TRACE_Stop;
+
+                let hl = Results.HitLine;
+                if (sourceActor.bMissile && (hl.flags & (Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKEVERYTHING)))
+                    return TRACE_Stop;
+                
+                if (sourceActor.bMissile && Results.Tier == TIER_Middle && (hl.flags & Line.ML_BLOCKING) && (hl.flags & Line.ML_TWOSIDED))
+                    return TRACE_Skip;
+                
+                if ((hl.flags & Line.ML_BLOCKING) || (hl.flags & Line.ML_BLOCKEVERYTHING) || (sourceActor.bIsMonster && (hl.flags & Line.ML_BLOCKMONSTERS)))
+                    return TRACE_Stop;
+            break;
+        }
+        return TRACE_Skip;
+    }
+}
+
+class S7_Projectile : fastProjectile {
+    enum EMovementMode {
+        Normal = 0,
+        FastProjectile,
+        OldFastProj,
+    };
+
+    int moveMode;
+    bool interpFastProj;
+    double effectStepMul;
+
+    property MovementMode: moveMode;
+    property EffectStepMul: effectStepMul;
+    property interpMove: interpFastProj;
+
+    default {
+        S7_Projectile.MovementMode Normal;
+        S7_Projectile.interpMove true;
+        S7_Projectile.EffectStepMul 0.125;
+        Projectile;
+    }
+
+    S7_Projectile_Trace tr;
+
+    override void Tick () {
+        switch (moveMode) {
+            case Normal:
+                Actor.Tick ();
+            break;
+
+            case FastProjectile:
+                NewFastProjTick ();
+            break;
+
+            case OldFastProj:
+                super.Tick ();
+            break;
+        }
+    }
+
+    virtual Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
+        class<Actor> trail = MissileName;
+
+        if (trail != null) {
+            Vector3 finalPos = initialPos + stepDiff;
+
+            Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
+            act.SetOrigin (finalPos, false);
+
+            double hitz = finalPos.z - 8;
+            if (hitz < act.floorz)
+                hitz = act.floorz;
+            // Do not clip this offset to the floor.
+            hitz += missileHeight;
+
+            act.SetOrigin ((finalPos.xy, hitz), false);
+
+            if (act != null) {
+                if (bGetOwner && target != null)
+                    act.target = target;
+                else
+                    act.target = self;
+                
+                act.angle = angle;
+                act.pitch = pitch;
+            }
+
+            return act;
+        }
+
+        return NULL;
+    }
+
+    void SpawnEffects (Vector3 initialPos, double dist, Vector3 stepSize) {
+        if (radius <= 0 || dist <= 0)
+            return;
+
+        int count = 8;
+        while (abs (stepSize.X) > radius * count || abs (stepSize.Y) > radius * count)
+            count += count;
+
+        Vector3 frac = stepSize / count;
+
+        int spawnCount = int (count * effectStepMul);
+        for (int i = 0; i < count; i++) {
+            double diff = abs ((frac * i).Length ());
+
+            if (diff >= dist)
+                break;
+
+            if (--spawnCount <= 0) {
+                spawnCount = int (count * effectStepMul);
+                StepEffects (initialPos, frac * i, stepSize);
+            }
+        }
+    }
+
+    virtual void NewFastProjTick () {
+        ClearInterpolation ();
+        let oldPos = pos;
+        let oldVel = vel;
+
+        if (!bNoTimeFreeze && (globalfreeze || level.Frozen))
+            return;
+
+        if (Vel != (0, 0, 0) || (pos.Z != floorz)) {
+            if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
+            tr.actorsToIgnore.Clear ();
+
+            bool collisionHandled;
+            do {
+                double maxDist = abs (vel.Length ()) + radius;
+                if (tr.Trace (pos + (0, 0, height / 2), curSector, vel.Unit (), maxDist, 0) ||
+                    tr.Trace (pos + (0, 0, height / 2), curSector, vel.Unit (), maxDist, 0)) {
+                    if (collisionHandled = HandleCollision (oldPos, oldVel))
+                        return;
+                } else {
+                    tr.actorsToIgnore.Clear ();
+                    collisionHandled = true;
+                }
+            } while (tr.actorsToIgnore.Size () > 0 && !collisionHandled);
+
+            SetOrigin (pos + vel, true);
+            SpawnEffects (oldPos, oldVel.Length (), oldVel);
+
+            vel.z += GetGravity ();
+
+            UpdateWaterLevel ();
+            CheckPortalTransition ();
+        }
+
+        // freed itself
+        if (!CheckNoDelay ())
+            return;
+        // Advance the state
+        if (tics != -1) {
+            if (tics > 0)
+                tics--;
+
+            while (!tics) {
+                if (!SetState (CurState.NextState)) // mobj was removed
+                    return;
+            }
+        }
+    }
+
+    bool HandleCollision (Vector3 oldPos, Vector3 oldVel) {
+        if (abs (level.Vec3Diff (oldPos, tr.Results.hitPos).Length ()) > abs (oldVel.Length ()) + radius)
+            return true;
+
+        double maxDist = abs (oldVel.Length ());
+        double hitPosDist = abs (tr.Results.hitPos.Length ());
+        let hitPos = tr.Results.HitPos;//(hitPosDist <= maxDist) ? tr.Results.HitPos : (oldPos + oldVel);
+        hitPos += (-oldVel.Unit () * radius * 1.5);
+        SetOrigin (hitPos, interpFastProj);
+
+        if (!bSkyExplode) {
+            if (tr.Results.HitType == TRACE_HitWall && tr.Results.HitLine) {
+                let l = tr.Results.HitLine;
+                if (l.backsector && l.backsector.GetTexture (sector.ceiling) == skyflatnum) {
+                    let posr = PosRelative (l.backsector);
+                    if (pos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
+                        SpawnEffects (oldPos, tr.Results.Distance, oldVel); 
+                        Destroy ();  // Hack to prevent missiles exploding against the sky.
+                        return true; // Does not handle sky floors.
+                    }
+                }
+
+                // [RH] Don't explode on horizon lines.
+                if (l && l.special == Line_Horizon) {
+                    SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+                    Destroy ();
+                    return true;
+                }
+            } else if ((tr.Results.HitType == TRACE_HitFloor && floorpic == skyflatnum) ||
+                (tr.Results.HitType == TRACE_HitCeiling && ceilingpic == skyflatnum)) {
+                SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+                Destroy ();
+                return true;
+            }
+        }
+
+        if (tr.Results.HitType == TRACE_HitFloor)
+            hitPos = tr.Results.HitPos;//(hitPosDist <= maxDist) ? tr.Results.HitPos : (oldPos + oldVel);
+        else if (tr.Results.HitType == TRACE_HitCeiling) {
+            hitPos = tr.Results.HitPos;//(hitPosDist <= maxDist) ? tr.Results.HitPos : (oldPos + oldVel);
+            hitPos -= (0, 0, height);
+        }
+
+        //BlockingMobj =  tr.Results.HitActor;
+        //BlockingLine = tr.Results.HitLine;
+        SpawnEffects (oldPos, level.Vec3Diff (oldPos, pos).Length (), oldVel);
+        if (!TryMove (tr.Results.HitPos.xy, true)) {
+            SetOrigin (hitPos, interpFastProj);
+            ExplodeMissile (BlockingLine, BlockingMobj);
+            return true;
+        } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
+            tr.actorsToIgnore.Push (tr.Results.HitActor);
+        else {
+            let rHitPos = tr.Results.HitPos;
+            if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - floorZ < 1) ||
+                (tr.Results.HitType == TRACE_HitCeiling && (rHitPos.z + height) - ceilingZ < 1)) {
+                if (tr.Results.HitType == TRACE_HitFloor)
+                    HitFloor ();
+
+                SetOrigin (hitPos, interpFastProj);
+                ExplodeMissile (BlockingLine, BlockingMobj);
+                return true;
+            }
+        }
+
+        SetOrigin (oldPos, false);
+        return false;
     }
 }

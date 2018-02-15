@@ -14,8 +14,8 @@ class S7_DracoThing : Inventory {
         if (!pPawn)
             return false;
 
-        if (weapBinds)
-            weapBinds.LastWeapon = NULL;
+        if (pPawn.weapBinds)
+            pPawn.weapBinds.LastWeapon = NULL;
 
         if (!(pPawn is "S7_DracoPlayer"))
             pPawn.player.MorphPlayer (pPawn.player, "S7_DracoPlayer", 0x7FFFFFFF, morphFlags, NULL, NULL);
@@ -53,7 +53,7 @@ class S7_DracoPlayer : S7_BasePlayer {
 
     override void PostBeginPlay () {
         super.PostBeginPlay ();
-        defenseMatrixEnergy = 500;
+        defenseMatrixEnergy = MaxDefMatEnergy;
     }
 
     override void Tick () {
