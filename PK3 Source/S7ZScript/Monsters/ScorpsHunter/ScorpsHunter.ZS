@@ -61,8 +61,6 @@ class S7_ScorpsHunter : S7_ScorpBase {
     }
 
     override void Tick () {
-        Super.Tick ();
-
         if (!xpSys) {
             xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
             if (!xpSys) {
@@ -75,6 +73,8 @@ class S7_ScorpsHunter : S7_ScorpBase {
         damageMultiply = 1.0 + (0.035 * xpSys.GetStat (S7Stat_Strength / 2));
         // Defense
         damageFactor = clamp (1.0 - (0.015 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+
+        Super.Tick ();
     }
 
     override void OnDeath (Actor source, Actor inflictor, int dmgflags) {

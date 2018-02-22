@@ -61,8 +61,6 @@ class S7_Hellion : S7_DemonBase {
     }
 
     override void Tick () {
-        Super.Tick ();
-
         if (!xpSys) {
             xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
             if (!xpSys) {
@@ -75,6 +73,8 @@ class S7_Hellion : S7_DemonBase {
         damageMultiply = 1.0 + (0.02 * xpSys.GetStat (S7Stat_Strength));
         // Defense
         damageFactor = clamp (1.0 - (0.01 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+
+        Super.Tick ();
     }
 
     override void OnDeath (Actor source, Actor inflictor, int dmgflags) {

@@ -27,14 +27,14 @@ class S7_Succubus : S7_SuccubusBase {
     }
 
     override void Tick () {
-        super.Tick ();
-
         if (target && CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump | JLOSF_CombatantOnly | JLOSF_AllyNoJump, 4800.0) && abs (pos.z - target.pos.z) > 96.0)
             ChangeFlying (true);
         else if (pos.z <= floorZ)
             ChangeFlying (false);
         else
             ChangeFlying (true);
+
+        super.Tick ();
     }
 
     states {

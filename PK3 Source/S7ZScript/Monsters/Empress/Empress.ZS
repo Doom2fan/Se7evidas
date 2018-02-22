@@ -59,8 +59,6 @@ class S7_Empress : S7_DemonBase {
     const InvulnLimit = 2500;
 
     override void Tick () {
-        super.Tick ();
-
         if (initialized) {
             trueHealth -= 0x7FFFFFFF - health;
             health = 0x7FFFFFFF;
@@ -76,6 +74,8 @@ class S7_Empress : S7_DemonBase {
             } else if (trueHealth <= InvulnLimit && ballsCount < 1 && invulnDelay < 1)
                 canCastInvuln = true;
         }
+
+        Super.Tick ();
     }
 
     states {
