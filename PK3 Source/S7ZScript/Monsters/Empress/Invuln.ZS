@@ -35,8 +35,8 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
     void OrbitMaster () {
         for (int i = 0; i < 4; i++) {
-            A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom (-0.5, 0.5), fRandom (-0.5, 0.5), fRandom (-0.5, 0.5),
-                fRandom (-3.0, 3.0), fRandom (-3.0, 3.0), fRandom (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5),
+                fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition);
         }
         A_SpawnItemEx ("S7_EmpressShieldFlare", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
 

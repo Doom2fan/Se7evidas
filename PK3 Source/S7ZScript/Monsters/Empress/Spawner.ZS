@@ -28,8 +28,8 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
             if (loopCount < 1)
                 return ResolveState ("PreSpawnIdle");
 
-            A_SpawnItemEx ("S7_EmpressSmoke", fRandom (-23.0, 23.0), fRandom (-23.0, 23.0), 15.0 + fRandom (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
-            A_SpawnItemEx ("S7_EmpressSmoke", fRandom (-23.0, 23.0), fRandom (-23.0, 23.0), 15.0 + fRandom (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
             loopCount--;
 
             return ResolveState (null);
@@ -37,8 +37,8 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         loop;
     PreSpawnIdle:
         TNT1 A 1 {
-            A_SpawnItemEx ("S7_EmpressSmoke", fRandom (-23.0, 23.0), fRandom (-23.0, 23.0), 15.0 + fRandom (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
-            A_SpawnItemEx ("S7_EmpressSmoke", fRandom (-23.0, 23.0), fRandom (-23.0, 23.0), 15.0 + fRandom (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
             A_Look ();
         }
         loop;
@@ -60,15 +60,15 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
             for (int i = 0; i < 5; i++)
                 A_SpawnItemEx ("S7_EmpressPentagramCorner", 180.0, 0.0, 0.0, 0.0, 0.0, 0.0, 72 * i, SXF_Clientside | SXF_NoCheckPosition);;
         }
-        TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ("S7_EmpressSmoke", fRandom (-23.0, 23.0), fRandom (-23.0, 23.0), 15.0 + fRandom (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         TNT1 A            5;
         TNT1 A            0 {
             super.BeginPlay ();
             super.PostBeginPlay ();
 
             for (int i = 0; i < 48; i++) {
-                A_SpawnItemEx ("S7_EmpressSparkle", fRandom (-2.5, 2.5), fRandom (-2.5, 2.5), 50.0 + fRandom (0.0, 2.5),
-                    fRandom (-8.0, 8.0), fRandom (-8.0, 8.0), fRandom (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+                A_SpawnItemEx ("S7_EmpressSparkle", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
+                    fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
         }
     Idle:

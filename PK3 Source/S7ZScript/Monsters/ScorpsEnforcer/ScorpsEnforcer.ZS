@@ -101,7 +101,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
     // Firing
     Missile:
         SCR2 CD 2 A_FaceTarget (90, 45);
-        SCR2 U  1 A_SetTics (random (3, 8));
+        SCR2 U  1 A_SetTics (random [monsterSpc] (3, 8));
     DoShoot:
         TNT1 A 0 {
             if (CheckIfCloser (target, 256) && !(random [monsterSpc] (0, 255) < 128)) {

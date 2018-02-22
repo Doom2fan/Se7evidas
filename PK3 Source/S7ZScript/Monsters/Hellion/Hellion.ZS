@@ -45,7 +45,7 @@ class S7_Hellion : S7_DemonBase {
             case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
             case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
             case 3:
-                int rnd2 = random (0, 1);
+                int rnd2 = random [monsterStats] (0, 1);
                 if (rnd)
                     xpSys.SetStat (S7Stat_Agility, 1);
                 else
@@ -166,8 +166,8 @@ class S7_HellionBall : S7_FireballBase {
     states {
     Spawn:
         CP00 AABBCC 1 bright {
-            A_SpawnItemEx ("S7_FireballSmoke",  0.0, fRandom (-3.0, 3.0), -1 + fRandom (-3.0, 3.0), fRandom (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
-            A_SpawnItemEx ("S7_FireballSmoke", -2.5, fRandom (-3.0, 3.0), -1 + fRandom (-3.0, 3.0), fRandom (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
+            A_SpawnItemEx ("S7_FireballSmoke",  0.0, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
+            A_SpawnItemEx ("S7_FireballSmoke", -2.5, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
         }
         loop;
     Death:

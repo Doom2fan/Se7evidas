@@ -34,7 +34,7 @@ class S7_CasingBase : S7_EffectsBase {
         height 2;
         radius 2;
         speed 6;
-        bounceType "doom";
+        bounceType "Doom";
         floatBobPhase 0;
 
         +windThrust +clientsideOnly +ghost +canBounceWater

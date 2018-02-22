@@ -265,8 +265,8 @@ class S7_Empress : S7_DemonBase {
         HRFR F       2;
         TNT1 A      -1 {
             for (int i = 0; i < 48; i++) {
-                A_SpawnItemEx ("S7_EmpressSparkle", fRandom (-2.5, 2.5), fRandom (-2.5, 2.5), 50.0 + fRandom (0.0, 2.5),
-                    fRandom (-8.0, 8.0), fRandom (-8.0, 8.0), fRandom (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+                A_SpawnItemEx ("S7_EmpressSparkle", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
+                    fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
             A_NoBlocking ();
             A_DamageChildren (0x7FFFFFFF, "EmpressDeath");
@@ -285,7 +285,7 @@ class S7_EmpressDeathSmokeSpawner : Actor {
 
     states {
     Spawn:
-        TNT1 AAAAAAAA 0 A_SpawnItemEx ("S7_EmpressSmoke", fRandom (-23.0, 23.0), fRandom (-23.0, 23.0), 15.0 + fRandom (-0.0, 85.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAA 0 A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 85.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         stop;
     }
 }

@@ -45,7 +45,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
             case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
             case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
             case 3:
-                int rnd2 = random (0, 4);
+                int rnd2 = random [monsterStats] (0, 4);
                 if (rnd > 1)
                     xpSys.SetStat (S7Stat_Agility, 1);
                 else

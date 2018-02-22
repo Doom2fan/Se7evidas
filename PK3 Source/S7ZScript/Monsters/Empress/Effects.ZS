@@ -42,7 +42,7 @@ class S7_EmpressSparkle : S7_Empress_FXBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            A_SetScale (fRandom (0.25, 0.4));
+            A_SetScale (fRandom [sfx] (0.25, 0.4));
             loopCount = random [sfx] (8, 14);
             return A_Jump (256, "SpawnA", "SpawnB", "SpawnC", "SpawnD", "SpawnE", "SpawnF", "SpawnG", "SpawnH");
         }

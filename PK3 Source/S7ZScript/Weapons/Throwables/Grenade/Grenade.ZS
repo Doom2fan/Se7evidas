@@ -93,7 +93,7 @@ class S7_ThrownHandGrenade : S7_Projectile {
         speed 5;
         mass 30;
         damageFunction (0);
-        bounceType "Doom";
+        bounceType "Hexen";
         pushFactor 3;
         wallBounceFactor 0.1;
         bounceFactor 0.1;

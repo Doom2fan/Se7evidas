@@ -81,7 +81,7 @@ class S7_BaseWeapon : weapon {
 
         if (CheckInventory ("S7_BerserkToken", 1)) {
             baseMul *= 3.0;
-            mulBonus = fRandom (0.0, 2.0);
+            mulBonus = fRandom [weaponDamage] (0.0, 2.0);
         }
 
         return ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus));

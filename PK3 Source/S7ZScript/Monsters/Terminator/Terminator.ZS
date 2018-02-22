@@ -362,7 +362,7 @@ class S7_Terminator : S7_DemonBase {
 
             for (int i = 0; i < 64; i++) {
                 A_SpawnItemEx ("S7_Flying_Blood", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 35 + fRandom [sfx] (-2.5, 2.5),
-                    fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom (0, 359), SXF_TransferTranslation | SXF_UseBloodColor);
+                    fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom [sfx] (0, 360), SXF_TransferTranslation | SXF_UseBloodColor);
             }
         }
         TERM Q    4;
@@ -375,7 +375,7 @@ class S7_Terminator : S7_DemonBase {
         TERM W    4 {
             for (int i = 0; i < 32; i++) {
                 A_SpawnItemEx ("S7_Flying_Blood", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 35 + fRandom [sfx] (-2.5, 2.5),
-                    fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom (0, 359), SXF_TransferTranslation | SXF_UseBloodColor);
+                    fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom [sfx] (0, 360), SXF_TransferTranslation | SXF_UseBloodColor);
             }
         }
         TERM XYZ  4;
@@ -394,7 +394,7 @@ class S7_Terminator : S7_DemonBase {
 //-------------------------------------------------------------------------------------------
 class S7_Terminator_Head : S7_GoreBase {
     default {
-        bounceType "Doom";
+        bounceType "Hexen";
         bounceFactor 0.65;
         wallBounceFactor 0.65;
         bounceCount 3;

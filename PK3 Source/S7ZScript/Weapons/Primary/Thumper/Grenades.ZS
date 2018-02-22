@@ -114,7 +114,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
             int count = 7 - random [weaponSpc] (0, 3);
             for (; count > 0; count--) {
                 A_SpawnItemEx ("S7_ThumperGrenadeTherm_Fire", fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (-0.025, 0.025), 0.25,
-                    fRandom [weaponSpc] (2.8, 3.0), 0.0, fRandom [weaponSpc] (2.5, 4.0), fRandom [weaponSpc] (0.0, 359.0), SXF_TransferPointers | SXF_NoCheckPosition);
+                    fRandom [weaponSpc] (2.8, 3.0), 0.0, fRandom [weaponSpc] (2.5, 4.0), fRandom [weaponSpc] (0.0, 360.0), SXF_TransferPointers | SXF_NoCheckPosition);
             }
 
             A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
