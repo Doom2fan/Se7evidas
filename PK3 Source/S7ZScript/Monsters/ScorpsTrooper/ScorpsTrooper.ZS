@@ -47,7 +47,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
             case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
             case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
             case 3:
-                int rnd2 = random (0, 4);
+                int rnd2 = random [monsterStats] (0, 4);
                 if (rnd > 1)
                     xpSys.SetStat (S7Stat_Agility, 1);
                 else
@@ -63,8 +63,6 @@ class S7_ScorpsTrooper : S7_ScorpBase {
     }
 
     override void Tick () {
-        Super.Tick ();
-
         if (!xpSys) {
             xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
             if (!xpSys) {
@@ -77,6 +75,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         damageMultiply = 1.0 + (0.02 * xpSys.GetStat (S7Stat_Strength / 2));
         // Defense
         damageFactor = clamp (1.0 - (0.01 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+
+        Super.Tick ();
     }
 
     override void OnDeath (Actor source, Actor inflictor, int dmgflags) {
@@ -316,11 +316,37 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         wait;
 
     XDeath:
-        SPOS M     5 { monsDeathType = 1; }
-        SPOS N     5 A_XScream;
+        SPOS M 5 A_XScream;
+        TNT1 A 0 {
+            double defHeight = default.height / 2;
+
+            for (int i = random [sfx] (8, 16); i >= 0; i--) {
+                double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
+                double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 7);
+
+                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (-22.5, 22.5), flags: S7_BloodSXFFlags);
+            }
+
+            for (int i = random [sfx] (6, 8); i >= 0; i--) {
+                bool MUDA; Actor cloud;
+                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                 flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+
+            for (int i = random [sfx] (8, 15); i >= 0; i--) {
+                bool MUDA; Actor gib;
+                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                    xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
+                    flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+        }
+
+        /*SPOS N     5 A_XScream;
         SPOS O     5 A_NoBlocking;
         SPOS PQRST 5;
-        SPOS U    -1;
+        SPOS U    -1;*/
         stop;
 
     // Being revived

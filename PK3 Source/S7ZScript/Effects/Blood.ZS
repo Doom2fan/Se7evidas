@@ -1,3 +1,5 @@
+const S7_BloodSXFFlags = SXF_TransferTranslation | SXF_NoCheckPosition;
+
 //-------------------------------------------------------------------------------------------
 //
 // Blood actors
@@ -10,9 +12,20 @@ class S7_Blood : blood replaces blood {
 
     states {
     Spawn:
-        //A_SpawnItemEx ("S7_Flying_Blood", 0.0, fRandom [sfx] (-0.5, 0.5), 0.0, fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.0, 8.0), 0, SXF_TransferTranslation)
-        BLUD C  1 noDelay A_SpawnDebris ("S7_Flying_Blood", true);
-        BLUD BA 1;
+        BLD1 C  1 noDelay { //A_SpawnDebris ("S7_Flying_Blood", true);
+            A_FaceTarget ();
+            angle = -angle;
+
+            double xo = fRandom [sfx] (-2, 2),
+                   yo = fRandom [sfx] (-2, 2),
+                   zo = fRandom [sfx] (-2, 2);
+
+            double xvel = fRandom [sfx] (0, 6),
+                   zvel = fRandom [sfx] (4, 7);
+
+            A_SpawnItemEx ("S7_Flying_Blood", xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (-22.5, 22.5), flags: S7_BloodSXFFlags);
+        }
+        BLD1 BA 1;
         stop;
     }
 }
@@ -20,11 +33,8 @@ class S7_Blood : blood replaces blood {
 class S7_BloodSplatter : S7_Blood replaces bloodSplatter {
     states {
     Spawn:
-        TNT1 A 0 noDelay {
-            A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace);
-            A_SpawnItemEx ("S7_Blood", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_TransferTranslation);
-        }
-        stop;
+        TNT1 A 0 noDelay A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace);
+        goto Super::Spawn;
     }
 }
 
@@ -35,21 +45,32 @@ class S7_BloodSplatter : S7_Blood replaces bloodSplatter {
 //-------------------------------------------------------------------------------------------
 class S7_Flying_Blood : S7_EffectsBase {
     default {
-        health 1;
-        mass 1;
         radius 8;
         height 1;
 
-        +corpse +noTeleport +noBlockmap +thruSpecies
+        +noTeleport +noBlockmap +thruSpecies +thruActors
         +clientsideOnly
     }
 
     states {
     Spawn:
-        BLUD CCCBBBAAA 1 noDelay A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, SXF_TransferTranslation);
+        TNT1 A 0 noDelay { bMissile = true; }
+        BLD1 CCCBBBAAA 1 A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
         loop;
+
     Death:
+        TNT1 A 1 {
+            if (BlockingMobj || BlockingLine)
+                return ResolveState ("Crash");
+
+            A_SpawnItemEx ("S7_BloodSpot", flags: S7_BloodSXFFlags);
+
+            return ResolveState ("Null");
+        }
+        stop;
+
     Crush:
+    XDeath:
     Crash:
         TNT1 A 1;
         stop;
@@ -58,13 +79,28 @@ class S7_Flying_Blood : S7_EffectsBase {
 
 class S7_Flying_Blood_Trail : S7_EffectsBase {
     default {
-        +lowGravity +noTeleport +noBlockmap +clientsideOnly
-        +noInteraction
+        gravity 0.25;
+
+        +noTeleport +noBlockmap +clientsideOnly +noInteraction
     }
 
     states {
     Spawn:
-        BLUD CCBBAA 1;
+        BLD1 CCBBAA 1;
+        stop;
+    }
+}
+
+class S7_BloodSpot : S7_EffectsBase {
+    default {
+        +noTeleport +noBlockmap +thruSpecies +thruActors
+        +clientsideOnly
+    }
+
+    states {
+    Spawn:
+        BLD2 ABCDEF 2;
+        BLD2 G -1;
         stop;
     }
 }
