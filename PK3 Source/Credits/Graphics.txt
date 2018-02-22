@@ -45,6 +45,8 @@ sprites/
         Flares/
             PICFA0, PLGFA0, LSFLC0 and FLR1A0 were made from scratch by Chronos "phantombeta" Ouroboros.
             LSFLA0, LSFLB0 and BLSFA0 were made by Chronos "phantombeta" Ouroboros with Touhou (I think) sprites ripped by Neoworm.
+        Gore/
+            BLD[1-3]*0 by Blox.
         Lightning/
             ZAP* is from Strife by Rogue Entertainment
         Misc/
