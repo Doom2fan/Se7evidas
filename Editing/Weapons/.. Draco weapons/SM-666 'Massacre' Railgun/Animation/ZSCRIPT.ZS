@@ -49,9 +49,8 @@ class S7_Draco_Massacre : S7_DracoWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0);
 
             A_AlertMonsters ();
-
-            A_WeaponOffset (6, 32 + 4.5);
         }
+        DMSC A 1 A_WeaponOffset (6, 32 + 4.5);
         DMSC A 2 A_WeaponOffset (12, 32 + 9, WOF_Interpolate);
         DMSC A 1 {
             DMSC_SpawnSmoke (2);
@@ -65,7 +64,7 @@ class S7_Draco_Massacre : S7_DracoWeapon {
             DMSC_SpawnSmoke (2);
             A_WeaponOffset (0, 32, WOF_Interpolate);
         }
-        DMSC A 5 DMSC_SpawnSmoke (5);
+        DMSC AAAAAAAA 2 DMSC_SpawnSmoke (5);
         goto Ready2;
     }
 }
@@ -102,7 +101,7 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
         TNT1 A 0 noDelay {
             A_ScaleVelocity (1.0 / 20);
             A_ScaleVelocity (240);
-            realDamage = 100 + (fRandom [weaponDamage] (1.0, 10.0) * 15);
+            realDamage = 50 + (fRandom [weaponDamage] (0.0, 10.0) * 10);
         }
     Idle:
         PLGF A 1 bright;
@@ -119,7 +118,7 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
             for (int i = 0; i < 8; i++)
                 A_SpawnItemEx ("S7_Draco_MassacreExpSmoke", fRandom [sfx] (-5, 5), fRandom [sfx] (-5, 5), fRandom [sfx] (-5, 5),
                     fRandom [sfx] (2, 6), 0, fRandom [sfx] (0, 4) * randomPick [sfx] (-1, 1), fRandom [sfx] (0, 359), SXF_NoCheckPosition | SXF_Clientside);
-            A_Explode (304, 256, fulldamagedistance: 144);
+            A_Explode (280, 256, fulldamagedistance: 96);
         }
         stop;
     }
