@@ -78,8 +78,7 @@ class S7_GenericGoreBits : S7_GoreBase {
         +useBounceState
     }
 
-    int rollDir;
-    int trailSpawnDuration;
+    int timer, rollDir, trailSpawnDuration;
     Vector3 oldCoords;
 
     states {
@@ -88,6 +87,7 @@ class S7_GenericGoreBits : S7_GoreBase {
             static const StateLabel [] stateNames = { "Frame1", "Frame2", "Frame3", "Frame4", "Frame5" };
 
             bMissile = true;
+            bKilled = false;
             A_SetRoll (random [sfx] (0, 360));
             A_SetScale (abs (scale.x) * randomPick [sfx] (-1, 1), abs (scale.y) * randomPick [sfx] (-1, 1));
 
@@ -118,6 +118,11 @@ class S7_GenericGoreBits : S7_GoreBase {
             }
 
             oldCoords = pos;
+
+            if (bKilled && pos.z <= floorZ)
+                return ResolveState ("Death");
+
+            return ResolveState (null);
         }
         wait;
 
@@ -130,10 +135,43 @@ class S7_GenericGoreBits : S7_GoreBase {
             if (rollDir != -1)
                 rollDir = !!rollDir;
         }
+        goto Flight;
 
     Death:
-        #### # (35 * 5);
-        #### # 1 A_FadeOut (0.03);
+        #### # 0 {
+            if (pos.z > floorZ) {
+                bKilled = true;
+                return ResolveState ("Flight");
+            }
+
+            bUseBounceState = false;
+            bNoInteraction = true;
+
+            return ResolveState (null);
+        }
+    Waiting:
+        #### # 1 {
+            vel = (0, 0, 0);
+            A_Stop ();
+
+            let stayTimeCVar = CVar.GetCVar ("S7_GibsStayTime", players [consolePlayer]);
+            int stayTime = stayTimeCVar.GetInt ();
+
+            if (stayTime > -1) {
+                if (timer >= stayTime)
+                    return ResolveState ("Fade");
+
+                timer++;
+            }
+
+            return ResolveState (null);
+        }
+        wait;
+    Fade:
+        #### # 1 {
+            let fadeSpeedCVar = CVar.GetCVar ("S7_GibsFadeSpeed", players [consolePlayer]);
+            A_FadeOut (fadeSpeedCVar.GetFloat ());
+        }
         wait;
     }
 }

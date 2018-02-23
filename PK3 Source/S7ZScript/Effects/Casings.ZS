@@ -45,22 +45,18 @@ class S7_CasingBase : S7_EffectsBase {
 
     int timer;
 
-    static const int StayTics [] = { 10000, 5000, 2500, 1250, 625, 313, 157, 70, 35 };
-    static const float FadeAmount [] = { 0.03, 0.06, 0.09, 0.12, 0.15, 2.0 };
-    static const int FadeTics [] = { 3, 3, 2, 1, 1, 1 };
-
     states {
     Delaying:
         #### # 1 {
-            let stayTime = CVar.GetCVar ("S7_EffectStayTime", players [consolePlayer]);
+            let stayTimeCVar = CVar.GetCVar ("S7_CasingsStayTime", players [consolePlayer]);
+            int stayTime = stayTimeCVar.GetInt ();
 
-            if (stayTime.GetInt () > -3) {
-                if (timer >= StayTics [stayTime.GetInt () + 2])
+            if (stayTime > -1) {
+                if (timer >= stayTime)
                     return ResolveState ("Fade");
 
                 timer++;
-            } else
-                timer = 0;
+            }
 
             return ResolveState (null);
         }
@@ -69,9 +65,8 @@ class S7_CasingBase : S7_EffectsBase {
     Fade:
     Fade.Looper:
         #### # 1 {
-            let fadeSpeed = CVar.GetCVar ("S7_EffectFadeSpeed", players [consolePlayer]);
-            A_FadeOut (FadeAmount [fadeSpeed.GetInt ()]);
-            A_SetTics (FadeTics [fadeSpeed.GetInt ()]);
+            let fadeSpeedCVar = CVar.GetCVar ("S7_CasingsFadeSpeed", players [consolePlayer]);
+            A_FadeOut (fadeSpeedCVar.GetFloat ());
         }
         wait;
 

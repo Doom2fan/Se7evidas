@@ -108,14 +108,16 @@ class S7_Hellion : S7_DemonBase {
         HELN M 2 A_Pain;
         goto See;
 
+    Death.Massacre:
     Death:
-        HELN N  5 { monsDeathType = 0; }
+        HELN N  5;
         HELN O  5 A_Scream;
         HELN P  5;
         HELN Q  5 A_NoBlocking;
         HELN RS 5;
         HELN T -1;
         stop;
+
     Death.Fire:
         TNT1 A 0 A_JumpIfHealthLower (-15, "RealDeath.Fire");
         goto Death;
@@ -129,22 +131,47 @@ class S7_Hellion : S7_DemonBase {
         BURN PQRSTU     5 bright;
         BURN V          1;
         wait;
+
     XDeath:
+        HELN N 3 A_XScream;
+        TNT1 A 0 {
+            double defHeight = default.height / 2;
+
+            for (int i = random [sfx] (8, 16); i >= 0; i--) {
+                double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
+                double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
+
+                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+            }
+
+            for (int i = random [sfx] (6, 8); i >= 0; i--) {
+                bool MUDA; Actor cloud;
+                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                 flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+
+            for (int i = random [sfx] (8, 15); i >= 0; i--) {
+                bool MUDA; Actor gib;
+                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                    xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
+                    flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+        }
+        stop;
+    /*XDeath:
         HELN U    6 { monsDeathType = 1; }
         HELN V    6 A_XScream;
         HELN W    6;
         HELN X    6 A_NoBlocking;
         HELN YZ[\ 6;
         HELN ]   -1;
-        stop;
+        stop;*/
 
     Raise:
-        HELN T      6 A_JumpIf (monsDeathType, "XRaise");
+        HELN T      6;
         HELN SRQPON 6;
-        goto See;
-    XRaise:
-        HELN ]        6;
-        HELN \[ZYXWVU 6;
         goto See;
     }
 }

@@ -282,6 +282,7 @@ class S7_BasePlayer : playerPawn {
     Spawn:
         PLAY AAAA 1;
         loop;
+
     See:
         TNT1 A      0 A_JumpIf (stepFrame == true, "See2");
         TNT1 A      0 { stepFrame = true; }
@@ -293,16 +294,19 @@ class S7_BasePlayer : playerPawn {
         PLAY CCCCCC 1;
         PLAY DDDDDD 1;
         goto Spawn;
+
     Missile:
         PLAY E 12;
         goto Spawn;
     Melee:
         PLAY F 6 bright;
         goto Missile;
+
     Pain:
         PLAY G 4;
         PLAY G 4 A_Pain;
         goto Spawn;
+
     Death.Suicide:
     Death:
         PLAY H  10 A_PlayerScream;
@@ -313,13 +317,46 @@ class S7_BasePlayer : playerPawn {
         PLAY LM 10;
         PLAY N  -1;
         stop;
+
     XDeath:
+        PLAY H 3 A_XScream;
+        goto XDeath.Finish;
+    XDeath.Finish:
+        TNT1 A 0 {
+            double defHeight = default.height / 2;
+
+            for (int i = random [sfx] (8, 16); i >= 0; i--) {
+                double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
+                double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
+
+                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+            }
+
+            for (int i = random [sfx] (6, 8); i >= 0; i--) {
+                bool MUDA; Actor cloud;
+                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                 flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+
+            for (int i = random [sfx] (8, 15); i >= 0; i--) {
+                bool MUDA; Actor gib;
+                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                    xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
+                    flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+        }
+        TNT1 A -1;
+        stop;
+    /*XDeath:
         PLAY O     5;
         PLAY P     5 A_XScream;
         PLAY Q     5 A_NoBlocking;
         PLAY RSTUV 5;
         PLAY W    -1;
-        stop;
+        stop;*/
+
     Death.Fire2:
     Death.Fire:
         BURN ABC        5 bright;
@@ -329,6 +366,7 @@ class S7_BasePlayer : playerPawn {
         BURN PQRSTU     5 bright;
         BURN V         -1;
         stop;
+
     Death.Plasma:
         TNT1 A                  0 Thing_SetTranslation (0, 7);
         TNT1 A                  0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);

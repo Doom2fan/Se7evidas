@@ -23,7 +23,7 @@ class S7_Blood : blood replaces blood {
             double xvel = fRandom [sfx] (0, 6),
                    zvel = fRandom [sfx] (4, 7);
 
-            A_SpawnItemEx ("S7_Flying_Blood", xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (-22.5, 22.5), flags: S7_BloodSXFFlags);
+            A_SpawnItemEx ("S7_Flying_Blood", xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
         }
         BLD1 BA 1;
         stop;
@@ -94,13 +94,35 @@ class S7_Flying_Blood_Trail : S7_EffectsBase {
 class S7_BloodSpot : S7_EffectsBase {
     default {
         +noTeleport +noBlockmap +thruSpecies +thruActors
-        +clientsideOnly
+        +noInteraction +moveWithSector +clientsideOnly
     }
+
+    int timer;
 
     states {
     Spawn:
         BLD2 ABCDEF 2;
-        BLD2 G -1;
-        stop;
+    Waiting:
+        BLD2 G 1 {
+            let stayTimeCVar = CVar.GetCVar ("S7_BloodSpotsStayTime", players [consolePlayer]);
+            int stayTime = stayTimeCVar.GetInt ();
+
+            if (stayTime > -1) {
+                if (timer >= stayTime)
+                    return ResolveState ("Fade");
+
+                timer++;
+            }
+
+            return ResolveState (null);
+        }
+        wait;
+
+    Fade:
+        BLD2 G 1 {
+            let fadeSpeedCVar = CVar.GetCVar ("S7_BloodSpotsFadeSpeed", players [consolePlayer]);
+            A_FadeOut (fadeSpeedCVar.GetFloat ());
+        }
+        wait;
     }
 }

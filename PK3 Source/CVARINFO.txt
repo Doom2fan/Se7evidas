@@ -12,22 +12,30 @@ user bool S7_MsgsOn                     = TRUE;
 user bool S7_LogLVLUpMsgs               = TRUE;
 user bool S7_AutoReloading              = TRUE;
 user bool S7_HeartbeatsOn               = TRUE;
+
 // Intro
 user bool S7_NoIntro                    = FALSE;
 user bool S7_NoIntroOnMP                = FALSE;
+
 // Enemy health bar
 user bool S7_EnemyHPBar_On              = TRUE;
 user int  S7_EnemyHPBar_HPDisp          = 1;
 user bool S7_EnemyHPBar_NametagOn       = TRUE;
 //user int  S7_EnemyHPBar_ForceDir        = 0;
+
 // Radar
 /*user int  S7_Radar_Width                = 1280;
 user int  S7_Radar_Height               = 720;
 user int  S7_Radar_XPos                 = 1036;
 user int  S7_Radar_YPos                 = 13;*/
+
 // Toaster stuff
-user int S7_EffectStayTime              = 0;
-user int S7_EffectFadeSpeed             = 0;
+user int   S7_CasingsStayTime           = 2500;
+user float S7_CasingsFadeSpeed          = 0.03;
+user int   S7_GibsStayTime              = 2500;
+user float S7_GibsFadeSpeed             = 0.03;
+user int   S7_BloodSpotsStayTime        = 2500;
+user float S7_BloodSpotsFadeSpeed       = 0.03;
 
 /** Internal CVars **/
 // Health bar

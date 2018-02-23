@@ -31,28 +31,6 @@ listMenu "MainMenu" {
 //
 //-------------------------------------------------------------------------------------------
 
-optionValue EffectsStayTimeOptions {
-   -3, "Stay forever"
-   -2, "Even longer (10000 tics)"
-   -1, "Longer (5000 tics)"
-    0, "Normal (2500 tics)"
-    1, "Shorter (1250 tics)"
-    2, "Even shorter (625 tics)"
-    3, "Short as fuck (313 tics)"
-    4, "Dear lord. Do you have a fucking toaster? (157 tics)"
-    5, "MEIN FUCKING GOTT (70 tics)"
-    6, "Stop trying to run this on a 386. (35 tics)"
-}
-
-optionValue EffectsFadeSpeedOptions {
-    0, "Normal (.03 each 3 tics)"
-    1, "Faster (.06 each 3 tics)"
-    2, "Even faster (.09 each 2 tics)"
-    3, "Fasterer (.12 each tic)"
-    4, "The Flash (.15 each tic)"
-    5, "Stop trying to run this on a 386. (Instant)"
-}
-
 optionMenu "S7Settings" {
     title "SE7EVIDAS"
 
@@ -118,7 +96,11 @@ optionMenu "S7Settings_User" {
     option "Heartbeats on",                                                                         "S7_HeartbeatsOn",              "OnOff"
 
     staticText " "
-    staticText "Toaster Options (Singleplayer only)", 1
-    option "Effects stay time",                                                                     "S7_EffectStayTime",            "EffectsStayTimeOptions"
-    option "Effects fade speed",                                                                    "S7_EffectFadeSpeed",           "EffectsFadeSpeedOptions"
+    staticText "Performance Options", 1
+    S7_SliderSpcVal "Casings stay time",                                                            "S7_CasingsStayTime",     -1, 5000, 35, -1, 0, "Forever"
+    slider "Casings fade speed",                                                                    "S7_CasingsFadeSpeed",    0.01, 1.0, 0.01
+    S7_SliderSpcVal "Gibs stay time",                                                               "S7_GibsStayTime",        -1, 5000, 35, -1, 0, "Forever"
+    slider "Gibs fade speed",                                                                       "S7_GibsFadeSpeed",       0.01, 1.0, 0.01
+    S7_SliderSpcVal "Blood puddle stay time",                                                       "S7_BloodSpotsStayTime",  -1, 5000, 35, -1, 0, "Forever"
+    slider "Blood puddle fade speed",                                                               "S7_BloodSpotsFadeSpeed", 0.01, 1.0, 0.01
 }

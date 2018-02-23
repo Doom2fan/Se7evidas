@@ -177,7 +177,8 @@ class S7_PlayerEventHandler : EventHandler {
     static const string userCVars [] = {
         "S7_MsgsOn", "S7_LogLVLUpMsgs", "S7_AutoReloading", "S7_HeartbeatsOn", "S7_NoIntro",
         "S7_NoIntroOnMP", "S7_EnemyHPBar_On", "S7_EnemyHPBar_HPDisp", "S7_EnemyHPBar_NametagOn",
-        "S7_EffectStayTime", "S7_EffectFadeSpeed"
+        "S7_CasingsStayTime", "S7_CasingsFadeSpeed", "S7_GibsStayTime", "S7_GibsFadeSpeed"
+        "S7_BloodSpotsStayTime", "S7_BloodSpotsFadeSpeed"
     };
     override void ConsoleProcess (ConsoleEvent e) {
         if (e.Name.IndexOf (":") < 0) {

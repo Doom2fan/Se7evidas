@@ -172,8 +172,9 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         goto See;
 
     // Dead
+    Death.Massacre:
     Death:
-        SCR2 H 5 { monsDeathType = 0; }
+        SCR2 H 5;
         SCR2 I 5 A_Scream;
         SCR2 J 5 A_NoBlocking;
     Death_AirLoop:
@@ -199,21 +200,45 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         wait;
 
     XDeath:
+        SCR2 H 3 A_XScream;
+        TNT1 A 0 {
+            double defHeight = default.height / 2;
+
+            for (int i = random [sfx] (8, 16); i >= 0; i--) {
+                double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
+                double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
+
+                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+            }
+
+            for (int i = random [sfx] (6, 8); i >= 0; i--) {
+                bool MUDA; Actor cloud;
+                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                 flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+
+            for (int i = random [sfx] (8, 15); i >= 0; i--) {
+                bool MUDA; Actor gib;
+                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                    xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
+                    flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+        }
+        stop;
+    /*XDeath:
         SCR2 N  5 { monsDeathType = 1; }
         SCR2 O  5 A_XScream;
         SCR2 P  5 A_NoBlocking;
         SCR2 QR 5;
         SCR2 S -1;
-        stop;
+        stop;*/
 
     // Being revived
     Raise:
-        SCR2 LK  5 A_JumpIf (monsDeathType, "XRaise");
+        SCR2 LK  5;
         SCR2 JIH 5;
-        goto See;
-    XRaise:
-        SCR2 R 5;
-        SCR2 QPON 5;
         goto See;
     }
 }

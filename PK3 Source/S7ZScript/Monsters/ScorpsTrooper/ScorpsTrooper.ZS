@@ -289,8 +289,9 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         goto See;
 
     // Dead
+    Death.Massacre:
     Death:
-        SCR1 H 5 { monsDeathType = 0; }
+        SCR1 H 5;
         SCR1 I 5 A_Scream;
         SCR1 J 5 A_NoBlocking;
     Death_AirLoop:
@@ -316,15 +317,15 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         wait;
 
     XDeath:
-        SPOS M 5 A_XScream;
+        SCR1 H 3 A_XScream;
         TNT1 A 0 {
             double defHeight = default.height / 2;
 
             for (int i = random [sfx] (8, 16); i >= 0; i--) {
                 double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
-                double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 7);
+                double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
 
-                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (-22.5, 22.5), flags: S7_BloodSXFFlags);
+                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
             }
 
             for (int i = random [sfx] (6, 8); i >= 0; i--) {
@@ -342,21 +343,19 @@ class S7_ScorpsTrooper : S7_ScorpBase {
                 );
             }
         }
-
-        /*SPOS N     5 A_XScream;
+        stop;
+    /*XDeath:
+        SPOS M     5 { monsDeathType = 1; }
+        SPOS N     5 A_XScream;
         SPOS O     5 A_NoBlocking;
         SPOS PQRST 5;
-        SPOS U    -1;*/
-        stop;
+        SPOS U    -1;
+        stop;*/
 
     // Being revived
     Raise:
-        SCR1 K   5 A_JumpIf (monsDeathType, "XRaise");
+        SCR1 K   5;
         SCR1 JIH 5;
-        goto See;
-    XRaise:
-        SPOS T       5;
-        SPOS SRQPONM 5;
         goto See;
     }
 }
