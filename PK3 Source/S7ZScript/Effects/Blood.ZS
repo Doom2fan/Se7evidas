@@ -60,7 +60,7 @@ class S7_Flying_Blood : S7_EffectsBase {
 
     Death:
         TNT1 A 1 {
-            if (BlockingMobj || BlockingLine)
+            if (BlockingMobj || BlockingLine || pos.Z > (floorZ + 1))
                 return ResolveState ("Crash");
 
             A_SpawnItemEx ("S7_BloodSpot", flags: S7_BloodSXFFlags);
