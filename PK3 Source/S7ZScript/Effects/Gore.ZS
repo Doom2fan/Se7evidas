@@ -73,6 +73,7 @@ class S7_GenericGoreBits : S7_GoreBase {
         bounceType "Hexen";
         bounceFactor 0.4;
         bounceCount 7;
+        bounceSound "Gore/Bounce";
 
         +moveWithSector +thruActors +rollSprite +rollCenter
         +useBounceState
@@ -141,6 +142,7 @@ class S7_GenericGoreBits : S7_GoreBase {
         #### # 0 {
             if (pos.z > floorZ) {
                 bKilled = true;
+                bNoBounceSound = true;
                 return ResolveState ("Flight");
             }
 

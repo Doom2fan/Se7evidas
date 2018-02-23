@@ -319,7 +319,8 @@ class S7_BasePlayer : playerPawn {
         stop;
 
     XDeath:
-        PLAY H 3 A_XScream;
+        PLAY H 1;
+        PLAY H 2 A_XScream;
         goto XDeath.Finish;
     XDeath.Finish:
         TNT1 A 0 {

@@ -133,7 +133,8 @@ class S7_Hellion : S7_DemonBase {
         wait;
 
     XDeath:
-        HELN N 3 A_XScream;
+        HELN N 1;
+        HELN N 2 A_XScream;
         TNT1 A 0 {
             double defHeight = default.height / 2;
 
@@ -159,7 +160,8 @@ class S7_Hellion : S7_DemonBase {
                 );
             }
         }
-        stop;
+        TNT1 A 1;
+        wait;
     /*XDeath:
         HELN U    6 { monsDeathType = 1; }
         HELN V    6 A_XScream;

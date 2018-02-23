@@ -200,7 +200,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         wait;
 
     XDeath:
-        SCR2 H 3 A_XScream;
+        SCR2 H 1;
+        SCR2 H 2 A_XScream;
         TNT1 A 0 {
             double defHeight = default.height / 2;
 
@@ -226,7 +227,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
                 );
             }
         }
-        stop;
+        TNT1 A 1;
+        wait;
     /*XDeath:
         SCR2 N  5 { monsDeathType = 1; }
         SCR2 O  5 A_XScream;

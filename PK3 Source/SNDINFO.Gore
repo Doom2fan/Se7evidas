@@ -2,4 +2,16 @@ $ALIAS misc/gibbed Gore/Gibbed
 $RANDOM Gore/Gibbed {
     Gore/Gibbed1
 }
-Gore/Gibbed1                  "sounds/Gore/Gibbed.ogg" // By Chronos "phantombeta" Ouroboros. Made from Quake 4 sounds
+Gore/Gibbed1                   "sounds/Gore/Gibbed.ogg" // By Chronos "phantombeta" Ouroboros. Made from Quake 4 sounds
+
+$VOLUME Gore/Bounce 0.85
+$RANDOM Gore/Bounce {
+    Gore/Bounce1
+    Gore/Bounce2
+    Gore/Bounce3
+    Gore/Bounce4
+}
+Gore/Bounce1                   "sounds/Gore/Bounce1.ogg" // From Quake 4.
+Gore/Bounce2                   "sounds/Gore/Bounce2.ogg" // Ditto.
+Gore/Bounce3                   "sounds/Gore/Bounce3.ogg" // Ditto.
+Gore/Bounce4                   "sounds/Gore/Bounce4.ogg" // Ditto.
