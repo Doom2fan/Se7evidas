@@ -9,14 +9,13 @@ const S7_EmpressMass = 12000;
 /** Inventory tokens **/
 // Booleans
 class S7_IsEmpress             : S7_Boolean { }
-class S7_EmpressNormalDeath    : S7_Boolean { }
 class S7_Empress_MidAttack1    : S7_Boolean { }
 class S7_Empress_CastingInvuln : S7_Boolean { }
 
 /** Main actor **/
 class S7_Empress : S7_DemonBase {
     default {
-        health 0x7FFFFFFF;
+        health 4500;
         radius 40;
         height 100;
         speed 18;
@@ -46,24 +45,41 @@ class S7_Empress : S7_DemonBase {
 
         monster;
         +boss +missileMore +floorClip +noTarget
-        +dontMorph +bossDeath +buddha
+        +dontMorph +bossDeath
     }
-
-    bool initialized;
-    int trueHealth; // The real health
-    int ballsCount; // How much invulnerability thingies are left
-    int invulnDelay; // How much time left until we can raise the shield
-    bool canCastInvuln; // Whether shields can be cast
 
     const InvulnDelayTime = floor (35 * 7.5);
     const InvulnLimit = 2500;
 
+    bool initialized;
+    int ballsCount; // How much invulnerability thingies are left
+    int invulnDelay; // How much time left until we can raise the shield
+    bool canCastInvuln; // Whether shields can be cast
+
+    bool canDieNow;
+    Actor deathSource, deathInflictor;
+    int deathDMGFlags;
+
+    override void PostBeginPlay () {
+        GiveInventory ("S7_IsEmpress", 1);
+        TakeInventory ("S7_IsDead", 0x7FFFFFFF);
+        initialized = true;
+    }
+
+    override void Die (Actor source, Actor inflictor, int dmgflags = 0) {
+        if (canDieNow) {
+            Die (source, inflictor, dmgflags);
+            return;
+        } else {
+            deathSource = source;
+            deathInflictor = inflictor;
+            deathDMGFlags = dmgflags;
+        }
+    }
+
     override void Tick () {
         if (initialized) {
-            trueHealth -= 0x7FFFFFFF - health;
-            health = 0x7FFFFFFF;
-
-            if (trueHealth > InvulnLimit || ballsCount > 0) {
+            if (health > InvulnLimit || ballsCount > 0) {
                 canCastInvuln = false;
 
                 if (ballsCount > 0)
@@ -71,7 +87,7 @@ class S7_Empress : S7_DemonBase {
             } else if (invulnDelay) {
                 canCastInvuln = false;
                 invulnDelay--;
-            } else if (trueHealth <= InvulnLimit && ballsCount < 1 && invulnDelay < 1)
+            } else if (health <= InvulnLimit && ballsCount < 1 && invulnDelay < 1)
                 canCastInvuln = true;
         }
 
@@ -80,25 +96,19 @@ class S7_Empress : S7_DemonBase {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay {
-            GiveInventory ("S7_IsEmpress", 1);
-            trueHealth = 4500;
-            TakeInventory ("S7_IsDead", 0x7FFFFFFF);
-            initialized = true;
-        }
     Idle:
         HRFR A   1 {
             TakeInventory ("S7_IsDead", 0x7FFFFFFF);
             TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF);
 
-            if (trueHealth < 1)
+            if (health < 1)
                 return ResolveState ("RunAway");
 
             A_Look ();
 
             return ResolveState (null);
         }
-        HRFR AAAAAAAAA 1 A_JumpIf (trueHealth < 1, "RunAway");
+        HRFR AAAAAAAAA 1 A_JumpIf (health < 1, "RunAway");
         loop;
 
     See:
@@ -108,7 +118,7 @@ class S7_Empress : S7_DemonBase {
             A_PlaySound ("Footsteps/Large", CHAN_5);
         }
         HRFR AABB 4 {
-            if (trueHealth < 1)
+            if (health < 1)
                 return ResolveState ("RunAway");
 
             A_Chase ();
@@ -117,7 +127,7 @@ class S7_Empress : S7_DemonBase {
         }
         TNT1 A    0 A_PlaySound ("Footsteps/Large", CHAN_6);
         HRFR CCDD 4 {
-            if (trueHealth < 1)
+            if (health < 1)
                 return ResolveState ("RunAway");
 
             A_Chase ();
@@ -134,6 +144,7 @@ class S7_Empress : S7_DemonBase {
             return A_Jump (256, "Attack1", "Attack2");
         }
         goto Attack1;
+
     ShieldsUp:
         HRFR A  5 { bNoPain = true; }
         HRFR FF 5;
@@ -244,14 +255,13 @@ class S7_Empress : S7_DemonBase {
             TakeInventory ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF);
             A_FaceTarget ();
         }
-        TNT1 A 0 A_JumpIf (trueHealth < 1, "RunAway");
+        TNT1 A 0 A_JumpIf (health < 1, "RunAway");
         goto See;
 
     /** Death stuff **/
     RunAway:
         TNT1 A 0 {
-            GiveInventory ("S7_EmpressNormalDeath", 1);
-            A_Die ();
+            Die (deathSource, deathInflictor, deathDMGFlags);
         }
         goto Death;
     Death:
