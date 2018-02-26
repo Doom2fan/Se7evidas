@@ -4,7 +4,6 @@
 // Inventory tokens
 //
 //-------------------------------------------------------------------------------------------
-class S7_Dying                 : S7_Boolean { }
 class S7_DisableHud            : S7_Boolean { }
 class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
@@ -103,28 +102,31 @@ class S7_BasePlayer : playerPawn {
         if (!player || player.mo != self)
             return;
 
-        bool doGive = !playerData && !weapBinds && !xpSys;
+        int giveCount = 0;
 
         if (!playerData) {
             if (!(playerData = S7_PlayerData (FindInventory ("S7_PlayerData")))) {
                 GiveInventory ("S7_PlayerData", 1);
                 playerData = S7_PlayerData (FindInventory ("S7_PlayerData"));
+                giveCount++;
             }
         }
         if (!weapBinds) {
             if (!(weapBinds = S7_WeapBindsSystem (FindInventory ("S7_WeapBindsSystem")))) {
                 GiveInventory ("S7_WeapBindsSystem", 1);
                 weapBinds = S7_WeapBindsSystem (FindInventory ("S7_WeapBindsSystem"));
+                giveCount++;
             }
         }
         if (!xpSys) {
             if (!(xpSys = S7_PlayerXPSystem (FindInventory ("S7_PlayerXPSystem")))) {
                 GiveInventory ("S7_PlayerXPSystem", 1);
                 xpSys = S7_PlayerXPSystem (FindInventory ("S7_PlayerXPSystem"));
+                giveCount++;
             }
         }
 
-        if (doGive) {
+        if (giveCount >= 3) {
             Weapon_SetAmmoMax ();
 
             if (S7_InitialCashAmount > 0)
@@ -154,29 +156,57 @@ class S7_BasePlayer : playerPawn {
         if (!player || !player.mo || player.mo != self)
             return;
 
-        if (!playerData || !weapBinds || !xpSys)
-            GiveBasics ();
-
         FLineTraceData traceData; // Do a trace to get the actor under the crosshair
         LineTrace (angle, 8192, pitch, flags: TRF_ThruBlock | TRF_ThruHitscan, offsetz: (height / 2) + (AttackZOffset * player.crouchfactor), data: traceData);
         playerLineTarget = traceData.HitActor;
+    }
 
-        if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
-            SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
+    override void PlayerThink () {
+        super.PlayerThink ();
 
-        playerData.dying = health < (maxHealth * 0.2);
+        CustCalcHeight ();
 
-        // Movement
-        Movement_Dodging ();
-        Movement_WallJump ();
-        Movement_MultiJump ();
-        Movement_Sprinting ();
-        // Weapons
-        Weapon_SetAmmoMax ();
-        // Misc
-        Misc_StaminaRegen ();
-        Misc_Heartbeats ();
-        Misc_HellhunterBlade ();
+        if (!player || !player.mo || player.mo != self)
+            return;
+
+        if (!(player.cheats & CF_PREDICTING)) {
+            if (!playerData || !weapBinds || !xpSys)
+                GiveBasics ();
+
+            if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
+                SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
+
+            if (playerData)
+                playerData.dying = health < (maxHealth * 0.2);
+
+            // Movement
+            Movement_Dodging ();
+            Movement_WallJump ();
+            Movement_MultiJump ();
+            Movement_Sprinting ();
+            // Weapons
+            Weapon_SetAmmoMax ();
+            // Misc
+            Misc_StaminaRegen ();
+            Misc_Heartbeats ();
+            Misc_HellhunterBlade ();
+        }
+    }
+
+    override void OnRespawn () {
+        super.OnRespawn ();
+
+        if (!player || !player.mo || player.mo != self)
+            return;
+
+        if (!(player.cheats & CF_PREDICTING)) {
+            if (!playerData || !weapBinds || !xpSys)
+                GiveBasics ();
+
+            if (weapBinds) {
+                player.PendingWeapon = weapBinds.LastWeapon;
+            }
+        }
     }
 
     override void DeathThink () {
@@ -184,12 +214,6 @@ class S7_BasePlayer : playerPawn {
 
         if (player.morphTics && (player.mo is "S7_BasePlayer"))
             S7_BasePlayer (player.mo).CustCalcHeight ();
-    }
-
-    override void PlayerThink () {
-        super.PlayerThink ();
-
-        CustCalcHeight ();
     }
 
     const GZD_MAXBOB = 16.0;
