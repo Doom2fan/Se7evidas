@@ -89,12 +89,12 @@ class S7_Thumper : S7_BaseWeapon {
 
         int i = 0;
         for (; i < magazine.Size (); i++)
-            SetInventory (MagTokens [i], magazine [i]);
+            Owner.SetInventory (MagTokens [i], magazine [i]);
         for (; i < 5; i++)
-            SetInventory (MagTokens [i], 0);
+            Owner.SetInventory (MagTokens [i], 0);
 
-        SetInventory ("S7_ThumperMag", magazine.Size ());
-        SetInventory ("S7_ThumperSelectedPool", selectedPool - 1);
+        Owner.SetInventory ("S7_ThumperMag", magazine.Size ());
+        Owner.SetInventory ("S7_ThumperSelectedPool", selectedPool - 1);
     }
 
     states {
