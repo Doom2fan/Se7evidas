@@ -1,11 +1,30 @@
+class S7_HealingItem : Inventory {
+    int healAmount;
+    property HealAmount: healAmount;
+
+    override bool Use (bool pickup) {
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || !pPawn.healSys || pPawn.health <= 0 || pPawn.health >= pPawn.GetMaxHealth ())
+            return false;
+
+        let healSys = pPawn.healSys;
+        healSys.regenPoints += healAmount;
+
+        return true;
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Medikit
 //
 //-------------------------------------------------------------------------------------------
-class S7_Medikit : customInventory replaces medikit {
+class S7_Medikit : S7_HealingItem replaces medikit {
     default {
         tag "Medikit";
+
+        S7_HealingItem.healAmount 45;
         inventory.maxAmount 4;
         inventory.interHubAmount 4;
         inventory.pickupMessage "$GOTMEDIKIT";
@@ -18,13 +37,6 @@ class S7_Medikit : customInventory replaces medikit {
     Spawn:
         MEDI A -1;
         stop;
-    Use:
-        TNT1 A 0 A_JumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed");
-        TNT1 A 0 ACS_NamedExecuteAlways ("S7_MedikitScript");
-        stop;
-    Failed:
-        TNT1 A 0;
-        fail;
     }
 }
 
@@ -33,9 +45,11 @@ class S7_Medikit : customInventory replaces medikit {
 // Stimpack
 //
 //-------------------------------------------------------------------------------------------
-class S7_Stimpack : customInventory replaces stimpack {
+class S7_Stimpack : S7_HealingItem replaces stimpack {
     default {
         tag "Stimpack";
+
+        S7_HealingItem.healAmount 20;
         inventory.maxAmount 8;
         inventory.interHubAmount 8;
         inventory.pickupMessage "$GOTSTIM";
@@ -44,17 +58,41 @@ class S7_Stimpack : customInventory replaces stimpack {
         +inventory.invBar
     }
 
+    override bool Use (bool pickup) {
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || !pPawn.xpSys || pPawn.health <= 0)
+            return false;
+
+        let xpSys = pPawn.xpSys;
+
+        let regenMod = new ("S7_Stimpack_FasterRegen");
+
+        if (!xpSys.AddStatMod (regenMod))
+            return false;
+
+        if (!super.Use (pickup)) {
+            xpSys.RemoveStatMod (regenMod);
+            return false;
+        }
+
+        return true;
+    }
+
     states {
     Spawn:
         STIM A -1;
         stop;
-    Use:
-        TNT1 A 0 A_JumpIf (health >= callACS ("S7_GetMaxHealth"), "Failed");
-        TNT1 A 0 ACS_NamedExecuteAlways ("S7_StimpackScript");
-        stop;
-    Failed:
-        TNT1 A 0;
-        fail;
+    }
+}
+class S7_Stimpack_FasterRegen : S7_StatModifier {
+    override bool Init (actor act, S7_XPSystem xpSys) {
+        self.ticsLeft = 35 * 30;
+        self.stats = S7Stat_Special;
+        self.specialStatName = "regenRate";
+        self.factor = 0.75;
+
+        return true;
     }
 }
 

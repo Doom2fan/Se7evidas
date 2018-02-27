@@ -11,23 +11,32 @@ enum S7_StatType {
     S7Stat_Will,
     S7Stat_Magic,
     S7Stat_Tech,
+    S7Stat_Special = 1 << 16,
 }
 
-class S7_StatModifier { // Buffs and debuffs, essentially.
-    S7_StatType stats;
-    double factor;
+class S7_Effect { // Status effects
     int ticsLeft;
 
-    bool hasFactorFunc;
-    virtual double FactorFunc (Actor act, S7_XPSystem xpSys, S7_StatType stat) { return double.NaN; } // Returns NaN to make sure you notice if you set hasFactorFunc but don't override this
+    virtual bool Init (actor act, S7_XPSystem xpSys) {
+        return true;
+    }
 
-    bool hasTickFunc;
     virtual void Tick (actor act, S7_XPSystem xpSys) {
         if (ticsLeft > 0)
             ticsLeft--;
         else
             ticsLeft = -1;
     }
+}
+class S7_StatModifier : S7_Effect { // Buffs and debuffs to stats, essentially.
+    S7_StatType stats;
+    double factor;
+    bool addFactor; // Adds the factor value instead of multiplying
+
+    string specialStatName; // Only used with S7Stat_Special
+
+    bool hasFactorFunc;
+    virtual double FactorFunc (Actor act, S7_XPSystem xpSys, S7_StatType stat) { return double.NaN; } // Returns NaN to make sure you notice if you set hasFactorFunc but don't override this
 }
 
 class S7_XPSystem : Inventory {
@@ -47,28 +56,93 @@ class S7_XPSystem : Inventory {
         -inventory.invBar
     }
 
-    Array<S7_StatModifier> statMods;
+    protected Array<S7_StatModifier> statMods;
+    protected Array<S7_Effect> statusEffects;
     int level, xpPoints;
     int strengthStat, agilityStat, vitalityStat, defenseStat, willStat, magicStat, techStat;
     double softness;
 
-    clearscope double GetStatMod (S7_StatType stat) {
-        double ret = 1.0;
+    bool AddStatMod (S7_StatModifier mod) {
+        if (!mod.Init (Owner, self))
+            return false;
 
-        int statMask = 1 << (stat - 1);
-        for (int i = 0; i < statMods.Size (); i++) {
-            if (statMods [i] && statMods [i].stats & statMask) {
-                if (!statMods [i].hasFactorFunc)
-                    ret *= statMods [i].factor;
-                else
-                    ret *= statMods [i].FactorFunc (Owner, self, stat);
+        statMods.Push (mod);
+        return true;
+    }
+    bool RemoveStatMod (S7_StatModifier mod) {
+        for (int i = statMods.Size () - 1; i >= 0; i--) {
+            if (statMods [i] == mod) {
+                statMods.Delete (i, 1);
+                return true;
             }
         }
 
-        return ret;
+        return false;
     }
 
-    clearscope double GetStat (S7_StatType stat, bool noMods = false) {
+    bool AddStatusEffects (S7_Effect effect) {
+        if (effect is "S7_StatModifier")
+            return false;
+
+        if (!effect.Init (Owner, self))
+            return false;
+
+        statusEffects.Push (effect);
+        return true;
+    }
+    bool RemoveStatusEffects (S7_Effect effect) {
+        if (effect is "S7_StatModifier") // Don't even bother, we're not gonna find that here.
+            return true;
+
+        for (int i = statusEffects.Size () - 1; i >= 0; i--) {
+            if (statusEffects [i] == effect) {
+                statusEffects.Delete (i, 1);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    clearscope double, double GetStatMod (S7_StatType stat, string specialName = "") {
+        if (stat == S7Stat_Special && specialName == "")
+            return double.NaN;
+
+        double ret1 = 1.0;
+        double ret2 = 0.0;
+
+        for (int i = 0; i < statMods.Size (); i++) {
+            if (statMods [i] && statMods [i].stats == stat) {
+                if (stat == S7Stat_Special && specialName && statMods [i].specialStatName != specialName)
+                    continue;
+
+                double factor;
+                if (!statMods [i].hasFactorFunc)
+                    factor = statMods [i].factor;
+                else
+                    factor = statMods [i].FactorFunc (Owner, self, stat);
+
+                if (statMods [i].addFactor)
+                    ret2 += factor;
+                else
+                    ret1 *= factor;
+            }
+        }
+
+        return ret1, ret2;
+    }
+
+    clearscope double GetStat (S7_StatType stat, bool noMods = false, string specialName = "", double specialStatAmount = 0.0) {
+        if (stat == S7Stat_Special) {
+            if (noMods || specialName == "")
+                return double.NaN;
+
+            double mod1, mod2;
+            [mod1, mod2] = GetStatMod (S7Stat_Special, specialName);
+
+            return (specialStatAmount * mod1) + mod2;
+        }
+
         double ret;
 
         switch (stat) {
@@ -81,9 +155,12 @@ class S7_XPSystem : Inventory {
             case S7Stat_Tech:     ret = techStat; break;
         }
 
-        if (!noMods)
-            return ret * GetStatMod (stat);
-        else
+        if (!noMods) {
+            double mod1, mod2;
+            [mod1, mod2] = GetStatMod (stat);
+
+            return (ret * mod1) + mod2;
+        } else
             return ret;
     }
 
@@ -139,7 +216,7 @@ class S7_XPSystem : Inventory {
         }
 
         for (int i = 0; i < statMods.Size (); i++) {
-            if (statMods [i] && statMods [i].hasTickFunc)
+            if (statMods [i])
                 statMods [i].Tick (Owner, self);
         }
 

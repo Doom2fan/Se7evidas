@@ -97,6 +97,7 @@ class S7_BasePlayer : playerPawn {
     S7_PlayerXPSystem xpSys;
     S7_WeapBindsSystem weapBinds;
     S7_PlayerData playerData;
+    S7_HealingSystem healSys;
 
     void GiveBasics () {
         if (!player || player.mo != self)
@@ -125,8 +126,15 @@ class S7_BasePlayer : playerPawn {
                 giveCount++;
             }
         }
+        if (!healSys) {
+            if (!(healSys = S7_HealingSystem (FindInventory ("S7_HealingSystem")))) {
+                GiveInventory ("S7_HealingSystem", 1);
+                healSys = S7_HealingSystem (FindInventory ("S7_HealingSystem"));
+                giveCount++;
+            }
+        }
 
-        if (giveCount >= 3) {
+        if (giveCount >= 4) {
             Weapon_SetAmmoMax ();
 
             if (S7_InitialCashAmount > 0)
@@ -170,7 +178,7 @@ class S7_BasePlayer : playerPawn {
             return;
 
         if (!(player.cheats & CF_PREDICTING)) {
-            if (!playerData || !weapBinds || !xpSys)
+            if (!playerData || !weapBinds || !xpSys || !healSys)
                 GiveBasics ();
 
             if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
