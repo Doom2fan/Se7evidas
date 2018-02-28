@@ -80,7 +80,10 @@ class S7_ScoutPlayer : S7_BasePlayer {
 
     XDeath:
         PSCT H 1;
-        PSCT H 2 A_XScream;
+        PSCT H 2 {
+            A_XScream ();
+            A_NoBlocking ();
+        }
         goto XDeath.Finish;
     /*XDeath:
         PSCT O     5;

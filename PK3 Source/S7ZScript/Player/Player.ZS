@@ -352,7 +352,10 @@ class S7_BasePlayer : playerPawn {
 
     XDeath:
         PLAY H 1;
-        PLAY H 2 A_XScream;
+        PLAY H 2 {
+            A_XScream ();
+            A_NoBlocking ();
+        }
         goto XDeath.Finish;
     XDeath.Finish:
         TNT1 A 0 {

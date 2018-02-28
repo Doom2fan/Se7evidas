@@ -134,7 +134,10 @@ class S7_Hellion : S7_DemonBase {
 
     XDeath:
         HELN N 1;
-        HELN N 2 A_XScream;
+        HELN N 2 {
+            A_XScream ();
+            A_NoBlocking ();
+        }
         TNT1 A 0 {
             double defHeight = default.height / 2;
 

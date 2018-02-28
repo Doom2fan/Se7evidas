@@ -201,7 +201,10 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
 
     XDeath:
         SCR2 H 1;
-        SCR2 H 2 A_XScream;
+        SCR2 H 2 {
+            A_XScream ();
+            A_NoBlocking ();
+        }
         TNT1 A 0 {
             double defHeight = default.height / 2;
 

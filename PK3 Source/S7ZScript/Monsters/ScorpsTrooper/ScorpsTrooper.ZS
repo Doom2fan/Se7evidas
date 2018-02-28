@@ -318,7 +318,10 @@ class S7_ScorpsTrooper : S7_ScorpBase {
 
     XDeath:
         SCR1 H 1;
-        SCR1 H 2 A_XScream;
+        SCR1 H 2 {
+            A_XScream ();
+            A_NoBlocking ();
+        }
         TNT1 A 0 {
             double defHeight = default.height / 2;
 
