@@ -5,11 +5,12 @@ class S7_HealingItem : Inventory {
     override bool Use (bool pickup) {
         let pPawn = S7_BasePlayer (Owner);
 
-        if (!pPawn || !pPawn.healSys || pPawn.health <= 0 || pPawn.health >= pPawn.GetMaxHealth ())
-            return false;
+        if (!pPawn || !pPawn.healSys || !pPawn.xpSys)
+            return false; // Return false if anything is invalid
+        if (pPawn.health <= 0 || pPawn.health >= pPawn.GetMaxHealth ())
+            return false; // Return false if the player is dead or at max health
 
-        let healSys = pPawn.healSys;
-        healSys.regenPoints += healAmount;
+        pPawn.healSys.regenPoints += healAmount * (1 + (pPawn.xpSys.GetStat (S7Stat_Vitality) / 5));
 
         return true;
     }
@@ -64,15 +65,13 @@ class S7_Stimpack : S7_HealingItem replaces stimpack {
         if (!pPawn || !pPawn.xpSys || pPawn.health <= 0)
             return false;
 
-        let xpSys = pPawn.xpSys;
-
         let regenMod = new ("S7_Stimpack_FasterRegen");
 
-        if (!xpSys.AddStatMod (regenMod))
+        if (!pPawn.xpSys.AddStatMod (regenMod))
             return false;
 
         if (!super.Use (pickup)) {
-            xpSys.RemoveStatMod (regenMod);
+            pPawn.xpSys.RemoveStatMod (regenMod);
             return false;
         }
 

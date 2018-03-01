@@ -1,6 +1,6 @@
 class S7_HealingSystem : Inventory {
-    const baseRegenAmount = 1.0;
-    const baseRegenTime = 5.0;
+    const baseRegenAmount = 2.0;
+    const baseRegenTime = 3;
 
     int regenPoints;
     protected int regenTimer;
@@ -18,7 +18,6 @@ class S7_HealingSystem : Inventory {
         let pPawn = S7_BasePlayer (Owner);
         if (!pPawn || !pPawn.xpSys)
             return;
-        let xpSys = pPawn.xpSys;
 
         if (regenTimer > 0 && regenPoints > 0)
             regenTimer--;
@@ -26,7 +25,7 @@ class S7_HealingSystem : Inventory {
         if (regenTimer == 0 && regenPoints > 0) {
             double regenRateAmount, regenRateTime;
 
-            [regenRateTime, regenRateAmount] = xpSys.GetStatMod (S7Stat_Special, specialName: "regenRate");
+            [regenRateTime, regenRateAmount] = pPawn.xpSys.GetStatMod (S7Stat_Special, specialName: "regenRate");
             regenRateAmount += baseRegenAmount;
 
             int giveCount = min (regenRateAmount, regenPoints);
