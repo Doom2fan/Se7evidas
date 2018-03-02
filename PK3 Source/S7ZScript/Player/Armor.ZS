@@ -61,7 +61,6 @@ class S7_BasicArmor : BasicArmor {
         if (!DamageTypeDefinition.IgnoreArmor (damageType)) {
             if (armorData)
                 newDamage = armorData.HandleDamage (self, pPawn.damageInflictor, pPawn.damageSource, damage, damageType);
-            Console.PrintF ("%d", damage);
 
             if (Amount <= 0) {
                 // The armor has become useless
