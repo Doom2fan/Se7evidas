@@ -92,12 +92,14 @@ class S7_BasePlayer : playerPawn {
         +solid +noSkin
     }
 
-    bool stepFrame;
-    actor playerLineTarget;
     S7_PlayerXPSystem xpSys;
     S7_WeapBindsSystem weapBinds;
     S7_PlayerData playerData;
     S7_HealingSystem healSys;
+
+    bool stepFrame;
+    actor playerLineTarget;
+    actor damageInflictor, damageSource;
 
     void GiveBasics () {
         if (!player || player.mo != self)
@@ -133,6 +135,12 @@ class S7_BasePlayer : playerPawn {
                 giveCount++;
             }
         }
+        if (!FindInventory ("S7_BasicArmor")) {
+            let armor = S7_BasicArmor (Spawn ("S7_BasicArmor"));
+            armor.BecomeItem ();
+            AddInventory (armor);
+            giveCount++;
+        }
 
         if (giveCount >= 4) {
             Weapon_SetAmmoMax ();
@@ -158,6 +166,22 @@ class S7_BasePlayer : playerPawn {
         GiveInventory ("S7_KickMelee", 1); // Default to kick melee
     }
 
+    override void PostBeginPlay () {
+        super.PostBeginPlay ();
+
+        GiveBasics ();
+    }
+
+    override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags = 0, double angle = 0) {
+        damageInflictor = inflictor;
+        damageSource = source;
+        int ret = Super.DamageMobj (inflictor, source, damage, mod, flags, angle);
+        damageInflictor = null;
+        damageSource = null;
+
+        return ret;
+    }
+
     override void Tick () {
         super.Tick ();
 
@@ -178,8 +202,8 @@ class S7_BasePlayer : playerPawn {
             return;
 
         if (!(player.cheats & CF_PREDICTING)) {
-            if (!playerData || !weapBinds || !xpSys || !healSys)
-                GiveBasics ();
+            if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ("S7_BasicArmor"))
+                GiveBasics (); // We only check it in this function to avoid a function call.
 
             if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
                 SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
@@ -208,8 +232,7 @@ class S7_BasePlayer : playerPawn {
             return;
 
         if (!(player.cheats & CF_PREDICTING)) {
-            if (!playerData || !weapBinds || !xpSys)
-                GiveBasics ();
+            GiveBasics ();
 
             if (weapBinds) {
                 player.PendingWeapon = weapBinds.LastWeapon;
