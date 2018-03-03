@@ -451,7 +451,7 @@ class S7_TerminatorTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 8.5);
         S7_BaseTracer.trueSpeed 200;
-        damageType "TerminatorTracer";
+        damageType "RifleTracer";
         obituary "$OBTERMMGUN";
     }
 }

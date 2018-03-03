@@ -6,7 +6,7 @@
 class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 2);
-        damageType "EnemyPistolTracer";
+        damageType "PistolTracer";
     }
 }
 class S7_ScorpsTrooper : S7_ScorpBase {

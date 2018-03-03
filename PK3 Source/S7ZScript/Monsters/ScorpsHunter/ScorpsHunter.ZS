@@ -7,7 +7,7 @@ class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
         damageFunction (fRandom [weaponDamage] (1.0, 5.0) * 1);
         S7_BaseTracer.trueSpeed 200;
-        damageType "EnemyShotgunTracer";
+        damageType "ShotgunTracer";
         missileType "S7_SSGTracerTrail";
     }
 }

@@ -7,7 +7,7 @@ class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
         damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 5.5);
         S7_BaseTracer.trueSpeed 250;
-        damageType "EnemyRifleTracer";
+        damageType "RifleTracer";
     }
 }
 class S7_ScorpsEnforcer : S7_ScorpBase {
