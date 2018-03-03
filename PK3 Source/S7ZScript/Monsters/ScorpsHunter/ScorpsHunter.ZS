@@ -5,7 +5,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 4.0) * 1);
+        damageFunction (fRandom [weaponDamage] (1.0, 5.0) * 1);
         S7_BaseTracer.trueSpeed 200;
         damageType "EnemyShotgunTracer";
         missileType "S7_SSGTracerTrail";
@@ -172,9 +172,9 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 CD 2 A_FaceTarget (90, 45);
         SCR3 E  1 {
             A_FaceTarget (0, 0);
-            A_SetTics (random [monsterSpc] (3, 7));
+            A_SetTics (random [monsterSpc] (3, 5));
         }
-    DoShoot:
+    DoAim:
         TNT1 A 0 {
             if (!CheckLOF (CLOFF_NoAim | CLOFF_FromBase, 3200.0, 0.0, 0, 0, 35.0, 9.0))
                 return ResolveState ("See");
@@ -191,10 +191,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 E 1 A_FaceTarget (turn * 2, turn * 2);
         SCR3 F 1 {
             A_FaceTarget (0, 0);
-            A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
+            A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_Weapon);
 
             for (int i = 0; i < 9; i++) {
-                A_SpawnProjectile ("S7_ManxCarbineTracerEnemy", 35.0, 9, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-3.5, 3.5) );
+                A_SpawnProjectile ("S7_ScorpsHunterTracer", 35.0, 9, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-3.5, 3.5) );
             }
 
             A_SpawnProjectile ("S7_12gaShellCasingSpawn2", 35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
@@ -209,7 +209,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         goto See;
 
     DryFire:
-        SCR3 E 3 A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_7);
+        SCR3 E 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
         TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 192, "Reload");
     DryFire.FindCover:
         TNT1 A        0 { bFrightened = true; }
