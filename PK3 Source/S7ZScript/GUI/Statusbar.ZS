@@ -6,7 +6,7 @@
  **   Code: Chronos "phantombeta" Ouroboros
  **   Graphics: Chronos "phantombeta" Ouroboros, Captain J (Cartridges sprites)
 **/
-class Se7evidasStatusBar : BaseStatusBar {
+class Se7evidasStatusBar : S7_BaseS7HUD {
     // Constants
     const RADAR_SCALE = 10.0;
     const RADAR_MAXDIST = 750.0;
@@ -80,23 +80,11 @@ class Se7evidasStatusBar : BaseStatusBar {
         mLPPInterpolator2.Reset  (0);
     }
 
-    int GetStamina (bool max) {
-        let dracoPlayer = S7_DracoPlayer (CPlayer.mo);
-
-        if (max) {
-            if (!dracoPlayer) return GetMaxAmount ("S7_Stamina");
-            else return 500;
-        } else {
-            if (!dracoPlayer) return GetAmount ("S7_Stamina");
-            else return dracoPlayer.defenseMatrixEnergy;
-        }
-    }
-
     override void Tick () {
         super.Tick ();
 
         mHealthInterpolator.Update (CPlayer.health);
-        mArmorInterpolator.Update  (GetArmorAmount ());
+        mArmorInterpolator.Update  (GetS7ArmorAmount ());
         mStaminInterpolator.Update (GetStamina (false));
         mCashInterpolator.Update   (GetAmount ("S7_Cash"));
         mLsrRfInterpolator.Update (GetAmount ("S7_FauchardMag"));
@@ -182,7 +170,7 @@ class Se7evidasStatusBar : BaseStatusBar {
 
             // Draw health/armor bars
             DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true), (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
-            DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetMaxAmount ("BasicArmor"), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
+            DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetS7ArmorSaveAmount (), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             // Draw health/armor numbers
             DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ("HUD_Health"));
             DrawString (mNormalHUDFont, FormatNumber (mArmorInterpolator.GetValue (), 1, 3), (33, 50), DI_TEXT_ALIGN_RIGHT | DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ("HUD_Armour"));
@@ -200,7 +188,7 @@ class Se7evidasStatusBar : BaseStatusBar {
         DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (28, -47), DI_ITEM_LEFT_BOTTOM);
         // Bars
         DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true),   (29, -13), 0, 0, DI_ITEM_LEFT_BOTTOM);
-        DrawBar ("graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0", mArmorInterpolator.GetValue  (), GetMaxAmount ("BasicArmor"), (29, -31), 0, 0, DI_ITEM_LEFT_BOTTOM);
+        DrawBar ("graphics/HUD/Fullscreen/S7ARMRBR.png", "S7BARBK0", mArmorInterpolator.GetValue  (), GetS7ArmorSaveAmount (),     (29, -31), 0, 0, DI_ITEM_LEFT_BOTTOM);
         DrawBar ("graphics/HUD/Fullscreen/S7STMNBR.png", "S7BARBK0", mStaminInterpolator.GetValue (), GetStamina (true),           (29, -48), 0, 0, DI_ITEM_LEFT_BOTTOM);
         // Strings
         DrawString (mFScreenHUDFont, "Cash: ", (11, -66), DI_TEXT_ALIGN_LEFT | DI_NOSHADOW, Font.CR_WHITE);

@@ -126,6 +126,7 @@ class S7_IsLoaded : actor {
 
 // GUI
 #INCLUDE "S7ZScript/GUI/HUDMessage.ZS"
+#INCLUDE "S7ZScript/GUI/BaseStatusbar.ZS"
 #INCLUDE "S7ZScript/GUI/Statusbar.ZS"
 #INCLUDE "S7ZScript/GUI/StatusbarMisc.ZS"
 #INCLUDE "S7ZScript/GUI/NewMenuItems/SpecialSlider.ZS"
