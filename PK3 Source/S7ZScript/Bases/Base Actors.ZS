@@ -393,11 +393,9 @@ class S7_Projectile : fastProjectile {
                     double yOffs = radius * FPColOffs [i * 2];
 
                     if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
-                        Spawn ("S7_PositionMarkerPersistent", tr.Results.HitPos);
                         if (collisionHandled = HandleCollision (oldPos, oldVel))
                             return;
-                    } else
-                        Spawn ("S7_PositionMarkerPersistent", tr.Results.HitPos);
+                    }
                 }
 
                 if (!collided) {
