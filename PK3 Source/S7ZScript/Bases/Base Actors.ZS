@@ -245,20 +245,29 @@ class S7_Projectile : fastProjectile {
         FastProjectile,
         OldFastProj,
     };
+    enum EFPCollisionMode {
+        ColMode_Center      = 1,
+        ColMode_Corners     = 1 << 1,
+        ColMode_EdgeCenters = 1 << 2,
+    };
 
     int moveMode;
+    int fpCollisionMode;
     bool interpFastProj;
     double effectStepMul;
 
     property MovementMode: moveMode;
+    property FastProjCollision: fpCollisionMode;
     property EffectStepMul: effectStepMul;
     property interpMove: interpFastProj;
 
     default {
-        S7_Projectile.MovementMode Normal;
+        S7_Projectile.movementMode Normal;
+        S7_Projectile.fastProjCollision ColMode_EdgeCenters;
         S7_Projectile.interpMove true;
-        S7_Projectile.EffectStepMul 0.125;
-        Projectile;
+        S7_Projectile.effectStepMul 0.125;
+
+        projectile;
     }
 
     S7_Projectile_Trace tr;
@@ -336,6 +345,20 @@ class S7_Projectile : fastProjectile {
         }
     }
 
+    static const double FPColOffs [] = { // Y and Z, not X and Y.
+        // Edge centers
+         0, 1.0,
+         1, 0.5,
+         0, 0.0,
+        -1, 0.5,
+        // Corners
+         1, 1,
+         1, 0,
+        -1, 0,
+        -1, 1,
+        // Center
+        0, 0.5
+    };
     virtual void NewFastProjTick () {
         ClearInterpolation ();
         let oldPos = pos;
@@ -348,14 +371,36 @@ class S7_Projectile : fastProjectile {
             if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
             tr.actorsToIgnore.Clear ();
 
+            let velUnit = vel.Unit ();
+            double velAngle = VectorAngle (velUnit.x, velUnit.y);
+            double s = sin (velAngle);
+            double c = cos (velAngle);
+
             bool collisionHandled;
             do {
-                double maxDist = abs (vel.Length ()) + radius;
-                if (tr.Trace (pos + (0, 0, height / 2), curSector, vel.Unit (), maxDist, 0) ||
-                    tr.Trace (pos + (0, 0, height / 2), curSector, vel.Unit (), maxDist, 0)) {
-                    if (collisionHandled = HandleCollision (oldPos, oldVel))
-                        return;
-                } else {
+                double maxDist = abs (vel.Length ()) + radius + height;
+                int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
+                bool collided;
+
+                int iMax = FPColOffs.Size () / 2;
+                for (int i = 0; i < iMax; i++) {
+                    if ((i >= 0 && i <= 3) && !(colFlags & ColMode_EdgeCenters))
+                        continue;
+                    else if ((i >= 4 && i <= 7) && !(colFlags & ColMode_Corners))
+                        continue;
+                    else if ((i == 8) && !(colFlags & ColMode_Center))
+                        continue;
+                    double yOffs = radius * FPColOffs [i * 2];
+
+                    if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
+                        Spawn ("S7_PositionMarkerPersistent", tr.Results.HitPos);
+                        if (collisionHandled = HandleCollision (oldPos, oldVel))
+                            return;
+                    } else
+                        Spawn ("S7_PositionMarkerPersistent", tr.Results.HitPos);
+                }
+
+                if (!collided) {
                     tr.actorsToIgnore.Clear ();
                     collisionHandled = true;
                 }
@@ -387,11 +432,11 @@ class S7_Projectile : fastProjectile {
 
     bool HandleCollision (Vector3 oldPos, Vector3 oldVel) {
         if (abs (level.Vec3Diff (oldPos, tr.Results.hitPos).Length ()) > abs (oldVel.Length ()) + radius)
-            return true;
+            return false;
 
         double maxDist = abs (oldVel.Length ());
         double hitPosDist = abs (tr.Results.hitPos.Length ());
-        let hitPos = tr.Results.HitPos;//(hitPosDist <= maxDist) ? tr.Results.HitPos : (oldPos + oldVel);
+        let hitPos = tr.Results.HitPos;
         hitPos += (-oldVel.Unit () * radius * 1.5);
         SetOrigin (hitPos, interpFastProj);
 
@@ -422,14 +467,12 @@ class S7_Projectile : fastProjectile {
         }
 
         if (tr.Results.HitType == TRACE_HitFloor)
-            hitPos = tr.Results.HitPos;//(hitPosDist <= maxDist) ? tr.Results.HitPos : (oldPos + oldVel);
+            hitPos = tr.Results.HitPos;
         else if (tr.Results.HitType == TRACE_HitCeiling) {
-            hitPos = tr.Results.HitPos;//(hitPosDist <= maxDist) ? tr.Results.HitPos : (oldPos + oldVel);
+            hitPos = tr.Results.HitPos;
             hitPos -= (0, 0, height);
         }
 
-        //BlockingMobj =  tr.Results.HitActor;
-        //BlockingLine = tr.Results.HitLine;
         SpawnEffects (oldPos, level.Vec3Diff (oldPos, pos).Length (), oldVel);
         if (!TryMove (tr.Results.HitPos.xy, true)) {
             SetOrigin (hitPos, interpFastProj);
@@ -439,8 +482,8 @@ class S7_Projectile : fastProjectile {
             tr.actorsToIgnore.Push (tr.Results.HitActor);
         else {
             let rHitPos = tr.Results.HitPos;
-            if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - floorZ < 1) ||
-                (tr.Results.HitType == TRACE_HitCeiling && (rHitPos.z + height) - ceilingZ < 1)) {
+            if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - floorZ <= 1) ||
+                (tr.Results.HitType == TRACE_HitCeiling && ceilingZ - (rHitPos.z + height) <= 1)) {
                 if (tr.Results.HitType == TRACE_HitFloor)
                     HitFloor ();
 
