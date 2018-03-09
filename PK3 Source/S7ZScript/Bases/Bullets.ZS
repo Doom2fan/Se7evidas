@@ -26,6 +26,7 @@ class S7_BaseTracer : S7_Projectile {
 
     default {
         S7_Projectile.MovementMode FastProjectile;
+        S7_Projectile.FastProjCollision ColMode_Center;
         S7_Projectile.interpMove false;
         alpha 1.0;
         renderStyle "add";

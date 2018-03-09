@@ -142,7 +142,8 @@ class S7_IonCannonProjectile : S7_Projectile {
     int realDamage;
 
     default {
-        S7_Projectile.MovementMode FastProjectile;
+        S7_Projectile.movementMode FastProjectile;
+        S7_Projectile.fastProjCollision ColMode_Center | ColMode_Corners | ColMode_EdgeCenters;
         radius 20;
         height 16;
         speed 20;
