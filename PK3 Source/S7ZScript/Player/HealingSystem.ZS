@@ -6,7 +6,7 @@ class S7_HealingSystem : Inventory {
     protected int regenTimer;
 
     override void AttachToOwner (Actor other) {
-        super.AttachToOwner (other);
+        Super.AttachToOwner (other);
 
         regenPoints = 0;
     }

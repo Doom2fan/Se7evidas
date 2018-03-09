@@ -6,18 +6,18 @@
 class S7_FireballBase : S7_Projectile {
     default {
         S7_Projectile.MovementMode Normal;
-        radius 6;
-        height 16;
-        speed 15;
-        fastSpeed 20;
-        damage 8;
-        renderStyle "add";
-        alpha 1.0;
-        seeSound "baron/attack";
-        deathSound "baron/shotx";
-        decal "BaronScorch";
+        Radius 6;
+        Height 16;
+        Speed 15;
+        FastSpeed 20;
+        Damage 8;
+        RenderStyle "add";
+        Alpha 1.0;
+        SeeSound "baron/attack";
+        DeathSound "baron/shotx";
+        Decal "BaronScorch";
 
-        +randomize
+        +RANDOMIZE
     }
 }
 
@@ -108,22 +108,22 @@ class S7_MonsterSpawner : RandomSpawner {
     }
 }
 
-class S7_MEvntNoMonster : actor {
+class S7_MEvntNoMonster : Actor {
     default {
-        health 0x00FFFFFF;
-        radius 1;
-        height 10000;
-        mass 0x7FFFFFFF;
-        speed 0;
-        damageFactor 0.0;
-        damageFactor "S7_ForceKillSpcDMG", 10.0;
+        Health 0x00FFFFFF;
+        Radius 1;
+        Height 10000;
+        Mass 0x7FFFFFFF;
+        Speed 0;
+        DamageFactor 0.0;
+        DamageFactor "S7_ForceKillSpcDMG", 10.0;
 
-        monster;
+        Monster;
 
-        +invulnerable +noTeleport +dontMorph +noTarget
-        +vulnerable
-        -shootable -solid -countKill -canPass
-        -canPushWalls -activateMCross -canUseWalls
+        +INVULNERABLE +NOTELEPORT +DONTMORPH +NOTARGET
+        +VULNERABLE
+        -SHOOTABLE    -SOLID          -COUNTKILL   -CANPASS
+        -CANPUSHWALLS -ACTIVATEMCROSS -CANUSEWALLS
     }
 
     states {
@@ -149,19 +149,20 @@ class S7_MEvntNoMonster : actor {
 /** FastProjectile trail base **/
 class S7_FastProjTrailBase : S7_EffectsBase {
     default {
-        +noBlockmap +noGravity +noTeleport +thruActors
-        +cannotPush +noInteraction +clientsideOnly -solid
+        +NOBLOCKMAP +NOGRAVITY     +NOTELEPORT     +THRUACTORS
+        +CANNOTPUSH +NOINTERACTION +CLIENTSIDEONLY
+        -SOLID
     }
 }
 
 /** Trace test puffs **/
-class S7_TraceTestPuff : actor {
+class S7_TraceTestPuff : Actor {
     default {
-        radius 1;
-        height 1;
+        Radius 1;
+        Height 1;
 
-        +noBlockmap +allowThruFlags +noInteraction +noTimeFreeze
-        +bloodlessImpact +painless
+        +NOBLOCKMAP      +ALLOWTHRUFLAGS +NOINTERACTION +NOTIMEFREEZE
+        +BLOODLESSIMPACT +PAINLESS
     }
 
     states {
@@ -174,7 +175,7 @@ class S7_TraceTestPuff : actor {
 
 class S7_WallCheckPuff : S7_TraceTestPuff {
     default {
-        +thruActors
+        +THRUACTORS
     }
 }
 
@@ -239,7 +240,7 @@ class S7_Projectile_Trace : LineTracer play {
     }
 }
 
-class S7_Projectile : fastProjectile {
+class S7_Projectile : FastProjectile {
     enum EMovementMode {
         Normal = 0,
         FastProjectile,
@@ -259,15 +260,15 @@ class S7_Projectile : fastProjectile {
     property MovementMode: moveMode;
     property FastProjCollision: fpCollisionMode;
     property EffectStepMul: effectStepMul;
-    property interpMove: interpFastProj;
+    property InterpMove: interpFastProj;
 
     default {
-        S7_Projectile.movementMode Normal;
-        S7_Projectile.fastProjCollision ColMode_EdgeCenters;
-        S7_Projectile.interpMove true;
-        S7_Projectile.effectStepMul 0.125;
+        S7_Projectile.MovementMode Normal;
+        S7_Projectile.FastProjCollision ColMode_EdgeCenters;
+        S7_Projectile.InterpMove true;
+        S7_Projectile.EffectStepMul 0.125;
 
-        projectile;
+        Projectile;
     }
 
     S7_Projectile_Trace tr;
@@ -283,7 +284,7 @@ class S7_Projectile : fastProjectile {
             break;
 
             case OldFastProj:
-                super.Tick ();
+                Super.Tick ();
             break;
         }
     }

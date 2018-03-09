@@ -1,10 +1,10 @@
 /*** Red Torch ***/
 class S7_RedTorchFire : S7_FireBase {
     default {
-        alpha 1.0;
-        scale 0.25;
+        Alpha 1.0;
+        Scale 0.25;
 
-        +noInteraction +clientsideOnly
+        +NOINTERACTION +CLIENTSIDEONLY
     }
 
     states {
@@ -16,10 +16,10 @@ class S7_RedTorchFire : S7_FireBase {
         stop;
     }
 }
-class S7_RedTorchFireSpawner : actor {
+class S7_RedTorchFireSpawner : Actor {
     default {
-        +noBlockmap +noGravity +noTeleport +thruActors
-        +cannotPush +noInteraction +clientsideOnly
+        +NOBLOCKMAP +NOGRAVITY  +NOTELEPORT +NOINTERACTION
+        +CANNOTPUSH +THRUACTORS +CLIENTSIDEONLY
     }
 
     states {
@@ -32,13 +32,13 @@ class S7_RedTorchFireSpawner : actor {
         stop;
     }
 }
-class S7_RedTorch : redTorch replaces redTorch {
+class S7_RedTorch : RedTorch replaces RedTorch {
     default {
-        radius 16;
-        height 68;
-        projectilePassHeight -16;
+        Radius 16;
+        Height 68;
+        ProjectilePassHeight -16;
 
-        +solid
+        +SOLID
     }
 
     states {
@@ -57,7 +57,7 @@ class S7_GreenTorchFire : S7_RedTorchFire {
         stop;
     }
 }
-class S7_GreenTorch : S7_RedTorch replaces greenTorch {
+class S7_GreenTorch : S7_RedTorch replaces GreenTorch {
     states {
     Spawn:
         TGRE AAAABBBBCCCCDDDD 1 bright A_SpawnItemEx ("S7_GreenTorchFire", fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-1.5, 1.5), 65.0, 0.0, 0.0, 2.0, SXF_NoCheckPosition | SXF_Clientside);
@@ -74,7 +74,7 @@ class S7_BlueTorchFire : S7_RedTorchFire {
         stop;
     }
 }
-class S7_BlueTorch : S7_RedTorch replaces blueTorch {
+class S7_BlueTorch : S7_RedTorch replaces BlueTorch {
     states {
     Spawn:
         TBLU AAAABBBBCCCCDDDD 1 bright A_SpawnItemEx ("S7_BlueTorchFire", fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-1.0, 1.0), 54.0, 0.0, 0.0, 2.0, SXF_NoCheckPosition | SXF_Clientside);

@@ -6,16 +6,16 @@
 class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heavily) Based on Hideous Destructor's shrapnel actor
     default {
         S7_Projectile.MovementMode FastProjectile;
-        radius 1;
-        height 1;
-        speed 1;
-        scale .5;
-        damageFunction (0);
-        damageType "Shrapnel";
-        obituary "$OB_SHRAPNEL";
+        Radius 1;
+        Height 1;
+        Speed 1;
+        Scale .5;
+        DamageFunction (0);
+        DamageType "Shrapnel";
+        Obituary "$OB_SHRAPNEL";
 
-        +cannotPush +noExtremeDeath +bloodSplatter +noDamageThrust
-        +forceXYBillboard
+        +FORCEXYBILLBOARD +NOEXTREMEDEATH +BLOODSPLATTER +NODAMAGETHRUST
+        +CANNOTPUSH
     }
 
     float realDamage;
@@ -117,8 +117,8 @@ Actions:
 
 class S7_ShrapnelSmoke : S7_ShotSmokeTrail {
     default {
-        scale 0.06;
-        alpha 0.5;
+        Scale 0.06;
+        Alpha 0.5;
     }
 
     states {

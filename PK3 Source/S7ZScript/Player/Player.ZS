@@ -43,7 +43,7 @@ class S7_PlayerData : Inventory {
     }
 
     override void AttachToOwner (Actor other) {
-        super.AttachToOwner (other);
+        Super.AttachToOwner (other);
         dying = sprinting = false;
         dodgeCooldown = mjumpCount = wjumpJustJumped = sprintTics = staminaTics = heartbeatTics = 0;
         sprintSpeedFactor = sprintSpdFacPproc = 0;
@@ -58,20 +58,20 @@ class S7_PlayerData : Inventory {
 // Base playerpawn
 //
 //-------------------------------------------------------------------------------------------
-class S7_BasePlayer : playerPawn {
+class S7_BasePlayer : PlayerPawn {
     // This class is split across this file and the PlayerE_*.ZS files for readability reasons
     default {
         // Damage
-        gibHealth -50;
-        painChance 255;
-        painChance "SoulLanceSelfDamage", 0.0;
+        GibHealth -50;
+        PainChance 255;
+        PainChance "SoulLanceSelfDamage", 0.0;
 
         // Movement
-        player.forwardMove 0.8, 0.8;
-        player.sideMove 0.8, 0.8;
+        Player.ForwardMove 0.8, 0.8;
+        Player.SideMove 0.8, 0.8;
 
         // Class stuff
-        player.displayName "Player";
+        Player.DisplayName "Player";
 
         // Weapon Slots
         /*player.weaponSlot 1, "S7_Raptor", "S7_TEC9", "S7_Revolver"
@@ -82,14 +82,14 @@ class S7_BasePlayer : playerPawn {
         player.weaponSlot 6, "S7_BerserkWeap"*/
 
         // Misc
-        radius 16;
-        height 56;
-        player.viewHeight 48;
-        player.attackZOffset 20;
-        player.invulnerabilityMode "Reflective";
-        player.colorRange 112, 127;
+        Radius 16;
+        Height 56;
+        Player.ViewHeight 48;
+        Player.AttackZOffset 20;
+        Player.InvulnerabilityMode "Reflective";
+        Player.ColorRange 112, 127;
 
-        +solid +noSkin
+        +SOLID +NOSKIN
     }
 
     S7_PlayerXPSystem xpSys;
@@ -167,7 +167,7 @@ class S7_BasePlayer : playerPawn {
     }
 
     override void PostBeginPlay () {
-        super.PostBeginPlay ();
+        Super.PostBeginPlay ();
 
         GiveBasics ();
     }
@@ -183,7 +183,7 @@ class S7_BasePlayer : playerPawn {
     }
 
     override void Tick () {
-        super.Tick ();
+        Super.Tick ();
 
         if (!player || !player.mo || player.mo != self)
             return;
@@ -194,7 +194,7 @@ class S7_BasePlayer : playerPawn {
     }
 
     override void PlayerThink () {
-        super.PlayerThink ();
+        Super.PlayerThink ();
 
         CustCalcHeight ();
 
@@ -226,7 +226,7 @@ class S7_BasePlayer : playerPawn {
     }
 
     override void OnRespawn () {
-        super.OnRespawn ();
+        Super.OnRespawn ();
 
         if (!player || !player.mo || player.mo != self)
             return;
@@ -241,7 +241,7 @@ class S7_BasePlayer : playerPawn {
     }
 
     override void DeathThink () {
-        super.DeathThink ();
+        Super.DeathThink ();
 
         if (player.morphTics && (player.mo is "S7_BasePlayer"))
             S7_BasePlayer (player.mo).CustCalcHeight ();
@@ -468,7 +468,7 @@ class S7_ShowPop1Key : S7_CustomKey {
 //
 //-------------------------------------------------------------------------------------------
 class S7_StaminaRegen  : S7_Boolean { }
-class S7_Stamina       : ammo       { default { inventory.maxAmount 150; +inventory.undroppable -inventory.invBar } }
+class S7_Stamina       : Ammo       { default { Inventory.MaxAmount 150; +INVENTORY.UNDROPPABLE -INVENTORY.INVBAR } }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -476,7 +476,7 @@ class S7_Stamina       : ammo       { default { inventory.maxAmount 150; +invent
 //
 //-------------------------------------------------------------------------------------------
 class S7_ManaRegen     : S7_Boolean { }
-class S7_Mana          : ammo       { default { inventory.maxAmount 250; +inventory.undroppable -inventory.invBar } }
+class S7_Mana          : Ammo       { default { Inventory.MaxAmount 250; +INVENTORY.UNDROPPABLE -INVENTORY.INVBAR } }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -484,17 +484,17 @@ class S7_Mana          : ammo       { default { inventory.maxAmount 250; +invent
 //
 //-------------------------------------------------------------------------------------------
 // Multijumping
-class S7_MultiJump_Max : S7_Counter { default { inventory.maxAmount 200; } }
+class S7_MultiJump_Max : S7_Counter { default { Inventory.MaxAmount 200; } }
 
 // Dodging
-class S7_DodgeTrail : PlayerSpeedTrail { default { renderStyle "Shadow"; } }
-class S7_PowerDodgeEffects : powerInvulnerable {
+class S7_DodgeTrail : PlayerSpeedTrail { default { RenderStyle "Shadow"; } }
+class S7_PowerDodgeEffects : PowerInvulnerable {
     default {
         inventory.interHubAmount 0; // I dunno, just in case...
-        inventory.icon "";
-        powerup.duration 24;
+        Inventory.Icon "";
+        Powerup.Duration 24;
 
-        +inventory.noTeleportFreeze
+        +INVENTORY.NOTELEPORTFREEZE
     }
 
     override void DoEffect () {
@@ -534,23 +534,23 @@ class S7_PowerDodgeEffects : powerInvulnerable {
 // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //
 //-------------------------------------------------------------------------------------------
-class GETTHATSHITOUTTAHERE : actor {
+class GETTHATSHITOUTTAHERE : Actor {
     default {
-        health -1;
-        radius 20;
-        height 56;
-        mass 500;
-        speed 10;
-        painChance 100;
+        Health -1;
+        Radius 20;
+        Height 56;
+        Mass 500;
+        Speed 10;
+        PainChance 100;
         monster;
-        seeSound "skeleton/sight";
-        painSound "skeleton/sight";
-        deathSound "skeleton/sight";
-        activeSound "skeleton/sight";
+        SeeSound "skeleton/sight";
+        PainSound "skeleton/sight";
+        DeathSound "skeleton/sight";
+        ActiveSound "skeleton/sight";
 
-        +invulnerable +noDamage +noClip +missileMore
-        +missileEvenMore +floorClip +lookAllAround
-        -countKill -solid -shootable -isMonster
+        +INVULNERABLE +LOOKALLAROUND   +NODAMAGE +FLOORCLIP
+        +MISSILEMORE  +MISSILEEVENMORE +NOCLIP
+        -COUNTKILL -SOLID -SHOOTABLE -ISMONSTER
     }
 
     states {
@@ -579,18 +579,19 @@ class GETTHATSHITOUTTAHERE : actor {
     }
 }
 
-class GETTHATSHITOUTTAHERETRACER : fastProjectile {
+class GETTHATSHITOUTTAHERETRACER : FastProjectile {
     default {
-        radius 11;
-        height 8;
-        damageFunction (1);
-        speed 1000;
-        renderStyle "add";
-        projectile;
-        seeSound "skeleton/attack";
-        deathSound "skeleton/tracex";
+        Radius 11;
+        Height 8;
+        DamageFunction (1);
+        Speed 1000;
+        RenderStyle "add";
+        SeeSound "skeleton/attack";
+        DeathSound "skeleton/tracex";
 
-        +seekerMissile +randomize
+        Projectile;
+
+        +SEEKERMISSILE +RANDOMIZE
     }
 
     states {

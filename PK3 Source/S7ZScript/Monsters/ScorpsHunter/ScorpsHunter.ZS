@@ -5,22 +5,22 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 5.0) * 1);
-        S7_BaseTracer.trueSpeed 200;
-        damageType "ShotgunTracer";
-        missileType "S7_SSGTracerTrail";
+        DamageFunction (fRandom [weaponDamage] (1.0, 5.0) * 1);
+        S7_BaseTracer.TrueSpeed 200;
+        DamageType "ShotgunTracer";
+        MissileType "S7_SSGTracerTrail";
     }
 }
 class S7_ScorpsHunter : S7_ScorpBase {
     default {
-        health 45;
-        gibHealth -22;
-        painChance 200;
-        painSound "Monsters/SCorps1/Pain";
-        deathSound "Monsters/SCorps1/Death";
-        obituary "$OBSCORPSTROOPER";
-        species "ScorpsTrooper";
-        tag "$SCRPSTROOTAG";
+        Health 45;
+        GibHealth -22;
+        PainChance 200;
+        PainSound "Monsters/SCorps1/Pain";
+        DeathSound "Monsters/SCorps1/Death";
+        Obituary "$OBSCORPSTROOPER";
+        Species "ScorpsTrooper";
+        Tag "$SCRPSTROOTAG";
     }
 
     S7_XPSystem xpSys;

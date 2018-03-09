@@ -29,9 +29,9 @@ version "3.3"
 */
 
 // So maps and other mods can check for S7
-class S7_IsLoaded : actor {
+class S7_IsLoaded : Actor {
     default {
-        +noClip +noBlockmap +thruActors +noInteraction
+        +NOCLIP +NOBLOCKMAP +THRUACTORS +NOINTERACTION
     }
 
     states {

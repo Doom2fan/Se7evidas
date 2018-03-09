@@ -5,9 +5,9 @@ const S7_BloodSXFFlags = SXF_TransferTranslation | SXF_NoCheckPosition;
 // Blood actors
 //
 //-------------------------------------------------------------------------------------------
-class S7_Blood : blood replaces blood {
+class S7_Blood : Blood replaces Blood {
     default {
-        +puffGetsOwner +noBlockmap +noTeleport
+        +PUFFGETSOWNER +NOBLOCKMAP +NOTELEPORT
     }
 
     states {
@@ -30,7 +30,7 @@ class S7_Blood : blood replaces blood {
     }
 }
 
-class S7_BloodSplatter : S7_Blood replaces bloodSplatter {
+class S7_BloodSplatter : S7_Blood replaces BloodSplatter {
     states {
     Spawn:
         TNT1 A 0 noDelay A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace);
@@ -45,11 +45,11 @@ class S7_BloodSplatter : S7_Blood replaces bloodSplatter {
 //-------------------------------------------------------------------------------------------
 class S7_Flying_Blood : S7_EffectsBase {
     default {
-        radius 8;
-        height 1;
+        Radius 8;
+        Height 1;
 
-        +noTeleport +noBlockmap +thruSpecies +thruActors
-        +clientsideOnly
+        +NOTELEPORT +NOBLOCKMAP +THRUSPECIES +THRUACTORS
+        +CLIENTSIDEONLY
     }
 
     states {
@@ -79,9 +79,9 @@ class S7_Flying_Blood : S7_EffectsBase {
 
 class S7_Flying_Blood_Trail : S7_EffectsBase {
     default {
-        gravity 0.25;
+        Gravity 0.25;
 
-        +noTeleport +noBlockmap +clientsideOnly +noInteraction
+        +NOTELEPORT +NOBLOCKMAP +CLIENTSIDEONLY +NOINTERACTION
     }
 
     states {
@@ -93,8 +93,8 @@ class S7_Flying_Blood_Trail : S7_EffectsBase {
 
 class S7_BloodSpot : S7_EffectsBase {
     default {
-        +noTeleport +noBlockmap +thruSpecies +thruActors
-        +noInteraction +moveWithSector +clientsideOnly
+        +NOTELEPORT    +NOBLOCKMAP     +THRUSPECIES    +THRUACTORS
+        +NOINTERACTION +MOVEWITHSECTOR +CLIENTSIDEONLY
     }
 
     int timer;

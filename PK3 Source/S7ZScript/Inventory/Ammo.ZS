@@ -3,14 +3,21 @@
 // Backpack
 //
 //-------------------------------------------------------------------------------------------
-class S7_BackpackToken : ammo { default { inventory.maxAmount 1; +inventory.undroppable -inventory.invBar } }
-class S7_Backpack      : customInventory replaces backpack {
+class S7_BackpackToken : Ammo {
     default {
-        height 26;
-        tag "$BACKPACK";
-        inventory.pickupMessage "$BACKPACK";
-        inventory.amount 1;
-        inventory.maxAmount 0;
+        Inventory.MaxAmount 1;
+
+        +INVENTORY.UNDROPPABLE
+        -INVENTORY.INVBAR
+    }
+}
+class S7_Backpack : CustomInventory replaces Backpack {
+    default {
+        Height 26;
+        Tag "$BACKPACK";
+        Inventory.PickupMessage "$BACKPACK";
+        Inventory.Amount 1;
+        Inventory.MaxAmount 0;
     }
 
     states {
@@ -91,12 +98,12 @@ class S7_Backpack      : customInventory replaces backpack {
 
 class S7_BackpackNoAmmo : S7_Backpack {
     default {
-        tag "$EMPTBACKPACK";
-        inventory.pickupMessage "$EMPTBACKPACK";
-        inventory.amount 1;
-        inventory.maxAmount 0;
+        Tag "$EMPTBACKPACK";
+        Inventory.PickupMessage "$EMPTBACKPACK";
+        Inventory.Amount 1;
+        Inventory.MaxAmount 0;
 
-        +inventory.alwaysPickup
+        +INVENTORY.ALWAYSPICKUP
     }
 
     states {
@@ -115,15 +122,15 @@ class S7_BackpackNoAmmo : S7_Backpack {
 // 9x19mm
 //
 //-------------------------------------------------------------------------------------------
-class S7_9mmCartridges : ammo {
+class S7_9mmCartridges : Ammo {
     default {
-        tag "$9MM";
-        inventory.pickupMessage "$9MM";
-        inventory.amount 15;
-        inventory.maxAmount 90;
-        // ammo.backpackMaxAmount 120;
-        inventory.icon "CLIPA0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$9MM";
+        Inventory.PickupMessage "$9MM";
+        Inventory.Amount 15;
+        Inventory.MaxAmount 90;
+        // Ammo.BackpackMaxAmount 120;
+        Inventory.Icon "CLIPA0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -138,15 +145,15 @@ class S7_9mmCartridges : ammo {
 // .45 ACP
 //
 //-------------------------------------------------------------------------------------------
-class S7_45ACPCartridges : ammo {
+class S7_45ACPCartridges : Ammo {
     default {
-        tag "$45ACP";
-        inventory.pickupMessage "$45ACP";
-        inventory.amount 62;
-        inventory.maxAmount 372;
-        // ammo.backpackMaxAmount 496;
-        //inventory.icon "CLIPC0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$45ACP";
+        Inventory.PickupMessage "$45ACP";
+        Inventory.Amount 62;
+        Inventory.MaxAmount 372;
+        // Ammo.BackpackMaxAmount 496;
+        //Inventory.Icon "CLIPC0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -161,15 +168,15 @@ class S7_45ACPCartridges : ammo {
 // .44 Magnum
 //
 //-------------------------------------------------------------------------------------------
-class S7_44MCartridges : ammo {
+class S7_44MCartridges : Ammo {
     default {
-        tag "$44M";
-        inventory.pickupMessage "$44M";
-        inventory.amount 6;
-        inventory.maxAmount 36;
-        // ammo.backpackMaxAmount 48;
-        //inventory.icon "44MP0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$44M";
+        Inventory.PickupMessage "$44M";
+        Inventory.Amount 6;
+        Inventory.MaxAmount 36;
+        // Ammo.BackpackMaxAmount 48;
+        //Inventory.Icon "44MP0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -184,15 +191,15 @@ class S7_44MCartridges : ammo {
 // 7.62x39mm
 //
 //-------------------------------------------------------------------------------------------
-class S7_762x39Cartridges : ammo {
+class S7_762x39Cartridges : Ammo {
     default {
-        tag "$762X39";
-        inventory.pickupMessage "$762X39";
-        inventory.amount 35;
-        inventory.maxAmount 210;
-        // ammo.backpackMaxAmount 280;
-        //inventory.icon "CLIPE0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$762X39";
+        Inventory.PickupMessage "$762X39";
+        Inventory.Amount 35;
+        Inventory.MaxAmount 210;
+        // Ammo.BackpackMaxAmount 280;
+        //Inventory.Icon "CLIPE0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -207,14 +214,14 @@ class S7_762x39Cartridges : ammo {
 // .45 WW
 //
 //-------------------------------------------------------------------------------------------
-class S7_45WWCartridges : ammo {
+class S7_45WWCartridges : Ammo {
     default {
-        tag "$44WW";
-        inventory.pickupMessage "$44WW";
-        inventory.amount 15;
-        inventory.maxAmount 450;
-        //inventory.icon "CLIPG0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$44WW";
+        Inventory.PickupMessage "$44WW";
+        Inventory.Amount 15;
+        Inventory.MaxAmount 450;
+        //Inventory.Icon "CLIPG0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -229,15 +236,15 @@ class S7_45WWCartridges : ammo {
 // 20 gauge buckshot
 //
 //-------------------------------------------------------------------------------------------
-class S7_20gaShells : ammo {
+class S7_20gaShells : Ammo {
     default {
-        tag "$20GA";
-        inventory.pickupMessage "$20GA";
-        inventory.amount 10;
-        inventory.maxAmount 60;
-        // ammo.backpackMaxAmount 80;
-        inventory.icon "SHELA0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$20GA";
+        Inventory.PickupMessage "$20GA";
+        Inventory.Amount 10;
+        Inventory.MaxAmount 60;
+        // Ammo.BackpackMaxAmount 80;
+        Inventory.Icon "SHELA0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -252,15 +259,15 @@ class S7_20gaShells : ammo {
 // 12 gauge buckshot
 //
 //-------------------------------------------------------------------------------------------
-class S7_12gaShells : ammo {
+class S7_12gaShells : Ammo {
     default {
-        tag "$12GA";
-        inventory.pickupMessage "$12GA";
-        inventory.amount 4;
-        inventory.maxAmount 72;
-        // ammo.backpackMaxAmount 96;
-        //inventory.icon "SHELB0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$12GA";
+        Inventory.PickupMessage "$12GA";
+        Inventory.Amount 4;
+        Inventory.MaxAmount 72;
+        // Ammo.BackpackMaxAmount 96;
+        //Inventory.Icon "SHELB0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -275,15 +282,15 @@ class S7_12gaShells : ammo {
 // Type A Energy Cells
 //
 //-------------------------------------------------------------------------------------------
-class S7_Cells : ammo {
+class S7_Cells : Ammo {
     default {
-        tag "$CELLS";
-        inventory.pickupMessage "$CELLS";
-        inventory.amount 18;
-        inventory.maxAmount 216;
-        // ammo.backpackMaxAmount 288;
-        //inventory.icon "CELLA0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$CELLS";
+        Inventory.PickupMessage "$CELLS";
+        Inventory.Amount 18;
+        Inventory.MaxAmount 216;
+        // Ammo.BackpackMaxAmount 288;
+        //Inventory.Icon "CELLA0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -298,15 +305,15 @@ class S7_Cells : ammo {
 // Firebrand Systems Energy Cells
 //
 //-------------------------------------------------------------------------------------------
-class S7_FBSysCells : ammo {
+class S7_FBSysCells : Ammo {
     default {
-        tag "$FBSYSCELLS";
-        inventory.pickupMessage "$FBSYSCELLS";
-        inventory.amount 32;
-        inventory.maxAmount 192;
-        // ammo.backpackMaxAmount 184;
-        inventory.icon "CELLC0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$FBSYSCELLS";
+        Inventory.PickupMessage "$FBSYSCELLS";
+        Inventory.Amount 32;
+        Inventory.MaxAmount 192;
+        // Ammo.BackpackMaxAmount 184;
+        Inventory.Icon "CELLC0";
+        Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
@@ -321,15 +328,16 @@ class S7_FBSysCells : ammo {
 // Antimatter shells
 //
 //-------------------------------------------------------------------------------------------
-class S7_AntimatterShells : ammo {
+class S7_AntimatterShells : Ammo {
     default {
-        tag "$ANTISHELLS";
-        inventory.pickupMessage "$ANTISHELLS";
-        inventory.amount 1;
-        inventory.maxAmount 4;
-        //inventory.icon "ANSHA0";
-        inventory.pickupSound "misc/ammopickup";
+        Tag "$ANTISHELLS";
+        Inventory.PickupMessage "$ANTISHELLS";
+        Inventory.Amount 1;
+        Inventory.MaxAmount 4;
+        //Inventory.Icon "ANSHA0";
+        Inventory.PickupSound "misc/ammopickup";
     }
+
     states {
     Spawn:
         ANSH A -1;
@@ -342,11 +350,11 @@ class S7_AntimatterShells : ammo {
 // Thumper. AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 //
 //-------------------------------------------------------------------------------------------
-class S7_Thumper_PExp     : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PFrag    : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PTherm   : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PFlare   : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PCluster : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PNail    : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PNGas    : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
-class S7_Thumper_PUnified : ammo { default { inventory.amount 0; inventory.maxAmount 40; +inventory.ignoreSkill } }
+class S7_Thumper_PExp     : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PFrag    : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PTherm   : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PFlare   : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PCluster : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PNail    : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PNGas    : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PUnified : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }

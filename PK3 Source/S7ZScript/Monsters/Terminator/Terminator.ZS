@@ -5,35 +5,36 @@
 //-------------------------------------------------------------------------------------------
 class S7_Terminator : S7_DemonBase {
     default {
-        health 5000;
-        radius 24;
-        height 64;
-        speed 12;
-        painChance 15;
-        mass 12000;
-        minMissileChance 176;
-        species "S7Terminator";
-        tag "$TERMTAG";
+        Health 5000;
+        Radius 24;
+        Height 64;
+        Speed 12;
+        PainChance 15;
+        Mass 12000;
+        MinMissileChance 176;
+        Species "S7Terminator";
+        Tag "$TERMTAG";
 
-        seeSound "Terminator/sight";
-        painSound "Terminator/pain";
-        deathSound "Terminator/death";
-        activeSound "Terminator/active";
+        SeeSound "Terminator/sight";
+        PainSound "Terminator/pain";
+        DeathSound "Terminator/death";
+        ActiveSound "Terminator/active";
 
         // Demon/Reanimated flesh damage reduction
-        damageFactor "PistolTracer", 0.7;
-        damageFactor "RevolverTracer", 0.8;
-        damageFactor "RifleTracer", 0.9;
+        DamageFactor "PistolTracer", 0.7;
+        DamageFactor "RevolverTracer", 0.8;
+        DamageFactor "RifleTracer", 0.9;
         // Plasma/Laser damage bonus
-        damageFactor "Plasma", 1.5;
-        damageFactor "LaserTracer", 1.25;
+        DamageFactor "Plasma", 1.5;
+        DamageFactor "LaserTracer", 1.25;
         // Boss damage reduction
-        damageFactor "ExplosionSplashDMG", 0.25;
-        damageFactor "Shrapnel", 0.35;
+        DamageFactor "ExplosionSplashDMG", 0.25;
+        DamageFactor "Shrapnel", 0.35;
 
-        monster;
-        +floorClip +dontMorph +boss +bossDeath
-        +missileMore +missileEvenMore
+        Monster;
+
+        +FLOORCLIP   +DONTMORPH       +BOSS +BOSSDEATH
+        +MISSILEMORE +MISSILEEVENMORE
     }
 
     int shotsCount;
@@ -324,7 +325,7 @@ class S7_Terminator : S7_DemonBase {
         }
         TERM KK 1 bright;
         goto Missile.Grenade.End;
-    Missile.Nail: // speed 130
+    Missile.Nail: // Speed 130
         TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon); // Play the firing sound
         TERM K 1 bright A_SpawnProjectile ("S7_TerminatorNail", 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
         TERM KK 1 bright A_FaceTarget (180, 90);
@@ -394,13 +395,14 @@ class S7_Terminator : S7_DemonBase {
 //-------------------------------------------------------------------------------------------
 class S7_Terminator_Head : S7_GoreBase {
     default {
-        bounceType "Hexen";
-        bounceFactor 0.65;
-        wallBounceFactor 0.65;
-        bounceCount 3;
-        projectile;
+        BounceType "Hexen";
+        BounceFactor 0.65;
+        WallBounceFactor 0.65;
+        BounceCount 3;
 
-        -noGravity
+        Projectile;
+
+        -NOGRAVITY
     }
 
     states {
@@ -449,24 +451,24 @@ class S7_Terminator_Arm : S7_GoreBase {
 //-------------------------------------------------------------------------------------------
 class S7_TerminatorTracer : S7_BulletTracer {
     default {
-        damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 8.5);
-        S7_BaseTracer.trueSpeed 200;
-        damageType "RifleTracer";
-        obituary "$OBTERMMGUN";
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 8.5);
+        S7_BaseTracer.TrueSpeed 200;
+        DamageType "RifleTracer";
+        Obituary "$OBTERMMGUN";
     }
 }
 
 class S7_TerminatorGrenade : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        damageFunction (fRandom [monsterDMG] (1.0, 3.8) * 10);
-        //speed 1;
-        speed 75;
-        deathSound "Explosions/Explosion1";
-        gravity 0.2;
-        obituary "$OBTERMGREN";
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.8) * 10);
+        //Speed 1;
+        Speed 75;
+        DeathSound "Explosions/Explosion1";
+        Gravity 0.2;
+        Obituary "$OBTERMGREN";
 
-        -noGravity
+        -NOGRAVITY
     }
 
     states {
@@ -487,12 +489,12 @@ class S7_TerminatorGrenade : S7_Projectile {
 
 class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
     default {
-        damageFunction (fRandom [monsterDMG] (1.0, 6.0) * 14.166666666666666666666666666667);
-        speed 110;
-        deathSound "Explosions/Explosion2";
-        obituary "$OBTERMSGREN";
-        /*missileType "S7_TerminatorGrenadeShockwave";
-        missileHeight 8;*/
+        DamageFunction (fRandom [monsterDMG] (1.0, 6.0) * 14.166666666666666666666666666667);
+        Speed 110;
+        DeathSound "Explosions/Explosion2";
+        Obituary "$OBTERMSGREN";
+        /*MissileType "S7_TerminatorGrenadeShockwave";
+        MissileHeight 8;*/
     }
 
     states {
@@ -513,8 +515,8 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
 }
 class S7_TerminatorGrenadeShockwave : S7_FastProjTrailBase {
     default {
-        scale 0.25;
-        renderStyle "add";
+        Scale 0.25;
+        RenderStyle "add";
     }
 
     states {
@@ -527,14 +529,15 @@ class S7_TerminatorGrenadeShockwave : S7_FastProjTrailBase {
 class S7_TerminatorNail : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        /*radius 2;
-        height 2;*/
-        damageFunction (fRandom [monsterDMG] (1.0, 4.0) * 15);
-        speed 130;
-        gravity 0.35;
-        obituary "$OBTERMNAIL";
+        /*Radius 2;
+        Height 2;*/
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 15);
+        Speed 130;
+        Gravity 0.35;
+        Obituary "$OBTERMNAIL";
 
-        -noGravity +bloodSplatter +noExtremeDeath +noDamageThrust
+        +BLOODSPLATTER +NOEXTREMEDEATH +NODAMAGETHRUST
+        -NOGRAVITY
     }
 
     override void Tick () {
@@ -562,13 +565,13 @@ class S7_TerminatorNail : S7_Projectile {
 class S7_TerminatorPlasma : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        damageFunction (fRandom [monsterDMG] (1.0, 8.0) * 22);
-        speed 75;
-        renderStyle "add";
-        scale 0.08;
-        missileType "S7_TerminatorPlasma_Trail";
-        missileHeight 8;
-        obituary "$OBTERMPLASMA";
+        DamageFunction (fRandom [monsterDMG] (1.0, 8.0) * 22);
+        Speed 75;
+        RenderStyle "add";
+        Scale 0.08;
+        MissileType "S7_TerminatorPlasma_Trail";
+        MissileHeight 8;
+        Obituary "$OBTERMPLASMA";
     }
 
     states {
@@ -582,8 +585,8 @@ class S7_TerminatorPlasma : S7_Projectile {
 
 class S7_TerminatorPlasma_Trail : S7_FastProjTrailBase {
     default {
-        scale 0.08;
-        renderStyle "add";
+        Scale 0.08;
+        RenderStyle "add";
     }
 
     states {

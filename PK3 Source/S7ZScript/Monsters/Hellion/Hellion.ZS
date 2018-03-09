@@ -5,22 +5,22 @@
 //-------------------------------------------------------------------------------------------
 class S7_Hellion : S7_DemonBase {
     default {
-        health 75;
-        gibHealth -30;
-        radius 20;
-        height 56;
-        speed 8;
-        painChance 200;
-        seeSound "Hellion/Sight";
-        activeSound "Hellion/Active";
-        painSound "Hellion/Pain";
-        deathSound "Hellion/Death";
-        obituary "$OBHELLION";
-        species "Hellion";
-        tag "$HELLIONTAG";
+        Health 75;
+        GibHealth -30;
+        Radius 20;
+        Height 56;
+        Speed 8;
+        PainChance 200;
+        SeeSound "Hellion/Sight";
+        ActiveSound "Hellion/Active";
+        PainSound "Hellion/Pain";
+        DeathSound "Hellion/Death";
+        Obituary "$OBHELLION";
+        Species "Hellion";
+        Tag "$HELLIONTAG";
 
         // Fire damage reduction
-        damageFactor "Fire", 0.75;
+        DamageFactor "Fire", 0.75;
     }
 
     S7_XPSystem xpSys;
@@ -188,11 +188,11 @@ class S7_Hellion : S7_DemonBase {
 //-------------------------------------------------------------------------------------------
 class S7_HellionBall : S7_FireballBase {
     default {
-        damageFunction (fRandom [monsterDMG] (1.0, 4.0) * 6);
-        damageType "Fire";
-        speed 12;
-        fastSpeed 24;
-        obituary "$OBHELLIONFB";
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 6);
+        DamageType "Fire";
+        Speed 12;
+        FastSpeed 24;
+        Obituary "$OBHELLIONFB";
     }
 
     states {

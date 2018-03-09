@@ -3,13 +3,12 @@
 // Null weapons
 //
 //-------------------------------------------------------------------------------------------
-class S7_NullWeapon : weapon {
+class S7_NullWeapon : Weapon {
     default {
-        tag "Unarmed";
+        Tag "Unarmed";
 
-        +noInteraction
-        +inventory.undroppable
-        +weapon.wimpy_Weapon +weapon.cheatNotWeapon +weapon.noAlert
+        +INVENTORY.UNDROPPABLE +WEAPON.WIMPY_WEAPON +WEAPON.CHEATNOTWEAPON +WEAPON.NOALERT
+        +NOINTERACTION
     }
 
     states {

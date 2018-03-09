@@ -5,23 +5,23 @@
 //-------------------------------------------------------------------------------------------
 class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
     default {
-        damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 2);
-        damageType "PistolTracer";
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 2);
+        DamageType "PistolTracer";
     }
 }
 class S7_ScorpsTrooper : S7_ScorpBase {
     default {
-        health 30;
-        gibHealth -15;
-        painChance 200;
-        seeSound "Monsters/ScorpsTrooper/Sight";
-        painSound "Monsters/ScorpsTrooper/Pain";
-        deathSound "Monsters/ScorpsTrooper/Death";
-        obituary "$OBSCORPSTROOPER";
-        species "ScorpsTrooper";
-        tag "$SCRPSTROOTAG";
+        Health 30;
+        GibHealth -15;
+        PainChance 200;
+        SeeSound "Monsters/ScorpsTrooper/Sight";
+        PainSound "Monsters/ScorpsTrooper/Pain";
+        DeathSound "Monsters/ScorpsTrooper/Death";
+        Obituary "$OBSCORPSTROOPER";
+        Species "ScorpsTrooper";
+        Tag "$SCRPSTROOTAG";
 
-        +missileMore
+        +MISSILEMORE
     }
 
     S7_XPSystem xpSys;

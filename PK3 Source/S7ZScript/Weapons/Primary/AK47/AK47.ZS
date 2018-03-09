@@ -3,23 +3,23 @@
 // Avtomat Kalashnikova 47
 //
 //-------------------------------------------------------------------------------------------
-class S7_AK47Clip : ammo {
+class S7_AK47Clip : Ammo {
     default {
-        inventory.maxAmount 30;
-        ammo.backpackMaxAmount 30;
+        Inventory.MaxAmount 30;
+        Ammo.BackpackMaxAmount 30;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_AK47 : S7_BaseWeapon {
     default {
-        tag "$AK47";
-        inventory.pickupMessage "$AK47";
-        weapon.ammoType1 "S7_AK47Clip";
-        weapon.ammoType2 "S7_762x39Cartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$AK47";
+        Inventory.PickupMessage "$AK47";
+        Weapon.AmmoType1 "S7_AK47Clip";
+        Weapon.AmmoType2 "S7_762x39Cartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "AK4PA0";
         S7_BaseWeapon.ShortTag "$SHORTAK47";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
@@ -29,7 +29,7 @@ class S7_AK47 : S7_BaseWeapon {
     bool semiAuto, semiOnly; // Persistent stuff
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         if (semiOnly)
             fireModeIcon = FMI_None;

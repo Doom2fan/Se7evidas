@@ -5,9 +5,9 @@
 //-------------------------------------------------------------------------------------------
 class S7_TeleportFog : S7_EffectsBase {
     default {
-        renderStyle "add";
+        RenderStyle "add";
 
-        +noInteraction +noTeleport +noGravity +noBlockmap
+        +NOINTERACTION +NOTELEPORT +NOGRAVITY +NOBLOCKMAP
     }
 
     states {
@@ -24,7 +24,7 @@ class S7_TeleportFog : S7_EffectsBase {
 // Telefog spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_TeleportFogSpawner : teleportFog replaces teleportFog {
+class S7_TeleportFogSpawner : TeleportFog replaces TeleportFog {
     states {
     Spawn:
         TNT1 A 0 noDelay A_SpawnItemEx ("S7_TeleportFog", 0.0, 0.0);

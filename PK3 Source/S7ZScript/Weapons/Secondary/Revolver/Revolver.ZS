@@ -3,23 +3,23 @@
 // Ω-Σ "Deathbringer" Revolver
 //
 //-------------------------------------------------------------------------------------------
-class S7_RevolverClip : ammo {
+class S7_RevolverClip : Ammo {
     default {
-        inventory.maxAmount 6;
-        ammo.backpackMaxAmount 6;
+        Inventory.MaxAmount 6;
+        Ammo.BackpackMaxAmount 6;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_Revolver : S7_BaseWeapon {
     default {
-        tag "$REVOLVER";
-        inventory.pickupMessage "$REVOLVER";
-        weapon.ammoType1 "S7_RevolverClip";
-        weapon.ammoType2 "S7_44MCartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$REVOLVER";
+        Inventory.PickupMessage "$REVOLVER";
+        Weapon.AmmoType1 "S7_RevolverClip";
+        Weapon.AmmoType2 "S7_44MCartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "RVLPA0";
         S7_BaseWeapon.ShortTag "$SHORTREVOLVER";
         S7_BaseWeapon.BindSlot WpSlot_Light;

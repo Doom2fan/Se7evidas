@@ -1,9 +1,9 @@
 class S7_Empress_FXBase : S7_EffectsBase {
     default {
-        renderStyle "add";
+        RenderStyle "add";
 
-        +noTeleport +noBlockmap +thruActors +clientsideOnly
-        +noGravity +noInteraction
+        +NOTELEPORT +NOINTERACTION  +NOBLOCKMAP +NOGRAVITY
+        +THRUACTORS +CLIENTSIDEONLY
     }
 }
 
@@ -15,11 +15,11 @@ class S7_Empress_FXBase : S7_EffectsBase {
 /** Smoke **/
 class S7_EmpressSmoke : S7_ShotSmoke_2 {
     default {
-        renderStyle "subtract";
-        alpha 0.6;
-        scale 0.8;
+        RenderStyle "subtract";
+        Alpha 0.6;
+        Scale 0.8;
 
-        +noInteraction +forceXYBillboard +clientsideOnly
+        +NOINTERACTION +FORCEXYBILLBOARD +CLIENTSIDEONLY
     }
 
     states {
@@ -32,9 +32,9 @@ class S7_EmpressSmoke : S7_ShotSmoke_2 {
 /** Sparkle **/
 class S7_EmpressSparkle : S7_Empress_FXBase {
     default {
-        renderStyle "add";
+        RenderStyle "add";
 
-        +forceXYBillboard
+        +FORCEXYBILLBOARD
     }
 
     int loopCount;
@@ -83,14 +83,15 @@ class S7_EmpressPentagramCorner : S7_Empress_FXBase {
 // Line
 class S7_EmpressPentagramLine : S7_Empress_FXBase {
     default {
-        radius 1;
-        height 1;
-        damageFunction (0);
-        speed 18;
+        Radius 1;
+        Height 1;
+        DamageFunction (0);
+        Speed 18;
 
-        projectile;
-        +noTarget +noBlood +painless +bloodlessImpact
-        +noClip +ripper +thruActors
+        Projectile;
+
+        +NOTARGET +NOBLOOD +NOCLIP +THRUACTORS
+        +PAINLESS +RIPPER  +BLOODLESSIMPACT
     }
 
     states {
@@ -103,9 +104,9 @@ class S7_EmpressPentagramLine : S7_Empress_FXBase {
 // Fire
 class S7_EmpressPentagramFire : S7_Empress_FXBase {
     default {
-        radius 1;
-        height 1;
-        reactionTime 4;
+        Radius 1;
+        Height 1;
+        ReactionTime 4;
     }
 
     states {
@@ -129,7 +130,7 @@ class S7_EmpressPentagramFire : S7_Empress_FXBase {
 //-------------------------------------------------------------------------------------------
 class S7_EmpressShieldSparkle : S7_EmpressSparkle {
     default {
-        scale 0.2;
+        Scale 0.2;
     }
 
     states {
@@ -145,10 +146,10 @@ class S7_EmpressShieldSparkle : S7_EmpressSparkle {
 }
 class S7_EmpressShieldFlare : S7_Empress_FXBase {
     default {
-        scale 0.1;
-        alpha 0.5;
+        Scale 0.1;
+        Alpha 0.5;
 
-        +forceXYBillboard
+        +FORCEXYBILLBOARD
     }
 
     states {

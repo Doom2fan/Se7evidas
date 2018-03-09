@@ -1,56 +1,56 @@
 // From Samsara
-class S7_Boolean : inventory {
+class S7_Boolean : Inventory {
     default {
-        inventory.maxAmount 1;
+        Inventory.MaxAmount 1;
         inventory.interHubAmount 1;
 
-        +inventory.undroppable
-        -inventory.invBar
+        +INVENTORY.UNDROPPABLE
+        -INVENTORY.INVBAR
     }
 }
 
-class S7_Counter : inventory {
+class S7_Counter : Inventory {
     default {
-        inventory.maxAmount 0x7FFFFFFF;
+        Inventory.MaxAmount 0x7FFFFFFF;
         inventory.interHubAmount 0x7FFFFFFF;
 
-        +inventory.undroppable
-        -inventory.invBar
+        +INVENTORY.UNDROPPABLE
+        -INVENTORY.INVBAR
     }
 }
 
 // By Jekyll Grim Payne "Aka" zer0
 class S7_DebrisGeneral : S7_EffectsBase {
     default {
-        radius 1;
-        height 1;
-        mass 1;
-        damage 0;
+        Radius 1;
+        Height 1;
+        Mass 1;
+        Damage 0;
 
-        +missile +noBlockmap +noGravity +dropOff
-        +noTeleport +forceXYBillboard +ghost
+        +MISSILE    +NOBLOCKMAP       +NOGRAVITY +DROPOFF
+        +NOTELEPORT +FORCEXYBILLBOARD +GHOST
     }
 
     override void PostBeginPlay () {
-        super.PostBeginPlay ();
+        Super.PostBeginPlay ();
         target = NULL;
     }
 }
 
 // By Chronos "phantombeta" Ouroboros
-class S7_EffectsBase : actor { }
+class S7_EffectsBase : Actor { }
 
-class S7_ActorExtensions : actor { }
+class S7_ActorExtensions : Actor { }
 
-class S7_PositionMarker : actor { // For when an actor needs to mark a position.
+class S7_PositionMarker : Actor { // For when an actor needs to mark a position.
     default {
-        radius 0;
-        height 0;
-        mass 0;
+        Radius 0;
+        Height 0;
+        Mass 0;
 
-        +noBlockmap +noGravity +noInteraction +noClip
-        +noTeleport +cannotPush +thruActors
-        -solid -shootable
+        +NOBLOCKMAP +NOGRAVITY  +NOINTERACTION +NOCLIP
+        +NOTELEPORT +CANNOTPUSH +THRUACTORS
+        -SOLID -SHOOTABLE
     }
 
     states {
@@ -72,11 +72,11 @@ class S7_PositionMarkerPersistent : S7_PositionMarker {
 // Action runner item base
 //
 //-------------------------------------------------------------------------------------------
-class S7_ActionRunnerBase : customInventory {
+class S7_ActionRunnerBase : CustomInventory {
     default {
-        inventory.maxAmount 1;
+        Inventory.MaxAmount 1;
 
-        +inventory.autoActivate +inventory.quiet +inventory.alwaysPickup
+        +INVENTORY.AUTOACTIVATE +INVENTORY.QUIET +INVENTORY.ALWAYSPICKUP
     }
 
     states {
@@ -91,13 +91,13 @@ class S7_ActionRunnerBase : customInventory {
 // Custom key base
 //
 //-------------------------------------------------------------------------------------------
-class S7_CustomKey : customInventory {
+class S7_CustomKey : CustomInventory {
     default {
         inventory.amount 1;
-        inventory.maxAmount 1;
+        Inventory.MaxAmount 1;
 
-        +inventory.undroppable
-        -inventory.invBar
+        +INVENTORY.UNDROPPABLE
+        -INVENTORY.INVBAR
     }
 }
 
@@ -106,16 +106,16 @@ class S7_CustomKey : customInventory {
 // Distance testing puff
 //
 //-------------------------------------------------------------------------------------------
-class S7_DistanceTestPuff : actor {
+class S7_DistanceTestPuff : Actor {
     default {
-        damage 0;
-        damageType "TesterProjectile";
-        alpha 0.0;
-        scale 0.0;
-        decal "None";
+        Damage 0;
+        DamageType "TesterProjectile";
+        Alpha 0.0;
+        Scale 0.0;
+        Decal "None";
 
-        +bloodlessImpact +painless +noPain +puffGetsOwner
-        +noTimeFreeze
+        +BLOODLESSIMPACT +PAINLESS +NOPAIN +PUFFGETSOWNER
+        +NOTIMEFREEZE
     }
 
     states {
@@ -136,17 +136,18 @@ class S7_DistanceTestPuff : actor {
 // Distance testing projectile
 //
 //-------------------------------------------------------------------------------------------
-class S7_DistanceTestProjectile : fastProjectile {
+class S7_DistanceTestProjectile : FastProjectile {
     default {
-        speed 25;
-        projectile;
-        damage 0;
-        damageType "TesterProjectile";
-        alpha 0.0;
-        scale 0.0;
-        decal "None";
+        Speed 25;
+        Damage 0;
+        DamageType "TesterProjectile";
+        Alpha 0.0;
+        Scale 0.0;
+        Decal "None";
 
-        +bloodlessImpact +painless +noPain +noTimeFreeze
+        Projectile;
+
+        +BLOODLESSIMPACT +PAINLESS +NOPAIN +NOTIMEFREEZE
     }
 
     states {

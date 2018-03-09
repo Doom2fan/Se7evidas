@@ -101,11 +101,11 @@ extend class S7_DracoPlayer {
 
 class S7_DracoADMZap : S7_DebrisGeneral {
     default {
-        renderStyle "add";
-        alpha 1.0;
-        scale 0.5;
+        RenderStyle "add";
+        Alpha 1.0;
+        Scale 0.5;
 
-        +thruActors
+        +THRUACTORS
     }
 
     states {
@@ -137,11 +137,11 @@ class S7_DracoADMZap : S7_DebrisGeneral {
 
 class S7_DracoADMZapSparks : S7_DebrisGeneral {
     default {
-        renderStyle "add";
-        alpha 1.0;
-        gravity 0.25;
+        RenderStyle "add";
+        Alpha 1.0;
+        Gravity 0.25;
 
-        +thruActors -noGravity
+        +THRUACTORS -NOGRAVITY
     }
 
     states {
@@ -163,18 +163,18 @@ class S7_DracoADMZapSparks : S7_DebrisGeneral {
 class S7_DracoADMLaser : S7_BaseTracer {
     default {
         S7_Projectile.MovementMode OldFastProj;
-        damageFunction (fRandom [weaponDamage] (1.0, 4.0));
-        speed 350;
-        damageType "LaserTracer";
-        scale 0.015;
-        missileType "S7_LaserTracerTrail";
-        decal "S7_LaserDecal";
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.0));
+        Speed 350;
+        DamageType "LaserTracer";
+        Scale 0.015;
+        MissileType "S7_LaserTracerTrail";
+        Decal "S7_LaserDecal";
 
-        -bloodSplatter
+        -BLOODSPLATTER
     }
 
     override void Effect () {
-        super.Effect ();
+        Super.Effect ();
 
         if (tracer && S7_Math.CheckActorCollision (self, tracer)) {
             tracer.ExplodeMissile (NULL, self, false);
@@ -201,10 +201,10 @@ class S7_DracoADMLaser : S7_BaseTracer {
 
 class S7_DracoADMLaserMarker : S7_PositionMarker {
     default {
-        radius 20;
-        height 16;
+        Radius 20;
+        Height 16;
 
-        +shootable
-        -noBlockmap -noInteraction -noClip
+        +SHOOTABLE
+        -NOBLOCKMAP -NOINTERACTION -NOCLIP
     }
 }

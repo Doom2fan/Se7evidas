@@ -5,9 +5,9 @@
 //-------------------------------------------------------------------------------------------
 class S7_FireBase : S7_DebrisGeneral {
     default {
-        renderStyle "add";
-        alpha 1.0;
-        scale 0.25;
+        RenderStyle "add";
+        Alpha 1.0;
+        Scale 0.25;
     }
 
     states {

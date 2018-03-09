@@ -21,17 +21,17 @@ class S7_HealingItem : Inventory {
 // Medikit
 //
 //-------------------------------------------------------------------------------------------
-class S7_Medikit : S7_HealingItem replaces medikit {
+class S7_Medikit : S7_HealingItem replaces Medikit {
     default {
-        tag "Medikit";
+        Tag "Medikit";
 
         S7_HealingItem.healAmount 45;
-        inventory.maxAmount 4;
-        inventory.interHubAmount 4;
-        inventory.pickupMessage "$GOTMEDIKIT";
-        inventory.icon "ARTIMEDI";
+        Inventory.MaxAmount 4;
+        Inventory.InterHubAmount 4;
+        Inventory.PickupMessage "$GOTMEDIKIT";
+        Inventory.Icon "ARTIMEDI";
 
-        +inventory.invBar
+        +INVENTORY.INVBAR
     }
 
     states {
@@ -46,17 +46,17 @@ class S7_Medikit : S7_HealingItem replaces medikit {
 // Stimpack
 //
 //-------------------------------------------------------------------------------------------
-class S7_Stimpack : S7_HealingItem replaces stimpack {
+class S7_Stimpack : S7_HealingItem replaces Stimpack {
     default {
-        tag "Stimpack";
+        Tag "Stimpack";
 
-        S7_HealingItem.healAmount 20;
-        inventory.maxAmount 8;
-        inventory.interHubAmount 8;
-        inventory.pickupMessage "$GOTSTIM";
-        inventory.icon "ARTISTIM";
+        S7_HealingItem.HealAmount 20;
+        Inventory.MaxAmount 8;
+        Inventory.InterHubAmount 8;
+        Inventory.PickupMessage "$GOTSTIM";
+        Inventory.Icon "ARTISTIM";
 
-        +inventory.invBar
+        +INVENTORY.INVBAR
     }
 
     override bool Use (bool pickup) {
@@ -70,7 +70,7 @@ class S7_Stimpack : S7_HealingItem replaces stimpack {
         if (!pPawn.xpSys.AddStatMod (regenMod))
             return false;
 
-        if (!super.Use (pickup)) {
+        if (!Super.Use (pickup)) {
             pPawn.xpSys.RemoveStatMod (regenMod);
             return false;
         }
@@ -102,13 +102,13 @@ class S7_Stimpack_FasterRegen : S7_StatModifier {
 //-------------------------------------------------------------------------------------------
 class S7_Canteen : Inventory {
     default {
-        tag "$CANTEEN";
-        inventory.maxAmount 2000;
+        Tag "$CANTEEN";
+        Inventory.MaxAmount 2000;
         inventory.interHubAmount 2000;
-        inventory.pickupMessage "$CANTEEN";
-        inventory.icon "ARTICANT";
+        Inventory.PickupMessage "$CANTEEN";
+        Inventory.Icon "ARTICANT";
 
-        +inventory.invBar +inventory.undroppable +inventory.keepDepleted +inventory.untossable
+        +INVENTORY.INVBAR +INVENTORY.UNDROPPABLE +INVENTORY.KEEPDEPLETED +INVENTORY.UNTOSSABLE
     }
 
     override bool Use (bool pickup) {

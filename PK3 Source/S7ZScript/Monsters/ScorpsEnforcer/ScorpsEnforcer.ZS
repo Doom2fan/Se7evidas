@@ -5,23 +5,23 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
-        damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 5.5);
-        S7_BaseTracer.trueSpeed 250;
-        damageType "RifleTracer";
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 5.5);
+        S7_BaseTracer.TrueSpeed 250;
+        DamageType "RifleTracer";
     }
 }
 class S7_ScorpsEnforcer : S7_ScorpBase {
     default {
-        health 105;
-        gibHealth -15;
-        painChance 200;
-        painSound "Monsters/SCorps1/Pain";
-        deathSound "Monsters/SCorps1/Death";
-        obituary "$OBSCORPSENFORCER";
-        species "ScorpsEnforcer";
-        tag "$SCRPSENFRTAG";
+        Health 105;
+        GibHealth -15;
+        PainChance 200;
+        PainSound "Monsters/SCorps1/Pain";
+        DeathSound "Monsters/SCorps1/Death";
+        Obituary "$OBSCORPSENFORCER";
+        Species "ScorpsEnforcer";
+        Tag "$SCRPSENFRTAG";
 
-        +missileMore
+        +MISSILEMORE
     }
 
     override void PostBeginPlay () {

@@ -11,8 +11,8 @@ class S7_50mmCasingSpawn : S7_CasingSpawnerBase {
 
 class S7_50mmCasing : S7_CasingBase {
     default {
-        seeSound "Weapons/shell";
-        scale .2;
+        SeeSound "Weapons/shell";
+        Scale .2;
     }
 
     states {

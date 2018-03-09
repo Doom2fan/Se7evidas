@@ -5,21 +5,21 @@
 //-------------------------------------------------------------------------------------------
 class S7_BlackPanther : S7_HellNobleBase {
     default {
-        health 750;
-        speed 8;
-        painChance 50;
-        bloodColor "00 67 67";
-        seeSound "BlackPanther/Sight";
-        activeSound "BlackPanther/Active";
-        painSound "BlackPanther/Pain";
-        deathSound "knight/death";
-        hitObituary "$OBBPANTHER_MELEE";
-        species "HellNoble";
-        tag "$BLCKPNTTAG";
+        Health 750;
+        Speed 8;
+        PainChance 50;
+        BloodColor "00 67 67";
+        SeeSound "BlackPanther/Sight";
+        ActiveSound "BlackPanther/Active";
+        PainSound "BlackPanther/Pain";
+        DeathSound "knight/death";
+        HitObituary "$OBBPANTHER_MELEE";
+        Species "HellNoble";
+        Tag "$BLCKPNTTAG";
 
         // (Mini-)Boss damage reduction
-        damageFactor "ExplosionSplashDMG", 0.75;
-        damageFactor "Shrapnel", 0.85;
+        DamageFactor "ExplosionSplashDMG", 0.75;
+        DamageFactor "Shrapnel", 0.85;
     }
 
     states {
@@ -69,9 +69,9 @@ class S7_BlackPanther : S7_HellNobleBase {
 //-------------------------------------------------------------------------------------------
 class S7_BlackPantherBall : S7_FireballBase {
     default {
-        damageFunction (fRandom [monsterDMG] (1.0, 4.0) * 16);
-        speed 18;
-        obituary "$OBBPANTHER";
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 16);
+        Speed 18;
+        Obituary "$OBBPANTHER";
     }
 
     states {

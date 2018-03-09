@@ -3,23 +3,23 @@
 // SR20 "Hitter" .45 ACP SMG
 //
 //-------------------------------------------------------------------------------------------
-class S7_HitterSMGClip : ammo {
+class S7_HitterSMGClip : Ammo {
     default {
-        inventory.maxAmount 62;
-        ammo.backpackMaxAmount 62;
+        Inventory.MaxAmount 62;
+        Ammo.BackpackMaxAmount 62;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_HitterSMG : S7_BaseWeapon {
     default {
-        tag "$HITTERSMG";
-        inventory.pickupMessage "HITTERSMG";
-        weapon.ammoType1 "S7_HitterSMGClip";
-        weapon.ammoType2 "S7_45ACPCartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$HITTERSMG";
+        Inventory.PickupMessage "HITTERSMG";
+        Weapon.AmmoType1 "S7_HitterSMGClip";
+        Weapon.AmmoType2 "S7_45ACPCartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "SR20Z0";
         S7_BaseWeapon.ShortTag "$SHORTHITTERSMG";
         S7_BaseWeapon.BindSlot WpSlot_Light;

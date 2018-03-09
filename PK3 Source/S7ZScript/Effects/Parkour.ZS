@@ -5,14 +5,14 @@
 //-------------------------------------------------------------------------------------------
 class S7_MultiJump_Marker : S7_EffectsBase {
     default {
-        height 2;
-        radius 2;
-        alpha 1.0;
-        renderStyle "add";
+        Height 2;
+        Radius 2;
+        Alpha 1.0;
+        RenderStyle "add";
 
-        +noBlockmap +noGravity +noTeleport +cannotPush
-        +noInteraction +clientsideOnly +forceXYBillboard
-        -noBlockmap
+        +NOTELEPORT +NOINTERACTION  +NOGRAVITY +FORCEXYBILLBOARD
+        +CANNOTPUSH +CLIENTSIDEONLY
+        -NOBLOCKMAP
     }
 
     states {

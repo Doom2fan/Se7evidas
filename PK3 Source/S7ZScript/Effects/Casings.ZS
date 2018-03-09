@@ -7,9 +7,9 @@
 
 class S7_CasingSmoke : S7_ShotSmokeTrail {
     default {
-        scale 0.05;
-        alpha 0.35;
-        floatBobPhase 0;
+        Scale 0.05;
+        Alpha 0.35;
+        FloatBobPhase 0;
     }
 
     states {
@@ -21,26 +21,27 @@ class S7_CasingSmoke : S7_ShotSmokeTrail {
 
 class S7_CasingSpawnerBase : S7_EffectsBase {
     default {
-        speed 20;
-        floatBobPhase 0;
-        projectile;
+        Speed 20;
+        FloatBobPhase 0;
 
-        +noClip
+        Projectile;
+
+        +NOCLIP
     }
 }
 
 class S7_CasingBase : S7_EffectsBase {
     default {
-        height 2;
-        radius 2;
-        speed 6;
-        bounceType "Doom";
-        floatBobPhase 0;
+        Height 2;
+        Radius 2;
+        Speed 6;
+        BounceType "Doom";
+        FloatBobPhase 0;
 
-        +windThrust +clientsideOnly +ghost +canBounceWater
-        +moveWithSector +missile +noBlockmap +noTeleport
-        +forceXYBillboard
-        -dropOff -noGravity
+        +CANBOUNCEWATER +NOBLOCKMAP +MISSILE +FORCEXYBILLBOARD 
+        +WINDTHRUST     +NOTELEPORT +GHOST   +MOVEWITHSECTOR
+        +CLIENTSIDEONLY
+        -DROPOFF -NOGRAVITY
     }
 
     int timer;
@@ -114,8 +115,8 @@ class S7_ShellCasingSpawn : S7_CasingSpawnerBase {
 
 class S7_ShellCasing : S7_CasingBase {
     default {
-        bounceSound "Weapons/Shell";
-        scale .2;
+        BounceSound "Weapons/Shell";
+        Scale .2;
     }
 
     states {
@@ -148,8 +149,8 @@ class S7_12gaShellCasingSpawn2 : S7_CasingSpawnerBase {
 
 class S7_12gaShellCasing : S7_CasingBase {
     default {
-        bounceSound "Weapons/Shell";
-        scale .2;
+        BounceSound "Weapons/Shell";
+        Scale .2;
     }
 
     states {
@@ -176,8 +177,8 @@ class S7_9mmCasingSpawn : S7_CasingSpawnerBase {
 
 class S7_9mmCasing : S7_CasingBase {
     default {
-        bounceSound "Weapons/Brass";
-        scale .2;
+        BounceSound "Weapons/Brass";
+        Scale .2;
     }
 
     states {
@@ -200,7 +201,7 @@ class S7_45ACPCasingSpawn : S7_9mmCasingSpawn {
     }
 }
 
-class S7_45ACPCasing : S7_9mmCasing { default { scale .3; } }
+class S7_45ACPCasing : S7_9mmCasing { default { Scale .3; } }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -217,8 +218,8 @@ class S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
 
 class S7_RevolverCasing : S7_CasingBase {
     default {
-        bounceSound "Weapons/Brass";
-        scale .2;
+        BounceSound "Weapons/Brass";
+        Scale .2;
     }
 
     states {
@@ -250,8 +251,8 @@ class S7_RifleCasingSpawn2 : S7_CasingSpawnerBase {
 
 class S7_RifleCasing : S7_CasingBase {
     default {
-        bounceSound "Weapons/Brass";
-        scale .2;
+        BounceSound "Weapons/Brass";
+        Scale .2;
     }
 
     states {
@@ -283,8 +284,8 @@ class S7_45WWCasingSpawnRifle : S7_CasingSpawnerBase {
 
 class S7_45WWCasing : S7_CasingBase {
     default {
-        bounceSound "Weapons/Brass";
-        scale .25;
+        BounceSound "Weapons/Brass";
+        Scale .25;
     }
 
     states {

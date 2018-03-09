@@ -5,13 +5,13 @@
 //-------------------------------------------------------------------------------------------
 class S7_Thumper_Used : S7_Counter {
     default {
-        inventory.amount 1;
-        //inventory.icon "EMPT50MM";
-        inventory.pickupMessage "$EMPTTHGRPICK";
-        tag "$EMPTTHGR";
-        scale 0.8;
+        Inventory.Amount 1;
+        //Inventory.Icon "EMPT50MM";
+        Inventory.PickupMessage "$EMPTTHGRPICK";
+        Tag "$EMPTTHGR";
+        Scale 0.8;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 
     states {

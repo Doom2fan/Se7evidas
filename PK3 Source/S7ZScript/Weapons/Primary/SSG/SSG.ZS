@@ -5,23 +5,23 @@
 //-------------------------------------------------------------------------------------------
 class S7_SSGLeftLoadedToken  : S7_Boolean { } // These are for HUDs and stuff
 class S7_SSGRightLoadedToken : S7_Boolean { }
-class S7_SSGFauxClip : ammo {
+class S7_SSGFauxClip : Ammo {
     default {
-        inventory.maxAmount 2;
-        ammo.backpackMaxAmount 2;
+        Inventory.MaxAmount 2;
+        Ammo.BackpackMaxAmount 2;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_SSG : S7_BaseWeapon {
     default {
-        tag "$SSG";
-        inventory.pickupMessage "$SSG";
-        weapon.ammoType1 "S7_SSGFauxClip";
-        weapon.ammoType2 "S7_12gaShells";
-        weapon.ammoUse 0;
-        weapon.ammoGive 0;
+        Tag "$SSG";
+        Inventory.PickupMessage "$SSG";
+        Weapon.AmmoType1 "S7_SSGFauxClip";
+        Weapon.AmmoType2 "S7_12gaShells";
+        Weapon.AmmoUse 0;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "SSGPA0";
         S7_BaseWeapon.ShortTag "$SHORTSSG";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
@@ -30,7 +30,7 @@ class S7_SSG : S7_BaseWeapon {
     bool leftLoaded, rightLoaded, firingBoth;
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         Owner.SetInventory ("S7_SSGLeftLoadedToken",  (leftLoaded  ? 1 : 0));
         Owner.SetInventory ("S7_SSGRightLoadedToken", (rightLoaded ? 1 : 0));

@@ -5,34 +5,35 @@
 //-------------------------------------------------------------------------------------------
 class S7_FatFuck : S7_DemonBase {
     default {
-        health 900;
-        radius 48;
-        height 64;
-        speed 5;
-        painChance 80;
-        mass 1500;
-        bloodColor "DA E1 00";
-        species "S7FatFuck";
-        tag "$FATFUCKTAG";
+        Health 900;
+        Radius 48;
+        Height 64;
+        Speed 5;
+        PainChance 80;
+        Mass 1500;
+        BloodColor "DA E1 00";
+        Species "S7FatFuck";
+        Tag "$FATFUCKTAG";
 
-        seeSound "fatso/sight";
-        painSound "fatso/pain";
-        deathSound "fatso/death";
-        activeSound "fatso/active";
+        SeeSound "fatso/sight";
+        PainSound "fatso/pain";
+        DeathSound "fatso/death";
+        ActiveSound "fatso/active";
 
         // Demon/Reanimated flesh damage reduction
-        damageFactor "PistolTracer", 0.7;
-        damageFactor "RevolverTracer", 0.8;
-        damageFactor "RifleTracer", 0.9;
+        DamageFactor "PistolTracer", 0.7;
+        DamageFactor "RevolverTracer", 0.8;
+        DamageFactor "RifleTracer", 0.9;
         // Plasma/Laser damage bonus
-        damageFactor "Plasma", 1.5;
-        damageFactor "LaserTracer", 1.25;
+        DamageFactor "Plasma", 1.5;
+        DamageFactor "LaserTracer", 1.25;
         // (Mini-)Boss damage reduction
-        damageFactor "ExplosionSplashDMG", 0.75;
-        damageFactor "Shrapnel", 0.80;
+        DamageFactor "ExplosionSplashDMG", 0.75;
+        DamageFactor "Shrapnel", 0.80;
 
-        monster;
-        +missileMore +floorClip +dontMorph +bossDeath
+        Monster;
+
+        +MISSILEMORE +FLOORCLIP +DONTMORPH +BOSSDEATH
     }
 
     states {
@@ -102,6 +103,6 @@ class S7_FatFuck : S7_DemonBase {
 
 class S7_FatFuckShot : FatShot {
     default {
-        obituary "$OBFATSOFIREBALL";
+        Obituary "$OBFATSOFIREBALL";
     }
 }

@@ -7,12 +7,12 @@
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 class S7_WhiteSmoke : S7_EffectsBase {
     default {
-        renderStyle "add";
-        alpha 0.3;
-        scale 0.1;
+        RenderStyle "add";
+        Alpha 0.3;
+        Scale 0.1;
 
-        +noInteraction +noGravity +noBlockmap +forceXYBillboard
-        +clientsideOnly
+        +FORCEXYBILLBOARD +NOGRAVITY +NOBLOCKMAP +NOINTERACTION
+        +CLIENTSIDEONLY
     }
 
     states {
@@ -26,8 +26,8 @@ class S7_WhiteSmoke : S7_EffectsBase {
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 class S7_BlackSmoke : S7_WhiteSmoke {
     default {
-        renderStyle "translucent";
-        alpha 0.15;
+        RenderStyle "translucent";
+        Alpha 0.15;
     }
 
     states {
@@ -41,7 +41,7 @@ class S7_BlackSmoke : S7_WhiteSmoke {
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 class S7_ShotSmoke : S7_WhiteSmoke {
     default {
-        vSpeed 2;
+        VSpeed 2;
     }
 
     states {
@@ -53,8 +53,8 @@ class S7_ShotSmoke : S7_WhiteSmoke {
 
 class S7_ShotSmokeTrail : S7_ShotSmoke {
     default {
-        vSpeed 0;
-        alpha 0.15;
+        VSpeed 0;
+        Alpha 0.15;
     }
 
     states {
@@ -66,11 +66,12 @@ class S7_ShotSmokeTrail : S7_ShotSmoke {
 
 class S7_ShotSmoke_Spawner : S7_WhiteSmoke { // By wildweasel, edited by Chronos "phantombeta" Ouroboros
     default {
-        radius 1;
-        height 1;
-        speed 10;
-        damageFunction (0);
-        projectile;
+        Radius 1;
+        Height 1;
+        Speed 10;
+        DamageFunction (0);
+
+        Projectile;
     }
 
     states {
@@ -89,8 +90,8 @@ class S7_ShotSmoke_Spawner : S7_WhiteSmoke { // By wildweasel, edited by Chronos
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 class S7_BlackShotSmoke : S7_ShotSmoke {
     default {
-        renderStyle "translucent";
-        alpha 0.15;
+        RenderStyle "translucent";
+        Alpha 0.15;
     }
 
     states {
@@ -102,8 +103,8 @@ class S7_BlackShotSmoke : S7_ShotSmoke {
 
 class S7_BlackShotSmokeTrail : S7_ShotSmokeTrail {
     default {
-        renderStyle "translucent";
-        alpha 0.08;
+        RenderStyle "translucent";
+        Alpha 0.08;
     }
 }
 
@@ -119,11 +120,11 @@ class S7_BlackShotSmoke_Spawner : S7_ShotSmoke_Spawner {
 // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
 class S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ouroboros
     default {
-        speed 12;
-        gravity 0.7;
+        Speed 12;
+        Gravity 0.7;
 
-        +clientsideOnly
-        -noGravity
+        +CLIENTSIDEONLY
+        -NOGRAVITY
     }
 
     states {
@@ -139,8 +140,8 @@ class S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ou
 
 class S7_SmokingPieceSmoke : S7_ShotSmokeTrail {
     default {
-        scale 0.06;
-        alpha 0.5;
+        Scale 0.06;
+        Alpha 0.5;
     }
 }
 
@@ -156,8 +157,8 @@ class S7_ShotSmoke_2_Spawner : S7_ShotSmoke_Spawner {
 
 class S7_ShotSmoke_2 : S7_WhiteSmoke {
     default {
-        alpha 0.25;
-        scale 0.1;
+        Alpha 0.25;
+        Scale 0.1;
     }
 
     states {
@@ -171,8 +172,8 @@ class S7_ShotSmoke_2 : S7_WhiteSmoke {
 // By Jekyll Grim Payne/zer0, modified (a lot) by Chronos "phantombeta" Ouroboros
 class S7_HeatSmoke : S7_ShotSmoke {
     default {
-        scale 0.08;
-        alpha 0.15;
+        Scale 0.08;
+        Alpha 0.15;
     }
 
     states {
@@ -184,8 +185,8 @@ class S7_HeatSmoke : S7_ShotSmoke {
 
 class S7_HeatSmokeTrail : S7_HeatSmoke {
     default {
-        vSpeed 0;
-        alpha 0.075;
+        VSpeed 0;
+        Alpha 0.075;
     }
 
     states {
@@ -197,9 +198,9 @@ class S7_HeatSmokeTrail : S7_HeatSmoke {
 
 class S7_HeatSmokeSpawner : S7_DebrisGeneral {
     default {
-        speed 20;
+        Speed 20;
 
-        +noClip
+        +NOCLIP
     }
 
     states {
@@ -211,7 +212,7 @@ class S7_HeatSmokeSpawner : S7_DebrisGeneral {
 
 class S7_HeatSmokeStatic : S7_HeatSmoke {
     default {
-        vSpeed 0;
+        VSpeed 0;
     }
 
     states {
@@ -223,8 +224,8 @@ class S7_HeatSmokeStatic : S7_HeatSmoke {
 
 class S7_FireballSmoke : S7_HeatSmoke {
     default {
-        scale 0.12;
-        alpha 0.5;
+        Scale 0.12;
+        Alpha 0.5;
     }
 
     states {
