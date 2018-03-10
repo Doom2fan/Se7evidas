@@ -3,23 +3,23 @@
 // MK17 "Conqueror" Anti-Materiel Sniper Rifle
 //
 //-------------------------------------------------------------------------------------------
-class S7_ConquerorRifleClip : ammo {
+class S7_ConquerorRifleClip : Ammo {
     default {
-        inventory.maxAmount 15;
-        ammo.backpackMaxAmount 15;
+        Inventory.MaxAmount 15;
+        Ammo.BackpackMaxAmount 15;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_ConquerorRifle : S7_BaseWeapon {
     default {
-        tag "$CONQUERORSRIFLE";
-        inventory.pickupMessage "$CONQUERORSRIFLE";
-        weapon.ammoType1 "S7_ConquerorRifleClip";
-        weapon.ammoType2 "S7_45WWCartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$CONQUERORSRIFLE";
+        Inventory.PickupMessage "$CONQUERORSRIFLE";
+        Weapon.AmmoType1 "S7_ConquerorRifleClip";
+        Weapon.AmmoType2 "S7_45WWCartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "CQRPA0";
         S7_BaseWeapon.ShortTag "$SHORTCONQUERORSRIFLE";
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
@@ -29,7 +29,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     int zoomLevel;
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         fireModeIcon = noPump ? FMI_SemiAuto : FMI_None;
     }

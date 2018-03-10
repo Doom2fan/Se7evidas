@@ -6,18 +6,18 @@
 class S7_ScoutPlayer : S7_BasePlayer {
     default {
         // Damage
-        health 75;
-        player.maxHealth 75;
-        player.mugShotMaxHealth 75;
-        gibHealth -37;
+        Health 75;
+        Player.MaxHealth 75;
+        Player.MugShotMaxHealth 75;
+        GibHealth -37;
 
         // Movement
-        player.forwardMove 1.2, 1.2;
-        player.sideMove 1.2, 1.2;
-        player.jumpZ 9.797;
+        Player.ForwardMove 1.2, 1.2;
+        Player.SideMove 1.2, 1.2;
+        Player.JumpZ 9.797;
 
         // Class stuff
-        player.displayName "Runner";
+        Player.DisplayName "Runner";
     }
 
     override void GiveBasics_ClassSpecific () {

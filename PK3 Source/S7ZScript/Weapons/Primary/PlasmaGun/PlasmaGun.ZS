@@ -4,14 +4,14 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_PlasmaGun_Semi          : S7_Boolean { }
-class S7_PlasmaGun_Charge        : S7_Counter { default { inventory.maxAmount 4; } }
-class S7_PlasmaGun_ChargingLevel : S7_Counter { default { inventory.maxAmount 53; } }
-class S7_PlasmaGunMag            : ammo {
+class S7_PlasmaGun_Charge        : S7_Counter { default { Inventory.MaxAmount 4; } }
+class S7_PlasmaGun_ChargingLevel : S7_Counter { default { Inventory.MaxAmount 53; } }
+class S7_PlasmaGunMag            : Ammo {
     default {
-        inventory.maxAmount 36;
-        ammo.backpackMaxAmount 36;
+        Inventory.MaxAmount 36;
+        Ammo.BackpackMaxAmount 36;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
@@ -19,19 +19,19 @@ class S7_PlasmaGun_AltfireLock : S7_Boolean { }
 
 class S7_PlasmaGun : S7_BaseWeapon {
     default {
-        tag "$PLASMAGUN";
-        inventory.pickupMessage "$PLASMAGUN";
-        weapon.ammoType1 "S7_PlasmaGunMag";
-        weapon.ammoType2 "S7_Cells";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$PLASMAGUN";
+        Inventory.PickupMessage "$PLASMAGUN";
+        Weapon.AmmoType1 "S7_PlasmaGunMag";
+        Weapon.AmmoType2 "S7_Cells";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "PLSGU0";
         S7_BaseWeapon.ShortTag "$SHORTPLASMAGUN";
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
     }
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         fireModeIcon = (Owner.CheckInventory ("S7_PlasmaGun_Semi", 1)) ? FMI_SemiAuto : FMI_FullAuto;
     }
@@ -249,13 +249,13 @@ class S7_PlasmaGun : S7_BaseWeapon {
 /** Projectile **/
 class S7_PlasmaGunRail : S7_BaseTracer {
     default {
-        S7_BaseTracer.trueSpeed 270;
-        scale 0.015;
-        damageFunction (fRandom [weaponDamage] (1.0, 3.5) * 13);
-        missileType "S7_PlasmaGunRailTrail";
-        decal "S7_PlasmaGunRail";
+        S7_BaseTracer.TrueSpeed 270;
+        Scale 0.015;
+        DamageFunction (fRandom [weaponDamage] (1.0, 3.5) * 13);
+        MissileType "S7_PlasmaGunRailTrail";
+        Decal "S7_PlasmaGunRail";
 
-        +noDamageThrust
+        +NODAMAGETHRUST
     }
 
     states {
@@ -273,7 +273,7 @@ class S7_PlasmaGunRail : S7_BaseTracer {
 /** Trails **/
 class S7_PlasmaGunRailTrail : S7_TracerEffectsBase {
     default {
-        scale 0.015;
+        Scale 0.015;
     }
 
     states {

@@ -43,11 +43,11 @@ class S7_XPSystem : Inventory {
     const BaseXPGoal = 2500;
     bool canLevelUp;
     bool randomStats;
-    property canLevelUp: canLevelUp;
-    property randomStats: canLevelUp;
+    property CanLevelUp: canLevelUp;
+    property RandomStats: canLevelUp;
 
     default {
-        inventory.maxAmount 1;
+        Inventory.MaxAmount 1;
         inventory.interHubAmount 1;
         S7_XPSystem.canLevelUp false;
         S7_XPSystem.randomStats false;

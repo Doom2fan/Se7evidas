@@ -13,15 +13,15 @@
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenade : S7_Projectile {
     default {
-        radius 10;
-        height 10;
-        speed 75;
-        damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 18);
-        scale 0.8;
-        gravity 0.25;
-        translation "112:127=216:223";
+        Radius 10;
+        Height 10;
+        Speed 75;
+        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 18);
+        Scale 0.8;
+        Gravity 0.25;
+        Translation "112:127=216:223";
 
-        -noGravity
+        -NOGRAVITY
     }
 
     states {
@@ -49,12 +49,12 @@ class S7_ThumperGrenade : S7_Projectile {
         stop;
     }
 }
-class S7_ThumperExplosion : actor {
+class S7_ThumperExplosion : Actor {
     default {
-        radius 10;
-        height 10;
+        Radius 10;
+        Height 10;
 
-        +noGravity +forceXYBillboard +noInteraction +noBlockmap
+        +NOGRAVITY +FORCEXYBILLBOARD +NOINTERACTION +NOBLOCKMAP
     }
 
     states {
@@ -71,7 +71,7 @@ class S7_ThumperExplosion : actor {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 12);
+        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 12);
     }
 
     states {
@@ -98,8 +98,8 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 12);
-        translation "112:127=184:191";
+        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 12);
+        Translation "112:127=184:191";
     }
 
     states {
@@ -125,17 +125,17 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
 
 class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
     default {
-        radius 1;
-        height 1;
-        mass 0x7FFFFFFF;
-        args 72;
-        renderStyle "add";
-        damageFunction 0;
-        damageType "ThermiteFire";
+        Radius 1;
+        Height 1;
+        Mass 0x7FFFFFFF;
+        Args 72;
+        RenderStyle "add";
+        DamageFunction 0;
+        DamageType "ThermiteFire";
 
-        +thruActors +noDamageThrust +bloodlessImpact +forceRadiusDMG
-        +forceXYBillboard +dontSplash
-        -noGravity
+        +FORCEXYBILLBOARD +NODAMAGETHRUST +BLOODLESSIMPACT +FORCERADIUSDMG
+        +THRUACTORS       +DONTSPLASH
+        -NOGRAVITY
     }
 
     states {
@@ -172,11 +172,11 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 5);
-        damageType "TH_GrenadeImpact";
-        translation "112:127=80:95";
+        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 5);
+        DamageType "TH_GrenadeImpact";
+        Translation "112:127=80:95";
 
-        -noGravity
+        -NOGRAVITY
     }
 
     bool initialized;
@@ -269,8 +269,8 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 3.0) * 18);
-        translation "112:127=200:207";
+        DamageFunction (fRandom [weaponDamage] (1.0, 3.0) * 18);
+        Translation "112:127=200:207";
     }
 
     const AngleDiff = 60;
@@ -308,15 +308,15 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
 
 class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
     default {
-        radius 1;
-        height 1;
-        damageFunction (8);
-        bounceCount 2;
+        Radius 1;
+        Height 1;
+        DamageFunction (8);
+        BounceCount 2;
         BounceSound "Bounce/MetalSmall";
 
-        +bounceOnCeilings +bounceOnFloors +bounceOnWalls +canBounceWater
-        +forceXYBillboard
-        -noGravity
+        +BOUNCEONCEILINGS +BOUNCEONFLOORS +BOUNCEONWALLS +CANBOUNCEWATER
+        +FORCEXYBILLBOARD
+        -NOGRAVITY
     }
 
     states {
@@ -346,8 +346,8 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeNail : S7_ThumperGrenade {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 13);
-        translation "112:127=200:207";
+        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 13);
+        Translation "112:127=200:207";
     }
 
     const AngleDiff = 20;
@@ -379,15 +379,15 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
 class S7_ThumperGrenadeNail_Nail : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        radius 2;
-        height 2;
-        damageFunction (fRandom [weaponDamage] (3.0, 5.0));
-        speed 1;
-        missileType "S7_HeatSmokeStatic";
-        missileHeight 8;
+        Radius 2;
+        Height 2;
+        DamageFunction (fRandom [weaponDamage] (3.0, 5.0));
+        Speed 1;
+        MissileType "S7_HeatSmokeStatic";
+        MissileHeight 8;
 
-        +noGravity +bloodSplatter +noExtremeDeath +noDamageThrust
-        +ripper
+        +NOGRAVITY +BLOODSPLATTER +NOEXTREMEDEATH +NODAMAGETHRUST
+        +RIPPER
     }
 
     states {
@@ -415,9 +415,9 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 6.0) * 6);
-        damageType "TH_GrenadeImpact";
-        translation "112:127=104:111";
+        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 6);
+        DamageType "TH_GrenadeImpact";
+        Translation "112:127=104:111";
     }
 
     int time;
@@ -464,9 +464,9 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
 /** Nerve gas cloud trail **/
 class S7_ThumperGrenadeNGas_GasCloud_Trail : S7_ShotSmoke {
     default {
-        vSpeed 0;
-        scale 0.35;
-        alpha 1.0;
+        VSpeed 0;
+        Scale 0.35;
+        Alpha 1.0;
     }
 
     states {

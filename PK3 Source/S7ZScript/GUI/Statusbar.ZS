@@ -81,7 +81,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
     }
 
     override void Tick () {
-        super.Tick ();
+        Super.Tick ();
 
         mHealthInterpolator.Update (CPlayer.health);
         mArmorInterpolator.Update  (GetS7ArmorAmount ());

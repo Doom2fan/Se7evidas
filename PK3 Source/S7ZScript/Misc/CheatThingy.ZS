@@ -1,16 +1,14 @@
 // To make testing and stuff easier
-class S7_CheatThingy : customInventory {
+class S7_CheatThingy : CustomInventory {
     default {
-        inventory.icon "TNT1A0";
-        inventory.pickupMessage "";
-        inventory.maxAmount 2;
-        inventory.amount 1;
-        inventory.pickupSound "";
-        inventory.useSound "";
+        Inventory.Icon "TNT1A0";
+        Inventory.PickupMessage "";
+        Inventory.MaxAmount 2;
+        Inventory.Amount 1;
+        Inventory.PickupSound "";
+        Inventory.UseSound "";
 
-        +inventory.undroppable
-        +inventory.autoActivate
-        +inventory.alwaysPickup
+        +INVENTORY.UNDROPPABLE +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP
     }
 
     states {

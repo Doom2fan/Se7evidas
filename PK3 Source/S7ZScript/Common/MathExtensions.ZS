@@ -1,5 +1,5 @@
 /** Math extensions **/
-class S7_Math : actor {
+class S7_Math : Actor {
     /** Target interception **/
     /* Summary:
     **  Calculates the future position of a moving target so that a projectile launched immediately can hit it.

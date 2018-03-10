@@ -2,11 +2,11 @@
 class S7_MEATW_EyesCounter : S7_Boolean { }
 class S7_MEATW_Eyes : S7_EffectsBase {
     default {
-        scale 0.1;
-        tag "";
+        Scale 0.1;
+        Tag "";
 
-        +noGravity +cannotPush +noTeleport +isMonster
-        +noDamage +invulnerable +forceXYBillboard
+        +NOGRAVITY +CANNOTPUSH +INVULNERABLE +FORCEXYBILLBOARD
+        +ISMONSTER +NOTELEPORT +NODAMAGE
     }
 
     states {

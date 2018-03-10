@@ -16,35 +16,35 @@ enum S7_ThprGrenType { // An enum containing the grenade types. Pretty straightf
 //
 //-------------------------------------------------------------------------------------------
 // These will stay so HUDs can show what kind of grenades are loaded.
-class S7_ThumperMag1 : S7_Counter { default { inventory.maxAmount 7; } }
-class S7_ThumperMag2 : S7_Counter { default { inventory.maxAmount 7; } }
-class S7_ThumperMag3 : S7_Counter { default { inventory.maxAmount 7; } }
-class S7_ThumperMag4 : S7_Counter { default { inventory.maxAmount 7; } }
-class S7_ThumperMag5 : S7_Counter { default { inventory.maxAmount 7; } }
-class S7_ThumperSelectedPool : S7_Counter { default { inventory.maxAmount 7; } }
+class S7_ThumperMag1 : S7_Counter { default { Inventory.MaxAmount 7; } }
+class S7_ThumperMag2 : S7_Counter { default { Inventory.MaxAmount 7; } }
+class S7_ThumperMag3 : S7_Counter { default { Inventory.MaxAmount 7; } }
+class S7_ThumperMag4 : S7_Counter { default { Inventory.MaxAmount 7; } }
+class S7_ThumperMag5 : S7_Counter { default { Inventory.MaxAmount 7; } }
+class S7_ThumperSelectedPool : S7_Counter { default { Inventory.MaxAmount 7; } }
 
-class S7_ThumperMag : ammo { // This isn't actually used by the weapon. It's just here so HUDs can use it.
+class S7_ThumperMag : Ammo { // This isn't actually used by the weapon. It's just here so HUDs can use it.
     default {
-        inventory.maxAmount 5;
-        ammo.backpackMaxAmount 5;
+        Inventory.MaxAmount 5;
+        Ammo.BackpackMaxAmount 5;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 // No more GROSS HACKS! Yay!
 class S7_Thumper : S7_BaseWeapon {
     default {
-        tag "$THUMPER";
-        inventory.pickupMessage "$THUMPER";
-        weapon.ammoType1 "S7_ThumperMag";
-        weapon.ammoUse 0;
-        weapon.ammoGive 0;
+        Tag "$THUMPER";
+        Inventory.PickupMessage "$THUMPER";
+        Weapon.AmmoType1 "S7_ThumperMag";
+        Weapon.AmmoUse 0;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "THMPU0";
         S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
 
-        +weapon.noAutoAim
+        +WEAPON.NOAUTOAIM
     }
 
     bool chambered;
@@ -79,13 +79,13 @@ class S7_Thumper : S7_BaseWeapon {
     }
 
     override void AttachToOwner (Actor other) {
-        super.AttachToOwner (other);
+        Super.AttachToOwner (other);
 
         selectedPool = S7_TH_Exp;
     }
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         int i = 0;
         for (; i < magazine.Size (); i++)

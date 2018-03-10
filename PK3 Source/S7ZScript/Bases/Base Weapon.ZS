@@ -8,7 +8,7 @@
 ** Animation: Chronos "phantombeta" Ouroboros
 ** Sounds: Credits in the SNDINFO file
 */
-class S7_DaggerMelee  : S7_Boolean { }
+class S7_DaggerMelee : S7_Boolean { }
 
 /* Credits:
 ** Sprites: Id Software, ???, Chronos "phantombeta" Ouroboros
@@ -22,14 +22,14 @@ class S7_PunchMelee : S7_Boolean { }
 ** Animation: Chronos "phantombeta" Ouroboros
 ** Sounds: Credits in the SNDINFO file
 */
-class S7_KickMelee    : S7_Boolean { }
+class S7_KickMelee : S7_Boolean { }
 
 //-------------------------------------------------------------------------------------------
 //
 // Base weapon
 //
 //-------------------------------------------------------------------------------------------
-class S7_BaseWeapon : weapon {
+class S7_BaseWeapon : Weapon {
     String weapIcon;
     String shortTag;
     S7_WeaponSlots bindSlot;
@@ -39,17 +39,16 @@ class S7_BaseWeapon : weapon {
     property BindSlot: bindSlot;
 
     default {
-        inventory.pickupSound "misc/gunpickup";
-        weapon.bobRangeX 0.3;
-        weapon.bobRangeY 0.5;
-        weapon.bobSpeed 2.0;
-        weapon.bobStyle "inverseSmooth";
-        weapon.kickback 100;
+        Inventory.PickupSound "misc/gunpickup";
+        Weapon.BobRangeX 0.3;
+        Weapon.BobRangeY 0.5;
+        Weapon.BobSpeed 2.0;
+        Weapon.BobStyle "inverseSmooth";
+        Weapon.Kickback 100;
         S7_BaseWeapon.Icon "";
-        S7_BaseWeapon.bindSlot -1;
+        S7_BaseWeapon.BindSlot -1;
 
-        +inventory.undroppable
-        +weapon.ammo_Optional +weapon.noAutoFire +weapon.noAlert
+        +INVENTORY.UNDROPPABLE +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT
     }
 
     int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
@@ -202,22 +201,22 @@ class S7_DracoWeapon : S7_BaseWeapon {
 //-------------------------------------------------------------------------------------------
 class S7_MeleePuff : S7_EffectsBase { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
     default {
-        damageType "Kick";
-        attackSound "Weapons/Kick/HitWall";
-        activeSound "Weapons/Kick/Swing";
+        DamageType "Kick";
+        AttackSound "Weapons/Kick/HitWall";
+        ActiveSound "Weapons/Kick/Swing";
 
-        +noBlockmap +noGravity +puffOnActors +noExtremeDeath
+        +NOBLOCKMAP +NOGRAVITY +PUFFONACTORS +NOEXTREMEDEATH
     }
 }
 
 class S7_MeleePuffStrong : S7_MeleePuff { // Ditto
     default {
-        decal "FistScorch";
-        attackSound "Weapons/Kick/Strong";
-        activeSound "Weapons/Kick/Swing";
+        Decal "FistScorch";
+        AttackSound "Weapons/Kick/Strong";
+        ActiveSound "Weapons/Kick/Swing";
 
-        +extremeDeath
-        -noExtremeDeath
+        +EXTREMEDEATH
+        -NOEXTREMEDEATH
     }
 
     states {
@@ -229,15 +228,15 @@ class S7_MeleePuffStrong : S7_MeleePuff { // Ditto
 
 class S7_DaggerPuff : S7_MeleePuff {
     default {
-        damageType "Blade";
-        attackSound "Weapons/Tridagger/HitWall";
-        activeSound "Weapons/Tridagger/Swing";
+        DamageType "Blade";
+        AttackSound "Weapons/Tridagger/HitWall";
+        ActiveSound "Weapons/Tridagger/Swing";
     }
 }
 class S7_DaggerPuffSilent : S7_DaggerPuff {
     default {
-        attackSound "";
-        activeSound "";
+        AttackSound "";
+        ActiveSound "";
     }
 }
 
@@ -246,4 +245,4 @@ class S7_DaggerPuffSilent : S7_DaggerPuff {
 // Misc crap
 //
 //-------------------------------------------------------------------------------------------
-class S7_Unarmed : S7_BaseWeapon { default { tag "$UNARMED"; } }
+class S7_Unarmed : S7_BaseWeapon { default { Tag "$UNARMED"; } }

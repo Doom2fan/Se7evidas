@@ -3,23 +3,23 @@
 // AM-10 "Lucifer" Combat Shotgun
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShotgunMag : ammo {
+class S7_ShotgunMag : Ammo {
     default {
-        inventory.maxAmount 10;
-        ammo.backpackMaxAmount 10;
+        Inventory.MaxAmount 10;
+        Ammo.BackpackMaxAmount 10;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_Shotgun : S7_BaseWeapon {
     default {
-        tag "$SHOTGUN";
-        inventory.pickupMessage "$SHOTGUN";
-        weapon.ammoType1 "S7_ShotgunMag";
-        weapon.ammoType2 "S7_20gaShells";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$SHOTGUN";
+        Inventory.PickupMessage "$SHOTGUN";
+        Weapon.AmmoType1 "S7_ShotgunMag";
+        Weapon.AmmoType2 "S7_20gaShells";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "DTUPA0";
         S7_BaseWeapon.ShortTag "$SHORTSHOTGUN";
         S7_BaseWeapon.BindSlot WpSlot_Medium;

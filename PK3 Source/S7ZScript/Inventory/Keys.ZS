@@ -3,9 +3,9 @@
 ** Sprites: Blue Shadow
 */
 
-class S7_KeycardReplacerBase : key {
+class S7_KeycardReplacerBase : Key {
     default {
-        scale 0.3;
+        Scale 0.3;
     }
 
     override bool TryPickup (in out Actor toucher) {
@@ -26,10 +26,10 @@ class S7_KeycardReplacerBase : key {
 // Red keycard
 //
 //-------------------------------------------------------------------------------------------
-class S7_RedKeycard : S7_KeycardReplacerBase replaces redCard {
+class S7_RedKeycard : S7_KeycardReplacerBase replaces RedCard {
     default {
-        inventory.pickupMessage "$REDKEY";
-        species "redCard";
+        Inventory.PickupMessage "$REDKEY";
+        Species "RedCard";
     }
 
     states {
@@ -44,10 +44,10 @@ class S7_RedKeycard : S7_KeycardReplacerBase replaces redCard {
 // Blue keycard
 //
 //-------------------------------------------------------------------------------------------
-class S7_BlueKeycard : S7_KeycardReplacerBase replaces blueCard {
+class S7_BlueKeycard : S7_KeycardReplacerBase replaces BlueCard {
     default {
-        inventory.pickupMessage "$BLUEKEY";
-        species "blueCard";
+        Inventory.PickupMessage "$BLUEKEY";
+        Species "BlueCard";
     }
 
     states {
@@ -62,10 +62,10 @@ class S7_BlueKeycard : S7_KeycardReplacerBase replaces blueCard {
 // Yellow keycard
 //
 //-------------------------------------------------------------------------------------------
-class S7_YellowKeycard : S7_KeycardReplacerBase replaces yellowCard {
+class S7_YellowKeycard : S7_KeycardReplacerBase replaces YellowCard {
     default {
-        inventory.pickupMessage "$YELLOWKEY";
-        species "yellowCard";
+        Inventory.PickupMessage "$YELLOWKEY";
+        Species "YellowCard";
     }
 
     states {

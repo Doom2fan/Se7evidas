@@ -3,7 +3,7 @@
 // Cash
 //
 //-------------------------------------------------------------------------------------------
-class S7_Cash : S7_Counter { default { inventory.maxAmount 0x7FFFFFFE; +inventory.keepDepleted } }
+class S7_Cash : S7_Counter { default { Inventory.MaxAmount 0x7FFFFFFE; +inventory.keepDepleted } }
 
 // Constants
 enum SS_ItemType {
@@ -207,7 +207,7 @@ class S7_SSItem_Ammo : S7_SSItem {
     }
 
     override S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
-        let ret = super.GetInfo (player, amount);
+        let ret = Super.GetInfo (player, amount);
 
         if (ret.maxAmount < 0) {
             Inventory inv;

@@ -8,16 +8,16 @@
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
 
-class S7_Berserk : ammo {
+class S7_Berserk : Ammo {
     default {
-        tag "$BERSERK";
-        inventory.icon "BSRKA0";
-        inventory.pickupMessage "$BERSERK";
-        inventory.amount 1;
-        inventory.maxAmount 5;
-        inventory.interHubAmount 5;
+        Tag "$BERSERK";
+        Inventory.Icon "BSRKA0";
+        Inventory.PickupMessage "$BERSERK";
+        Inventory.Amount 1;
+        Inventory.MaxAmount 5;
+        Inventory.InterHubAmount 5;
 
-        +inventory.invBar
+        +INVENTORY.INVBAR
     }
 
     override bool Use (bool pickup) {
@@ -30,16 +30,16 @@ class S7_Berserk : ammo {
     }
 }
 
-class S7_BerserkToken : powerup { default { powerup.duration -60; powerup.color "FF 20 20", 0.25; } }
-class S7_BerserkPower : powerWeaponLevel2 { default { powerup.duration -60; powerup.color "00 00 00", 0.0; } }
+class S7_BerserkToken : Powerup { default { powerup.duration -60; powerup.color "FF 20 20", 0.25; } }
+class S7_BerserkPower : PowerWeaponLevel2 { default { powerup.duration -60; powerup.color "00 00 00", 0.0; } }
 
 class S7_BerserkWeap : S7_BaseWeapon {
     default {
-        tag "$BERSERKWEAP";
-        weapon.ammoType1 "S7_Berserk";
-        weapon.ammoUse1 1;
+        Tag "$BERSERKWEAP";
+        Weapon.AmmoType1 "S7_Berserk";
+        Weapon.AmmoUse1 1;
 
-        +inventory.undroppable +inventory.untossable
+        +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE
     }
 
     override bool Use (bool pickup) {
@@ -114,8 +114,8 @@ class S7_BerserkWeap : S7_BaseWeapon {
 
 class S7_SpentSyringe : S7_CasingBase {
     default {
-        scale 0.1;
-        seeSound "Weapons/Shell";
+        Scale 0.1;
+        SeeSound "Weapons/Shell";
     }
 
     states {

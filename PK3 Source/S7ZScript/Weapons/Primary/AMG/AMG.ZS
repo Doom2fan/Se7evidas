@@ -3,23 +3,23 @@
 // A28 "Mars" Assault Rifle
 //
 //-------------------------------------------------------------------------------------------
-class S7_AMGMag : ammo {
+class S7_AMGMag : Ammo {
     default {
-        inventory.maxAmount 35;
-        ammo.backpackMaxAmount 35;
+        Inventory.MaxAmount 35;
+        Ammo.BackpackMaxAmount 35;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_AMG : S7_BaseWeapon {
     default {
-        tag "$AMG";
-        inventory.pickupMessage "$AMG";
-        weapon.ammoType1 "S7_AMGMag";
-        weapon.ammoType2 "S7_762x39Cartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$AMG";
+        Inventory.PickupMessage "$AMG";
+        Weapon.AmmoType1 "S7_AMGMag";
+        Weapon.AmmoType2 "S7_762x39Cartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "AMGGZ0";
         S7_BaseWeapon.ShortTag "$SHORTAMG";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
@@ -30,7 +30,7 @@ class S7_AMG : S7_BaseWeapon {
         zoomLevel;
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
     }

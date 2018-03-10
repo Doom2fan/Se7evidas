@@ -3,20 +3,20 @@
 // FS/909G "Butterfly" SMG
 //
 //-------------------------------------------------------------------------------------------
-class S7_LaserPewPewClip : ammo {
+class S7_LaserPewPewClip : Ammo {
     default {
-        inventory.maxAmount S7_LaserPewPew.MagSize;
-        ammo.backpackMaxAmount S7_LaserPewPew.MagSize;
+        Inventory.MaxAmount S7_LaserPewPew.MagSize;
+        Ammo.BackpackMaxAmount S7_LaserPewPew.MagSize;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
-class S7_LaserPewPewClipSecond : ammo {
+class S7_LaserPewPewClipSecond : Ammo {
     default {
-        inventory.maxAmount S7_LaserPewPew.MagSize;
-        ammo.backpackMaxAmount S7_LaserPewPew.MagSize;
+        Inventory.MaxAmount S7_LaserPewPew.MagSize;
+        Ammo.BackpackMaxAmount S7_LaserPewPew.MagSize;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
@@ -25,12 +25,12 @@ class S7_LaserPewPew : S7_BaseWeapon {
     const MagSize = 32;
 
     default {
-        tag "$BUTTFLY";
-        inventory.pickupMessage "$BUTTFLY";
-        weapon.ammoType1 "S7_LaserPewPewClip";
-        weapon.ammoType2 "S7_FBSysCells";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$BUTTFLY";
+        Inventory.PickupMessage "$BUTTFLY";
+        Weapon.AmmoType1 "S7_LaserPewPewClip";
+        Weapon.AmmoType2 "S7_FBSysCells";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "BLSPA0";
         S7_BaseWeapon.ShortTag "$SHORTBUTTFLY";
         S7_BaseWeapon.BindSlot WpSlot_Light;
@@ -436,7 +436,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 // Equalize the mags
                 if (mag1Req != mag2Req) {
                     int ammoDiff = abs (mag1Req - mag2Req); // Get the difference
-                    ammoToGive = ((ammoDiff > ammoPool) ? ammoPool : ammoDiff); // Make sure the given amount isn't greater than the available amount
+                    ammoToGive = ((ammoDiff > ammoPool) ? ammoPool : AmmoDiff); // Make sure the given amount isn't greater than the available amount
                     GiveInventory ((mag1Req - mag2Req > 0) ? "S7_LaserPewPewClip" : "S7_LaserPewPewClipSecond", ammoToGive); // Give the ammo
                     ammoGiven += ammoToGive;
                 }
@@ -444,7 +444,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 // If there's enough ammo, split it between the mags
                 if (ammoPool - ammoGiven > 1) {
                     ammoToGive = ammoPool - ammoGiven;
-                    ammoToGive = ((ammoToGive & 1) ? ammoToGive - 1 : ammoToGive) / 2;  // Calculate the amount to give
+                    ammoToGive = ((ammoToGive & 1) ? ammoToGive - 1 : AmmoToGive) / 2;  // Calculate the amount to give
                     GiveInventory ("S7_LaserPewPewClip", ammoToGive); // Give the ammo
                     GiveInventory ("S7_LaserPewPewClipSecond", ammoToGive);
                     ammoGiven += ammoToGive * 2;
@@ -524,14 +524,14 @@ class S7_LaserPewPew : S7_BaseWeapon {
 //-------------------------------------------------------------------------------------------
 class S7_LaserPewPew_Tracer : S7_BaseTracer {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8);
-        S7_BaseTracer.trueSpeed 310;
-        damageType "LaserTracer";
-        scale 0.0125;
-        missileType "S7_LaserPewPew_Tracer_Trail";
-        decal "S7_LaserPewPewDecal";
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8);
+        S7_BaseTracer.TrueSpeed 310;
+        DamageType "LaserTracer";
+        Scale 0.0125;
+        MissileType "S7_LaserPewPew_Tracer_Trail";
+        Decal "S7_LaserPewPewDecal";
 
-        -bloodSplatter
+        -BLOODSPLATTER
     }
 
     states {
@@ -552,7 +552,7 @@ class S7_LaserPewPew_Tracer : S7_BaseTracer {
 
 class S7_LaserPewPew_Tracer_Trail : S7_TracerEffectsBase {
     default {
-        scale 0.0125;
+        Scale 0.0125;
     }
 
     states {

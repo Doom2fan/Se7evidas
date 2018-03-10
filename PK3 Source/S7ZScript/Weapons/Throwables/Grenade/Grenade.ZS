@@ -3,22 +3,22 @@
 // Grenade
 //
 //-------------------------------------------------------------------------------------------
-class S7_GrenadeCount : ammo {
+class S7_GrenadeCount : Ammo {
     default {
-        inventory.maxAmount 15;
-        ammo.backpackMaxAmount 15;
+        Inventory.MaxAmount 15;
+        Ammo.BackpackMaxAmount 15;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
-class S7_GrenadeForce : S7_Counter { default { inventory.maxAmount 30; } }
+class S7_GrenadeForce : S7_Counter { default { Inventory.MaxAmount 30; } }
 class S7_GrenadeWeap : S7_BaseWeapon {
     default {
-        tag "$GRENADEWEAP";
-        weapon.ammoType "S7_GrenadeCount";
-        weapon.ammoUse 0;
-        weapon.ammoGive 0;
+        Tag "$GRENADEWEAP";
+        Weapon.AmmoType "S7_GrenadeCount";
+        Weapon.AmmoUse 0;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "TGRNZ0";
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
         S7_BaseWeapon.BindSlot WpSlot_Special;
@@ -88,20 +88,20 @@ class S7_GrenadeWeap : S7_BaseWeapon {
 //-------------------------------------------------------------------------------------------
 class S7_ThrownHandGrenade : S7_Projectile {
     default {
-        radius 5;
-        height 5;
-        speed 5;
-        mass 30;
-        damageFunction (0);
-        bounceType "Hexen";
-        pushFactor 3;
-        wallBounceFactor 0.1;
-        bounceFactor 0.1;
-        scale 0.3;
+        Radius 5;
+        Height 5;
+        Speed 5;
+        Mass 30;
+        DamageFunction (0);
+        BounceType "Hexen";
+        PushFactor 3;
+        WallBounceFactor 0.1;
+        BounceFactor 0.1;
+        Scale 0.3;
 
-        +canBounceWater +noExplodeFloor +activateMCross +forceXYBillboard
-        +skyExplode +noBlood +useBounceState
-        -noTeleport -noGravity -floorClip
+        +CANBOUNCEWATER +NOEXPLODEFLOOR +ACTIVATEMCROSS +FORCEXYBILLBOARD
+        +USEBOUNCESTATE +SKYEXPLODE     +NOBLOOD
+        -NOTELEPORT -NOGRAVITY -FLOORCLIP
     }
 
     float fuse;

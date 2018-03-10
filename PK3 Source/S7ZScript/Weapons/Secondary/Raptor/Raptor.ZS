@@ -3,23 +3,23 @@
 // R16 "Raptor" Pistol
 //
 //-------------------------------------------------------------------------------------------
-class S7_RaptorClip : ammo {
+class S7_RaptorClip : Ammo {
     default {
-        inventory.maxAmount 16;
-        ammo.backpackMaxAmount 16;
+        Inventory.MaxAmount 16;
+        Ammo.BackpackMaxAmount 16;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_Raptor : S7_BaseWeapon {
     default {
-        tag "$RAPTOR";
-        inventory.pickupMessage "$RAPTOR";
-        weapon.ammoType1 "S7_RaptorClip";
-        weapon.ammoType2 "S7_9mmCartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$RAPTOR";
+        Inventory.PickupMessage "$RAPTOR";
+        Weapon.AmmoType1 "S7_RaptorClip";
+        Weapon.AmmoType2 "S7_9mmCartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "RPTPA0";
         S7_BaseWeapon.ShortTag "$SHORTRAPTOR";
         S7_BaseWeapon.BindSlot WpSlot_Light;
@@ -124,15 +124,15 @@ class S7_Raptor : S7_BaseWeapon {
     }
 }
 
-class S7_RaptorMPuff : actor {
+class S7_RaptorMPuff : Actor {
     default {
-        renderStyle "translucent";
-        alpha 0.5;
-        seeSound "Weapons/Raptor/Melee/Hit";
-        attackSound "Weapons/Raptor/Melee/Wall";
+        RenderStyle "translucent";
+        Alpha 0.5;
+        SeeSound "Weapons/Raptor/Melee/Hit";
+        AttackSound "Weapons/Raptor/Melee/Wall";
 
-        +noBlockmap +noGravity +noExtremeDeath +puffOnActors
-        +forceXYBillboard
+        +NOBLOCKMAP       +NOGRAVITY +NOEXTREMEDEATH +PUFFONACTORS
+        +FORCEXYBILLBOARD
     }
 
     states {

@@ -2,10 +2,10 @@ class S7_DracoThing : Inventory {
     const morphFlags = MRF_FullHealth | MRF_WhenInvulnerable | MRF_LoseActualWeapon | MRF_UndoByDeath | MRF_UndoAlways | MRF_TransferTranslation;
 
     default {
-        inventory.maxAmount 2;
-        inventory.icon "BFUGA0";
+        Inventory.MaxAmount 2;
+        Inventory.Icon "BFUGA0";
 
-        +inventory.invBar
+        +INVENTORY.INVBAR
     }
 
     override bool Use (bool pickup) {
@@ -33,31 +33,31 @@ class S7_DracoThing : Inventory {
 //-------------------------------------------------------------------------------------------
 class S7_DracoPlayer : S7_BasePlayer {
     default {
-        /*radius 18;
-        height 60;*/
+        /*Radius 18;
+        Height 60;*/
 
         // Damage
-        health 200;
-        player.maxHealth 200;
-        player.mugShotMaxHealth 200;
-        gibHealth -100;
+        Health 200;
+        Player.MaxHealth 200;
+        Player.MugShotMaxHealth 200;
+        GibHealth -100;
 
         // Movement
-        player.forwardMove 1.0, 1.0;
-        player.sideMove 1.0, 1.0;
-        player.jumpZ 9;
+        Player.ForwardMove 1.0, 1.0;
+        Player.SideMove 1.0, 1.0;
+        Player.JumpZ 9;
 
         // Class stuff
-        player.displayName "Draco";
+        Player.DisplayName "Draco";
     }
 
     override void PostBeginPlay () {
-        super.PostBeginPlay ();
+        Super.PostBeginPlay ();
         defenseMatrixEnergy = MaxDefMatEnergy;
     }
 
     override void Tick () {
-        super.Tick ();
+        Super.Tick ();
 
         Tick_DefenseMatrix ();
     }

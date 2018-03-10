@@ -5,11 +5,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_GoreBase : S7_EffectsBase {
     default {
-        mass 1;
-        radius 3;
-        height 4;
+        Mass 1;
+        Radius 3;
+        Height 4;
 
-        +corpse +noTeleport +noBlockmap +thruSpecies
+        +CORPSE +NOTELEPORT +NOBLOCKMAP +THRUSPECIES
     }
 
     states {
@@ -45,11 +45,11 @@ class S7_GibbingBlood : S7_Flying_Blood {
 
 class S7_GoreBloodCloud : S7_GoreBase {
     default {
-        renderStyle "translucent";
-        scale 0.75;
-        alpha 0.65;
+        RenderStyle "translucent";
+        Scale 0.75;
+        Alpha 0.65;
 
-        +noInteraction +thruActors +noGravity
+        +NOINTERACTION +THRUACTORS +NOGRAVITY
     }
 
     states {
@@ -62,21 +62,21 @@ class S7_GoreBloodCloud : S7_GoreBase {
 
 class S7_Gibs_Blood_Trail : S7_Flying_Blood_Trail {
     default {
-        renderStyle "translucent";
-        scale 0.5;
-        alpha 0.5;
+        RenderStyle "translucent";
+        Scale 0.5;
+        Alpha 0.5;
     }
 }
 class S7_GenericGoreBits : S7_GoreBase {
     default {
-        scale 0.5;
-        bounceType "Hexen";
-        bounceFactor 0.4;
-        bounceCount 7;
-        bounceSound "Gore/Bounce";
+        Scale 0.5;
+        BounceType "Hexen";
+        BounceFactor 0.4;
+        BounceCount 7;
+        BounceSound "Gore/Bounce";
 
-        +moveWithSector +thruActors +rollSprite +rollCenter
-        +useBounceState
+        +MOVEWITHSECTOR +THRUACTORS +ROLLSPRITE +ROLLCENTER
+        +USEBOUNCESTATE
     }
 
     int timer, rollDir, trailSpawnDuration;

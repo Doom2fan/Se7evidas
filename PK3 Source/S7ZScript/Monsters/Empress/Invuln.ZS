@@ -6,27 +6,27 @@
 const S7_EmpressOrbiterWarpFlags = WARPF_NoCheckPosition | WARPF_Interpolate;
 class S7_EmpressInvulnOrbiterCW : Actor {
     double rotAmount;
-    property rotAmount: rotAmount;
+    property RotAmount: rotAmount;
     bool useCos;
-    property useCos: useCos;
+    property UseCos: useCos;
 
     default {
-        health 100;
-        radius 20;
-        height 20;
-        renderStyle "add";
-        damageFactor "EmpressDeath", 1.0;
-        damageFactor "NerveGas", 0.0;
-        species "S7EmpressCrap";
-        scale 0.1;
-        alpha 1.0;
+        Health 100;
+        Radius 20;
+        Height 20;
+        RenderStyle "add";
+        DamageFactor "EmpressDeath", 1.0;
+        DamageFactor "NerveGas", 0.0;
+        Species "S7EmpressCrap";
+        Scale 0.1;
+        Alpha 1.0;
 
-        S7_EmpressInvulnOrbiterCW.rotAmount 10.0;
-        S7_EmpressInvulnOrbiterCW.useCos false;
+        S7_EmpressInvulnOrbiterCW.RotAmount 10.0;
+        S7_EmpressInvulnOrbiterCW.UseCos false;
 
-        +shootable +noTeleport +noBlood +noTargetSwitch
-        +noGravity +forceXYBillboard +forcePain +foilInvul
-        +thruSpecies
+        +NOGRAVITY +NOTELEPORT +NOTARGETSWITCH +FORCEXYBILLBOARD
+        +SHOOTABLE +FORCEPAIN  +THRUSPECIES    +FOILINVUL
+        +NOBLOOD
     }
 
     double rotAngle;
@@ -123,7 +123,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
 class S7_EmpressInvulnOrbiterCCW : S7_EmpressInvulnOrbiterCW {
     default {
-        S7_EmpressInvulnOrbiterCW.rotAmount -10.0;
-        S7_EmpressInvulnOrbiterCW.useCos true;
+        S7_EmpressInvulnOrbiterCW.RotAmount -10.0;
+        S7_EmpressInvulnOrbiterCW.UseCos true;
     }
 }

@@ -1,5 +1,5 @@
 // MAPINFO for Se7evidas
-INCLUDE Mapinfo/DamageTypes.txt
-INCLUDE Mapinfo/Gameinfo.txt
-INCLUDE Mapinfo/Skills.txt
-INCLUDE Mapinfo/Maps.txt
+include Mapinfo/DamageTypes.txt
+include Mapinfo/Gameinfo.txt
+include Mapinfo/Skills.txt
+include Mapinfo/Maps.txt

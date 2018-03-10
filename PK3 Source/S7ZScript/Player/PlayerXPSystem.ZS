@@ -5,18 +5,12 @@
 //-------------------------------------------------------------------------------------------
 class S7_PlayerXPSystem : S7_XPSystem {
     default {
-        S7_XPSystem.canLevelUp true;
+        S7_XPSystem.CanLevelUp true;
 
-        +inventory.invBar
-        inventory.icon "PISTA0";
+        +INVENTORY.INVBAR
     }
 
     int attrPoints;
-
-    override bool Use (bool pickup) {
-        Menu.SetMenu ('S7_XPSystemMenu');
-        return false;
-    }
 
     void LevelUpMessage (int lvl, int attrPts, string message = "", bool additional = true) {
         if (!Owner)

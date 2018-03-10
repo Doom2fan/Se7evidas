@@ -5,13 +5,13 @@
 //-------------------------------------------------------------------------------------------
 class S7_EmpressPreSpawn : S7_MonsterSpawner {
     default {
-        radius 1;
-        height 1;
-        mass 0x7FFFFFFF;
+        Radius 1;
+        Height 1;
+        Mass 0x7FFFFFFF;
 
-        dropItem "S7_Empress", 256;
+        DropItem "S7_Empress", 256;
 
-        +lookAllAround
+        +LOOKALLAROUND
     }
 
     int loopCount;
@@ -63,8 +63,8 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         TNT1 A            5;
         TNT1 A            0 {
-            super.BeginPlay ();
-            super.PostBeginPlay ();
+            Super.BeginPlay ();
+            Super.PostBeginPlay ();
 
             for (int i = 0; i < 48; i++) {
                 A_SpawnItemEx ("S7_EmpressSparkle", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),

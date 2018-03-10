@@ -3,23 +3,23 @@
 // S18 "Kronos" SMG
 //
 //-------------------------------------------------------------------------------------------
-class S7_TEC9Clip : ammo {
+class S7_TEC9Clip : Ammo {
     default {
-        inventory.maxAmount 32;
-        ammo.backpackMaxAmount 32;
+        Inventory.MaxAmount 32;
+        Ammo.BackpackMaxAmount 32;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_TEC9 : S7_BaseWeapon {
     default {
-        tag "$TEC9";
-        inventory.pickupMessage "$TEC9";
-        weapon.ammoType1 "S7_TEC9Clip";
-        weapon.ammoType2 "S7_9mmCartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$TEC9";
+        Inventory.PickupMessage "$TEC9";
+        Weapon.AmmoType1 "S7_TEC9Clip";
+        Weapon.AmmoType2 "S7_9mmCartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "TEC9Z0";
         S7_BaseWeapon.ShortTag "$SHORTTEC9";
         S7_BaseWeapon.BindSlot WpSlot_Light;
@@ -29,7 +29,7 @@ class S7_TEC9 : S7_BaseWeapon {
     int burstCount;
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
     }

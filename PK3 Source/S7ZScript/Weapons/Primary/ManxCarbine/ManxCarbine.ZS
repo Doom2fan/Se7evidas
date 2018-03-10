@@ -3,23 +3,23 @@
 // C23 "Manx" Carbine
 //
 //-------------------------------------------------------------------------------------------
-class S7_ManxCarbineClip : ammo {
+class S7_ManxCarbineClip : Ammo {
     default {
-        inventory.maxAmount 23;
-        ammo.backpackMaxAmount 23;
+        Inventory.MaxAmount 23;
+        Ammo.BackpackMaxAmount 23;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_ManxCarbine : S7_BaseWeapon {
     default {
-        tag "$MANXCARBINE";
-        inventory.pickupMessage "$MANXCARBINE";
-        weapon.ammoType1 "S7_ManxCarbineClip";
-        weapon.ammoType2 "S7_9mmCartridges";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$MANXCARBINE";
+        Inventory.PickupMessage "$MANXCARBINE";
+        Weapon.AmmoType1 "S7_ManxCarbineClip";
+        Weapon.AmmoType2 "S7_9mmCartridges";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "MANXZ0";
         S7_BaseWeapon.ShortTag "$SHORTMANXCARBINE";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
@@ -28,7 +28,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
     bool semiAuto;
 
     override void DoEffect () {
-        super.DoEffect ();
+        Super.DoEffect ();
 
         fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
     }

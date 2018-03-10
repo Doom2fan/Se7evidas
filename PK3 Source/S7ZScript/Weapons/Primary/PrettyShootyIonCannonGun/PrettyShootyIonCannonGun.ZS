@@ -3,16 +3,16 @@
 // GTX-2 "Mjolnir" Ion Cannon Mk V
 //
 //-------------------------------------------------------------------------------------------
-class S7_PSICG_CantFire           : S7_Counter { default { inventory.maxAmount 5; } }
+class S7_PSICG_CantFire           : S7_Counter { default { Inventory.MaxAmount 5; } }
 class S7_PSICG_AltFireType2       : S7_Boolean { }
 class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     default {
-        tag "$IONCANNON";
-        inventory.pickupMessage "$IONCANNON";
-        //weapon.ammoType1 "S7_PrettyShootyIonCannonGunMag";
-        //weapon.ammoType2 "S7_Cells";
-        weapon.ammoUse 0;
-        weapon.ammoGive 0;
+        Tag "$IONCANNON";
+        Inventory.PickupMessage "$IONCANNON";
+        //Weapon.AmmoType1 "S7_PrettyShootyIonCannonGunMag";
+        //Weapon.AmmoType2 "S7_Cells";
+        Weapon.AmmoUse 0;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "PIC1Z0";
         S7_BaseWeapon.ShortTag "$SHORTIONCANNON";
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
@@ -115,7 +115,7 @@ class S7_PSICG_FireTesterPuff : S7_DistanceTestPuff {
 
 class S7_PSICG_FireTester : S7_DistanceTestProjectile {
     default {
-        speed 20;
+        Speed 20;
     }
 
     states {
@@ -144,18 +144,18 @@ class S7_IonCannonProjectile : S7_Projectile {
     default {
         S7_Projectile.movementMode FastProjectile;
         S7_Projectile.fastProjCollision ColMode_Center | ColMode_Corners | ColMode_EdgeCenters;
-        radius 20;
-        height 16;
-        speed 20;
-        renderStyle "add";
-        scale 0.235;
-        damageFunction (realDamage);
-        damageType "IonCannonMain";
-        missileType "S7_IonCannonProjectileTrail";
-        missileHeight 8;
-        decal "S7_IonCannon";
+        Radius 20;
+        Height 16;
+        Speed 20;
+        RenderStyle "add";
+        Scale 0.235;
+        DamageFunction (realDamage);
+        DamageType "IonCannonMain";
+        MissileType "S7_IonCannonProjectileTrail";
+        MissileHeight 8;
+        Decal "S7_IonCannon";
 
-        +forceXYBillboard +forceRadiusDMG +bloodlessImpact +noDamageThrust
+        +FORCEXYBILLBOARD +FORCERADIUSDMG +BLOODLESSIMPACT +NODAMAGETHRUST
     }
 
     states {
@@ -185,8 +185,8 @@ class S7_IonCannonProjectile : S7_Projectile {
 
 class S7_IonCannonProjectileTrail : S7_TracerEffectsBase {
     default {
-        renderStyle "add";
-        scale 0.235;
+        RenderStyle "add";
+        Scale 0.235;
     }
 
     states {
@@ -229,19 +229,19 @@ class S7_IonCannonRail : S7_Projectile {
 
     default {
         S7_Projectile.MovementMode FastProjectile;
-        radius 4;
-        height 4;
-        speed 25;
-        renderStyle "add";
-        alpha 1.0;
-        scale 0.08;
-        decal "S7_IonCannonRail";
-        damageFunction (realDamage);
-        damageType "IonCannonRail";
-        missileType "S7_IonCannonRailEffectSpawner";
+        Radius 4;
+        Height 4;
+        Speed 25;
+        RenderStyle "add";
+        Alpha 1.0;
+        Scale 0.08;
+        Decal "S7_IonCannonRail";
+        DamageFunction (realDamage);
+        DamageType "IonCannonRail";
+        MissileType "S7_IonCannonRailEffectSpawner";
 
-        +noDamageThrust +forceXYBillboard +ripper +forceRadiusDMG
-        +bloodlessImpact
+        +NODAMAGETHRUST  +FORCEXYBILLBOARD +RIPPER +FORCERADIUSDMG
+        +BLOODLESSIMPACT
     }
 
     states {
@@ -281,8 +281,8 @@ class S7_IonCannonRailEffectSpawner : S7_TracerEffectsBase {
 
 class S7_IonCannonRailEffect : S7_TracerEffectsBase {
     default {
-        renderStyle "add";
-        scale 0.1;
+        RenderStyle "add";
+        Scale 0.1;
     }
 
     states {

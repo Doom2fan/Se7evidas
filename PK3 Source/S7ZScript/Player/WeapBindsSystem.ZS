@@ -12,7 +12,7 @@ class S7_WeapBindsSystem : Inventory {
     S7_BaseWeapon LastWeapon;
 
     override void AttachToOwner (Actor other) {
-        super.AttachToOwner (other);
+        Super.AttachToOwner (other);
 
         for (int i = 0; i < NUM_WEAPON_SLOTS; i++) {
             Binds [i].Clear ();

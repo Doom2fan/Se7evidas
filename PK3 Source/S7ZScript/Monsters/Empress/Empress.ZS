@@ -15,37 +15,38 @@ class S7_Empress_CastingInvuln : S7_Boolean { }
 /** Main actor **/
 class S7_Empress : S7_DemonBase {
     default {
-        health 4500;
-        radius 40;
-        height 100;
-        speed 18;
-        mass S7_EmpressMass;
-        painChance 15;
-        painChance "Empress_BallExploded", 256;
-        painChance "S7_SoulLance_Beam", 256;
-        minMissileChance 160;
-        bloodColor "B2 11 DE";
-        seeSound "cyber/sight";
-        painSound "cyber/pain";
-        deathSound "cyber/death";
-        activeSound "cyber/active";
-        species "S7Empress";
-        tag "$EMPRESSTAG";
+        Health 4500;
+        Radius 40;
+        Height 100;
+        Speed 18;
+        Mass S7_EmpressMass;
+        PainChance 15;
+        PainChance "Empress_BallExploded", 256;
+        PainChance "S7_SoulLance_Beam", 256;
+        MinMissileChance 160;
+        BloodColor "B2 11 DE";
+        SeeSound "cyber/sight";
+        PainSound "cyber/pain";
+        DeathSound "cyber/death";
+        ActiveSound "cyber/active";
+        Species "S7Empress";
+        Tag "$EMPRESSTAG";
 
         // Demon/Reanimated flesh damage reduction
-        damageFactor "PistolTracer", 0.7;
-        damageFactor "RevolverTracer", 0.8;
-        damageFactor "RifleTracer", 0.9;
+        DamageFactor "PistolTracer", 0.7;
+        DamageFactor "RevolverTracer", 0.8;
+        DamageFactor "RifleTracer", 0.9;
         // Plasma/Laser damage bonus
-        damageFactor "Plasma", 1.5;
-        damageFactor "LaserTracer", 1.25;
+        DamageFactor "Plasma", 1.5;
+        DamageFactor "LaserTracer", 1.25;
         // Boss damage reduction
-        damageFactor "ExplosionSplashDMG", 0.25;
-        damageFactor "Shrapnel", 0.35;
+        DamageFactor "ExplosionSplashDMG", 0.25;
+        DamageFactor "Shrapnel", 0.35;
 
-        monster;
-        +boss +missileMore +floorClip +noTarget
-        +dontMorph +bossDeath
+        Monster;
+
+        +FLOORCLIP +NOTARGET    +BOSS +BOSSDEATH
+        +DONTMORPH +MISSILEMORE
     }
 
     const InvulnDelayTime = floor (35 * 7.5);
@@ -289,8 +290,8 @@ class S7_Empress : S7_DemonBase {
 
 class S7_EmpressDeathSmokeSpawner : Actor {
     default {
-        +noTeleport +noGravity +noInteraction +noBlockmap
-        +clientsideOnly
+        +NOINTERACTION  +NOGRAVITY +NOTELEPORT +NOBLOCKMAP
+        +CLIENTSIDEONLY
     }
 
     states {
@@ -303,17 +304,17 @@ class S7_EmpressDeathSmokeSpawner : Actor {
 class S7_EmpressMissile2 : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        damageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4);
-        speed 45;
-        missileType "S7_EmpressMissile2Trail";
-        missileHeight 8;
-        renderStyle "add";
-        deathSound "imp/shotx";
-        obituary "$OB_EMPRESSFB";
-        species "S7EmpressCrap";
-        scale 0.75;
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4);
+        Speed 45;
+        MissileType "S7_EmpressMissile2Trail";
+        MissileHeight 8;
+        RenderStyle "add";
+        DeathSound "imp/shotx";
+        Obituary "$OB_EMPRESSFB";
+        Species "S7EmpressCrap";
+        Scale 0.75;
 
-        +forceXYBillboard +seekerMissile +thruSpecies
+        +FORCEXYBILLBOARD +SEEKERMISSILE +THRUSPECIES
     }
 
     states {
@@ -330,10 +331,10 @@ class S7_EmpressMissile2 : S7_Projectile {
 
 class S7_EmpressMissile2Trail : S7_FastProjTrailBase {
     default {
-        renderStyle "add";
-        scale 0.75;
+        RenderStyle "add";
+        Scale 0.75;
 
-        +forceXYBillboard
+        +FORCEXYBILLBOARD
     }
 
     states {
@@ -346,16 +347,16 @@ class S7_EmpressMissile2Trail : S7_FastProjTrailBase {
 class S7_EmpressMissile1 : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        damageFunction (fRandom [monsterDMG] (2.0, 4.0) * 7);
-        speed 45;
-        missileType "S7_EmpressMissile1Trail";
-        missileHeight 8;
-        renderStyle "add";
-        deathSound "imp/shotx";
-        obituary "$OB_EMPRESSFB";
-        species "S7EmpressCrap";
+        DamageFunction (fRandom [monsterDMG] (2.0, 4.0) * 7);
+        Speed 45;
+        MissileType "S7_EmpressMissile1Trail";
+        MissileHeight 8;
+        RenderStyle "add";
+        DeathSound "imp/shotx";
+        Obituary "$OB_EMPRESSFB";
+        Species "S7EmpressCrap";
 
-        +forceXYBillboard +seekerMissile +thruSpecies
+        +FORCEXYBILLBOARD +SEEKERMISSILE +THRUSPECIES
     }
 
     double rotAngle;
@@ -408,9 +409,9 @@ class S7_EmpressMissile1 : S7_Projectile {
 
 class S7_EmpressMissile1Trail : S7_FastProjTrailBase {
     default {
-        renderStyle "add";
+        RenderStyle "add";
 
-        +forceXYBillboard
+        +FORCEXYBILLBOARD
     }
 
     states {

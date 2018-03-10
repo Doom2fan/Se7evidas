@@ -5,16 +5,16 @@
 //-------------------------------------------------------------------------------------------
 class S7_Succubus : S7_SuccubusBase {
     default {
-        health 350;
-        speed 8;
-        painChance 90;
-        seeSound "Succubus/Sight";
-        activeSound "Succubus/Active";
-        painSound "Succubus/Pain";
-        deathSound "Succubus/Death";
-        obituary "$OBSUCCUBUS";
-        species "Succubus";
-        tag "$SUCCUBUSTAG";
+        Health 350;
+        Speed 8;
+        PainChance 90;
+        SeeSound "Succubus/Sight";
+        ActiveSound "Succubus/Active";
+        PainSound "Succubus/Pain";
+        DeathSound "Succubus/Death";
+        Obituary "$OBSUCCUBUS";
+        Species "Succubus";
+        Tag "$SUCCUBUSTAG";
     }
 
     bool isFlying;
@@ -34,7 +34,7 @@ class S7_Succubus : S7_SuccubusBase {
         else
             ChangeFlying (true);
 
-        super.Tick ();
+        Super.Tick ();
     }
 
     states {

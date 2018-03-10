@@ -3,23 +3,23 @@
 // FS/002A Mod 4 "Fauchard" Automatic Rifle
 //
 //-------------------------------------------------------------------------------------------
-class S7_FauchardMag : ammo {
+class S7_FauchardMag : Ammo {
     default {
-        inventory.maxAmount 23;
-        ammo.backpackMaxAmount 23;
+        Inventory.MaxAmount 23;
+        Ammo.BackpackMaxAmount 23;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_Fauchard : S7_BaseWeapon {
     default {
-        tag "$FAUCHARD";
-        inventory.pickupMessage "$FAUCHARD";
-        weapon.ammoType1 "S7_FauchardMag";
-        weapon.ammoType2 "S7_FBSysCells";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$FAUCHARD";
+        Inventory.PickupMessage "$FAUCHARD";
+        Weapon.AmmoType1 "S7_FauchardMag";
+        Weapon.AmmoType2 "S7_FBSysCells";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "LRFPA0";
         S7_BaseWeapon.ShortTag "$SHORTFAUCHARD";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
@@ -126,14 +126,14 @@ class S7_Fauchard : S7_BaseWeapon {
 //-------------------------------------------------------------------------------------------
 class S7_FauchardTracer : S7_BaseTracer {
     default {
-        damageFunction (fRandom [weaponDamage] (1.0, 4.0) * 12);
-        S7_BaseTracer.trueSpeed 300;
-        damageType "LaserTracer";
-        scale 0.015;
-        missileType "S7_LaserTracerTrail";
-        decal "S7_LaserDecal";
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.0) * 12);
+        S7_BaseTracer.TrueSpeed 300;
+        DamageType "LaserTracer";
+        Scale 0.015;
+        MissileType "S7_LaserTracerTrail";
+        Decal "S7_LaserDecal";
 
-        -bloodSplatter
+        -BLOODSPLATTER
     }
 
     states {
@@ -153,7 +153,7 @@ class S7_FauchardTracer : S7_BaseTracer {
 
 class S7_LaserTracerTrail : S7_TracerEffectsBase {
     default {
-        scale 0.015;
+        Scale 0.015;
     }
 
     states {
