@@ -67,7 +67,7 @@ class S7_Empress : S7_DemonBase {
         initialized = true;
     }
 
-    override void Die (Actor source, Actor inflictor, int dmgflags = 0) {
+    override void Die (Actor source, Actor inflictor, int dmgflags) {
         if (canDieNow) {
             Die (source, inflictor, dmgflags);
             return;

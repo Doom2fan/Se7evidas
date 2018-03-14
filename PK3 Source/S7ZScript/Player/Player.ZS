@@ -172,7 +172,7 @@ class S7_BasePlayer : PlayerPawn {
         GiveBasics ();
     }
 
-    override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags = 0, double angle = 0) {
+    override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {
         damageInflictor = inflictor;
         damageSource = source;
         int ret = Super.DamageMobj (inflictor, source, damage, mod, flags, angle);
