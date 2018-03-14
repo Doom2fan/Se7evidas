@@ -1,5 +1,6 @@
 class S7_ArmorData play {
     virtual void Init (S7_BasicArmor armor) { }
+    virtual void Tick (S7_BasicArmor armor) { }
 
     virtual int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {
         int saved;
@@ -29,6 +30,9 @@ class S7_BasicArmor : BasicArmor {
 
     override void DoEffect () {
         TakeInventory ("BasicArmor", 1);
+
+        if (armorData)
+            armorData.Tick (self);
     }
 
     override bool HandlePickup (Inventory item) {
