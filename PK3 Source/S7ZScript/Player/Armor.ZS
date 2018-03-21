@@ -29,7 +29,9 @@ class S7_BasicArmor : BasicArmor {
     S7_ArmorData armorData;
 
     override void DoEffect () {
-        TakeInventory ("BasicArmor", 1);
+        Inventory basicArmor;
+        if (basicArmor = FindInventory ("BasicArmor"))
+            Owner.RemoveInventory (basicArmor);
 
         if (armorData)
             armorData.Tick (self);
