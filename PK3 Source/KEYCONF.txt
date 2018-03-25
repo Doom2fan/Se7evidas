@@ -5,7 +5,7 @@ addMenuKey    "Quick Melee"                 "S7_QuickMelee"
 
 addKeySection "Se7evidas (Movement)" "Se7evidas_Movement"
 addMenuKey    "Sprint (Hold)"               "+user1"
-addMenuKey    "Dodge"                       "+user2"
+addMenuKey    "Dash"                        "+user2"
 
 addKeySection "Se7evidas (Misc)" "Se7evidas_Misc"
 addMenuKey    "Player menu"                 "S7_PlayerMenu"
