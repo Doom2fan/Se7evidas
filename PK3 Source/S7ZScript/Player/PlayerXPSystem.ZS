@@ -6,8 +6,6 @@
 class S7_PlayerXPSystem : S7_XPSystem {
     default {
         S7_XPSystem.CanLevelUp true;
-
-        +INVENTORY.INVBAR
     }
 
     int attrPoints;
