@@ -98,13 +98,13 @@ class S7_Math : Actor {
             return double.NaN, double.NaN;
     }
 
-    static bool CheckActorCollision (Actor a, Actor b) {
+    static bool CheckActorCollision (Actor a, Actor b, bool no_z = false) {
         double blockDist = b.radius + a.radius;
 
         if (abs (b.pos.x - a.pos.x) >= blockDist || abs (b.pos.y - a.pos.y) >= blockDist)
             return false;
 
-        if (a.pos.z > (b.pos.z + b.height) || (a.pos.z + a.height) <= b.pos.z)
+        if (!no_z && (a.pos.z > (b.pos.z + b.height) || (a.pos.z + a.height) <= b.pos.z))
             return false;
        
         return true;
@@ -153,5 +153,23 @@ class S7_Math : Actor {
         ret.y = (row2.x*point.x) + (row2.y*point.y) + (row2.z * point.z);
         ret.z = (row3.x*point.x) + (row3.y*point.y) + (row3.z * point.z);
         return ret;
+    }
+
+    /** Physics **/
+    /* Summary:
+    **  Simulates a damped spring.
+    **
+    ** Arguments:
+    **  p: Current position
+    **  r: Rest position
+    **  v: Current velocity
+    **  k: Spring coefficient
+    **  d: Damping coefficient
+    **
+    ** Returns:
+    **  The new velocity.
+    */
+    static double DampedSpring (double p, double r, double v, double k, double d) {
+        return -(d * v) - (k * (p - r));
     }
 }

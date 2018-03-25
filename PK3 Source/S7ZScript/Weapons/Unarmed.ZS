@@ -44,3 +44,18 @@ class S7_SprintWeapon : S7_NullWeapon {
         loop;
     }
 }
+
+class S7_LedgeGrabWeapon : S7_NullWeapon {
+    states {
+    Ready:
+        TNT1 A 1 {
+            let pData = S7_PlayerData (FindInventory ("S7_PlayerData"));
+
+            bool grabbed = false;
+            if (pData) grabbed = pData.lGrabGrabbed;
+
+            A_WeaponReady (WRF_NoFire | WRF_NoBob | (grabbed ? WRF_DisableSwitch : 0));
+        }
+        loop;
+    }
+}

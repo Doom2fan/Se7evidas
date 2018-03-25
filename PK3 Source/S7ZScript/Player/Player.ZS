@@ -18,6 +18,9 @@ class S7_PlayerData : Inventory {
     int mJumpCount;
     // Walljump
     int wjumpJustJumped;
+    // Ledge grabbing
+    bool  lGrabGrabbed;
+    Actor lGrabMarker;
     // Sprinting
     bool   sprinting;
     int    sprintTics; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
@@ -213,9 +216,10 @@ class S7_BasePlayer : PlayerPawn {
 
             // Movement
             Movement_Dodging ();
+            Movement_LedgeGrabbing ();
+            Movement_Sprinting ();
             Movement_WallJump ();
             Movement_MultiJump ();
-            Movement_Sprinting ();
             // Weapons
             Weapon_SetAmmoMax ();
             // Misc
