@@ -30,7 +30,7 @@ class S7_BasicArmor : BasicArmor {
 
     override void DoEffect () {
         Inventory basicArmor;
-        if (basicArmor = FindInventory ("BasicArmor"))
+        if (basicArmor = Owner.FindInventory ("BasicArmor"))
             Owner.RemoveInventory (basicArmor);
 
         if (armorData)
