@@ -111,14 +111,16 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         if (CheckInventory ("S7_UpgradeRadar", 1)) {
             DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
 
-            ThinkerIterator actorFinder = ThinkerIterator.Create ("Actor", Thinker.STAT_DEFAULT);
-            Actor curActor;
-
             double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
             Vector3 pPawnXYPos = (pPawn.prev + (TicFrac * (pPawn.pos - pPawn.prev)));
-            while (curActor = Actor (actorFinder.Next ())) {
-                if (abs (pPawn.Distance2D (curActor)) > RADAR_MAXDIST) // Skip any actors that are too far away
-                    continue;
+            Vector2 radarOffs = (radarPos.x - RADAR_RADIUS, radarPos.y + RADAR_RADIUS);
+
+            double markerYOffs = mRadarMarkers.mFont.GetHeight () / 2.0;
+
+            let actorFinder = BlockThingsIterator.Create (pPawn, RADAR_MAXDIST);
+            Actor curActor;
+            while (actorFinder.Next ()) {
+                curActor = actorFinder.thing;
 
                 int colour;
                 if (curActor.bIsMonster) {
@@ -142,9 +144,9 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                     continue;
 
                 // Draw
-                DrawString (mRadarMarkers, "B", (radarPos.x - 50, radarPos.y + 50) + screenPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_CENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, colour);
+                DrawString (mRadarMarkers, "B", radarOffs + screenPos - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, colour);
             }//level.time
-            DrawString (mRadarMarkers, "A", (radarPos.x - 50, radarPos.y + 50), DI_SCREEN_RIGHT_TOP | DI_ITEM_CENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_BLUE);
+            DrawString (mRadarMarkers, "A", radarOffs - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_BLUE);
         }
     }
 
