@@ -192,6 +192,13 @@ extend class S7_BasePlayer {
             (marker.pos.Z - viewHeight) >= (floorZ + 4) && !bOnMobj && !player.onground
         );
     }
+    bool Movement_LGrab_CheckWeap () {
+        int weapFlags = WF_WeaponReady | WF_WeaponSwitchOK;
+
+        return (
+            ((player.WeaponState & weapFlags) == weapFlags) || player.ReadyWeapon is "S7_SprintWeapon"
+        );
+    }
     void Movement_LedgeGrabbing () {
         double spRadius = (radius * sqrt (2.0));
 
@@ -245,7 +252,7 @@ extend class S7_BasePlayer {
             return;
         }
 
-        if (!playerData.lGrabGrabbed && vel.Z < 0.0 && vel.xy.Length () < 5) {
+        if (!playerData.lGrabGrabbed && vel.Z < 0.0 && vel.xy.Length () < 5 && Movement_LGrab_CheckWeap ()) {
             let oldPos = pos;
             SetXYZ (pos + (0, 0, height));
             double ledgeHeight = GetZAt (spRadius + LedgeGrab_MaxReach, 0) - oldPos.Z;
