@@ -105,6 +105,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Monsters/ScorpsHunter/ScorpsHunter.ZS"
 
 // Inventory
+#include "S7ZScript/Inventory/Armor.ZS"
 #include "S7ZScript/Inventory/Health.ZS"
 #include "S7ZScript/Inventory/Keys.ZS"
 #include "S7ZScript/Inventory/Berserk.ZS"

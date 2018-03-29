@@ -48,6 +48,9 @@ UNARMED                         = "Unarmed";
 // Health
 CANTEEN                         = "Canteen";
 
+// Armor
+SECVEST_CC                      = "Cronus Corps Security Vest";
+
 // Keys
 REDKEY                          = "\c[Red]Red\c- keycard";
 BLUEKEY                         = "\c[Blue]Blue\c- keycard";

@@ -154,6 +154,7 @@ class S7_BasePlayer : PlayerPawn {
 
             // Equipment
             GiveInventory ("S7_Canteen", 2000);
+            GiveInventory ("S7_CCSecVest", 1);
             // Ammo and similars
             GiveInventory ("S7_Stamina", 0x7FFFFFFF);
             GiveInventory ("S7_Mana", 0x7FFFFFFF);
