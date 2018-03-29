@@ -168,8 +168,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
     void SetAmount (int addAmount) {
         amount += addAmount;
 
-        if (info && amount > 9999)
-            amount = 9999;
+        if (info && amount > info.maxAmount)
+            amount = info.maxAmount;
         if (amount < 1)
             amount = 1;
 

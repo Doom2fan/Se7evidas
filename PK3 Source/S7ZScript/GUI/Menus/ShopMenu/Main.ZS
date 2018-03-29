@@ -172,9 +172,27 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         menuactive = Menu.OnNoPause;
 
         if (buyButton) {
+            int bbColor = Font.CR_WHITE;
+            bool bbDisable = false;
+
+            if (!selectedItem) {
+                bbColor = Font.CR_DARKGRAY;
+                bbDisable = true;
+            } else {
+                let selItemData = selectedItem.itemData;
+
+                let info = selItemData.GetInfo (S7_BasePlayer (CPlayer.mo), 1);
+
+                if ((!sellMode && (CPlayer.mo.CountInv (selItemData.inventoryName) >= info.maxAmount)) ||
+                    ( sellMode && (CPlayer.mo.CountInv (selItemData.inventoryName) <  info.sellAmount))) {
+                    bbColor = Font.CR_RED;
+                    bbDisable = true;
+                }
+            }
+
             buyButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
-            buyButton.textColor = (selectedItem ? Font.CR_WHITE : Font.CR_DARKGRAY);
-            buyButton.disabled = !selectedItem;
+            buyButton.textColor = bbColor;
+            buyButton.disabled = bbDisable;
         }
 
         if (hoveredItem && hoveredItem.itemData)
