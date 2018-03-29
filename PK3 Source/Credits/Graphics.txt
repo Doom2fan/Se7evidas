@@ -14,6 +14,11 @@ graphics/
                     AmmoPage: Captain J, Id Software, Chronos "phantombeta" Ouroboros
                     ThmpGrenPage: Captain J, Chronos "phantombeta" Ouroboros
                     BulletsPage: Captain J, Chronos "phantombeta" Ouroboros
+                    20gaShells: amv2k9, Chronos "phantombeta" Ouroboros
+                    WeapsPage: Captain J, chronoteeth, Chronos "phantombeta" Ouroboros
+                    45ACPCartridges: Captain J
+                    FBSysCells: Id Software, Chronos "phantombeta" Ouroboros
+                    Cells: Id Software, Chronos "phantombeta" Ouroboros
                 All graphics by Chronos "phantombeta" Ouroboros
             WeapAssignment/
                 All graphics by Chronos "phantombeta" Ouroboros
@@ -56,6 +61,13 @@ sprites/
             SMKS, SMOK and SMK2: I dunno who made these.
 
         SPRKA0 was made from scratch by Chronos "phantombeta" Ouroboros.
+
+    Inventory/
+        Ammo/
+            CELLA0: BloodyAcid, chronoteeth, Chronos "phantombeta" Ouroboros
+            CELL[CD]0: Id Software, Chronos "phantombeta" Ouroboros
+            CLIPC0: Captain J
+            SHELA0: amv2k9, Chronos "phantombeta" Ouroboros
 
     Explosions/
         XPL1-3 were made by Eriance.
