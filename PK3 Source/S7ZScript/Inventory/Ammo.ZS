@@ -152,7 +152,7 @@ class S7_45ACPCartridges : Ammo {
         Inventory.Amount 62;
         Inventory.MaxAmount 372;
         // Ammo.BackpackMaxAmount 496;
-        //Inventory.Icon "CLIPC0";
+        Inventory.Icon "CLIPC0";
         Inventory.PickupSound "misc/ammopickup";
     }
 
@@ -289,7 +289,7 @@ class S7_Cells : Ammo {
         Inventory.Amount 18;
         Inventory.MaxAmount 216;
         // Ammo.BackpackMaxAmount 288;
-        //Inventory.Icon "CELLA0";
+        Inventory.Icon "CELLA0";
         Inventory.PickupSound "misc/ammopickup";
     }
 
