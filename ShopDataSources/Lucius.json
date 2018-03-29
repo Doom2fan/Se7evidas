@@ -58,7 +58,7 @@
                     "id": [ "A", "B", "T", "R" ],
                     "name": "$SS_BATTERIES",
                     "desc": "$SS_BATTERIES_DESC",
-                    "icon": "graphics/Menu/Shop/Icons/BattPage.png",
+                    "icon": "graphics/Menu/Shop/Icons/Cells.png",
                     "itemType": "pageLink",
                     "link": "batteriesPage",
                     "global": false
