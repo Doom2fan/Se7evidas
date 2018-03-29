@@ -57,14 +57,14 @@ SS_TH_NGAS                      = "Nerve gas";
 // Descriptions
 // Cartridges
 SS_9MMDESC                      = "Caixa com cartuchos 9x19mm";
-SS_45ACPDESC                    = "Carregador destacavel tipo caixa com cartuchos .45 ACP";
+SS_45ACPDESC                    = "Carregador destacavel tipo tambor com cartuchos .45 ACP";
 SS_44MDESC                      = "Carregador rapido .44 Magnum";
 SS_762X39DESC                   = "Carregador destacavel tipo caixa com cartuchos 7.62x39mm";
 SS_20GADESC                     = "Bandoleira com cartuchos calibre 20 buckshot #2";
 SS_12GADESC                     = "Caixa com cartuchos calibre 12 buckshot #00";
 // Batteries/Cells
-SS_CELLSDESC                    = "Duas celulas de energia Tipo A";
-SS_FBSYSCELLSDESC               = "Célula de energia Firebrand Systems";
+SS_CELLSDESC                    = "Celula de energia Tipo A";
+SS_FBSYSCELLSDESC               = "Celula de energia Firebrand Systems";
 
 // Info
 // Cartridges
