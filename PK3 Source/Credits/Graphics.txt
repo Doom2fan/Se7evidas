@@ -14,11 +14,7 @@ graphics/
                     AmmoPage: Captain J, Id Software, Chronos "phantombeta" Ouroboros
                     ThmpGrenPage: Captain J, Chronos "phantombeta" Ouroboros
                     BulletsPage: Captain J, Chronos "phantombeta" Ouroboros
-                    20gaShells: amv2k9, Chronos "phantombeta" Ouroboros
                     WeapsPage: Captain J, chronoteeth, Chronos "phantombeta" Ouroboros
-                    45ACPCartridges: Captain J
-                    FBSysCells: Id Software, Chronos "phantombeta" Ouroboros
-                    Cells: Id Software, Chronos "phantombeta" Ouroboros
                 All graphics by Chronos "phantombeta" Ouroboros
             WeapAssignment/
                 All graphics by Chronos "phantombeta" Ouroboros
@@ -68,6 +64,9 @@ sprites/
             CELL[CD]0: Id Software, Chronos "phantombeta" Ouroboros
             CLIPC0: Captain J
             SHELA0: amv2k9, Chronos "phantombeta" Ouroboros
+        Armor:
+            ARSVA0: zrrion the insect, Chronos "phantombeta" Ouroboros
+            ARSVB0: Id Software, GAA1992, Chronos "phantombeta" Ouroboros
 
     Explosions/
         XPL1-3 were made by Eriance.
