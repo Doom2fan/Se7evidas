@@ -137,3 +137,48 @@ class S7_Canteen : Inventory {
         stop;
     }
 }
+
+/* Credits:
+** Sprites: Raven Software, amv2k9, Chronos "phantombeta" Ouroboros
+*/
+class S7_CanteenRefill : Inventory replaces HealthBonus {
+    default {
+        Inventory.Amount 5;
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$GOTHTHBONUS";
+        Scale 0.5;
+
+        +COUNTITEM
+    }
+
+    override void PostBeginPlay () {
+        Amount = random [S7_Inventory] (3, 8);
+    }
+
+    override bool TryPickup (in out Actor toucher) {
+        let canteen = toucher.FindInventory ("S7_Canteen");
+
+        if (!canteen) {
+            toucher.GiveInventory ("S7_Canteen", 1);
+            toucher.TakeInventory ("S7_Canteen", 0x7FFFFFFF);
+            canteen = toucher.FindInventory ("S7_Canteen");
+        }
+
+        if (canteen.Amount < canteen.MaxAmount) {
+            toucher.GiveInventory ("S7_Canteen", Amount);
+            GoAwayAndDie();
+            return true;
+        }
+
+        return false;
+    }
+
+    states {
+    Spawn:
+        BON1 A     8;
+        BON1 BCDEF 1;
+        BON1 G     4;
+        BON1 FEDCB 1;
+        loop;
+    }
+}
