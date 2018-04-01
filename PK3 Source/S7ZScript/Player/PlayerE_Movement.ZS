@@ -207,7 +207,8 @@ extend class S7_BasePlayer {
 
             bool crushFingers = ((marker.ceilingZ - marker.floorZ) < 1 || marker.floorZ >= self.ceilingZ);
             bool climbedLedge = (S7_Math.CheckActorCollision (self, marker, true) || curSector == marker.curSector);
-            if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 || climbedLedge) {
+            if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 || climbedLedge ||
+                S7_ActorExtensions.IsInVoid (marker)) {
                 if (crushFingers)
                     DamageMobj (null, null, 4, "Crush", DMG_No_Armor | DMG_Thrustless);
 
@@ -265,7 +266,8 @@ extend class S7_BasePlayer {
                 if (playerData.lGrabMarker) {
                     let marker = S7_LedgeMarker (playerData.lGrabMarker);
 
-                    if (Movement_LGrab_CanHold (marker, spRadius) && (marker.ceilingZ - marker.floorZ) >= 1 && marker.floorZ < self.ceilingZ) {
+                    if (Movement_LGrab_CanHold (marker, spRadius) && (marker.ceilingZ - marker.floorZ) >= 1 && marker.floorZ < self.ceilingZ &&
+                        !S7_ActorExtensions.IsInVoid (marker)) {
                         vel = (0, 0, vel.Z);
 
                         if (!playerData.wjumpJustJumped)
