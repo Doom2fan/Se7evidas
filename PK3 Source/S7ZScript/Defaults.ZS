@@ -40,8 +40,6 @@ class S7_DebrisGeneral : S7_EffectsBase {
 // By Chronos "phantombeta" Ouroboros
 class S7_EffectsBase : Actor { }
 
-class S7_ActorExtensions : Actor { }
-
 class S7_PositionMarker : Actor { // For when an actor needs to mark a position.
     default {
         Radius 0;

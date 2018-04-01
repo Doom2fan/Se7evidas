@@ -49,6 +49,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Common/ErrorHandling.ZS"
 #include "S7ZScript/Common/Extensions.ZS"
 #include "S7ZScript/Common/MathExtensions.ZS"
+#include "S7ZScript/Common/ActorExtensions.ZS"
 #include "S7ZScript/Common/Utils.ZS"
 #include "S7ZScript/Common/ServerData.ZS"
 #include "S7ZScript/Common/CommonTokens.ZS"
