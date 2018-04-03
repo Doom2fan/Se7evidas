@@ -240,16 +240,18 @@ class S7_Projectile_Trace : LineTracer play {
     }
 }
 
+/// The base type for all S7 projectiles
 class S7_Projectile : FastProjectile {
     enum EMovementMode {
-        Normal = 0,
-        FastProjectile,
-        OldFastProj,
+        Normal = 0, /// The projectile uses the normal movement code.
+        FastProjectile, /// The projectile is a FastProjectile.
+        OldFastProj, /// The projectile is a FastProjectile and uses GZDoom's code.
     };
+    /// Determines how to detect collisions. Only used for EMovementMode.FastProjectile.
     enum EFPCollisionMode {
-        ColMode_Center      = 1,
-        ColMode_Corners     = 1 << 1,
-        ColMode_EdgeCenters = 1 << 2,
+        ColMode_Center      = 1, /// Check the center for collision
+        ColMode_Corners     = 1 << 1, /// Check the corners for collision
+        ColMode_EdgeCenters = 1 << 2, /// Check the center of the edges for collision.
     };
 
     int moveMode;
@@ -257,9 +259,13 @@ class S7_Projectile : FastProjectile {
     bool interpFastProj;
     double effectStepMul;
 
+    /// Which movement code to use.
     property MovementMode: moveMode;
+    /// How to detect collisions. Only used by EMovementMode.FastProjectile.
     property FastProjCollision: fpCollisionMode;
+    /// Changes how many times StepEffects is called. Only used by EMovementMode.FastProjectile.
     property EffectStepMul: effectStepMul;
+    /// Whether to interpolate the projectile's movement. Only used by EMovementMode.FastProjectile.
     property InterpMove: interpFastProj;
 
     default {
