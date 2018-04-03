@@ -184,7 +184,7 @@ class S7_WallCheckPuff : S7_TraceTestPuff {
 // Projectile base
 //
 //-------------------------------------------------------------------------------------------
-class S7_Projectile_Trace : LineTracer play {
+class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
     Array<Actor> actorsToIgnore;
     
@@ -383,9 +383,10 @@ class S7_Projectile : FastProjectile {
             double s = sin (velAngle);
             double c = cos (velAngle);
 
-            bool collisionDetected = false;
             bool collisionHandled = false;
             do {
+                bool collisionDetected = false;
+
                 double maxDist = abs (vel.Length ()) + radius + height;
                 int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
 
@@ -401,6 +402,7 @@ class S7_Projectile : FastProjectile {
 
                     if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
                         collisionDetected = true;
+
                         if (collisionHandled = HandleCollision (oldPos, oldVel))
                             return;
                     }
