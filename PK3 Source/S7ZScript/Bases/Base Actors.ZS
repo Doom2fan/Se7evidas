@@ -187,6 +187,7 @@ class S7_WallCheckPuff : S7_TraceTestPuff {
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
     Array<Actor> actorsToIgnore;
+    Array<Actor> actorsToRipThrough;
     
     override ETraceStatus TraceCallback () {
         /*if (!sourceActor)
@@ -212,7 +213,11 @@ class S7_Projectile_Trace : LineTracer {
                     if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
                         return TRACE_Skip;
 
-                    return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
+                    if (sourceActor.bRipper && S7_ActorExtensions.CanRip (mo, sourceActor)) {
+                        actorsToRipThrough.Push (mo);
+                        return TRACE_Skip;
+                    } else
+                        return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
                 } else
                     return TRACE_Skip;
             break;
@@ -352,6 +357,45 @@ class S7_Projectile : FastProjectile {
         }
     }
 
+    virtual void DoRipping () {
+        if (!bRipper || !tr)
+            return;
+
+        Array<Actor> ripActors;
+        ripActors.Clear ();
+        ripActors.Copy (tr.actorsToRipThrough);
+        tr.actorsToRipThrough.Clear ();
+
+        int pushTime = 0;
+        for (int i = 0; i < ripActors.Size (); i++) {
+            let mo = ripActors [i];
+
+            if (S7_ActorExtensions.CanRip (mo, self)) {
+                if (!mo.bNoBlood && !mo.bReflective && bBloodlessImpact && !mo.bInvulnerable && !mo.bDormant)
+                    S7_ActorExtensions.RipperBlood (self, mo);
+
+                mo.A_PlaySound ("misc/ripslop", CHAN_Body, 1, attenuation: ATTN_Idle);
+
+                // Do poisoning (if using new style poison)
+                if (PoisonDamage > 0 && PoisonDuration != int.min)
+                    mo.PoisonMobj (self, target, PoisonDamage, PoisonDuration, PoisonPeriod, PoisonDamageType);
+
+                int damage = GetMissileDamage (3, 2);
+                int newdam = mo.DamageMobj (self, target, damage, DamageType);
+
+                if (!bBloodlessImpact)
+                    mo.TraceBleed (newdam > 0 ? newdam : damage, self);
+
+                if (mo.bPushable && !bCannotPush) {
+                    if (mo.lastPush != pushTime) { // Push thing
+                        mo.vel += vel.XY * mo.pushFactor;
+                        mo.lastPush = pushTime;
+                    }
+                }
+            }
+        }
+    }
+
     static const double FPColOffs [] = { // Y and Z, not X and Y.
         // Edge centers
          0, 1.0,
@@ -377,6 +421,7 @@ class S7_Projectile : FastProjectile {
         if (Vel != (0, 0, 0) || (pos.Z != floorz)) {
             if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
             tr.actorsToIgnore.Clear ();
+            tr.actorsToRipThrough.Clear ();
 
             let velUnit = vel.Unit ();
             double velAngle = VectorAngle (velUnit.x, velUnit.y);
@@ -403,14 +448,18 @@ class S7_Projectile : FastProjectile {
                     if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
                         collisionDetected = true;
 
-                        if (collisionHandled = HandleCollision (oldPos, oldVel))
+                        if (collisionHandled = HandleCollision (oldPos, oldVel)) {
+                            DoRipping ();
                             return;
+                        }
                     }
                 }
 
                 if (!collisionDetected)
                     collisionHandled = true;
             } while (tr.actorsToIgnore.Size () > 0 && !collisionHandled);
+
+            DoRipping ();
 
             SetOrigin (pos + vel, true);
             SpawnEffects (oldPos, oldVel.Length (), oldVel);
