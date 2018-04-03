@@ -383,11 +383,11 @@ class S7_Projectile : FastProjectile {
             double s = sin (velAngle);
             double c = cos (velAngle);
 
-            bool collisionHandled;
+            bool collisionDetected = false;
+            bool collisionHandled = false;
             do {
                 double maxDist = abs (vel.Length ()) + radius + height;
                 int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
-                bool collided;
 
                 int iMax = FPColOffs.Size () / 2;
                 for (int i = 0; i < iMax; i++) {
@@ -400,15 +400,14 @@ class S7_Projectile : FastProjectile {
                     double yOffs = radius * FPColOffs [i * 2];
 
                     if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
+                        collisionDetected = true;
                         if (collisionHandled = HandleCollision (oldPos, oldVel))
                             return;
                     }
                 }
 
-                if (!collided) {
-                    tr.actorsToIgnore.Clear ();
+                if (!collisionDetected)
                     collisionHandled = true;
-                }
             } while (tr.actorsToIgnore.Size () > 0 && !collisionHandled);
 
             SetOrigin (pos + vel, true);
