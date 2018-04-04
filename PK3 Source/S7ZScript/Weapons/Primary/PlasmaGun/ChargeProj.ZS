@@ -5,49 +5,48 @@
 //-------------------------------------------------------------------------------------------
 class S7_PlasmaGunRailCharge1 : S7_PlasmaGunRail {
     default {
-        S7_BaseTracer.TrueSpeed 306;
+        S7_BaseTracer.TrueSpeed 337;
         Scale 0.03;
-        DamageFunction (21 + fRandom [weaponDamage] (-1.0, 1.0));
+        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 35);
         MissileType "S7_PlasmaGunRailTrail_Charge1";
         Decal "S7_PlasmaGunRail_Charge1";
 
         +RIPPER
     }
-
-    states {
-    Death:
-        HTS0 A       1 A_SetScale (scale.X * 10);
-        HTS0 BCDEFGH 1;
-        stop;
-    }
 }
 
-class S7_PlasmaGunRailCharge2 : S7_PlasmaGunRailCharge1 {
+class S7_PlasmaGunRailCharge2 : S7_PlasmaGunRail {
     default {
-        S7_BaseTracer.TrueSpeed 315;
+        S7_BaseTracer.TrueSpeed 382;
         Scale 0.035;
-        DamageFunction (24 + fRandom [weaponDamage] (-1.0, 1.0));
+        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 40);
         MissileType "S7_PlasmaGunRailTrail_Charge2";
         Decal "S7_PlasmaGunRail_Charge2";
+
+        +RIPPER
     }
 }
 
-class S7_PlasmaGunRailCharge3 : S7_PlasmaGunRailCharge1 {
+class S7_PlasmaGunRailCharge3 : S7_PlasmaGunRail {
     default {
-        S7_BaseTracer.TrueSpeed 324;
-        Scale 0.04;
-        DamageFunction (27 + fRandom [weaponDamage] (-1.0, 1.0));
+        S7_BaseTracer.TrueSpeed 427;
+        Scale 0.045;
+        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 47.5);
         MissileType "S7_PlasmaGunRailTrail_Charge3";
         Decal "S7_PlasmaGunRail_Charge3";
+
+        +RIPPER
     }
 }
-class S7_PlasmaGunRailCharge4 : S7_PlasmaGunRailCharge3 {
+class S7_PlasmaGunRailCharge4 : S7_PlasmaGunRail {
     default {
-        S7_BaseTracer.TrueSpeed 333;
-        Scale 0.045;
-        DamageFunction (30 + fRandom [weaponDamage] (-1.0, 1.0));
+        S7_BaseTracer.TrueSpeed 472;
+        Scale 0.055;
+        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 52.5);
         MissileType "S7_PlasmaGunRailTrail_Charge4";
         Decal "S7_PlasmaGunRail_Charge4";
+
+        +RIPPER
     }
 }
 
@@ -58,7 +57,7 @@ class S7_PlasmaGunRailCharge4 : S7_PlasmaGunRailCharge3 {
 //
 //-------------------------------------------------------------------------------------------
 /** Trails **/
-class S7_PlasmaGunRailTrail_Charge1 : S7_PlasmaGunRailTrail { default { Scale 0.03;  } }
+class S7_PlasmaGunRailTrail_Charge1 : S7_PlasmaGunRailTrail { default { Scale 0.03; } }
 class S7_PlasmaGunRailTrail_Charge2 : S7_PlasmaGunRailTrail { default { Scale 0.035; } }
-class S7_PlasmaGunRailTrail_Charge3 : S7_PlasmaGunRailTrail { default { Scale 0.04;  } }
-class S7_PlasmaGunRailTrail_Charge4 : S7_PlasmaGunRailTrail { default { Scale 0.045; } }
+class S7_PlasmaGunRailTrail_Charge3 : S7_PlasmaGunRailTrail { default { Scale 0.045; } }
+class S7_PlasmaGunRailTrail_Charge4 : S7_PlasmaGunRailTrail { default { Scale 0.055; } }
