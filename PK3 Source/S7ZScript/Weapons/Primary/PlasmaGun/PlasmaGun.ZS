@@ -56,7 +56,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             if (CheckInventory ("S7_ChangeFireMode", 1))
                 return ResolveState ("ChangeMode");
 
-            A_WeaponReady (/*((invoker.charge >= CHARGE_MAX) ? WRF_NoSecondary : 0)*/);
+            A_WeaponReady (((invoker.charge >= CHARGE_MAX) ? WRF_NoSecondary : 0));
 
             return ResolveState (null);
         }
@@ -208,14 +208,21 @@ class S7_PlasmaGun : S7_BaseWeapon {
     CancelCharging:
         PLSG A 1 {
             A_StopSound (CHAN_Weapon);
+            A_WeaponOffset (0, 32);
 
             GiveInventory ("S7_PlasmaGun_AltfireLock", 1);
             A_ClearRefire ();
 
-            invoker.chargingLevel--;
+            if (invoker.chargingLevel <= 0) {
+                invoker.chargingLevel = 0; // Just to make sure.
+                return ResolveState ("Ready2");
+            }
+
+            invoker.chargingLevel -= random [weaponSpc] (2, 3);
+
+            return ResolveState (null);
         }
-        TNT1 A 0 A_JumpIf (invoker.chargingLevel > 0, "CancelCharging");
-        goto Ready2;
+        loop;
 
     ChargingFinished:
         PLSG A 5 {
