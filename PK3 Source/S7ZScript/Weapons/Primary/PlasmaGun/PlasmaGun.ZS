@@ -155,6 +155,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
             if (invoker.charge > 1)
                 A_SetBlend ("10 6B DA", 0.175 * invoker.charge, 8);
 
+            double vR = double (invoker.charge) / CHARGE_MAX;
+            A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon, 1. - (.5 * vR));
+            A_PlaySound ("Weapons/PlasmaGun/AltFire", CHAN_5, 0.5 + (.5 * vR));
+
             A_FireProjectile (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), 0.0, 1, 6, -4, 0, 0.0);
 
             for (int i = 0; i < (invoker.charge + 1); i++)
