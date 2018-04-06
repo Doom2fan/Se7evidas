@@ -25,7 +25,11 @@ class S7_WeapBindsSystem : Inventory {
 
     override void DoEffect () {
         for (int i = 0; i < NUM_WEAPON_SLOTS; i++) {
-            //if (i < NUM_WEAPON_SLOTS_DRACO) { }
+            int j;
+            while ((j = Binds [i].Find (null)) != Binds [i].Size ()) {
+                Binds [i].Delete (j, 1);
+            }
+
             if (Binds [i].Size () > SlotMaximum [i])
                 Binds [i].Delete (SlotMaximum [i], 0x7FFFFFFF);
         }

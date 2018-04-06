@@ -211,7 +211,7 @@ extend class S7_BasePlayer {
                 if (crushFingers)
                     DamageMobj (null, null, 4, "Crush", DMG_No_Armor | DMG_Thrustless);
 
-                if (player.ReadyWeapon is "S7_LedgeGrabWeapon")
+                if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && weapBinds.LastWeapon)
                     player.PendingWeapon = weapBinds.LastWeapon;
 
                 marker.Destroy ();
@@ -240,7 +240,7 @@ extend class S7_BasePlayer {
             if (playerData.lGrabMarker)
                 playerData.lGrabMarker.Destroy ();
 
-            if (player.ReadyWeapon is "S7_LedgeGrabWeapon")
+            if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && weapBinds.LastWeapon)
                 player.PendingWeapon = weapBinds.LastWeapon;
 
             playerData.lGrabMarker = null;
@@ -282,7 +282,7 @@ extend class S7_BasePlayer {
             }
         }
 
-        if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && !playerData.lGrabGrabbed)
+        if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && !playerData.lGrabGrabbed && weapBinds.LastWeapon)
             player.PendingWeapon = weapBinds.LastWeapon;
         else if (!playerData.lGrabGrabbed && CheckInventory ("S7_LedgeGrabWeapon", 1))
             TakeInventory ("S7_LedgeGrabWeapon", 0x7FFFFFFF);
@@ -294,7 +294,7 @@ extend class S7_BasePlayer {
 
         if (health > 0) {
             // This is here just in case something fucks up and the player keeps the sprint "weapon" for some reason.
-            if (player.ReadyWeapon is "S7_SprintWeapon" && !playerData.sprinting)
+            if (player.ReadyWeapon is "S7_SprintWeapon" && !playerData.sprinting && weapBinds.LastWeapon)
                 player.PendingWeapon = weapBinds.LastWeapon;
             else if (!playerData.sprinting && CheckInventory ("S7_SprintWeapon", 1))
                 TakeInventory ("S7_SprintWeapon", 0x7FFFFFFF);
@@ -325,7 +325,7 @@ extend class S7_BasePlayer {
                 playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
                 playerData.sprintTics = (!CheckInventory ("S7_Stamina", 5)) ? -1 : 0;
 
-                if (!playerData.lGrabGrabbed)
+                if (!playerData.lGrabGrabbed && weapBinds.LastWeapon)
                     player.PendingWeapon = weapBinds.LastWeapon;
             }
             if (playerData.sprinting && player.ReadyWeapon is "S7_SprintWeapon") {
