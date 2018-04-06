@@ -200,20 +200,16 @@ extend class S7_BasePlayer {
         );
     }
     void Movement_LedgeGrabbing () {
-        double spRadius = (radius * sqrt (2.0));
+        double spRadius = ceil (radius * sqrt (2.0));
 
         if (playerData.lGrabGrabbed && playerData.lGrabMarker) {
             let marker = S7_LedgeMarker (playerData.lGrabMarker);
 
             bool crushFingers = ((marker.ceilingZ - marker.floorZ) < 1 || marker.floorZ >= self.ceilingZ);
-            bool climbedLedge = (S7_Math.CheckActorCollision (self, marker, true) || curSector == marker.curSector);
-            if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 || climbedLedge ||
+            if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 ||
                 S7_ActorExtensions.IsInVoid (marker)) {
                 if (crushFingers)
                     DamageMobj (null, null, 4, "Crush", DMG_No_Armor | DMG_Thrustless);
-
-                if (climbedLedge)
-                    A_Stop ();
 
                 if (player.ReadyWeapon is "S7_LedgeGrabWeapon")
                     player.PendingWeapon = weapBinds.LastWeapon;
@@ -261,7 +257,7 @@ extend class S7_BasePlayer {
 
             if (ledgeHeight > maxStepHeight && ledgeHeight <= LedgeGrab_MaxHeight) {
                 bool MUDA;
-                [MUDA, playerData.lGrabMarker] = A_SpawnItemEx ("S7_LedgeMarker", spRadius + 8, zofs: ledgeHeight);
+                [MUDA, playerData.lGrabMarker] = A_SpawnItemEx ("S7_LedgeMarker", spRadius + LedgeGrab_MaxReach, zofs: ledgeHeight);
 
                 if (playerData.lGrabMarker) {
                     let marker = S7_LedgeMarker (playerData.lGrabMarker);
