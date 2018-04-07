@@ -258,6 +258,13 @@
                     "itemType": "pageLink",
                     "link": "wpPage_Rifles",
                     "global": false
+                },
+                {
+                    "id": [ "W", "P", "S", "G" ],
+                    "name": "$SS_PG_SHOTGUNS",
+                    "itemType": "pageLink",
+                    "link": "wpPage_Shotguns",
+                    "global": false
                 }
             ]
         },
@@ -365,6 +372,38 @@
                     "buyPrice": 16500,
                     "buyAmount": 1,
                     "sellPrice": 12375,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "wpPage_Shotguns",
+            "name": "$SS_PG_SHOTGUNS",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "weaponsPage",
+                    "global": false
+                },
+                {
+                    "id": [ "L", "D", "S", "G" ],
+                    "name": "$SHORTSHOTGUN",
+                    "desc": "$SS_SHOTGUNDESC",
+                    "info": "$SS_SHOTGUNINFO",
+                    "icon": "sprites/Weapons/Primary/Shotgun/DTUPA0.png",
+                    "inventoryName": "S7_Shotgun",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 8000,
+                    "buyAmount": 1,
+                    "sellPrice": 4000,
                     "sellAmount": 1,
                     "global": true
                 }

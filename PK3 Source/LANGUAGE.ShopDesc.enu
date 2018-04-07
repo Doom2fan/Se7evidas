@@ -13,6 +13,8 @@ SS_AMGINFO = "Manufacturer: ShadowFyre\nCaliber: 7.62x39mm\nCapacity: 35 cartrid
 // Machineguns
 
 // Shotguns
+SS_SHOTGUNDESC = "The AM-10 \"Lucifer\" Combat Shotgun is a powerful SxS double-barreled shotgun chambered in 20 gauge. Unlike most double-barreled shotguns, the AM-10 is a tube-fed pump-action shotgun. Its design integrates high-quality recoil reduction to allow both barrels to be fired simultaneously.\nAs with most shotguns, the AM-10 is a versatile weapon - a variety of specialty loads exists, from slugs and flechettes to explosive slugs and nerve gas.";
+SS_SHOTGUNINFO = "Manufacturer: Sigma BTK\nCaliber: 20ga\nCapacity: 10 standard-size shells\nFiring modes: Pump-action only.";
 
 // Area-damage
 
