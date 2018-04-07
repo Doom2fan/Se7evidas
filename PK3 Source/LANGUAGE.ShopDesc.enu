@@ -10,6 +10,9 @@ SS_MANXINFO = "Manufacturer: Cronus Corps\nCaliber: 9x19mm\nCapacity: 23 cartrid
 SS_AMGDESC = "The A28 \"Mars\" Assault Rifle is a powerful, highly accurate weapon created by ShadowFyre, designed to provide a reliable weapon to fight the demon hordes with. The A28 can operate in the harshest of conditions, rivalling even the famous AK-47 assault rifle in reliability.\nThe burst-fire mode fires three shots in quick succession, almost doubling the firing speed but remaining controllable.";
 SS_AMGINFO = "Manufacturer: ShadowFyre\nCaliber: 7.62x39mm\nCapacity: 35 cartridges\nFiring modes: Full-auto and burst-fire.\nFiring speed: 700/1050 RPM";
 
+SS_FAUCHARDDESC = "The FS/002A Mod 4 \"Fauchard\" Automatic Rifle is one of Firebrand Systems' earliest small arms, and still among the most popular. To this day, it's still one of Firebrand Systems' most power-efficient weapons. Weighing in at around 6 kilos, it's a bit bulkier than standard-issue infantry rifles, although the energy cells tend to be lighter.\nA couple variants are very common today: A4 "Spike" has a secondary charge-fire mode for sniping, and B1 "Sickle" is a heavy-barreled version with additional heat sinks and enhanced rate of fire.";
+SS_FAUCHARDINFO = "Manufacturer: Firebrand Systems\nAmmo type: Firebrand Systems energy cells\nCapacity: 23 shots\nFiring modes: Full-auto only.\nFiring speed: 600 RPM";
+
 // Machineguns
 
 // Shotguns
