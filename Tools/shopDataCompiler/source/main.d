@@ -5,6 +5,7 @@ import std.stdio;
 import std.path;
 import std.file;
 import std.getopt;
+import std.regex;
 import std.json;
 /*import std.typecons;
 import std.array;
@@ -69,7 +70,10 @@ int main (string [] args) {
         }
 
         try {
-            ShopDef shop = parseShop (parseJSON (readText (file)));
+            auto fileText = readText (file);
+            fileText = replaceAll (fileText, ctRegex!(r"(\/\/.*)|(\/\*(.|\n)*\*\/)"), "");
+
+            ShopDef shop = parseShop (parseJSON (fileText));
             string outputCode = compileShop (shop);
             std.file.write (outFile, outputCode);
         } catch (ParsingException e) {
