@@ -428,14 +428,14 @@ class S7_Projectile : FastProjectile {
             double s = sin (velAngle);
             double c = cos (velAngle);
 
+            double maxDist = abs (vel.Length ()) + radius + height;
+            int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
+            int iMax = FPColOffs.Size () / 2;
+
             bool collisionHandled = false;
             do {
                 bool collisionDetected = false;
 
-                double maxDist = abs (vel.Length ()) + radius + height;
-                int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
-
-                int iMax = FPColOffs.Size () / 2;
                 for (int i = 0; i < iMax; i++) {
                     if ((i >= 0 && i <= 3) && !(colFlags & ColMode_EdgeCenters))
                         continue;
@@ -486,8 +486,12 @@ class S7_Projectile : FastProjectile {
     }
 
     bool HandleCollision (Vector3 oldPos, Vector3 oldVel) {
-        if (abs (level.Vec3Diff (oldPos, tr.Results.hitPos).Length ()) > abs (oldVel.Length ()) + radius)
+        if (abs (level.Vec3Diff (oldPos, tr.Results.hitPos).Length ()) > abs (oldVel.Length ()) + radius) {
+            if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
+                tr.actorsToIgnore.Push (tr.Results.HitActor);
+
             return false;
+        }
 
         double maxDist = abs (oldVel.Length ());
         double hitPosDist = abs (tr.Results.hitPos.Length ());
