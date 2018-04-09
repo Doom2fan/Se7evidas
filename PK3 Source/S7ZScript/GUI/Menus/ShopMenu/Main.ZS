@@ -181,10 +181,26 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             } else {
                 let selItemData = selectedItem.itemData;
 
-                let info = selItemData.GetInfo (S7_BasePlayer (CPlayer.mo), 1);
+                let pPawn = S7_BasePlayer (CPlayer.mo);
+                let info = selItemData.GetInfo (pPawn, 1);
 
-                if ((!sellMode && (CPlayer.mo.CountInv (selItemData.inventoryName) >= info.maxAmount)) ||
-                    ( sellMode && (CPlayer.mo.CountInv (selItemData.inventoryName) <  info.sellAmount))) {
+                let cashItem = pPawn.FindInventory (selItemData.cashItem);
+                int cashAmount, cashMax;
+
+                if (cashItem) {
+                    cashAmount = cashItem.Amount;
+                    cashMax = cashItem.MaxAmount;
+                } else {
+                    cashAmount = 0;
+                    cashMax = 0;
+                }
+
+                if ((!sellMode && pPawn.CountInv (selItemData.inventoryName) >= info.maxAmount) ||
+                    ( sellMode && pPawn.CountInv (selItemData.inventoryName) <  info.sellAmount)) {
+                    bbColor = Font.CR_RED;
+                    bbDisable = true;
+                } else if ((!sellMode &&  cashAmount                   < info.buyPrice) ||
+                            (sellMode && (cashAmount + info.sellPrice) > cashMax)) {
                     bbColor = Font.CR_RED;
                     bbDisable = true;
                 }
