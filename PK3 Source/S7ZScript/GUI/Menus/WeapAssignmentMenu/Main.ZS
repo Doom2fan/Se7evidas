@@ -109,7 +109,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         infoBG = new ("S7_ZF_Image").Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignTopLeft, noOffsets: true);
         infoBG.Pack (weapSelFrame);
-        infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - 5, 246 - 5), "", smallFont, true, false, 1, Font.CR_WHITE);
+        infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), "", smallFont, true, false, 1, Font.CR_WHITE);
         infoLabel.Pack (weapSelFrame);
         itemsList = S7_WeapAssignMenu_List (new ("S7_WeapAssignMenu_List").InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
 
