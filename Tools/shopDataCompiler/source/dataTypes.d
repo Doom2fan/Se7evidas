@@ -19,6 +19,8 @@ class ShopDef {
     string intName;
 
     string name;
+    string cashLabelFormat;
+    string cashTypeShown;
     string mainPage;
     string defCashItem;
     ShopPage [] pages;
@@ -28,6 +30,8 @@ class ShopPage {
     string intName;
 
     string name;
+    string cashLabelFormat;
+    string cashTypeShown;
     string defCashItem;
     ShopItem [] items;
 }

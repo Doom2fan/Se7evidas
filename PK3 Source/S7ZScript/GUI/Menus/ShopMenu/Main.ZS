@@ -33,7 +33,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     Font bigFont, smallFont;
 
     S7_ZF_Image mainWindowBG;
-    S7_ZF_Label nameLabel, descLabel, infoLabel, tooltipLabel;
+    S7_ZF_Label nameLabel, playerDataLabel, descLabel, infoLabel, tooltipLabel;
     S7_ZF_Button buyButton;
 
     S7_ZF_Frame shopFrame;
@@ -96,18 +96,21 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         itemsList = S7_ShopMenu_List (new ("S7_ShopMenu_List").InitList (self, shopFrame, shopData));
         bsPopup = S7_ShopMenu_BuySellPopup (new ("S7_ShopMenu_BuySellPopup").InitPopup (self, popupFrame));
 
-        mainWindowBG = new ("S7_ZF_Image").Init ((245, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignTopLeft);
+        mainWindowBG = new ("S7_ZF_Image").Init ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignTopLeft);
         mainWindowBG.Pack (shopFrame);
-        descLabel = new ("S7_ZF_Label").Init ((250, 55), (345, 279), "", smallFont, true, false, 1, Font.CR_WHITE);
+
+        playerDataLabel = new ("S7_ZF_Label").Init ((255, 345-smallFont.GetHeight ()), (355, smallFont.GetHeight ()), "", smallFont, true, false, 1, Font.CR_WHITE);
+        playerDataLabel.Pack (shopFrame);
+        descLabel = new ("S7_ZF_Label").Init ((255, 55), (355, playerDataLabel.box.pos.X - 5), "", smallFont, true, false, 1, Font.CR_WHITE);
         descLabel.Pack (shopFrame);
-        infoLabel = new ("S7_ZF_Label").Init ((250, 355), (345, 80), "", smallFont, true, false, 1, Font.CR_WHITE);
+        infoLabel = new ("S7_ZF_Label").Init ((255, 355), (355, 80), "", smallFont, true, false, 1, Font.CR_WHITE);
         infoLabel.Pack (shopFrame);
 
         tooltipLabel = new ("S7_ZF_Label").Init ((0, 0), (0, 0), "", smallFont, false, false, 1, Font.CR_WHITE);
         tooltipLabel.Pack (popupFrame);
         SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
 
-        buyButton = new ("S7_ZF_Button").Init ((550, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), handler, "BuySellButton", fnt: smallFont);
+        buyButton = new ("S7_ZF_Button").Init ((555, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), handler, "BuySellButton", fnt: smallFont);
         buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
         buyButton.Pack (shopFrame);
         sellMode = false;
@@ -199,8 +202,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                     ( sellMode && pPawn.CountInv (selItemData.inventoryName) <  info.sellAmount)) {
                     bbColor = Font.CR_RED;
                     bbDisable = true;
-                } else if ((!sellMode &&  cashAmount                   < info.buyPrice) ||
-                            (sellMode && (cashAmount + info.sellPrice) > cashMax)) {
+                } else if ((!sellMode && cashAmount < info.buyPrice) ||
+                            (sellMode && double (cashAmount) + info.sellPrice > cashMax)) {
                     bbColor = Font.CR_RED;
                     bbDisable = true;
                 }
@@ -209,6 +212,30 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             buyButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
             buyButton.textColor = bbColor;
             buyButton.disabled = bbDisable;
+        }
+
+        if (playerDataLabel) {
+            string formatStr = "";
+            string cashInv = "";
+
+            if (itemsList && itemsList.curPage) {
+                if (itemsList.curPage.cashLabelFormat != "")
+                    formatStr = itemsList.curPage.cashLabelFormat;
+                if (itemsList.curPage.cashTypeShown != "")
+                    cashInv = itemsList.curPage.cashTypeShown;
+            }
+
+            if (shopData) {
+                if (shopData.cashLabelFormat != "" && formatStr == "")
+                    formatStr = shopData.cashLabelFormat;
+                if (shopData.cashTypeShown != "" && cashInv == "")
+                    cashInv = shopData.cashTypeShown;
+            }
+
+            if (formatStr != "" && cashInv != "")
+                playerDataLabel.Text = String.Format (formatStr, CPlayer.mo.CountInv (cashInv));
+            else
+                playerDataLabel.Text = "";
         }
 
         if (hoveredItem && hoveredItem.itemData)

@@ -15,6 +15,8 @@ ShopDef parseShop (JSONValue data) {
         throw new ParsingException ("Shop definitions must specify an internal name");
 
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "name", shop.name, "", true, false);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "cashLabelFormat", shop.cashLabelFormat, "", true, false);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "cashTypeShown", shop.cashTypeShown, "", true, false);
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "mainPage", shop.mainPage, null, true, true);
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "defaultCashItem", shop.defCashItem, null, true, false);
 
@@ -34,6 +36,8 @@ ShopPage parsePage (JSONValue data) {
         throw new ParsingException ("Shop definitions must specify an internal name");
 
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "name", page.name, "", true, false);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "cashLabelFormat", page.cashLabelFormat, "", true, false);
+    tryParseValueOut!(string, JSON_TYPE.STRING) (data, "cashTypeShown", page.cashTypeShown, "", true, false);
     tryParseValueOut!(string, JSON_TYPE.STRING) (data, "defaultCashItem", page.defCashItem, null, true, false);
 
     auto items = tryParseValue (data, "items", JSON_TYPE.ARRAY, true, true).array;

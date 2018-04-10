@@ -33,6 +33,8 @@ extend class S7_ShopDataEventHandler {
 const string baseShopDef =
 "\t\tlet shop = new (\"S7_SSShop\");
 \t\tshop.name = \"%s\";
+\t\tshop.cashLabelFormat = \"%s\";
+\t\tshop.cashTypeShown = \"%s\";
 \t\tshop.mainPage = %s;
 \t\tserverData.shopData.##ShopName## = shop;";
 
@@ -61,7 +63,7 @@ string compileShop (ShopDef shop) {
 
     code = code.replace ("##PageDefs##", pageDefs.join (newline))
         .replace ("##PageData##", pageData.join (newline))
-        .replace ("##ShopDef##", format (baseShopDef, shop.name, shop.mainPage))
+        .replace ("##ShopDef##", format (baseShopDef, shop.name, shop.cashLabelFormat, shop.cashTypeShown, shop.mainPage))
         .replace ("##ShopName##", shop.intName).replace ("\t", "    "); // Replace ##ShopName## and tabs last so other things can use them
 
     return code;
@@ -74,6 +76,8 @@ void compilePage (ShopDef shop, ShopPage page, out string pageDef, out string pa
 
     tmpData ~= format ("\t\t/* %s */", page.intName);
     tmpData ~= format ("\t\t%s.name = \"%s\";", page.intName, page.name);
+    tmpData ~= format ("\t\t%s.cashLabelFormat = \"%s\";", page.intName, page.cashLabelFormat);
+    tmpData ~= format ("\t\t%s.cashTypeShown = \"%s\";", page.intName, page.cashTypeShown);
     for (int i = 0; i < page.items.length; i++) {
         ShopItem item = page.items [i];
         string [] itemData; itemData.reserve (14);

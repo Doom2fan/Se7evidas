@@ -38,11 +38,15 @@ enum SS_SellCode {
 // Classes
 class S7_SSShop {
     string name;
+    string cashLabelFormat;
+    string cashTypeShown;
     S7_SSPage mainPage;
 }
 
 class S7_SSPage {
     string name;
+    string cashLabelFormat;
+    string cashTypeShown;
     Array<S7_SSItem> items;
 }
 
