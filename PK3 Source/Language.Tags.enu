@@ -50,6 +50,7 @@ CANTEEN                         = "Canteen";
 
 // Armor
 SECVEST_CC                      = "Cronus Corps Security Vest";
+CBTARMR_CC                      = "Cronus Corps Combat Armor";
 
 // Keys
 REDKEY                          = "\c[Red]Red\c- keycard";

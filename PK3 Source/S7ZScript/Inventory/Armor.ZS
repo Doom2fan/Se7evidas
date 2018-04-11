@@ -170,9 +170,9 @@ class S7_CCCombatArmor : S7_BasicArmorPickup {
         Radius 20;
         Height 16;
         Armor.SaveAmount 200;
-        //Inventory.PickupMessage "$SECVEST_CC";
+        Inventory.PickupMessage "$CBTARMR_CC";
         Inventory.Icon "ARM2A0";
-        //Tag "$SECVEST_CC";
+        Tag "$CBTARMR_CC";
 
         S7_BasicArmorPickup.DataClass "S7_CCCombatArmorData";
     }

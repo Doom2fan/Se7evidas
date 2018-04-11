@@ -198,8 +198,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                     cashMax = 0;
                 }
 
-                if ((!sellMode && pPawn.CountInv (selItemData.inventoryName) >= info.maxAmount) ||
-                    ( sellMode && pPawn.CountInv (selItemData.inventoryName) <  info.sellAmount)) {
+                if ((!sellMode && selItemData.GetAmount (pPawn) >= info.maxAmount && info.maxAmount > 0) ||
+                    ( sellMode && selItemData.GetAmount (pPawn) <  info.sellAmount)) {
                     bbColor = Font.CR_RED;
                     bbDisable = true;
                 } else if ((!sellMode && cashAmount < info.buyPrice) ||

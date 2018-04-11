@@ -77,30 +77,50 @@ class S7_SSItem {
     S7_SSItemInfo info;
     SS_DescShowType descShowType;
 
+    protected static void AssignData (S7_SSItem item, int id, string name, string desc, string info, string icon, string inventoryName, SS_ItemType itemType,
+        S7_SSPage link, string cashItem, int maxAmount, int buyPrice, int buyAmount, int sellPrice, int sellAmount, SS_DescShowType descShowType
+    ) {
+        if (!item)
+            ThrowAbortException ("Called AssignData with a null item");
+
+        item.id              = id;
+        item.name            = name;
+        item.description     = desc;
+        item.infoText        = info;
+        item.icon            = icon;
+        item.inventoryName   = inventoryName;
+        item.itemType        = itemType;
+        item.link            = link;
+        item.cashItem        = cashItem;
+        item.info            = new ("S7_SSItemInfo");
+        item.info.maxAmount  = maxAmount;
+        item.info.buyPrice   = buyPrice;
+        item.info.buyAmount  = buyAmount;
+        item.info.sellPrice  = sellPrice;
+        item.info.sellAmount = sellAmount;
+        item.descShowType    = descShowType;
+    }
+
     static S7_SSItem Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
         S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = 0, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
         SS_DescShowType descShowType = DS_Both
     ) {
         S7_SSItem ret = new ("S7_SSItem");
 
-        ret.id              = id;
-        ret.name            = name;
-        ret.description     = desc;
-        ret.infoText        = info;
-        ret.icon            = icon;
-        ret.inventoryName   = inventoryName;
-        ret.itemType        = itemType;
-        ret.link            = link;
-        ret.cashItem        = cashItem;
-        ret.info            = new ("S7_SSItemInfo");
-        ret.info.maxAmount  = maxAmount;
-        ret.info.buyPrice   = buyPrice;
-        ret.info.buyAmount  = buyAmount;
-        ret.info.sellPrice  = sellPrice;
-        ret.info.sellAmount = sellAmount;
-        ret.descShowType    = descShowType;
+        AssignData (ret, id,
+            name, desc, info, icon,
+            inventoryName, itemType, link,
+            cashItem, maxAmount,
+            buyPrice, buyAmount,
+            sellPrice, sellAmount,
+            descShowType
+        );
 
         return ret;
+    }
+
+    virtual int GetAmount (S7_BasePlayer player) {
+        return player.CountInv (inventoryName);
     }
 
     virtual S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
@@ -190,22 +210,14 @@ class S7_SSItem_Ammo : S7_SSItem {
     ) {
         S7_SSItem_Ammo ret = new ("S7_SSItem_Ammo");
 
-        ret.id              = id;
-        ret.name            = name;
-        ret.description     = desc;
-        ret.infoText        = info;
-        ret.icon            = icon;
-        ret.inventoryName   = inventoryName;
-        ret.itemType        = itemType;
-        ret.link            = link;
-        ret.cashItem        = cashItem;
-        ret.info            = new ("S7_SSItemInfo");
-        ret.info.maxAmount  = maxAmount;
-        ret.info.buyPrice   = buyPrice;
-        ret.info.buyAmount  = buyAmount;
-        ret.info.sellPrice  = sellPrice;
-        ret.info.sellAmount = sellAmount;
-        ret.descShowType    = descShowType;
+        AssignData (ret, id,
+            name, desc, info, icon,
+            inventoryName, itemType, link,
+            cashItem, maxAmount,
+            buyPrice, buyAmount,
+            sellPrice, sellAmount,
+            descShowType
+        );
 
         return ret;
     }
@@ -225,5 +237,34 @@ class S7_SSItem_Ammo : S7_SSItem {
         }
 
         return ret;
+    }
+}
+
+class S7_SSItem_Armor : S7_SSItem {
+    static S7_SSItem_Armor Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
+        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
+        SS_DescShowType descShowType = DS_Both
+    ) {
+        S7_SSItem_Armor ret = new ("S7_SSItem_Armor");
+
+        AssignData (ret, id,
+            name, desc, info, icon,
+            inventoryName, itemType, link,
+            cashItem, maxAmount,
+            buyPrice, buyAmount,
+            sellPrice, sellAmount,
+            descShowType
+        );
+
+        return ret;
+    }
+
+    override int GetAmount (S7_BasePlayer player) {
+        let basicArmor = S7_BasicArmor (player.FindInventory ("S7_BasicArmor"));
+
+        if (basicArmor && basicArmor.ArmorType == inventoryName && basicArmor.Amount >= basicArmor.ActualSaveAmount)
+            return 1;
+        else
+            return 0;
     }
 }

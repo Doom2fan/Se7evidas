@@ -13,6 +13,15 @@
 
             "items": [
                 {
+                    "id": [ "M", "P", "A", "R" ],
+                    "name": "$SS_ARMOR",
+                    "desc": "$SS_ARMOR_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/ArmorPage.png",
+                    "itemType": "pageLink",
+                    "link": "armorPage",
+                    "global": false
+                },
+                {
                     "id": [ "M", "P", "A", "M" ],
                     "name": "$SS_AMMO",
                     "desc": "$SS_AMMO_DESC",
@@ -29,6 +38,52 @@
                     "itemType": "pageLink",
                     "link": "weaponsPage",
                     "global": false
+                }
+            ]
+        },
+
+        /** Armor section **/
+        {
+            "intName": "armorPage",
+            "name": "$SS_ARMOR",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "S", "V", "1" ],
+                    "name": "$SECVEST_CC",
+                    "desc": "$SS_SECVEST_CC_DESC",
+                    "info": "$SS_SECVEST_CC_INFO",
+                    "icon": "sprites/Inventory/Armor/ARSVA0.png",
+                    "inventoryName": "S7_CCSecVest",
+                    "itemType": "buyItem",
+                    "maxAmount": 1,
+                    "buyPrice": 1500,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Armor",
+                    "global": true
+                },
+                {
+                    "id": [ "A", "C", "A", "1" ],
+                    "name": "$CBTARMR_CC",
+                    "desc": "$SS_CBTARMR_CC_DESC",
+                    "info": "$SS_CBTARMR_CC_INFO",
+                    "icon": "", // Haven't added graphics for it yet.
+                    "inventoryName": "S7_CCCombatArmor",
+                    "itemType": "buyItem",
+                    "maxAmount": 1,
+                    "buyPrice": 2500,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Armor",
+                    "global": true
                 }
             ]
         },

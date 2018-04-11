@@ -14,6 +14,8 @@ SS_BACK                         = "Back";
 SS_BACK_DESC                    = "Returns to the previous page";
 SS_MAINSHOP                     = "Lucius armoury";
 // Page names
+SS_ARMOR                        = "Armor";
+
 SS_WEAPONS                      = "Weapons";
 SS_PG_SMGS                      = "Sub-machineguns";
 SS_PG_RIFLES                    = "Rifles";

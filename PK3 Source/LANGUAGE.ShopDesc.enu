@@ -1,4 +1,11 @@
 [default enu en]
+/** Armor **/
+SS_SECVEST_CC_DESC = "Cronus Corps offers a reliable standard security armor in a comfortable form. Kevlar weave affords level II protection for the torso, and optional inserts can boost this significantly.";
+SS_SECVEST_CC_INFO = "Level II.\nComposition: Kevlar weave.";
+SS_CBTARMR_CC_DESC = "Cronus Corps combat armor offers soldiers level III protection with an accompanying increase in weight, compared to standard issue. The armor's composition of kevlar weave and ceramic scales makes the armor more effective, and makes it last longer than equipment from other manufacturers";
+SS_CBTARMR_CC_INFO = "Level III.\nComposition: Kevlar weave and ceramic scales.";
+
+/** Weapons **/
 // SMGs
 SS_HITTERSMGDESC = "The SR20 \"Hitter\" SMG is a collaboration between Cronus Corps and Sigma BTK. It was designed to be a cross between the R16 \"Raptor\" Semi-automatic Pistol and the S18 \"Kronos\" SMG, firing two rounds at once to increase the amount of rounds it fires per minute without increasing the firing speed.\n\nAfter it reached shops, a small design flaw was found: a single round doesn't have enough power to cycle the gun. Normally this wouldn't be a problem, but it was soon discovered that mixing cartridges with powder from different manufacturers would occasionally fail to cycle due to the rounds not firing with perfect timing\nDespite this, the Hitter is still manufactured and sold, as it is an otherwise good gun.";
 SS_HITTERSMGINFO = "Manufacturer: Cronus Corps & Sigma BTK\nCaliber: .45 ACP\nCapacity: 62 cartridges\nFiring modes: Full-auto only.\nFiring speed: 1400 RPM";

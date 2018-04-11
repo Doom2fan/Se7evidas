@@ -235,8 +235,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
             acceptButton.disabled = true;
         } else if (
-            (!sellMode && (pPawn.CountInv (selectedItem.inventoryName) + total) > info.maxAmount) || // If buying, check if there's too much of the item
-            (sellMode && total > pPawn.CountInv (selectedItem.inventoryName)) // If selling, check if there's not enough of the item
+            (!sellMode && (selectedItem.GetAmount (pPawn) + total) > info.maxAmount) || // If buying, check if there's too much of the item
+            (sellMode && total > selectedItem.GetAmount (pPawn)) // If selling, check if there's not enough of the item
         ) {
             selAmount.textColor = Font.CR_DARKRED;
             totalAmount.textColor = Font.CR_DARKRED;
