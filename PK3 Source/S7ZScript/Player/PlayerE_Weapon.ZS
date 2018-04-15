@@ -1,4 +1,18 @@
 extend class S7_BasePlayer {
+    static const string PermanentWeapons [] = {
+        "S7_GrenadeWeap",
+        "S7_BerserkWeap"
+    };
+
+    void Weapon_PermanentWeapons () {
+        for (int i = 0; i < PermanentWeapons.Size (); i++) {
+            let weap = PermanentWeapons [i];
+
+            if (!CheckInventory (weap, 1))
+                GiveInventory (weap, 1);
+        }
+    }
+
     const BaseAmmoMax = 6.0;
     void Weapon_SetAmmoMax () {
         double ammoMax = BaseAmmoMax;
