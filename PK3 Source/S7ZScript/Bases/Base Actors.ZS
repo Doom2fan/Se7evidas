@@ -200,11 +200,9 @@ class S7_Projectile_Trace : LineTracer {
 
                 let mo = Results.HitActor;
 
-                if (actorsToIgnore.Size () > 0) {
-                    for (int i = 0; i < actorsToIgnore.Size (); i++) {
-                        if (mo == actorsToIgnore [i])
-                            return TRACE_Skip;
-                    }
+                for (int i = 0; i < actorsToIgnore.Size (); i++) {
+                    if (mo == actorsToIgnore [i])
+                        return TRACE_Skip;
                 }
 
                 if (mo != sourceActor && (sourceActor.bMissile && mo != sourceActor.Target)) {
@@ -282,7 +280,7 @@ class S7_Projectile : FastProjectile {
         Projectile;
     }
 
-    S7_Projectile_Trace tr;
+    transient S7_Projectile_Trace tr;
 
     override void Tick () {
         switch (moveMode) {
@@ -418,51 +416,89 @@ class S7_Projectile : FastProjectile {
         if (!bNoTimeFreeze && (globalfreeze || level.Frozen))
             return;
 
-        if (Vel != (0, 0, 0) || (pos.Z != floorz)) {
+        if (vel != (0, 0, 0) || (pos.Z != floorz)) {
             if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
             tr.actorsToIgnore.Clear ();
             tr.actorsToRipThrough.Clear ();
+
+            if (bMissile && vel.X == 0 && vel.Y == 0 && !IsZeroDamage ())
+                vel.X = MinVel;
 
             let velUnit = vel.Unit ();
             double velAngle = VectorAngle (velUnit.x, velUnit.y);
             double s = sin (velAngle);
             double c = cos (velAngle);
 
-            double maxDist = abs (vel.Length ()) + radius + height;
+            double maxDist = abs (vel.Length ());
             int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
             int iMax = FPColOffs.Size () / 2;
 
+            int loopBreaker = 0;
             bool collisionHandled = false;
-            do {
-                bool collisionDetected = false;
+            for (int i = 0; i < iMax; i++) {
+                if ((i >= 0 && i <= 3) && !(colFlags & ColMode_EdgeCenters))
+                    continue;
+                else if ((i >= 4 && i <= 7) && !(colFlags & ColMode_Corners))
+                    continue;
+                else if ((i == 8) && !(colFlags & ColMode_Center))
+                    continue;
 
-                for (int i = 0; i < iMax; i++) {
-                    if ((i >= 0 && i <= 3) && !(colFlags & ColMode_EdgeCenters))
-                        continue;
-                    else if ((i >= 4 && i <= 7) && !(colFlags & ColMode_Corners))
-                        continue;
-                    else if ((i == 8) && !(colFlags & ColMode_Center))
-                        continue;
+                tr.actorsToIgnore.Clear ();
+
+                do {
                     double yOffs = radius * FPColOffs [i * 2];
 
                     if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
-                        collisionDetected = true;
+                        if (HandleCollision (oldPos, oldVel)) {
+                            if (!self)
+                                return;
 
-                        if (collisionHandled = HandleCollision (oldPos, oldVel)) {
-                            DoRipping ();
-                            return;
+                            collisionHandled = true;
+                            break;
                         }
-                    }
-                }
+                    } else
+                        tr.actorsToIgnore.Clear ();
 
-                if (!collisionDetected)
-                    collisionHandled = true;
-            } while (tr.actorsToIgnore.Size () > 0 && !collisionHandled);
+                    loopBreaker++;
+                    if (loopBreaker >= 4096) { // Uh oh.
+                        Console.PrintF ("\CgSe7evidas error: Broke an infinite loop in S7_Projectile.");
+                        Destroy ();
+                        return;
+                    }
+                } while (tr.actorsToIgnore.Size () > 0);
+
+                if (collisionHandled)
+                    break;
+            }
 
             DoRipping ();
 
-            SetOrigin (pos + vel, true);
-            SpawnEffects (oldPos, oldVel.Length (), oldVel);
+            if (!collisionHandled)
+                SetOrigin (pos + vel, true);
+            TryMove (pos.xy, true, false);
+
+            if (pos.Z <= floorZ) {
+                if (floorpic == skyflatnum && !bSkyExplode) {
+                    Destroy ();
+                    return;
+                }
+
+                SetZ (floorZ);
+                HitFloor ();
+                A_Stop ();
+                ExplodeMissile (NULL, NULL);
+            } else if ((pos.Z + height) > ceilingZ) {
+                if (ceilingpic == skyflatnum && !bSkyExplode) {
+                    Destroy ();
+                    return;
+                }
+
+                SetZ (ceilingZ - height);
+                A_Stop ();
+                ExplodeMissile (NULL, NULL);
+            }
+
+            SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
             vel.z += GetGravity ();
 
@@ -496,7 +532,8 @@ class S7_Projectile : FastProjectile {
         double maxDist = abs (oldVel.Length ());
         double hitPosDist = abs (tr.Results.hitPos.Length ());
         let hitPos = tr.Results.HitPos;
-        hitPos += (-oldVel.Unit () * radius * 1.5);
+        hitPos += -(oldVel.Unit () * abs (radius));
+
         SetOrigin (hitPos, interpFastProj);
 
         if (!bSkyExplode) {
@@ -532,8 +569,7 @@ class S7_Projectile : FastProjectile {
             hitPos -= (0, 0, height);
         }
 
-        SpawnEffects (oldPos, level.Vec3Diff (oldPos, pos).Length (), oldVel);
-        if (!TryMove (tr.Results.HitPos.xy, true)) {
+        if (!TryMove (hitPos.xy + (double.epsilon * 3, double.epsilon * 3), true)) {
             SetOrigin (hitPos, interpFastProj);
             ExplodeMissile (BlockingLine, BlockingMobj);
             return true;
@@ -543,11 +579,14 @@ class S7_Projectile : FastProjectile {
             let rHitPos = tr.Results.HitPos;
             if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - floorZ <= 1) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingZ - (rHitPos.z + height) <= 1)) {
-                if (tr.Results.HitType == TRACE_HitFloor)
-                    HitFloor ();
-
                 SetOrigin (hitPos, interpFastProj);
-                ExplodeMissile (BlockingLine, BlockingMobj);
+
+                if (tr.Results.HitType == TRACE_HitFloor) {
+                    SetZ (floorZ);
+                    HitFloor ();
+                }
+
+                ExplodeMissile (NULL, NULL);
                 return true;
             }
         }
