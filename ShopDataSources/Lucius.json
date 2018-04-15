@@ -16,7 +16,7 @@
                     "id": [ "M", "P", "A", "R" ],
                     "name": "$SS_ARMOR",
                     "desc": "$SS_ARMOR_DESC",
-                    "icon": "graphics/Menu/Shop/Icons/ArmorPage.png",
+                    "icon": "sprites/Inventory/Armor/ARCAA0.png",
                     "itemType": "pageLink",
                     "link": "armorPage",
                     "global": false
@@ -76,7 +76,7 @@
                     "name": "$CBTARMR_CC",
                     "desc": "$SS_CBTARMR_CC_DESC",
                     "info": "$SS_CBTARMR_CC_INFO",
-                    "icon": "", // Haven't added graphics for it yet.
+                    "icon": "sprites/Inventory/Armor/ARCAA0.png",
                     "inventoryName": "S7_CCCombatArmor",
                     "itemType": "buyItem",
                     "maxAmount": 1,

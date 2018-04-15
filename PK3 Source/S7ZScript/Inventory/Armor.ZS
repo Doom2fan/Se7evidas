@@ -171,7 +171,7 @@ class S7_CCCombatArmor : S7_BasicArmorPickup {
         Height 16;
         Armor.SaveAmount 200;
         Inventory.PickupMessage "$CBTARMR_CC";
-        Inventory.Icon "ARM2A0";
+        Inventory.Icon "ARCAA0";
         Tag "$CBTARMR_CC";
 
         S7_BasicArmorPickup.DataClass "S7_CCCombatArmorData";
@@ -179,8 +179,8 @@ class S7_CCCombatArmor : S7_BasicArmorPickup {
 
     states {
     Spawn:
-        ARM2 A 6;
-        ARM2 B 6 bright;
+        ARCA A 6;
+        ARCA A 6 bright;
         loop;
     }
 }

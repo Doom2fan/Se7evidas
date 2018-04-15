@@ -67,6 +67,8 @@ sprites/
         Armor:
             ARSVA0: zrrion the insect, Chronos "phantombeta" Ouroboros
             ARSVB0: Id Software, GAA1992, Chronos "phantombeta" Ouroboros
+            ARCAA0: Id Software, Chronos "phantombeta" Ouroboros
+            ARCAB0: zrrion the insect, Chronos "phantombeta" Ouroboros
 
     Explosions/
         XPL1-3 were made by Eriance.
