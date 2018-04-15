@@ -196,6 +196,67 @@ class S7_DracoWeapon : S7_BaseWeapon {
 
 //-------------------------------------------------------------------------------------------
 //
+// Base throwable
+//
+//-------------------------------------------------------------------------------------------
+class S7_ThrowWeapon : S7_BaseWeapon {
+    int throwForce;
+    int maxForce;
+
+    property MaxForce: maxForce;
+
+    default {
+        S7_ThrowWeapon.MaxForce 30;
+    }
+
+    virtual S7_ThrownObject SpawnObject (class<S7_ThrownObject> thrownAct) {
+        double pAngle = Owner.angle;
+        double pPitch = Owner.pitch;
+        Vector3 pVel = Owner.vel;
+
+        bool MUDA; Actor act;
+        [MUDA, act] = Owner.A_SpawnItemEx (thrownAct,
+            zofs: Owner.height - 12,
+            xvel: cos (pPitch) * cos (pAngle) * 4 + pVel.X,
+            yvel: cos (pPitch) * sin (pAngle) * 4 + pVel.Y,
+            zvel: -sin (pPitch) * 4 + pVel.Z,
+            flags: SXF_AbsoluteMomentum | SXF_NoCheckPosition | SXF_TransferPitch
+        );
+
+        let ret = S7_ThrownObject (act);
+        ret.throwForce = throwForce;
+
+        return ret;
+    }
+
+    virtual void Throw () { }
+
+    states {
+    Hold:
+        TNT1 A 1 {
+            if (CheckInventory ("S7_Reloading", 1))
+                return ResolveState ("CancelThrow");
+
+            invoker.throwForce = clamp (invoker.throwForce + 1, 0, invoker.maxForce);
+            return ResolveState (null);
+        }
+        TNT1 A 1 A_Refire ("Hold");
+        TNT1 A 8 {
+            A_ClearRefire ();
+            invoker.Throw ();
+            invoker.throwForce = 0;
+
+            return ResolveState ("Ready2");
+        }
+    }
+}
+
+class S7_ThrownObject : S7_Projectile {
+    int throwForce;
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Melee puffs
 //
 //-------------------------------------------------------------------------------------------

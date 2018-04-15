@@ -26,6 +26,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
     DynamicValueInterpolator mLsrRfInterpolator;
     DynamicValueInterpolator mLPPInterpolator1;
     DynamicValueInterpolator mLPPInterpolator2;
+    DynamicValueInterpolator mThrowableForce;
     // Misc
     InventoryBarState diparms;
     Array<S7_FScreenSBarAmmoBar> FScreenAmmoBars;
@@ -53,6 +54,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mLsrRfInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mLPPInterpolator1  = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mLPPInterpolator2  = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
+        mThrowableForce    = DynamicValueInterpolator.Create (0, 0.25, 1,  8);
         // Initialize the inventory bar
         diparms = InventoryBarState.Create ();
         // Populate the fullscreen statusbar ammo bars list
@@ -78,6 +80,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mLsrRfInterpolator.Reset (0);
         mLPPInterpolator1.Reset  (0);
         mLPPInterpolator2.Reset  (0);
+        mThrowableForce.Reset  (0);
     }
 
     override void Tick () {
@@ -90,6 +93,12 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mLsrRfInterpolator.Update (GetAmount ("S7_FauchardMag"));
         mLPPInterpolator1.Update  (GetAmount ("S7_LaserPewPewClip"));
         mLPPInterpolator2.Update  (GetAmount ("S7_LaserPewPewClipSecond"));
+
+        if (CPlayer && CPlayer.ReadyWeapon is "S7_ThrowWeapon") {
+            let throwWeap = S7_ThrowWeapon (CPlayer.ReadyWeapon);
+            mThrowableForce.Update (throwWeap.throwForce);
+        } else
+            mThrowableForce.Update (0);
     }
 
     override void Draw (int state, double TicFrac) {
@@ -350,6 +359,12 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                         break;
                     }
                 }
+            }
+
+            if (CPlayer.ReadyWeapon is "S7_ThrowWeapon") {
+                let throwWeap = S7_ThrowWeapon (CPlayer.ReadyWeapon);
+                DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (-6, -50), DI_ITEM_RIGHT_BOTTOM);
+                DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mThrowableForce.GetValue (), throwWeap.maxForce, (-7, -51), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
             }
         }
     }
