@@ -24,17 +24,15 @@ class S7_ScoutPlayer : S7_BasePlayer {
         GiveInventory ("S7_DaggerMelee", 1);
         GiveInventory ("S7_MultiJump_Max", 1); // Scouts can do double jumps from the start
         // Equipment
-        GiveInventory ("S7_TEC9", 1);
         GiveInventory ("S7_TEC9Clip", 32);
         GiveInventory ("S7_9mmCartridges", 130);
+        GiveInventory ("S7_GrenadeCount", 3);
 
-        S7_BaseWeapon tec9 = S7_TEC9 (FindInventory ("S7_TEC9"));
-
-        if (tec9)
-            weapBinds.Binds [2].Push (tec9);
+        GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
+        let tec9 = GiveBasics_GiveStartingWeapon ("S7_TEC9");
 
         weapBinds.LastWeapon = tec9;
-        EventHandler.SendNetworkEvent ("S7_WeapBindsSystem:slot:2");
+        player.PendingWeapon = tec9;
     }
 
     states {

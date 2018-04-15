@@ -44,4 +44,16 @@ extend class S7_BasePlayer {
 
         playerData.ammoMaxMult = ammoMax;
     }
+
+    S7_BaseWeapon GiveBasics_GiveStartingWeapon (class<S7_BaseWeapon> weapon) {
+        if (!CheckInventory (weapon, 1))
+            GiveInventory (weapon, 1);
+
+        let weap = S7_BaseWeapon (FindInventory (weapon));
+
+        if (weap)
+            weapBinds.Binds [int (weap.bindSlot)].Push (weap);
+
+        return weap;
+    }
 }
