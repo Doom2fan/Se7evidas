@@ -250,12 +250,6 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             weapControls.weaponName = weap.GetClassName ();
             weapControls.weaponInst = weap;
 
-            if (yCoords > 0) {
-                let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
-                sep.Pack (itemsFrame);
-                yCoords += 2;
-            }
-
             Vector2 texSize = (0, 0);
             if (tex)
                 texSize = TexMan.GetScaledSize (tex);
@@ -295,6 +289,10 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             items.Push (weapControls);
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
+
+            let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
+            sep.Pack (itemsFrame);
+            yCoords += 2;
 
             inv = inv.inv;
         }

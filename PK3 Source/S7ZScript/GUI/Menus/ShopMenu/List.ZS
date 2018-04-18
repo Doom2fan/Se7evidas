@@ -211,12 +211,6 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             itemControls.id = item.id;
             itemControls.itemData = item;
 
-            if (i > 0) {
-                let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/Shop/ListSep.png");
-                sep.Pack (itemsFrame);
-                yCoords += 2;
-            }
-
             let tex = TexMan.CheckForTexture (item.icon, TexMan.Type_Any);
             Vector2 texSize = (0, 0);
             if (tex)
@@ -257,6 +251,10 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             items.Push (itemControls);
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
+
+            let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/Shop/ListSep.png");
+            sep.Pack (itemsFrame);
+            yCoords += 2;
         }
 
         itemsFrame.box.size.Y = yCoords;
