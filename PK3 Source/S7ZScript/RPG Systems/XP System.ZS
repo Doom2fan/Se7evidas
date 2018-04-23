@@ -52,8 +52,8 @@ class S7_XPSystem : Inventory {
         S7_XPSystem.canLevelUp false;
         S7_XPSystem.randomStats false;
 
-        +inventory.undroppable +inventory.untossable
-        -inventory.invBar
+        +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE
+        -INVENTORY.INVBAR
     }
 
     protected Array<S7_StatModifier> statMods;
