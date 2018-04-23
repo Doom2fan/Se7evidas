@@ -291,7 +291,7 @@ class S7_PlasmaGunRail : S7_BaseTracer {
         wait;
 
     Death:
-        HTS0 A       1 A_SetScale (scale.X * 10);
+        HTS0 A       1 A_SetScale (default.scale.X * 10);
         HTS0 BCDEFGH 1;
         stop;
     }
