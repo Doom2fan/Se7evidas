@@ -60,6 +60,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
 
         // Vitality
         startHealth = health *= 1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality));
+
+        ammo = random [monsterAmmo] (12, 23);
     }
 
     override void Tick () {
@@ -91,9 +93,6 @@ class S7_ScorpsTrooper : S7_ScorpBase {
     states {
     // Initialize
     Spawn:
-        TNT1 A 0 noDelay {
-            ammo = random [monsterAmmo] (8, 23);
-        }
     Idle:
         SCR1 AAA 1 {
             if (random [monsterSpc] (0, 255) < 160 && ammo < 10) // Maybe reload if less than 10 shots
@@ -273,10 +272,13 @@ class S7_ScorpsTrooper : S7_ScorpBase {
 
     // Reloading
     Reload:
-        SCR1 A      5 { ammo = 23; }
+        SCR1 A      5;
         SCR1 AAAEE  2;
         SCR1 EEEEEE 1;
-        SCR1 E      1 A_PlaySound ("Weapons/ManxCarbine/In", CHAN_Weapon);
+        SCR1 E      1 {
+            A_PlaySound ("Weapons/ManxCarbine/In", CHAN_Weapon);
+            ammo = 23;
+        }
         SCR1 E      1;
         SCR1 EEEAAA 2;
         SCR1 A      3;

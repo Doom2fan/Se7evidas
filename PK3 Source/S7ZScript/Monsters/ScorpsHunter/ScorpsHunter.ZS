@@ -58,6 +58,8 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
         // Vitality
         startHealth = health *= 1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality));
+
+        ammo = random [monsterAmmo] (8, 15);
     }
 
     override void Tick () {
@@ -89,9 +91,6 @@ class S7_ScorpsHunter : S7_ScorpBase {
     states {
     // Initialize
     Spawn:
-        TNT1 A 0 noDelay {
-            ammo = random [monsterAmmo] (8, 15);
-        }
     Idle:
         SCR3 AAA 1 {
             if (random [monsterSpc] (0, 255) < 160 && ammo < 5) // Maybe reload if less than 5 shots
@@ -222,12 +221,15 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
     // Reloading
     Reload:
-        SCR3 A  5 { ammo = 15; }
+        SCR3 A  5;
         SCR3 A  6;
         SCR3 E  5;
         SCR3 E  1 A_PlaySound ("Monsters/ScorpsHunter/ClipOut", CHAN_5);
         SCR3 E  8;
-        SCR3 E  1 A_PlaySound ("Monsters/ScorpsHunter/ClipIn", CHAN_6);
+        SCR3 E  1 {
+            A_PlaySound ("Monsters/ScorpsHunter/ClipIn", CHAN_6);
+            ammo = 15;
+        }
         SCR3 EA 5;
         SCR3 A  3;
         goto Idle;
