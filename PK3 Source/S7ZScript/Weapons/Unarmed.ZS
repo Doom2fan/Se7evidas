@@ -6,9 +6,14 @@
 class S7_NullWeapon : Weapon {
     default {
         Tag "Unarmed";
+        Inventory.PickupSound "";
+        Weapon.BobRangeX 0.3;
+        Weapon.BobRangeY 0.5;
+        Weapon.BobSpeed 2.0;
+        Weapon.BobStyle "inverseSmooth";
 
-        +INVENTORY.UNDROPPABLE +WEAPON.WIMPY_WEAPON +WEAPON.CHEATNOTWEAPON +WEAPON.NOALERT
-        +NOINTERACTION
+        +WEAPON.CHEATNOTWEAPON +WEAPON.NOALERT +WEAPON.NOAUTOFIRE +WEAPON.AMMO_OPTIONAL
+        +INVENTORY.UNDROPPABLE +NOINTERACTION
     }
 
     states {
