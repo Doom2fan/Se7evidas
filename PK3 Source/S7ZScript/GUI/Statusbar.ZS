@@ -344,7 +344,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                         if (bar.poolType == "Inventory" && CPlayer.ReadyWeapon.AmmoType2)
                             poolAmount = GetAmount (CPlayer.ReadyWeapon.AmmoType2);
                         else if (bar.poolType != "Inventory" && bar.poolType)
-                            GetAmount (bar.poolType);
+                            poolAmount = GetAmount (bar.poolType);
 
                         if (poolAmount >= 0) {
                             DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
