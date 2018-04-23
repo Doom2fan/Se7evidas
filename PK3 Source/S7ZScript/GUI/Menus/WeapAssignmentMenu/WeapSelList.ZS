@@ -227,6 +227,10 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             items.Push (weapControls);
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
+
+            let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
+            sep.Pack (itemsFrame);
+            yCoords += 2;
         }
 
         let inv = CPlayer.inv;
