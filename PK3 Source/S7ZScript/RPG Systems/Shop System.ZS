@@ -102,7 +102,7 @@ class S7_SSItem {
     }
 
     static S7_SSItem Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = 0, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
+        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
         SS_DescShowType descShowType = DS_Both
     ) {
         S7_SSItem ret = new ("S7_SSItem");
@@ -125,6 +125,17 @@ class S7_SSItem {
 
     virtual S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
         let ret = self.info.Copy ();
+
+        if (ret.maxAmount < 0) {
+            Inventory inv;
+
+            if (player && (inv = player.FindInventory (self.inventoryName)))
+                ret.maxAmount = inv.maxAmount;
+            else if (self.inventoryName != "") {
+                let defaults = GetDefaultByType ((Class<Inventory>) (self.inventoryName));
+                ret.maxAmount = defaults ? defaults.maxAmount : 0;
+            }
+        }
 
         ret.buyPrice *= amount;
         ret.buyAmount *= amount;
@@ -200,43 +211,6 @@ class S7_SSItem {
         }
 
         return true;
-    }
-}
-
-class S7_SSItem_Ammo : S7_SSItem {
-    static S7_SSItem_Ammo Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
-        SS_DescShowType descShowType = DS_Both
-    ) {
-        S7_SSItem_Ammo ret = new ("S7_SSItem_Ammo");
-
-        AssignData (ret, id,
-            name, desc, info, icon,
-            inventoryName, itemType, link,
-            cashItem, maxAmount,
-            buyPrice, buyAmount,
-            sellPrice, sellAmount,
-            descShowType
-        );
-
-        return ret;
-    }
-
-    override S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
-        let ret = Super.GetInfo (player, amount);
-
-        if (ret.maxAmount < 0) {
-            Inventory inv;
-
-            if (player && (inv = player.FindInventory (self.inventoryName)))
-                ret.maxAmount = inv.maxAmount;
-            else if (self.inventoryName != "") {
-                let defaults = GetDefaultByType ((Class<Ammo>) (self.inventoryName));
-                ret.maxAmount = defaults ? defaults.maxAmount : 0;
-            }
-        }
-
-        return ret;
     }
 }
 

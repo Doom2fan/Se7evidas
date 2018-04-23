@@ -159,7 +159,6 @@
                     "buyAmount": 30,
                     "sellPrice": 120,
                     "sellAmount": 30,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 },
                 {
@@ -174,7 +173,6 @@
                     "buyAmount": 62,
                     "sellPrice": 193,
                     "sellAmount": 62,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 },
                 {
@@ -189,7 +187,6 @@
                     "buyAmount": 6,
                     "sellPrice": 75,
                     "sellAmount": 6,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 },
                 {
@@ -204,7 +201,6 @@
                     "buyAmount": 35,
                     "sellPrice": 307,
                     "sellAmount": 35,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 },
                 {
@@ -219,7 +215,6 @@
                     "buyAmount": 10,
                     "sellPrice": 100,
                     "sellAmount": 10,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 }
             ]
@@ -251,7 +246,6 @@
                     "buyAmount": 36,
                     "sellPrice": 120,
                     "sellAmount": 36,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 },
                 {
@@ -266,7 +260,6 @@
                     "buyAmount": 23,
                     "sellPrice": 150,
                     "sellAmount": 23,
-                    "itemClass": "S7_SSItem_Ammo",
                     "global": true
                 }
             ]
