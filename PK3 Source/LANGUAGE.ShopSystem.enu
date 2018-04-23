@@ -33,6 +33,8 @@ SS_THGRENADES                   = "50mm grenades";
 SS_LOOT                         = "Loot";
 
 // Page descriptions
+SS_ARMOR_DESC                   = "Buy armor";
+
 SS_WEAPONS_DESC                 = "Buy or sell weapons";
 
 SS_AMMO_DESC                    = "Buy ammunition for your weapons or sell your excess ammo";
