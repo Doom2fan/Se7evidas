@@ -245,14 +245,14 @@ class S7_PlayerEventHandler : EventHandler {
 
             S7_BaseWeapon weapon = weapBinds.PickWeapon (slot, false, isDraco);
 
-            if (player.ReadyWeapon != weapon) {
+            if (player.ReadyWeapon != weapon && weapon != null) {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
         } else if (commandStrings [1] == "next") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (false, false, isDraco);
 
-            if (player.ReadyWeapon != weapon) {
+            if (player.ReadyWeapon != weapon && weapon != null) {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
@@ -265,7 +265,7 @@ class S7_PlayerEventHandler : EventHandler {
         } else if (commandStrings [1] == "prev") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false, isDraco);
 
-            if (player.ReadyWeapon != weapon) {
+            if (player.ReadyWeapon != weapon && weapon != null) {
                 player.PendingWeapon = weapon;
                 weapBinds.LastWeapon = weapon;
             }
