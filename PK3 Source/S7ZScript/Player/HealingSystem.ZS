@@ -1,5 +1,5 @@
 class S7_HealingSystem : Inventory {
-    const baseRegenAmount = 2.0;
+    const baseRegenAmount = 1.0;
     const baseRegenTime = 3;
 
     int regenPoints;

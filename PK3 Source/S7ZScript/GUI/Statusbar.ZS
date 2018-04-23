@@ -365,6 +365,17 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 let throwWeap = S7_ThrowWeapon (CPlayer.ReadyWeapon);
                 DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (-6, -50), DI_ITEM_RIGHT_BOTTOM);
                 DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mThrowableForce.GetValue (), throwWeap.maxForce, (-7, -51), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+            } else if (CPlayer.ReadyWeapon is "S7_HealWeap") {
+                let app = S7_HealWeap (CPlayer.ReadyWeapon);
+                int progress = app.healProgress;
+                int maxProgress = app.healTime;
+
+                if (progress >= 0) {
+                    DrawImage ("graphics/HUD/Fullscreen/S7ProgressBarBG.png", (0, -50), DI_ITEM_CENTER_BOTTOM | DI_SCREEN_CENTER_BOTTOM);
+                    DrawBar ("graphics/HUD/Fullscreen/S7ProgressBarFG.png", "graphics/HUD/Fullscreen/S7ProgressBarFakeBG.png",
+                        progress, maxProgress, (0, -51), 0, 0, DI_ITEM_CENTER_BOTTOM | DI_SCREEN_CENTER_BOTTOM
+                    );
+                }
             }
         }
     }
