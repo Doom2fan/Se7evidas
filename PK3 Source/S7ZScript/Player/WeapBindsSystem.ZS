@@ -236,7 +236,10 @@ class S7_WeapBindsSystem : Inventory {
             } while ((slot != startSlot || index != startIndex) && slotsChecked <= slotsCount);
         }
 
-        return S7_BaseWeapon (player.ReadyWeapon);
+        if (player.ReadyWeapon is "S7_NullWeapon")
+            return LastWeapon;
+        else
+            return S7_BaseWeapon (player.ReadyWeapon);
     }
 
     void SetBind (int slot, int pos, S7_BaseWeapon weap, bool draco = false) {
