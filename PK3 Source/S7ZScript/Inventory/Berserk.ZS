@@ -33,7 +33,7 @@ class S7_Berserk : Ammo {
 class S7_BerserkToken : Powerup { default { powerup.duration -60; powerup.color "FF 20 20", 0.25; } }
 class S7_BerserkPower : PowerWeaponLevel2 { default { powerup.duration -60; powerup.color "00 00 00", 0.0; } }
 
-class S7_BerserkWeap : S7_BaseWeapon {
+class S7_BerserkWeap : S7_NullWeapon {
     default {
         Tag "$BERSERKWEAP";
         Weapon.AmmoType1 "S7_Berserk";
