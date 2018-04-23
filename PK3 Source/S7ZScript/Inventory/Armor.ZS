@@ -123,22 +123,22 @@ class S7_CCCombatArmorData : S7_ArmorData {
 
             switch (damageType) {
             case 'PistolTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.15, 0.95, pltShift: 0.5 , pltMin: 0.1 , usrPltM: 0.5 , usrKevM: 0.25, usrKevMShift: 0.25, usrMin: 0.2);
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.3 , 0.85, pltShift: 0.3 , pltMin: 0.2 , usrPltM: 0.55, usrKevM: 0.35, usrKevMShift: 0.25, usrMin: 0.25);
                 break;
             case 'RevolverTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.17, 0.9 , pltShift: 0.4 , pltMin: 0.15, usrPltM: 0.54, usrKevM: 0.33, usrKevMShift: 0.2 , usrMin: 0.22);
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.33, 0.85, pltShift: 0.35, pltMin: 0.18, usrPltM: 0.6 , usrKevM: 0.35, usrKevMShift: 0.25, usrMin: 0.25);
                 break;
             case 'ShotgunTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.1 , 0.95, pltShift: 0.65, pltMin: 0.15, usrPltM: 0.5 , usrKevM: 0.2 , usrKevMShift: 0.33, usrMin: 0.2 );
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.15, 0.95, pltShift: 0.5 , pltMin: 0.15, usrPltM: 0.5 , usrKevM: 0.2 , usrKevMShift: 0.70, usrMin: 0.25);
                 break;
             case 'RifleTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.20, 0.8 , pltShift: 0.3 , pltMin: 0.18, usrPltM: 0.6 , usrKevM: 0.48, usrKevMShift: 0.18, usrMin: 0.32);
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.5 , 0.8 , pltShift: 0.15, pltMin: 0.3 , usrPltM: 0.6 , usrKevM: 0.48, usrKevMShift: 0.15, usrMin: 0.32);
                 break;
             case 'SniperRifleTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.25, 0.5 , pltShift: 0.3 , pltMin: 0.4 , usrPltM: 0.7 , usrKevM: 0.75, usrKevMShift: 0.08, usrMin: 0.64);
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.6 , 0.5 , pltShift: 0.15, pltMin: 0.4 , usrPltM: 0.7 , usrKevM: 0.75, usrKevMShift: 0.08, usrMin: 0.64);
                 break;
             case 'Fire':
-                pltDMG = max (damage - 25, 0) * 0.25;
+                pltDMG = max (damage - 15, 0) * 0.25;
                 kevDMG = damage * (fRandom [S7_Armor] (0.75, 1.2) * pltInt);
                 ret = damage  * pltInt;
                 break;
