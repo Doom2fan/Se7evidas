@@ -284,7 +284,7 @@ class S7_StimpackApplicator : S7_HealWeap {
 
 class S7_Stimpack_FasterRegen : S7_StatModifier {
     override bool Init (actor act, S7_XPSystem xpSys) {
-        self.ticsLeft = 35 * 45;
+        self.ticsLeft = 35 * 40;
         self.stats = S7Stat_Special;
         self.specialStatName = "regenRate";
         self.factor = 0.75;
