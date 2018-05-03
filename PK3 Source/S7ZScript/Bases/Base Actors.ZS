@@ -184,10 +184,14 @@ class S7_WallCheckPuff : S7_TraceTestPuff {
 // Projectile base
 //
 //-------------------------------------------------------------------------------------------
+class S7_Projectile_Trace_RipHit {
+    Vector3 hitPos;
+    Actor mo;
+}
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
     Array<Actor> actorsToIgnore;
-    Array<Actor> actorsToRipThrough;
+    Array<S7_Projectile_Trace_RipHit> actorsToRipThrough;
     
     override ETraceStatus TraceCallback () {
         /*if (!sourceActor)
@@ -205,14 +209,23 @@ class S7_Projectile_Trace : LineTracer {
                         return TRACE_Skip;
                 }
 
-                if (mo != sourceActor && (sourceActor.bMissile && mo != sourceActor.Target)) {
+                if (mo != sourceActor && (sourceActor.bMissile && mo != sourceActor.target)) {
                     if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
                         return TRACE_Skip;
                     if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
                         return TRACE_Skip;
 
                     if (sourceActor.bRipper && S7_ActorExtensions.CanRip (mo, sourceActor)) {
-                        actorsToRipThrough.Push (mo);
+                        for (int i = 0; i < actorsToRipThrough.Size (); i++) {
+                            if (actorsToRipThrough [i].mo == mo)
+                                return TRACE_Skip;
+                        }
+
+                        let ripHit = new ("S7_Projectile_Trace_RipHit");
+                        ripHit.hitPos = Results.HitPos;
+                        ripHit.mo = mo;
+                        actorsToRipThrough.Push (ripHit);
+
                         return TRACE_Skip;
                     } else
                         return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
@@ -359,39 +372,32 @@ class S7_Projectile : FastProjectile {
         if (!bRipper || !tr)
             return;
 
-        Array<Actor> ripActors;
+        Array<S7_Projectile_Trace_RipHit> ripActors;
         ripActors.Clear ();
         ripActors.Copy (tr.actorsToRipThrough);
         tr.actorsToRipThrough.Clear ();
 
+        Vector3 realPos = pos;
+
         int pushTime = 0;
         for (int i = 0; i < ripActors.Size (); i++) {
-            let mo = ripActors [i];
+            let ripHit = ripActors [i];
 
-            if (S7_ActorExtensions.CanRip (mo, self)) {
-                if (!mo.bNoBlood && !mo.bReflective && bBloodlessImpact && !mo.bInvulnerable && !mo.bDormant)
-                    S7_ActorExtensions.RipperBlood (self, mo);
+            if (!ripHit || !ripHit.mo)
+                continue;
+            if (ripHit.mo == target) // Don't rip our own shooter.
+                continue;
 
-                mo.A_PlaySound ("misc/ripslop", CHAN_Body, 1, attenuation: ATTN_Idle);
+            SetOrigin (ripHit.hitPos, false);
+            TryMove (ripHit.hitPos.XY, true, false);
 
-                // Do poisoning (if using new style poison)
-                if (PoisonDamage > 0 && PoisonDuration != int.min)
-                    mo.PoisonMobj (self, target, PoisonDamage, PoisonDuration, PoisonPeriod, PoisonDamageType);
+            if (ripHit)
+                ripHit.Destroy ();
 
-                int damage = GetMissileDamage (3, 2);
-                int newdam = mo.DamageMobj (self, target, damage, DamageType);
-
-                if (!bBloodlessImpact)
-                    mo.TraceBleed (newdam > 0 ? newdam : damage, self);
-
-                if (mo.bPushable && !bCannotPush) {
-                    if (mo.lastPush != pushTime) { // Push thing
-                        mo.vel += vel.XY * mo.pushFactor;
-                        mo.lastPush = pushTime;
-                    }
-                }
-            }
+            SetOrigin (realPos, false);
         }
+
+        SetOrigin (realPos, false);
     }
 
     static const double FPColOffs [] = { // Y and Z, not X and Y.
@@ -477,25 +483,23 @@ class S7_Projectile : FastProjectile {
                 SetOrigin (pos + vel, true);
             TryMove (pos.xy, true, false);
 
-            if (pos.Z <= floorZ) {
-                if (floorpic == skyflatnum && !bSkyExplode) {
+            if (!collisionHandled) {
+                bool floorHit = pos.Z <= GetZAt ();
+                bool ceilingHit = (pos.Z + height) > ceilingZ;
+
+                if ((floorHit && floorpic == skyflatnum && !bSkyExplode) ||
+                    (ceilingHit && ceilingpic == skyflatnum && !bSkyExplode)) {
                     Destroy ();
                     return;
-                }
+                } else if (floorHit || ceilingHit) {
+                    SetZ (floorHit ? GetZAt () : ceilingZ - height);
 
-                SetZ (floorZ);
-                HitFloor ();
-                A_Stop ();
-                ExplodeMissile (NULL, NULL);
-            } else if ((pos.Z + height) > ceilingZ) {
-                if (ceilingpic == skyflatnum && !bSkyExplode) {
-                    Destroy ();
-                    return;
-                }
+                    if (floorHit)
+                        HitFloor ();
 
-                SetZ (ceilingZ - height);
-                A_Stop ();
-                ExplodeMissile (NULL, NULL);
+                    A_Stop ();
+                    ExplodeMissile (NULL, NULL);
+                }
             }
 
             SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
@@ -506,7 +510,10 @@ class S7_Projectile : FastProjectile {
             CheckPortalTransition ();
         }
 
-        // freed itself
+        // Nope the fuck out if self is null for some retarded reason
+        if (!self)
+            return;
+        // Freed itself
         if (!CheckNoDelay ())
             return;
         // Advance the state
@@ -515,7 +522,7 @@ class S7_Projectile : FastProjectile {
                 tics--;
 
             while (!tics) {
-                if (!SetState (CurState.NextState)) // mobj was removed
+                if (!CurState || !SetState (CurState.NextState)) // mobj was removed
                     return;
             }
         }
@@ -577,12 +584,12 @@ class S7_Projectile : FastProjectile {
             tr.actorsToIgnore.Push (tr.Results.HitActor);
         else {
             let rHitPos = tr.Results.HitPos;
-            if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - floorZ <= 1) ||
+            if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - GetZAt () <= 1) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingZ - (rHitPos.z + height) <= 1)) {
                 SetOrigin (hitPos, interpFastProj);
 
                 if (tr.Results.HitType == TRACE_HitFloor) {
-                    SetZ (floorZ);
+                    SetZ (GetZAt ());
                     HitFloor ();
                 }
 
