@@ -493,16 +493,30 @@ class S7_ShowPop1Key : S7_CustomKey {
 // Stamina
 //
 //-------------------------------------------------------------------------------------------
-class S7_StaminaRegen  : S7_Boolean { }
-class S7_Stamina       : Ammo       { default { Inventory.MaxAmount 150; +INVENTORY.UNDROPPABLE -INVENTORY.INVBAR } }
+class S7_StaminaRegen : S7_Boolean { }
+class S7_Stamina : Ammo {
+    default {
+        Inventory.MaxAmount 150;
+
+        +INVENTORY.IGNORESKILL +INVENTORY.UNDROPPABLE
+        -INVENTORY.INVBAR
+    }
+}
 
 //-------------------------------------------------------------------------------------------
 //
 // Mana
 //
 //-------------------------------------------------------------------------------------------
-class S7_ManaRegen     : S7_Boolean { }
-class S7_Mana          : Ammo       { default { Inventory.MaxAmount 250; +INVENTORY.UNDROPPABLE -INVENTORY.INVBAR } }
+class S7_ManaRegen : S7_Boolean { }
+class S7_Mana : Ammo {
+    default {
+        Inventory.MaxAmount 250;
+
+        +INVENTORY.IGNORESKILL +INVENTORY.UNDROPPABLE
+        -INVENTORY.INVBAR
+    }
+}
 
 //-------------------------------------------------------------------------------------------
 //
