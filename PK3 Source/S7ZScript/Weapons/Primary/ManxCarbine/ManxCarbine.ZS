@@ -62,19 +62,21 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 4.5);
-            A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 13, -3);
-            A_FireProjectile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-0.25, 0.25), 1, 6, 1, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.75, 1.75);
+            A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 15, -9);
+            A_FireProjectile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-0.25, 0.25), 1, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
             A_SetPitch (pitch - 0.5, SPF_Interpolate);
 
             return ResolveState (null);
         }
         MANX B 1 A_SetPitch (pitch - 0.5, SPF_Interpolate);
-        MANX A 2 A_JumpIf (invoker.semiAuto, "Fire.Semi");
+        MANX C 1 A_JumpIf (invoker.semiAuto, "Fire.Semi");
+        MANX A 1;
         MANX A 1 A_Refire;
         MANX A 3;
         goto Ready2;
     Fire.Semi:
+        MANX C    1;
         MANX AAAA 1 A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch);
         MANX A    2;
         goto Ready2;
@@ -114,11 +116,13 @@ class S7_ManxCarbine : S7_BaseWeapon {
             return ResolveState ("ReloadFinish");
         }
     ReloadFinish:
-        MANX CDEFG    2;
-        MANX HHHHHHIJ 1;
-        MANX K        1 A_PlaySound ("Weapons/ManxCarbine/In", CHAN_6);
-        MANX L        1;
-        MANX MNOPCA   2;
+        MANX ADEFG 2;
+        MANX H     6;
+        MANX IJ    1;
+        MANX KL    2;
+        MANX M     2 A_PlaySound ("Weapons/ManxCarbine/In", CHAN_6);
+        MANX NO    2;
+        MANX PQEDA 2;
         goto Ready2;
 
     // Muzzle flashes

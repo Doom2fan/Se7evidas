@@ -1,7 +1,7 @@
 Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    HUD and Pickup Sprites: Uboa, MidoriMan, Ravage, Mike12, Chronos "phantombeta" Ouroboros
+    HUD and Pickup Sprites: DoomNukem, TheRailgunner, Carbine Dioxide, Chronos "phantombeta" Ouroboros
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file
