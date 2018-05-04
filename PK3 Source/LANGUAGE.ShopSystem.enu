@@ -17,9 +17,9 @@ SS_MAINSHOP                     = "Lucius armoury";
 SS_ARMOR                        = "Armor";
 
 SS_WEAPONS                      = "Weapons";
-SS_PG_SMGS                      = "Sub-machineguns";
+SS_PG_SMGS                      = "Submachine guns";
 SS_PG_RIFLES                    = "Rifles";
-SS_PG_MGS                       = "Machineguns";
+SS_PG_MGS                       = "Machine guns";
 SS_PG_SHOTGUNS                  = "Shotguns";
 SS_PG_SNIPERS                   = "Sniper rifles";
 SS_PG_AOE                       = "Area damage weapons";
