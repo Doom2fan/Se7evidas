@@ -1,11 +1,13 @@
 Muzzle flash:
-    Draw and make the muzzleflash a single colour.
-    Make a new layer and set it as a clipping mask on the muzzleflash layer.
-    Use the "S7MuzzleFlash" gradient and burn the edges.
-    Duplicate the adjustment layer.
-    Set the new layer as a clipping mask too.
-    Crystallize the new layer with cell size set to 3.
-    Set the new layer's opacity to 65%.
+    1. Draw and make the muzzleflash a single colour.
+    2. Make a new layer and set it as a clipping mask on the muzzleflash layer.
+    3. Use the "S7MuzzleFlash" gradient to make a circle that fills up most of the muzzleflash.
+    4. Use the smudge tool to make it spiky-ish.
+    5. Burn the edges with the burn tool set to midtones, then to shadows.
+    6. Duplicate the adjustment layer.
+    7. Set the new layer as a clipping mask too.
+    8. Crystallize the new layer with cell size set to 3.
+    9. Set the new layer's opacity to 65% or whatever looks best.
 Done.
 
 Buckshot pellet count:
