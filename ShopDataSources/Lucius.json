@@ -13,7 +13,7 @@
 
             "items": [
                 {
-                    "id": [ "M", "P", "A", "R" ],
+                    "id": [ "M", "P", "C", "S" ],
                     "name": "$SS_CONSUMABLES",
                     "desc": "$SS_CONSUMABLES_DESC",
                     "icon": "", // No icon yet
