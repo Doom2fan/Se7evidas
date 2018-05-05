@@ -46,6 +46,12 @@
 // STARTUP*
     STARTUP1                        = "Tell phantombeta on the forums or on the IRC channel if you find any errors, bugs, glitches or crashes.";
 
+// Player classes
+    S7_SCOUTPLAYER                  = "Runner";
+    S7_INFILTRATORPLAYER            = "Infiltrator";
+    S7_EMTPLAYER                    = "EMT";
+    S7_MEDICPLAYER                  = "Battle medic";
+
 // Levels
 
 // Pick Ups

@@ -17,16 +17,19 @@ class S7_ScoutPlayer : S7_BasePlayer {
         Player.JumpZ 9.797;
 
         // Class stuff
-        Player.DisplayName "Runner";
+        Player.DisplayName "$S7_SCOUTPLAYER";
     }
 
     override void GiveBasics_ClassSpecific () {
         GiveInventory ("S7_DaggerMelee", 1);
         GiveInventory ("S7_MultiJump_Max", 1); // Scouts can do double jumps from the start
         // Equipment
+        GiveInventory ("S7_GrenadeCount", 4);
+        GiveInventory ("S7_Stimpack", 3);
+        GiveInventory ("S7_Medikit", 1);
+        // Ammo
         GiveInventory ("S7_TEC9Clip", 32);
         GiveInventory ("S7_9mmCartridges", 130);
-        GiveInventory ("S7_GrenadeCount", 3);
 
         GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
         let tec9 = GiveBasics_GiveStartingWeapon ("S7_TEC9");
