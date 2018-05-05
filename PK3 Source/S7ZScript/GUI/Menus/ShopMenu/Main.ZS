@@ -30,6 +30,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     PlayerInfo CPlayer;
     S7_SSShop shopData;
 
+    int backKeyCountdown;
+
     Font bigFont, smallFont;
 
     S7_ZF_Image mainWindowBG;
@@ -165,6 +167,37 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         return Super.OnUIEvent (ev);
     }
 
+    override bool MenuEvent (int mkey, bool fromcontroller) {
+        S7_SSPage  curPage = null;
+        S7_SSPage backPage = null;
+
+        if (itemsList) {
+            curPage = itemsList.curPage;
+
+            if (curPage)
+                backPage = curPage.backPage;
+        }
+
+        switch (mkey) {
+        case MKEY_Back:
+            if (backKeyCountdown <= 0 && (backPage || shopData.mainPage != curPage)) {
+                backKeyCountdown = 10;
+
+                if (backPage) {
+                    itemsList.Select (NULL);
+                    itemsList.SetPage (backPage);
+                    SetPage (backPage);
+
+                    selectedItem = NULL;
+                    return true;
+                } else
+                    return false;
+            }
+        }
+
+        return Super.MenuEvent (mkey, fromcontroller);
+    }
+
     override void Ticker () {
         if (!CPlayer || !CPlayer.mo || CPlayer.mo.health < 1) {
             self.Close ();
@@ -173,6 +206,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
         Super.Ticker ();
         menuactive = Menu.OnNoPause;
+        if (backKeyCountdown > 0)
+            backKeyCountdown--;
 
         if (buyButton) {
             int bbColor = Font.CR_WHITE;

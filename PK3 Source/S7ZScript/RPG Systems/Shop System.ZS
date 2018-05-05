@@ -47,6 +47,7 @@ class S7_SSPage {
     string name;
     string cashLabelFormat;
     string cashTypeShown;
+    S7_SSPage backPage;
     Array<S7_SSItem> items;
 }
 

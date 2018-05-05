@@ -33,6 +33,7 @@ class ShopPage {
     string cashLabelFormat;
     string cashTypeShown;
     string defCashItem;
+    string backPage;
     ShopItem [] items;
 }
 

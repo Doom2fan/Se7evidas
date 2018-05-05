@@ -78,6 +78,8 @@ void compilePage (ShopDef shop, ShopPage page, out string pageDef, out string pa
     tmpData ~= format ("\t\t%s.name = \"%s\";", page.intName, page.name);
     tmpData ~= format ("\t\t%s.cashLabelFormat = \"%s\";", page.intName, page.cashLabelFormat);
     tmpData ~= format ("\t\t%s.cashTypeShown = \"%s\";", page.intName, page.cashTypeShown);
+    tmpData ~= format ("\t\t%s.backPage = %s;", page.intName, page.backPage);
+
     for (int i = 0; i < page.items.length; i++) {
         ShopItem item = page.items [i];
         string [] itemData; itemData.reserve (14);

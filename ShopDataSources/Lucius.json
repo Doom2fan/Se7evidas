@@ -46,6 +46,7 @@
         {
             "intName": "consumablesPage",
             "name": "$SS_CONSUMABLES",
+            "backPage": "mainPage",
 
             "items": [
                 {
@@ -82,6 +83,7 @@
         {
             "intName": "healthPage",
             "name": "$SS_HEALTH",
+            "backPage": "consumablesPage",
 
             "items": [
                 {
@@ -126,6 +128,7 @@
         {
             "intName": "armorPage",
             "name": "$SS_ARMOR",
+            "backPage": "consumablesPage",
 
             "items": [
                 {
@@ -172,6 +175,7 @@
         {
             "intName": "ammoPage",
             "name": "$SS_AMMO",
+            "backPage": "mainPage",
 
             "items": [
                 {
@@ -216,6 +220,7 @@
         {
             "intName": "cartridgesPage",
             "name": "$SS_BULLETS",
+            "backPage": "ammoPage",
 
             "items": [
                 {
@@ -303,6 +308,7 @@
         {
             "intName": "batteriesPage",
             "name": "$SS_BATTERIES",
+            "backPage": "ammoPage",
 
             "items": [
                 {
@@ -348,6 +354,7 @@
         {
             "intName": "thumperGrenadesPage",
             "name": "$SS_THGRENADES",
+            "backPage": "ammoPage",
 
             "items": [
                 {
@@ -366,6 +373,7 @@
         {
             "intName": "weaponsPage",
             "name": "$SS_WEAPONS",
+            "backPage": "mainPage",
 
             "items": [
                 {
@@ -404,6 +412,7 @@
         {
             "intName": "wpPage_SMGs",
             "name": "$SS_PG_SMGS",
+            "backPage": "weaponsPage",
 
             "items": [
                 {
@@ -451,6 +460,7 @@
         {
             "intName": "wpPage_Rifles",
             "name": "$SS_PG_RIFLES",
+            "backPage": "weaponsPage",
 
             "items": [
                 {
@@ -513,6 +523,7 @@
         {
             "intName": "wpPage_Shotguns",
             "name": "$SS_PG_SHOTGUNS",
+            "backPage": "weaponsPage",
 
             "items": [
                 {
