@@ -184,7 +184,7 @@ class S7_Medikit : S7_HealWeapItem replaces Medikit {
         Inventory.MaxAmount 4;
         Inventory.InterHubAmount 4;
         Inventory.PickupMessage "$MEDIKIT";
-        Inventory.Icon "ARTIMEDI";
+        Inventory.Icon "MKITA0";
 
         +INVENTORY.INVBAR
     }
@@ -233,7 +233,7 @@ class S7_Stimpack : S7_HealWeapItem replaces Stimpack {
         Inventory.MaxAmount 8;
         Inventory.InterHubAmount 8;
         Inventory.PickupMessage "$STIMPACK";
-        Inventory.Icon "ARTISTIM";
+        Inventory.Icon "SPAKA0";
 
         +INVENTORY.INVBAR
     }
