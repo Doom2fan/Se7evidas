@@ -14,6 +14,7 @@ SS_BACK                         = "Back";
 SS_BACK_DESC                    = "Returns to the previous page";
 SS_MAINSHOP                     = "Lucius armoury";
 // Page names
+SS_CONSUMABLES                  = "Consumables";
 SS_ARMOR                        = "Armor";
 SS_HEALTH                       = "Health";
 
@@ -34,6 +35,7 @@ SS_THGRENADES                   = "50mm grenades";
 SS_LOOT                         = "Loot";
 
 // Page descriptions
+SS_CONSUMABLES_DESC             = "Buy consumable items";
 SS_ARMOR_DESC                   = "Buy armor";
 SS_HEALTH_DESC                  = "Buy medical supplies"; // I have no idea what to put here currently
 

@@ -13,21 +13,12 @@
 
             "items": [
                 {
-                    "id": [ "M", "P", "H", "L" ],
-                    "name": "$SS_HEALTH",
-                    "desc": "$SS_HEALTH_DESC",
-                    "icon": "graphics/Menu/Shop/Icons/HealthPage.png",
-                    "itemType": "pageLink",
-                    "link": "healthPage",
-                    "global": false
-                },
-                {
                     "id": [ "M", "P", "A", "R" ],
-                    "name": "$SS_ARMOR",
-                    "desc": "$SS_ARMOR_DESC",
-                    "icon": "sprites/Inventory/Armor/ARCAA0.png",
+                    "name": "$SS_CONSUMABLES",
+                    "desc": "$SS_CONSUMABLES_DESC",
+                    "icon": "", // No icon yet
                     "itemType": "pageLink",
-                    "link": "armorPage",
+                    "link": "consumablesPage",
                     "global": false
                 },
                 {
@@ -51,6 +42,42 @@
             ]
         },
 
+        /** Consumables section **/
+        {
+            "intName": "consumablesPage",
+            "name": "$SS_CONSUMABLES",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+                {
+                    "id": [ "H", "L", "T", "H" ],
+                    "name": "$SS_HEALTH",
+                    "desc": "$SS_HEALTH_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/HealthPage.png",
+                    "itemType": "pageLink",
+                    "link": "healthPage",
+                    "global": false
+                },
+                {
+                    "id": [ "A", "R", "M", "R" ],
+                    "name": "$SS_ARMOR",
+                    "desc": "$SS_ARMOR_DESC",
+                    "icon": "sprites/Inventory/Armor/ARCAA0.png",
+                    "itemType": "pageLink",
+                    "link": "armorPage",
+                    "global": false
+                }
+            ]
+        },
+
         /** Health section **/
         {
             "intName": "healthPage",
@@ -63,7 +90,7 @@
                     "desc": "$SS_BACK_DESC",
                     "icon": "M_BACK_D",
                     "itemType": "pageLink",
-                    "link": "mainPage",
+                    "link": "consumablesPage",
                     "global": false
                 },
                 {
@@ -107,7 +134,7 @@
                     "desc": "$SS_BACK_DESC",
                     "icon": "M_BACK_D",
                     "itemType": "pageLink",
-                    "link": "mainPage",
+                    "link": "consumablesPage",
                     "global": false
                 },
                 {
