@@ -378,5 +378,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 }
             }
         }
+
+        if (isInventoryBarVisible ())
+            DrawInventoryBar (diparms, (0, 0), 8, DI_SCREEN_CENTER_BOTTOM, HX_SHADOW);
     }
 }
