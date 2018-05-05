@@ -11,9 +11,11 @@ version "3.3"
 ** Credits for the final muzzle flashes goes to me, Chronos "phantombeta"
 ** Ouroboros.
 **
-** Credits for the sprites is in the CREDITS.txt files contained in the
-** same folder as the ZScript code for the actor. Sprites used in multi-
-** ple actors should be in Credits/Sprites.TXT.
+** Credits for the sprites are usually in "CREDITS.txt" files contained in
+** the same folder as the ZScript code for the actor or in a comment in
+** the ZScript code.
+** Credits for sprites used in various actors should be in the file
+** "Sprites.TXT" located in the "Credits" folder.
 */
 
 /* Highest free DoomEdNums:
