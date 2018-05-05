@@ -467,7 +467,7 @@ class S7_Projectile : FastProjectile {
 
                     loopBreaker++;
                     if (loopBreaker >= 4096) { // Uh oh.
-                        Console.PrintF ("\CgSe7evidas error: Broke an infinite loop in S7_Projectile.");
+                        Console.PrintF ("\cgSe7evidas error: Broke an infinite loop in S7_Projectile.");
                         Destroy ();
                         return;
                     }
