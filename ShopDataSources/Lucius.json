@@ -13,6 +13,15 @@
 
             "items": [
                 {
+                    "id": [ "M", "P", "H", "L" ],
+                    "name": "$SS_HEALTH",
+                    "desc": "$SS_HEALTH_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/HealthPage.png",
+                    "itemType": "pageLink",
+                    "link": "healthPage",
+                    "global": false
+                },
+                {
                     "id": [ "M", "P", "A", "R" ],
                     "name": "$SS_ARMOR",
                     "desc": "$SS_ARMOR_DESC",
@@ -38,6 +47,50 @@
                     "itemType": "pageLink",
                     "link": "weaponsPage",
                     "global": false
+                }
+            ]
+        },
+
+        /** Health section **/
+        {
+            "intName": "healthPage",
+            "name": "$SS_HEALTH",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+                {
+                    "id": [ "M", "K", "I", "T" ],
+                    "name": "$MEDIKIT",
+                    "desc": "$SS_MEDIKIT_DESC",
+                    "info": "$SS_MEDIKIT_INFO",
+                    "icon": "sprites/Inventory/Health/MKITA0.png",
+                    "inventoryName": "S7_Medikit",
+                    "itemType": "buySellItem",
+                    "buyPrice": 700,
+                    "buyAmount": 1,
+                    "sellPrice": 350,
+                    "global": true
+                },
+                {
+                    "id": [ "S", "T", "I", "M" ],
+                    "name": "$STIMPACK",
+                    "desc": "$SS_STIMPACK_DESC",
+                    "info": "$SS_STIMPACK_INFO",
+                    "icon": "sprites/Inventory/Health/SPAKA0.png",
+                    "inventoryName": "S7_Stimpack",
+                    "itemType": "buySellItem",
+                    "buyPrice": 400,
+                    "buyAmount": 1,
+                    "sellPrice": 200,
+                    "global": true
                 }
             ]
         },

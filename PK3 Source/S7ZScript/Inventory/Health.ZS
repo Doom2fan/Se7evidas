@@ -173,14 +173,17 @@ class S7_HealWeapItem : Inventory {
 // Medikit
 //
 //-------------------------------------------------------------------------------------------
+/* Credits:
+** Sprites: BloodyAcid
+*/
 class S7_Medikit : S7_HealWeapItem replaces Medikit {
     default {
-        Tag "Medikit";
+        Tag "$MEDIKIT";
 
         S7_HealWeapItem.HealWeap "S7_MedikitApplicator";
         Inventory.MaxAmount 4;
         Inventory.InterHubAmount 4;
-        Inventory.PickupMessage "$GOTMEDIKIT";
+        Inventory.PickupMessage "$MEDIKIT";
         Inventory.Icon "ARTIMEDI";
 
         +INVENTORY.INVBAR
@@ -188,7 +191,7 @@ class S7_Medikit : S7_HealWeapItem replaces Medikit {
 
     states {
     Spawn:
-        MEDI A -1;
+        MKIT A -1;
         stop;
     }
 }
@@ -219,14 +222,17 @@ class S7_MedikitApplicator : S7_HealWeap {
 // Stimpack
 //
 //-------------------------------------------------------------------------------------------
+/* Credits:
+** Sprites: zrrion the insect, Chronos "phantombeta" Ouroboros
+*/
 class S7_Stimpack : S7_HealWeapItem replaces Stimpack {
     default {
-        Tag "Stimpack";
+        Tag "$STIMPACK";
 
         S7_HealWeapItem.HealWeap "S7_StimpackApplicator";
         Inventory.MaxAmount 8;
         Inventory.InterHubAmount 8;
-        Inventory.PickupMessage "$GOTSTIM";
+        Inventory.PickupMessage "$STIMPACK";
         Inventory.Icon "ARTISTIM";
 
         +INVENTORY.INVBAR
@@ -234,7 +240,7 @@ class S7_Stimpack : S7_HealWeapItem replaces Stimpack {
 
     states {
     Spawn:
-        STIM A -1;
+        SPAK A -1;
         stop;
     }
 }

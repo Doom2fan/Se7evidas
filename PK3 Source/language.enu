@@ -53,10 +53,6 @@
         GOTARMOR                    = "ST Armour";
         GOTMEGA                     = "GX Armour";
 
-    // Health
-        GOTSTIM                     = "Stimpack";
-        GOTMEDIKIT                  = "Medikit";
-
     // Ammo
         GOTBACKPACK                 = "Backpack";
 

@@ -47,6 +47,8 @@ UNARMED                         = "Unarmed";
 /** Inventory **/
 // Health
 CANTEEN                         = "Canteen";
+STIMPACK                        = "Stimpack";
+MEDIKIT                         = "Medikit";
 
 // Armor
 SECVEST_CC                      = "Cronus Corps Security Vest";

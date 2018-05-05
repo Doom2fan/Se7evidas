@@ -15,6 +15,7 @@ SS_BACK_DESC                    = "Returns to the previous page";
 SS_MAINSHOP                     = "Lucius armoury";
 // Page names
 SS_ARMOR                        = "Armor";
+SS_HEALTH                       = "Health";
 
 SS_WEAPONS                      = "Weapons";
 SS_PG_SMGS                      = "Submachine guns";
@@ -34,6 +35,7 @@ SS_LOOT                         = "Loot";
 
 // Page descriptions
 SS_ARMOR_DESC                   = "Buy armor";
+SS_HEALTH_DESC                  = "Buy medical supplies"; // I have no idea what to put here currently
 
 SS_WEAPONS_DESC                 = "Buy or sell weapons";
 
