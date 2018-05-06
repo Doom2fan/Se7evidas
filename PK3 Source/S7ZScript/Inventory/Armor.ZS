@@ -26,7 +26,7 @@ class S7_CCSecVestData : S7_ArmorData {
             case 'PistolTracer':   kevDMG = damage * 0.5 ; ret = damage * clamp ((kevInt - 0.5 ) / 0.5 , 0.25,  1.0); break;
             case 'RevolverTracer': kevDMG = damage * 0.55; ret = damage * clamp ((kevInt - 0.4 ) / 0.6 , 0.35,  1.0); break;
             case 'ShotgunTracer':  kevDMG = damage * 0.6 ; ret = damage * clamp ((kevInt - 0.65) / 0.35, 0.125, 1.0); break;
-            case 'RifleTracer':    kevDMG = damage * 0.9 ; ret = damage * clamp ((kevInt - 0.1 ) / 0.9 , 0.65,  1.0); break;
+            case 'RifleTracer':    kevDMG = damage       ; ret = damage * clamp ((kevInt       ) / 0.9 , 0.65,  1.0); break;
             case 'SniperRifleTracer':
                 kevDMG = damage * fRandom [S7_Armor] (0.95, 1.15);
                 ret = damage;
@@ -132,10 +132,10 @@ class S7_CCCombatArmorData : S7_ArmorData {
                 [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.15, 0.95, pltShift: 0.5 , pltMin: 0.15, usrPltM: 0.5 , usrKevM: 0.2 , usrKevMShift: 0.70, usrMin: 0.25);
                 break;
             case 'RifleTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.5 , 0.8 , pltShift: 0.15, pltMin: 0.3 , usrPltM: 0.6 , usrKevM: 0.48, usrKevMShift: 0.15, usrMin: 0.32);
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.5 , 0.8 , pltShift: 0.15, pltMin: 0.5 , usrPltM: 0.55, usrKevM: 0.4 , usrKevMShift: 0.2 , usrMin: 0.3);
                 break;
             case 'SniperRifleTracer':
-                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.6 , 0.5 , pltShift: 0.15, pltMin: 0.4 , usrPltM: 0.7 , usrKevM: 0.75, usrKevMShift: 0.08, usrMin: 0.64);
+                [kevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.6 , 0.5 , pltShift: 0.15, pltMin: 0.6 , usrPltM: 0.6 , usrKevM: 0.65, usrKevMShift: 0.1 , usrMin: 0.6);
                 break;
             case 'Fire':
                 pltDMG = max (damage - 15, 0) * 0.25;
