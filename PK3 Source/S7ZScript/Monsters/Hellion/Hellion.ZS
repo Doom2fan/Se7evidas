@@ -32,7 +32,7 @@ class S7_Hellion : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 20);
+        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15);
         int attrPts = xpSys.level * 2;
         int attrPts2 = attrPts * .25;
         attrPts *= .75;
