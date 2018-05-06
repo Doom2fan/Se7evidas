@@ -11,10 +11,10 @@ class S7_Hellion : S7_DemonBase {
         Height 56;
         Speed 8;
         PainChance 200;
-        SeeSound "Hellion/Sight";
-        ActiveSound "Hellion/Active";
-        PainSound "Hellion/Pain";
-        DeathSound "Hellion/Death";
+        SeeSound "Monsters/Hellion/Sight";
+        ActiveSound "Monsters/Hellion/Active";
+        PainSound "Monsters/Hellion/Pain";
+        DeathSound "Monsters/Hellion/Death";
         Obituary "$OBHELLION";
         Species "Hellion";
         Tag "$HELLIONTAG";
@@ -95,6 +95,8 @@ class S7_Hellion : S7_DemonBase {
         loop;
 
     Missile:
+        TNT1 A 0 A_PlaySound ("Monsters/Hellion/Attack", CHAN_Voice);
+
         HELN GGGGGGHHIIJJKK 1 A_FaceTarget (26, 13);
 
         HELN L 6 {
