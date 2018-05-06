@@ -1,16 +1,18 @@
-Monsters/ScorpsEnforcer/Fire                 "sounds/Monsters/Scorps/EnforcerFire.ogg"
-
-/** Trooper **/
+//-------------------------------------------------------------------------------------------
+//
+// Trooper
+//
+//-------------------------------------------------------------------------------------------
 $RANDOM Monsters/ScorpsTrooper/Sight {
     Monsters/ScorpsTrooper/Sight1
     Monsters/ScorpsTrooper/Sight2
     Monsters/ScorpsTrooper/Sight3
     Monsters/SCorpsTrooper/Sight4
 }
-Monsters/SCorpsTrooper/Sight1                "sounds/Monsters/SCorps/Trooper/Sight1.ogg"
-Monsters/SCorpsTrooper/Sight2                "sounds/Monsters/SCorps/Trooper/Sight2.ogg"
-Monsters/SCorpsTrooper/Sight3                "sounds/Monsters/SCorps/Trooper/Sight3.ogg"
-Monsters/SCorpsTrooper/Sight4                "sounds/Monsters/SCorps/Trooper/Sight4.ogg"
+Monsters/SCorpsTrooper/Sight1                "sounds/Monsters/SCorps/Trooper/Sight1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsTrooper/Sight2                "sounds/Monsters/SCorps/Trooper/Sight2.ogg" // Ditto.
+Monsters/SCorpsTrooper/Sight3                "sounds/Monsters/SCorps/Trooper/Sight3.ogg" // Ditto.
+Monsters/SCorpsTrooper/Sight4                "sounds/Monsters/SCorps/Trooper/Sight4.ogg" // Ditto.
 
 $RANDOM Monsters/ScorpsTrooper/Pain {
     Monsters/ScorpsTrooper/Pain1
@@ -20,22 +22,77 @@ $RANDOM Monsters/ScorpsTrooper/Pain {
     Monsters/SCorpsTrooper/Pain5
     Monsters/SCorpsTrooper/Pain6
 }
-Monsters/SCorpsTrooper/Pain1                "sounds/Monsters/SCorps/Trooper/Pain1.ogg"
-Monsters/SCorpsTrooper/Pain2                "sounds/Monsters/SCorps/Trooper/Pain2.ogg"
-Monsters/SCorpsTrooper/Pain3                "sounds/Monsters/SCorps/Trooper/Pain3.ogg"
-Monsters/SCorpsTrooper/Pain4                "sounds/Monsters/SCorps/Trooper/Pain4.ogg"
-Monsters/SCorpsTrooper/Pain5                "sounds/Monsters/SCorps/Trooper/Pain5.ogg"
-Monsters/SCorpsTrooper/Pain6                "sounds/Monsters/SCorps/Trooper/Pain6.ogg"
+Monsters/SCorpsTrooper/Pain1                "sounds/Monsters/SCorps/Trooper/Pain1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsTrooper/Pain2                "sounds/Monsters/SCorps/Trooper/Pain2.ogg" // Ditto.
+Monsters/SCorpsTrooper/Pain3                "sounds/Monsters/SCorps/Trooper/Pain3.ogg" // Ditto.
+Monsters/SCorpsTrooper/Pain4                "sounds/Monsters/SCorps/Trooper/Pain4.ogg" // Ditto.
+Monsters/SCorpsTrooper/Pain5                "sounds/Monsters/SCorps/Trooper/Pain5.ogg" // Ditto.
+Monsters/SCorpsTrooper/Pain6                "sounds/Monsters/SCorps/Trooper/Pain6.ogg" // Ditto.
 
 $RANDOM Monsters/ScorpsTrooper/Death {
     Monsters/ScorpsTrooper/Death1
     Monsters/ScorpsTrooper/Death2
     Monsters/ScorpsTrooper/Death3
 }
-Monsters/SCorpsTrooper/Death1                "sounds/Monsters/SCorps/Trooper/Death1.ogg"
-Monsters/SCorpsTrooper/Death2                "sounds/Monsters/SCorps/Trooper/Death2.ogg"
-Monsters/SCorpsTrooper/Death3                "sounds/Monsters/SCorps/Trooper/Death3.ogg"
+Monsters/SCorpsTrooper/Death1                "sounds/Monsters/SCorps/Trooper/Death1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsTrooper/Death2                "sounds/Monsters/SCorps/Trooper/Death2.ogg" // Ditto.
+Monsters/SCorpsTrooper/Death3                "sounds/Monsters/SCorps/Trooper/Death3.ogg" // Ditto.
 
+//-------------------------------------------------------------------------------------------
+//
+// Hunter
+//
+//-------------------------------------------------------------------------------------------
 Monsters/ScorpsHunter/Fire                   "sounds/Monsters/Scorps/Hunter/Fire.ogg"    // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
 Monsters/ScorpsHunter/ClipOut                "sounds/Monsters/Scorps/Hunter/ClipOut.ogg" // From Quake 4.
-Monsters/ScorpsHunter/ClipIn                 "sounds/Monsters/Scorps/Hunter/ClipIn.ogg"  // From Quake 4.
+Monsters/ScorpsHunter/ClipIn                 "sounds/Monsters/Scorps/Hunter/ClipIn.ogg"  // Ditto.
+
+//-------------------------------------------------------------------------------------------
+//
+// Enforcer
+//
+//-------------------------------------------------------------------------------------------
+$RANDOM Monsters/ScorpsEnforcer/Sight {
+    Monsters/ScorpsEnforcer/Sight1
+    Monsters/ScorpsEnforcer/Sight2
+    Monsters/ScorpsEnforcer/Sight3
+}
+Monsters/SCorpsEnforcer/Sight1                "sounds/Monsters/SCorps/Enforcer/Sight1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsEnforcer/Sight2                "sounds/Monsters/SCorps/Enforcer/Sight2.ogg" // Ditto.
+Monsters/SCorpsEnforcer/Sight3                "sounds/Monsters/SCorps/Enforcer/Sight3.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsEnforcer/Attack {
+    Monsters/ScorpsEnforcer/Attack1
+    Monsters/ScorpsEnforcer/Attack2
+}
+Monsters/SCorpsEnforcer/Attack1                "sounds/Monsters/SCorps/Enforcer/Attack1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsEnforcer/Attack2                "sounds/Monsters/SCorps/Enforcer/Attack2.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsEnforcer/Pain {
+    Monsters/ScorpsEnforcer/Pain1
+    Monsters/ScorpsEnforcer/Pain2
+    Monsters/ScorpsEnforcer/Pain3
+    Monsters/ScorpsEnforcer/Pain4
+}
+Monsters/SCorpsEnforcer/Pain1                "sounds/Monsters/SCorps/Enforcer/Pain1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsEnforcer/Pain2                "sounds/Monsters/SCorps/Enforcer/Pain2.ogg" // Ditto.
+Monsters/SCorpsEnforcer/Pain3                "sounds/Monsters/SCorps/Enforcer/Pain3.ogg" // Ditto.
+Monsters/SCorpsEnforcer/Pain4                "sounds/Monsters/SCorps/Enforcer/Pain4.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsEnforcer/Death {
+    Monsters/ScorpsEnforcer/Death1
+    Monsters/ScorpsEnforcer/Death2
+    Monsters/ScorpsEnforcer/Death3
+}
+Monsters/SCorpsEnforcer/Death1                "sounds/Monsters/SCorps/Enforcer/Death1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsEnforcer/Death2                "sounds/Monsters/SCorps/Enforcer/Death2.ogg" // Ditto.
+Monsters/SCorpsEnforcer/Death3                "sounds/Monsters/SCorps/Enforcer/Death3.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsEnforcer/Fire {
+    Monsters/ScorpsEnforcer/Fire1
+    Monsters/ScorpsEnforcer/Fire2
+    Monsters/ScorpsEnforcer/Fire3
+}
+Monsters/SCorpsEnforcer/Fire1                "sounds/Monsters/SCorps/Enforcer/Fire1.ogg" // From Quake 4.
+Monsters/SCorpsEnforcer/Fire2                "sounds/Monsters/SCorps/Enforcer/Fire2.ogg" // Ditto.
+Monsters/SCorpsEnforcer/Fire3                "sounds/Monsters/SCorps/Enforcer/Fire3.ogg" // Ditto.

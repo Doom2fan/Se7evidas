@@ -1,11 +1,11 @@
 //-------------------------------------------------------------------------------------------
 //
-// Shadow Corps Trooper
+// Shadow Corps Enforcer
 //
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 5.5);
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4);
         S7_BaseTracer.TrueSpeed 250;
         DamageType "RifleTracer";
     }
@@ -15,8 +15,9 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         Health 105;
         GibHealth -15;
         PainChance 200;
-        PainSound "Monsters/SCorps1/Pain";
-        DeathSound "Monsters/SCorps1/Death";
+        SeeSound "Monsters/ScorpsEnforcer/Sight";
+        PainSound "Monsters/ScorpsEnforcer/Pain";
+        DeathSound "Monsters/ScorpsEnforcer/Death";
         Obituary "$OBSCORPSENFORCER";
         Species "ScorpsEnforcer";
         Tag "$SCRPSENFRTAG";
@@ -24,8 +25,67 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         +MISSILEMORE
     }
 
+    S7_XPSystem xpSys;
+
     override void PostBeginPlay () {
         SetTag (S7_Utils.GenName_Male_Eng ());
+
+        if (!xpSys) {
+            GiveInventory ("S7_XPSystem", 1);
+            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+        }
+
+        let serverData = S7_ServerData.Get ();
+        xpSys.level = random [monsterStats] (1, 6) * max (1.0, double (serverData.avgLevel) / 17.5);
+        int attrPts = int (floor (xpSys.level * 1.5));
+        attrPts *= .75;
+
+        while (attrPts > 0) {
+            int rnd = random [monsterStats] (0, 3);
+
+            switch (rnd) {
+            case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
+            case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
+            case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
+            case 3:
+                if (random [monsterStats] (0, 3) > 0)
+                    xpSys.SetStat (S7Stat_Agility, 1);
+                else
+                    xpSys.SetStat (S7Stat_Will, 1);
+                break;
+            }
+
+            attrPts--;
+        }
+
+        // Vitality
+        startHealth = health *= 1.0 + (.07 * xpSys.GetStat (S7Stat_Vitality));
+    }
+
+    override void Tick () {
+        if (!xpSys) {
+            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            if (!xpSys) {
+                GiveInventory ("S7_XPSystem", 1);
+                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            }
+        }
+
+        // Strength
+        damageMultiply = 1.0 + (0.0385 * xpSys.GetStat (S7Stat_Strength / 3));
+        // Defense
+        damageFactor = clamp (1.0 - (0.02 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+
+        Super.Tick ();
+    }
+
+    override void OnDeath (Actor source, Actor inflictor, int dmgflags) {
+        if (source) {
+            let xpSys = GetXPSystem ();
+            double level = xpSys ? xpSys.level : 1;
+            GiveXP (source, 150 * max (1, level / 3));
+            source.GiveInventory ("S7_Cash", 120 * max (1, level / 4));
+        }
     }
 
     states {
@@ -104,24 +164,27 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 U  1 A_SetTics (random [monsterSpc] (3, 8));
     DoShoot:
         TNT1 A 0 {
-            if (CheckIfCloser (target, 256) && !(random [monsterSpc] (0, 255) < 128)) {
+            if (CheckIfCloser (target, 192) && !(random [monsterSpc] (0, 255) < 128)) {
                 fireMode = 1;
-                turn = 35.0;
+                turn = 25.0;
                 spreadX = 5.5;
                 spreadY = 4.5;
             } else {
                 fireMode = 0;
-                turn = 25.0;
+                turn = 18.0;
                 spreadX = 4.5;
                 spreadY = 3.5;
             }
 
-            if (fireMode)
-                return ResolveState ("DoShoot2");
+            if (fireMode) {
+                A_PlaySound ("Monsters/ScorpsEnforcer/Attack", CHAN_Voice);
+                return ResolveState (3);
+            }
 
-            return ResolveState (random [monsterSpc] (1, 4));
+            return ResolveState (random [monsterSpc] (0, 4));
         }
-        SCR2 UUUUU 1 A_FaceTarget (abs (turn), abs (turn));
+        SCR2 UUUUUU 1 A_FaceTarget (abs (turn), abs (turn));
+        TNT1 A      0 A_PlaySound ("Monsters/ScorpsEnforcer/Attack", CHAN_Voice);
     DoShoot2:
         SCR2 E 1 A_FaceTarget (turn * 2, turn * 2);
         SCR2 F 1 {
@@ -131,16 +194,16 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             A_SpawnProjectile ("S7_RifleCasingSpawn",     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ("S7_ShotSmoke_2_Spawner",  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
         }
-        SCR2 U 1 A_Jump (fireMode, 1); // If we're firing full auto, skip this frame
+        SCR2 U 2;
+        SCR2 U 1 A_JumpIf (fireMode, 1); // If we're firing full auto, skip this frame
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target is in LOS, keep firing
-                return ResolveState ("DoShoot");
+                return ResolveState ("DoShoot2");
             else if (random [monsterSpc] (0, 255) < 160) // Sometimes keep firing even if the target isn't in LOS anyway
                 return ResolveState ("CoverFire");
 
-            return ResolveState (null);
+            return ResolveState ("EndShoot");
         }
-        goto EndShoot;
 
     CoverFire:
         SCR2 E 1 A_JumpIf (!target || target.health <= 0, "EndShoot"); // If the target is dead or we have no target, stop firing
@@ -150,16 +213,16 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             A_SpawnProjectile ("S7_RifleCasingSpawn",     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ("S7_ShotSmoke_2_Spawner",  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
         }
-        SCR2 U 1 A_Jump (fireMode, 1); // If we're firing full auto, skip this frame
+        SCR2 U 2;
+        SCR2 U 1 A_JumpIf (fireMode, 1); // If we're firing full auto, skip this frame
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target comes into LOS, go back to normal shooting
                 return ResolveState ("DoShoot");
             else if (random [monsterSpc] (0, 255) < 50) // Sometimes stop firing
                 return ResolveState ("EndShoot");
 
-            return ResolveState (null);
+            return ResolveState ("CoverFire");
         }
-        loop;
 
     EndShoot:
         SCR2 U 5;
