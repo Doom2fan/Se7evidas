@@ -36,7 +36,7 @@ doomEdNums {
     32002 = S7_Stimpack
     32003 = S7_Canteen
     32004 = S7_Thumper_Used
-    32005 = S7_BerserkPickup
+    //32005 = S7_BerserkPickup
 
     // Monsters
     32500 = S7_EmpressPreSpawn

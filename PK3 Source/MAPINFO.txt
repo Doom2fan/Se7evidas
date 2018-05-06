@@ -2,4 +2,5 @@
 include Mapinfo/DamageTypes.txt
 include Mapinfo/Gameinfo.txt
 include Mapinfo/Skills.txt
+include Mapinfo/DoomEdNums.txt
 include Mapinfo/Maps.txt
