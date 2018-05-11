@@ -379,7 +379,6 @@ class S7_Projectile : FastProjectile {
 
         Vector3 realPos = pos;
 
-        int pushTime = 0;
         for (int i = 0; i < ripActors.Size (); i++) {
             let ripHit = ripActors [i];
 
@@ -483,6 +482,8 @@ class S7_Projectile : FastProjectile {
                 SetOrigin (pos + vel, true);
             TryMove (pos.xy, true, false);
 
+            SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
+
             if (!collisionHandled) {
                 bool floorHit = pos.Z <= GetZAt ();
                 bool ceilingHit = (pos.Z + height) > ceilingZ;
@@ -490,6 +491,7 @@ class S7_Projectile : FastProjectile {
                 if ((floorHit && floorpic == skyflatnum && !bSkyExplode) ||
                     (ceilingHit && ceilingpic == skyflatnum && !bSkyExplode)) {
                     Destroy ();
+
                     return;
                 } else if (floorHit || ceilingHit) {
                     SetZ (floorHit ? GetZAt () : ceilingZ - height);
@@ -501,8 +503,6 @@ class S7_Projectile : FastProjectile {
                     ExplodeMissile (NULL, NULL);
                 }
             }
-
-            SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
             vel.z += GetGravity ();
 
@@ -549,22 +549,33 @@ class S7_Projectile : FastProjectile {
                 if (l.backsector && l.backsector.GetTexture (sector.ceiling) == skyflatnum) {
                     let posr = PosRelative (l.backsector);
                     if (pos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
+                        // Hack to prevent missiles exploding against the sky.
+                        // Does not handle sky floors.
                         SpawnEffects (oldPos, tr.Results.Distance, oldVel); 
-                        Destroy ();  // Hack to prevent missiles exploding against the sky.
-                        return true; // Does not handle sky floors.
+                        DoRipping ();
+
+                        Destroy ();
+
+                        return true;
                     }
                 }
 
                 // [RH] Don't explode on horizon lines.
                 if (l && l.special == Line_Horizon) {
                     SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+                    DoRipping ();
+
                     Destroy ();
+
                     return true;
                 }
             } else if ((tr.Results.HitType == TRACE_HitFloor && floorpic == skyflatnum) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingpic == skyflatnum)) {
                 SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+                DoRipping ();
+
                 Destroy ();
+
                 return true;
             }
         }
