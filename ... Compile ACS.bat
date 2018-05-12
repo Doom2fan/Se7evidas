@@ -1,5 +1,0 @@
-@ECHO OFF
-SETLOCAL
-
-REM MAKE cleanall
-MAKE all

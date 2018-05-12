@@ -1,4 +1,0 @@
-@ECHO OFF
-SETLOCAL
-
-MAKE cleanall

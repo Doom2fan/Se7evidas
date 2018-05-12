@@ -20,11 +20,7 @@ rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcard
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
 
 .PHONY: all
-all: ShopData $(OBJDIR)/S7Stuff.bin
-
-.PHONY: cleanall
-cleanall:
-	-rm -rf "$(OBJDIR)"
+all: ShopData
 
 ## ===========================================
 ##
@@ -44,41 +40,3 @@ $(ShopData_OBJDIR)/%.fuckMake: $(ShopData_SRCDIR)/%.json
 
 .PHONY: ShopData
 ShopData: $(ShopData_OBJ)
-
-## ===========================================
-##
-## Libs
-##
-## ===========================================
-
-$(LIBDIR)/libc.ir:
-	@$(MKDIRCMD) -p "$(@D)"
-	$(ML) $(COM_FLAGS) -c -o $@ libc
-
-$(LIBDIR)/libGDCC.ir:
-	@$(MKDIRCMD) -p "$(@D)"
-	$(ML) $(COM_FLAGS) -c -o $@ libGDCC
-
-## ===========================================
-##
-## S7Stuff.bin
-##
-## ===========================================
-
-S7Stuff_OBJDIR = $(OBJDIR)/S7Stuff
-S7Stuff_SRC = $(call rwildcard, $(SRCDIR), %.c)
-S7Stuff_OBJ = $(S7Stuff_SRC:$(SRCDIR)/%.c=$(S7Stuff_OBJDIR)/%.ir)
-
-$(S7Stuff_OBJ): $(S7Stuff_OBJDIR)/%.ir: $(SRCDIR)/%.c
-	@$(MKDIRCMD) -p "$(@D)"
-	$(CC) $(CC_FLAGS) -i$(INCDIR) -i$(SRCDIR) -c $< -o $@
-
-$(OBJDIR)/S7Stuff.ir: $(S7Stuff_OBJ)
-	@$(MKDIRCMD) -p "$(@D)"
-	$(LD) $(COM_FLAGS) $^ -co $@
-
-$(OBJDIR)/S7Stuff.bin: $(LIBDIR)/libc.ir $(LIBDIR)/libGDCC.ir $(OBJDIR)/S7Stuff.ir
-	@$(MKDIRCMD) -p "$(@D)"
-	$(LD) $(LD_LIB_FLAGS) $^ -o $@
-	@$(MKDIRCMD) -p "PK3 Source/acs"
-	-cp --reply=yes "$@" "PK3 Source/acs/S7Stuff.bin"
