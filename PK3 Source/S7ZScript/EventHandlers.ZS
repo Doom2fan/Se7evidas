@@ -43,17 +43,21 @@ class S7_ServerEventHandler : EventHandler {
             switch (mapData.mapEvent) {
                 case MEVNT_None: break;
 
-                case MEVNT_PowerOutage:
-                    level.ChangeSky ("NEBSKY", "NEBSKY"); // Change the sky
+                case MEVNT_PowerOutage: {
+                    let sky = TexMan.CheckForTexture ("NEBSKY", TexMan.Type_Any);
+                    level.ChangeSky (sky, sky); // Change the sky
 
                     SetAllLight (64, true);
+                }
                 break;
 
-                case MEVNT_PerfectHatred:
-                    level.ChangeSky ("ATWSKY", "ATWSKY"); // Change the sky
+                case MEVNT_PerfectHatred: {
+                    let sky = TexMan.CheckForTexture ("ATWSKY", TexMan.Type_Any);
+                    level.ChangeSky (sky, sky); // Change the sky
                     S_ChangeMusic ("", force: true); // Remove the music
 
                     SetAllLight (2, true);
+                }
                 break;
 
                 case MEVNT_GhostTown: {
@@ -63,9 +67,10 @@ class S7_ServerEventHandler : EventHandler {
                 }
                 break;
 
-                default:
+                default: {
                     MapData.mapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
                     mapData.mapEventSet = false; // Set it back to false. This will make it loop.
+                }
                 break;
             }
         } while (!mapData.mapEventSet);
@@ -94,20 +99,25 @@ class S7_ServerEventHandler : EventHandler {
 
     void TickMapEvents (S7_MapData mapData) {
         switch (MapData.mapEvent) {
-            case MEVNT_PowerOutage:
-                level.ChangeSky ("NEBSKY", "NEBSKY"); // Change the sky
+            case MEVNT_PowerOutage: {
+                let sky = TexMan.CheckForTexture ("NEBSKY", TexMan.Type_Any);
+                level.ChangeSky (sky, sky); // Change the sky
                 SetAllLight (64, ((level.time % 5) == 0));
+            }
             break;
 
-            case MEVNT_PerfectHatred:
-                level.ChangeSky ("ATWSKY", "ATWSKY"); // Change the sky
+            case MEVNT_PerfectHatred: {
+                let sky = TexMan.CheckForTexture ("ATWSKY", TexMan.Type_Any);
+                level.ChangeSky (sky, sky); // Change the sky
                 S_ChangeMusic ("", force: true); // Remove the music
 
                 SetAllLight (2, ((level.time % 5) == 0));
+            }
             break;
 
-            case MEVNT_GhostTown:
+            case MEVNT_GhostTown: {
                 S_ChangeMusic ("", force: true); // Remove the music
+            }
             break;
         }
     }
