@@ -34,16 +34,28 @@ class S7_FireballBase : S7_Projectile {
 **/
 // 99% of this is taken from the normal RandomSpawner code. I wouldn't need to do this if GetDropItems was a virtual function :V
 class S7_MonsterSpawner : RandomSpawner {
-    virtual DropItem MS_GetMonsterSpawnList () { return GetDropItems (); }
+    virtual class<Actor> MS_GetMonsterSpawnList () { return null; }
 
     // Literally the only reason we're even overriding this is because we can't override GetDropItems.
     override void BeginPlay () {
+        if (bouncecount >= MAX_RANDOMSPAWNERS_RECURSION) { // Prevents infinite recursions
+            Spawn ("Unknown", Pos, NO_REPLACE); // Show that there's a problem.
+            Destroy ();
+            return;
+        }
+
+        let actClass = MS_GetMonsterSpawnList ();
+        if (actClass != null) {
+            DoSpawnActor (actClass);
+            return;
+        }
+
         DropItem di;   // di will be our drop item list iterator
         DropItem drop; // while drop stays as the reference point.
         int n = 0;
         bool nomonsters = sv_nomonsters || level.nomonsters;
 
-        drop = di = MS_GetMonsterSpawnList ();
+        drop = di = GetDropItems ();
         if (di != null) {
             while (di != null) {
                 if (di.Name != 'None') {
@@ -77,33 +89,36 @@ class S7_MonsterSpawner : RandomSpawner {
                 else
                     di = di.Next;
             }
+
             // So now we can spawn the dropped item.
-            if (di == null || bouncecount >= MAX_RANDOMSPAWNERS_RECURSION) { // Prevents infinite recursions
+            if (di == null) {
                 Spawn ("Unknown", Pos, NO_REPLACE); // Show that there's a problem.
                 Destroy ();
                 return;
-            }
-            else if (random [randomspawn] () <= di.Probability) { // prob 255 = always spawn, prob 0 = almost never spawn.
-                // Handle replacement here so as to get the proper speed and flags for missiles
-                Class<Actor> cls = di.Name;
-                if (cls != null) {
-                    Class<Actor> rep = GetReplacement (cls);
-                    if (rep != null)
-                        cls = rep;
-                }
-                if (cls != null) {
-                    Species = Name (cls);
-                    readonly<Actor> defmobj = GetDefaultByType (cls);
-                    Speed = defmobj.Speed;
-                    bMissile |= defmobj.bMissile;
-                    bSeekerMissile |= defmobj.bSeekerMissile;
-                    bSpectral |= defmobj.bSpectral;
-                }
-                else {
-                    A_Log (TEXTCOLOR_RED .. "Unknown item class ".. di.Name .." to drop from a random spawner (Custom Se7evidas monster spawner)\n");
-                    Species = 'None';
-                }
-            }
+            } else if (random [randomspawn] () <= di.Probability) // prob 255 = always spawn, prob 0 = almost never spawn.
+                DoSpawnActor (di.Name);
+        }
+    }
+
+    void DoSpawnActor (class<Actor> cls) {
+        // Handle replacement here so as to get the proper speed and flags for missiles
+        if (cls != null) {
+            Class<Actor> rep = GetReplacement (cls);
+            if (rep != null)
+                cls = rep;
+        }
+
+        if (cls != null) {
+            Species = Name (cls);
+            readonly<Actor> defmobj = GetDefaultByType (cls);
+            Speed = defmobj.Speed;
+            bMissile |= defmobj.bMissile;
+            bSeekerMissile |= defmobj.bSeekerMissile;
+            bSpectral |= defmobj.bSpectral;
+        }
+        else {
+            A_Log (TEXTCOLOR_RED .. "Unknown item class ".. cls .." to drop from a random spawner (Custom Se7evidas monster spawner)\n");
+            Species = 'None';
         }
     }
 }

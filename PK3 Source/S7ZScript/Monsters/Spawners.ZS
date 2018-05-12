@@ -1,8 +1,23 @@
 class S7_ReplacementSpawner : S7_MonsterSpawner {
-    override DropItem MS_GetMonsterSpawnList () {
-        /*if (CallACS ("S7_GetMapEvent") == MEVNT_PerfectHatred)
-            return S7_MEvntNoMonster*/
-        return GetDropItems ();
+    override class<Actor> MS_GetMonsterSpawnList () {
+        let mapData = S7_MapData.Get ();
+
+        if (level.maptime <= 1) {
+            let spawnPos = new ("S7_MapData_SpawnPos");
+
+            spawnPos.actorClass = GetReplacee (GetClass ());
+            spawnPos.pos = spawnPoint;
+
+            mapData.monsterSpawnPos.Push (spawnPos);
+        }
+
+        if (!mapData.mapEventSet)
+            S7_MapEventThinker.Init (null, mapData);
+
+        if (mapData.mapEvent == MEVNT_PerfectHatred)
+            return 'S7_MEvntNoMonster';
+
+        return null;
     }
 }
 

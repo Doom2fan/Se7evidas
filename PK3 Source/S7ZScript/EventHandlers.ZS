@@ -8,72 +8,10 @@ class S7_ServerEventHandler : EventHandler {
         let serverData = S7_ServerData.Get ();
         let mapData = S7_MapData.Get ();
 
-        SetupMapEvents (serverData, mapData);
+        S7_MapEventThinker.Init (serverData, mapData);
 
         if (mapData.mapEvent > 0)
             Console.PrintF ("%d", mapData.mapEvent);
-    }
-
-    void SetAllLight (int lightLevel, bool removeEffects) {
-        if (removeEffects) {
-            ThinkerIterator it = ThinkerIterator.Create ("Lighting");
-            Lighting effect;
-
-            while (effect = Lighting (it.Next ()))
-                effect.Destroy ();
-        }
-
-        for (int i = 0; i < level.Sectors.Size(); i++) {
-            Sector s = level.Sectors[i];
-            s.SetLightLevel (lightLevel);
-        }
-    }
-
-    void SetupMapEvents (S7_ServerData serverData, S7_MapData mapData) {
-        if (mapData.mapEventSet) // Don't set map events up twice.
-            return;
-
-        //serverData.queuedMapEvent = S7_DebugOpts;//MEVNT_PowerOutage;
-        mapData.mapEvent = serverData.queuedMapEvent;
-        serverData.queuedMapEvent = MEVNT_None;
-
-        do {
-            mapData.mapEventSet = true;
-
-            switch (mapData.mapEvent) {
-                case MEVNT_None: break;
-
-                case MEVNT_PowerOutage: {
-                    let sky = TexMan.CheckForTexture ("NEBSKY", TexMan.Type_Any);
-                    level.ChangeSky (sky, sky); // Change the sky
-
-                    SetAllLight (64, true);
-                }
-                break;
-
-                case MEVNT_PerfectHatred: {
-                    let sky = TexMan.CheckForTexture ("ATWSKY", TexMan.Type_Any);
-                    level.ChangeSky (sky, sky); // Change the sky
-                    S_ChangeMusic ("", force: true); // Remove the music
-
-                    SetAllLight (2, true);
-                }
-                break;
-
-                case MEVNT_GhostTown: {
-                    S_ChangeMusic ("", force: true); // Remove the music
-                    let spot = Actor.Spawn ("MapSpot", (0.0, 0.0, 0.0)); // Spawn a mapspot
-                    spot.A_PlaySound ("MapEvents/GhostTown/Wind", CHAN_Body | CHAN_ListenerZ | CHAN_NoPause, 1.0, true, ATTN_None); // Play a wind sound on it
-                }
-                break;
-
-                default: {
-                    MapData.mapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
-                    mapData.mapEventSet = false; // Set it back to false. This will make it loop.
-                }
-                break;
-            }
-        } while (!mapData.mapEventSet);
     }
 
     override void WorldUnloaded (WorldEvent e) {
@@ -89,37 +27,16 @@ class S7_ServerEventHandler : EventHandler {
 
     override void WorldTick () {
         let mapData = S7_MapData.Get ();
+        if (mapData)
+            mapData.Tick ();
+
         let serverData = S7_ServerData.Get ();
+        if (serverData)
+            serverData.Tick ();
 
-        mapData.Tick ();
-        serverData.Tick ();
-
-        TickMapEvents (mapData);
-    }
-
-    void TickMapEvents (S7_MapData mapData) {
-        switch (MapData.mapEvent) {
-            case MEVNT_PowerOutage: {
-                let sky = TexMan.CheckForTexture ("NEBSKY", TexMan.Type_Any);
-                level.ChangeSky (sky, sky); // Change the sky
-                SetAllLight (64, ((level.time % 5) == 0));
-            }
-            break;
-
-            case MEVNT_PerfectHatred: {
-                let sky = TexMan.CheckForTexture ("ATWSKY", TexMan.Type_Any);
-                level.ChangeSky (sky, sky); // Change the sky
-                S_ChangeMusic ("", force: true); // Remove the music
-
-                SetAllLight (2, ((level.time % 5) == 0));
-            }
-            break;
-
-            case MEVNT_GhostTown: {
-                S_ChangeMusic ("", force: true); // Remove the music
-            }
-            break;
-        }
+        let meThinker = S7_MapEventThinker.Get ();
+        if (meThinker)
+            meThinker.TickMapEvents (serverData, mapData);
     }
 }
 

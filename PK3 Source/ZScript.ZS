@@ -71,7 +71,6 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Effects/Blood.ZS"
 #include "S7ZScript/Effects/Teleport.ZS"
 #include "S7ZScript/Effects/Parkour.ZS"
-#include "S7ZScript/Effects/MapEvents.ZS"
 #include "S7ZScript/Effects/Gore.ZS"
 #include "S7ZScript/Effects/Fire.ZS"
 
@@ -81,6 +80,10 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/RPG Systems/ShopData/Lucius.ZS"
 #include "S7ZScript/RPG Systems/XP System.ZS"
 #include "S7ZScript/RPG Systems/Upgrades.ZS"
+
+// Map event stuff
+#include "S7ZScript/MapEvents/MapEventThinker.ZS"
+#include "S7ZScript/MapEvents/PerfectHatred.ZS"
 
 // Menus
 #include "S7ZScript/GUI/Menus/XPSystemMenu.ZS"

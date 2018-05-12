@@ -1,4 +1,11 @@
+class S7_MapData_SpawnPos {
+    class<Actor> actorClass;
+    Vector3 pos;
+}
 class S7_MapData : Thinker {
+    // Spawn positions
+    Array<S7_MapData_SpawnPos> monsterSpawnPos;
+
     // Map events
     int mapEvent;
     bool mapEventSet;
