@@ -483,7 +483,7 @@ class S7_DropDatWeapon : S7_Boolean { }
 class S7_ShowPop1Key : S7_CustomKey {
     states {
     Use:
-        TNT1 A 0 ACS_NamedExecuteAlways ("S7_ShowPop1", 0);
+        TNT1 A 0 // Currently does nothing.
         fail;
     }
 }

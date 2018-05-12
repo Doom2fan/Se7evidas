@@ -44,13 +44,13 @@ class S7_ServerEventHandler : EventHandler {
                 case MEVNT_None: break;
 
                 case MEVNT_PowerOutage:
-                    ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 0); // Change the sky
+                    level.ChangeSky ("NEBSKY", "NEBSKY"); // Change the sky
 
                     SetAllLight (64, true);
                 break;
 
                 case MEVNT_PerfectHatred:
-                    ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 1);
+                    level.ChangeSky ("ATWSKY", "ATWSKY"); // Change the sky
                     S_ChangeMusic ("", force: true); // Remove the music
 
                     SetAllLight (2, true);
@@ -95,12 +95,12 @@ class S7_ServerEventHandler : EventHandler {
     void TickMapEvents (S7_MapData mapData) {
         switch (MapData.mapEvent) {
             case MEVNT_PowerOutage:
-                ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 0); // Change the sky
+                level.ChangeSky ("NEBSKY", "NEBSKY"); // Change the sky
                 SetAllLight (64, ((level.time % 5) == 0));
             break;
 
             case MEVNT_PerfectHatred:
-                ACS_ExecuteAlways (-int ('S7_ACSHelper'), 0, S7_ACS_ChangeSky, 1); // Change the sky
+                level.ChangeSky ("ATWSKY", "ATWSKY"); // Change the sky
                 S_ChangeMusic ("", force: true); // Remove the music
 
                 SetAllLight (2, ((level.time % 5) == 0));

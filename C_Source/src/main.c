@@ -145,18 +145,3 @@ Script_C void S7_ServersideDisconnect DISCONNECT (int num) {
 
     DisconnectPlayer (player);
 }
-
-enum S7_ACSHelper_Funcs {
-    S7_ACS_ChangeSky = 0,
-};
-
-Script_C void S7_ACSHelper (int whatToDo, int arg) {
-    switch (whatToDo) {
-        case S7_ACS_ChangeSky:
-            if (arg == 0)
-                ChangeSky (s"NEBSKY", s"");
-            else if (arg == 1)
-                ChangeSky (s"ATWSKY", s"");
-        break;
-    }
-}

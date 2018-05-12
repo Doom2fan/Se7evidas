@@ -20,11 +20,6 @@ enum FiringModeIcon {
     FMI_FullAuto  = 3,
 };
 
-// ACS helper script
-enum S7_ACSHelper_Funcs {
-    S7_ACS_ChangeSky = 0,
-};
-
 // Weapon binding slots
 enum S7_WeaponSlots {
     WpSlot_Medium = 1,
