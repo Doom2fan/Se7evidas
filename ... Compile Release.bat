@@ -1,10 +1,8 @@
 @ECHO OFF
 SETLOCAL
 
-REM ACS Stuff
-ECHO Cleaning ACS library files (.bin, .ir, .o, etc. files)
-MAKE cleanall
-ECHO Compiling ACS libraries
+REM Shops Stuff
+ECHO Compiling shops
 MAKE all
 
 REM 7z stuff
@@ -32,7 +30,6 @@ CD %MAIN_7Z%
 DEL Se7evidas.7Z /Q
 ECHO Creating Se7evidas-Licenses.ZIP
 ECHO F | XCOPY LICENSE "%MAIN_7Z%/Se7evidas/Se7evidas-Licenses/Assets.txt" /Q /Y
-ECHO F | XCOPY C_Source\LICENSE.md "%MAIN_7Z%/Se7evidas/Se7evidas-Licenses/C code-ACS library source.txt" /Q /Y
 %PROG_7Z% A -t7z "%MAIN_7Z%/Se7evidas/README/Se7evidas-Licenses.ZIP" -m0=Deflate -mx0 -ms=off "%MAIN_7Z%/Se7evidas/Se7evidas-Licenses/*"
 RMDIR Se7evidas\Se7evidas-Licenses /S /Q
 
