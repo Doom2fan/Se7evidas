@@ -163,6 +163,9 @@ class S7_BasePlayer : PlayerPawn {
             GiveInventory ("S7_ManaRegen", 1);
             
             GiveBasics_ClassSpecific ();
+
+            if (self == player.mo)
+                A_SetBlend ("000000", 1.0, 10, "000000", 0.0);
         }
     }
 
