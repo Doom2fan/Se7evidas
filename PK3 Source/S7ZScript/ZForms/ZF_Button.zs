@@ -93,8 +93,10 @@ class S7_ZF_Button : S7_ZF_Element {
 				buttonState = B_DISABLED;
 			}
 			else if (boxToScreen().pointCollides(mousePos) && buttonState == B_CLICK) {
+				if (cmdHandler) {
+					cmdHandler.buttonCommand(self, command);
+				}
 				buttonState = B_HOVER;
-				cmdHandler.buttonCommand(self, command);
 			}
 			else {
 				buttonState = B_INACTIVE;
