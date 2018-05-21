@@ -24,7 +24,7 @@ class S7_MapEventThinker : Thinker {
         if (mapData.mapEventSet) // Don't set map events up twice.
             return;
 
-        serverData.queuedMapEvent = MEVNT_PerfectHatred;//S7_DebugOpts;//MEVNT_PowerOutage;
+        //serverData.queuedMapEvent = MEVNT_PerfectHatred;//S7_DebugOpts;//MEVNT_PowerOutage;
         mapData.mapEvent = serverData.queuedMapEvent;
         serverData.queuedMapEvent = MEVNT_None;
 

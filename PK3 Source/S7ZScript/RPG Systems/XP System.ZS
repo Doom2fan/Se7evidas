@@ -44,7 +44,7 @@ class S7_XPSystem : Inventory {
     bool canLevelUp;
     bool randomStats;
     property CanLevelUp: canLevelUp;
-    property RandomStats: canLevelUp;
+    property RandomStats: randomStats;
 
     default {
         Inventory.MaxAmount 1;

@@ -3,4 +3,4 @@ Coding: Chronos "phantombeta" Ouroboros
 Sprites:
     S7_Terminator: Vader, Eriance, Chronos "phantombeta" Ouroboros (Recolor)
 
-Sounds: None yet :P
+Sounds: Credits in the SNDINFO file
