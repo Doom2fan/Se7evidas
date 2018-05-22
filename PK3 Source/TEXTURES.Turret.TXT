@@ -12,3 +12,50 @@ sprite "TRT1A8", 45, 49 {
     offset 19, 45
     patch "TRT1A2", 0, 0 { flipX }
 }
+
+sprite "TRT1B1", 39, 50 {
+    offset 19, 46
+    patch "TRT1A1", 0, 0
+    patch "graphics/Inventory/Turret/Flash1.png", 16, 3
+}
+
+sprite "TRT1B2", 50, 49 {
+    offset 30, 45
+    patch "TRT1A2", 5, 0
+    patch "graphics/Inventory/Turret/Flash2.png", 0, 2
+}
+
+sprite "TRT1B3", 58, 50 {
+    offset 38, 46
+    patch "TRT1A3", 3, 0
+    patch "graphics/Inventory/Turret/Flash3.png", 0, 1
+}
+
+sprite "TRT1B4", 45, 49 {
+    offset 25, 45
+    patch "TRT1A4", 4, 0
+    patch "graphics/Inventory/Turret/Flash4.png", 0, 4
+}
+
+sprite "TRT1B5", 39, 49 {
+    offset 19, 45
+    patch "TRT1A5", 0, 0
+}
+
+sprite "TRT1B6", 45, 49 {
+    offset 19, 45
+    patch "TRT1A4", 0, 0 { flipX }
+    patch "graphics/Inventory/Turret/Flash4.png", 39, 4 { flipX }
+}
+
+sprite "TRT1B7", 58, 50 {
+    offset 19, 46
+    patch "TRT1A3", 0, 0 { flipX }
+    patch "graphics/Inventory/Turret/Flash3.png", 39, 1 { flipX }
+}
+
+sprite "TRT1B8", 50, 49 {
+    offset 19, 45
+    patch "TRT1A2", 0, 0 { flipX }
+    patch "graphics/Inventory/Turret/Flash2.png", 34, 2 { flipX }
+}

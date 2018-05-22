@@ -1,0 +1,8 @@
+$RANDOM Inventory/Turret/Fire {
+    Inventory/Turret/Fire1
+    Inventory/Turret/Fire2
+}
+Inventory/Turret/Fire1           "sounds/Inventory/Turret/Fire1.ogg" // From Quake 4
+Inventory/Turret/Fire2           "sounds/Inventory/Turret/Fire2.ogg" // Ditto
+
+Inventory/Turret/Place           "sounds/Inventory/Turret/Place.ogg" // From Quake 4

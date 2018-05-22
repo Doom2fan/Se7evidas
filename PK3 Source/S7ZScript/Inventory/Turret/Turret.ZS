@@ -50,6 +50,8 @@ class S7_M400AutogunStored : Inventory {
             autogun.master = owner;
             autogun.SetFriendPlayer (owner.player);
 
+            autogun.A_PlaySound ("Inventory/Turret/Place", CHAN_Voice);
+
             return true;
         }
 
@@ -71,6 +73,7 @@ class S7_M400Autogun : S7_MonsterBase {
         Speed 0;
 
         Health 500;
+        GibHealth -100;
         PainChance 0;
 
         Obituary "$OBM400AUTOGUN";
@@ -81,20 +84,21 @@ class S7_M400Autogun : S7_MonsterBase {
         DamageFactor "LaserTracer", 1.0;
         DamageFactor "NerveGas", 0.0;
 
-        +NOBLOOD
+        +NOBLOOD +FRIENDLY
     }
 
     S7_XPSystem xpSys;
     int ammo;
 
-    double initialAngle;
+    Vector2 initialAngles;
     double lookTime;
     bool turnCos;
     Actor aimMarkers [12];
 
     int useTimer;
     override bool Used (Actor user) {
-        if (user != master)
+        // Don't let anyone other than the owner pick it up, and don't let destroyed turrets be picked up
+        if (user != master || useTimer == -1)
             return false;
 
         if (user.CheckInventory ("S7_M400AutogunStored", 1)) {
@@ -132,7 +136,7 @@ class S7_M400Autogun : S7_MonsterBase {
 
         ammo = 1000;
 
-        initialAngle = angle;
+        initialAngles = (angle, pitch);
         lookTime = 0;
         turnCos = (random [monsterSpc] (0, 1) == 1);
     }
@@ -141,8 +145,16 @@ class S7_M400Autogun : S7_MonsterBase {
         return false; // NO
     }
 
+    override String GetObituary (Actor victim, Actor inflictor, Name mod, bool playerattack) {
+        if (victim == master || victim.player == master.player)
+            return "$OBM400AUTOGUNSELF";
+
+        return Super.GetObituary (victim, inflictor, mod, playerattack);
+    }
+
     override void Tick () {
-        useTimer--;
+        if (useTimer > 0)
+            useTimer--;
 
         if (!xpSys) {
             xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
@@ -259,7 +271,7 @@ class S7_M400Autogun : S7_MonsterBase {
         return double.infinity;
     }
 
-    virtual Vector3 LeadTarget (Actor targ, double heightMod, double projSpeed) {
+    Vector3 LeadTarget (Actor targ, double heightMod, double projSpeed) {
         if (!target)
             return (double.NaN, double.NaN, double.NaN);
 
@@ -278,19 +290,31 @@ class S7_M400Autogun : S7_MonsterBase {
         return targPos;
     }
 
+    void RemoveMarkers (bool destroy) {
+        for (int i = 0; i < aimMarkers.Size (); i++) {
+            if (aimMarkers [i]) {
+                if (destroy)
+                    aimMarkers [i].Destroy ();
+                else
+                    aimMarkers [i].alpha = 0.;
+            }
+
+            if (destroy)
+                aimMarkers [i] = null;
+        }
+    }
+
     states {
     Spawn:
     Idle:
         TRT1 A 1 {
             if (ammo <= 0) {
-                for (int i = 0; i < aimMarkers.Size (); i++) {
-                    if (aimMarkers [i])
-                        aimMarkers [i].alpha = 0;
-                }
+                RemoveMarkers (false);
             }
 
             double lookTimeSin = (turnCos ? cos (lookTime * 1.5) : sin (lookTime * 1.5));
-            A_SetAngle (initialAngle + (90 * lookTimeSin), SPF_Interpolate);
+            A_SetAngle (initialAngles.X + (90 * lookTimeSin), SPF_Interpolate);
+            A_SetPitch (initialAngles.Y, SPF_Interpolate);
             lookTime++;
 
             invoker.FindTarget ();
@@ -299,14 +323,13 @@ class S7_M400Autogun : S7_MonsterBase {
 
     Missile:
         TRT1 A 1 {
-            for (int i = 0; i < aimMarkers.Size (); i++) {
-                if (aimMarkers [i])
-                    aimMarkers [i].alpha = 0;
-            }
+            RemoveMarkers (false);
 
-            double heightMod = FindShootingPos (target);
+            double heightMod; ;
 
-            if (ammo <= 0 || target.health <= 0 || target.bInvulnerable || target.bDormant || heightMod == double.infinity) {
+            if (ammo <= 0 || target.health <= 0 || target.bInvulnerable || target.bDormant ||
+                !CheckIfTargetInLOS (360, JLOSF_AllyNoJump | JLOSF_CombatantOnly) ||
+                (heightMod = FindShootingPos (target)) == double.infinity) {
                 target = null;
                 return ResolveState ("Idle");
             }
@@ -315,7 +338,7 @@ class S7_M400Autogun : S7_MonsterBase {
 
             return ResolveState (null);
         }
-        TRT1 A 1 {
+        TRT1 B 1 {
             double heightMod = FindShootingPos (target);
 
             if (heightMod == double.infinity)
@@ -324,18 +347,68 @@ class S7_M400Autogun : S7_MonsterBase {
             LeadTarget (target, heightMod, 240);
             A_SpawnProjectile ("S7_M400AutogunTracer", 38.5, 0.0, fRandom [monsterSpread] (-1., 1.), 0, fRandom [monsterSpread] (-1., 1.));
 
+            A_PlaySound ("Inventory/Turret/Fire", CHAN_Weapon);
+            A_AlertMonsters ();
+
             A_SetTics (random [monsterSpc] (1, 2));
         }
+        TRT1 A 2;
         loop;
 
     Death:
-        TRT1 A -1 {
-            for (int i = 0; i < invoker.aimMarkers.Size (); i++) {
-                if (invoker.aimMarkers [i])
-                    invoker.aimMarkers [i].Destroy ();
+        TRT1 A 15 {
+            RemoveMarkers (true);
+            useTimer = -1;
 
-                invoker.aimMarkers [i] = null;
+            A_PlaySound ("Explosions/Explosion1", CHAN_Body, 0.5);
+            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            if (expl)
+                expl.scale = (0.2, 0.2);
+        }
+        TRT1 A -1 {
+            useTimer = 0;
+        }
+        stop;
+    XDeath:
+        TRT1 A 20 {
+            RemoveMarkers (true);
+            useTimer = -1;
+
+            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            if (expl) {
+                expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body, .5);
+                expl.A_SetScale (.2);
             }
+        }
+        TRT1 A 10 {
+            let expl = Spawn ("S7_TurretExplosion", pos + (fRandom [sfx] (-10, 10), fRandom [sfx] (-10, 10), 42 + fRandom [sfx] (-6, 6)));
+            if (expl) {
+                expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body, .5);
+                expl.A_SetScale (.2);
+            }
+        }
+        TRT1 AAAAAAA 1 {
+            A_SetTics (random [monsterSpc] (4, 6));
+
+            let expl = Spawn ("S7_TurretExplosion", pos + (fRandom [sfx] (-10, 10), fRandom [sfx] (-10, 10), 42 + fRandom [sfx] (-6, 6)));
+            if (expl) {
+                expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body, fRandom [sfx] (.5, .65));
+                expl.A_SetScale (fRandom [sfx] (.15, .3));
+            }
+        }
+        TRT1 A 15;
+        TRT1 A 70 {
+            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            if (expl) {
+                expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body);
+                expl.A_SetScale (.25);
+            }
+        }
+        TRT1 C -1 {
+            A_PlaySound ("Explosions/Explosion2", CHAN_Body);
+            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            if (expl)
+                expl.A_SetScale (.5);
         }
         stop;
 
@@ -358,5 +431,19 @@ class S7_TurretRedDot : S7_EffectsBase {
                 Destroy ();
         }
         loop;
+    }
+}
+
+class S7_TurretExplosion : S7_EffectsBase {
+    default {
+        RenderStyle "Add";
+
+        +NOGRAVITY +NOINTERACTION
+    }
+
+    states {
+    Spawn:
+        MISL BCD 2;
+        stop;
     }
 }
