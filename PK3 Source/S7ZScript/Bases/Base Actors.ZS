@@ -515,7 +515,8 @@ class S7_Projectile : FastProjectile {
                         HitFloor ();
 
                     A_Stop ();
-                    ExplodeMissile (NULL, NULL);
+                    if (bMissile)
+                        ExplodeMissile (NULL, NULL);
                 }
             }
 
@@ -604,7 +605,10 @@ class S7_Projectile : FastProjectile {
 
         if (!TryMove (hitPos.xy + (double.epsilon * 3, double.epsilon * 3), true)) {
             SetOrigin (hitPos, interpFastProj);
+
+            A_Stop ();
             ExplodeMissile (BlockingLine, BlockingMobj);
+
             return true;
         } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
             tr.actorsToIgnore.Push (tr.Results.HitActor);
@@ -619,7 +623,11 @@ class S7_Projectile : FastProjectile {
                     HitFloor ();
                 }
 
-                ExplodeMissile (NULL, NULL);
+                if (bMissile) {
+                    A_Stop ();
+                    ExplodeMissile (NULL, NULL);
+                }
+
                 return true;
             }
         }
