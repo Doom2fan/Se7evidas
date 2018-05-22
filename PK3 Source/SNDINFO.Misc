@@ -58,19 +58,19 @@ $RANDOM Explosions/Explosion1 {
     Explosions/Explosion1_3
     Explosions/Explosion1_4
 }
-Explosions/Explosion1_1         "sounds/Effects/Explosions/Explode1_1.ogg"
-Explosions/Explosion1_2         "sounds/Effects/Explosions/Explode1_2.ogg"
-Explosions/Explosion1_3         "sounds/Effects/Explosions/Explode1_3.ogg"
-Explosions/Explosion1_4         "sounds/Effects/Explosions/Explode1_4.ogg"
+Explosions/Explosion1_1         "sounds/Effects/Explosions/Explode1_1.ogg" // From Quake 4
+Explosions/Explosion1_2         "sounds/Effects/Explosions/Explode1_2.ogg" // Ditto
+Explosions/Explosion1_3         "sounds/Effects/Explosions/Explode1_3.ogg" // Ditto
+Explosions/Explosion1_4         "sounds/Effects/Explosions/Explode1_4.ogg" // Ditto
 
 $RANDOM Explosions/Explosion2 {
     Explosions/Explosion2_1
     Explosions/Explosion2_2
     Explosions/Explosion2_3
 }
-Explosions/Explosion2_1         "sounds/Effects/Explosions/Explode2_1.ogg"
-Explosions/Explosion2_2         "sounds/Effects/Explosions/Explode2_2.ogg"
-Explosions/Explosion2_3         "sounds/Effects/Explosions/Explode2_3.ogg"
+Explosions/Explosion2_1         "sounds/Effects/Explosions/Explode2_1.ogg" // From Quake 4
+Explosions/Explosion2_2         "sounds/Effects/Explosions/Explode2_2.ogg" // Ditto
+Explosions/Explosion2_3         "sounds/Effects/Explosions/Explode2_3.ogg" // Ditto
 
 // Bounces
 Bounce/MetalSmall               "sounds/Effects/Misc/BounceMetalSmall.ogg" // From Heretic
