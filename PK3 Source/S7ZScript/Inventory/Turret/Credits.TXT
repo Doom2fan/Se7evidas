@@ -1,0 +1,9 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    Turret world sprites: Id Software, 3D Realms, Raven, Captain Toenail, ???*, Chronos "phantombeta" Ouroboros
+    Pickup sprites/icon: zrrion the insect, Chronos "phantombeta" Ouroboros (removed the "UAC" text)
+
+Sounds: Credits in the SNDINFO file
+
+* I took this from Doom 2 Tower Defense. I'm not sure who added/made the machinegun.

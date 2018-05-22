@@ -1,0 +1,14 @@
+sprite "TRT1A6", 41, 49 {
+    offset 19, 45
+    patch "TRT1A4", 0, 0 { flipX }
+}
+
+sprite "TRT1A7", 55, 50 {
+    offset 19, 46
+    patch "TRT1A3", 0, 0 { flipX }
+}
+
+sprite "TRT1A8", 45, 49 {
+    offset 19, 45
+    patch "TRT1A2", 0, 0 { flipX }
+}

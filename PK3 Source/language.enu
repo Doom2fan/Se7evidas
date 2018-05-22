@@ -96,6 +96,8 @@
     // Melee
 
     // Misc
+        OBM400AUTOGUN               = "%o was shredded by an autogun";
+        OBM400AUTOGUNSELF           = "%o was shredded by %h own autogun";
         OB_SHRAPNEL                 = "%o was hit by a piece of shrapnel";
 // MvP
     // Hellion

@@ -66,6 +66,7 @@ EMPTTHGRPICK                    = "Used 50mm grenade";
 // Misc
 BERSERKWEAP                     = "Syringe (Berserk)";
 BERSERK                         = "Berserk";
+AUTOGUN                         = "M-400 Autogun";
 
 // Ammo
 9MM                             = "9x19mm";
