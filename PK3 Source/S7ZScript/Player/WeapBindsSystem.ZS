@@ -19,7 +19,12 @@ class S7_WeapBindsSystem : Inventory {
             if (i < NUM_WEAPON_SLOTS_DRACO)
                 DracoBinds [i].Clear ();
 
-            SlotMaximum [i] = ((i > 0 && i <= 5) ? 1 : 0);
+            if (i > 0 && i < 5)
+                SlotMaximum [i] = 1;
+            else if (i == 5)
+                SlotMaximum [i] = 2;
+            else
+                SlotMaximum [i] = 0;
         }
     }
 
