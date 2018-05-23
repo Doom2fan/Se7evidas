@@ -35,13 +35,17 @@ class S7_IWSL5 : S7_BaseWeapon {
         weapon.ammoType2 "S7_IWSL5Ammo";
         weapon.ammoUse 1;
         weapon.ammoGive 0;
+
+        S7_BaseWeapon.Icon "IWRPA0";
+        S7_BaseWeapon.ShortTag "$SHORTIWSL5";
+        S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
     }
 
     bool chambered;
 
     states {
     Spawn:
-        IWRL Z -1;
+        IWRP A -1;
         stop;
 
     Ready:
@@ -89,14 +93,15 @@ class S7_IWSL5 : S7_BaseWeapon {
         IWRL A   2;
         goto Ready2;
     Fire.Rechamber:
-        IWRL A     1 {
-            A_PlaySound ("Weapons/IWSL5/Chamber", CHAN_Weapon);
+        IWRL CD    1;
+        IWRL E     1 A_PlaySound ("Weapons/IWSL-5/ServoBack", CHAN_Weapon);
+        IWRL FGHIJ 1;
+        IWRL K     8;
+        IWRL L     1 {
+            A_PlaySound ("Weapons/IWSL-5/Chamber", CHAN_5);
             invoker.chambered = true;
         }
-        IWRL CDEF  1;
-        IWRL GHIJ  1;
-        IWRL K     4;
-        IWRL LMNO  1;
+        IWRL MNO   1;
         IWRL P     5;
         IWRL QRSTU 1;
         goto Ready2;
@@ -107,7 +112,7 @@ class S7_IWSL5 : S7_BaseWeapon {
 
     DryFire:
         IWRL A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 
     Reload:

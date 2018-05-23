@@ -1,0 +1,10 @@
+Weapons/IWSL-5/ServoBack    "sounds/Weapons/Enemy/IWSL-5/ServoBack.ogg"    // From Quake 4.
+
+$RANDOM Weapons/IWSL-5/Chamber {
+    Weapons/IWSL-5/Chamber1
+    Weapons/IWSL-5/Chamber2
+    Weapons/IWSL-5/Chamber3
+}
+Weapons/IWSL-5/Chamber1 "sounds/Weapons/Enemy/IWSL-5/Chamber1.ogg" // From Quake 4.
+Weapons/IWSL-5/Chamber2 "sounds/Weapons/Enemy/IWSL-5/Chamber2.ogg" // Ditto.
+Weapons/IWSL-5/Chamber3 "sounds/Weapons/Enemy/IWSL-5/Chamber3.ogg" // Ditto.
