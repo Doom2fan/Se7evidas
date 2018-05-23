@@ -4,6 +4,10 @@ class S7_HellhunterBladeForm3 : S7_BaseWeapon {
         inventory.pickupMessage "$HELLBLADE";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
+
+        S7_BaseWeapon.Icon "HWBPC0";
+        S7_BaseWeapon.ShortTag "$HELLBLADE";
+        S7_BaseWeapon.BindSlot WpSlot_Special;
     }
 
     bool attacking;
@@ -57,16 +61,18 @@ class S7_HellhunterBladeForm3 : S7_BaseWeapon {
         }
 
     Fire1:
-        HB31 EFG 1;
-        HB31 H   1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
-        HB31 I   1;
-        HB31 J   1 { invoker.lastAttack = 1; }
+        HB31 EF 1;
+        HB31 G  1 A_PlaySound ("Weapons/HHunterBladeF3/Swing", CHAN_Weapon);
+        HB31 H  1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
+        HB31 I  1;
+        HB31 J  1 { invoker.lastAttack = 1; }
         goto Fire.ContinueCombo;
     Fire2:
-        HB31 KLM 1;
-        HB31 N   1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
-        HB31 O   1;
-        HB31 P   1 { invoker.lastAttack = 2; }
+        HB31 KL 1;
+        HB31 M  1 A_PlaySound ("Weapons/HHunterBladeF3/Swing", CHAN_Weapon);
+        HB31 N  1 A_CustomPunch (GetDamage (random [weaponDamage] (1, 3), 15), TRUE, 0, "S7_HBForm3_Puff", 135.0);
+        HB31 O  1;
+        HB31 P  1 { invoker.lastAttack = 2; }
         goto Fire.ContinueCombo;
     Fire3:
         //{ invoker.lastAttack = 3; }
@@ -96,7 +102,7 @@ class S7_HBForm3_Puff : S7_HBPuff_Base {
         renderStyle "add";
         scale 0.05;
         //seeSound "Weapons/HHunterBladeF3/Hit";
-        //attackSound "Weapons/HHunterBladeF3/HitWall";
+        attackSound "Weapons/HHunterBladeF3/HitWall";
     }
 
     states {

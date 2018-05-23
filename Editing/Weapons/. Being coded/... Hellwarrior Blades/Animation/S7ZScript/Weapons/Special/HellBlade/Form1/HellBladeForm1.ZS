@@ -4,6 +4,10 @@ class S7_HellhunterBladeForm1 : S7_BaseWeapon {
         inventory.pickupMessage "$HELLBLADE";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
+
+        S7_BaseWeapon.Icon "HWBPA0";
+        S7_BaseWeapon.ShortTag "$HELLBLADE";
+        S7_BaseWeapon.BindSlot WpSlot_Special;
     }
 
     // Temporary stuff
