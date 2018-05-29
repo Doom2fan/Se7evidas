@@ -1,9 +1,9 @@
 [default enu en]
 /** Armor **/
 SS_SECVEST_CC_DESC = "Cronus Corps offers a reliable standard security armor in a comfortable form. Kevlar weave affords level II protection for the torso, and optional inserts can boost this significantly.";
-SS_SECVEST_CC_INFO = "Level II.\nComposition: Kevlar weave.";
+SS_SECVEST_CC_INFO = "Level II\nComposition: Kevlar weave";
 SS_CBTARMR_CC_DESC = "Cronus Corps combat armor offers soldiers level III protection with an accompanying increase in weight, compared to standard issue. The armor's composition of kevlar weave and ceramic scales makes the armor more effective, and makes it last longer than equipment from other manufacturers";
-SS_CBTARMR_CC_INFO = "Level III.\nComposition: Kevlar weave and ceramic scales.";
+SS_CBTARMR_CC_INFO = "Level III\nComposition: Kevlar weave and ceramic scales";
 
 /** Health **/
 SS_MEDIKIT_DESC = "A medical aid kit containing sutures, syringes, hypodermic needles, anti-toxin autoinjectors, disposable scalpels and other medical supplies.";
@@ -14,23 +14,23 @@ SS_STIMPACK_INFO = "Manufacturer: Lucius\nBase healing amount: 20\nUses: 1";
 /** Weapons **/
 // SMGs
 SS_HITTERSMGDESC = "The SR20 \"Hitter\" SMG is a collaboration between Cronus Corps and Sigma BTK. It was designed to be a cross between the R16 \"Raptor\" Semi-automatic Pistol and the S18 \"Kronos\" SMG, firing two rounds at once to increase the amount of rounds it fires per minute without increasing the firing speed.\n\nAfter it reached shops, a small design flaw was found: a single round doesn't have enough power to cycle the gun. Normally this wouldn't be a problem, but it was soon discovered that mixing cartridges with powder from different manufacturers would occasionally fail to cycle due to the rounds not firing with perfect timing\nDespite this, the Hitter is still manufactured and sold, as it is an otherwise good gun.";
-SS_HITTERSMGINFO = "Manufacturer: Cronus Corps & Sigma BTK\nCaliber: .45 ACP\nCapacity: 62 cartridges\nFiring modes: Full-auto only.\nFiring speed: 1400 RPM";
+SS_HITTERSMGINFO = "Manufacturer: Cronus Corps & Sigma BTK\nCaliber: .45 ACP\nCapacity: 62 cartridges\nFiring modes: Full-auto only\nFiring speed: 1400 RPM";
 
 // Rifles
 SS_MANXDESC = "The C23 \"Manx\" Carbine is another weapon in Cronus Corps' line of 9mm guns. This selective-fire carbine was created for the civilian market and primarily finds use with civilians and law enforcement, but is available here nonetheless.\nDue to its low caliber, using it with a silencer makes it almost completely silent, making it a good choice for infiltration operations.";
-SS_MANXINFO = "Manufacturer: Cronus Corps\nCaliber: 9x19mm\nCapacity: 23 cartridges\nFiring modes: Full-auto and semi-auto.\nFiring speed: 525 RPM";
+SS_MANXINFO = "Manufacturer: Cronus Corps\nCaliber: 9x19mm\nCapacity: 23 cartridges\nFiring modes: Full-auto and semi-auto\nFiring speed: 525 RPM";
 
 SS_AMGDESC = "The A28 \"Mars\" Assault Rifle is a powerful, highly accurate weapon created by ShadowFyre, designed to provide a reliable weapon to fight the demon hordes with. The A28 can operate in the harshest of conditions, rivalling even the famous AK-47 assault rifle in reliability.\nThe burst-fire mode fires three shots in quick succession, almost doubling the firing speed but remaining controllable.";
-SS_AMGINFO = "Manufacturer: ShadowFyre\nCaliber: 7.62x39mm\nCapacity: 35 cartridges\nFiring modes: Full-auto and burst-fire.\nFiring speed: 700/1050 RPM";
+SS_AMGINFO = "Manufacturer: ShadowFyre\nCaliber: 7.62x39mm\nCapacity: 35 cartridges\nFiring modes: Full-auto and burst-fire\nFiring speed: 700/1050 RPM";
 
 SS_FAUCHARDDESC = "The FS/002A Mod 4 \"Fauchard\" Automatic Rifle is one of Firebrand Systems' earliest small arms, and still among the most popular. To this day, it's still one of Firebrand Systems' most power-efficient weapons. Weighing in at around 6 kilos, it's a bit bulkier than standard-issue infantry rifles, although the energy cells tend to be lighter.\nA couple variants are very common today: A4 "Spike" has a secondary charge-fire mode for sniping, and B1 "Sickle" is a heavy-barreled version with additional heat sinks and enhanced rate of fire.";
-SS_FAUCHARDINFO = "Manufacturer: Firebrand Systems\nAmmo type: Firebrand Systems energy cells\nCapacity: 23 shots\nFiring modes: Full-auto only.\nFiring speed: 600 RPM";
+SS_FAUCHARDINFO = "Manufacturer: Firebrand Systems\nAmmo type: Firebrand Systems energy cells\nCapacity: 23 shots\nFiring modes: Full-auto only\nFiring speed: 600 RPM";
 
 // Machineguns
 
 // Shotguns
 SS_SHOTGUNDESC = "The AM-10 \"Lucifer\" Combat Shotgun is a powerful SxS double-barreled shotgun chambered in 20 gauge. Unlike most double-barreled shotguns, the AM-10 is a tube-fed pump-action shotgun. Its design integrates high-quality recoil reduction to allow both barrels to be fired simultaneously.\nAs with most shotguns, the AM-10 is a versatile weapon - a variety of specialty loads exists, from slugs and flechettes to explosive slugs and nerve gas.";
-SS_SHOTGUNINFO = "Manufacturer: Sigma BTK\nCaliber: 20ga\nCapacity: 10 standard-size shells\nFiring modes: Pump-action only.";
+SS_SHOTGUNINFO = "Manufacturer: Sigma BTK\nCaliber: 20ga\nCapacity: 10 standard-size shells\nFiring modes: Pump-action only";
 
 // Area-damage
 
