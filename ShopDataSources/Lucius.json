@@ -546,7 +546,7 @@
                     "maxAmount": 1,
                     "buyPrice": 8000,
                     "buyAmount": 1,
-                    "sellPrice": 4000,
+                    "sellPrice": 6000,
                     "sellAmount": 1,
                     "global": true
                 }
