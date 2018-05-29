@@ -129,7 +129,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     override void OnUIEvent (UIEvent ev) { // Type_WheelUp
         Super.OnUIEvent (ev);
 
-        if (itemsFrame && !itemsFrame.disabled) {
+        if (itemsFrame && itemsFrame.isEnabled ()) {
             if (ev.type == UIEvent.Type_WheelDown) {
                 itemsFrame.box.pos.Y -= 15;
                 UpdateScroll ();
