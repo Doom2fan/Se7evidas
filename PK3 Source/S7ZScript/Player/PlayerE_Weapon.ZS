@@ -1,15 +1,20 @@
 extend class S7_BasePlayer {
     static const string PermanentWeapons [] = {
-        "S7_GrenadeWeap",
-        "S7_BerserkWeap"
+        "S7_GrenadeWeap:S7_GrenadeCount",
+        "S7_BerserkWeap:S7_Berserk"
     };
 
     void Weapon_PermanentWeapons () {
         for (int i = 0; i < PermanentWeapons.Size (); i++) {
-            let weap = PermanentWeapons [i];
+            Array<String> parts;
+            PermanentWeapons [i].Split (parts, ":");
 
-            if (!CheckInventory (weap, 1))
-                GiveInventory (weap, 1);
+            // If this happens someone's a fucking idiot.
+            if (parts.Size () < 1 || parts.Size () > 2)
+                continue;
+
+            if ((parts.Size () == 1 || CheckInventory (parts [1], 1)) && !CheckInventory (parts [0], 1))
+                GiveInventory (parts [0], 1);
         }
     }
 

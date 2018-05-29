@@ -18,6 +18,7 @@ class S7_Berserk : Ammo {
         Inventory.InterHubAmount 5;
 
         +INVENTORY.INVBAR
+        -INVENTORY.KEEPDEPLETED
     }
 
     override bool Use (bool pickup) {
