@@ -159,7 +159,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     override bool OnUIEvent (UIEvent ev) {
-        if (!shopFrame.disabled && ev.type == UIEvent.Type_KeyDown && ev.KeyChar == UIEvent.Key_Tab) {
+        if (shopFrame.isEnabled () && ev.type == UIEvent.Type_KeyDown && ev.KeyChar == UIEvent.Key_Tab) {
             sellMode = !sellMode;
             return true;
         }
@@ -168,31 +168,36 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     override bool MenuEvent (int mkey, bool fromcontroller) {
-        S7_SSPage  curPage = null;
-        S7_SSPage backPage = null;
+        if (shopFrame.isEnabled ()) {
+            S7_SSPage  curPage = null;
+            S7_SSPage backPage = null;
 
-        if (itemsList) {
-            curPage = itemsList.curPage;
+            if (itemsList) {
+                curPage = itemsList.curPage;
 
-            if (curPage)
-                backPage = curPage.backPage;
-        }
-
-        switch (mkey) {
-        case MKEY_Back:
-            if (backKeyCountdown <= 0 && (backPage || shopData.mainPage != curPage)) {
-                backKeyCountdown = 10;
-
-                if (backPage) {
-                    itemsList.Select (NULL);
-                    itemsList.SetPage (backPage);
-                    SetPage (backPage);
-
-                    selectedItem = NULL;
-                    return true;
-                } else
-                    return false;
+                if (curPage)
+                    backPage = curPage.backPage;
             }
+
+            switch (mkey) {
+            case MKEY_Back:
+                if (backKeyCountdown <= 0 && (backPage || shopData.mainPage != curPage)) {
+                    backKeyCountdown = 10;
+
+                    if (backPage) {
+                        itemsList.Select (NULL);
+                        itemsList.SetPage (backPage);
+                        SetPage (backPage);
+
+                        selectedItem = NULL;
+                        return true;
+                    } else
+                        return false;
+                }
+            }
+        } else if (bsPopup && bsPopup.isEnabled ()) {
+            bsPopup.Close ();
+            return true;
         }
 
         return Super.MenuEvent (mkey, fromcontroller);
