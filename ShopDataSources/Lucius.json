@@ -405,6 +405,13 @@
                     "itemType": "pageLink",
                     "link": "wpPage_Shotguns",
                     "global": false
+                },
+                {
+                    "id": [ "W", "P", "S", "R" ],
+                    "name": "$SS_PG_SNIPERS",
+                    "itemType": "pageLink",
+                    "link": "wpPage_Snipers",
+                    "global": false
                 }
             ]
         },
@@ -514,6 +521,39 @@
                     "buyPrice": 16500,
                     "buyAmount": 1,
                     "sellPrice": 12375,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "wpPage_Snipers",
+            "name": "$SS_PG_SNIPERS",
+            "backPage": "weaponsPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "weaponsPage",
+                    "global": false
+                },
+                {
+                    "id": [ "C", "N", "Q", "R" ],
+                    "name": "$SHORTCONQUERORSRIFLE",
+                    "desc": "$SS_CONQUERORDESC",
+                    "info": "$SS_CONQUERORINFO",
+                    "icon": "sprites/Weapons/Primary/ConquerorRifle/CQRPA0.png",
+                    "inventoryName": "S7_ConquerorRifle",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 30000,
+                    "buyAmount": 1,
+                    "sellPrice": 22500,
                     "sellAmount": 1,
                     "global": true
                 }
