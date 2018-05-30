@@ -39,5 +39,5 @@ SS_CONQUERORDESC = "The MK-17 \"Conqueror\" Anti-Materiel Rifle is a sniper rifl
 SS_CONQUERORINFO = "Manufacturer: Acheron Industries\nCaliber: .45 WW\nCapacity: 15 cartridges\nFiring modes: Pump-action and semi-auto\nFiring speed: 525 RPM on semi-auto";
 
 // Explosives
-SS_HANDGRENADEDESC = "Fragmentation hand grenades";
+SS_HANDGRENADEDESC = "Fragmentation hand grenade";
 SS_HANDGRENADEINFO = "Fuse: ~3.5 seconds";
