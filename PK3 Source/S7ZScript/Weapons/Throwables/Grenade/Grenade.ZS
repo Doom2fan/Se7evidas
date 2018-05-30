@@ -106,6 +106,8 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
     override void PostBeginPlay () {
         super.PostBeginPlay ();
 
+        bNoTeleport = !S7_GrenadeTeleport;
+
         fuse = 35 * 3.5;
 
         A_ChangeVelocity (cos (pitch) * throwForce, 0, -sin (pitch) * throwForce, CVF_Relative);
