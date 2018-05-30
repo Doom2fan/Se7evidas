@@ -26,6 +26,7 @@ SS_PG_SHOTGUNS                  = "Shotguns";
 SS_PG_SNIPERS                   = "Sniper rifles";
 SS_PG_AOE                       = "Area damage weapons";
 SS_PG_UNIQ                      = "Unique/Special weapons";
+SS_PG_EXPL                      = "Explosives";
 
 SS_AMMO                         = "Ammo";
 SS_BULLETS                      = "Cartridges";
@@ -61,6 +62,8 @@ SS_TH_FLRE                      = "Flare";
 SS_TH_CLST                      = "Clusterbomb";
 SS_TH_NAIL                      = "Nailbomb";
 SS_TH_NGAS                      = "Nerve gas";
+// Explosives
+SS_HANDGRENADES                 = "Hand grenade";
 
 // Descriptions
 // Cartridges

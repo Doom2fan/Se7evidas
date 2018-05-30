@@ -38,4 +38,6 @@ SS_SHOTGUNINFO = "Manufacturer: Sigma BTK\nCaliber: 20ga\nCapacity: 10 standard-
 SS_CONQUERORDESC = "The MK-17 \"Conqueror\" Anti-Materiel Rifle is a sniper rifle designed and manufactured by Acheron Industries, chambered in the .45 WW cartridge, incorporating a proprietary propellant load that delivers astounding performance from its 90 cm barrel. Alas, that cartridge was to be its downfall, plaguing the weapon with about one "dud" round in every hundred.\nAcheron Industries also offers .45 WW with specialty payloads, but some of these have lowered propellant loads that do not reliably cycle the gas action, so the MK-17 can be manually locked into pump-action-only mode for such ammunition.\nAlthough rather expensive, the MK-17's power and accuracy definitely make up for its high price.";
 SS_CONQUERORINFO = "Manufacturer: Acheron Industries\nCaliber: .45 WW\nCapacity: 15 cartridges\nFiring modes: Pump-action and semi-auto\nFiring speed: 525 RPM on semi-auto";
 
-// Throwables
+// Explosives
+SS_HANDGRENADEDESC = "Fragmentation hand grenades";
+SS_HANDGRENADEINFO = "Fuse: ~3.5 seconds";

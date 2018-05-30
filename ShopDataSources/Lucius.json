@@ -412,6 +412,13 @@
                     "itemType": "pageLink",
                     "link": "wpPage_Snipers",
                     "global": false
+                },
+                {
+                    "id": [ "W", "P", "X", "P" ],
+                    "name": "$SS_PG_EXPL",
+                    "itemType": "pageLink",
+                    "link": "wpPage_Explosives",
+                    "global": false
                 }
             ]
         },
@@ -528,6 +535,39 @@
         },
 
         {
+            "intName": "wpPage_Shotguns",
+            "name": "$SS_PG_SHOTGUNS",
+            "backPage": "weaponsPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "weaponsPage",
+                    "global": false
+                },
+                {
+                    "id": [ "L", "D", "S", "G" ],
+                    "name": "$SHORTSHOTGUN",
+                    "desc": "$SS_SHOTGUNDESC",
+                    "info": "$SS_SHOTGUNINFO",
+                    "icon": "sprites/Weapons/Primary/Shotgun/DTUPA0.png",
+                    "inventoryName": "S7_Shotgun",
+                    "itemType": "buySellItem",
+                    "maxAmount": 1,
+                    "buyPrice": 8000,
+                    "buyAmount": 1,
+                    "sellPrice": 6000,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        {
             "intName": "wpPage_Snipers",
             "name": "$SS_PG_SNIPERS",
             "backPage": "weaponsPage",
@@ -561,8 +601,8 @@
         },
 
         {
-            "intName": "wpPage_Shotguns",
-            "name": "$SS_PG_SHOTGUNS",
+            "intName": "wpPage_Explosives",
+            "name": "$SS_PG_EXPL",
             "backPage": "weaponsPage",
 
             "items": [
@@ -576,17 +616,16 @@
                     "global": false
                 },
                 {
-                    "id": [ "L", "D", "S", "G" ],
-                    "name": "$SHORTSHOTGUN",
-                    "desc": "$SS_SHOTGUNDESC",
-                    "info": "$SS_SHOTGUNINFO",
-                    "icon": "sprites/Weapons/Primary/Shotgun/DTUPA0.png",
-                    "inventoryName": "S7_Shotgun",
+                    "id": [ "H", "G", "R", "N" ],
+                    "name": "$SS_HANDGRENADES",
+                    "desc": "$SS_HANDGRENADEDESC",
+                    "info": "$SS_HANDGRENADEINFO",
+                    "icon": "sprites/Weapons/Throwables/Grenade/TGRNZ0.png",
+                    "inventoryName": "S7_GrenadeCount",
                     "itemType": "buySellItem",
-                    "maxAmount": 1,
-                    "buyPrice": 8000,
+                    "buyPrice": 200,
                     "buyAmount": 1,
-                    "sellPrice": 6000,
+                    "sellPrice": 100,
                     "sellAmount": 1,
                     "global": true
                 }
