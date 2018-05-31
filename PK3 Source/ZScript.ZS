@@ -144,6 +144,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/GUI/Statusbar.ZS"
 #include "S7ZScript/GUI/StatusbarMisc.ZS"
 #include "S7ZScript/GUI/NewMenuItems/SpecialSlider.ZS"
+#include "S7ZScript/GUI/NewMenuItems/CustomNumberField.ZS"
 
 // Ammo
 #include "S7ZScript/Inventory/Ammo.ZS"

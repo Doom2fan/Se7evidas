@@ -46,9 +46,12 @@ optionMenu "S7Settings_Server" {
     title "ARBITRATOR OPTIONS"
 
     staticText "Gameplay Options", 1
-    option "Force intro",                                                                           "S7_ForceIntro",                "OnOff"
-    slider "Dodge cooldown (In tics)",                                                              "S7_DodgeCooldown", 0, 525, 1
-    slider "Multijump Z speed multiplier",                                                          "S7_MultiJumpZMul", 0.5, 2.5, 0.1
+    option "Force intro",                                                                           "S7_ForceIntro",        "OnOff"
+    slider "Dodge cooldown (In tics)",                                                              "S7_DodgeCooldown",     0, 525, 1
+    slider "Multijump Z speed multiplier",                                                          "S7_MultiJumpZMul",     0.5, 2.5, 0.1
+    CustomNumberField "Maximum player level",                                                       "S7_MaxLevel",          "0", ""
+    CustomNumberField "Starting cash amount",                                                       "S7_InitialCashAmount", "0", ""
+    option "Grenades can teleport",                                                                 "S7_GrenadeTeleport",   "YesNo"
 }
 
 optionValue "S7EnemyHPBar_HPDisp_Values" {
