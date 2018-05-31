@@ -37,15 +37,3 @@ user int   S7_GibsStayTime              = 2500;
 user float S7_GibsFadeSpeed             = 0.03;
 user int   S7_BloodSpotsStayTime        = 2500;
 user float S7_BloodSpotsFadeSpeed       = 0.03;
-
-/** Internal CVars **/
-// Health bar
-user noarchive bool   S7_INT_EnemyHPBar_IsValid;
-user noarchive string S7_INT_EnemyHPBar_Name;
-user noarchive int    S7_INT_EnemyHPBar_Health;
-user noarchive int    S7_INT_EnemyHPBar_MaxHealth;
-
-/** Required clientside CVars **/
-user int  S7_Screenblocks               = 0;
-
-user string S7_TestData                 = "";
