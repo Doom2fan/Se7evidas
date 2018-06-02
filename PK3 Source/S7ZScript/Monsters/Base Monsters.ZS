@@ -26,6 +26,12 @@ class S7_MonsterBase : Actor {
 
     override void Die (Actor source, Actor inflictor, int dmgflags) {
         Super.Die (source, inflictor, dmgflags);
+
+        if (source is "S7_PlayerSummon") {
+            if (source.master && source.master.player && multiplayer)
+                source.player.killcount++;
+        }
+
         OnDeath (source, inflictor, dmgflags);
     }
     virtual void OnDeath (Actor source, Actor inflictor, int dmgflags) { }
@@ -40,14 +46,27 @@ class S7_MonsterBase : Actor {
 
         S7_XPSystem xpSys = S7_XPSystem (act.FindInventory ("S7_XPSystem", true));
 
+        if (!xpSys && act is "S7_PlayerSummon" && act.master)
+            xpSys = S7_XPSystem (act.master.FindInventory ("S7_XPSystem", true));
+
         if (!xpSys)
             return;
 
         xpSys.GiveXP (amount);
     }
 
-    action void S7_A_GrabBeam () {
+    void GiveCash (Actor act, int amount, class<Inventory> cashItem = 'S7_Cash') {
+        if (!act || amount <= 0)
+            return;
 
+        if (act is "S7_PlayerSummon") {
+            if (!act.master)
+                return;
+
+            act = act.master;
+        }
+
+        act.GiveInventory (cashItem, amount);
     }
 }
 

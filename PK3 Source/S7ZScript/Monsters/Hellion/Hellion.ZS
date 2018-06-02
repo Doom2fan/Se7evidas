@@ -82,7 +82,7 @@ class S7_Hellion : S7_DemonBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, 120 * max (1, level / 3));
-            source.GiveInventory ("S7_Cash", 100 * max (1, level / 3));
+            GiveCash (source, 100 * max (1, level / 3));
         }
     }
 

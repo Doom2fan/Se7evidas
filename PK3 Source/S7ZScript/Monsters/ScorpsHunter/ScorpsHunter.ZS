@@ -84,7 +84,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, 100 * max (1, level / 3));
-            source.GiveInventory ("S7_Cash", 85 * max (1, level / 4));
+            GiveCash (source, 85 * max (1, level / 4));
         }
     }
 
