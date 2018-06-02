@@ -75,15 +75,21 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
     Font bigFont;
     Font smallFont;
+
     S7_ZF_Frame statsFrame;
+    S7_ZF_Image background;
+
     S7_ZF_Label statLabels [7];
     S7_ZF_Label statBaseLabels [7];
     S7_ZF_Label statAddLabels [7];
     S7_ZF_Button statButtons [2] [7];
+
     S7_ZF_Button resetButton, acceptButton;
+
     static const String statNames [] = {
         "Strength", "Agility", "Vitality", "Defense", "Will", "Magic", "Tech"
     };
+
     override void Init (Menu parent) {
         Super.Init (parent);
         SetBaseResolution ((640, 480));
@@ -96,8 +102,11 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        statsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 240));
+        statsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 480));
         statsFrame.Pack (mainFrame);
+
+        background = new ("S7_ZF_Image").Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignTopLeft);
+        background.Pack (statsFrame);
 
         for (int i = 0; i < 7; i++) {
             double yCoords = 80 + (13 * i);
