@@ -5,7 +5,7 @@ class S7_ZF_AABB {
 
 	bool pointCollides(Vector2 point) {
 		if (point.x > pos.x && point.x < pos.x + size.x &&
-		    point.y > pos.y && point.y < pos.y + size.y   ) {
+			point.y > pos.y && point.y < pos.y + size.y   ) {
 			return true;
 		}
 		return false;

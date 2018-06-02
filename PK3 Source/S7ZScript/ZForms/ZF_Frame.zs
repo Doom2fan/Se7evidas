@@ -52,8 +52,8 @@ class S7_ZF_Frame : S7_ZF_Element {
 
 	override void onUIEvent(UIEvent ev) {
 		if (ev.type == UIEvent.Type_MouseMove) {
-            doHover((ev.mouseX, ev.mouseY));
-        }
+			doHover((ev.mouseX, ev.mouseY));
+		}
 
 		for (int i = 0; i < elements.size(); i++) {
 			if (elements[i] != NULL) {

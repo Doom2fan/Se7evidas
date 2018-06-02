@@ -8,7 +8,6 @@ class S7_ZF_GenericMenu : GenericMenu {
 		mainFrame = new("S7_ZF_Frame");
 		mainFrame.init((0, 0), (320, 200));
 		mainFrame.setBaseResolution((320, 200));
-		MenuSound ("menu/activate");
 	}
 
 	void setBaseResolution(Vector2 size) {

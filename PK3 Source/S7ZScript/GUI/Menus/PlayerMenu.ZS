@@ -1,7 +1,7 @@
 class S7_PlayerMenuHandler : S7_ZF_Handler {
     S7_PlayerMenu link;
 
-    override void buttonCommand (S7_ZF_Button caller, string command) {
+    override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "openXPSysMenu")
             Menu.SetMenu ("S7_XPSystemMenu");
         else if (command == "openLuciusShop")
@@ -76,7 +76,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         int btnTextWidth = smallFont.StringWidth (btnText), btnTextHeight = smallFont.GetHeight ();
 
         button = new ("S7_ZF_Button").Init (((640 - btnTextWidth) / 2, ((480 - btnTextHeight) / 2) + yOffs), (btnTextWidth, btnTextHeight),
-            btnText, cmdHandler, command, fnt: smallFont);
+            btnText, cmdHandler: cmdHandler, command: command, fnt: smallFont);
         button.SetTexture ("", "", "", "");
         button.Pack (menusFrame);
     }

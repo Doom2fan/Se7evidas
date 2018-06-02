@@ -7,4 +7,3 @@
 #include "S7ZScript/ZForms/ZF_Label.ZS"
 #include "S7ZScript/ZForms/ZF_Handler.ZS"
 #include "S7ZScript/ZForms/ZF_Image.ZS"
-#include "S7ZScript/ZForms/ZF_HoldButton.ZS"

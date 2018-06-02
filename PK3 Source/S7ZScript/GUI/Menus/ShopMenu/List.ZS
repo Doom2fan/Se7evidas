@@ -1,7 +1,7 @@
 class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     S7_ShopMenu link;
 
-    override void buttonCommand (S7_ZF_Button caller, string command) {
+    override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings;
@@ -107,7 +107,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         bigFont = Font.GetFont ("BigFont");
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        background = new ("S7_ZF_Image").Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignTopLeft);
+        background = new ("S7_ZF_Image").Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
 
         clippingFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 400 - 3));
@@ -217,7 +217,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
                 texSize = TexMan.GetScaledSize (tex);
 
             // Clickable area
-            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", handler, String.Format ("Entry:0x%.8X", item.id), fnt: smallFont);
+            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Entry:0x%.8X", item.id), fnt: smallFont);
             button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             itemControls.clickableArea = button;

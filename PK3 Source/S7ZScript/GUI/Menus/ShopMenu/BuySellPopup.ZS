@@ -2,7 +2,7 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
     S7_ShopMenu_BuySellPopup link;
     S7_ShopMenu menuLink;
 
-    override void buttonCommand (S7_ZF_Button caller, string command) {
+    override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "Accept" && link.amount > 0 && link.amount <= 9999) {
             if (!link.sellMode)
                 BuyItem ();
@@ -67,12 +67,12 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         handler.link = self;
         handler.menuLink = link;
 
-        background = new ("S7_ZF_Image").Init ((0, 0), (320, 80), "graphics/Menu/Shop/BuySellPopup.png", S7_ZF_Image.AlignTopLeft);
+        background = new ("S7_ZF_Image").Init ((0, 0), (320, 80), "graphics/Menu/Shop/BuySellPopup.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
         modeLabel = new ("S7_ZF_Label").Init ((4, 4), (40, 10), "", bigFont, false, true, 1, Font.CR_WHITE);
         modeLabel.Pack (self);
 
-        itemIcon = new ("S7_ZF_Image").Init ((0, 0), (0, 0), "", S7_ZF_Image.AlignTopLeft, noOffsets: true);
+        itemIcon = new ("S7_ZF_Image").Init ((0, 0), (0, 0), "", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
         itemIcon.Pack (self);
         itemName = new ("S7_ZF_Label").Init ((0, 0), (0, 0), "", smallFont, false, true, 1, Font.CR_WHITE);
         itemName.Pack (self);
@@ -87,17 +87,17 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             "", smallFont, false, false, 1, Font.CR_WHITE);
         priceLabel.Pack (self);
 
-        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", handler, "Add", fnt: smallFont);
+        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", cmdHandler: handler, command: "Add", fnt: smallFont);
         addButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         addButton.Pack (self);
-        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", handler, "Dec", fnt: smallFont);
+        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", cmdHandler: handler, command: "Dec", fnt: smallFont);
         decButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         decButton.Pack (self);
 
-        acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), "", handler, "Accept", fnt: smallFont);
+        acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), "", cmdHandler: handler, command: "Accept", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         acceptButton.Pack (self);
-        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), StringTable.Localize ("$SS_CANCELBUTTON", true), handler, "Cancel", fnt: smallFont);
+        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), StringTable.Localize ("$SS_CANCELBUTTON", true), cmdHandler: handler, command: "Cancel", fnt: smallFont);
         cancelButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         cancelButton.Pack (self);
 

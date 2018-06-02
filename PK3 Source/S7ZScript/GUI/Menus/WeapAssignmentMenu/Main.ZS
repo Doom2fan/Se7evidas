@@ -1,7 +1,7 @@
 class S7_WeapAssignMenuHandler : S7_ZF_Handler {
     S7_WeapAssignMenu link;
 
-    override void buttonCommand (S7_ZF_Button caller, string command) {
+    override void buttonClickCommand (S7_ZF_Button caller, string command) {
         Array<String> strings;
         command.Split (strings, ":");
 
@@ -95,19 +95,19 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             for (int y = 0; y < 3; y++) {
                 double yCoords = 72.0 + ((40.0 + 8.0) * y);
                 // Button
-                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), "", handler, String.Format ("SetSlot:%d,%d", x, y), null, null, null, null);
+                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), "", cmdHandler: handler, command: String.Format ("SetSlot:%d,%d", x, y), null, null, null, null);
                 slotButtons [x] [y].SetTexture (
                     "graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png",
                     "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "graphics/Menu/WeapAssignment/WeapSlotDisabled.png"
                 );
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
-                slotImages [x] [y] = new ("S7_ZF_Image").Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignCenter, noOffsets: true);
+                slotImages [x] [y] = new ("S7_ZF_Image").Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center, noOffsets: true);
                 slotImages [x] [y].Pack (slotsFrame);
             }
         }
 
-        infoBG = new ("S7_ZF_Image").Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignTopLeft, noOffsets: true);
+        infoBG = new ("S7_ZF_Image").Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
         infoBG.Pack (weapSelFrame);
         infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), "", smallFont, true, false, 1, Font.CR_WHITE);
         infoLabel.Pack (weapSelFrame);

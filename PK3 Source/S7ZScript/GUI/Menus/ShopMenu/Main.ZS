@@ -1,7 +1,7 @@
 class S7_ShopMenuHandler : S7_ZF_Handler {
     S7_ShopMenu link;
 
-    override void buttonCommand (S7_ZF_Button caller, string command) {
+    override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) {
             if (command == "BuySellButton") {
                 link.ShowBuySellPopup ();
@@ -98,7 +98,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         itemsList = S7_ShopMenu_List (new ("S7_ShopMenu_List").InitList (self, shopFrame, shopData));
         bsPopup = S7_ShopMenu_BuySellPopup (new ("S7_ShopMenu_BuySellPopup").InitPopup (self, popupFrame));
 
-        mainWindowBG = new ("S7_ZF_Image").Init ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignTopLeft);
+        mainWindowBG = new ("S7_ZF_Image").Init ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
         mainWindowBG.Pack (shopFrame);
 
         playerDataLabel = new ("S7_ZF_Label").Init ((255, 345-smallFont.GetHeight ()), (355, smallFont.GetHeight ()), "", smallFont, true, false, 1, Font.CR_WHITE);
@@ -112,7 +112,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         tooltipLabel.Pack (popupFrame);
         SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
 
-        buyButton = new ("S7_ZF_Button").Init ((555, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), handler, "BuySellButton", fnt: smallFont);
+        buyButton = new ("S7_ZF_Button").Init ((555, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), cmdHandler: handler, command: "BuySellButton", fnt: smallFont);
         buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
         buyButton.Pack (shopFrame);
         sellMode = false;

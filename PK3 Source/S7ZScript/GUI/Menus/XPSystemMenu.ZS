@@ -1,7 +1,7 @@
 class S7_XPSystemMenuHandler : S7_ZF_Handler {
     S7_XPSystemMenu link;
 
-    override void buttonCommand (S7_ZF_Button caller, string command) {
+    override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) {
             if (command == "AcceptButton")
                 AcceptStats ();
@@ -105,7 +105,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         statsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 480));
         statsFrame.Pack (mainFrame);
 
-        background = new ("S7_ZF_Image").Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignTopLeft);
+        background = new ("S7_ZF_Image").Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (statsFrame);
 
         for (int i = 0; i < 7; i++) {
@@ -119,17 +119,17 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statAddLabels [i] = new ("S7_ZF_Label").Init ((250, yCoords + 1), (0, SmallFont.GetHeight ()), "+0", smallFont, false, true, 1, Font.CR_WHITE);
             statAddLabels [i].Pack (statsFrame);
 
-            statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", handler, String.Format ("StatAdd:%s", statName), fnt: smallFont);
+            statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
             statButtons [i] [0].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [0].Pack (statsFrame);
-            statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", handler, String.Format ("StatDec:%s", statName), fnt: smallFont);
+            statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
             statButtons [i] [1].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [1].Pack (statsFrame);
         }
-        acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", handler, "AcceptButton", fnt: smallFont);
+        acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         acceptButton.Pack (statsFrame);
-        resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", handler, "ResetButton", fnt: smallFont);
+        resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
         resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         resetButton.Pack (statsFrame);
 

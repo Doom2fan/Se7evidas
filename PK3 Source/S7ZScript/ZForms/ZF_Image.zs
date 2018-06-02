@@ -1,39 +1,39 @@
 class S7_ZF_Image : S7_ZF_Element {
-	enum Align {
-		AlignLeft    = 1,
-		AlignHCenter = 2,
-		AlignRight   = 3,
+	enum AlignType {
+		AlignType_Left    = 1,
+		AlignType_HCenter = 2,
+		AlignType_Right   = 3,
 
-		AlignTop     = 1 << 4,
-		AlignVCenter = 2 << 4,
-		AlignBottom  = 3 << 4,
+		AlignType_Top     = 1 << 4,
+		AlignType_VCenter = 2 << 4,
+		AlignType_Bottom  = 3 << 4,
 
-		AlignTopLeft   = AlignTop | AlignLeft,
-		AlignTopCenter = AlignTop | AlignHCenter,
-		AlignTopRight  = AlignTop | AlignRight,
+		AlignType_TopLeft   = AlignType_Top | AlignType_Left,
+		AlignType_TopCenter = AlignType_Top | AlignType_HCenter,
+		AlignType_TopRight  = AlignType_Top | AlignType_Right,
 
-		AlignCenterLeft  = AlignVCenter | AlignLeft,
-		AlignCenter      = AlignVCenter | AlignHCenter,
-		AlignCenterRight = AlignVCenter | AlignRight,
+		AlignType_CenterLeft  = AlignType_VCenter | AlignType_Left,
+		AlignType_Center      = AlignType_VCenter | AlignType_HCenter,
+		AlignType_CenterRight = AlignType_VCenter | AlignType_Right,
 
-		AlignBottomLeft   = AlignBottom | AlignLeft,
-		AlignBottomCenter = AlignBottom | AlignHCenter,
-		AlignBottomRight  = AlignBottom | AlignRight,
+		AlignType_BottomLeft   = AlignType_Bottom | AlignType_Left,
+		AlignType_BottomCenter = AlignType_Bottom | AlignType_HCenter,
+		AlignType_BottomRight  = AlignType_Bottom | AlignType_Right,
 	}
 
 	string image;
-	int alignment;
+	AlignType alignment;
 	Vector2 imageScale;
 	bool noOffsets;
 
-	void config(string image = "", int alignment = AlignTopLeft, Vector2 imageScale = (1, 1), bool noOffsets = true) {
+	void config(string image = "", AlignType alignment = AlignType_TopLeft, Vector2 imageScale = (1, 1), bool noOffsets = true) {
 		self.image = image;
 		self.alignment = alignment;
 		self.imageScale = imageScale;
 		self.noOffsets = noOffsets;
 	}
 
-	S7_ZF_Image init(Vector2 pos, Vector2 size, string image = "", int alignment = AlignTopLeft, Vector2 imageScale = (1, 1), bool noOffsets = true) {
+	S7_ZF_Image init(Vector2 pos, Vector2 size, string image = "", AlignType alignment = AlignType_TopLeft, Vector2 imageScale = (1, 1), bool noOffsets = true) {
 		self.config(image, alignment, imageScale, noOffsets);
 		self.setBox(pos, size);
 
@@ -54,23 +54,29 @@ class S7_ZF_Image : S7_ZF_Element {
 		Vector2 imageSize = TexMan.getScaledSize(tex);
 		Vector2 pos;
 
-		if (alignment & AlignLeft) {
+		imageSize.x *= imageScale.x;
+		imageSize.y *= imageScale.y;
+
+		int horzAlign = alignment &  15;
+		int vertAlign = alignment & (15 << 4);
+
+		if (horzAlign == AlignType_Left) {
 			pos.x = 0.0;
 		}
-		else if (alignment & AlignHCenter) {
+		else if (horzAlign == AlignType_HCenter) {
 			pos.x = (box.size.x - imageSize.x) / 2;
 		}
-		else if (alignment & AlignRight) {
+		else if (horzAlign == AlignType_Right) {
 			pos.x = box.size.x - imageSize.x;
 		}
 
-		if (alignment & AlignTop) {
+		if (vertAlign == AlignType_Top) {
 			pos.y = 0.0;
 		}
-		else if (alignment & AlignVCenter) {
+		else if (vertAlign == AlignType_VCenter) {
 			pos.y = (box.size.y - imageSize.y) / 2;
 		}
-		else if (alignment & AlignBottom) {
+		else if (vertAlign == AlignType_Bottom) {
 			pos.y = box.size.y - imageSize.y;
 		}
 
@@ -79,7 +85,7 @@ class S7_ZF_Image : S7_ZF_Element {
 
 	override void onUIEvent(UIEvent ev) {
 		if (ev.type == UIEvent.Type_MouseMove) {
-            doHover((ev.mouseX, ev.mouseY));
+			doHover((ev.mouseX, ev.mouseY));
 		}
 	}
 }
