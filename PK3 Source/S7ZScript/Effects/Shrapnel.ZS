@@ -18,7 +18,7 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
         +CANNOTPUSH
     }
 
-    float realDamage;
+    double realDamage;
 
     states {
     Spawn:

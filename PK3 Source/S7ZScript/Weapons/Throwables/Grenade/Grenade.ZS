@@ -99,7 +99,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
 
     GrenadeState grenState;
     Vector3 oldVel;
-    float fuse;
+    double fuse;
 
     int frameNum;
 
