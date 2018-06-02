@@ -14,8 +14,11 @@ class S7_M400AutogunTracer : S7_BulletTracer {
 class S7_M400AutogunStored : Inventory {
     int integrity;
     int ammo;
+    int corruption;
+    int scanAngle;
     property Integrity: integrity;
     property Ammo: ammo;
+    property ScanAngle: scanAngle;
 
     default {
         Inventory.Amount 1;
@@ -26,6 +29,7 @@ class S7_M400AutogunStored : Inventory {
 
         S7_M400AutogunStored.Integrity 500;
         S7_M400AutogunStored.Ammo 1000;
+        S7_M400AutogunStored.ScanAngle 90;
 
         +INVENTORY.INVBAR
     }
@@ -50,6 +54,8 @@ class S7_M400AutogunStored : Inventory {
         if (autogun) {
             autogun.health = integrity;
             autogun.ammo = ammo;
+            autogun.corruption = corruption;
+            autogun.scanAngle = scanAngle;
 
             autogun.CopyFriendliness (owner, false, false);
             autogun.master = owner;
@@ -94,6 +100,8 @@ class S7_M400Autogun : S7_PlayerSummon {
 
     S7_XPSystem xpSys;
     int ammo;
+    int corruption;
+    int scanAngle;
 
     Vector2 initialAngles;
     double lookTime;
@@ -117,6 +125,8 @@ class S7_M400Autogun : S7_PlayerSummon {
 
             stored.integrity = health;
             stored.ammo = ammo;
+            stored.corruption = corruption;
+            stored.scanAngle = scanAngle;
 
             Destroy ();
 
@@ -328,9 +338,9 @@ class S7_M400Autogun : S7_PlayerSummon {
             if (ammo <= 0) {
                 RemoveMarkers (false);
             }
-
-            double lookTimeSin = (turnCos ? cos (lookTime * 1.5) : sin (lookTime * 1.5));
-            A_SetAngle (initialAngles.X + (90 * lookTimeSin), SPF_Interpolate);
+            double speedScale = scanAngle / 90.0;
+            double lookTimeSin = (turnCos ? cos ((lookTime * 1.5) / speedScale) : sin ((lookTime * 1.5) / speedScale));
+            A_SetAngle (initialAngles.X + (scanAngle * lookTimeSin), SPF_Interpolate);
             A_SetPitch (initialAngles.Y, SPF_Interpolate);
             lookTime++;
 

@@ -93,6 +93,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/GUI/Menus/ShopMenu/BuySellPopup.ZS"
 #include "S7ZScript/GUI/Menus/ShopMenu/Main.ZS"
 #include "S7ZScript/GUI/Menus/PlayerMenu.ZS"
+#include "S7ZScript/GUI/Menus/AutogunMenu.ZS"
 
 // Monsters
 #include "S7ZScript/Monsters/Base Monsters.ZS"

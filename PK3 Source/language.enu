@@ -76,6 +76,15 @@
     PLAYERMENU_LUCIUSSHOP           = "Lucius Armory";
     PLAYERMENU_WEAPASSIGN           = "Weapon assignment";
     PLAYERMENU_DRACOWEAPASSIGN      = "Draco weapon assignment";
+    PLAYERMENU_M400AUTOGUN          = "M-400 Autogun";
+    // Autogun menu
+    AUTOGUNMENUHEADER               = "M-400 Autogun";
+    AUTOGUNMENU_INTEGRITY           = "Integrity";
+    AUTOGUNMENU_AMMO                = "Ammunition";
+    AUTOGUNMENU_CORRUPTION          = "Corruption";
+    AUTOGUNMENU_SCANANGLE           = "Scan angle";
+    AUTOGUNMENU_REPAIR              = "Repair";
+    AUTOGUNMENU_BUY                 = "Buy";
     // Weap assignment menu
     WPBNDMENU_UNSETWP               = "Unassign";
 
