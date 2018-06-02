@@ -70,7 +70,7 @@ class S7_M400AutogunStored : Inventory {
     }
 }
 
-class S7_M400Autogun : S7_MonsterBase {
+class S7_M400Autogun : S7_PlayerSummon {
     default {
         Radius 25;
         Height 50;
@@ -89,7 +89,7 @@ class S7_M400Autogun : S7_MonsterBase {
         DamageFactor "LaserTracer", 1.0;
         DamageFactor "NerveGas", 0.0;
 
-        +NOBLOOD +FRIENDLY
+        +NOBLOOD
     }
 
     S7_XPSystem xpSys;
@@ -182,7 +182,7 @@ class S7_M400Autogun : S7_MonsterBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, 80 * max (1, level / 3));
-            source.GiveInventory ("S7_Cash", 75 * max (1, level / 4));
+            GiveCash (source, 75 * max (1, level / 4));
         }
     }
 
