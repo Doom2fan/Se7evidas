@@ -40,6 +40,11 @@ class S7_M400AutogunStored : Inventory {
         if (!success || !act)
             return false;
 
+        if (!owner.CheckSight (act, SF_SeePastShootableLines)) {
+            act.Destroy ();
+            return false;
+        }
+
         let autogun = S7_M400Autogun (act);
 
         if (autogun) {
@@ -195,9 +200,20 @@ class S7_M400Autogun : S7_MonsterBase {
     }
 
     static const double HitLocations [] = {
-        0.65, 0.5 , 0.75,
-        0.85, 0.25, 0.35,
-        0.15, 0.9 , 0.0
+        .650, .500, .750,
+        .850, .250, .350,
+        .150, .900, .000,
+        .025, .050, .075,
+        .100, .125, .175,
+        .200, .225, .275,
+        .300, .325, .375,
+        .400, .425, .450,
+        .475, .525, .550,
+        .575, .600, .625,
+        .675, .700, .725,
+        .775, .800, .825,
+        .875, .925, .950,
+        .975, 1.0
     };
 
     void FindTarget () {
@@ -247,7 +263,8 @@ class S7_M400Autogun : S7_MonsterBase {
             }
         }
 
-        target = newTarget;
+        if (!target || (newTarget && (Distance3D (newTarget) < Distance3D (target))))
+            target = newTarget;
 
         if (target)
             SetState (ResolveState ("Missile"));
@@ -259,8 +276,8 @@ class S7_M400Autogun : S7_MonsterBase {
             double traceAngle, tracePitch;
             {
                 let vecDiff = level.Vec3Diff (pos + (0, 0, 38.5), mo.pos + (0, 0, height * HitLocations [i]));
-                traceAngle = atan2 (vecDiff.Y, vecDiff.X);
-                tracePitch = atan2 (vecDiff.Z, vecDiff.XY.Length ());
+                traceAngle = VectorAngle (vecDiff.X, vecDiff.Y);
+                tracePitch = -asin (vecDiff.Z / vecDiff.Length ());
             }
             bool result = LineTrace (traceAngle, (1 << 16), tracePitch, flags: TRF_NoSky, offsetz: 38.5, data: data);
 
@@ -325,9 +342,9 @@ class S7_M400Autogun : S7_MonsterBase {
         TRT1 A 1 {
             RemoveMarkers (false);
 
-            double heightMod; ;
+            double heightMod;
 
-            if (ammo <= 0 || target.health <= 0 || target.bInvulnerable || target.bDormant ||
+            if (ammo <= 0 || target.health <= 0 || target.bInvulnerable || target.bDormant ||IsFriend (target) || 
                 !CheckIfTargetInLOS (360, JLOSF_AllyNoJump | JLOSF_CombatantOnly) ||
                 (heightMod = FindShootingPos (target)) == double.infinity) {
                 target = null;
@@ -346,6 +363,7 @@ class S7_M400Autogun : S7_MonsterBase {
 
             LeadTarget (target, heightMod, 240);
             A_SpawnProjectile ("S7_M400AutogunTracer", 38.5, 0.0, fRandom [monsterSpread] (-1., 1.), 0, fRandom [monsterSpread] (-1., 1.));
+            ammo--;
 
             A_PlaySound ("Inventory/Turret/Fire", CHAN_Weapon);
             A_AlertMonsters ();
