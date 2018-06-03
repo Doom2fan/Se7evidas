@@ -175,7 +175,7 @@ class S7_AK47_Tracer : S7_BulletTracer {
 
 class S7_SSGTracer : S7_BulletTracer { // 259 max DMG
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 3.0) * 2.3981);
+        DamageFunction (fRandom [weaponDamage] (1.0, 1.5) * 5);
         S7_BaseTracer.TrueSpeed 250;
         DamageType "ShotgunTracer";
         MissileType "S7_SSGTracerTrail";
@@ -201,7 +201,7 @@ class S7_SSGTracerTrail : S7_TracerTrail {
 
 class S7_12gaTracer : S7_BulletTracer {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 3.0) * 6);
+        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 9);
         S7_BaseTracer.TrueSpeed 250;
         DamageType "ShotgunTracer";
         MissileType "S7_SSGTracerTrail";
