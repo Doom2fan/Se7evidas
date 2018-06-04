@@ -429,6 +429,9 @@ class S7_Projectile : FastProjectile {
         0, 0.5
     };
     virtual void NewFastProjTick () {
+        if (!self)
+            return;
+
         ClearInterpolation ();
         let oldPos = pos;
         let oldVel = vel;
@@ -503,10 +506,11 @@ class S7_Projectile : FastProjectile {
                 bool floorHit = pos.Z <= GetZAt ();
                 bool ceilingHit = (pos.Z + height) > ceilingZ;
 
-                if ((floorHit && floorpic == skyflatnum && !bSkyExplode) ||
-                    (ceilingHit && ceilingpic == skyflatnum && !bSkyExplode)) {
-                    Destroy ();
+                bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
+                               (ceilingHit && ceilingpic == skyflatnum));
 
+                if (hitSky && !bSkyExplode) {
+                    Destroy ();
                     return;
                 } else if (floorHit || ceilingHit) {
                     SetZ (floorHit ? GetZAt () : ceilingZ - height);
@@ -516,7 +520,7 @@ class S7_Projectile : FastProjectile {
 
                     A_Stop ();
                     if (bMissile)
-                        ExplodeMissile (NULL, NULL);
+                        ExplodeMissile (NULL, NULL, hitsky);
                 }
             }
 
@@ -538,7 +542,7 @@ class S7_Projectile : FastProjectile {
                 tics--;
 
             while (!tics) {
-                if (!CurState || !SetState (CurState.NextState)) // mobj was removed
+                if (!self || !CurState || !SetState (CurState.NextState)) // mobj was removed
                     return;
             }
         }
