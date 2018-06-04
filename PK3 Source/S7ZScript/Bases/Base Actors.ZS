@@ -606,21 +606,29 @@ class S7_Projectile : FastProjectile {
             hitPos = tr.Results.HitPos;
             hitPos -= (0, 0, height);
         }
+        bool floorHit = rHitPos.Z <= GetZAt ();
+        bool ceilingHit = (rHitPos.Z + height) > ceilingZ;
 
         if (!TryMove (hitPos.xy + (double.epsilon * 3, double.epsilon * 3), true)) {
             SetOrigin (hitPos, interpFastProj);
 
+            bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
+                           (ceilingHit && ceilingpic == skyflatnum));
+
             A_Stop ();
-            ExplodeMissile (BlockingLine, BlockingMobj);
+            ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? hitSky : false);
 
             return true;
         } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
             tr.actorsToIgnore.Push (tr.Results.HitActor);
         else {
             let rHitPos = tr.Results.HitPos;
-            if ((tr.Results.HitType == TRACE_HitFloor && rHitPos.z - GetZAt () <= 1) ||
-                (tr.Results.HitType == TRACE_HitCeiling && ceilingZ - (rHitPos.z + height) <= 1)) {
+            if ((tr.Results.HitType == TRACE_HitFloor && floorHit) ||
+                (tr.Results.HitType == TRACE_HitCeiling && ceilingHit)) {
                 SetOrigin (hitPos, interpFastProj);
+
+                bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
+                               (ceilingHit && ceilingpic == skyflatnum));
 
                 if (tr.Results.HitType == TRACE_HitFloor) {
                     SetZ (GetZAt ());
@@ -629,7 +637,7 @@ class S7_Projectile : FastProjectile {
 
                 if (bMissile) {
                     A_Stop ();
-                    ExplodeMissile (NULL, NULL);
+                    ExplodeMissile (NULL, NULL, hitSky);
                 }
 
                 return true;
