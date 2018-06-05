@@ -472,6 +472,9 @@ class S7_Projectile : FastProjectile {
                     double yOffs = radius * FPColOffs [i * 2];
 
                     if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
+                        if (!self)
+                            return;
+
                         if (HandleCollision (oldPos, oldVel)) {
                             if (!self)
                                 return;
@@ -606,6 +609,9 @@ class S7_Projectile : FastProjectile {
             hitPos = tr.Results.HitPos;
             hitPos -= (0, 0, height);
         }
+
+        let rHitPos = tr.Results.HitPos;
+
         bool floorHit = rHitPos.Z <= GetZAt ();
         bool ceilingHit = (rHitPos.Z + height) > ceilingZ;
 
@@ -622,7 +628,6 @@ class S7_Projectile : FastProjectile {
         } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
             tr.actorsToIgnore.Push (tr.Results.HitActor);
         else {
-            let rHitPos = tr.Results.HitPos;
             if ((tr.Results.HitType == TRACE_HitFloor && floorHit) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingHit)) {
                 SetOrigin (hitPos, interpFastProj);
