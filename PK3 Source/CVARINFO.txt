@@ -5,8 +5,7 @@ server bool  S7_ForceIntro              = FALSE;
 server int   S7_MaxLevel                = 75;
 server int   S7_InitialCashAmount       = 650;
 server bool  S7_GrenadeTeleport         = FALSE;
-server bool S7_DebugMode                = FALSE;
-server noarchive int S7_DebugOpts       = 0;
+server int   S7_DebugMode               = 0;
 
 /** User CVars **/
 user bool S7_MsgsOn                     = TRUE;
