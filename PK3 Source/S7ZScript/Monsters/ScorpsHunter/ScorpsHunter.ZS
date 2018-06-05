@@ -59,7 +59,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         // Vitality
         startHealth = health *= 1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality));
 
-        ammo = random [monsterAmmo] (8, 15);
+        ammo = random [monsterAmmo] (4, 8);
     }
 
     override void Tick () {
@@ -88,12 +88,25 @@ class S7_ScorpsHunter : S7_ScorpBase {
         }
     }
 
+    action void A_UnblockAndDrop () {
+        A_NoBlocking ();
+
+        let shotty = S7_Loot_ScorpsHunterSG (S7_ActorExtensions.DropItem (self, "S7_Loot_ScorpsHunterSG", 1, 128));
+        if (shotty) {
+            if (random [monsterSpc] () <= 128) { // Don't always drop with ammo, either!
+                shotty.shellsCount = invoker.ammo;
+                invoker.ammo = 0;
+            } else
+                shotty.shellsCount = -1;
+        }
+    }
+
     states {
     // Initialize
     Spawn:
     Idle:
         SCR3 AAA 1 {
-            if (random [monsterSpc] (0, 255) < 160 && ammo < 5) // Maybe reload if less than 5 shots
+            if (random [monsterSpc] (0, 255) < 160 && ammo < 4) // Maybe reload if less than 5 shots
                 return ResolveState ("Reload");
 
             A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
@@ -163,7 +176,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     See:
         SCR3 AABBCCDD 3 A_Chase;
         SCR3 AABBCCDD 3 A_Chase;
-        TNT1 A        0 A_Jump (!(random [monsterSpc] (0, 255) < 192) && ammo < 3, "Reload");
+        TNT1 A        0 A_Jump (!(random [monsterSpc] (0, 255) < 192) && ammo < 2, "Reload");
         loop;
 
     // Firing
@@ -228,7 +241,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 E  8;
         SCR3 E  1 {
             A_PlaySound ("Monsters/ScorpsHunter/ClipIn", CHAN_6);
-            ammo = 15;
+            ammo = 8;
         }
         SCR3 EA 5;
         SCR3 A  3;
@@ -243,7 +256,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     // Dead
     Death.Massacre:
     Death:
-        SCR3 H 5 A_NoBlocking ();
+        SCR3 H 5 A_UnblockAndDrop ();
     Death_AirLoop:
         SCR3 H 1 A_CheckFloor ("Death_HitGround");
         loop;
@@ -262,7 +275,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     RealDeath.Fire:
         BURN ABC        5 bright A_Pain;
         BURN D          5 bright A_Pain;
-        TNT1 A          0 A_NoBlocking;
+        TNT1 A          0 A_UnblockAndDrop ();
         BURN EFGHIJKLMN 5 bright;
         BURN O          5 bright;
         BURN PQRSTU     5 bright;
@@ -273,7 +286,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 H 1;
         SCR3 H 2 {
             A_XScream ();
-            A_NoBlocking ();
+            A_UnblockAndDrop ();
         }
         TNT1 A 0 {
             double defHeight = default.height / 2;
@@ -305,7 +318,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     /*XDeath:
         SPOS O     5 { monsDeathType = 1; }
         SPOS P     5 A_XScream;
-        SPOS Q     5 A_NoBlocking;
+        SPOS Q     5 A_UnblockAndDrop ();
         SPOS RSTUV 5;
         SPOS W    -1;
         stop;*/

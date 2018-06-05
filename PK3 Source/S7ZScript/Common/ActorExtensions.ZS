@@ -76,4 +76,67 @@ class S7_ActorExtensions : Actor {
                 th.Translation = bleeder.BloodTranslation;
         }
     }
+
+    // Fucking GZDoom...
+    static Inventory DropItem (Actor source, class<Actor> type, int dropAmount, int chance) {
+        if (type != NULL && random [DropItem] () <= chance) {
+            Actor mo;
+            double spawnz = 0;
+
+            if (true) {//!(i_compatflags & COMPATF_NOTOSSDROPS)) {
+                int style = sv_dropstyle;
+
+                if (style == 0)
+                    style = 1;//gameinfo.defaultdropstyle;
+
+                if (style == 2)
+                    spawnz = 24;
+                else
+                    spawnz = source.height / 2;
+            }
+
+            mo = Spawn (type, source.pos + (0, 0, spawnz), ALLOW_REPLACE);
+
+            if (mo) {
+                mo.bDropped = true;
+                mo.bNoGravity = false;
+
+                if (true)//!(i_compatflags & COMPATF_NOTOSSDROPS))
+                    TossItem (mo);
+
+                if (mo is "Inventory") {
+                    let inv = Inventory (mo);
+
+                    inv.ModifyDropAmount (dropamount);
+                    inv.bTossed = true;
+
+                    if (inv.SpecialDropAction (source)) {
+                        inv.Destroy ();
+                        return NULL;
+                    }
+                    
+                    return inv;
+                }
+                // We can't really return an AInventory pointer to a non-inventory item here, can we?
+            }
+        }
+
+        return NULL;
+    }
+
+    static void TossItem (Actor item) {
+        int style = sv_dropstyle;
+
+        if (style == 0)
+            style = 1;//gameinfo.defaultdropstyle;
+        
+        if (style == 2) {
+            item.vel.X += random2 [DropItem] (7);
+            item.vel.Y += random2 [DropItem] (7);
+        } else {
+            item.vel.X += random2 [DropItem] () / 256.;
+            item.vel.Y += random2 [DropItem] () / 256.;
+            item.vel.Z = 5. + random [DropItem] () / 64.;
+        }
+    }
 }

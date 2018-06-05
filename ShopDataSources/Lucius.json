@@ -38,6 +38,15 @@
                     "itemType": "pageLink",
                     "link": "weaponsPage",
                     "global": false
+                },
+                {
+                    "id": [ "M", "P", "L", "T" ],
+                    "name": "$SS_LOOT",
+                    "desc": "$SS_LOOT_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/LootPage.png",
+                    "itemType": "pageLink",
+                    "link": "lootPage",
+                    "global": false
                 }
             ]
         },
@@ -626,6 +635,64 @@
                     "buyPrice": 200,
                     "buyAmount": 1,
                     "sellPrice": 100,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        /** Loot **/
+        {
+            "intName": "lootPage",
+            "name": "$SS_LOOT",
+            "backPage": "mainPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+
+                {
+                    "id": [ "W", "E", "A", "P" ],
+                    "name": "$SS_LOOT_WEAPS",
+                    "itemType": "pageLink",
+                    "link": "loot_Weapons",
+                    "global": false
+                }
+            ]
+        },
+
+        {
+            "intName": "loot_Weapons",
+            "name": "$SS_LOOT_WEAPS",
+            "backPage": "lootPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "lootPage",
+                    "global": false
+                },
+
+                {
+                    "id": [ "S", "C", "S", "G" ],
+                    "name": "$SS_SCORPS_SG",
+                    "desc": "$SS_SCORPS_SG_DESC",
+                    "info": "$SS_SCORPS_SG_INFO",
+                    "icon": "sprites/Inventory/Loot/LOT1A0.png",
+                    "inventoryName": "S7_Loot_ScorpsHunterSG",
+                    "itemType": "sellItem",
+                    "sellPrice": 200,
                     "sellAmount": 1,
                     "global": true
                 }

@@ -62,6 +62,9 @@
     // Ammo
         GOTBACKPACK                 = "Backpack";
 
+    // Loot
+        LOOT_SCORPSHUNTERSG_PICKUP  = "Shadow Corps Standard Issue Semi-automatic Shotgun:[+%d 12ga shells]";
+
 // Weapon Pickups
     // Primary
 

@@ -34,6 +34,7 @@ SS_BATTERIES                    = "Energy cells";
 SS_THGRENADES                   = "50mm grenades";
 
 SS_LOOT                         = "Loot";
+SS_LOOT_WEAPS                   = "Weapons";
 
 // Page descriptions
 SS_CONSUMABLES_DESC             = "Buy consumable items";
@@ -64,6 +65,8 @@ SS_TH_NAIL                      = "Nailbomb";
 SS_TH_NGAS                      = "Nerve gas";
 // Explosives
 SS_HANDGRENADES                 = "Hand grenade";
+// Loot
+SS_SCORPS_SG                    = "Shadow Corps Semi-auto Shotgun";
 
 // Descriptions
 // Cartridges

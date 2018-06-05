@@ -62,6 +62,7 @@ YELLOWKEY                       = "\c[Yellow]Yellow\c- keycard";
 // Loot
 EMPTTHGR                        = "Used 50mm grenades";
 EMPTTHGRPICK                    = "Used 50mm grenade";
+LOOT_SCORPSHUNTERSG             = "Shadow Corps Standard Issue Semi-automatic Shotgun";
 
 // Misc
 BERSERKWEAP                     = "Syringe (Berserk)";
