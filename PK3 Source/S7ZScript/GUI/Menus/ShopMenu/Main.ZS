@@ -224,28 +224,34 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             } else {
                 let selItemData = selectedItem.itemData;
 
-                let pPawn = S7_BasePlayer (CPlayer.mo);
-                let info = selItemData.GetInfo (pPawn, 1);
-
-                let cashItem = pPawn.FindInventory (selItemData.cashItem);
-                int cashAmount, cashMax;
-
-                if (cashItem) {
-                    cashAmount = cashItem.Amount;
-                    cashMax = cashItem.MaxAmount;
+                if ((!sellMode && !(selItemData.itemType & IT_BuyItem)) ||
+                    ( sellMode && !(selItemData.itemType & IT_SellItem))) {
+                    bbColor = Font.CR_DARKGRAY;
+                    bbDisable = true;
                 } else {
-                    cashAmount = 0;
-                    cashMax = 0;
-                }
+                    let pPawn = S7_BasePlayer (CPlayer.mo);
+                    let info = selItemData.GetInfo (pPawn, 1);
 
-                if ((!sellMode && selItemData.GetAmount (pPawn) >= info.maxAmount && info.maxAmount > 0) ||
-                    ( sellMode && selItemData.GetAmount (pPawn) <  info.sellAmount)) {
-                    bbColor = Font.CR_RED;
-                    bbDisable = true;
-                } else if ((!sellMode && cashAmount < info.buyPrice) ||
-                            (sellMode && double (cashAmount) + info.sellPrice > cashMax)) {
-                    bbColor = Font.CR_RED;
-                    bbDisable = true;
+                    let cashItem = pPawn.FindInventory (selItemData.cashItem);
+                    int cashAmount, cashMax;
+
+                    if (cashItem) {
+                        cashAmount = cashItem.Amount;
+                        cashMax = cashItem.MaxAmount;
+                    } else {
+                        cashAmount = 0;
+                        cashMax = 0;
+                    }
+
+                    if ((!sellMode && selItemData.GetAmount (pPawn) >= info.maxAmount && info.maxAmount > 0) ||
+                        ( sellMode && selItemData.GetAmount (pPawn) <  info.sellAmount)) {
+                        bbColor = Font.CR_RED;
+                        bbDisable = true;
+                    } else if ((!sellMode && cashAmount < info.buyPrice) ||
+                                (sellMode && double (cashAmount) + info.sellPrice > cashMax)) {
+                        bbColor = Font.CR_RED;
+                        bbDisable = true;
+                    }
                 }
             }
 
