@@ -335,9 +335,11 @@ class S7_Projectile : FastProjectile {
             Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
             act.SetOrigin (finalPos, false);
 
+            double realFloorZ = GetZAt (finalPos.X, finalPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+
             double hitz = finalPos.z - 8;
-            if (hitz < act.floorz)
-                hitz = act.floorz;
+            if (hitz < realFloorZ)
+                hitz = realFloorZ;
             // Do not clip this offset to the floor.
             hitz += missileHeight;
 
@@ -479,6 +481,7 @@ class S7_Projectile : FastProjectile {
                             if (!self)
                                 return;
 
+                            tr.actorsToIgnore.Clear ();
                             collisionHandled = true;
                             break;
                         }
@@ -506,7 +509,7 @@ class S7_Projectile : FastProjectile {
             SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
             if (!collisionHandled) {
-                bool floorHit = pos.Z <= GetZAt ();
+                bool floorHit = pos.Z <= floorZ;
                 bool ceilingHit = (pos.Z + height) > ceilingZ;
 
                 bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
@@ -610,12 +613,15 @@ class S7_Projectile : FastProjectile {
             hitPos -= (0, 0, height);
         }
 
-        let rHitPos = tr.Results.HitPos;
+        Vector3 rHitPos = tr.Results.HitPos;
 
-        bool floorHit = rHitPos.Z <= GetZAt ();
-        bool ceilingHit = (rHitPos.Z + height) > ceilingZ;
+        double realFloorZ = GetZAt (rHitPos.X, rHitPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+        double realCeilingZ = GetZAt (rHitPos.X, rHitPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng | GZF_Ceiling);
 
-        if (!TryMove (hitPos.xy + (double.epsilon * 3, double.epsilon * 3), true)) {
+        bool floorHit = (rHitPos.Z <= realFloorZ || rHitPos.Z ~== realFloorZ);
+        bool ceilingHit = (rHitPos.Z + height) > realCeilingZ;
+
+        if (!TryMove (hitPos.XY + (double.epsilon * 3, double.epsilon * 3), true)) {
             SetOrigin (hitPos, interpFastProj);
 
             bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
@@ -636,7 +642,7 @@ class S7_Projectile : FastProjectile {
                                (ceilingHit && ceilingpic == skyflatnum));
 
                 if (tr.Results.HitType == TRACE_HitFloor) {
-                    SetZ (GetZAt ());
+                    SetZ (floorZ);
                     HitFloor ();
                 }
 
@@ -646,7 +652,8 @@ class S7_Projectile : FastProjectile {
                 }
 
                 return true;
-            }
+            } else if (S7_DebugMode >= 1)
+                Console.PrintF ("zzz %f ----- %f, %d", rHitPos.Z, GetZAt (rHitPos.X, rHitPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng), floorHit);
         }
 
         SetOrigin (oldPos, false);
