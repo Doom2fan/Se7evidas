@@ -71,7 +71,8 @@ int main (string [] args) {
 
         try {
             auto fileText = readText (file);
-            fileText = replaceAll (fileText, ctRegex!(r"(\/\/.*)|(\/\*(.|\n)*\*\/)"), "");
+            //fileText = replaceAll (fileText, regex (r"(\/\/.*)|(\/\*.*\*\/)"), "");
+            fileText = replaceAll (fileText, regex (r"(//.*)"), "");
 
             ShopDef shop = parseShop (parseJSON (fileText));
             string outputCode = compileShop (shop);

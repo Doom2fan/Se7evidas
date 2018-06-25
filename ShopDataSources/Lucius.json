@@ -51,7 +51,7 @@
             ]
         },
 
-        /** Consumables section **/
+        // Consumables section
         {
             "intName": "consumablesPage",
             "name": "$SS_CONSUMABLES",
@@ -88,7 +88,7 @@
             ]
         },
 
-        /** Health section **/
+        // Health section
         {
             "intName": "healthPage",
             "name": "$SS_HEALTH",
@@ -133,7 +133,7 @@
             ]
         },
 
-        /** Armor section **/
+        // Armor section
         {
             "intName": "armorPage",
             "name": "$SS_ARMOR",
@@ -180,7 +180,7 @@
             ]
         },
 
-        /** Ammo section **/
+        // Ammo section
         {
             "intName": "ammoPage",
             "name": "$SS_AMMO",
@@ -378,7 +378,7 @@
             ]
         },
 
-        /** Weapons section **/
+        // Weapons section
         {
             "intName": "weaponsPage",
             "name": "$SS_WEAPONS",
@@ -641,7 +641,7 @@
             ]
         },
 
-        /** Loot **/
+        // Loot
         {
             "intName": "lootPage",
             "name": "$SS_LOOT",

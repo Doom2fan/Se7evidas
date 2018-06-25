@@ -3,8 +3,7 @@
 CC = gdcc-cc
 LD = gdcc-ld
 ML = gdcc-makelib
-ShopData_Compiler = Tools/shopDataCompiler
-MKDIRCMD = gmkdir
+ShopData_Compiler = ./Tools/shopdatacompiler
 COM_FLAGS = --bc-target=ZDoom
 CC_FLAGS = $(COM_FLAGS) -DDEBUG
 LD_LIB_FLAGS = $(COM_FLAGS) -lS7Stuff
@@ -14,7 +13,7 @@ INCDIR = $(SOURCEDIRECTORY)/inc
 SRCDIR = $(SOURCEDIRECTORY)/src
 OBJDIR = $(SOURCEDIRECTORY)/obj
 LIBDIR = $(OBJDIR)/lib
-SHELL = C:/Windows/System32/cmd.exe
+#SHELL = C:/Windows/System32/cmd.exe
 ## Commands ##
 rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcardInt, $(d)/))
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
@@ -34,7 +33,7 @@ ShopData_SRC = $(call rwildcard, $(ShopData_SRCDIR), %.json)
 ShopData_OBJ = $(ShopData_SRC:$(ShopData_SRCDIR)/%.json=$(ShopData_OBJDIR)/%.fuckMake)
 
 $(ShopData_OBJDIR)/%.fuckMake: $(ShopData_SRCDIR)/%.json
-	@$(MKDIRCMD) -p "$(@D)"
+	@mkdir -p "$(@D)"
 	"$(ShopData_Compiler)" --file $< --out "$(ShopData_OUTDIR)"
 	@touch $@
 
