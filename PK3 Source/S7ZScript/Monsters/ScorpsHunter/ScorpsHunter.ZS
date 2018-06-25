@@ -94,6 +94,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         let shotty = S7_Loot_ScorpsHunterSG (S7_ActorExtensions.DropItem (self, "S7_Loot_ScorpsHunterSG", 1, 128));
         if (shotty) {
             if (random [monsterSpc] () <= 128) { // Don't always drop with ammo, either!
+                shotty.isBroken = (random [monsterSpc] () <= 96);
                 shotty.shellsCount = invoker.ammo;
                 invoker.ammo = 0;
             } else

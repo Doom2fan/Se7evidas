@@ -73,16 +73,23 @@ class S7_Loot_ScorpsHunterSG : S7_LootItem {
     }
 
     int shellsCount;
+    bool isBroken;
 
     override void PostBeginPlay () {
         if (shellsCount == 0)
             shellsCount = random [invSpc] (2, 8);
         else if (shellsCount == -1)
             shellsCount = 0;
+
+        if (isBroken)
+            amount = 0;
     }
 
     override bool TryPickup (in out Actor toucher) {
         bool ret;
+
+        if (isBroken)
+            amount = 0;
 
         if (ret = Super.TryPickup (toucher))
             toucher.GiveInventory ("S7_12gaShells", shellsCount);
@@ -101,6 +108,9 @@ class S7_Loot_ScorpsHunterSG : S7_LootItem {
 
         if (shellsCount == 0)
             return str [0];
+
+        if (isBroken)
+            return String.Format (StringTable.Localize ("$LOOT_SCORPSHUNTERSG_PICKUP_BROKEN"), shellsCount);
 
         return str [0] .. " " .. String.Format (str [1], shellsCount);
     }
