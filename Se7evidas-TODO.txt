@@ -3,7 +3,7 @@ This shit has to be done before any official /beta/ releases:
     + Shop system
 
 This shit HAS to be done before any official stable release:
-    + ZScript conversion, both for DECORATE and ACS code. (PRIORITY)
+    X ZScript conversion, both for DECORATE and ACS code. (PRIORITY)
     + Add more weapons
     X Convert inventory hacks to uservars (I converted what I could)
     + Fucking monsters (Maybe literally too...)

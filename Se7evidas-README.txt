@@ -1,5 +1,5 @@
 ==================================================================================
-Advanced engine needed  : GZDoom 3.2.3+
+Advanced engine needed  : GZDoom 3.3+
 ==================================================================================
 Name                    : Se7evidas
 Publisher               : Dark Realm
@@ -11,17 +11,19 @@ Description             : <insert description here>
 ==================================================================================
 * What is included *
 
-GDCC-CC usage
+ZScript usage
+LOTS OF ZSCRIPT
 Weapons
 Monsters
+Player classes
 Multi-jumping
 Dodging
+TURRETS
 Recoil
 Reloading
 Alt-fires
 Quick meleeing
 Shop system
-Save system
 AWESUM SPECIAL EFFECTZORZ
 Empress butts
 Empress tits
