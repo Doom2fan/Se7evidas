@@ -4,17 +4,17 @@
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
+#
 
 from __future__ import print_function
 
@@ -88,13 +88,13 @@ def getchoice (choices, header = None):
         print ("{num}) {text}".format (num = tup [0], text = tup [1]))
 
     choice = getinput ("Enter your choice: ")
-    
+
     for tup in choices:
         if (choice == tup [0]):
             return choice
-    
+
     return None
-    
+
 def getoutdir ():
     try:
         return getinput ();
@@ -106,7 +106,7 @@ def compress_folder (destination, src, compression, ignoredFiles = [], quiet = F
     for path, dirs, files in os.walk (src):
         for file in files:
             name = os.path.relpath (os.path.join (path, file), src)
-            
+
             for pattern in ignoredFiles:
                 if (fnmatch (file, pattern)):
                     continue
@@ -126,7 +126,7 @@ def get_file_out_path (defName, defExt):
     while (True):
         print ("Specify the output directory and/or filename: ", end = "")
         outDir = getoutdir ()
-        
+
         splitPath = os.path.split (outDir)
         if (splitPath [0] == "" and splitPath [1] == ""):
             destination = defName + defExt
@@ -136,7 +136,7 @@ def get_file_out_path (defName, defExt):
             destination = os.path.join (splitPath [0], defName + defExt)
         else:
             destination = outDir
-    
+
         if (os.path.exists (destination)):
             print ("")
 
@@ -171,9 +171,9 @@ def get_compression_method (header, bzipAllowed = False):
             break
         else:
             print ("Invalid choice")
-        
+
         print ("")
-    
+
     if (choice == "1"):
         return zipfile.ZIP_STORED
     elif (choice == "2"):
@@ -181,12 +181,12 @@ def get_compression_method (header, bzipAllowed = False):
     elif (choice == "3"):
         return zipfile.ZIP_LZMA
     elif (bzipAllowed and choice == "4"):
-        return zipfile.ZIP_BZIP
+        return zipfile.ZIP_BZIP2
 
 def compile_pk3 (outDir = None, compression = None):
     if (outDir is not None):
         destination = os.path.join (outDir, DIST_FNAME + ".pk3")
-    
+
         if (os.path.exists (destination)):
             return False
     else:
@@ -202,7 +202,7 @@ def compile_pk3 (outDir = None, compression = None):
     print ("")
     if (compression is None):
         compression = get_compression_method ("Select the PK3's compression type:")
-    
+
     print ("-- Compressing {filename} --".format (filename = destination))
     compress_folder (destination, SRC_DIR, compression, IGNORED_FILES, False)
 
@@ -217,7 +217,7 @@ def compile_release (outDir = None, relComp = None):
 
     if (outDir is not None):
         destination = os.path.join (outDir, DIST_FNAME + ".zip")
-    
+
         if (os.path.exists (destination)):
             return False
     else:
@@ -244,7 +244,7 @@ def compile_release (outDir = None, relComp = None):
         print ("")
         if (relComp is None):
             relComp = get_compression_method ("Select the zip file's compression type:", True)
-        
+
         print ("-- Compressing {filename} --".format (filename = destination))
         compress_folder (destination, tmpDir, relComp, IGNORED_FILES, False)
     finally:
@@ -266,15 +266,15 @@ if (__name__ == "__main__"):
             break
         else:
             print ("Invalid choice")
-        
+
         print ("")
 
     if (choice == "1"):
         compile_pk3 ()
     elif (choice == "2"):
         compile_release ()
-##      
+##
 ##    makepkg ()
 ##    maketxt ()*/
-##    
+##
 ##    print("-- Finished --")
