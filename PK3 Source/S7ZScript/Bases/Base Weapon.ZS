@@ -268,6 +268,12 @@ class S7_MeleePuff : S7_EffectsBase { // By Jekyll Grim Payne/zer0, edited by Ch
 
         +NOBLOCKMAP +NOGRAVITY +PUFFONACTORS +NOEXTREMEDEATH
     }
+
+    states {
+    Spawn:
+        TNT1 A 1;
+        stop;
+    }
 }
 
 class S7_MeleePuffStrong : S7_MeleePuff { // Ditto
