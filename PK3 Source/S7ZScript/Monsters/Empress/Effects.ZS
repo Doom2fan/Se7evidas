@@ -198,7 +198,6 @@ class S7_EmpressShieldHitspark : S7_Empress_FXBase {
     Spawn:
         TNT1 A 0 noDelay {
             for (int i = random [sfx] (4, 6); i > 0; i--) {
-                Console.Printf ("%d", i);
                 A_SpawnItemEx ("S7_EmpressShieldHitsparkSparkle",
                     xvel: fRandom [sfx] (2, 8), zvel: fRandom [sfx] (-6, 6), angle: fRandom [sfx] (0, 360),
                     flags: SXF_NoCheckPosition | SXF_Clientside

@@ -160,7 +160,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Chase (flags: (CHF_DontTurn | CHF_DontMove) * S7_DebugMode);
+            A_Chase ();
 
             return ResolveState (null);
         }
@@ -169,7 +169,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Chase (flags: (CHF_DontTurn | CHF_DontMove) * S7_DebugMode);
+            A_Chase ();
 
             return ResolveState (null);
         }
