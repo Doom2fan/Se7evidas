@@ -65,6 +65,8 @@ class S7_Empress : S7_DemonBase {
     int deathDMGFlags;
 
     override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
         GiveInventory ("S7_IsEmpress", 1);
         TakeInventory ("S7_IsDead", 0x7FFFFFFF);
 
