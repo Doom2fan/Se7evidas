@@ -187,7 +187,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 if (invoker.CheckAmmo (PrimaryFire, false, true)) {
                     invoker.loaded = true;
 
-                    if (random [weaponSpc] (0, 255) < 2)
+                    if (random [weaponSpc] () < 2)
                         invoker.jammed = true;
                     else
                         invoker.jammed = false;
@@ -204,7 +204,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             invoker.loaded = true;
             invoker.noEject = false; // Reset noEject
 
-            if (random [weaponSpc] (0, 255) < 2)
+            if (random [weaponSpc] () < 2)
                 invoker.jammed = true;
             else
                 invoker.jammed = false;
@@ -260,7 +260,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 if (invoker.CheckAmmo (PrimaryFire, false, true)) {
                     invoker.loaded = true;
 
-                    if (random [weaponSpc] (0, 255) < 2)
+                    if (random [weaponSpc] () < 2)
                         invoker.jammed = true;
                     else
                         invoker.jammed = false;
@@ -372,7 +372,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
             invoker.loaded = true;
 
-            if (random [weaponSpc] (0, 255) < 2)
+            if (random [weaponSpc] () < 2)
                 invoker.jammed = true;
             else
                 invoker.jammed = false;

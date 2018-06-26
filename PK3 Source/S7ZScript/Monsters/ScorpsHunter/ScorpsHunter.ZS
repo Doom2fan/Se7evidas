@@ -107,7 +107,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     Spawn:
     Idle:
         SCR3 AAA 1 {
-            if (random [monsterSpc] (0, 255) < 160 && ammo < 4) // Maybe reload if less than 5 shots
+            if (random [monsterSpc] () < 160 && ammo < 4) // Maybe reload if less than 5 shots
                 return ResolveState ("Reload");
 
             A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
@@ -116,7 +116,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         }
 
         SCR3 E  1 {
-            if (random [monsterSpc] (0, 255) < 96)
+            if (random [monsterSpc] () < 96)
                 A_SetAngle (angle + fRandom [monsterSpc] (-5, 5), SPF_Interpolate);
 
             A_SetTics (random [monsterSpc] (5, 15));
@@ -124,7 +124,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 EE 1 A_SetTics (random [monsterSpc] (5, 15));
 
         SCR3 E 3 {
-            if (random [monsterSpc] (0, 255) < 220)
+            if (random [monsterSpc] () < 220)
                 return ResolveState ("Idle2");
 
             A_SetAngle (angle + fRandom [monsterSpc] (-8, 8), SPF_Interpolate);
@@ -137,7 +137,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         TNT1 A 0 {
             if (bAmbush) // If the ambush flag is set, go to special ambush state
                 return ResolveState ("Idle.Ambush");
-            if (random [monsterSpc] (0, 255) < 100)
+            if (random [monsterSpc] () < 100)
                 return ResolveState ("Idle");
 
             return ResolveState (null);
@@ -149,7 +149,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
             A_SetTics (random [monsterSpc] (3, 5));
         }
         SCR3 E 3 {
-            if (random [monsterSpc] (0, 255) < 96)
+            if (random [monsterSpc] () < 96)
                 return ResolveState ("Idle.Ambush");
 
             A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
@@ -164,7 +164,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
             A_Wander ();
             A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
         }
-        TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 18, "Idle");
+        TNT1 A 0 A_Jump (random [monsterSpc] () < 18, "Idle");
         loop;
 
     // Found enemy
@@ -177,7 +177,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     See:
         SCR3 AABBCCDD 3 A_Chase;
         SCR3 AABBCCDD 3 A_Chase;
-        TNT1 A        0 A_Jump (!(random [monsterSpc] (0, 255) < 192) && ammo < 2, "Reload");
+        TNT1 A        0 A_Jump (!(random [monsterSpc] () < 192) && ammo < 2, "Reload");
         loop;
 
     // Firing
@@ -223,7 +223,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
     DryFire:
         SCR3 E 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
-        TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 192, "Reload");
+        TNT1 A 0 A_Jump (random [monsterSpc] () < 192, "Reload");
     DryFire.FindCover:
         TNT1 A        0 { bFrightened = true; }
         SCR3 AABBCCDD 4 A_Wander;

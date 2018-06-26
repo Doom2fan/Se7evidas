@@ -95,7 +95,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 AAA 1 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
 
         SCR2 U  1 {
-            if (random [monsterSpc] (0, 255) < 96)
+            if (random [monsterSpc] () < 96)
                 A_SetAngle (angle + fRandom [monsterSpc] (-5, 5), SPF_Interpolate);
 
             A_SetTics (random [monsterSpc] (5, 15));
@@ -103,7 +103,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 UU 1 A_SetTics (random [monsterSpc] (5, 15));
 
         SCR2 U 3 {
-            if (random [monsterSpc] (0, 255) < 220)
+            if (random [monsterSpc] () < 220)
                 return ResolveState ("Idle2");
 
             A_SetAngle (angle + fRandom [monsterSpc] (-8, 8), SPF_Interpolate);
@@ -116,7 +116,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         TNT1 A 0 {
             if (bAmbush) // If the ambush flag is set, go to special ambush state
                 return ResolveState ("Idle.Ambush");
-            if (random [monsterSpc] (0, 255) < 100)
+            if (random [monsterSpc] () < 100)
                 return ResolveState ("Idle");
 
             return ResolveState (null);
@@ -128,7 +128,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             A_SetTics (random [monsterSpc] (3, 5));
         }
         SCR2 U 3 {
-            if (random [monsterSpc] (0, 255) < 96)
+            if (random [monsterSpc] () < 96)
                 return ResolveState ("Idle.Ambush");
 
             A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
@@ -143,7 +143,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             A_Wander ();
             A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
         }
-        TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 18, "Idle");
+        TNT1 A 0 A_Jump (random [monsterSpc] () < 18, "Idle");
         loop;
 
     // Found enemy
@@ -164,7 +164,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 U  1 A_SetTics (random [monsterSpc] (3, 8));
     DoShoot:
         TNT1 A 0 {
-            if (CheckIfCloser (target, 192) && !(random [monsterSpc] (0, 255) < 128)) {
+            if (CheckIfCloser (target, 192) && !(random [monsterSpc] () < 128)) {
                 fireMode = 1;
                 turn = 25.0;
                 spreadX = 5.5;
@@ -199,7 +199,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target is in LOS, keep firing
                 return ResolveState ("DoShoot2");
-            else if (random [monsterSpc] (0, 255) < 160) // Sometimes keep firing even if the target isn't in LOS anyway
+            else if (random [monsterSpc] () < 160) // Sometimes keep firing even if the target isn't in LOS anyway
                 return ResolveState ("CoverFire");
 
             return ResolveState ("EndShoot");
@@ -218,7 +218,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target comes into LOS, go back to normal shooting
                 return ResolveState ("DoShoot");
-            else if (random [monsterSpc] (0, 255) < 50) // Sometimes stop firing
+            else if (random [monsterSpc] () < 50) // Sometimes stop firing
                 return ResolveState ("EndShoot");
 
             return ResolveState ("CoverFire");

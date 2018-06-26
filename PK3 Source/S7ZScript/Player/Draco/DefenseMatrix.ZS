@@ -24,7 +24,7 @@ extend class S7_DracoPlayer {
                 if (mo is "S7_EffectsBase" || !mo.bMissile || mo.bKilled || !mo.target || mo.target == self || isFriend (mo.target))
                     continue;
 
-                if (defenseMatrixEnergy >= 5 && abs (Distance3D (mo)) <= 160.0 && !(random [dracoADM] (0, 256) < 8)) {
+                if (defenseMatrixEnergy >= 5 && abs (Distance3D (mo)) <= 160.0 && !(random [dracoADM] () < 8)) {
                     let zap = Spawn ("S7_DracoADMZap", mo.pos, ALLOW_REPLACE);
                     zap.target = self;
                     mo.ExplodeMissile (NULL, zap, false);
@@ -33,7 +33,7 @@ extend class S7_DracoPlayer {
                     continue;
                 }
 
-                if (defenseMatrixEnergy >= 6 && !laserCooldown && !(random [dracoADM] (0, 256) < 16)) {
+                if (defenseMatrixEnergy >= 6 && !laserCooldown && !(random [dracoADM] () < 16)) {
                     if (mo.bSeekerMissile && mo.tracer == self && abs (mo.Distance2D (mo.target)) >= (mo.target.radius * 1.5)) {
                         laserCooldown = 0;
 

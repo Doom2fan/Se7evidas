@@ -19,7 +19,7 @@ class S7_ServerEventHandler : EventHandler {
 
         serverData.mapCount++;
 
-        /*if (serverData.mapCount > 0 && random [S7_MapEvents] (0, 255) < 32)
+        /*if (serverData.mapCount > 0 && random [S7_MapEvents] () < 32)
             serverData.queuedMapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
         else*/
             serverData.queuedMapEvent = MEVNT_None;

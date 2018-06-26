@@ -79,7 +79,7 @@ class S7_HitterSMG : S7_BaseWeapon {
             A_AlertMonsters ();
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4.5);
 
-            if (random [weaponSpc] (0, 255) < 3) {
+            if (random [weaponSpc] () < 3) {
                 int jamType = randomPick [weaponSpc] (0, 0, 1, 1, 2); // More likely to jam only one barrel
 
                 if (jamType == 0 || jamType == 3)
