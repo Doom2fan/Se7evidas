@@ -31,6 +31,8 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
     double realDamage;
 
     override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
         A_RearrangePointers (AAPTR_Null, AAPTR_Target, AAPTR_Default);
 
         if (mass == 0) mass = random [shrapnel] (25, 50);
