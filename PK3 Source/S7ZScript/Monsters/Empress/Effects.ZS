@@ -9,6 +9,34 @@ class S7_Empress_FXBase : S7_EffectsBase {
 
 //-------------------------------------------------------------------------------------------
 //
+// Blood
+//
+//-------------------------------------------------------------------------------------------
+class S7_EmpressBlood : S7_Blood {
+    override void PostBeginPlay () {
+        let empress = S7_Empress (target);
+        if (!empress) {
+            Destroy ();
+            return;
+        }
+
+        if (empress.shieldUp && abs (empress.AngleTo (self)) <= S7_Empress.InvulnShieldAngle) {
+            Destroy ();
+            return;
+        }
+    }
+}
+
+class S7_EmpressBloodSplatter : S7_EmpressBlood {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace);
+        goto Super::Spawn;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Spawner
 //
 //-------------------------------------------------------------------------------------------
@@ -156,6 +184,44 @@ class S7_EmpressShieldFlare : S7_Empress_FXBase {
     Spawn:
         HRSF A 3 bright;
         HRSF A 1 bright A_FadeOut (0.03);
+        wait;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Invuln hitspark
+//
+//-------------------------------------------------------------------------------------------
+class S7_EmpressShieldHitspark : S7_Empress_FXBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay {
+            for (int i = random [sfx] (4, 6); i > 0; i--) {
+                Console.Printf ("%d", i);
+                A_SpawnItemEx ("S7_EmpressShieldHitsparkSparkle",
+                    xvel: fRandom [sfx] (2, 8), zvel: fRandom [sfx] (-6, 6), angle: fRandom [sfx] (0, 360),
+                    flags: SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
+        }
+        stop;
+    }
+}
+
+class S7_EmpressShieldHitsparkSparkle : S7_EmpressSparkle {
+    default {
+        Scale 0.1;
+    }
+
+    states {
+    Spawn:
+        TNT1 A 0 noDelay {
+            loopCount = random [sfx] (1, 2);
+            return A_Jump (256, "SpawnA", "SpawnB", "SpawnC", "SpawnD", "SpawnE", "SpawnF", "SpawnG", "SpawnH");
+        }
+    ReallyFadeOutNow:
+        "----" A 1 bright A_FadeOut (0.25);
         wait;
     }
 }

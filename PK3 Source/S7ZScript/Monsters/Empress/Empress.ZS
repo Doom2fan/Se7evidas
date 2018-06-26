@@ -24,6 +24,7 @@ class S7_Empress : S7_DemonBase {
         PainChance "Empress_BallExploded", 256;
         PainChance "S7_SoulLance_Beam", 256;
         MinMissileChance 160;
+        BloodType "S7_EmpressBlood", "S7_EmpressBloodSplatter";
         BloodColor "B2 11 DE";
         SeeSound "cyber/sight";
         PainSound "cyber/pain";
@@ -51,8 +52,10 @@ class S7_Empress : S7_DemonBase {
 
     const InvulnDelayTime = floor (35 * 7.5);
     const InvulnLimit = 2500;
+    const InvulnShieldAngle = 152.5;
 
     bool initialized;
+    bool shieldUp; // The shield is active
     int ballsCount; // How much invulnerability thingies are left
     int invulnDelay; // How much time left until we can raise the shield
     bool canCastInvuln; // Whether shields can be cast
@@ -64,7 +67,42 @@ class S7_Empress : S7_DemonBase {
     override void PostBeginPlay () {
         GiveInventory ("S7_IsEmpress", 1);
         TakeInventory ("S7_IsDead", 0x7FFFFFFF);
+
         initialized = true;
+    }
+
+    override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {
+        bool hitShield = false;
+
+        if (shieldUp) {
+            let angTo = inflictor ? AngleTo (inflictor) : double.NaN;
+            if (flags & DMG_USEANGLE && !inflictor)
+                angTo = DeltaAngle (self.angle, angle);
+            
+            if (abs (angTo) <= InvulnShieldAngle)
+                hitShield = true;
+        }
+
+        bool origInv = bInvulnerable, origPain = bNoPain, origBlood = bNoBlood;
+
+        if (hitShield) { // Max hax
+            bInvulnerable = true;
+            bNoPain = !(random [monsterSpc] () < 48);
+            bNoBlood = true;
+
+            Spawn ("S7_EmpressShieldHitspark", inflictor.pos);
+        } else if (shieldUp) {
+            if (damage < TELEFRAG_DAMAGE)
+                damage /= 2;
+        }
+
+        int ret = Super.DamageMobj (inflictor, source, damage, mod, flags, angle);
+
+        bInvulnerable = origInv;
+        bNoPain = origPain;
+        bNoBlood = origBlood;
+
+        return ret;
     }
 
     override void Die (Actor source, Actor inflictor, int dmgflags) {
@@ -80,15 +118,15 @@ class S7_Empress : S7_DemonBase {
 
     override void Tick () {
         if (initialized) {
-            if (health > InvulnLimit || ballsCount > 0) {
+            if (health > InvulnLimit || shieldUp) {
                 canCastInvuln = false;
 
-                if (ballsCount > 0)
+                if (shieldUp)
                     invulnDelay = InvulnDelayTime;
             } else if (invulnDelay) {
                 canCastInvuln = false;
                 invulnDelay--;
-            } else if (health <= InvulnLimit && ballsCount < 1 && invulnDelay < 1)
+            } else if (health <= InvulnLimit && !shieldUp && invulnDelay < 1)
                 canCastInvuln = true;
         }
 
@@ -122,7 +160,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Chase ();
+            A_Chase (flags: (CHF_DontTurn | CHF_DontMove) * S7_DebugMode);
 
             return ResolveState (null);
         }
@@ -131,7 +169,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Chase ();
+            A_Chase (flags: (CHF_DontTurn | CHF_DontMove) * S7_DebugMode);
 
             return ResolveState (null);
         }
@@ -139,7 +177,7 @@ class S7_Empress : S7_DemonBase {
 
     Missile:
         TNT1 A 0 {
-            if (!ballsCount && canCastInvuln && random [monsterSpc] (0, 255) < 64)
+            if (!shieldUp && canCastInvuln && random [monsterSpc] () < 64)
                 return ResolveState ("ShieldsUp");
 
             return A_Jump (256, "Attack1", "Attack2");
@@ -150,8 +188,9 @@ class S7_Empress : S7_DemonBase {
         HRFR A  5 { bNoPain = true; }
         HRFR FF 5;
         HRFR F  9 {
-            bNoBlood = true;
-            bInvulnerable = true;
+            shieldUp = true;
+            //bNoBlood = true;
+            //bInvulnerable = true;
             //GiveInventory ("S7_EmpressProtection", 1);
             GiveInventory ("S7_Empress_CastingInvuln", 1);
             A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
@@ -213,7 +252,7 @@ class S7_Empress : S7_DemonBase {
 
     Pain.S7_SoulLance_Beam:
         HRFR G 3 {
-            if ((target && target.CheckInventory ("S7_SoulLance_BeamGrabbed", 1)) || random [monsterSpc] (0, 255) < 4)
+            if ((target && target.CheckInventory ("S7_SoulLance_BeamGrabbed", 1)) || random [monsterSpc] () < 4)
                 return ResolveState ("Pain");
 
             return CheckIfInTargetLOS (360.0, JLOSF_AllyNoJump) ? ResolveState ("SLance_BeamGrab") : ResolveState (null);
@@ -247,7 +286,7 @@ class S7_Empress : S7_DemonBase {
         HRFR E 3 {
             A_SetMass (S7_EmpressMass);
 
-            if (ballsCount < 1)
+            if (!shieldUp)
                 bNoPain = false;
 
             if (target)

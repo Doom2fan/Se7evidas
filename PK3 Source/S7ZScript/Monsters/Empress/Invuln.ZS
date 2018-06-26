@@ -48,11 +48,11 @@ class S7_EmpressInvulnOrbiterCW : Actor {
             return;
 
         owner.ballsCount--; // Ouch.
-        if (!owner.ballsCount) {
-            owner.bNoBlood = false;
-            owner.bNoPain = false;
-            owner.bInvulnerable = false;
-        }
+        if (owner.ballsCount < 0)
+            owner.ballsCount = 0;
+
+        if (!owner.ballsCount)
+            owner.shieldUp = false;
     }
 
     states {
