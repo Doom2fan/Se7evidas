@@ -208,7 +208,13 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
             scale = (1.0, 1.0);
             A_PlaySound ("Explosions/Explosion1");
 
-            S7_ActorExtensions.A_S7SpawnShrapnel (self, 100, 0.0, 0.0, 2.0, SXF_TransferPointers);
+            S7_ActorExtensions.A_S7SpawnShrapnel (
+                self, 100,
+                minVel: 250, maxVel: 500,
+                minMass: 10, maxMass: 25,
+                keScale: 150,
+                zOff: 2.0, flags: SXF_TransferPointers
+            );
             A_SetDamageType ("ExplosionSplashDMG");
             A_Explode (fRandom [weaponDamage] (192.0, 256.0), fRandom [weaponSpread] (192.0, 256.0));
         }
