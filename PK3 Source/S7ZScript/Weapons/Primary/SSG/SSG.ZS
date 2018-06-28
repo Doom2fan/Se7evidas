@@ -38,6 +38,8 @@ class S7_SSG : S7_BaseWeapon {
     }
 
     override void DetachFromOwner () {
+        Super.DetachFromOwner ();
+
         Owner.SetInventory ("S7_SSGLeftLoadedToken",  0);
         Owner.SetInventory ("S7_SSGRightLoadedToken", 0);
         Owner.SetInventory ("S7_SSGFauxClip", 0);

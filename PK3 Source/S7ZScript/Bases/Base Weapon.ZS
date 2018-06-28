@@ -66,6 +66,22 @@ class S7_BaseWeapon : Weapon {
         GivenAsMorphWeapon = false; // will be set explicitly by morphing code
     }
 
+    override void DetachFromOwner () {
+        let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ("S7_WeapBindsSystem"));
+        if (!weapBinds)
+            return;
+
+        int slot, pos;
+
+        [slot, pos] = weapBinds.LocateWeapon (self, false);
+        if (slot > -1 && pos > -1)
+            weapBinds.SetBind (slot, pos, NULL, false);
+
+        [slot, pos] = weapBinds.LocateWeapon (self, true);
+        if (slot > -1 && pos > -1)
+            weapBinds.SetBind (slot, pos, NULL, true);
+    }
+
     override bool Use (bool pickup) { // Override Use so it can't be used to bypass the weapon limits
         return false;
     }
