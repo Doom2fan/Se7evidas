@@ -3,6 +3,7 @@ This shit has to be done before any official /beta/ releases:
     + Shop system
 
 This shit HAS to be done before any official stable release:
+    Ask for anyone I might have taken code from for permission so I can relicense this as GPL.
     X ZScript conversion, both for DECORATE and ACS code. (PRIORITY)
     + Add more weapons
     X Convert inventory hacks to uservars (I converted what I could)
