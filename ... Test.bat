@@ -11,7 +11,7 @@ if "%S7PROG_QZDOOM%" == "" (
 SET PROG_PROG=""
 SET PROG_ARGS=""
 
-MAKE all
+MAKE --file=Makefile.Windows all
 
 if %ERRORLEVEL% NEQ 0 (
     GOTO :Finish

@@ -13,6 +13,7 @@ INCDIR = $(SOURCEDIRECTORY)/inc
 SRCDIR = $(SOURCEDIRECTORY)/src
 OBJDIR = $(SOURCEDIRECTORY)/obj
 LIBDIR = $(OBJDIR)/lib
+#SHELL = C:/Windows/System32/cmd.exe
 ## Commands ##
 rwildcardInt = $(wildcard $(1)) $(foreach d, $(wildcard $(1)*), $(call rwildcardInt, $(d)/))
 rwildcard = $(filter $(2), $(call rwildcardInt, $(1)/))
@@ -36,7 +37,7 @@ $(ShopData_OBJDIR)/%.fuckMake: $(ShopData_SRCDIR)/%.json
 	@echo > $@
 
 $(ShopData_OBJDIR):
-	@mkdir -p "$(@D)"
+	@mkdir "$(ShopData_OBJDIR)"
 
 .PHONY: ShopData
 ShopData: $(ShopData_OBJDIR) $(ShopData_OBJ)
