@@ -26,7 +26,7 @@ class S7_MapData : Thinker {
     }
 
     clearscope static S7_MapData GetSpecial () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_MapData", STAT_STATIC);
+        ThinkerIterator it = ThinkerIterator.Create ("S7_MapData", STAT_INFO);
         let p = S7_MapData (it.Next ());
 
         if (!p)
