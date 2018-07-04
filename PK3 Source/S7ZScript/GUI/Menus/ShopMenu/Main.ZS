@@ -159,6 +159,9 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     override bool OnUIEvent (UIEvent ev) {
+        if (!shopData)
+            return Super.OnUIEvent (ev);
+
         if (shopFrame.isEnabled () && ev.type == UIEvent.Type_KeyDown && ev.KeyChar == UIEvent.Key_Tab) {
             sellMode = !sellMode;
             return true;
@@ -168,6 +171,9 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     override bool MenuEvent (int mkey, bool fromcontroller) {
+        if (!shopData)
+            return Super.MenuEvent (mkey, fromcontroller);
+
         if (shopFrame.isEnabled ()) {
             S7_SSPage  curPage = null;
             S7_SSPage backPage = null;
@@ -213,6 +219,9 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         menuactive = Menu.OnNoPause;
         if (backKeyCountdown > 0)
             backKeyCountdown--;
+
+        if (!shopData)
+            return;
 
         if (buyButton) {
             int bbColor = Font.CR_WHITE;
