@@ -23,6 +23,10 @@ user int  S7_EnemyHPBar_HPDisp          = 1;
 user bool S7_EnemyHPBar_NametagOn       = TRUE;
 //user int  S7_EnemyHPBar_ForceDir        = 0;
 
+// Flashlight
+user color S7_FlashlightColor           = "#F8FFFF";
+user int   S7_FlashlightMount           = 0;
+
 // Radar
 /*user int  S7_Radar_Width                = 1280;
 user int  S7_Radar_Height               = 720;

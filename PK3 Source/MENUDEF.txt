@@ -65,6 +65,13 @@ optionValue "S7EnemyHPBar_HPDisp_Values" {
     2, "Vertical"
 }*/
 
+// Flashlight
+optionValue "S7_Flashlight_Mount" {
+    0, "Left shoulder"
+    1, "Right shoulder"
+    2, "Helmet"
+}
+
 optionMenu "S7Settings_User" {
     title "USER OPTIONS"
 
@@ -78,6 +85,11 @@ optionMenu "S7Settings_User" {
     option "Numerical health display",                                                              "S7_EnemyHPBar_HPDisp",         "S7EnemyHPBar_HPDisp_Values"
     option "Nametag",                                                                               "S7_EnemyHPBar_NametagOn",      "OnOff"
     //option "Force Direction",                                                                       "S7_EnemyHPBar_ForceDir",       "S7EnemyHPBar_ForceDir_Values"
+
+    staticText " "
+    staticText "Flashlight", 1
+    ColorPicker "Color",                                                                            "S7_FlashlightColor"
+    option "Mount",                                                                                 "S7_FlashlightMount",           "S7_Flashlight_Mount"
 
     /*staticText " "
     staticText "Radar", 1

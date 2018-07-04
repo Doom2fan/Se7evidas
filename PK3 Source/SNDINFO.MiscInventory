@@ -5,3 +5,7 @@ Inventory/CanteenUse            "sounds/Inventory/CanteenUse.ogg" // From Team F
 Syringe/In                      "sounds/Inventory/SyringeIn.wav"  // Dunno where this is from. Got it from Zen Dynamics (Originally "DSKNHIT3")
 Syringe/Out                     "sounds/Inventory/SyringeOut.wav" // Dunno where this is from. Got it from Zen Dynamics (Originally "DSKNHIT3")
 Berserk/Inject                  "sounds/Inventory/S7Berserk.ogg"  // Dunno where this is from.
+
+// Flashlight
+Inventory/Flashlight/On         "sounds/Inventory/FlashlightOn.ogg"  // From Doom 3.
+Inventory/Flashlight/Off        "sounds/Inventory/FlashlightOff.ogg" // Ditto.

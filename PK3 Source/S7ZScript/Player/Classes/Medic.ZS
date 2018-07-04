@@ -16,6 +16,7 @@ class S7_EMTPlayer : S7_ScoutPlayer {
         GiveInventory ("S7_KickMelee", 1);
         GiveInventory ("S7_MultiJump_Max", 1); // Scouts can do double jumps from the start
         // Equipment
+        GiveInventory ("S7_Flashlight", 1); // Starts with a flashlight
         GiveInventory ("S7_GrenadeCount", 2);
         GiveInventory ("S7_Stimpack", 4);
         GiveInventory ("S7_Medikit", 2);
