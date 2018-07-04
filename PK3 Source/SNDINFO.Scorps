@@ -43,6 +43,37 @@ Monsters/SCorpsTrooper/Death3                "sounds/Monsters/SCorps/Trooper/Dea
 // Hunter
 //
 //-------------------------------------------------------------------------------------------
+$RANDOM Monsters/ScorpsHunter/Sight {
+    Monsters/ScorpsHunter/Sight1
+    Monsters/ScorpsHunter/Sight2
+    Monsters/ScorpsHunter/Sight3
+    Monsters/SCorpsHunter/Sight4
+}
+Monsters/SCorpsHunter/Sight1                "sounds/Monsters/SCorps/Hunter/Sight1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsHunter/Sight2                "sounds/Monsters/SCorps/Hunter/Sight2.ogg" // Ditto.
+Monsters/SCorpsHunter/Sight3                "sounds/Monsters/SCorps/Hunter/Sight3.ogg" // Ditto.
+Monsters/SCorpsHunter/Sight4                "sounds/Monsters/SCorps/Hunter/Sight4.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsHunter/Pain {
+    Monsters/ScorpsHunter/Pain1
+    Monsters/ScorpsHunter/Pain2
+    Monsters/ScorpsHunter/Pain3
+}
+Monsters/SCorpsHunter/Pain1                "sounds/Monsters/SCorps/Hunter/Pain1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsHunter/Pain2                "sounds/Monsters/SCorps/Hunter/Pain2.ogg" // Ditto.
+Monsters/SCorpsHunter/Pain3                "sounds/Monsters/SCorps/Hunter/Pain3.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsHunter/Death {
+    Monsters/ScorpsHunter/Death1
+    Monsters/ScorpsHunter/Death2
+    Monsters/ScorpsHunter/Death3
+    Monsters/ScorpsHunter/Death4
+}
+Monsters/SCorpsHunter/Death1                "sounds/Monsters/SCorps/Hunter/Death1.ogg" // VA by Zero X. Diamond. Mixed/Edited by Chronos "phantombeta" Ouroboros.
+Monsters/SCorpsHunter/Death2                "sounds/Monsters/SCorps/Hunter/Death2.ogg" // Ditto.
+Monsters/SCorpsHunter/Death3                "sounds/Monsters/SCorps/Hunter/Death3.ogg" // Ditto.
+Monsters/SCorpsHunter/Death4                "sounds/Monsters/SCorps/Hunter/Death4.ogg" // Ditto.
+
 Monsters/ScorpsHunter/Fire                   "sounds/Monsters/Scorps/Hunter/Fire.ogg"    // By Chronos "phantombeta" Ouroboros. Made from two Quake 4 sounds.
 Monsters/ScorpsHunter/ClipOut                "sounds/Monsters/Scorps/Hunter/ClipOut.ogg" // From Quake 4.
 Monsters/ScorpsHunter/ClipIn                 "sounds/Monsters/Scorps/Hunter/ClipIn.ogg"  // Ditto.

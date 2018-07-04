@@ -16,8 +16,9 @@ class S7_ScorpsHunter : S7_ScorpBase {
         Health 45;
         GibHealth -22;
         PainChance 200;
-        PainSound "Monsters/SCorps1/Pain";
-        DeathSound "Monsters/SCorps1/Death";
+        SeeSound "Monsters/ScorpsHunter/Sight";
+        PainSound "Monsters/ScorpsHunter/Pain";
+        DeathSound "Monsters/ScorpsHunter/Death";
         Obituary "$OBSCORPSTROOPER";
         Species "ScorpsTrooper";
         Tag "$SCRPSTROOTAG";
