@@ -1,4 +1,8 @@
 class S7_ReplacementSpawner : S7_MonsterSpawner {
+    default {
+        +ISMONSTER +COUNTKILL
+    }
+
     override class<Actor> MS_GetMonsterSpawnList () {
         let mapData = S7_MapData.Get ();
 
@@ -18,6 +22,30 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
             return 'S7_MEvntNoMonster';
 
         return null;
+    }
+
+    bool spawnLater;
+    void DoSpawnProcess () { // Gotta do this stupid hack...
+        bIsMonster = false;
+        ClearCounters ();
+
+        Super.BeginPlay ();
+    }
+
+    override void BeginPlay () {
+        let serverData = S7_ServerData.GetSpecial ();
+
+        if (!serverData)
+            spawnLater = true;
+        else
+            DoSpawnProcess ();
+    }
+
+    override void PostBeginPlay () {
+        if (spawnLater)
+            DoSpawnProcess ();
+
+        Super.PostBeginPlay ();
     }
 }
 
