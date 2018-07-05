@@ -112,6 +112,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Monsters/ScorpsHunter/ScorpsHunter.ZS"
 #include "S7ZScript/Monsters/DemonDog/DemonDog.ZS"
 #include "S7ZScript/Monsters/Mechdemon/Mechdemon.ZS"
+#include "S7ZScript/Monsters/Shadow/Shadow.ZS"
 
 // Inventory
 #include "S7ZScript/Inventory/Armor.ZS"
