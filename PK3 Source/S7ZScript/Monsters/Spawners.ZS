@@ -100,7 +100,8 @@ class S7_ChaingunGuySpawner : S7_ReplacementSpawner replaces ChaingunGuy {
 //-------------------------------------------------------------------------------------------
 class S7_DemonSpawner : S7_ReplacementSpawner replaces Demon {
     default {
-        DropItem "S7_DemonDog", 256, 1;
+        DropItem "S7_DemonDog",  256, 3;
+        DropItem "S7_Mechdemon", 256, 1;
     }
 }
 
