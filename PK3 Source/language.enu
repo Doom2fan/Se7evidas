@@ -117,6 +117,8 @@
     OBHELLIONFB                     = "%o was burnt by a Hellion";
     // Doggo
     OBDEMONDOG                      = "%o had %h throat torn out by a Hellhound";
+    // Mechdemon
+    OBMECHDEMON                     = "%o was devoured by a Mechdemon";
     // Black Panther
     OBBPANTHER_MELEE                = "%o had %h guts torn out and eaten by a Black Panther.";
     OBBPANTHER                      = "%o was torn apart by a Black Panther";

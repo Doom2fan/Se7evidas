@@ -85,6 +85,7 @@ SCRPSHNTRTAG                    = "Shadow Corps Hunter";
 SCRPSENFRTAG                    = "Shadow Corps Enforcer";
 HELLIONTAG                      = "Hellion";
 DEMONDOGTAG                     = "Hellhound";
+MECHDEMONTAG                    = "Mechdemon";
 BLCKPNTTAG                      = "Black Panther";
 EMPRESSTAG                      = "Empress";
 SUCCUBUSTAG                     = "Succubus";

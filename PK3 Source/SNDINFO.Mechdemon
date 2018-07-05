@@ -1,0 +1,5 @@
+Monsters/Mechdemon/Sight      "sounds/Monsters/Mechdemon/Sight.ogg"  // Credits: Id Software, Midway.
+Monsters/Mechdemon/Attack     "sounds/Monsters/Mechdemon/Attack.ogg" // Ditto.
+Monsters/Mechdemon/Pain       "sounds/Monsters/Mechdemon/Pain.ogg"   // Ditto.
+Monsters/Mechdemon/Death      "sounds/Monsters/Mechdemon/Death.ogg"  // Ditto.
+Monsters/Mechdemon/Step       "sounds/Monsters/Mechdemon/Step.ogg"   // Credits: Id Software.
