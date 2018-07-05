@@ -116,7 +116,7 @@
     // Hellion
     OBHELLIONFB                     = "%o was burnt by a Hellion";
     // Doggo
-    OBDEMONDOGFB                    = "%o had %h throat torn out by a Hellhound";
+    OBDEMONDOG                      = "%o had %h throat torn out by a Hellhound";
     // Black Panther
     OBBPANTHER_MELEE                = "%o had %h guts torn out and eaten by a Black Panther.";
     OBBPANTHER                      = "%o was torn apart by a Black Panther";
@@ -136,7 +136,8 @@
     OBTERMFLAME                     = "%o didn't realize getting anywhere near a Terminator was a bad idea";
     // Zombies
     OBSCORPSTROOPER                 = "%o was eliminated by a Shadow Corps Trooper";
-
+    OBSCORPSHUNTER                  = "%o was hunted down by a Shadow Corps Hunter";
+    OBSCORPSENFORCER                = "%o was neutralized by a Shadow Corps Enforcer";
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";

@@ -19,9 +19,9 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SeeSound "Monsters/ScorpsHunter/Sight";
         PainSound "Monsters/ScorpsHunter/Pain";
         DeathSound "Monsters/ScorpsHunter/Death";
-        Obituary "$OBSCORPSTROOPER";
+        Obituary "$OBSCORPSHUNTER";
         Species "ScorpsTrooper";
-        Tag "$SCRPSTROOTAG";
+        Tag "$SCRPSHNTRTAG";
     }
 
     S7_XPSystem xpSys;
