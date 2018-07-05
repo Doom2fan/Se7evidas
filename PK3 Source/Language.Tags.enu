@@ -82,6 +82,7 @@ FBSYSCELLS                      = "Firebrand Systems Energy Cells";
 /** Monsters **/
 SCRPSTROOTAG                    = "Shadow Corps Trooper";
 HELLIONTAG                      = "Hellion";
+DEMONDOGTAG                     = "Hellhound";
 BLCKPNTTAG                      = "Black Panther";
 EMPRESSTAG                      = "Empress";
 SUCCUBUSTAG                     = "Succubus";

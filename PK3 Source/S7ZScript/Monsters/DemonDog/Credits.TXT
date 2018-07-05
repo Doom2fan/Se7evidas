@@ -1,0 +1,6 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_DemonDog: Id Software, Captain J
+
+Sounds: Credits in the SNDINFO file
