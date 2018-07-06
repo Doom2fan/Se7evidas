@@ -62,11 +62,11 @@ class S7_Fauchard : S7_BaseWeapon {
             A_GunFlash ();
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4);
             A_FireProjectile ("S7_FauchardTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14));
-            A_SetPitch (pitch - 0.3, SPF_Interpolate);
+            S7_Recoil (-0.3);
 
             return ResolveState (null);
         }
-        LSRF B 1 A_SetPitch (pitch - 0.3, SPF_Interpolate);
+        LSRF B 1 S7_Recoil (-0.3);
         LSRF A 1;
         LSRF A 1 {
             if (invoker.halfTic) {

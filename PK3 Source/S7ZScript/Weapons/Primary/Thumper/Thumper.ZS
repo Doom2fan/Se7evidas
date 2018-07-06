@@ -171,14 +171,14 @@ class S7_Thumper : S7_BaseWeapon {
             A_GunFlash ();
 
             A_FireProjectile (projType, 0, 0, 8, -5, 0, -3.0);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 4);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4.25, 3.25);
             invoker.chambered = false;
 
-            A_SetPitch (pitch - 1.65, SPF_Interpolate);
+            S7_Recoil (-1.65);
 
             return ResolveState (null);
         }
-        THMP A      1 A_SetPitch (pitch - 1.65, SPF_Interpolate);
+        THMP A      1 S7_Recoil (-1.65);
         THMP DBCDEA 1;
         goto Ready2;
 

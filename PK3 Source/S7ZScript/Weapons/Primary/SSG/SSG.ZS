@@ -92,17 +92,17 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
             A_GunFlash ("Flash.Left");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
             for (int i = 0; i < 9; i++)
                 A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.leftLoaded = false;
 
-            A_SetPitch (pitch - 2.175, SPF_Interpolate);
+            S7_Recoil (-2.175);
 
             return ResolveState (null);
         }
-        SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate);
+        SSG5 B 1 S7_Recoil (-2.175);
         goto Ready2;
     Fire.Right:
         SSG5 A 1 {
@@ -116,17 +116,17 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
             A_GunFlash ("Flash.Right");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 2);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
             for (int i = 0; i < 9; i++)
                 A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 3, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.rightLoaded = false;
 
-            A_SetPitch (pitch - 2.175, SPF_Interpolate);
+            S7_Recoil (-2.175);
 
             return ResolveState (null);
         }
-        SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate);
+        SSG5 B 1 S7_Recoil (-2.175);
         goto Ready2;
 
     Fire.Both:
@@ -142,13 +142,13 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
             A_GunFlash ("Flash.Both");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
             for (int i = 0; i < 9; i++)
                 A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.leftLoaded = false;
 
-            A_SetPitch (pitch - 1.0875, SPF_Interpolate);
+            S7_Recoil (-1.0875);
 
             return ResolveState (null);
         }
@@ -156,15 +156,15 @@ class S7_SSG : S7_BaseWeapon {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 2);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
             for (int i = 0; i < 9; i++)
                 A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 3, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.rightLoaded = false;
 
-            A_SetPitch (pitch - 5.4375, SPF_Interpolate); // 2.175 * 2.5
+            S7_Recoil (-5.4375); // 2.175 * 2.5
         }
-        SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate);
+        SSG5 B 1 S7_Recoil (-2.175);
         SSG0 A 4;
         goto Ready2;
     Fire.Both.DryLeft:
@@ -180,9 +180,9 @@ class S7_SSG : S7_BaseWeapon {
                 A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 3, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.rightLoaded = false;
 
-            A_SetPitch (pitch - 2.175, SPF_Interpolate);
+            S7_Recoil (-2.175);
         }
-        SSG5 B 1 A_SetPitch (pitch - 2.175, SPF_Interpolate);
+        SSG5 B 1 S7_Recoil (-2.175);
         SSG0 A 4;
         goto Ready2;
     Fire.Both.DryRight:
@@ -197,13 +197,13 @@ class S7_SSG : S7_BaseWeapon {
                 A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.leftLoaded = false;
 
-            A_SetPitch (pitch - 2.175, SPF_Interpolate);
+            S7_Recoil (-2.175);
 
             return ResolveState (null);
         }
         SSG5 B 1 {
             A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
-            A_SetPitch (pitch - 2.175, SPF_Interpolate);
+            S7_Recoil (-2.175);
         }
         SSG0 A 5;
         goto Ready2;

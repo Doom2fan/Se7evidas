@@ -70,14 +70,14 @@ class S7_Shotgun : S7_BaseWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3);
             for (int i = 0; i < 18; i++)
                 A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
-            A_SetPitch (pitch - 1.45, SPF_Interpolate);
+            S7_Recoil (-1.45);
 
             return ResolveState (null);
         }
-        SSGF E 1 A_SetPitch (pitch - 1.45, SPF_Interpolate);
+        SSGF E 1 S7_Recoil (-1.45);
         SSGF E 1;
-        SSGF F 1 A_SetPitch (pitch + 0.725, SPF_Interpolate);
-        SSGR A 2 A_SetPitch (pitch + 0.725, SPF_Interpolate);
+        SSGF F 1 S7_Recoil (0.725);
+        SSGR A 2 S7_Recoil (0.725);
         goto Ready2;
 
     FireRight:
@@ -93,12 +93,12 @@ class S7_Shotgun : S7_BaseWeapon {
             for (int i = 0; i < 18; i++)
                 A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 4, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
 
-            A_SetPitch (pitch - 1.45, SPF_Interpolate);
+            S7_Recoil (-1.45);
         }
-        SSGF E 1 A_SetPitch (pitch - 1.45, SPF_Interpolate);
+        SSGF E 1 S7_Recoil (-1.45);
         SSGF E 1;
-        SSGF F 1 A_SetPitch (pitch + 0.725, SPF_Interpolate);
-        SSGR A 2 A_SetPitch (pitch + 0.725, SPF_Interpolate);
+        SSGF F 1 S7_Recoil (0.725);
+        SSGR A 2 S7_Recoil (0.725);
         goto Ready2;
 
     AltFire:
@@ -130,7 +130,7 @@ class S7_Shotgun : S7_BaseWeapon {
             for (int i = 0; i < 18; i++)
                 A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
 
-            A_SetPitch (pitch - 0.725, SPF_Interpolate);
+            S7_Recoil (-0.725);
         }
 
         SSGF D 1 {
@@ -143,13 +143,13 @@ class S7_Shotgun : S7_BaseWeapon {
             for (int i = 0; i < 18; i++)
                 A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 4, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
 
-            A_SetPitch (pitch - 2.175, SPF_Interpolate);
+            S7_Recoil (-2.175);
         }
 
-        SSGF DD 1 A_SetPitch (pitch - 1.45, SPF_Interpolate);
+        SSGF DD 1 S7_Recoil (-1.45);
         SSGF E  1;
-        SSGF F  1 A_SetPitch (pitch + 1.45, SPF_Interpolate);
-        SSGR A  2 A_SetPitch (pitch + 1.45, SPF_Interpolate);
+        SSGF F  1 S7_Recoil (1.45);
+        SSGR A  2 S7_Recoil (1.45);
         goto Ready2;
 
     FlashLeft:

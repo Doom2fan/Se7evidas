@@ -77,7 +77,7 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/HitterSMG/Fire", CHAN_Weapon);
             A_AlertMonsters ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4.25);
 
             if (random [weaponSpc] () < 3) {
                 int jamType = randomPick [weaponSpc] (0, 0, 1, 1, 2); // More likely to jam only one barrel
@@ -88,11 +88,11 @@ class S7_HitterSMG : S7_BaseWeapon {
                     invoker.lowerJammed = true;
             }
 
-            A_SetPitch (pitch - 0.6, SPF_Interpolate);
+            S7_Recoil (-0.6);
 
             return ResolveState (null);
         }
-        SR20 E  1 A_SetPitch (pitch - 0.6, SPF_Interpolate);
+        SR20 E  1 S7_Recoil (-0.6);
         SR20 D  1;
         SR20 C  1 A_Refire ("Hold");
         SR20 BA 1 A_ClearRefire;

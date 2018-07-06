@@ -73,18 +73,18 @@ class S7_TEC9 : S7_BaseWeapon {
             A_FireProjectile ("S7_TEC9Tracer", fRandom [weaponSpread] (-0.45, 0.45), 1, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
 
             if (invoker.burstFire) {
-                A_SetPitch (pitch - 0.5, SPF_Interpolate);
+                S7_Recoil (-0.5);
 
                 if ((invoker.burstCount & 1)) // Show frame D on odd shots and frame C on even shots
                     return ResolveState ("Fire.Burst2");
                 else
                     return ResolveState ("Fire.Burst1");
             } else
-                A_SetPitch (pitch - 0.25, SPF_Interpolate);
+                S7_Recoil (-0.25);
 
             return ResolveState (null);
         }
-        TEC9 D 1 A_SetPitch (pitch - 0.25, SPF_Interpolate);
+        TEC9 D 1 S7_Recoil (-0.25);
         goto Fire.End;
     Fire.Burst1:
         TEC9 C 1;

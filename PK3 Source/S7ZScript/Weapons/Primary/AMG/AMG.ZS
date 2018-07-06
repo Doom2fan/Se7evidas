@@ -183,11 +183,11 @@ class S7_AMG : S7_BaseWeapon {
             A_FireProjectile ("S7_RifleCasingSpawn", 0, 0, 8, -6);
             A_FireProjectile ("S7_AMGTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 2, 0, 0, fRandom [weaponSpread] (-0.14, 0.14));
 
-            A_SetPitch (pitch - 0.8, SPF_Interpolate);
+            S7_Recoil (-0.8);
 
             return ResolveState (null);
         }
-        AMGG B 1 A_SetPitch (pitch - 0.8, SPF_Interpolate);
+        AMGG B 1 S7_Recoil (-0.8);
         AMGG C 1 A_JumpIf (invoker.burstFire, "Fire.Burst");
         AMGG C 1 A_Refire ();
         goto Ready2;
@@ -213,15 +213,15 @@ class S7_AMG : S7_BaseWeapon {
 
             A_ZoomFactor ((invoker.zoomLevel >= 2) ? 5.9 : 3.4);
             if (invoker.burstFire)
-                A_SetPitch (pitch - ((invoker.zoomLevel >= 2) ? 0.8 : 1.0), SPF_Interpolate);
+                S7_Recoil (-((invoker.zoomLevel >= 2) ? 0.8 : 1.0));
             else
-                A_SetPitch (pitch - ((invoker.zoomLevel >= 2) ? 0.4 : 0.5), SPF_Interpolate);
+                S7_Recoil (-((invoker.zoomLevel >= 2) ? 0.4 : 0.5));
         }
         SCP1 A 1 {
             if (invoker.burstFire)
-                A_SetPitch (pitch + ((invoker.zoomLevel >= 2) ? 0.336 : 0.42), SPF_Interpolate);
+                S7_Recoil (+((invoker.zoomLevel >= 2) ? 0.336 : 0.42));
             else
-                A_SetPitch (pitch - ((invoker.zoomLevel >= 2) ? 0.4 : 0.5), SPF_Interpolate);
+                S7_Recoil (-((invoker.zoomLevel >= 2) ? 0.4 : 0.5));
         }
         SCP1 A 1 {
             A_ZoomFactor ((invoker.zoomLevel >= 2) ? 6.0 : 3.5);
@@ -229,7 +229,7 @@ class S7_AMG : S7_BaseWeapon {
             if (invoker.burstFire)
                 return ResolveState ("Fire.Zoom.Burst");
 
-            A_SetPitch (pitch + ((invoker.zoomLevel >= 2) ? 0.336 : 0.42), SPF_Interpolate);
+            S7_Recoil (+((invoker.zoomLevel >= 2) ? 0.336 : 0.42));
             return ResolveState (null);
         }
         SCP1 A 1 A_Refire ("Fire");

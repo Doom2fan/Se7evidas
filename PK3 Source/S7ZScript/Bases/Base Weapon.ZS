@@ -102,6 +102,13 @@ class S7_BaseWeapon : Weapon {
         return ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus));
     }
 
+    action void S7_Recoil (double amount) {
+        if (S7_Debug_NoRecoil)
+            return;
+
+        A_SetPitch (pitch + amount, SPF_Interpolate);
+    }
+
     states {
     DryFire:
         TNT1 A 0 {

@@ -65,11 +65,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.75, 1.75);
             A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 15, -9);
             A_FireProjectile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-0.25, 0.25), 1, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
-            A_SetPitch (pitch - 0.5, SPF_Interpolate);
+            S7_Recoil (-0.5);
 
             return ResolveState (null);
         }
-        MANX B 1 A_SetPitch (pitch - 0.5, SPF_Interpolate);
+        MANX B 1 S7_Recoil (-0.5);
         MANX C 1 A_JumpIf (invoker.semiAuto, "Fire.Semi");
         MANX A 1;
         MANX A 1 A_Refire;

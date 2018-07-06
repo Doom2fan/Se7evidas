@@ -170,18 +170,18 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 return ResolveState ("Fire.Zoomed");
 
             A_GunFlash ("Flash");
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4);
             A_FireProjectile ("S7_ConquerorRifle_Tracer", fRandom [weaponSpread] (-0.05, 0.05), 1, 6, -2, 0, fRandom [weaponSpread] (-0.06, 0.06));
 
             if (invoker.noPump)
                 A_FireProjectile ("S7_45WWCasingSpawnRifle", 0, 0, 10, -12);
 
-            A_SetPitch (pitch - 1.5);
+            S7_Recoil (-1.5);
 
             return ResolveState (null);
         }
-        CQR1 C 1 A_SetPitch (pitch - 1.75);
-        CQR1 B 1 A_SetPitch (pitch + 0.15);
+        CQR1 C 1 S7_Recoil (-1.75);
+        CQR1 B 1 S7_Recoil (0.15);
         CQR1 C 1 {
             if (invoker.noPump) {
                 if (invoker.CheckAmmo (PrimaryFire, false, true)) {
@@ -242,9 +242,9 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             else if (invoker.zoomLevel == 3)
                 A_ZoomFactor (23.7);
 
-            A_SetPitch (pitch - 1.5);
+            S7_Recoil (-1.5);
         }
-        SCP1 B 1 A_SetPitch (pitch - 1.75);
+        SCP1 B 1 S7_Recoil (-1.75);
         SCP1 B 1 {
             if (invoker.zoomLevel == 1)
                 A_ZoomFactor (5.7);
@@ -253,7 +253,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             else if (invoker.zoomLevel == 3)
                 A_ZoomFactor (23.8);
 
-            A_SetPitch (pitch + 0.15);
+            S7_Recoil (0.15);
         }
         SCP1 B 1 {
             if (invoker.noPump) {
@@ -275,7 +275,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 A_ZoomFactor (11.9);
             else if (invoker.zoomLevel == 3)
                 A_ZoomFactor (23.9);
-            A_SetPitch (pitch + 0.15);
+            S7_Recoil (0.15);
         }
 
         SCP1 BBBBB 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob);

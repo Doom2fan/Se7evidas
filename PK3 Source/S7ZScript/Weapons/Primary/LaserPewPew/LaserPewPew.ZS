@@ -143,12 +143,12 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.5, 3);
             A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2));
 
-            A_SetPitch (pitch - 0.38, SPF_Interpolate);
+            S7_Recoil (-0.38);
 
             return ResolveState (null);
         }
-        BLSG C 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
-        BLSG B 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
+        BLSG C 1 S7_Recoil (-0.07);
+        BLSG B 1 S7_Recoil (-0.07);
         BLSG A 1;
         BLSG A 1 A_Refire ("Fire");
         goto Ready2;
@@ -159,18 +159,18 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 0, -1, 0, fRandom [weaponSpread] (-0.2, 0.2));
 
             A_ZoomFactor (1.270);
-            A_SetPitch (pitch - 0.38, SPF_Interpolate);
+            S7_Recoil (-0.38);
             //A_SetAngle (angle - 0.5 * random [weaponSpc] (-1, 1), SPF_Interpolate);
 
             return ResolveState (null);
         }
         BLSG O 1 {
             A_ZoomFactor (1.2725);
-            A_SetPitch (pitch - 0.07, SPF_Interpolate);
+            S7_Recoil (-0.07);
         }
         BLSG P 1 {
             A_ZoomFactor (1.275);
-            A_SetPitch (pitch - 0.07, SPF_Interpolate);
+            S7_Recoil (-0.07);
         }
         BlSG K 1;
         BLSG K 1 A_Refire ("Fire");
@@ -362,12 +362,12 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.5, 3);
             A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2));
 
-            A_SetPitch (pitch - 0.38, SPF_Interpolate);
+            S7_Recoil (-0.38);
 
             return ResolveState (null);
         }
-        BLS2 C 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
-        BLS2 B 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
+        BLS2 C 1 S7_Recoil (-0.07);
+        BLS2 B 1 S7_Recoil (-0.07);
         BLS2 A 1;
         BLS2 A 1 A_Refire ("AkimboRight.Fire");
         goto AkimboRight.Ready;
@@ -386,12 +386,12 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 0, -6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2));
             TakeInventory ("S7_LaserPewPewClipSecond", 1);
 
-            A_SetPitch (pitch - 0.38, SPF_Interpolate);
+            S7_Recoil (-0.38);
 
             return ResolveState (null);
         }
-        BLS2 C 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
-        BLS2 B 1 A_SetPitch (pitch - 0.07, SPF_Interpolate);
+        BLS2 C 1 S7_Recoil (-0.07);
+        BLS2 B 1 S7_Recoil (-0.07);
         BLS2 A 1;
         BLS2 A 1 A_JumpIf (player.cmd.buttons & BT_ALTATTACK, "AkimboLeft.Fire");
         goto AkimboLeft.Ready;

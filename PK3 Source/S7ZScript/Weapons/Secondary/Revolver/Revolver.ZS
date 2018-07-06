@@ -57,11 +57,11 @@ class S7_Revolver : S7_BaseWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 5);
             A_FireProjectile ("S7_RevolverTracer", fRandom [weaponSpread] (-0.5, 0.5), 1, 5, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
 
-            A_SetPitch (pitch - 1.75, SPF_Interpolate);
+            S7_Recoil (-1.75);
 
             return ResolveState (null);
         }
-        RVLV D  1 A_SetPitch (pitch - 1.75, SPF_Interpolate);
+        RVLV D  1 S7_Recoil (-1.75);
         RVLV EE 1;
         RVLV FG 1;
         RVLV A  1;

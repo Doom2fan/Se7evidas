@@ -55,18 +55,18 @@ class S7_Raptor : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/Raptor/Fire", CHAN_Weapon);
             A_AlertMonsters ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 4);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 3.75);
 
             for (int i = 0; i < 2; i++) {
                 A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 7, -2);
                 A_FireProjectile ("S7_RaptorTracer", fRandom [weaponSpread] (-0.4, 0.4), 1, 5, 0, 0, fRandom [weaponSpread] (-0.4, 0.4));
             }
 
-            A_SetPitch (pitch - 0.8, SPF_Interpolate);
+            S7_Recoil (-0.8);
 
             return ResolveState (null);
         }
-        RPTN C 1 A_SetPitch (pitch - 0.8, SPF_Interpolate);
+        RPTN C 1 S7_Recoil (-0.8);
         RPTN A 3;
         RPTN A 1 {
             if (invoker.doubleTap)
