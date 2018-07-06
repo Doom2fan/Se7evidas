@@ -60,6 +60,7 @@ class S7_Revolver : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/Revolver/Fire", CHAN_Weapon);
             A_AlertMonsters ();
+            A_GunFlash ();
 
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 5);
             A_FireProjectile ("S7_RevolverTracer", fRandom [weaponSpread] (-0.5, 0.5), 1, 5, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
@@ -73,6 +74,10 @@ class S7_Revolver : S7_BaseWeapon {
         RVLV FG 1;
         RVLV A  1;
         goto Ready2;
+
+    Flash:
+        RVLF A 1 bright;
+        stop;
 
     DryFire:
         RVLV C 3 A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
