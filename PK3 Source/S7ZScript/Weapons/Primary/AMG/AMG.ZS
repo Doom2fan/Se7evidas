@@ -179,9 +179,9 @@ class S7_AMG : S7_BaseWeapon {
             if (invoker.zoomLevel >= 1)
                 return ResolveState ("Fire.Zoom");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 5);
-            A_FireProjectile ("S7_RifleCasingSpawn", 0, 0, 8, -5);
-            A_FireProjectile ("S7_AMGTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 2, 2, 0, fRandom [weaponSpread] (-0.14, 0.14));
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3.5);
+            A_FireProjectile ("S7_RifleCasingSpawn", 0, 0, 8, -6);
+            A_FireProjectile ("S7_AMGTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 2, 0, 0, fRandom [weaponSpread] (-0.14, 0.14));
 
             A_SetPitch (pitch - 0.8, SPF_Interpolate);
 
