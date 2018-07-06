@@ -1,3 +1,31 @@
-graphic ATWSKY, 1024, 256 {
+// GUI
+#include "S7TEXTURES/GUI/HUD.txt"
 
-}
+// Weapons
+#include "S7TEXTURES/Weapons/AK47.txt"
+#include "S7TEXTURES/Weapons/AMG.txt"
+#include "S7TEXTURES/Weapons/ConquerorRifle.txt"
+#include "S7TEXTURES/Weapons/Fauchard.txt"
+#include "S7TEXTURES/Weapons/Grenade.txt"
+#include "S7TEXTURES/Weapons/HitterSMG.txt"
+#include "S7TEXTURES/Weapons/LaserPewPew.txt"
+#include "S7TEXTURES/Weapons/LaserPewPewAkimbo.txt"
+#include "S7TEXTURES/Weapons/ManxCarbine.txt"
+#include "S7TEXTURES/Weapons/PlasmaGun.txt"
+#include "S7TEXTURES/Weapons/PrettyShootyIonCannonGun.txt"
+#include "S7TEXTURES/Weapons/QuickMelee.txt"
+#include "S7TEXTURES/Weapons/Raptor.txt"
+#include "S7TEXTURES/Weapons/Revolver.txt"
+#include "S7TEXTURES/Weapons/Shotgun.txt"
+#include "S7TEXTURES/Weapons/SSG.txt"
+#include "S7TEXTURES/Weapons/TEC-9.txt"
+#include "S7TEXTURES/Weapons/Thumper.txt"
+
+// Inventory
+#include "S7TEXTURES/Inventory/Turret.txt"
+
+// Monster
+#include "S7TEXTURES/Monsters/Empress.txt"
+
+// Misc
+#include "S7TEXTURES/Misc.txt"
