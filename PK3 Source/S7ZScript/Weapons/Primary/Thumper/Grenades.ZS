@@ -80,7 +80,13 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
             A_SetScale (0.43);
             A_PlaySound ("Explosions/Explosion1");
 
-            S7_ActorExtensions.A_S7SpawnShrapnel (self, 30);
+            S7_ActorExtensions.A_S7SpawnShrapnel (
+                self, fRandom [weaponSpc] (100, 150),
+                minVel: 200, maxVel: 450,
+                minMass: 10, maxMass: 25,
+                keScale: 125,
+                zOff: 2.0, flags: SXF_TransferPointers
+            );
 
             A_SetDamageType ("ExplosionSplashDMG");
             A_Explode (100, 100);
@@ -201,6 +207,11 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         initialized = true;
     }
 
+    override void OnDestroy () {
+        if (dynLight)
+            dynLight.Destroy ();
+    }
+
     states {
     Spawn:
         THGR A 1 {
@@ -273,30 +284,38 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
         Translation "112:127=200:207";
     }
 
-    const AngleDiff = 60;
-
     states {
     Loople:
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ("ExplosionSplashDMG");
-            A_Explode (70, 70);
+            A_Explode (100, 100);
 
-            int i;
             double spawnZ = 0;
             double zMul = 1;
+            double pitchMin = -22.5, pitchMax = 22.5;
 
-            if (pos.z + height >= ceilingZ) {
+            bool hitFloor = pos.z <= floorZ;
+            bool hitCeil = pos.z + height >= ceilingZ;
+
+            if (hitCeil && hitFloor) // Shouldn't really ever happen
+                pitchMin = pitchMax = 0.;
+            else if (hitCeil) {
                 spawnZ = -2;
-                zMul = -1;
-            } else if (pos.z <= floorZ)
+                pitchMin = 45;
+                pitchMax = 45 + 22.5;
+            } else if (hitFloor) {
                 spawnZ = 2;
+                pitchMin = -(5);
+                pitchMax = -(5 + 22.5);
+            }
 
-            while (i <= 360) {
-                A_SpawnItemEx ("S7_ThumperGrenadeCluster_Bomb", 0.8, fRandom [weaponSpc] (-0.025, 0.025), spawnZ,
-                    3.0, 0.0, fRandom [weaponSpc] (6.75, 7.0) * zMul, i, SXF_TransferPointers | SXF_NoCheckPosition);
-                i += AngleDiff;
+            for (int i = random [weaponSpc] (24, 32); i > 0; i--) {
+                A_SpawnProjectile ("S7_ThumperGrenadeCluster_Bomb", spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
+                    CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
+                    fRandom [weaponSpc] (pitchMin, pitchMax)
+                );
             }
 
             A_SetScale (0.43);
@@ -308,11 +327,15 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
 
 class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
     default {
-        Radius 1;
-        Height 1;
-        DamageFunction (8);
+        Radius 5;
+        Height 5;
+        Speed 30;
+        DamageFunction (0);
+
         BounceCount 2;
         BounceSound "Bounce/MetalSmall";
+
+        Scale 0.25;
 
         +BOUNCEONCEILINGS +BOUNCEONFLOORS +BOUNCEONWALLS +CANBOUNCEWATER
         +FORCEXYBILLBOARD
@@ -323,6 +346,12 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
     Spawn:
         THGR G 1;
         loop;
+    Bounce.Ceiling:
+        TNT1 A 0 {
+            bouncecount++;
+        }
+        goto Spawn;
+
     Death:
         XPL3 A         3 bright {
             bNoGravity = TRUE;
@@ -330,7 +359,7 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
             A_PlaySound ("Explosions/Explosion2", CHAN_Body, 0.25);
 
             A_SetDamageType ("ExplosionSplashDMG");
-            A_Explode (20, 20);
+            A_Explode (random [weaponSpc] (5, 6), 32, fulldamagedistance: 32);
 
             A_SetScale (0.2);
         }
@@ -347,7 +376,7 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
 class S7_ThumperGrenadeNail : S7_ThumperGrenade {
     default {
         DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 13);
-        Translation "112:127=200:207";
+        Translation "112:127=[255,255,0]:[0,0,0]";
     }
 
     const AngleDiff = 20;
@@ -357,17 +386,33 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
             A_SetDamageType ("ExplosionSplashDMG");
-            A_Explode (65, 65);
+            A_Explode (95, 95);
 
-            double projPitch = 0;
+            double spawnZ = 0;
+            double zMul = 1;
+            double pitchMin = -22.5, pitchMax = 22.5;
 
-            if (pos.z + height >= ceilingZ)
-                projPitch =  22.5;
-            else if (pos.z <= floorZ)
-                projPitch = -22.5;
+            bool hitFloor = pos.z <= floorZ;
+            bool hitCeil = pos.z + height >= ceilingZ;
 
-            for (int i = 0; i <= 360; i += AngleDiff)
-                A_SpawnProjectile ("S7_ThumperGrenadeNail_Nail", 2.2, 0, i, CMF_AimDirection | CMF_TrackOwner, projPitch);
+            if (hitCeil && hitFloor) // Shouldn't really ever happen
+                pitchMin = pitchMax = 0.;
+            else if (hitCeil) {
+                spawnZ = -2;
+                pitchMin = 45;
+                pitchMax = 45 + 22.5;
+            } else if (hitFloor) {
+                spawnZ = 2;
+                pitchMin = -(5);
+                pitchMax = -(5 + 22.5);
+            }
+
+            for (int i = random [weaponSpc] (64, 96); i > 0; i--) {
+                A_SpawnProjectile ("S7_ThumperGrenadeNail_Nail", spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
+                    CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
+                    fRandom [weaponSpc] (pitchMin, pitchMax)
+                );
+            }
 
             A_SetScale (0.43);
             A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
@@ -381,10 +426,10 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
         S7_Projectile.MovementMode FastProjectile;
         Radius 2;
         Height 2;
-        DamageFunction (fRandom [weaponDamage] (3.0, 5.0));
+        DamageFunction (fRandom [weaponDamage] (5.0, 10.0));
         Speed 1;
-        MissileType "S7_HeatSmokeStatic";
-        MissileHeight 8;
+        /*MissileType "S7_HeatSmokeStatic";
+        MissileHeight 8;*/
 
         +NOGRAVITY +BLOODSPLATTER +NOEXTREMEDEATH +NODAMAGETHRUST
         +RIPPER
@@ -392,14 +437,14 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
 
     states {
     Spawn:
-        NAIL A 5 noDelay A_ScaleVelocity (45);
+        NAIL A 5 noDelay A_ScaleVelocity (400);
     Flight:
         TNT1 A 0 A_ChangeVelocity (0.0, 0.0, -0.5);
         NAIL AA 1 A_ScaleVelocity (0.99);
         NAIL A 1;
         loop;
     Death:
-        NAIL A 500;
+        NAIL A 250;
         NAIL A 1 A_FadeOut (0.03);
         wait;
     XDeath:
@@ -434,7 +479,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             bForceRadiusDMG = true;
 
             A_SetDamageType ("NerveGas");
-            A_Explode (random [weaponDamage] (25, 30), 96, XF_HurtSource, FALSE, 80);
+            A_Explode (random [weaponDamage] (25, 30), 192, XF_HurtSource, FALSE, 80);
 
             for (int i = 0; i < 360; i += 25) {
                 A_SpawnItemEx ("S7_ThumperGrenadeNGas_GasCloud_Trail", 0.0, 0.0, 1.0,  6.0, 0.0, 0.5, i, SXF_NoCheckPosition);
@@ -448,7 +493,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             if (time <= 0)
                 return ResolveState ("Die");
 
-            A_Explode (3, 64, XF_HurtSource, FALSE, 32);
+            A_Explode (3, 128, XF_HurtSource, FALSE, 32);
             A_SpawnItemEx ("S7_ThumperGrenadeNGas_GasCloud_Trail", 0.0, 0.0, 0.25, 0.0, 0.0, 3.5, 0, SXF_NoCheckPosition);
             time--;
 
