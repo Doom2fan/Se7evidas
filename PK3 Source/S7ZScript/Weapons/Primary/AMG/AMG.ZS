@@ -39,30 +39,13 @@ class S7_AMG : S7_BaseWeapon {
     Spawn:
         AMGG Z -1;
         stop;
-    Deselect:
-        AMGG A 0 {
-            A_SetCrosshair (0);
-            invoker.burstCount = 0;
-
-            if (invoker.zoomLevel >= 1)
-                return ResolveState ("Deselect.Zoom");
-
-            return ResolveState (null);
-        }
-        goto Super::Deselect;
-    Deselect.Zoom:
-        AMGG A 8 {
-            invoker.zoomLevel = 0;
-            A_SetBlend ("00 00 00", 1.0, 8);
-            A_ZoomFactor (1.0, ZOOM_Instant);
-        }
-        goto Deselect;
 
     Ready:
         TNT1 A 0 {
             invoker.burstCount = 0;
             invoker.zoomLevel = 0;
         }
+        AMGG TUVWXA 1;
     Ready2:
         AMGG A 0 A_JumpIf (invoker.zoomLevel >= 1, "Ready2.Zoom");
         goto Ready2.DoStuff;
@@ -91,6 +74,26 @@ class S7_AMG : S7_BaseWeapon {
     Ready2.HoldingZoom:
         #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
         goto Ready2;
+
+    Deselect:
+        AMGG A 0 {
+            A_SetCrosshair (0);
+            invoker.burstCount = 0;
+
+            if (invoker.zoomLevel >= 1)
+                return ResolveState ("Deselect.Zoom");
+
+            return ResolveState (null);
+        }
+        AMGG AXWVUT 1;
+        goto TrueDeselect;
+    Deselect.Zoom:
+        AMGG A 8 {
+            invoker.zoomLevel = 0;
+            A_SetBlend ("00 00 00", 1.0, 8);
+            A_ZoomFactor (1.0, ZOOM_Instant);
+        }
+        goto Deselect;
 
     QuickMeleeDerp:
         TNT1 A 0 {

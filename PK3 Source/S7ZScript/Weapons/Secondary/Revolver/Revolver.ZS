@@ -31,6 +31,8 @@ class S7_Revolver : S7_BaseWeapon {
         loop;
 
     Ready:
+        RVLS ABCDE 1;
+        RVLV A     1;
     Ready2:
         RVLV A 1 {
             if (CheckInventory ("S7_Reloading", 1))
@@ -44,6 +46,11 @@ class S7_Revolver : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        RVLV A     1;
+        RVLS EDCBA 1;
+        goto TrueDeselect;
 
     Fire:
         RVLV AABB 1;

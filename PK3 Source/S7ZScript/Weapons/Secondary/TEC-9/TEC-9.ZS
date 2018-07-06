@@ -41,6 +41,7 @@ class S7_TEC9 : S7_BaseWeapon {
         loop;
 
     Ready:
+        TEC9 TUVWXA 1;
     Ready2:
         TEC9 A 1 {
             invoker.burstCount = 0;
@@ -57,6 +58,10 @@ class S7_TEC9 : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        TEC9 AXWVUT 1;
+        goto TrueDeselect;
 
     Fire:
         TEC9 B 1;

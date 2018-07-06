@@ -33,6 +33,7 @@ class S7_Shotgun : S7_BaseWeapon {
         stop;
 
     Ready:
+        SSGR VWXYZA 1;
     Ready2:
         SSGR A 1 {
             if (CheckInventory ("S7_Reloading", 1))
@@ -46,6 +47,10 @@ class S7_Shotgun : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        SSGR AZYXWV 1;
+        goto TrueDeselect;
 
     Fire:
         SSGF E 1 {

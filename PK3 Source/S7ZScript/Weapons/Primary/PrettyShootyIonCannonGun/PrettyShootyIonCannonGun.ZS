@@ -26,9 +26,10 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         stop;
 
     Ready:
-        TNT1 A 0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        TNT1 A      0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        PIC1 TUVWXA 1;
     Ready2:
-        PIC1 AAAAAAAAAAAABBCCDDEEFFFFFEEDDCCBB 1 {
+        PIC1 AAAAAAAAAAAABBCCDDEEFFGGGGGFFEEDDCCBB 1 {
             if (CheckInventory ("S7_Reloading", 1))
                 return ResolveState ("Reload");
             if (CheckInventory ("S7_DoMelee", 1))
@@ -42,6 +43,10 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        PIC1 AXWVUT 1;
+        goto TrueDeselect;
 
     Reload:
         PIC1 A 5 TakeInventory ("S7_Reloading", 1);
@@ -66,11 +71,11 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 C        1 offset (4, 36);
         PIC1 D        1 offset (2, 34);
         TNT1 A        0 A_WeaponReady (WRF_DisableSwitch | WRF_DisableSwitch | WRF_NoFire);
-        PIC1 EF       1;
-        PIC1 FFFFFFFF 2 A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
-        PIC1 FFFFFFFF 2 A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
-        PIC1 F        4;
-        PIC1 EDCBA    2;
+        PIC1 EFG      1;
+        PIC1 GGGGGGGG 2 A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 GGGGGGGG 2 A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 G        4;
+        PIC1 FEDCBA   2;
         PIC1 A        5;
         goto Ready2;
 

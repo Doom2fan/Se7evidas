@@ -39,6 +39,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         loop;
 
     Ready:
+        MANX TUVWXA 1;
     Ready2:
         MANX A 1 {
             if (CheckInventory ("S7_Reloading", 1))
@@ -53,6 +54,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        MANX AXWVUT 1;
+        goto TrueDeselect;
 
     Fire:
         MANX A 1 {

@@ -33,6 +33,7 @@ class S7_Raptor : S7_BaseWeapon {
         loop;
 
     Ready:
+        RPTN VWXYZA 1;
     Ready2:
         RPTN A 1 {
             if (CheckInventory ("S7_Reloading", 1))
@@ -47,6 +48,10 @@ class S7_Raptor : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        RPTN AZYXWV 1;
+        goto TrueDeselect;
 
     Fire:
         RPTN B 1 bright {

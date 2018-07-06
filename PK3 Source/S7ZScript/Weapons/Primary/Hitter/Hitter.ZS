@@ -33,6 +33,8 @@ class S7_HitterSMG : S7_BaseWeapon {
         loop;
 
     Ready:
+        SR2S ABCDE 1;
+        SR20 A     1;
     Ready2:
         SR20 A 1 {
             if (CheckInventory ("S7_Reloading", 1))
@@ -45,6 +47,11 @@ class S7_HitterSMG : S7_BaseWeapon {
             return ResolveState (null);
         }
         loop;
+
+    Deselect:
+        SR20 A     1;
+        SR2S EDCBA 1;
+        goto TrueDeselect;
 
     Fire:
         SR20 A 1 A_JumpIf (!CheckInventory (invoker.ammoType1, 2), "DryFire");

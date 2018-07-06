@@ -267,3 +267,37 @@ sprite "AK42M0", 195, 91 {
     patch "graphics/Weapons/AK47/Frame1.png", 26, 0
     patch "graphics/Weapons/AK47/Part1.png", 28, 10
 }
+
+// Selection
+sprite "AK4SA0", 139, 19 {
+    offset -168, -149
+    patch "graphics/Weapons/AK47/Frame1.png", 95, 0
+    patch "graphics/Hands/Hand-006.png", -26, 10
+}
+
+sprite "AK4SB0", 157, 43 {
+    offset -174, -125
+    patch "graphics/Weapons/AK47/Frame1.png", 68, 0
+    patch "graphics/Hands/Hand-006.png", -23, 21
+}
+
+sprite "AK4SC0", 162, 67 {
+    offset -175, -101
+    patch "graphics/Weapons/AK47/Part2.png", 77, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 43, 0
+    patch "graphics/Hands/Hand-006.png", -18, 28
+}
+
+sprite "AK4SD0", 157, 91 {
+    offset -175, -85
+    patch "graphics/Weapons/AK47/Part2.png", 61, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 27, 0
+    patch "graphics/Hands/Hand-006.png", -15, 26
+}
+
+sprite "AK4SE0", 156, 91 {
+    offset -168, -77
+    patch "graphics/Hands/Hand-006.png", -6, 19
+    patch "graphics/Weapons/AK47/Part2.png", 60, 65
+    patch "graphics/Weapons/AK47/Frame1.png", 26, 0
+}

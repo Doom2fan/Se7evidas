@@ -43,7 +43,8 @@ class S7_AK47 : S7_BaseWeapon {
         loop;
 
     Ready:
-        //AK47 VWXYZA 1;
+        AK4S ABCDE 1;
+        AK47 A     1;
     Ready2:
         AK47 A 1 {
             if (CheckInventory ("S7_Reloading", 1))
@@ -77,9 +78,9 @@ class S7_AK47 : S7_BaseWeapon {
         goto Ready2;
 
     Deselect:
-        //AK47 A     1;
-        //AK47 ZYXWV 1;
-        goto Super::Deselect;
+        AK47 A     1;
+        AK4S EDCBA 1;
+        goto TrueDeselect;
 
     Fire:
         AK47 A 1 {

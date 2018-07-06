@@ -1,3 +1,30 @@
+// Selection
+sprite "AMGGT0", 119, 104 {
+    offset -213, -152
+    patch "AMGGA0", 0, 0
+}
+
+sprite "AMGGU0", 119, 104 {
+    offset -197, -136
+    patch "AMGGA0", 0, 0
+}
+
+sprite "AMGGV0", 119, 104 {
+    offset -181, -120
+    patch "AMGGA0", 0, 0
+}
+
+sprite "AMGGW0", 119, 104 {
+    offset -165, -104
+    patch "AMGGA0", 0, 0
+}
+
+sprite "AMGGX0", 119, 104 {
+    offset -149, -88
+    patch "AMGGA0", 0, 0
+}
+
+// Firing
 sprite "AMGGB0", 119, 104 {
     offset -145, -84
     patch "AMGGA0", 0, 0
@@ -8,6 +35,7 @@ sprite "AMGGC0", 119, 104 {
     patch "AMGGA0", 0, 0
 }
 
+// Reloading
 sprite "AMGRA0", 119, 104 {
     offset -145, -76
     patch "AMGGA0", 0, 0

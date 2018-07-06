@@ -1,3 +1,40 @@
+// Selection
+sprite "SR2SA0", 83, 95 {
+    offset -262, -163
+    patch "graphics/Weapons/HitterSMG/Part1.png", 0, 0
+    patch "graphics/Hands/Hand-004.png", 4, 41
+    patch "graphics/Weapons/HitterSMG/Part2.png", 23, 14
+}
+
+sprite "SR2SB0", 83, 95 {
+    offset -246, -147
+    patch "graphics/Weapons/HitterSMG/Part1.png", 0, 0
+    patch "graphics/Hands/Hand-004.png", 4, 41
+    patch "graphics/Weapons/HitterSMG/Part2.png", 23, 14
+}
+
+sprite "SR2SC0", 83, 95 {
+    offset -222, -123
+    patch "graphics/Weapons/HitterSMG/Part1.png", 0, 0
+    patch "graphics/Hands/Hand-004.png", 4, 41
+    patch "graphics/Weapons/HitterSMG/Part2.png", 23, 14
+}
+
+sprite "SR2SD0", 83, 95 {
+    offset -198, -99
+    patch "graphics/Weapons/HitterSMG/Part1.png", 0, 0
+    patch "graphics/Hands/Hand-004.png", 4, 41
+    patch "graphics/Weapons/HitterSMG/Part2.png", 23, 14
+}
+
+sprite "SR2SE0", 83, 95 {
+    offset -182, -83
+    patch "graphics/Weapons/HitterSMG/Part1.png", 0, 0
+    patch "graphics/Hands/Hand-004.png", 4, 41
+    patch "graphics/Weapons/HitterSMG/Part2.png", 23, 14
+}
+
+// ???
 sprite SR20A0, 320, 200 {
     patch "graphics/Weapons/HitterSMG/Part1.png", 174, 75
     patch "graphics/Hands/Hand-004.png", 178, 116

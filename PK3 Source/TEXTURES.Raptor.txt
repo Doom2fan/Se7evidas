@@ -1,3 +1,29 @@
+// Selection
+sprite "RPTNV0", 91, 86 {
+    offset -262, -162
+    patch "RPTNA0", 0, 0
+}
+
+sprite "RPTNW0", 91, 86 {
+    offset -246, -146
+    patch "RPTNA0", 0, 0
+}
+
+sprite "RPTNX0", 91, 86 {
+    offset -230, -130
+    patch "RPTNA0", 0, 0
+}
+
+sprite "RPTNY0", 91, 86 {
+    offset -214, -114
+    patch "RPTNA0", 0, 0
+}
+
+sprite "RPTNZ0", 91, 86 {
+    offset -196, -96
+    patch "RPTNA0", 0, 0
+}
+
 // Fire
 sprite RPTNB0, 91, 86 {
     offset -185, -86

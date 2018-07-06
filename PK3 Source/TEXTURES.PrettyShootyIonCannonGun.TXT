@@ -1,41 +1,74 @@
+// Idle
 Sprite PIC1A0, 234, 105
 {
     Offset -115, -63
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
-    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part1.png", 87, 0
 }
 
 Sprite PIC1B0, 234, 105
 {
     Offset -115, -63
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
-    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part2.png", 87, 0
+    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part1.png", 87, 0
 }
 
 Sprite PIC1C0, 234, 105
 {
     Offset -115, -63
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
-    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part3.png", 87, 0
+    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part2.png", 87, 0
 }
 
 Sprite PIC1D0, 234, 105
 {
     Offset -115, -63
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
-    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part4.png", 87, 0
+    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part3.png", 87, 0
 }
 
 Sprite PIC1E0, 234, 105
 {
     Offset -115, -63
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
-    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part5.png", 87, 0
+    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part4.png", 87, 0
 }
 
 Sprite PIC1F0, 234, 105
 {
     Offset -115, -63
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
+    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part5.png", 87, 0
+}
+
+Sprite PIC1G0, 234, 105
+{
+    Offset -115, -63
+    Patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
     Patch "graphics/Weapons/PrettyShootyIonCannonGun/Part6.png", 87, 0
+}
+
+// Selection
+sprite "PIC1T0", 234, 105 {
+    offset -203, -151
+    patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
+}
+
+sprite "PIC1U0", 234, 105 {
+    offset -179, -127
+    patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
+}
+
+sprite "PIC1V0", 234, 105 {
+    offset -155, -103
+    patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
+}
+
+sprite "PIC1W0", 234, 105 {
+    offset -139, -87
+    patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
+}
+
+sprite "PIC1X0", 234, 105 {
+    offset -123, -71
+    patch "graphics/Weapons/PrettyShootyIonCannonGun/Frame1.png", 0, 0
 }
