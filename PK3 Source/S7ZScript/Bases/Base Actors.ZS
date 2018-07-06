@@ -230,20 +230,7 @@ class S7_Projectile_Trace : LineTracer {
                     if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
                         return TRACE_Skip;
 
-                    if (sourceActor.bRipper && S7_ActorExtensions.CanRip (mo, sourceActor)) {
-                        for (int i = 0; i < actorsToRipThrough.Size (); i++) {
-                            if (actorsToRipThrough [i].mo == mo)
-                                return TRACE_Skip;
-                        }
-
-                        let ripHit = new ("S7_Projectile_Trace_RipHit");
-                        ripHit.hitPos = Results.HitPos;
-                        ripHit.mo = mo;
-                        actorsToRipThrough.Push (ripHit);
-
-                        return TRACE_Skip;
-                    } else
-                        return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
+                    return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
                 } else
                     return TRACE_Skip;
             break;
@@ -385,37 +372,6 @@ class S7_Projectile : FastProjectile {
         }
     }
 
-    virtual void DoRipping () {
-        if (!bRipper || !tr)
-            return;
-
-        Array<S7_Projectile_Trace_RipHit> ripActors;
-        ripActors.Clear ();
-        ripActors.Copy (tr.actorsToRipThrough);
-        tr.actorsToRipThrough.Clear ();
-
-        Vector3 realPos = pos;
-
-        for (int i = 0; i < ripActors.Size (); i++) {
-            let ripHit = ripActors [i];
-
-            if (!ripHit || !ripHit.mo)
-                continue;
-            if (ripHit.mo == target) // Don't rip our own shooter.
-                continue;
-
-            SetOrigin (ripHit.hitPos, false);
-            TryMove (ripHit.hitPos.XY, true, false);
-
-            if (ripHit)
-                ripHit.Destroy ();
-
-            SetOrigin (realPos, false);
-        }
-
-        SetOrigin (realPos, false);
-    }
-
     static const double FPColOffs [] = { // Y and Z, not X and Y.
         // Edge centers
          0, 1.0,
@@ -500,8 +456,6 @@ class S7_Projectile : FastProjectile {
                     break;
             }
 
-            DoRipping ();
-
             if (!collisionHandled)
                 SetOrigin (pos + vel, true);
             TryMove (pos.xy, true, false);
@@ -577,8 +531,7 @@ class S7_Projectile : FastProjectile {
                     if (pos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
                         // Hack to prevent missiles exploding against the sky.
                         // Does not handle sky floors.
-                        SpawnEffects (oldPos, tr.Results.Distance, oldVel); 
-                        DoRipping ();
+                        SpawnEffects (oldPos, tr.Results.Distance, oldVel);
 
                         Destroy ();
 
@@ -589,7 +542,6 @@ class S7_Projectile : FastProjectile {
                 // [RH] Don't explode on horizon lines.
                 if (l && l.special == Line_Horizon) {
                     SpawnEffects (oldPos, tr.Results.Distance, oldVel);
-                    DoRipping ();
 
                     Destroy ();
 
@@ -598,7 +550,6 @@ class S7_Projectile : FastProjectile {
             } else if ((tr.Results.HitType == TRACE_HitFloor && floorpic == skyflatnum) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingpic == skyflatnum)) {
                 SpawnEffects (oldPos, tr.Results.Distance, oldVel);
-                DoRipping ();
 
                 Destroy ();
 
@@ -621,7 +572,10 @@ class S7_Projectile : FastProjectile {
         bool floorHit = (rHitPos.Z <= realFloorZ || rHitPos.Z ~== realFloorZ);
         bool ceilingHit = (rHitPos.Z + height) > realCeilingZ;
 
-        if (!TryMove (hitPos.XY + (double.epsilon * 3, double.epsilon * 3), true)) {
+        FCheckPosition tm;
+        tm.DoRipping = bRipper;
+
+        if (!TryMove (hitPos.XY + (double.epsilon * 3, double.epsilon * 3), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
             bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
