@@ -199,14 +199,9 @@ class S7_WallCheckPuff : S7_TraceTestPuff {
 // Projectile base
 //
 //-------------------------------------------------------------------------------------------
-class S7_Projectile_Trace_RipHit {
-    Vector3 hitPos;
-    Actor mo;
-}
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
     Array<Actor> actorsToIgnore;
-    Array<S7_Projectile_Trace_RipHit> actorsToRipThrough;
     
     override ETraceStatus TraceCallback () {
         /*if (!sourceActor)
