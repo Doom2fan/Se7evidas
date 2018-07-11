@@ -102,11 +102,27 @@ class S7_BaseWeapon : Weapon {
         return ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus));
     }
 
-    action void S7_Recoil (double amount) {
+    S7_XPSystem GetOwnerXPSystem () {
+        if (!Owner || !(Owner is "S7_BasePlayer"))
+            return null;
+
+        let xpSystem = S7_XPSystem (Owner.FindInventory ("S7_XPSystem", true));
+
+        if (!xpSystem)
+            return null;
+
+        return xpSystem;
+    }
+
+    virtual void V_S7_Recoil (double amount) {
         if (S7_Debug_NoRecoil)
             return;
 
-        A_SetPitch (pitch + amount, SPF_Interpolate);
+        Owner.A_SetPitch (Owner.pitch + amount, SPF_Interpolate);
+    }
+
+    action void S7_Recoil (double amount) {
+        invoker.V_S7_Recoil (amount);
     }
 
     states {
