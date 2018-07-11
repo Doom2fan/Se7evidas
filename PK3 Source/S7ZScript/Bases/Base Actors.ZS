@@ -395,7 +395,6 @@ class S7_Projectile : FastProjectile {
         if (vel != (0, 0, 0) || (pos.Z != floorz)) {
             if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
             tr.actorsToIgnore.Clear ();
-            tr.actorsToRipThrough.Clear ();
 
             if (bMissile && vel.X == 0 && vel.Y == 0 && !IsZeroDamage ())
                 vel.X = MinVel;
