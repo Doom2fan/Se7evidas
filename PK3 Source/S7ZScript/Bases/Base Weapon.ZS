@@ -102,6 +102,10 @@ class S7_BaseWeapon : Weapon {
         return ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus));
     }
 
+    double ConvWeapRecoil (double amount, double strengthStat) const {
+        return amount * (1 - clamp ((log10 (strengthStat) / 5) + (.000035 * (strengthStat**2)), 0., .75));
+    }
+
     S7_XPSystem GetOwnerXPSystem () {
         if (!Owner || !(Owner is "S7_BasePlayer"))
             return null;
@@ -117,6 +121,11 @@ class S7_BaseWeapon : Weapon {
     virtual void V_S7_Recoil (double amount) {
         if (S7_Debug_NoRecoil)
             return;
+
+        let xpSys = GetOwnerXPSystem ();
+
+        if (xpSys)
+            amount = ConvWeapRecoil (amount, xpSys.GetStat (S7Stat_Strength / 3));
 
         Owner.A_SetPitch (Owner.pitch + amount, SPF_Interpolate);
     }
