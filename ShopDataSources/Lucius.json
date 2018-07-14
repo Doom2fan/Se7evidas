@@ -115,6 +115,7 @@
                     "buyPrice": 700,
                     "buyAmount": 1,
                     "sellPrice": 350,
+                    "sellAmount": 1,
                     "global": true
                 },
                 {
@@ -128,6 +129,7 @@
                     "buyPrice": 400,
                     "buyAmount": 1,
                     "sellPrice": 200,
+                    "sellAmount": 1,
                     "global": true
                 }
             ]
@@ -251,8 +253,8 @@
                     "itemType": "buySellItem",
                     "buyPrice": 240,
                     "buyAmount": 30,
-                    "sellPrice": 120,
-                    "sellAmount": 30,
+                    "sellPrice": 4,
+                    "sellAmount": 1,
                     "global": true
                 },
                 {
@@ -265,8 +267,8 @@
                     "itemType": "buySellItem",
                     "buyPrice": 386,
                     "buyAmount": 62,
-                    "sellPrice": 193,
-                    "sellAmount": 62,
+                    "sellPrice": 3,
+                    "sellAmount": 1,
                     "global": true
                 },
                 {
@@ -279,8 +281,8 @@
                     "itemType": "buySellItem",
                     "buyPrice": 150,
                     "buyAmount": 6,
-                    "sellPrice": 75,
-                    "sellAmount": 6,
+                    "sellPrice": 12,
+                    "sellAmount": 1,
                     "global": true
                 },
                 {
@@ -293,8 +295,8 @@
                     "itemType": "buySellItem",
                     "buyPrice": 613,
                     "buyAmount": 35,
-                    "sellPrice": 307,
-                    "sellAmount": 35,
+                    "sellPrice": 9,
+                    "sellAmount": 1,
                     "global": true
                 },
                 {
@@ -307,8 +309,8 @@
                     "itemType": "buySellItem",
                     "buyPrice": 200,
                     "buyAmount": 10,
-                    "sellPrice": 100,
-                    "sellAmount": 10,
+                    "sellPrice": 10,
+                    "sellAmount": 1,
                     "global": true
                 }
             ]
