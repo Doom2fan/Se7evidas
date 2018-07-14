@@ -275,14 +275,14 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
             if (itemsList && itemsList.curPage) {
                 if (itemsList.curPage.cashLabelFormat != "")
-                    formatStr = itemsList.curPage.cashLabelFormat;
+                    formatStr = StringTable.Localize (itemsList.curPage.cashLabelFormat, true);
                 if (itemsList.curPage.cashTypeShown != "")
                     cashInv = itemsList.curPage.cashTypeShown;
             }
 
             if (shopData) {
                 if (shopData.cashLabelFormat != "" && formatStr == "")
-                    formatStr = shopData.cashLabelFormat;
+                    formatStr = StringTable.Localize (shopData.cashLabelFormat, true);
                 if (shopData.cashTypeShown != "" && cashInv == "")
                     cashInv = shopData.cashTypeShown;
             }

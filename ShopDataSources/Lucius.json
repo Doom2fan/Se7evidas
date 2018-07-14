@@ -1,7 +1,7 @@
 {
     "intName": "mainShop",
     "name": "$SS_MAINSHOP",
-    "cashLabelFormat": "%d credits",
+    "cashLabelFormat": "$SS_CASHFORMAT",
     "cashTypeShown": "S7_Cash",
     "mainPage": "mainPage",
     "defCashItem": "S7_Cash",

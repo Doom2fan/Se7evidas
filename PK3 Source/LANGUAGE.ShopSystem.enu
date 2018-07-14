@@ -6,6 +6,7 @@ SS_SELLBUTTON                   = "Sell";
 SS_CANCELBUTTON                 = "Cancel";
 SS_SELLTTIP                     = "Press the Tab key to toggle between the buy and sell modes.";
 
+SS_CASHFORMAT                   = "%d credits";
 SS_TOTAL                        = "Total amount";
 SS_COUNT                        = "Count";
 SS_PRICE                        = "Price";
