@@ -631,7 +631,7 @@
                     "name": "$SS_HANDGRENADES",
                     "desc": "$SS_HANDGRENADEDESC",
                     "info": "$SS_HANDGRENADEINFO",
-                    "icon": "sprites/Weapons/Throwables/Grenade/TGRNZ0.png",
+                    "icon": "graphics/Menu/Shop/Icons/HandGrenades.png",
                     "inventoryName": "S7_GrenadeCount",
                     "itemType": "buySellItem",
                     "buyPrice": 200,
