@@ -16,6 +16,13 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
             link.SetAmount (-1);
     }
 
+    override void buttonHeldCommand (S7_ZF_Button caller, string command) {
+        if (command == "Add")
+            link.SetAmount (1);
+        else if (command == "Dec")
+            link.SetAmount (-1);
+    }
+
     void BuyItem () {
         S7_SSItem item = link.selectedItem;
 
@@ -87,10 +94,10 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             "", smallFont, false, false, 1, Font.CR_WHITE);
         priceLabel.Pack (self);
 
-        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", cmdHandler: handler, command: "Add", fnt: smallFont);
+        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", cmdHandler: handler, command: "Add", fnt: smallFont, holdInterval: 3);
         addButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         addButton.Pack (self);
-        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", cmdHandler: handler, command: "Dec", fnt: smallFont);
+        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", cmdHandler: handler, command: "Dec", fnt: smallFont, holdInterval: 3);
         decButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         decButton.Pack (self);
 
@@ -168,8 +175,11 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
     void SetAmount (int addAmount) {
         amount += addAmount;
 
+        let pPawn = S7_BasePlayer (link.CPlayer.mo);
         if (info && amount > info.maxAmount)
             amount = info.maxAmount;
+        if (sellMode && selectedItem && amount > selectedItem.GetAmount (pPawn))
+            amount = selectedItem.GetAmount (pPawn);
         if (amount < 1)
             amount = 1;
 
