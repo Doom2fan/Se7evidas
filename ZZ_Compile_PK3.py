@@ -233,7 +233,7 @@ def compile_release (outDir = None, relComp = None):
     tmpDir = mkdtemp ()
 
     try:
-        compile_pk3 (os.path.join (tmpDir, "Se7evidas.pk3"))
+        compile_pk3 (tmpDir)
         for tup in additionalFiles:
             if (len (tup) == 2):
                 dstName = tup [1]
