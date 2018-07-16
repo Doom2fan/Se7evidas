@@ -150,18 +150,19 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         itemName.box.size = (smallFont.StringWidth (itemName.text), smallFont.GetHeight ());
         itemName.box.pos =
             (8 + texSize.X + ((texSize.X > 0) ? 4 : 0),
-             itemIcon.box.pos.Y + (texSize.Y > 0 ? (texSize.Y - smallFont.GetHeight ()) / 2 : 0)
+             itemIcon.box.pos.Y //+ (texSize.Y > 0 ? (texSize.Y - smallFont.GetHeight ()) / 2 : 0)
         );
 
-        let actualBox = ((texSize.X > 0 && texSize.Y > 0) ? itemIcon.box : itemName.box);
+        let actualBox = itemName.box; //((texSize.X > 0 && texSize.Y > 0) ? itemIcon.box : itemName.box);
+        double xCoords = actualBox.pos.X; //8;
         if (info && info.maxAmount != 1) {
-            selAmount.box.pos = (8, (actualBox.pos.Y + actualBox.size.Y) + 2);
-            totalAmount.box.pos = (8, (selAmount.box.pos.Y + selAmount.box.size.Y) + 2);
-            priceLabel.box.pos = (8, (totalAmount.box.pos.Y + totalAmount.box.size.Y) + 2);
+            selAmount.box.pos = (xCoords, (actualBox.pos.Y + actualBox.size.Y) + 2);
+            totalAmount.box.pos = (xCoords, (selAmount.box.pos.Y + selAmount.box.size.Y) + 2);
+            priceLabel.box.pos = (xCoords, (totalAmount.box.pos.Y + totalAmount.box.size.Y) + 2);
             selAmount.hidden = totalAmount.hidden = false;
         } else {
             selAmount.hidden = totalAmount.hidden = true;
-            priceLabel.box.pos = (8, (actualBox.pos.Y + actualBox.size.Y) + 4);
+            priceLabel.box.pos = (xCoords, (actualBox.pos.Y + actualBox.size.Y) + 4);
         }
 
         addButton.box.pos = ((selAmount.box.pos.X + selAmount.box.size.X) + 4, selAmount.box.pos.Y - 1);
