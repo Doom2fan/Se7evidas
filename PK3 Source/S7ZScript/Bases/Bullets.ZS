@@ -232,8 +232,8 @@ class S7_ConquerorRifle_Tracer : S7_BulletTracer {
 /*** Secondary ***/
 class S7_RaptorTracer : S7_BulletTracer {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.5, 3.0) * 5);
-        S7_BaseTracer.TrueSpeed 160;
+        DamageFunction (fRandom [weaponDamage] (2.0, 3.0) * 6);
+        S7_BaseTracer.TrueSpeed 175;
         DamageType "PistolTracer";
     }
 }

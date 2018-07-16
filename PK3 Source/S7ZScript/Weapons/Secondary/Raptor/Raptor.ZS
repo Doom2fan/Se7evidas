@@ -25,8 +25,6 @@ class S7_Raptor : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
-    bool doubleTap;
-
     states {
     Spawn:
         RPTP A -1;
@@ -42,7 +40,6 @@ class S7_Raptor : S7_BaseWeapon {
                 return ResolveState ("QuickMelee");
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
 
-            invoker.doubleTap = false;
             A_WeaponReady ();
 
             return ResolveState (null);
@@ -72,16 +69,9 @@ class S7_Raptor : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        RPTN C 1 S7_Recoil (-0.8);
-        RPTN A 3;
-        RPTN A 1 {
-            if (invoker.doubleTap)
-                return;
-
-            invoker.doubleTap = true;
-            A_Refire ();
-        }
-        RPTN A 6 A_ClearRefire;
+        RPTN C    1 S7_Recoil (-0.8);
+        RPTN A    1;
+        RPTN AAAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 
     AltFire:
@@ -100,8 +90,6 @@ class S7_Raptor : S7_BaseWeapon {
     DryFire:
         RPTN A 3 {
             A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
-            A_ClearRefire ();
-            invoker.doubleTap = false;
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
