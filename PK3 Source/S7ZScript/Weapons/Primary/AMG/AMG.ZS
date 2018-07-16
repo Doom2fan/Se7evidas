@@ -25,9 +25,11 @@ class S7_AMG : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
+    const BASEZOOMFACTOR = 3.5;
     bool burstFire;
-    int burstCount,
-        zoomLevel;
+    int  burstCount;
+    bool   zoomed;
+    double zoomLevel;
 
     override void DoEffect () {
         Super.DoEffect ();
@@ -43,11 +45,11 @@ class S7_AMG : S7_BaseWeapon {
     Ready:
         TNT1 A 0 {
             invoker.burstCount = 0;
-            invoker.zoomLevel = 0;
+            invoker.zoomed = false;
         }
         AMGG TUVWXA 1;
     Ready2:
-        AMGG A 0 A_JumpIf (invoker.zoomLevel >= 1, "Ready2.Zoom");
+        AMGG A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
         goto Ready2.DoStuff;
     Ready2.Zoom:
         SCP1 A 0;
@@ -55,7 +57,7 @@ class S7_AMG : S7_BaseWeapon {
     Ready2.DoStuff:
         #### # 1 {
             invoker.burstCount = 0;
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
 
             if (CheckInventory ("S7_Reloading", 1))
@@ -65,14 +67,14 @@ class S7_AMG : S7_BaseWeapon {
             if (CheckInventory ("S7_ChangeFireMode", 1))
                 return ResolveState ("ChangeMode");
 
-            A_WeaponReady (WRF_AllowZoom | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
+            A_WeaponReady (WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
 
             return ResolveState (null);
         }
         #### # 0 TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
+        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
         goto Ready2;
 
     Deselect:
@@ -80,7 +82,7 @@ class S7_AMG : S7_BaseWeapon {
             A_SetCrosshair (0);
             invoker.burstCount = 0;
 
-            if (invoker.zoomLevel >= 1)
+            if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");
 
             return ResolveState (null);
@@ -89,7 +91,7 @@ class S7_AMG : S7_BaseWeapon {
         goto TrueDeselect;
     Deselect.Zoom:
         AMGG A 8 {
-            invoker.zoomLevel = 0;
+            invoker.zoomed = false;
             A_SetBlend ("00 00 00", 1.0, 8);
             A_ZoomFactor (1.0, ZOOM_Instant);
         }
@@ -99,7 +101,7 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 A 0 {
             TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
 
-            if (invoker.zoomLevel >= 1)
+            if (invoker.zoomed)
                 return ResolveState ("Ready2");
 
             return ResolveState (null);
@@ -107,44 +109,64 @@ class S7_AMG : S7_BaseWeapon {
         goto QuickMelee;
 
     Zoom:
+        #### ######## 1 {
+            if (!invoker.zoomed || !(player.cmd.buttons & BT_ZOOM))
+                return ResolveState ("DoZoom");
+
+            if (player.cmd.buttons & BT_ATTACK || player.cmd.buttons & BT_ALTATTACK)
+                return ResolveState ("ChangeZoomLevel");
+
+            return ResolveState (null);
+        }
+        goto ChangeZoomLevel;
+    DoZoom:
         #### # 1 A_JumpIf (CheckInventory ("S7_HoldingZoom", 1), "Ready2.HoldingZoom");
         SCP1 A 8 {
             GiveInventory ("S7_HoldingZoom", 1);
 
-            if (invoker.zoomLevel > 0 && CheckInventory ("S7_ChangeFireMode", 1)) {
-                TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
-                return ResolveState ("ToggleZoomLevel");
-            }
-
-            if (invoker.zoomLevel == 0) {
-                invoker.zoomLevel = 1;
+            if (!invoker.zoomed) {
+                invoker.zoomed = true;
                 A_SetCrosshair (99);
                 A_SetBlend ("00 00 00", 1.0, 8);
-                A_ZoomFactor (3.5, ZOOM_Instant);
+                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel, ZOOM_Instant);
             } else
                 return ResolveState ("Unzoom");
 
             return ResolveState (null);
         }
-        TNT1 A 0 TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
         goto Ready2;
     Unzoom:
         AMGG A 8 {
-            invoker.zoomLevel = 0;
+            invoker.zoomed = false;
             A_SetCrosshair (0);
             A_SetBlend ("00 00 00", 1.0, 8);
             A_ZoomFactor (1.0, ZOOM_Instant);
         }
-        TNT1 A 0 TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
         goto Ready2;
+    ChangeZoomLevel:
+        #### # 1 {
+            if (!(player.cmd.buttons & BT_ZOOM))
+                return ResolveState ("Ready2");
+
+            if (player.cmd.buttons & BT_ATTACK) {
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.25, 0, 2.5);
+                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+            } else if (player.cmd.buttons & BT_ALTATTACK) {
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.25, 0, 2.5);
+                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+            }
+
+            return ResolveState (null);
+        }
+        loop;
+    ChangeZoomLevel.Delay:
+        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
+        goto ChangeZoomLevel;
 
     ChangeMode:
         #### # 1;
         #### # 5 {
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
-
-            if (invoker.zoomLevel > 0 && ((player.cmd.buttons & BT_Zoom) || (player.oldbuttons & BT_Zoom)))
-                return ResolveState ("ToggleZoomLevel");
 
             if (invoker.burstFire)
                 invoker.burstFire = false;
@@ -154,19 +176,6 @@ class S7_AMG : S7_BaseWeapon {
             A_PlaySound ("Weapons/ModeChange", CHAN_7);
 
             return ResolveState (null);
-        }
-        goto Ready2;
-    ToggleZoomLevel:
-        SCP1 A 8 {
-            A_SetCrosshair (99); // This is just to make sure
-
-            if (invoker.zoomLevel == 1) {
-                invoker.zoomLevel = 2;
-                A_ZoomFactor (6.0);
-            } else {
-                invoker.zoomLevel = 1;
-                A_ZoomFactor (3.5);
-            }
         }
         goto Ready2;
 
@@ -179,7 +188,7 @@ class S7_AMG : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            if (invoker.zoomLevel >= 1)
+            if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3.5);
@@ -214,25 +223,25 @@ class S7_AMG : S7_BaseWeapon {
             A_FireProjectile ("S7_RifleCasingSpawn", 0, 0, 8, -8);
             A_FireProjectile ("S7_AMGTracer", fRandom [weaponSpread] (-0.13, 0.13), 1, 0, -3, 0, fRandom [weaponSpread] (-0.13, 0.13));
 
-            A_ZoomFactor ((invoker.zoomLevel >= 2) ? 5.9 : 3.4);
+            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
             if (invoker.burstFire)
-                S7_Recoil (-((invoker.zoomLevel >= 2) ? 0.8 : 1.0));
+                S7_Recoil (-1);
             else
-                S7_Recoil (-((invoker.zoomLevel >= 2) ? 0.4 : 0.5));
+                S7_Recoil (-0.5);
         }
         SCP1 A 1 {
             if (invoker.burstFire)
-                S7_Recoil (+((invoker.zoomLevel >= 2) ? 0.336 : 0.42));
+                S7_Recoil (+0.42);
             else
-                S7_Recoil (-((invoker.zoomLevel >= 2) ? 0.4 : 0.5));
+                S7_Recoil (-0.5);
         }
         SCP1 A 1 {
-            A_ZoomFactor ((invoker.zoomLevel >= 2) ? 6.0 : 3.5);
+            A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
 
             if (invoker.burstFire)
                 return ResolveState ("Fire.Zoom.Burst");
 
-            S7_Recoil (+((invoker.zoomLevel >= 2) ? 0.336 : 0.42));
+            S7_Recoil (+0.42);
             return ResolveState (null);
         }
         SCP1 A 1 A_Refire ("Fire");
@@ -252,7 +261,7 @@ class S7_AMG : S7_BaseWeapon {
         goto Ready2;
 
     Flash:
-        TNT1 A  0 A_JumpIf (invoker.zoomLevel >= 1, "Flash.Zoom");
+        TNT1 A  0 A_JumpIf (invoker.zoomed, "Flash.Zoom");
         AMGF AB 1 bright;
         stop;
     Flash.Zoom:
@@ -263,7 +272,7 @@ class S7_AMG : S7_BaseWeapon {
         AMGG C 2 {
             invoker.burstCount = 0;
 
-            if (invoker.zoomLevel >= 1)
+            if (invoker.zoomed)
                 return ResolveState ("Dryfire.Burst.Zoom");
 
             return ResolveState (null);
@@ -277,7 +286,7 @@ class S7_AMG : S7_BaseWeapon {
             A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
             invoker.burstCount = 0;
 
-            if (invoker.zoomLevel >= 1)
+            if (invoker.zoomed)
                 return ResolveState ("DryFire.Zoom");
 
             return ResolveState (null);
@@ -298,7 +307,7 @@ class S7_AMG : S7_BaseWeapon {
                 return ResolveState ("Ready2");
             }
 
-            if (invoker.zoomLevel >= 1)
+            if (invoker.zoomed)
                 return ResolveState ("Unzoom");
 
             TakeInventory ("S7_Reloading", 1);

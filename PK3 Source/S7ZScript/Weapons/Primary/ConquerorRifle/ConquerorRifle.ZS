@@ -25,8 +25,10 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
     }
 
+    const BASEZOOMFACTOR = 4.5;
     bool jammed, loaded, noPump, noEject; // noEject is just for telling the reloading anim not to spawn casings
-    int zoomLevel;
+    bool zoomed;
+    double zoomLevel;
 
     override void DoEffect () {
         Super.DoEffect ();
@@ -42,14 +44,14 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     Ready:
         CQR1 VWXYZA 1;
     Ready2:
-        CQR1 A 0 A_JumpIf (invoker.zoomLevel > 0, "Ready2.Zoom");
+        CQR1 A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
         goto Ready2.DoThings;
     Ready2.Zoom:
         SCP1 B 0;
         goto Ready2.DoThings;
     Ready2.DoThings:
         #### # 1 {
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
 
             if (CheckInventory ("S7_Reloading", 1))
@@ -59,31 +61,37 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (CheckInventory ("S7_ChangeFireMode", 1))
                 return ResolveState ("ChangeMode");
 
-            A_WeaponReady (WRF_AllowZoom | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
+            A_WeaponReady (WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
 
             return ResolveState (null);
         }
         #### # 0 TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | ((invoker.zoomLevel >= 1) ? WRF_NoBob : 0));
+        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
         goto Ready2;
 
     Zoom:
-        #### # 1 A_JumpIfInventory ("S7_HoldingZoom", 1, "Ready2.HoldingZoom");
+        #### ######## 1 {
+            if (!invoker.zoomed || !(player.cmd.buttons & BT_ZOOM))
+                return ResolveState ("DoZoom");
+
+            if (player.cmd.buttons & BT_ATTACK || player.cmd.buttons & BT_ALTATTACK)
+                return ResolveState ("ChangeZoomLevel");
+
+            return ResolveState (null);
+        }
+        goto ChangeZoomLevel;
+    DoZoom:
+        #### # 1 A_JumpIf (CheckInventory ("S7_HoldingZoom", 1), "Ready2.HoldingZoom");
         SCP1 B 8 {
             GiveInventory ("S7_HoldingZoom", 1);
 
-            if (invoker.zoomLevel > 0 && CheckInventory ("S7_ChangeFireMode", 1)) {
-                TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
-                return ResolveState ("ToggleZoomLevel");
-            }
-
-            if (invoker.zoomLevel == 0) {
-                invoker.zoomLevel = 1;
+            if (!invoker.zoomed) {
+                invoker.zoomed = true;
                 A_SetCrosshair (99);
                 A_SetBlend ("00 00 00", 1.0, 8);
-                A_ZoomFactor (6.0, ZOOM_Instant);
+                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel, ZOOM_Instant);
             } else
                 return ResolveState ("Unzoom");
 
@@ -92,20 +100,36 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2;
     Unzoom:
         CQR1 A 10 {
-            invoker.zoomLevel = 0;
-            A_SetBlend ("00 00 00", 1.0, 8);
+            invoker.zoomed = false;
             A_SetCrosshair (0);
+            A_SetBlend ("00 00 00", 1.0, 8);
             A_ZoomFactor (1.0, ZOOM_Instant);
         }
         goto Ready2;
+    ChangeZoomLevel:
+        #### # 1 {
+            if (!(player.cmd.buttons & BT_ZOOM))
+                return ResolveState ("Ready2");
+
+            if (player.cmd.buttons & BT_ATTACK) {
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.75, 0, 16);
+                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+            } else if (player.cmd.buttons & BT_ALTATTACK) {
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.75, 0, 16);
+                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+            }
+
+            return ResolveState (null);
+        }
+        loop;
+    ChangeZoomLevel.Delay:
+        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
+        goto ChangeZoomLevel;
 
     ChangeMode:
         #### # 1;
         #### # 5 {
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
-
-            if (invoker.zoomLevel > 0 && ((player.cmd.buttons & BT_Zoom) || (player.oldbuttons & BT_Zoom)))
-                return ResolveState ("ToggleZoomLevel");
 
             if (invoker.noPump)
                 invoker.noPump = 0;
@@ -117,26 +141,10 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             return ResolveState (null);
         }
         goto Ready2;
-    ToggleZoomLevel:
-        SCP1 B 8 {
-            A_SetCrosshair (99); // This is just to make sure
-
-            if (invoker.zoomLevel == 1) {
-                invoker.zoomLevel = 2;
-                A_ZoomFactor (12.0);
-            } else if (invoker.zoomLevel == 2) {
-                invoker.zoomLevel = 3;
-                A_ZoomFactor (24.0);
-            } else {
-                invoker.zoomLevel = 1;
-                A_ZoomFactor (6.0);
-            }
-        }
-        goto Ready2;
 
     Deselect:
         CQR1 A     1 {
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");
 
             A_SetCrosshair (0);
@@ -149,7 +157,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             A_SetBlend ("00 00 00", 1.0, 8);
             A_SetCrosshair (0);
             A_ZoomFactor (1.0, ZOOM_Instant);
-            invoker.zoomLevel = 0;
+            invoker.zoomed = false;
         }
         goto Ready2;
 
@@ -166,7 +174,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             A_PlaySound ("Weapons/ConquerorRifle/Fire", CHAN_Weapon);
             invoker.loaded = false;
 
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 return ResolveState ("Fire.Zoomed");
 
             A_GunFlash ("Flash");
@@ -209,7 +217,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             else
                 invoker.jammed = false;
 
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 return ResolveState ("Fire.Zoomed.Pump");
 
             A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
@@ -235,23 +243,12 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
     Fire.Anim.Zoomed:
         SCP1 B 1 {
-            if (invoker.zoomLevel == 1)
-                A_ZoomFactor (5.8);
-            else if (invoker.zoomLevel == 2)
-                A_ZoomFactor (11.7);
-            else if (invoker.zoomLevel == 3)
-                A_ZoomFactor (23.7);
-
+            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .9);
             S7_Recoil (-1.5);
         }
         SCP1 B 1 S7_Recoil (-1.75);
         SCP1 B 1 {
-            if (invoker.zoomLevel == 1)
-                A_ZoomFactor (5.7);
-            else if (invoker.zoomLevel == 2)
-                A_ZoomFactor (11.8);
-            else if (invoker.zoomLevel == 3)
-                A_ZoomFactor (23.8);
+            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
 
             S7_Recoil (0.15);
         }
@@ -269,12 +266,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             } else
                 invoker.noEject = false; // Reset noEject
 
-            if (invoker.zoomLevel == 1)
-                A_ZoomFactor (5.9);
-            else if (invoker.zoomLevel == 2)
-                A_ZoomFactor (11.9);
-            else if (invoker.zoomLevel == 3)
-                A_ZoomFactor (23.9);
+            A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             S7_Recoil (0.15);
         }
 
@@ -290,7 +282,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         CQR1 A 3 { // add an auto unjamming cvar later
             A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
 
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 return ResolveState ("Fire.Jammed.Zoomed");
 
             return ResolveState (null);
@@ -314,7 +306,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         CQR1 A 3 {
             A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
 
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 return ResolveState ("DryFire.Zoomed");
 
             return ResolveState (null);
@@ -329,7 +321,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
     Reload.Zoomed:
         CQR1 A 10 {
-            invoker.zoomLevel = 0;
+            invoker.zoomed = false;
             A_SetCrosshair (0);
             A_ZoomFactor (1.0, ZOOM_Instant);
             A_SetBlend ("00 00 00", 1.0, 8);
@@ -342,7 +334,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");
 
-            if (invoker.zoomLevel > 0)
+            if (invoker.zoomed)
                 return ResolveState ("Reload.Zoomed");
 
             int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
