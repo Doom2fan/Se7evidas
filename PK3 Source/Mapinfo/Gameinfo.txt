@@ -18,7 +18,7 @@ gameinfo {
     addEventHandlers = "S7_XPSysMenuEventHandler", "S7_WeapAssignMenu_EventHandler", "S7_PlayerEventHandler", "S7_ServerEventHandler", "S7_ShopDataEventHandler", "S7_ShopMenu_EventHandler", "S7_AutogunMenu_EventHandler", "S7_HudMessage"
 
     // Player classes
-    playerClasses = "S7_ScoutPlayer", "S7_EMTPlayer", "S7_MedicPlayer", "S7_InfiltratorPlayer"
+    playerClasses = "S7_ScoutPlayer", "S7_EMTPlayer", "S7_MedicPlayer", "S7_InfiltratorPlayer", "S7_InfantryPlayer", "S7_RiflemanPlayer"
 
     // UI
     statusBarClass = "Se7evidasStatusBar"

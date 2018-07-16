@@ -138,6 +138,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Player/Classes/Scout.ZS"
 #include "S7ZScript/Player/Classes/Infiltrator.ZS"
 #include "S7ZScript/Player/Classes/Medic.ZS"
+#include "S7ZScript/Player/Classes/Infantry.ZS"
 
 // Draco
 #include "S7ZScript/Player/Draco/DracoPlayer.ZS"
