@@ -121,3 +121,85 @@ class S7_Loot_ScorpsHunterSG : S7_LootItem {
         stop;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Artifacts
+//
+//-------------------------------------------------------------------------------------------
+class S7_Loot_SkullSceptre : S7_LootItem {
+    default {
+        S7_LootItem.BlocksUsed 10;
+
+        Inventory.Amount 1;
+        //Inventory.Icon "LOT1B0";
+        Inventory.PickupMessage "$LOOT_SKULLSCEPTRE";
+        Tag "$LOOT_SKULLSCEPTRE";
+        Scale 1;
+    }
+
+    states {
+    Spawn:
+        LOT1 B -1;
+        stop;
+    }
+}
+
+class S7_Loot_SacrificialDagger : S7_LootItem {
+    default {
+        S7_LootItem.BlocksUsed 6;
+
+        Inventory.Amount 1;
+        //Inventory.Icon "LOT1C0";
+        Inventory.PickupMessage "$LOOT_SACRIFICEDAGGER";
+        Tag "$LOOT_SACRIFICEDAGGER";
+        Scale 1;
+    }
+
+    states {
+    Spawn:
+        LOT1 C -1;
+        stop;
+    }
+}
+
+class S7_Loot_BloodChalice : S7_LootItem {
+    default {
+        S7_LootItem.BlocksUsed 4;
+
+        Inventory.Amount 1;
+        //Inventory.Icon "LOT1D0";
+        Inventory.PickupMessage "$LOOT_BLOODCHALICE";
+        Tag "$LOOT_BLOODCHALICE";
+        Scale 1;
+    }
+
+    states {
+    Spawn:
+        LOT1 D -1;
+        stop;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Treasure
+//
+//-------------------------------------------------------------------------------------------
+class S7_Loot_GoldChest : S7_LootItem {
+    default {
+        S7_LootItem.BlocksUsed 25;
+
+        Inventory.Amount 1;
+        //Inventory.Icon "LOT1E0";
+        Inventory.PickupMessage "$LOOT_GOLDCHEST";
+        Tag "$LOOT_GOLDCHEST";
+        Scale 1;
+    }
+
+    states {
+    Spawn:
+        LOT1 E -1;
+        stop;
+    }
+}

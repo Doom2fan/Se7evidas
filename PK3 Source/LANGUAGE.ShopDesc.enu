@@ -45,3 +45,11 @@ SS_HANDGRENADEINFO = "Fuse: ~3.5 seconds";
 /** Loot **/
 SS_SCORPS_SG_DESC = "Shadow Corps' standard-issue semi-automatic shotgun, chambered in 12 gauge.\nAs with most Shadow Corps equipment, it's a pretty flimsy weapon. They can easily be damaged to the point of uselessness.";
 SS_SCORPS_SG_INFO = "";
+SS_LOOT_SKULLSCEPTRE_DESC = "A ceremonial sceptre imbued with powerful magic. This must have been owned by a powerful demon.";
+SS_LOOT_SKULLSCEPTRE_INFO = "";
+SS_LOOT_SACRIFICEDAGGER_DESC = "A dagger imbued with powerful magic, used for sacrificial rituals.";
+SS_LOOT_SACRIFICEDAGGER_INFO = "";
+SS_LOOT_BLOODCHALICE_DESC = "A gold chalice used for demon rituals.";
+SS_LOOT_BLOODCHALICE_INFO = "";
+SS_GOLDCHEST_DESC = "A chest adorned with skulls, filled with gold.";
+SS_GOLDCHEST_INFO = "";

@@ -36,6 +36,8 @@ SS_THGRENADES                   = "50mm grenades";
 
 SS_LOOT                         = "Loot";
 SS_LOOT_WEAPS                   = "Weapons";
+SS_LOOT_ARTIFACTS               = "Artifacts";
+SS_LOOT_TREASURE                = "Treasure";
 
 // Page descriptions
 SS_CONSUMABLES_DESC             = "Buy consumable items";

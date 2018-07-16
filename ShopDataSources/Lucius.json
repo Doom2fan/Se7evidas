@@ -666,6 +666,22 @@
                     "itemType": "pageLink",
                     "link": "loot_Weapons",
                     "global": false
+                },
+
+                {
+                    "id": [ "A", "R", "T", "F" ],
+                    "name": "$SS_LOOT_ARTIFACTS",
+                    "itemType": "pageLink",
+                    "link": "loot_Artifacts",
+                    "global": false
+                },
+
+                {
+                    "id": [ "T", "R", "S", "R" ],
+                    "name": "$SS_LOOT_TREASURE",
+                    "itemType": "pageLink",
+                    "link": "loot_Treasure",
+                    "global": false
                 }
             ]
         },
@@ -695,6 +711,94 @@
                     "inventoryName": "S7_Loot_ScorpsHunterSG",
                     "itemType": "sellItem",
                     "sellPrice": 200,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "loot_Artifacts",
+            "name": "$SS_LOOT_ARTIFACTS",
+            "backPage": "lootPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "lootPage",
+                    "global": false
+                },
+
+                {
+                    "id": [ "L", "T", "0", "1" ],
+                    "name": "$LOOT_SKULLSCEPTRE",
+                    "desc": "$SS_LOOT_SKULLSCEPTRE_DESC",
+                    "info": "$SS_LOOT_SKULLSCEPTRE_INFO",
+                    "icon": "sprites/Inventory/Loot/LOT1B0.png",
+                    "inventoryName": "S7_Loot_SkullSceptre",
+                    "itemType": "sellItem",
+                    "sellPrice": 400,
+                    "sellAmount": 1,
+                    "global": true
+                },
+
+                {
+                    "id": [ "L", "T", "0", "2" ],
+                    "name": "$LOOT_SACRIFICEDAGGER",
+                    "desc": "$SS_LOOT_SACRIFICEDAGGER_DESC",
+                    "info": "$SS_LOOT_SACRIFICEDAGGER_INFO",
+                    "icon": "sprites/Inventory/Loot/LOT1C0.png",
+                    "inventoryName": "S7_Loot_SacrificialDagger",
+                    "itemType": "sellItem",
+                    "sellPrice": 350,
+                    "sellAmount": 1,
+                    "global": true
+                },
+
+                {
+                    "id": [ "L", "T", "0", "3" ],
+                    "name": "$LOOT_BLOODCHALICE",
+                    "desc": "$SS_LOOT_BLOODCHALICE_DESC",
+                    "info": "$SS_LOOT_BLOODCHALICE_INFO",
+                    "icon": "sprites/Inventory/Loot/LOT1D0.png",
+                    "inventoryName": "S7_Loot_BloodChalice",
+                    "itemType": "sellItem",
+                    "sellPrice": 250,
+                    "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "loot_Treasure",
+            "name": "$SS_LOOT_TREASURE",
+            "backPage": "lootPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "lootPage",
+                    "global": false
+                },
+
+                {
+                    "id": [ "L", "T", "0", "4" ],
+                    "name": "$LOOT_GOLDCHEST",
+                    "desc": "$SS_GOLDCHEST_DESC",
+                    "info": "$SS_GOLDCHEST_INFO",
+                    "icon": "sprites/Inventory/Loot/LOT1E0.png",
+                    "inventoryName": "S7_Loot_GoldChest",
+                    "itemType": "sellItem",
+                    "sellPrice": 850,
                     "sellAmount": 1,
                     "global": true
                 }

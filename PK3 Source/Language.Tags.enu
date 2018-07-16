@@ -63,6 +63,10 @@ YELLOWKEY                       = "\c[Yellow]Yellow\c- keycard";
 EMPTTHGR                        = "Used 50mm grenades";
 EMPTTHGRPICK                    = "Used 50mm grenade";
 LOOT_SCORPSHUNTERSG             = "Shadow Corps Standard Issue Semi-automatic Shotgun";
+LOOT_SKULLSCEPTRE               = "Skull sceptre";
+LOOT_SACRIFICEDAGGER            = "Sacrificial dagger";
+LOOT_BLOODCHALICE               = "Blood chalice";
+LOOT_GOLDCHEST                  = "Chest of gold";
 
 // Misc
 BERSERKWEAP                     = "Syringe (Berserk)";
