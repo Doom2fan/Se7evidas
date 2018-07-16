@@ -99,7 +99,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         }
         goto Ready2;
     Fire.Semi:
-        PLSG A 1 A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch);
+        PLSG A 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 
     DryFire:

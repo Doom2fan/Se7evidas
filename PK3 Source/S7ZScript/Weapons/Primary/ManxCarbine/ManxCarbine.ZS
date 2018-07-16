@@ -82,7 +82,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2;
     Fire.Semi:
         MANX C    1;
-        MANX AAAA 1 A_WeaponReady (WRF_NoBob | WRF_NoSecondary | WRF_DisableSwitch);
+        MANX AAAA 1 { player.WeaponState |= WF_WeaponReady; }
         MANX A    2;
         goto Ready2;
 

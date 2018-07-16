@@ -205,7 +205,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 invoker.noEject = false; // Reset noEject
         }
 
-        CQR1 CDDAA 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob);
+        CQR1 CDDAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
     Fire.Pump:
         CQR1 A   1 {
@@ -270,7 +270,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             S7_Recoil (0.15);
         }
 
-        SCP1 BBBBB 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob);
+        SCP1 BBBBB 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
     Fire.Zoomed.Pump:
         SCP1 B 4 A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);

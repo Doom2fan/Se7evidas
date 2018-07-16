@@ -121,7 +121,7 @@ class S7_AK47 : S7_BaseWeapon {
         goto Ready2;
     Fire.Semi:
         TNT1 A   0 { invoker.halfTic = false; }
-        AK47 AAA 1 A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch | WRF_NoBob);
+        AK47 AAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 
     DryFire:
