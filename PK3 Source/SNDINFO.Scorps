@@ -14,6 +14,12 @@ Monsters/SCorpsTrooper/Sight2                "sounds/Monsters/SCorps/Trooper/Sig
 Monsters/SCorpsTrooper/Sight3                "sounds/Monsters/SCorps/Trooper/Sight3.ogg" // Ditto.
 Monsters/SCorpsTrooper/Sight4                "sounds/Monsters/SCorps/Trooper/Sight4.ogg" // Ditto.
 
+$RANDOM Monsters/ScorpsTrooper/Active {
+    Monsters/ScorpsTrooper/Sight1
+    Monsters/ScorpsTrooper/Sight3
+    Monsters/SCorpsTrooper/Sight4
+}
+
 $RANDOM Monsters/ScorpsTrooper/Pain {
     Monsters/ScorpsTrooper/Pain1
     Monsters/ScorpsTrooper/Pain2

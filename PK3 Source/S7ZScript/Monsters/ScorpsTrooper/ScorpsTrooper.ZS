@@ -15,6 +15,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         GibHealth -15;
         PainChance 200;
         SeeSound "Monsters/ScorpsTrooper/Sight";
+        ActiveSound "Monsters/ScorpsTrooper/Active";
         PainSound "Monsters/ScorpsTrooper/Pain";
         DeathSound "Monsters/ScorpsTrooper/Death";
         Obituary "$OBSCORPSTROOPER";
