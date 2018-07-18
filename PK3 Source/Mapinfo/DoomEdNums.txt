@@ -48,4 +48,6 @@ doomEdNums {
     32506 = S7_Succubus
     32507 = S7_Terminator
     32508 = S7_ScorpsEnforcer
+
+    20000 = NavPoint
 }
