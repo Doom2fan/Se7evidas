@@ -3,12 +3,125 @@
 // Shadow Corps Trooper
 //
 //-------------------------------------------------------------------------------------------
+const STAT_PATHNODES = Thinker.STAT_USER;
+
+class S7_PathNode : Actor {
+    Array<S7_PathNode> Links;
+
+    override void BeginPlay () {
+        ChangeStatNum (STAT_PATHNODES);
+    }
+}
+class S7_NodeGraph : Thinker {
+    Array<S7_PathNode> Nodes;
+
+    S7_NodeGraph Init () {
+        ChangeStatNum (STAT_INFO);
+
+        ThinkerIterator it = ThinkerIterator.Create ("S7_PathNode", STAT_PATHNODES);
+        S7_PathNode node;
+
+        while (node = S7_PathNode (it.Next ())) {
+            Nodes.Push (node);
+        }
+
+        return self;
+    }
+
+    static S7_NodeGraph Get () {
+        ThinkerIterator it = ThinkerIterator.Create ("S7_NodeGraph", STAT_INFO);
+        let p = S7_NodeGraph (it.Next ());
+
+        if (!p)
+            p = new ("S7_NodeGraph").Init ();
+
+        return p;
+    }
+
+    clearscope static S7_NodeGraph GetSpecial () {
+        ThinkerIterator it = ThinkerIterator.Create ("S7_NodeGraph", STAT_INFO);
+        let p = S7_NodeGraph (it.Next ());
+
+        if (!p)
+            return null;
+
+        return p;
+    }
+
+    S7_PathNode, double GetClosestNode (Vector3 pos) {
+
+        S7_PathNode ret = null;
+        double retDist = double.infinity;
+
+        for (int i = 0; i < Nodes.Size (); i++) {
+            let node = Nodes [i];
+
+            if (!node)
+                continue;
+
+            if (!ret) {
+                ret = node;
+
+                Vector3 diff = level.Vec3Diff (node.pos, pos);
+                double distSqr = diff dot diff;
+
+                retDist = distSqr;
+                continue;
+            }
+
+            Vector3 diff = level.Vec3Diff (node.pos, pos);
+            double distSqr = diff dot diff;
+
+            if (distSqr < retDist) {
+                ret = node;
+                retDist = distSqr;
+                continue;
+            }
+        }
+
+        return ret, sqrt (retDist);
+    }
+
+    S7_PathNode, double GetClosestNodeActor (Actor mo, bool checkSight = false) {
+        let origTracer = mo.tracer;
+
+        S7_PathNode ret = null;
+        double retDist = double.infinity;
+
+        for (int i = 0; i < Nodes.Size (); i++) {
+            let node = Nodes [i];
+
+            if (!node)
+                continue;
+
+            Vector3 diff = mo.Vec3To (node);
+            double distSqr = diff dot diff;
+
+            if (distSqr > retDist)
+                continue;
+
+            mo.tracer = node;
+
+            if (!checkSight || mo.CheckIfTargetInLOS (360, JLOSF_CheckTracer)) {
+                ret = node;
+                retDist = distSqr;
+                continue;
+            }
+        }
+
+        mo.tracer = origTracer;
+
+        return ret, sqrt (retDist);
+    }
+}
+
 class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
     default {
         DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 2);
         DamageType "PistolTracer";
     }
 }
+class S7_PathNodeDerp { S7_PathNode node; S7_PathNode prev; }
 class S7_ScorpsTrooper : S7_ScorpBase {
     default {
         Health 30;
@@ -27,8 +140,34 @@ class S7_ScorpsTrooper : S7_ScorpBase {
 
     S7_XPSystem xpSys;
 
+    Array<S7_PathNode> pathQueue;
+
+    void DoPathing () {
+        
+    }
+
+    void CustomChase () {
+        bool targInLOS = target && CheckIfTargetInLOS (90, JLOSF_DEADNOJUMP);
+        if (target && !targInLOS && target.health > 0) {
+            DoPathing ();
+
+            if (!goal && pathQueue.Size ()) {
+                goal = pathQueue [0];
+                pathQueue.Delete (0, 1);
+            }
+        }
+
+        A_Chase ();
+    }
+
+    action void A_CustomChase () {
+        //invoker.CustomChase ();
+        invoker.AStar ();
+    }
+
     override void PostBeginPlay () {
         SetTag (S7_Utils.GenName_Male_Eng ());
+
         if (!xpSys) {
             GiveInventory ("S7_XPSystem", 1);
             xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
@@ -164,8 +303,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         goto See;
     // Chasing
     See:
-        SCR1 AABBCCDD 3 A_Chase;
-        SCR1 AABBCCDD 3 A_Chase;
+        SCR1 AABBCCDD 3 A_CustomChase ();
+        SCR1 AABBCCDD 3 A_CustomChase ();
         TNT1 A        0 A_Jump (!(random [monsterSpc] (0, 255) < 192) && ammo < 5, "Reload");
         loop;
 
