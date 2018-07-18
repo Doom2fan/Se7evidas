@@ -45,6 +45,8 @@ Monsters/SCorpsTrooper/Death3                "sounds/Monsters/SCorps/Trooper/Dea
 //-------------------------------------------------------------------------------------------
 $RANDOM Monsters/ScorpsHunter/Sight {
     Monsters/ScorpsHunter/Sight1
+    Monsters/ScorpsHunter/Sight1
+    Monsters/ScorpsHunter/Sight2
     Monsters/ScorpsHunter/Sight2
     Monsters/ScorpsHunter/Sight3
     Monsters/SCorpsHunter/Sight4
@@ -53,6 +55,14 @@ Monsters/SCorpsHunter/Sight1                "sounds/Monsters/SCorps/Hunter/Sight
 Monsters/SCorpsHunter/Sight2                "sounds/Monsters/SCorps/Hunter/Sight2.ogg" // Ditto.
 Monsters/SCorpsHunter/Sight3                "sounds/Monsters/SCorps/Hunter/Sight3.ogg" // Ditto.
 Monsters/SCorpsHunter/Sight4                "sounds/Monsters/SCorps/Hunter/Sight4.ogg" // Ditto.
+
+$RANDOM Monsters/ScorpsHunter/Active {
+    Monsters/ScorpsHunter/Sight3
+    Monsters/ScorpsHunter/Sight3
+    Monsters/SCorpsHunter/Sight4
+    Monsters/SCorpsHunter/Sight4
+    Monsters/ScorpsHunter/Sight2
+}
 
 $RANDOM Monsters/ScorpsHunter/Pain {
     Monsters/ScorpsHunter/Pain1
