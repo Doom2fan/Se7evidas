@@ -37,7 +37,7 @@ class S7_MapData : Thinker {
 }
 
 class S7_ServerData : Thinker {
-    S7_ShopData shopData;
+    transient S7_ShopData shopData;
     uint mapCount;
     // Map events
     int queuedMapEvent;
