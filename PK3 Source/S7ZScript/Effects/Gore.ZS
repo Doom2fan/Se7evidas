@@ -9,7 +9,8 @@ class S7_GoreBase : S7_EffectsBase {
         Radius 3;
         Height 4;
 
-        +CORPSE +NOTELEPORT +NOBLOCKMAP +THRUSPECIES
+        +DONTGIB +NOTELEPORT +NOBLOCKMAP +THRUSPECIES
+        +CORPSE
     }
 
     states {
@@ -77,6 +78,7 @@ class S7_GenericGoreBits : S7_GoreBase {
 
         +MOVEWITHSECTOR +THRUACTORS +ROLLSPRITE +ROLLCENTER
         +USEBOUNCESTATE
+        -SOLID
     }
 
     int timer, rollDir, trailSpawnDuration;

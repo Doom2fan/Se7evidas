@@ -286,7 +286,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         wait;
 
     XDeath:
-        SCR3 H 1;
+        SCR3 H 1 { bDontGib = true; }
         SCR3 H 2 {
             A_XScream ();
             A_UnblockAndDrop ();
@@ -328,7 +328,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
     // Being revived
     Raise:
-        SCR3 M    3;
+        SCR3 M    3 { bDontGib = false; }
         SCR3 L    3;
         SCR3 KJIH 5;
         goto See;

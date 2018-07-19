@@ -322,7 +322,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         wait;
 
     XDeath:
-        SCR1 H 1;
+        SCR1 H 1 { bDontGib = true; }
         SCR1 H 2 {
             A_XScream ();
             A_NoBlocking ();
@@ -364,7 +364,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
 
     // Being revived
     Raise:
-        SCR1 K   5;
+        SCR1 K   5 { bDontGib = false; }
         SCR1 JIH 5;
         goto See;
     }

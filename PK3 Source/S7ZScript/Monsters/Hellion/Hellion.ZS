@@ -135,7 +135,7 @@ class S7_Hellion : S7_DemonBase {
         wait;
 
     XDeath:
-        HELN N 1;
+        HELN N 1 { bDontGib = true; }
         HELN N 2 {
             A_XScream ();
             A_NoBlocking ();
@@ -177,7 +177,7 @@ class S7_Hellion : S7_DemonBase {
         stop;*/
 
     Raise:
-        HELN T      6;
+        HELN T      6 { bDontGib = false; }
         HELN SRQPON 6;
         goto See;
     }

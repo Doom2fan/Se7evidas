@@ -137,7 +137,7 @@ class S7_Mechdemon : S7_DemonBase {
         wait;*/
 
     XDeath:
-        MDMN H 1;
+        MDMN H 1 { bDontGib = true; }
         MDMN H 2 {
             A_XScream ();
             A_NoBlocking ();
@@ -171,7 +171,8 @@ class S7_Mechdemon : S7_DemonBase {
         wait;
 
     Raise:
-        MDMN NLMKJI 3;
+        MDMN N     3 { bDontGib = false; }
+        MDMN LMKJI 3;
         goto See;
     }
 }

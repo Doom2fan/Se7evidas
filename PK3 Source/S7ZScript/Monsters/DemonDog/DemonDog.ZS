@@ -130,7 +130,7 @@ class S7_DemonDog : S7_DemonBase {
         wait;*/
 
     XDeath:
-        DDOG H 1;
+        DDOG H 1 { bDontGib = true; }
         DDOG H 2 {
             A_XScream ();
             A_NoBlocking ();
@@ -172,7 +172,8 @@ class S7_DemonDog : S7_DemonBase {
         stop;*/
 
     Raise:
-        DDOG KJIH 5;
+        DDOG K   5 { bDontGib = false; }
+        DDOG JIH 5;
         goto See;
     }
 }

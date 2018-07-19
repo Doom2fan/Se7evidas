@@ -263,7 +263,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         wait;
 
     XDeath:
-        SCR2 H 1;
+        SCR2 H 1 { bDontGib = true; }
         SCR2 H 2 {
             A_XScream ();
             A_NoBlocking ();
@@ -305,7 +305,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
 
     // Being revived
     Raise:
-        SCR2 LK  5;
+        SCR2 L   5 { bDontGib = false; }
+        SCR2 K   5;
         SCR2 JIH 5;
         goto See;
     }
