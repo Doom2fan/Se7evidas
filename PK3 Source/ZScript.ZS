@@ -121,6 +121,8 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Inventory/Berserk.ZS"
 #include "S7ZScript/Inventory/Loot.ZS"
 #include "S7ZScript/Inventory/Flashlight.ZS"
+#include "S7ZScript/Inventory/Spawners/Weapon.ZS"
+#include "S7ZScript/Inventory/Spawners/Ammo.ZS"
 #include "S7ZScript/Inventory/Turret/Turret.ZS"
 
 // Player stuff

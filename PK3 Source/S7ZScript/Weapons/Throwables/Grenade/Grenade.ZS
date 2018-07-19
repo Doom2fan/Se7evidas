@@ -5,10 +5,18 @@
 //-------------------------------------------------------------------------------------------
 class S7_GrenadeCount : Ammo {
     default {
+        Inventory.Amount 1;
         Inventory.MaxAmount 15;
         Ammo.BackpackMaxAmount 15;
+        Scale 0.3;
 
         +INVENTORY.IGNORESKILL
+    }
+
+    states {
+    Spawn:
+        TGRN Z -1;
+        stop;
     }
 }
 

@@ -254,6 +254,19 @@ class S7_20gaShells : Ammo {
     }
 }
 
+class S7_20gaShellsSmall : S7_20gaShells {
+    default {
+        Inventory.PickupMessage "$20GASMALL";
+        Inventory.Amount 4;
+    }
+
+    states {
+    Spawn:
+        SHEL C -1;
+        stop;
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // 12 gauge buckshot
@@ -263,16 +276,29 @@ class S7_12gaShells : Ammo {
     default {
         Tag "$12GA";
         Inventory.PickupMessage "$12GA";
-        Inventory.Amount 4;
+        Inventory.Amount 6;
         Inventory.MaxAmount 72;
         // Ammo.BackpackMaxAmount 96;
-        //Inventory.Icon "SHELB0";
+        Inventory.Icon "SHELB0";
         Inventory.PickupSound "misc/ammopickup";
     }
 
     states {
     Spawn:
         SHEL B -1;
+        stop;
+    }
+}
+
+class S7_12gaShellsSmall : S7_12gaShells {
+    default {
+        Inventory.PickupMessage "$12GASMALL";
+        Inventory.Amount 3;
+    }
+
+    states {
+    Spawn:
+        SHEL D -1;
         stop;
     }
 }

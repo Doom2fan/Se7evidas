@@ -35,7 +35,7 @@ SS_BATTERIES                    = "Energy cells";
 SS_THGRENADES                   = "50mm grenades";
 
 SS_LOOT                         = "Loot";
-SS_LOOT_WEAPS                   = "Weapons";
+SS_LOOT_WEAPSNAMMO              = "Weapons and ammo";
 SS_LOOT_ARTIFACTS               = "Artifacts";
 SS_LOOT_TREASURE                = "Treasure";
 

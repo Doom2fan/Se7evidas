@@ -161,6 +161,14 @@ class S7_MEvntNoMonster : Actor {
     }
 }
 
+class S7_Nothing : Actor {
+    states {
+    Spawn:
+        TNT1 A 1;
+        stop;
+    }
+}
+
 /** FastProjectile trail base **/
 class S7_FastProjTrailBase : S7_EffectsBase {
     default {

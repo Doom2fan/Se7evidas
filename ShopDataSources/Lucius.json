@@ -662,7 +662,7 @@
 
                 {
                     "id": [ "W", "E", "A", "P" ],
-                    "name": "$SS_LOOT_WEAPS",
+                    "name": "$SS_LOOT_WEAPSNAMMO",
                     "itemType": "pageLink",
                     "link": "loot_Weapons",
                     "global": false
@@ -688,7 +688,7 @@
 
         {
             "intName": "loot_Weapons",
-            "name": "$SS_LOOT_WEAPS",
+            "name": "$SS_LOOT_WEAPSNAMMO",
             "backPage": "lootPage",
 
             "items": [
@@ -711,6 +711,18 @@
                     "inventoryName": "S7_Loot_ScorpsHunterSG",
                     "itemType": "sellItem",
                     "sellPrice": 200,
+                    "sellAmount": 1,
+                    "global": true
+                },
+                {
+                    "id": [ "1", "2", "G", "A" ],
+                    "name": "$SS_12GA",
+                    "desc": "$SS_12GADESC",
+                    "info": "$SS_12GAINFO",
+                    "icon": "sprites/Inventory/Ammo/SHELD0.png",
+                    "inventoryName": "S7_12gaShells",
+                    "itemType": "sellItem",
+                    "sellPrice": 3,
                     "sellAmount": 1,
                     "global": true
                 }

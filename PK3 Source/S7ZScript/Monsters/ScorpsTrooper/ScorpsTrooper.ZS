@@ -22,6 +22,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         Species "ScorpsTrooper";
         Tag "$SCRPSTROOTAG";
 
+        DropItem "S7_9mmCartridges", 96;
+
         +MISSILEMORE
     }
 
