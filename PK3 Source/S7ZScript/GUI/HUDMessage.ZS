@@ -1,9 +1,8 @@
 class S7_HudMessageData {
-    int id;
     int targetPlayer;
     string text;
     Vector2 pos;
-    int finalTics;
+    int tics;
 
     int flags;
     int alignment;
@@ -12,82 +11,17 @@ class S7_HudMessageData {
     Font fnt;
     double alpha;
     Vector2 screenSize;
-
-    protected int tics;
-
-    virtual bool Tick () { // Returns true if the message is to be removed
-        if (tics > finalTics)
-            return true;
-
-        tics++;
-
-        return false;
-    }
-
-    virtual ui void Draw () {
-        if (targetPlayer > -1 && targetPlayer != consoleplayer)
-            return;
-
-        Vector2 offsets = (0, 0);
-        Vector2 textSize = (fnt.StringWidth (text), fnt.GetHeight ());
-
-        if (alignment & S7_HudMessage.AlignLeft)
-            offsets.x = 0.0;
-        else if (alignment & S7_HudMessage.AlignHCenter)
-            offsets.x = textSize.x / 2;
-        else if (alignment & S7_HudMessage.AlignRight)
-            offsets.x = textSize.x;
-
-        if (alignment & S7_HudMessage.AlignTop)
-            offsets.y = 0.0;
-        else if (alignment & S7_HudMessage.AlignVCenter)
-            offsets.y = textSize.y / 2;
-        else if (alignment & S7_HudMessage.AlignBottom)
-            offsets.y = textSize.y;
-
-        if (screenSize != (0, 0)) {
-            if (screenSize.x < 0 && screenSize.y < 0)
-                Screen.DrawText (fnt, color, (Screen.GetWidth () * (pos.x / -screenSize.x)) - offsets.x, (Screen.GetHeight () * (pos.y / -screenSize.y)) - offsets.y, text, DTA_Alpha, alpha);
-            else
-                Screen.DrawText (fnt, color, pos.x - offsets.x, pos.y - offsets.y, text, DTA_VirtualWidthF, screenSize.x, DTA_VirtualHeightF, screenSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha);
-        } else {
-            Screen.DrawText (fnt, color, (Screen.GetWidth () * pos.x) - offsets.x, (Screen.GetHeight () * pos.y) - offsets.y, text, DTA_Alpha, alpha);
-        }
-    }
 }
 
-class S7_HudMessageFadeData : S7_HudMessageData {
-    double finalAlpha;
-    int finalInTics, finalOutTics;
-
-    protected int inTics, outTics;
-
-    override bool Tick () {
-        if (inTics < finalInTics) {
-            alpha = finalAlpha * (Clamp (double (inTics), 0, finalInTics) / finalInTics);
-            inTics++;
-        } else if (tics < finalTics) {
-            alpha = finalAlpha;
-            tics++;
-        } else if (outTics < finalOutTics) {
-            alpha = finalAlpha * (1 - (Clamp (double (outTics), 0, finalOutTics) / finalOutTics));
-            outTics++;
-        } else
-            return true;
-
-        return false;
-    }
-}
-
-class S7_HudMessage : EventHandler {
+class S7_HudMessage : HUDMessageBase {
     enum Alignment {
         AlignLeft    = 1,
         AlignHCenter = 2,
         AlignRight   = 3,
 
-        AlignTop     = 1 << 4,
-        AlignVCenter = 2 << 4,
-        AlignBottom  = 3 << 4,
+        AlignTop     = 1 << 16,
+        AlignVCenter = 2 << 16,
+        AlignBottom  = 3 << 16,
 
         AlignTopLeft   = AlignTop | AlignLeft,
         AlignTopCenter = AlignTop | AlignHCenter,
@@ -106,39 +40,77 @@ class S7_HudMessage : EventHandler {
         MSG_Log = 1,
     }
 
-    private Array<S7_HudMessageData> hudMsgs;
+    S7_HudMessageData data;
 
-    static void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int flags = 0, int alignment = S7_HudMessage.AlignTopLeft,
-        int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, Font fnt = "SmallFont", double alpha = 1.0, Vector2 screenSize = (0, 0)
+    protected int tics;
+
+    override bool Tick () {
+        if (tics > data.Tics) {
+            StatusBar.DetachMessage (self);
+            return true;
+        }
+
+        tics++;
+
+        return false;
+    }
+
+    override void Draw (int bottom, int visibility) {
+        if (data.targetPlayer > -1 && data.targetPlayer != consoleplayer)
+            return;
+
+        string text = data.text;
+        Font fnt = data.fnt;
+        double alpha = data.alpha;
+
+        Vector2 offsets = (0, 0);
+        Vector2 pos = data.pos;
+        Vector2 textSize = (data.fnt.StringWidth (text), data.fnt.GetHeight ());
+        Vector2 screenSize = data.screenSize;
+
+        let hAlign = data.alignment & 0x0000FFFF;
+        let vAlign = data.alignment & 0xFFFF0000;
+
+        if (hAlign == S7_HudMessage.AlignLeft)
+            offsets.x = 0.0;
+        else if (hAlign == S7_HudMessage.AlignHCenter)
+            offsets.x = textSize.x / 2;
+        else if (hAlign == S7_HudMessage.AlignRight)
+            offsets.x = textSize.x;
+
+        if (vAlign == S7_HudMessage.AlignTop)
+            offsets.y = 0.0;
+        else if (vAlign == S7_HudMessage.AlignVCenter)
+            offsets.y = textSize.y / 2;
+        else if (vAlign == S7_HudMessage.AlignBottom)
+            offsets.y = textSize.y;
+
+        if (screenSize != (0, 0)) {
+            if (screenSize.x < 0 && screenSize.y < 0)
+                Screen.DrawText (fnt, data.color, (Screen.GetWidth () * (pos.x / -screenSize.x)) - offsets.x, (Screen.GetHeight () * (pos.y / -screenSize.y)) - offsets.y, text, DTA_Alpha, alpha);
+            else
+                Screen.DrawText (fnt, data.color, pos.x - offsets.x, pos.y - offsets.y, text, DTA_VirtualWidthF, screenSize.x, DTA_VirtualHeightF, screenSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha);
+        } else {
+            Screen.DrawText (fnt, data.color, (Screen.GetWidth () * pos.x) - offsets.x, (Screen.GetHeight () * pos.y) - offsets.y, text, DTA_Alpha, alpha);
+        }
+    }
+
+    static play void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int flags = 0, int alignment = S7_HudMessage.AlignTopLeft,
+        int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, Font fnt = "SmallFont", double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
     ) {
-        let h = S7_HudMessage (EventHandler.Find ("S7_HudMessage"));
+        let h = S7_HudMessageHandler (EventHandler.Find ("S7_HudMessageHandler"));
 
         if (!h)
             return;
-
-        if (id != 0) {
-            for (int i = h.hudMsgs.Size () - 1; i >= 0; i--) {
-                if (!h.hudMsgs [i]) {
-                    h.hudMsgs.Delete (i, 1);
-                    continue;
-                } else if (h.hudMsgs [i].id == id) {
-                    let tmp = h.hudMsgs [i];
-                    h.hudMsgs.Delete (i, 1);
-                    if (tmp)
-                        tmp.Destroy ();
-                }
-            }
-        }
 
         if (flags & MSG_Log && (targetPlayer < 0 || targetPlayer == consoleplayer))
             Console.PrintF (text); // This is the best I can do for now, unfortunately.
 
         let hudmsg = new ("S7_HudMessageData");
-        hudmsg.id = id;
         hudmsg.targetPlayer = targetPlayer;
         hudmsg.text = text;
         hudmsg.pos = pos;
-        hudmsg.finalTics = holdTics;
+        hudmsg.tics = holdTics;
 
         hudmsg.flags = flags;
         hudmsg.alignment = alignment;
@@ -148,41 +120,70 @@ class S7_HudMessage : EventHandler {
         hudmsg.alpha = alpha;
         hudmsg.screenSize = screenSize;
 
-        h.hudMsgs.Push (hudmsg);
+        let queued = new ("S7_QueuedHudMessage");
+        queued.msgClass = 'S7_HudMessage';
+        queued.msg = hudmsg;
+        queued.id = id;
+        queued.layer = layer;
+        queued.ticAdded = level.time;
+
+        h.queuedMsgs.Push (queued);
+    }
+}
+
+class S7_HudMessageFadeData : S7_HudMessageData {
+    double finalAlpha;
+    int finalInTics, finalOutTics;
+}
+
+class S7_HudMessageFade : S7_HudMessage {
+    protected int inTics, outTics;
+
+    override bool Tick () {
+        if (!(data is "S7_HudMessageFadeData")) // wtf?
+            return false;
+
+        let fadeData = S7_HudMessageFadeData (data);
+
+        double finalAlpha   = fadeData.finalAlpha;
+        double finalTics    = fadeData.tics;
+        double finalInTics  = fadeData.finalInTics;
+        double finalOutTics = fadeData.finalOutTics;
+
+        if (inTics < finalInTics) {
+            data.alpha = finalAlpha * (Clamp (double (inTics), 0, finalInTics) / finalInTics);
+            inTics++;
+        } else if (tics < finalTics) {
+            data.alpha = finalAlpha;
+            tics++;
+        } else if (outTics < finalOutTics) {
+            data.alpha = finalAlpha * (1 - (Clamp (double (outTics), 0, finalOutTics) / finalOutTics));
+            outTics++;
+        } else {
+            StatusBar.DetachMessage (self);
+            return true;
+        }
+
+        return false;
     }
 
-    static void ShowFade (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int inTics, int outTics, int flags = 0,
+    static play void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int inTics, int outTics, int flags = 0,
         int alignment = S7_HudMessage.AlignTopLeft, int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, Font fnt = "SmallFont",
-        double alpha = 1.0, Vector2 screenSize = (0, 0)
+        double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
     ) {
-        let h = S7_HudMessage (EventHandler.Find ("S7_HudMessage"));
+        let h = S7_HudMessageHandler (EventHandler.Find ("S7_HudMessageHandler"));
 
         if (!h)
             return;
 
-        if (id != 0) {
-            for (int i = h.hudMsgs.Size () - 1; i >= 0; i--) {
-                if (!h.hudMsgs [i]) {
-                    h.hudMsgs.Delete (i, 1);
-                    continue;
-                } else if (h.hudMsgs [i].id == id) {
-                    let tmp = h.hudMsgs [i];
-                    h.hudMsgs.Delete (i, 1);
-                    if (tmp)
-                        tmp.Destroy ();
-                }
-            }
-        }
-
         if (flags & MSG_Log && (targetPlayer < 0 || targetPlayer == consoleplayer))
-            Console.PrintF (text);
+            Console.PrintF (text); // This is the best I can do for now, unfortunately.
 
         let hudmsg = new ("S7_HudMessageFadeData");
-        hudmsg.id = id;
         hudmsg.targetPlayer = targetPlayer;
         hudmsg.text = text;
         hudmsg.pos = pos;
-        hudmsg.finalTics = holdTics;
+        hudmsg.tics = holdTics;
         hudmsg.finalInTics  = inTics;
         hudmsg.finalOutTics = outTics;
 
@@ -194,31 +195,51 @@ class S7_HudMessage : EventHandler {
         hudmsg.finalAlpha = alpha;
         hudmsg.screenSize = screenSize;
 
-        h.hudMsgs.Push (hudmsg);
+        let queued = new ("S7_QueuedHudMessage");
+        queued.msgClass = 'S7_HudMessageFade';
+        queued.msg = hudmsg;
+        queued.id = id;
+        queued.layer = layer;
+        queued.ticAdded = level.time;
+
+        h.queuedMsgs.Push (queued);
+    }
+}
+
+class S7_QueuedHudMessage {
+    class<S7_HudMessage> msgClass;
+    S7_HudMessageData msg;
+    int id;
+    int layer;
+    int ticAdded;
+}
+
+class S7_HudMessageHandler : EventHandler {
+    Array<S7_QueuedHudMessage> queuedMsgs;
+
+    override void PostUITick () {
+        if (!StatusBar) // wtf?
+            return;
+
+        for (int i = 0; i < queuedMsgs.Size (); i++) {
+            let queuedMsg = queuedMsgs [i];
+
+            if (!queuedMsg || !queuedMsg.msg)
+                continue;
+
+            let msg = S7_HudMessage (new (queuedMsg.msgClass));
+            msg.data = queuedMsg.msg;
+
+            StatusBar.AttachMessage (msg, queuedMsg.id, queuedMsg.layer);
+        }
     }
 
     override void WorldTick () {
-        Array<int> toDelete; // HudMessages to delete
-        toDelete.Clear ();
+        for (int i = queuedMsgs.Size () - 1; i >= 0; i--) {
+            let queuedMsg = queuedMsgs [i];
 
-        for (int i = 0; i < hudMsgs.Size (); i++) {
-            if (!hudMsgs [i]) {
-                toDelete.Push (i);
-                continue;
-            }
-            if (hudMsgs [i].Tick ())
-                toDelete.Push (i);
-        }
-
-        for (int i = toDelete.Size () - 1; i >= 0; i--)
-            hudMsgs.Delete (toDelete [i], 1);
-        toDelete.Clear ();
-    }
-
-    override void RenderOverlay (RenderEvent e) {
-        for (int i = 0; i < hudMsgs.Size (); i++) {
-            if (hudMsgs [i])
-                hudMsgs [i].Draw ();
+            if (!queuedMsg || !queuedMsg.msg || level.time > queuedMsg.ticAdded)
+                queuedMsgs.Delete (i, 1);
         }
     }
 }
