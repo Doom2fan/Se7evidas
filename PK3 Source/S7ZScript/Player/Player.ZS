@@ -51,8 +51,8 @@ class S7_PlayerData : Inventory {
         dodgeCooldown = mjumpCount = wjumpJustJumped = sprintTics = staminaTics = heartbeatTics = 0;
         sprintSpeedFactor = sprintSpdFacPproc = 0;
         oldAgility = double.NaN;
-        milkRegenRate = 5;
-        milkUseRate = 25;
+        milkRegenRate = 2;
+        milkUseRate = 20;
     }
 }
 
