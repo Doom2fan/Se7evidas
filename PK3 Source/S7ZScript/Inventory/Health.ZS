@@ -362,13 +362,7 @@ class S7_CanteenRefill : Inventory replaces HealthBonus {
     override bool TryPickup (in out Actor toucher) {
         let canteen = toucher.FindInventory ("S7_Canteen");
 
-        if (!canteen) {
-            toucher.GiveInventory ("S7_Canteen", 1);
-            toucher.TakeInventory ("S7_Canteen", 0x7FFFFFFF);
-            canteen = toucher.FindInventory ("S7_Canteen");
-        }
-
-        if (canteen.Amount < canteen.MaxAmount) {
+        if (!canteen || canteen.Amount < canteen.MaxAmount) {
             toucher.GiveInventory ("S7_Canteen", Amount);
             GoAwayAndDie();
             return true;
