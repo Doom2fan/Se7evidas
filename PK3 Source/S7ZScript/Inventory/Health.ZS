@@ -356,7 +356,8 @@ class S7_CanteenRefill : Inventory replaces HealthBonus {
     }
 
     override void PostBeginPlay () {
-        Amount = random [S7_Inventory] (3, 8);
+        Amount = random [S7_Inventory] (1, 4) * 5;
+        scale.x = scale.y = (.35 + (Amount / (4*5)) * .15);
     }
 
     override bool TryPickup (in out Actor toucher) {
