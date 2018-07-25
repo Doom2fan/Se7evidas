@@ -101,7 +101,7 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
         TNT1 A 0 noDelay {
             A_ScaleVelocity (1.0 / 20);
             A_ScaleVelocity (240);
-            realDamage = 50 + (fRandom [weaponDamage] (0.0, 10.0) * 10);
+            realDamage = 50 + (random [weaponDamage] (0.0, 5.0) * 20);
         }
     Idle:
         PLGF A 1 bright;
@@ -118,7 +118,8 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
             for (int i = 0; i < 8; i++)
                 A_SpawnItemEx ("S7_Draco_MassacreExpSmoke", fRandom [sfx] (-5, 5), fRandom [sfx] (-5, 5), fRandom [sfx] (-5, 5),
                     fRandom [sfx] (2, 6), 0, fRandom [sfx] (0, 4) * randomPick [sfx] (-1, 1), fRandom [sfx] (0, 359), SXF_NoCheckPosition | SXF_Clientside);
-            A_Explode (280, 256, fulldamagedistance: 96);
+
+            A_Explode (350, 256, fulldamagedistance: 96);
         }
         stop;
     }
