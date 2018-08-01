@@ -12,7 +12,7 @@ class S7_BlackPanther : S7_HellNobleBase {
         SeeSound "BlackPanther/Sight";
         ActiveSound "BlackPanther/Active";
         PainSound "BlackPanther/Pain";
-        DeathSound "knight/death";
+        DeathSound "BlackPanther/Death";
         HitObituary "$OBBPANTHER_MELEE";
         Species "HellNoble";
         Tag "$BLCKPNTTAG";
@@ -69,18 +69,18 @@ class S7_BlackPanther : S7_HellNobleBase {
 //-------------------------------------------------------------------------------------------
 class S7_BlackPantherBall : S7_FireballBase {
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 16);
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 8);
         Speed 18;
         Obituary "$OBBPANTHER";
     }
 
     states {
     Spawn:
-        PNTB AB 2;
+        PNTB AB 2 bright;
         loop;
     Death:
         TNT1 A      0 A_Explode (16, 16, 0);
-        PNTB CDEFGH 2;
+        PNTB CDEFGH 2 bright;
         stop;
     }
 }
