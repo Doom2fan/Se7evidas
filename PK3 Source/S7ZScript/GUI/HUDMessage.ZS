@@ -8,7 +8,7 @@ class S7_HudMessageData {
     int alignment;
     int color;
     int style;
-    Font fnt;
+    string fnt;
     double alpha;
     Vector2 screenSize;
 }
@@ -60,12 +60,12 @@ class S7_HudMessage : HUDMessageBase {
             return;
 
         string text = data.text;
-        Font fnt = data.fnt;
+        Font fnt = Font.GetFont (data.fnt);
         double alpha = data.alpha;
 
         Vector2 offsets = (0, 0);
         Vector2 pos = data.pos;
-        Vector2 textSize = (data.fnt.StringWidth (text), data.fnt.GetHeight ());
+        Vector2 textSize = (fnt.StringWidth (text), fnt.GetHeight ());
         Vector2 screenSize = data.screenSize;
 
         let hAlign = data.alignment & 0x0000FFFF;
@@ -96,7 +96,7 @@ class S7_HudMessage : HUDMessageBase {
     }
 
     static play void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int flags = 0, int alignment = S7_HudMessage.AlignTopLeft,
-        int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, Font fnt = "SmallFont", double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
+        int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, string fnt = "SmallFont", double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
     ) {
         let h = S7_HudMessageHandler (EventHandler.Find ("S7_HudMessageHandler"));
 
@@ -168,7 +168,7 @@ class S7_HudMessageFade : S7_HudMessage {
     }
 
     static play void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int inTics, int outTics, int flags = 0,
-        int alignment = S7_HudMessage.AlignTopLeft, int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, Font fnt = "SmallFont",
+        int alignment = S7_HudMessage.AlignTopLeft, int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, string fnt = "SmallFont",
         double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
     ) {
         let h = S7_HudMessageHandler (EventHandler.Find ("S7_HudMessageHandler"));
