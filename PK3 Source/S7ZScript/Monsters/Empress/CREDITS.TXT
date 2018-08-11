@@ -6,7 +6,3 @@ Sprites:
     HRSF* and HRSS* sprites: Chronos "phantombeta" Ouroboros.
 
 Sounds: None yet :P
-
-Misc credits:
-    Credits for the idea on how to make/draw/spawn the pentagram go to TerminusEst13
-    Credits for a bit of the code also goes to TerminusEst13. (Specifically, the angles in the A_CustomMissile calls in S7_EmpressPentagramCorner. That's literally the only thing I copied from DemonSteele's DECORATE code, as I just couldn't get it right)

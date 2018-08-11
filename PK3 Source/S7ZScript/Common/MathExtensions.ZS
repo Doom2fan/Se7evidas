@@ -71,7 +71,7 @@ class S7_Math : Actor {
     /** Ballistic trajectory correction **/
     /* Summary:
     **  Calculates the correct pitch a shooter needs to fire a gravity-affected projectile at to have it hit the target.
-    **  Written by Chronos "phantombeta" Ouroboros. The equation were taken from Wikipedia.
+    **  Written by Chronos "phantombeta" Ouroboros. The equations were taken from Wikipedia.
     **
     ** Arguments:
     **  shooterPos: The shooter's position.
@@ -108,51 +108,6 @@ class S7_Math : Actor {
             return false;
        
         return true;
-    }
-
-
-    /** 3D vector rotation **/
-    /* Summary:
-    **  Rotates a 3D vector along the specified axis.
-    **  Coded by kodi from the ZDoom forums/Discord
-    **
-    ** Arguments:
-    **  point: The vector to be rotated.
-    **  ang: The angle to rotate the vector by.
-    **  axis: Which axis to rotate in. (1: X/Roll, 2: Y/Pitch, 3:Z/Yaw)
-    **
-    ** Returns:
-    **  The input vector rotated by the specified amount in the specified axis
-    **/
-    static vector3 RotateVec3 (vector3 point, double ang, int axis) {
-        vector3 ret;
-        vector3 row1;
-        vector3 row2;
-        vector3 row3;
-
-        switch(axis) {
-            case 1:
-                row1 = (1.0,        0.0,        0.0);
-                row2 = (0.0,        cos(ang),   -sin(ang));
-                row3 = (1.0,        sin(ang),   cos(ang));
-                break;
-
-            case 2:
-                row1 = (cos(ang),   0.0,        sin(ang)    );
-                row2 = (0,          1.0,        0.0);
-                row3 = (-sin(ang),  0.0,        cos(ang)    );
-                break;
-
-            case 3:
-                row1 = (cos(ang),   -sin(ang),  0.0);
-                row2 = (sin(ang),   cos(ang),   0.0);
-                row3 = (0.0,        0.0,        1.0);
-                break;
-        }
-        ret.x = (row1.x*point.x) + (row1.y*point.y) + (row1.z * point.z);
-        ret.y = (row2.x*point.x) + (row2.y*point.y) + (row2.z * point.z);
-        ret.z = (row3.x*point.x) + (row3.y*point.y) + (row3.z * point.z);
-        return ret;
     }
 
     /** Physics **/

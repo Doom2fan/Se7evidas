@@ -1,4 +1,3 @@
-// From Samsara
 class S7_Boolean : Inventory {
     default {
         Inventory.MaxAmount 1;

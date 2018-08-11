@@ -308,7 +308,7 @@ class S7_ThrownObject : S7_Projectile {
 // Melee puffs
 //
 //-------------------------------------------------------------------------------------------
-class S7_MeleePuff : S7_EffectsBase { // By Jekyll Grim Payne/zer0, edited by Chronos "phantombeta" Ouroboros
+class S7_MeleePuff : S7_EffectsBase {
     default {
         DamageType "Kick";
         AttackSound "Weapons/Kick/HitWall";
@@ -324,7 +324,7 @@ class S7_MeleePuff : S7_EffectsBase { // By Jekyll Grim Payne/zer0, edited by Ch
     }
 }
 
-class S7_MeleePuffStrong : S7_MeleePuff { // Ditto
+class S7_MeleePuffStrong : S7_MeleePuff {
     default {
         Decal "FistScorch";
         AttackSound "Weapons/Kick/Strong";
