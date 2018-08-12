@@ -151,6 +151,17 @@ class S7_HellKnightSpawner : S7_ReplacementSpawner replaces HellKnight {
 
 //-------------------------------------------------------------------------------------------
 //
+// Baron of Hell spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_BaronOfHellSpawner : S7_ReplacementSpawner replaces BaronOfHell {
+    default {
+        DropItem "S7_InfernalGuardian", 256, 1;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Cyberdemon spawner
 //
 //-------------------------------------------------------------------------------------------

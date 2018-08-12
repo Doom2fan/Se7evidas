@@ -1,0 +1,13 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_InfernalGuardian: Id Software, Vader, Chronos "phantombeta" Ouroboros
+    S7_InfernalGuardian_Shield: Id Software, Vader
+    S7_InfernalGuardianBall: Eriance, Chronos "phantombeta" Ouroboros
+    S7_InfernalGuardianShieldShot: Eriance, Chronos "phantombeta" Ouroboros
+
+Brightmaps:
+    S7_InfernalGuardian: Ghastly Dragon, Sandypaper
+    S7_InfernalGuardian_Shield: Ghastly Dragon, Sandypaper
+
+Sounds: Credits in the SNDINFO file

@@ -1,0 +1,23 @@
+Monsters/___BaronRepl/Sight  "sounds/Monsters/___BaronRepl/Sight.ogg" // By Chronos "phantombeta" Ouroboros. Licensed as CC-BY-SA.
+                                                                      // Credits: freesound.org id 149190, CC-BY, by videog.
+
+Monsters/___BaronRepl/Active "sounds/Monsters/___BaronRepl/Active.ogg" // By Chronos "phantombeta" Ouroboros. Licensed as CC-BY-SA.
+                                                                       // Credits: freesound.org id 149190, CC-BY, by videog.
+
+Monsters/___BaronRepl/Attack "sounds/Monsters/___BaronRepl/Attack.ogg" // By Chronos "phantombeta" Ouroboros. Licensed as CC-BY-SA.
+                                                                       // Credits: freesound.org id 149190, CC-BY, by videog.
+
+Monsters/___BaronRepl/Pain   "sounds/Monsters/___BaronRepl/Pain.ogg" // By Chronos "phantombeta" Ouroboros.
+                                                                     // Credits: Id Software, Per Kristian
+
+Monsters/___BaronRepl/Death  "sounds/Monsters/___BaronRepl/Death.ogg" // By Chronos "phantombeta" Ouroboros.
+                                                                      // Credits: Id Software, Per Kristian
+
+Monsters/___BaronRepl/AttackFireball "sounds/Monsters/___BaronRepl/AttackFireball.ogg" // From Doom 3.
+Monsters/___BaronRepl/AttackShield   "sounds/Monsters/___BaronRepl/AttackShield.ogg"   // By Blizzard (from Diablo).
+                                                                                       // Taken from "Azazel" from the Realm667 repository.
+
+Monsters/___BaronRepl/MeleeHit  "sounds/Monsters/___BaronRepl/MeleeHit.ogg"  // By Chronos "phantombeta" Ouroboros.
+                                                                             // Made from sounds from Doom 3.
+Monsters/___BaronRepl/MeleeMiss "sounds/Monsters/___BaronRepl/MeleeMiss.ogg" // By Chronos "phantombeta" Ouroboros.
+                                                                             // Made from sounds from Doom 3.

@@ -95,6 +95,7 @@ BLCKPNTTAG                      = "Black Panther";
 EMPRESSTAG                      = "Empress";
 SUCCUBUSTAG                     = "Succubus";
 FATFUCKTAG                      = "Corpulent";
+INFERNALGUARDIANTAG             = "Infernal Guardian";
 
 /** Genders **/
 GEN_MALE                        = "Male";
