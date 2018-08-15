@@ -1,5 +1,23 @@
-/* Based on Zombie Torrent's casings code (I don't know who made the code for those casings)
-** Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
+/*
+ *  Se7evidas - A GZDoom mod
+ *  Copyright (C) 2018 Chronos "phantombeta" Ouroboros
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License along
+ *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
+/* Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
 ** Usage:
 **  Weapons:  A_FireCustomMissile ("<Casing spawner actor>", 0, 0, <int xPos>, <float yPos>)
 **  Monsters: A_SpawnProjectile ("<Casing spawner actor>", <float yPos/zPos>, <int xPos>, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
