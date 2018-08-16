@@ -329,7 +329,7 @@ class S7_Canteen : Inventory {
         Inventory.MaxAmount 2000;
         inventory.interHubAmount 2000;
         Inventory.PickupMessage "$CANTEEN";
-        Inventory.Icon "graphics/Inventory/Canteen.png";
+        Inventory.Icon "graphics/Inventory/Canteen.png"; // Sprite by josh771
 
         +INVENTORY.INVBAR +INVENTORY.UNDROPPABLE +INVENTORY.KEEPDEPLETED +INVENTORY.UNTOSSABLE
     }
