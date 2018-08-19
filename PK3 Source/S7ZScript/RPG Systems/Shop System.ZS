@@ -143,6 +143,32 @@ class S7_SSItem {
         return player.CountInv (inventoryName);
     }
 
+    virtual bool CanBuy (S7_BasePlayer player, int amount) {
+        S7_SSItemInfo info = GetInfo (player, amount);
+
+        return (GetAmount (player) + info.buyAmount) <= info.maxAmount &&
+                player.CountInv (cashItem) >= info.buyPrice;
+    }
+
+    virtual bool CanSell (S7_BasePlayer player, int amount) {
+        S7_SSItemInfo info = GetInfo (player, amount);
+
+        int maxCashAmount = 0;
+
+        let cashInv = player.FindInventory (cashItem);
+        let defCashInv = GetDefaultByType ((class<Inventory>) (cashItem));
+        if (cashInv)
+            maxCashAmount = cashInv.MaxAmount;
+        else if (defCashInv)
+            maxCashAmount = defCashInv.MaxAmount;
+        else
+            return false;
+
+
+        return GetAmount (player) >= info.sellAmount &&
+                info.sellPrice <= maxCashAmount;
+    }
+
     virtual S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
         let ret = self.info.Copy ();
 
@@ -177,6 +203,8 @@ class S7_SSItem {
             return BC_InventoryFull;
         if (player.CountInv (self.cashItem) < finalPrice)
             return BC_NotEnoughMoney;
+        if (!CanBuy (player, amount))
+            return BC_Unknown;
 
         player.TakeInventory (self.cashItem, finalPrice);
         player.GiveInventory (self.inventoryName, finalAmount);
@@ -196,6 +224,8 @@ class S7_SSItem {
             return SC_NotEnoughOfItem;
         if (uint (uint (player.CountInv (self.cashItem)) + uint (finalPrice)) >= player.FindInventory (self.cashItem).maxAmount)
             return SC_TooMuchMoney;
+        if (!CanSell (player, amount))
+            return SC_Unknown;
 
         player.GiveInventory (self.cashItem, finalPrice);
         player.TakeInventory (self.inventoryName, finalAmount);
@@ -253,12 +283,66 @@ class S7_SSItem_Armor : S7_SSItem {
         return ret;
     }
 
-    override int GetAmount (S7_BasePlayer player) {
+    override bool CanBuy (S7_BasePlayer player, int amount) {
         let basicArmor = S7_BasicArmor (player.FindInventory ("S7_BasicArmor"));
 
-        if (basicArmor && basicArmor.ArmorType == inventoryName && basicArmor.Amount >= basicArmor.ActualSaveAmount)
-            return 1;
+        if (!basicArmor || basicArmor.ArmorType != inventoryName || basicArmor.Amount < basicArmor.ActualSaveAmount)
+            return Super.CanBuy (player, amount);
         else
-            return 0;
+            return false;
+    }
+}
+
+class S7_SSItem_Upgrade : S7_SSItem {
+    Array<string> requiredUpgrades;
+
+    static S7_SSItem_Upgrade Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
+        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
+        SS_DescShowType descShowType = DS_Both
+    ) {
+        S7_SSItem_Upgrade ret = new ("S7_SSItem_Upgrade");
+
+        Array<string> strings;
+        inventoryName.Split (strings, ";");
+
+        if (strings.Size () > 1)
+            inventoryName = strings [0];
+        if (strings.Size () > 0)
+            strings.Delete (0, 1);
+
+        ret.requiredUpgrades.Copy (strings);
+
+        AssignData (ret, id,
+            name, desc, info, icon,
+            inventoryName, itemType, link,
+            cashItem, maxAmount,
+            buyPrice, buyAmount,
+            sellPrice, sellAmount,
+            descShowType
+        );
+
+        return ret;
+    }
+
+    override bool CanBuy (S7_BasePlayer player, int amount) {
+        for (int i = 0; i < requiredUpgrades.Size (); i++) {
+            string reqItemName = requiredUpgrades [i];
+            int reqItemAmount = 1;
+
+            int sepIndex = requiredUpgrades [i].IndexOf (",");
+            if (sepIndex != -1) {
+                reqItemName = requiredUpgrades [i].Left (sepIndex);
+                reqItemAmount = requiredUpgrades [i].Mid (sepIndex + 1).ToInt ();
+            }
+            
+            if (player.CountInv (reqItemName) < reqItemAmount)
+                return false;
+        }
+
+        return Super.CanBuy (player, amount);
+    }
+
+    override bool CanSell (S7_BasePlayer player, int amount) {
+        return false;
     }
 }

@@ -120,18 +120,40 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             mThrowableForce.Update (0);
     }
 
+    enum HUDTypes {
+        HUDType_None = 0,
+        HUDType_Minimal = 1,
+        HUDType_Helmet = 2,
+    }
+
     override void Draw (int state, double TicFrac) {
         Super.Draw (state, TicFrac);
 
-        if (!CPlayer)
+        if (!CPlayer || !CPlayer.mo || !S7_BasePlayer (CPlayer.mo))
             return;
 
-        if (state == HUD_StatusBar) {
-            BeginHUD (1.0, true, 320, 200);
-            DrawMainBar (TicFrac, S7_BasePlayer (CPlayer.mo));
-        } else if (state == HUD_Fullscreen) {
+        CVar selectedHUDCvar = CVar.GetCvar ("S7_HUDType", CPlayer);
+
+        if (!selectedHUDCvar)
+            return;
+
+        int selectedHUD = selectedHUDCvar.GetInt ();
+        bool drawHUD = (
+            (state == HUD_StatusBar || state == HUD_Fullscreen) &&
+            selectedHUD != HUDType_None
+        );
+
+        if (!drawHUD)
+            return;
+
+        let pPawn = S7_BasePlayer (CPlayer.mo);
+
+        if (selectedHUD == HUDType_Minimal) {
             BeginHUD (1.0, false, 320, 200);
-            DrawFullScreenBar (TicFrac, S7_BasePlayer (CPlayer.mo));
+            DrawMinimalHUD (TicFrac, pPawn);
+        } else if (selectedHUD == HUDType_Helmet) {
+            BeginHUD (1.0, true, 320, 200);
+            DrawHelmetHUD (TicFrac, pPawn);
         }
     }
 
@@ -145,6 +167,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
             double markerYOffs = mRadarMarkers.mFont.GetHeight () / 2.0;
 
+            bool showKeys = CheckInventory ("S7_UpgradeRadarKeys", 1);
+
             let actorFinder = BlockThingsIterator.Create (pPawn, RADAR_MAXDIST);
             Actor curActor;
             while (actorFinder.Next ()) {
@@ -156,7 +180,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                         colour = (curActor.isFriend (pPawn)) ? Font.CR_GREEN : Font.CR_RED;
                     else
                         colour = Font.CR_DARKGRAY;
-                } else if (curActor.bSpecial && curActor is "Key")
+                } else if (showKeys && curActor.bSpecial && curActor is "Key")
                     colour = Font.CR_GOLD;
                 else
                     continue;
@@ -178,7 +202,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         }
     }
 
-    protected void DrawMainBar (double TicFrac, S7_BasePlayer pPawn) {
+    protected void DrawHelmetHUD (double TicFrac, S7_BasePlayer pPawn) {
         DrawImage ("HELMTOP", (0, 0), DI_ITEM_TOP | DI_SCREEN_HCENTER);
         DrawImage ("HELMBTML", (0, 0), DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM);
         DrawImage ("HELMBTMR", (0, 0), DI_ITEM_RIGHT_BOTTOM | DI_SCREEN_RIGHT_BOTTOM);
@@ -187,19 +211,21 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
             DrawImage ("graphics/HUD/Normal/HOLOBARSNONE.png", (0, 27), DI_ITEM_TOP | DI_SCREEN_HCENTER);
 
+            int maxHealth = pPawn.GetMaxHealth (true);
+
             string energyImg;
-            if (CheckHealth (75, true))
+            if (CheckHealth (maxHealth * .75, true))
                 energyImg = "graphics/HUD/Normal/HOLOBARSGREEN.png";
-            else if (CheckHealth (50, true))
+            else if (CheckHealth (maxHealth * .50, true))
                 energyImg = "graphics/HUD/Normal/HOLOBARSYELLOW.png";
-            else if (CheckHealth (25, true))
+            else if (CheckHealth (maxHealth * .25, true))
                 energyImg = "graphics/HUD/Normal/HOLOBARSORANGE.png";
             else
                 energyImg = "graphics/HUD/Normal/HOLOBARSRED.png";
             DrawImage (energyImg, (0, 29), DI_ITEM_TOP | DI_SCREEN_HCENTER);
 
             // Draw health/armor bars
-            DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), pPawn.GetMaxHealth (true), (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
+            DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), maxHealth, (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetS7ArmorSaveAmount (), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             // Draw health/armor numbers
             DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ("HUD_Health"));
@@ -207,7 +233,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         }
     }
 
-    protected void DrawFullScreenBar (double TicFrac, S7_BasePlayer pPawn) {
+    protected void DrawMinimalHUD (double TicFrac, S7_BasePlayer pPawn) {
         // Icons
         DrawImage ("graphics/HUD/Fullscreen/S7HLTH.png", (11,  -7), DI_ITEM_LEFT_BOTTOM);
         DrawImage ("graphics/HUD/Fullscreen/S7ARMR.png", (11, -25), DI_ITEM_LEFT_BOTTOM);
@@ -234,8 +260,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         }
 
         // Enemy health bar
-        CVar enHPBarOn = CVar.GetCvar ("S7_EnemyHPBar_On", CPlayer);
-        if (enHPBarOn && enHPBarOn.GetInt ()) {
+        bool enHPBarOn = CheckInventory ("S7_UpgradeEnemyHPBar", 1);
+        if (enHPBarOn) {
             let enemy = pPawn.playerLineTarget;
 
             if (enemy) {

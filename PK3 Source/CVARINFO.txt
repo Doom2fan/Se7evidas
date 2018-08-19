@@ -14,13 +14,14 @@ user bool S7_MsgsOn                     = TRUE;
 user bool S7_LogLVLUpMsgs               = TRUE;
 user bool S7_AutoReloading              = TRUE;
 user bool S7_HeartbeatsOn               = TRUE;
+user int  S7_HUDType                    = 1;
 
 // Intro
 user bool S7_NoIntro                    = FALSE;
 user bool S7_NoIntroOnMP                = FALSE;
 
 // Enemy health bar
-user bool S7_EnemyHPBar_On              = TRUE;
+//user bool S7_EnemyHPBar_On              = TRUE;
 user int  S7_EnemyHPBar_HPDisp          = 1;
 user bool S7_EnemyHPBar_NametagOn       = TRUE;
 //user int  S7_EnemyHPBar_ForceDir        = 0;

@@ -39,6 +39,10 @@ SS_LOOT_WEAPSNAMMO              = "Weapons and ammo";
 SS_LOOT_ARTIFACTS               = "Artifacts";
 SS_LOOT_TREASURE                = "Treasure";
 
+SS_UPGRADES                     = "Upgrades";
+SS_UPGRADES_COMBAT              = "Combat upgrades";
+SS_UPGRADES_INFO                = "Informational upgrades";
+
 // Page descriptions
 SS_CONSUMABLES_DESC             = "Buy consumable items";
 SS_ARMOR_DESC                   = "Buy armor";
@@ -52,6 +56,10 @@ SS_BATTERIES_DESC               = "Batteries and energy cells";
 SS_THGRENADES_DESC              = "50mm grenades for the XPL-50 \"Thumper\" Grenade Launcher";
 
 SS_LOOT_DESC                    = "Sell items useless to you";
+
+SS_UPGRADES_DESC                = "Buy upgrades";
+SS_UPGRADES_COMBAT_DESC         = "Upgrades that enhance your combat abilities";
+SS_UPGRADES_INFO_DESC           = "Upgrades that give you additional information";
 
 // Names
 // Ammo
@@ -70,6 +78,12 @@ SS_TH_NGAS                      = "Nerve gas";
 SS_HANDGRENADES                 = "Hand grenade";
 // Loot
 SS_SCORPS_SG                    = "Shadow Corps Semi-auto Shotgun";
+// Combat upgrades
+SS_UPGR_LIGHTSLOT               = "Additional light weapon slot";
+// Info upgrades
+SS_UPGR_ENEMY_INFO              = "Enemy info";
+SS_UPGR_RADAR                   = "Radar";
+SS_UPGR_RADAR_KEYS              = "Show keys on radar";
 
 // Descriptions
 // Cartridges
@@ -82,6 +96,11 @@ SS_12GADESC                     = "Box of 12ga #00 buckshot shells";
 // Batteries/Cells
 SS_CELLSDESC                    = "Type A energy cell";
 SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";
+// Combat upgrades
+SS_UPGR_LIGHTSLOT_DESC          = "Unlocks an additional light weapon slot, allowing you to carry two light weapons";
+SS_UPGR_ENEMY_INFO_DESC         = "Displays information about the enemy under the crosshair.\nShows the enemy's health and name.";
+SS_UPGR_RADAR_DESC              = "Displays a radar on the HUD. Enemies are shown as red points.";
+SS_UPGR_RADAR_KEYS_DESC         = "Shows keys as golden points on the radar";
 
 // Info
 // Cartridges

@@ -72,16 +72,24 @@ optionValue "S7_Flashlight_Mount" {
     2, "Helmet"
 }
 
+// HUD styles
+optionValue "S7_HUDStyles" {
+    0, "No HUD"
+    1, "Minimal"
+    2, "Helmet"
+}
+
 optionMenu "S7Settings_User" {
     title "USER OPTIONS"
 
     staticText "Visual Options", 1
-    option "Mod messages",                                                                          "S7_MsgsOn",                    "OnOff"
-    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs",              "OnOff"
+    option "Mod messages",                                                                          "S7_MsgsOn",       "OnOff"
+    option "Log level up messages",                                                                 "S7_LogLVLUpMsgs", "OnOff"
+    option "HUD style",                                                                             "S7_HUDType",      "S7_HUDStyles"
 
     staticText " "
     staticText "Enemy health bar", 1
-    option "Enemy health bar",                                                                      "S7_EnemyHPBar_On",             "OnOff"
+    //option "Enemy health bar",                                                                      "S7_EnemyHPBar_On",             "OnOff"
     option "Numerical health display",                                                              "S7_EnemyHPBar_HPDisp",         "S7EnemyHPBar_HPDisp_Values"
     option "Nametag",                                                                               "S7_EnemyHPBar_NametagOn",      "OnOff"
     //option "Force Direction",                                                                       "S7_EnemyHPBar_ForceDir",       "S7EnemyHPBar_ForceDir_Values"

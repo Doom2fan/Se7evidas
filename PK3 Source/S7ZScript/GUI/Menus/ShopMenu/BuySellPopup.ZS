@@ -273,7 +273,9 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             acceptButton.textColor = Font.CR_DARKGRAY;
 
             acceptButton.disabled = true;
-        }
+        } else if ((!sellMode && !selectedItem.CanBuy  (pPawn, amount)) ||
+                    (sellMode && !selectedItem.CanSell (pPawn, amount)))
+            acceptButton.disabled = true;
 
         bool noShowQuant = info.maxAmount == 1;
         addButton.disabled = decButton.disabled = noShowQuant;

@@ -47,6 +47,15 @@
                     "itemType": "pageLink",
                     "link": "lootPage",
                     "global": false
+                },
+                {
+                    "id": [ "M", "P", "U", "P" ],
+                    "name": "$SS_UPGRADES",
+                    "desc": "$SS_UPGRADES_DESC",
+                    "icon": "graphics/Menu/Shop/Icons/UpgradesPage.png",
+                    "itemType": "pageLink",
+                    "link": "upgradesPage",
+                    "global": false
                 }
             ]
         },
@@ -812,6 +821,129 @@
                     "itemType": "sellItem",
                     "sellPrice": 850,
                     "sellAmount": 1,
+                    "global": true
+                }
+            ]
+        },
+
+        // Upgrades section
+        {
+            "intName": "upgradesPage",
+            "name": "$SS_UPGRADES",
+            "backPage": "mainPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "mainPage",
+                    "global": false
+                },
+                {
+                    "id": [ "C", "M", "B", "T" ],
+                    "name": "$SS_UPGRADES_COMBAT",
+                    "desc": "$SS_UPGRADES_COMBAT_DESC",
+                    "itemType": "pageLink",
+                    "link": "upgradesPage_Combat",
+                    "global": false
+                },
+                {
+                    "id": [ "I", "N", "F", "O" ],
+                    "name": "$SS_UPGRADES_INFO",
+                    "desc": "$SS_UPGRADES_INFO_DESC",
+                    "itemType": "pageLink",
+                    "link": "upgradesPage_Info",
+                    "global": false
+                }
+            ]
+        },
+
+        {
+            "intName": "upgradesPage_Combat",
+            "name": "$SS_UPGRADES_COMBAT",
+            "backPage": "upgradesPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "upgradesPage",
+                    "global": false
+                },
+
+                {
+                    "id": [ "S", "L", "T", "0" ],
+                    "name": "$SS_UPGR_LIGHTSLOT",
+                    "desc": "$SS_UPGR_LIGHTSLOT_DESC",
+                    //"icon": "sprites/Inventory/Loot/LOT1E0.png",
+                    "inventoryName": "S7_UpgradeSlot2",
+                    "itemType": "buyItem",
+                    "buyPrice": 5000,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Upgrade",
+                    "global": true
+                }
+            ]
+        },
+
+        {
+            "intName": "upgradesPage_Info",
+            "name": "$SS_UPGRADES_INFO",
+            "backPage": "upgradesPage",
+
+            "items": [
+                {
+                    "id": [ "B", "A", "C", "K" ],
+                    "name": "$SS_BACK",
+                    "desc": "$SS_BACK_DESC",
+                    "icon": "M_BACK_D",
+                    "itemType": "pageLink",
+                    "link": "upgradesPage",
+                    "global": false
+                },
+
+                {
+                    "id": [ "E", "H", "P", "B" ],
+                    "name": "$SS_UPGR_ENEMY_INFO",
+                    "desc": "$SS_UPGR_ENEMY_INFO_DESC",
+                    //"icon": "sprites/Inventory/Loot/LOT1E0.png",
+                    "inventoryName": "S7_UpgradeEnemyHPBar",
+                    "itemType": "buyItem",
+                    "buyPrice": 2000,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Upgrade",
+                    "global": true
+                },
+
+                {
+                    "id": [ "R", "D", "A", "R" ],
+                    "name": "$SS_UPGR_RADAR",
+                    "desc": "$SS_UPGR_RADAR_DESC",
+                    //"icon": "sprites/Inventory/Loot/LOT1E0.png",
+                    "inventoryName": "S7_UpgradeRadar",
+                    "itemType": "buyItem",
+                    "buyPrice": 7500,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Upgrade",
+                    "global": true
+                },
+
+                {
+                    "id": [ "R", "D", "R", "K" ],
+                    "name": "$SS_UPGR_RADAR_KEYS",
+                    "desc": "$SS_UPGR_RADAR_KEYS_DESC",
+                    //"icon": "sprites/Inventory/Loot/LOT1E0.png",
+                    "inventoryName": "S7_UpgradeRadarKeys;S7_UpgradeRadar",
+                    "itemType": "buyItem",
+                    "buyPrice": 1500,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Upgrade",
                     "global": true
                 }
             ]
