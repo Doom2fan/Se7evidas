@@ -135,6 +135,7 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
         GiveInventory ("S7_GrenadeCount", 4);
         GiveInventory ("S7_Stimpack", 3);
         GiveInventory ("S7_Medikit", 2);
+        GiveInventory ("S7_Flashlight", 1);
         // Ammo
         GiveInventory ("S7_RaptorClip", 16);
         GiveInventory ("S7_9mmCartridges", 50);

@@ -175,7 +175,6 @@ class S7_Math : Actor {
         return origin, size;
     }
 
-    /** Polygons **/
     /* Summary:
     **  Checks if a ray intersects a segment.
     **
@@ -248,6 +247,11 @@ class S7_Math : Actor {
         }
 
         return ((count & 1) == 1);
+    }
+
+    /** General math **/
+    static double Mix (double x, double y, double a) {
+        return x * (1-a) + y * a;
     }
 }
 

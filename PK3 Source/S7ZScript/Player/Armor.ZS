@@ -18,8 +18,12 @@
 */
 
 class S7_ArmorData play {
+    int armorBonuses;
+
     virtual void Init (S7_BasicArmor armor) { }
     virtual void Tick (S7_BasicArmor armor) { }
+
+    virtual void GotBonus (S7_BasicArmor armor, int amount) { }
 
     virtual int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {
         int saved;
@@ -46,6 +50,8 @@ class S7_ArmorData play {
 
 class S7_BasicArmor : BasicArmor {
     S7_ArmorData armorData;
+    double bonusFactor; // The factor for the armor bonuses is saved as an optimization.
+    int    bonusFactorAmount;
 
     override void DoEffect () {
         Inventory basicArmor;
@@ -97,6 +103,16 @@ class S7_BasicArmor : BasicArmor {
                     armorData = null;
                 }
             }
+        }
+
+        if (armorData && (newDamage != damage || ArmorType != 'None')) {
+            if (bonusFactorAmount != armorData.armorBonuses) {
+                double bonuses = clamp (armorData.armorBonuses, 0, 350); // This is clamped to [0-350] because at >~350 the result starts to increase
+                bonusFactor = clamp (S7_Math.Mix (1. / ((bonuses+28) / 30.) * 1.15,  1.7 * log10 ((bonuses+1) / 50.), .1) + .15, .5, 1.);
+                bonusFactorAmount = armorData.armorBonuses;
+            }
+
+            newDamage = damage * bonusFactor;
         }
 
         // Once the armor has absorbed its part of the damage, then apply its damage factor, if any, to the player

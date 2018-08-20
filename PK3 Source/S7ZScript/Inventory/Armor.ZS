@@ -29,6 +29,20 @@ class S7_CCSecVestData : S7_ArmorData {
 
     double kevlarDMG;
 
+    void UpdateAmount (S7_BasicArmor armor) {
+        armor.amount = clamp (100 * (1 - kevlarDMG / kevlarDMGLimit), 0, 100);
+    }
+
+    override void GotBonus (S7_BasicArmor armor, int amount) {
+        kevlarDMG = max (kevlarDMG - amount, 0.);
+
+        UpdateAmount (armor);
+    }
+
+    override void Tick (S7_BasicArmor armor) {
+        UpdateAmount (armor);
+    }
+
     override int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {
         if (!armor)
             return damage;
@@ -63,7 +77,7 @@ class S7_CCSecVestData : S7_ArmorData {
             ret = damage;
 
         kevlarDMG = clamp (kevlarDMG + max (kevDMG, 0), 0, kevlarDMGLimit);
-        armor.amount = clamp (100 * (1 - kevlarDMG / kevlarDMGLimit), 0, 100);
+        UpdateAmount (armor);
 
         return ret;
     }
@@ -103,6 +117,17 @@ class S7_CCCombatArmorData : S7_ArmorData {
     double kevlarDMG;
     double platesDMG;
 
+    void UpdateAmount (S7_BasicArmor armor) {
+        armor.amount = clamp (100 * ((1 - kevlarDMG / kevlarDMGLimit) + (1 - platesDMG / platesDMGLimit)), 0, 200);
+    }
+
+    override void GotBonus (S7_BasicArmor armor, int amount) {
+        kevlarDMG = max (kevlarDMG - (amount / 2.), 0.);
+        platesDMG = max (platesDMG - (amount / 2.), 0.);
+
+        UpdateAmount (armor);
+    }
+
     protected double, double, int CalcBulletDamage (int dmg, double baseKevDMG, double maxBulletShred,
         double pltShift = 0, double pltMin = 0,
         double usrPltM = 0, double usrKevM = 0, double usrKevMShift = 0, double usrMin = 0
@@ -124,6 +149,10 @@ class S7_CCCombatArmorData : S7_ArmorData {
     override void Init (S7_BasicArmor armor) {
         kevlarDMG = 0;
         platesDMG = 0;
+    }
+
+    override void Tick (S7_BasicArmor armor) {
+        UpdateAmount (armor);
     }
 
     override int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {
@@ -178,7 +207,7 @@ class S7_CCCombatArmorData : S7_ArmorData {
 
         kevlarDMG = clamp (kevlarDMG + max (kevDMG, 0), 0, kevlarDMGLimit);
         platesDMG = clamp (platesDMG + max (pltDMG, 0), 0, platesDMGLimit);
-        armor.amount = clamp (100 * ((1 - kevlarDMG / kevlarDMGLimit) + (1 - platesDMG / platesDMGLimit)), 0, 200);
+        UpdateAmount (armor);
 
         return ret;
     }
@@ -204,3 +233,76 @@ class S7_CCCombatArmor : S7_BasicArmorPickup {
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Armor bonus
+//
+//-------------------------------------------------------------------------------------------
+/* Credits:
+**  Sprites: id Software, Chronos "phantombeta" Ouroboros
+**  Brightmaps: Chronos "phantombeta" Ouroboros
+*/
+class S7_ArmorBonus : Inventory {
+    default {
+        Inventory.Amount 4;
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$S7_ARMORBONUS";
+
+        Tag "$S7_ARMORBONUS";
+    }
+
+    override void PostBeginPlay () {
+        amount = random [invItems] (3, 5);
+    }
+
+    override bool TryPickup (in out Actor toucher) {
+        let basicArmor = S7_BasicArmor (toucher.FindInventory ("S7_BasicArmor"));
+
+        if (basicArmor && basicArmor.armorData && basicArmor.ArmorType != 'None') {
+            basicArmor.armorData.armorBonuses += amount;
+            basicArmor.armorData.GotBonus (basicArmor, amount);
+
+            GoAwayAndDie();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    states {
+    Spawn:
+        BON2 A  9;
+        BON2 BC 3 bright;
+        BON2 D  9 bright;
+        BON2 CB 3 bright;
+        loop;
+    }
+}
+
+/* Credits:
+**  Sprites: id Software, Chronos "phantombeta" Ouroboros
+**  Brightmaps: Chronos "phantombeta" Ouroboros
+*/
+class S7_LargeArmorBonus : S7_ArmorBonus {
+    default {
+        Inventory.Amount 7;
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$S7_LARGEARMORBONUS";
+
+        Tag "$S7_LARGEARMORBONUS";
+    }
+
+    override void PostBeginPlay () {
+        amount = random [invItems] (7, 8);
+    }
+
+    states {
+    Spawn:
+        BON3 A  9;
+        BON3 BC 3 bright;
+        BON3 D  9 bright;
+        BON3 CB 3 bright;
+        loop;
+    }
+}

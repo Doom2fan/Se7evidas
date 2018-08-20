@@ -1,0 +1,29 @@
+brightmap sprite BON2B0 {
+    map "Brightmaps/ArmorBonus/BON2B0.png"
+    disablefullbright
+}
+
+brightmap sprite BON2C0 {
+    map "Brightmaps/ArmorBonus/BON2C0.png"
+    disablefullbright
+}
+
+brightmap sprite BON2D0 {
+    map "Brightmaps/ArmorBonus/BON2D0.png"
+    disablefullbright
+}
+
+brightmap sprite BON3B0 {
+    map "Brightmaps/ArmorBonus/BON3B0.png"
+    disablefullbright
+}
+
+brightmap sprite BON3C0 {
+    map "Brightmaps/ArmorBonus/BON3C0.png"
+    disablefullbright
+}
+
+brightmap sprite BON3D0 {
+    map "Brightmaps/ArmorBonus/BON3D0.png"
+    disablefullbright
+}

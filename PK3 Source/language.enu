@@ -60,6 +60,8 @@
     // Armour
         GOTARMOR                    = "ST Armour";
         GOTMEGA                     = "GX Armour";
+        S7_ARMORBONUS               = "Enchanted Helmet";
+        S7_LARGEARMORBONUS          = "Enchanted Horned Helmet";
 
     // Ammo
         GOTBACKPACK                 = "Backpack";
