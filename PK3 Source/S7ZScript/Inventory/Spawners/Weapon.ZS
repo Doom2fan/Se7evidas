@@ -32,6 +32,20 @@ class S7_ChainsawSpawner : RandomSpawner replaces Chainsaw {
 
 //-------------------------------------------------------------------------------------------
 //
+// Pistol spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_PistolSpawner : RandomSpawner replaces Pistol {
+    default {
+        DropItem "S7_9mmCartridges"         , 256, 3;
+        DropItem "S7_Loot_BloodChalice"     , 256, 2;
+        DropItem "S7_Nothing"               , 256, 2;
+        DropItem "S7_45ACPCartridges"       , 256, 1;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Shotgun spawner
 //
 //-------------------------------------------------------------------------------------------
