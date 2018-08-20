@@ -1,5 +1,6 @@
 #include "GLDefs/Brightmaps/Projectiles.TXT"
 #include "GLDefs/Brightmaps/LaserPewPew.TXT"
+#include "GLDefs/Brightmaps/InfernalGuardian.TXT"
 #include "GLDefs/Skyboxes.TXT"
 
 pointLight MJMPMARKER {

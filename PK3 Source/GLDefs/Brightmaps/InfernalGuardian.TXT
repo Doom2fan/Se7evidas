@@ -1,0 +1,459 @@
+brightmap sprite B0SHA0 {
+    map "Brightmaps/InfernalGuardian/B0SHA0.png"
+    disablefullbright
+}
+
+brightmap sprite B0SHE0 {
+    map "Brightmaps/InfernalGuardian/B0SHE0.png"
+    disablefullbright
+}
+
+brightmap sprite B0SHF0 {
+    map "Brightmaps/InfernalGuardian/B0SHF0.png"
+    disablefullbright
+}
+
+brightmap sprite B0SHG0 {
+    map "Brightmaps/InfernalGuardian/B0SHG0.png"
+    disablefullbright
+}
+
+brightmap sprite B0SHH0 {
+    map "Brightmaps/InfernalGuardian/B0SHH0.png"
+    disablefullbright
+}
+
+brightmap sprite B0SHI0 {
+    map "Brightmaps/InfernalGuardian/B0SHI0.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A1 {
+    map "Brightmaps/InfernalGuardian/BOS0A1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A2 {
+    map "Brightmaps/InfernalGuardian/BOS0A2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A3 {
+    map "Brightmaps/InfernalGuardian/BOS0A3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A4 {
+    map "Brightmaps/InfernalGuardian/BOS0A4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A5 {
+    map "Brightmaps/InfernalGuardian/BOS0A5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A6 {
+    map "Brightmaps/InfernalGuardian/BOS0A6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A7 {
+    map "Brightmaps/InfernalGuardian/BOS0A7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0A8 {
+    map "Brightmaps/InfernalGuardian/BOS0A8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B1 {
+    map "Brightmaps/InfernalGuardian/BOS0B1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B2 {
+    map "Brightmaps/InfernalGuardian/BOS0B2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B3 {
+    map "Brightmaps/InfernalGuardian/BOS0B3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B4 {
+    map "Brightmaps/InfernalGuardian/BOS0B4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B5 {
+    map "Brightmaps/InfernalGuardian/BOS0B5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B6 {
+    map "Brightmaps/InfernalGuardian/BOS0B6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B7 {
+    map "Brightmaps/InfernalGuardian/BOS0B7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0B8 {
+    map "Brightmaps/InfernalGuardian/BOS0B8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C1 {
+    map "Brightmaps/InfernalGuardian/BOS0C1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C2 {
+    map "Brightmaps/InfernalGuardian/BOS0C2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C3 {
+    map "Brightmaps/InfernalGuardian/BOS0C3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C4 {
+    map "Brightmaps/InfernalGuardian/BOS0C4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C5 {
+    map "Brightmaps/InfernalGuardian/BOS0C5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C6 {
+    map "Brightmaps/InfernalGuardian/BOS0C6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C7 {
+    map "Brightmaps/InfernalGuardian/BOS0C7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0C8 {
+    map "Brightmaps/InfernalGuardian/BOS0C8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D1 {
+    map "Brightmaps/InfernalGuardian/BOS0D1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D2 {
+    map "Brightmaps/InfernalGuardian/BOS0D2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D3 {
+    map "Brightmaps/InfernalGuardian/BOS0D3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D4 {
+    map "Brightmaps/InfernalGuardian/BOS0D4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D5 {
+    map "Brightmaps/InfernalGuardian/BOS0D5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D6 {
+    map "Brightmaps/InfernalGuardian/BOS0D6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D7 {
+    map "Brightmaps/InfernalGuardian/BOS0D7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0D8 {
+    map "Brightmaps/InfernalGuardian/BOS0D8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E1 {
+    map "Brightmaps/InfernalGuardian/BOS0E1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E2 {
+    map "Brightmaps/InfernalGuardian/BOS0E2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E3 {
+    map "Brightmaps/InfernalGuardian/BOS0E3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E4 {
+    map "Brightmaps/InfernalGuardian/BOS0E4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E5 {
+    map "Brightmaps/InfernalGuardian/BOS0E5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E6 {
+    map "Brightmaps/InfernalGuardian/BOS0E6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E7 {
+    map "Brightmaps/InfernalGuardian/BOS0E7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0E8 {
+    map "Brightmaps/InfernalGuardian/BOS0E8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F1 {
+    map "Brightmaps/InfernalGuardian/BOS0F1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F2 {
+    map "Brightmaps/InfernalGuardian/BOS0F2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F3 {
+    map "Brightmaps/InfernalGuardian/BOS0F3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F4 {
+    map "Brightmaps/InfernalGuardian/BOS0F4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F5 {
+    map "Brightmaps/InfernalGuardian/BOS0F5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F6 {
+    map "Brightmaps/InfernalGuardian/BOS0F6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F7 {
+    map "Brightmaps/InfernalGuardian/BOS0F7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0F8 {
+    map "Brightmaps/InfernalGuardian/BOS0F8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G1 {
+    map "Brightmaps/InfernalGuardian/BOS0G1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G2 {
+    map "Brightmaps/InfernalGuardian/BOS0G2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G3 {
+    map "Brightmaps/InfernalGuardian/BOS0G3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G4 {
+    map "Brightmaps/InfernalGuardian/BOS0G4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G5 {
+    map "Brightmaps/InfernalGuardian/BOS0G5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G6 {
+    map "Brightmaps/InfernalGuardian/BOS0G6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G7 {
+    map "Brightmaps/InfernalGuardian/BOS0G7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0G8 {
+    map "Brightmaps/InfernalGuardian/BOS0G8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H1 {
+    map "Brightmaps/InfernalGuardian/BOS0H1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H2 {
+    map "Brightmaps/InfernalGuardian/BOS0H2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H3 {
+    map "Brightmaps/InfernalGuardian/BOS0H3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H4 {
+    map "Brightmaps/InfernalGuardian/BOS0H4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H5 {
+    map "Brightmaps/InfernalGuardian/BOS0H5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H6 {
+    map "Brightmaps/InfernalGuardian/BOS0H6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H7 {
+    map "Brightmaps/InfernalGuardian/BOS0H7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0H8 {
+    map "Brightmaps/InfernalGuardian/BOS0H8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I1 {
+    map "Brightmaps/InfernalGuardian/BOS0I1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I2 {
+    map "Brightmaps/InfernalGuardian/BOS0I2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I3 {
+    map "Brightmaps/InfernalGuardian/BOS0I3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I4 {
+    map "Brightmaps/InfernalGuardian/BOS0I4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I5 {
+    map "Brightmaps/InfernalGuardian/BOS0I5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I6 {
+    map "Brightmaps/InfernalGuardian/BOS0I6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I7 {
+    map "Brightmaps/InfernalGuardian/BOS0I7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0I8 {
+    map "Brightmaps/InfernalGuardian/BOS0I8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J1 {
+    map "Brightmaps/InfernalGuardian/BOS0J1.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J2 {
+    map "Brightmaps/InfernalGuardian/BOS0J2.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J3 {
+    map "Brightmaps/InfernalGuardian/BOS0J3.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J4 {
+    map "Brightmaps/InfernalGuardian/BOS0J4.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J5 {
+    map "Brightmaps/InfernalGuardian/BOS0J5.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J6 {
+    map "Brightmaps/InfernalGuardian/BOS0J6.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J7 {
+    map "Brightmaps/InfernalGuardian/BOS0J7.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0J8 {
+    map "Brightmaps/InfernalGuardian/BOS0J8.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0K0 {
+    map "Brightmaps/InfernalGuardian/BOS0K0.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0L0 {
+    map "Brightmaps/InfernalGuardian/BOS0L0.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0M0 {
+    map "Brightmaps/InfernalGuardian/BOS0M0.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0N0 {
+    map "Brightmaps/InfernalGuardian/BOS0N0.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0O0 {
+    map "Brightmaps/InfernalGuardian/BOS0O0.png"
+    disablefullbright
+}
+
+brightmap sprite BOS0P0 {
+    map "Brightmaps/InfernalGuardian/BOS0P0.png"
+    disablefullbright
+}
