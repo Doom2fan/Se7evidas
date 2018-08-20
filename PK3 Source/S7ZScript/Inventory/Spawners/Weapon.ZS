@@ -22,7 +22,7 @@
 // Chainsaw spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ChainsawSpawner : S7_ReplacementSpawner replaces Chainsaw {
+class S7_ChainsawSpawner : RandomSpawner replaces Chainsaw {
     default {
         DropItem "S7_Nothing"               , 256, 2;
         DropItem "S7_Loot_BloodChalice"     , 256, 3;
@@ -35,7 +35,7 @@ class S7_ChainsawSpawner : S7_ReplacementSpawner replaces Chainsaw {
 // Shotgun spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShotgunSpawner : S7_ReplacementSpawner replaces Shotgun {
+class S7_ShotgunSpawner : RandomSpawner replaces Shotgun {
     default {
         DropItem "S7_Loot_BloodChalice"     , 256, 7;
         DropItem "S7_Loot_SacrificialDagger", 256, 2;
@@ -48,7 +48,7 @@ class S7_ShotgunSpawner : S7_ReplacementSpawner replaces Shotgun {
 // Super shotgun spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_SuperShotgunSpawner : S7_ReplacementSpawner replaces SuperShotgun {
+class S7_SuperShotgunSpawner : RandomSpawner replaces SuperShotgun {
     default {
         DropItem "S7_Loot_BloodChalice"     , 256, 4;
         DropItem "S7_Loot_SacrificialDagger", 256, 3;

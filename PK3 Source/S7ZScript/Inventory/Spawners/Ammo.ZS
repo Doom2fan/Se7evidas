@@ -22,7 +22,7 @@
 // Clip spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ClipSpawner : S7_ReplacementSpawner replaces Clip {
+class S7_ClipSpawner : RandomSpawner replaces Clip {
     default {
         DropItem "S7_Nothing"      , 256, 3;
         DropItem "S7_9mmCartridges", 256, 4;
@@ -35,7 +35,7 @@ class S7_ClipSpawner : S7_ReplacementSpawner replaces Clip {
 // ClipBox spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ClipBoxSpawner : S7_ReplacementSpawner replaces ClipBox {
+class S7_ClipBoxSpawner : RandomSpawner replaces ClipBox {
     default {
         DropItem "S7_9mmCartridges", 256, 5;
         DropItem "S7_45ACPCartridges", 256, 2;
@@ -48,7 +48,7 @@ class S7_ClipBoxSpawner : S7_ReplacementSpawner replaces ClipBox {
 // Shell spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShellSpawner : S7_ReplacementSpawner replaces Shell {
+class S7_ShellSpawner : RandomSpawner replaces Shell {
     default {
         DropItem "S7_Nothing"        , 256, 3;
         DropItem "S7_12gaShellsSmall", 256, 2;
@@ -61,7 +61,7 @@ class S7_ShellSpawner : S7_ReplacementSpawner replaces Shell {
 // ShellBox spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShellBoxSpawner : S7_ReplacementSpawner replaces ShellBox {
+class S7_ShellBoxSpawner : RandomSpawner replaces ShellBox {
     default {
         DropItem "S7_Nothing"   , 256, 2;
         DropItem "S7_12gaShells", 256, 2;
@@ -74,7 +74,7 @@ class S7_ShellBoxSpawner : S7_ReplacementSpawner replaces ShellBox {
 // RocketAmmo spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_RocketAmmoSpawner : S7_ReplacementSpawner replaces RocketAmmo {
+class S7_RocketAmmoSpawner : RandomSpawner replaces RocketAmmo {
     default {
         DropItem "S7_Nothing"     , 256, 2;
         DropItem "S7_GrenadeCount", 256, 2;
@@ -86,7 +86,7 @@ class S7_RocketAmmoSpawner : S7_ReplacementSpawner replaces RocketAmmo {
 // RocketBox spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_RocketBoxSpawner : S7_ReplacementSpawner replaces RocketBox {
+class S7_RocketBoxSpawner : RandomSpawner replaces RocketBox {
     default {
         DropItem "S7_Nothing"     , 256, 1;
         DropItem "S7_GrenadeCount", 256, 3;
