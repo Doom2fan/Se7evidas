@@ -65,8 +65,15 @@
 
     // Ammo
         GOTBACKPACK                 = "Backpack";
+        9MMMAG                      = "9x19mm magazine";
+        45ACP_DRUMMAG               = ".45 ACP drum magazine";
+        44M_SPEEDLOADER             = ".44 Magnum speedloader";
+        762X39_MAG                  = "7.62x39mm magazine";
+        44WW_MAG                    = ".44 WW magazine";
         20GASMALL                   = "Picked up a handful of 20ga shells";
+        20GA_BOX                    = "Box of 20ga shells";
         12GASMALL                   = "Picked up a handful of 12ga shells";
+        12GA_BOX                    = "Box of 12ga shells";
 
     // Loot
         LOOT_SCORPSHUNTERSG_PICKUP        = "Shadow Corps Standard Issue Semi-automatic Shotgun:[+%d 12ga shells]";

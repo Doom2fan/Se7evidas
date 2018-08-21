@@ -144,7 +144,7 @@ class S7_BackpackNoAmmo : S7_Backpack {
 class S7_9mmCartridges : Ammo {
     default {
         Tag "$9MM";
-        Inventory.PickupMessage "$9MM";
+        Inventory.PickupMessage "$9MMMAG";
         Inventory.Amount 15;
         Inventory.MaxAmount 90;
         // Ammo.BackpackMaxAmount 120;
@@ -167,7 +167,7 @@ class S7_9mmCartridges : Ammo {
 class S7_45ACPCartridges : Ammo {
     default {
         Tag "$45ACP";
-        Inventory.PickupMessage "$45ACP";
+        Inventory.PickupMessage "$45ACP_DRUMMAG";
         Inventory.Amount 62;
         Inventory.MaxAmount 372;
         // Ammo.BackpackMaxAmount 496;
@@ -190,7 +190,7 @@ class S7_45ACPCartridges : Ammo {
 class S7_44MCartridges : Ammo {
     default {
         Tag "$44M";
-        Inventory.PickupMessage "$44M";
+        Inventory.PickupMessage "$44M_SPEEDLOADER";
         Inventory.Amount 6;
         Inventory.MaxAmount 36;
         // Ammo.BackpackMaxAmount 48;
@@ -213,7 +213,7 @@ class S7_44MCartridges : Ammo {
 class S7_762x39Cartridges : Ammo {
     default {
         Tag "$762X39";
-        Inventory.PickupMessage "$762X39";
+        Inventory.PickupMessage "$762X39_MAG";
         Inventory.Amount 35;
         Inventory.MaxAmount 210;
         // Ammo.BackpackMaxAmount 280;
@@ -236,7 +236,7 @@ class S7_762x39Cartridges : Ammo {
 class S7_45WWCartridges : Ammo {
     default {
         Tag "$44WW";
-        Inventory.PickupMessage "$44WW";
+        Inventory.PickupMessage "$44WW_MAG";
         Inventory.Amount 15;
         Inventory.MaxAmount 450;
         //Inventory.Icon "CLIPG0";
@@ -258,7 +258,7 @@ class S7_45WWCartridges : Ammo {
 class S7_20gaShells : Ammo {
     default {
         Tag "$20GA";
-        Inventory.PickupMessage "$20GA";
+        Inventory.PickupMessage "$20GA_BOX";
         Inventory.Amount 10;
         Inventory.MaxAmount 60;
         // Ammo.BackpackMaxAmount 80;
@@ -294,7 +294,7 @@ class S7_20gaShellsSmall : S7_20gaShells {
 class S7_12gaShells : Ammo {
     default {
         Tag "$12GA";
-        Inventory.PickupMessage "$12GA";
+        Inventory.PickupMessage "$12GA_BOX";
         Inventory.Amount 6;
         Inventory.MaxAmount 72;
         // Ammo.BackpackMaxAmount 96;
