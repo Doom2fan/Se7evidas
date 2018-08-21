@@ -152,6 +152,15 @@ class S7_ScorpBase : S7_MonsterBase {
         DamageFactor "LaserTracer", 1.35;
     }
 
+    action void S7_DoScorpsChase () {
+        bool canPlayActive = (
+            CheckSight (target, SF_SeePastBlockEverything | SF_SeePastShootableLines) &&
+            (random [monsterSpc] (0, 255) < 96)
+        );
+
+        A_Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NOPLAYACTIVE : 0);
+    }
+
     // Default variables
     int fireMode, ammo;
     double turn, spreadX, spreadY;

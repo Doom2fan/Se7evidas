@@ -184,8 +184,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         goto See;
     // Chasing
     See:
-        SCR1 AABBCCDD 3 A_Chase;
-        SCR1 AABBCCDD 3 A_Chase;
+        SCR1 AABBCCDD 3 S7_DoScorpsChase ();
+        SCR1 AABBCCDD 3 S7_DoScorpsChase ();
         TNT1 A        0 A_Jump (!(random [monsterSpc] (0, 255) < 192) && ammo < 5, "Reload");
         loop;
 

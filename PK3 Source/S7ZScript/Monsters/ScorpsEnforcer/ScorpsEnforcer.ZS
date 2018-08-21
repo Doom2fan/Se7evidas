@@ -173,8 +173,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         goto See;
     // Chasing
     See:
-        SCR2 AABBCCDD 3 A_Chase;
-        SCR2 AABBCCDD 3 A_Chase;
+        SCR2 AABBCCDD 3 S7_DoScorpsChase ();
+        SCR2 AABBCCDD 3 S7_DoScorpsChase ();
         loop;
 
     // Firing
