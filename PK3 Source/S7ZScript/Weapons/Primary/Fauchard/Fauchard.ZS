@@ -44,6 +44,18 @@ class S7_Fauchard : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Medium;
     }
 
+    double GetDamageBonus () {
+        if (!Owner)
+            return 0.;
+
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || !pPawn.xpSys)
+            return 0.;
+
+        return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.025;
+    }
+
     bool halfTic;
 
     states {
@@ -80,7 +92,11 @@ class S7_Fauchard : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4);
-            A_FireProjectile ("S7_FauchardTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14));
+            let proj = S7_FauchardTracer (A_FireProjectile ("S7_FauchardTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14)));
+
+            if (proj)
+                proj.bonusDamage = invoker.GetDamageBonus ();
+
             S7_Recoil (-0.3);
 
             return ResolveState (null);
@@ -144,8 +160,10 @@ class S7_Fauchard : S7_BaseWeapon {
 //
 //-------------------------------------------------------------------------------------------
 class S7_FauchardTracer : S7_BaseTracer {
+    double bonusDamage;
+
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 4.0) * 12);
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.0) * 12 * (1-bonusDamage));
         S7_BaseTracer.TrueSpeed 300;
         DamageType "LaserTracer";
         Scale 0.015;

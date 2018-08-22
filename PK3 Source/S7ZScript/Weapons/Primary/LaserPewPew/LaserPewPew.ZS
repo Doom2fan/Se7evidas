@@ -55,6 +55,18 @@ class S7_LaserPewPew : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
+    double GetDamageBonus () {
+        if (!Owner)
+            return 0.;
+
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || !pPawn.xpSys)
+            return 0.;
+
+        return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.025;
+    }
+
     bool akimbo, sights;
 
     states {
@@ -160,7 +172,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
             A_GunFlash ("Flash");
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.5, 3);
-            A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2));
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+
+            if (proj)
+                proj.bonusDamage = invoker.GetDamageBonus ();
 
             S7_Recoil (-0.38);
 
@@ -175,7 +190,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG K 1 {
             A_GunFlash ("Flash.Sights");
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4);
-            A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 0, -1, 0, fRandom [weaponSpread] (-0.2, 0.2));
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 0, -1, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+
+            if (proj)
+                proj.bonusDamage = invoker.GetDamageBonus ();
 
             A_ZoomFactor (1.270);
             S7_Recoil (-0.38);
@@ -379,7 +397,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
 
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.5, 3);
-            A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2));
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+
+            if (proj)
+                proj.bonusDamage = invoker.GetDamageBonus ();
 
             S7_Recoil (-0.38);
 
@@ -402,7 +423,11 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
 
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, -2.5, 3);
-            A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 0, -6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2));
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 0, -6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+
+            if (proj)
+                proj.bonusDamage = invoker.GetDamageBonus ();
+
             TakeInventory ("S7_LaserPewPewClipSecond", 1);
 
             S7_Recoil (-0.38);
@@ -542,8 +567,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
 //
 //-------------------------------------------------------------------------------------------
 class S7_LaserPewPew_Tracer : S7_BaseTracer {
+    double bonusDamage;
+
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8);
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8 * (1-bonusDamage));
         S7_BaseTracer.TrueSpeed 310;
         DamageType "LaserTracer";
         Scale 0.0125;

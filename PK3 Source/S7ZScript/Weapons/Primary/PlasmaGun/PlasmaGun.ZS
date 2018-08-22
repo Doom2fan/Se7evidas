@@ -53,11 +53,39 @@ class S7_PlasmaGun : S7_BaseWeapon {
     }
 
     const CHARGE_MAX = 4;
-    const CHARGE_COST = 5;
+    const CHARGE_COST = 9;
     const MAX_CHARGING_LEVEL = 53;
+
+    int amountUsedToCharge;
+    int prevCharge;
     int charge;
     int chargingLevel;
     bool semiAuto;
+
+    int GetChargeCost () {
+        if (!Owner)
+            return CHARGE_COST;
+
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || !pPawn.xpSys)
+            return CHARGE_COST;
+
+        double ret = CHARGE_COST * (1.0 - (pPawn.xpSys.GetStat (S7Stat_Tech, false) * .01));
+        return int (floor (clamp (ret, 4., CHARGE_COST)));
+    }
+
+    double GetDamageBonus () {
+        if (!Owner)
+            return 0.;
+
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (!pPawn || !pPawn.xpSys)
+            return 0.;
+
+        return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.005;
+    }
 
     states {
     Spawn:
@@ -96,7 +124,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
 
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3);
-            A_FireProjectile ("S7_PlasmaGunRail", fRandom [weaponSpread] (-0.275, 0.275), 1, 6, -4, 0, fRandom [weaponSpread] (-0.275, 0.275));
+            let proj = S7_PlasmaGunRail (A_FireProjectile ("S7_PlasmaGunRail", fRandom [weaponSpread] (-0.275, 0.275), 1, 6, -4, 0, fRandom [weaponSpread] (-0.275, 0.275)));
+
+            if (proj)
+                proj.damageBonus = invoker.GetDamageBonus ();
 
             A_WeaponOffset (4, 36);
             A_GunFlash ("Flash.Fire");
@@ -161,8 +192,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
     Decharge:
         PLSG A 5 {
-            GiveInventory ("S7_PlasmaGunMag", CHARGE_COST * invoker.charge);
+            GiveInventory ("S7_PlasmaGunMag", invoker.amountUsedToCharge);
+
             invoker.charge = 0;
+            invoker.amountUsedToCharge = 0;
 
             A_SetBlend ("10 6B DA", 0.25, 4);
             TakeInventory ("S7_Reloading", 1);
@@ -178,7 +211,9 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon, 1. - (.5 * vR));
             A_PlaySound ("Weapons/PlasmaGun/AltFire", CHAN_5, 0.5 + (.5 * vR));
 
-            A_FireProjectile (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), 0.0, 1, 6, -4, 0, 0.0);
+            let proj = S7_PlasmaGunRail (A_FireProjectile (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), 0.0, 0, 6, -4, 0, 0.0));
+            if (proj)
+                proj.damageBonus = invoker.GetDamageBonus ();
 
             for (int i = 0; i < (invoker.charge + 1); i++)
                 A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 3);
@@ -186,12 +221,28 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_WeaponOffset (8, 40);
             A_GunFlash ("Flash.Charged");
 
+            invoker.prevCharge = invoker.charge;
             invoker.charge = 0;
+            invoker.amountUsedToCharge = 0;
         }
         PLSG D     1 A_WeaponOffset (6, 38);
         PLSG F     1 A_WeaponOffset (4, 36);
         PLSG F     1 A_WeaponOffset (2, 34);
-        PLSG F     6 A_WeaponOffset (0, 32);
+        PLSG F     6 {
+            A_WeaponOffset (0, 32);
+
+            int tics = 6 + int (max (0, invoker.prevCharge - 1) * 1.5);
+            {
+                let pPawn = S7_BasePlayer (self);
+
+                if (pPawn && pPawn.xpSys)
+                    tics = int (double (tics) * clamp (pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.06, .5, 1.));
+            }
+
+            invoker.prevCharge = 0;
+
+            A_SetTics (tics);
+        }
         PLSG EDCBA 1;
         goto Ready2;
 
@@ -203,7 +254,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         PLSG A 1 {
             if (invoker.charge >= CHARGE_MAX)
                 return ResolveState ("Ready2");
-            else if (!CheckInventory ("S7_PlasmaGunMag", CHARGE_COST))
+            else if (!CheckInventory ("S7_PlasmaGunMag", invoker.GetChargeCost ()))
                 return ResolveState ("DryFire.Alt");
 
             return ResolveState (null);
@@ -252,7 +303,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_StopSound (CHAN_Weapon);
             A_WeaponOffset (0, 32);
 
-            if (!CheckInventory ("S7_PlasmaGunMag", CHARGE_COST))
+            if (!CheckInventory ("S7_PlasmaGunMag", invoker.GetChargeCost ()))
                 return ResolveState ("DryFire.Alt");
 
             A_PlaySound ("Weapons/PlasmaGun/ChargeFinish");
@@ -260,7 +311,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             GiveInventory ("S7_PlasmaGun_AltfireLock", 1);
 
-            TakeInventory ("S7_PlasmaGunMag", CHARGE_COST, TIF_NoTakeInfinite);
+            int chargeCost = invoker.GetChargeCost ();
+
+            TakeInventory ("S7_PlasmaGunMag", chargeCost, TIF_NoTakeInfinite);
+            invoker.amountUsedToCharge += chargeCost;
             invoker.charge++;
             invoker.chargingLevel = 0;
 
@@ -294,10 +348,12 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
 /** Projectile **/
 class S7_PlasmaGunRail : S7_BaseTracer {
+    double damageBonus;
+
     default {
         S7_BaseTracer.TrueSpeed 270;
         Scale 0.015;
-        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 22.75);
+        DamageFunction ((fRandom [weaponDamage] (1.0, 2.0) * 22.75) * (1+damageBonus));
         MissileType "S7_PlasmaGunRailTrail";
         Decal "S7_PlasmaGunRail";
 
