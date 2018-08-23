@@ -21,6 +21,20 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
     S7_ShopMenu_BuySellPopup link;
     S7_ShopMenu menuLink;
 
+    void DoAddDec (string command) {
+        if (command != "Add" && command != "Dec")
+            return;
+
+        int mul = (command == "Add") ? 1 : -1;
+
+        if (link.ctrlHeld)
+            mul *= 5;
+        if (link.shiftHeld)
+            mul *= 10;
+
+        link.SetAmount (1 * mul);
+    }
+
     override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "Accept" && link.amount > 0 && link.amount <= 9999) {
             if (!link.sellMode)
@@ -29,17 +43,13 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
                 SellItem ();
         } else if (command == "Cancel")
             link.Close ();
-        else if (command == "Add")
-            link.SetAmount (1);
-        else if (command == "Dec")
-            link.SetAmount (-1);
+        else if (command == "Add" || command == "Dec")
+            DoAddDec (command);
     }
 
     override void buttonHeldCommand (S7_ZF_Button caller, string command) {
-        if (command == "Add")
-            link.SetAmount (1);
-        else if (command == "Dec")
-            link.SetAmount (-1);
+        if ((command == "Add" || command == "Dec") && link.buttonHeldTics++ > 8)
+            DoAddDec (command);
     }
 
     void BuyItem () {
@@ -81,6 +91,9 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
     int amount;
     S7_SSItemInfo info;
 
+    int buttonHeldTics;
+    bool shiftHeld, ctrlHeld;
+
     S7_ZF_Frame InitPopup (S7_ShopMenu menuLink, S7_ZF_Frame frame) {
         self.Init ((160, 200), (320, 80));
         self.Pack (frame);
@@ -113,10 +126,10 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             "", smallFont, false, false, 1, Font.CR_WHITE);
         priceLabel.Pack (self);
 
-        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", cmdHandler: handler, command: "Add", fnt: smallFont, holdInterval: 3);
+        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", cmdHandler: handler, command: "Add", fnt: smallFont, holdInterval: 1);
         addButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         addButton.Pack (self);
-        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", cmdHandler: handler, command: "Dec", fnt: smallFont, holdInterval: 3);
+        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", cmdHandler: handler, command: "Dec", fnt: smallFont, holdInterval: 1);
         decButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         decButton.Pack (self);
 
@@ -131,6 +144,16 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         self.disabled = true;
 
         return self;
+    }
+
+    override void OnUIEvent (UIEvent ev) {
+        if (addButton.curButtonState != S7_ZF_Button.ButtonState_Click && decButton.curButtonState != S7_ZF_Button.ButtonState_Click &&
+            (ev.Type == UIEvent.Type_LButtonClick || ev.Type == UIEvent.Type_LButtonDown)) {
+            shiftHeld = ev.IsShift;
+             ctrlHeld = ev.IsCtrl;
+        }
+
+        Super.OnUIEvent (ev);
     }
 
     void Activate (bool sellMode) {
@@ -208,6 +231,9 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
     override void Ticker () {
         UpdateData ();
+
+        if (addButton.curButtonState != S7_ZF_Button.ButtonState_Click && decButton.curButtonState != S7_ZF_Button.ButtonState_Click)
+            buttonHeldTics = 0;
 
         Super.Ticker ();
     }

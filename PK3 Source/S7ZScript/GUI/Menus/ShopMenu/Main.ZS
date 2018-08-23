@@ -129,7 +129,6 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
         tooltipLabel = new ("S7_ZF_Label").Init ((0, 0), (0, 0), "", smallFont, false, false, 1, Font.CR_WHITE);
         tooltipLabel.Pack (popupFrame);
-        SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
 
         buyButton = new ("S7_ZF_Button").Init ((555, 423), (50, 17), StringTable.Localize ("$SS_BUYBUTTON", true), cmdHandler: handler, command: "BuySellButton", fnt: smallFont);
         buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
@@ -241,6 +240,11 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
         if (!shopData)
             return;
+
+        if (bsPopup.hidden)
+            SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
+        else
+            SetTooltip (StringTable.Localize ("$SS_BUYSELLPOPUPTTIP", true));
 
         if (buyButton) {
             int bbColor = Font.CR_WHITE;
