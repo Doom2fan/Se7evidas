@@ -51,9 +51,9 @@ class S7_DemonDog : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15);
-        int attrPts = floor (xpSys.level * 2);
-        attrPts *= .75;
+        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15));
+        int attrPts = int (floor (xpSys.level * 2));
+        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -75,7 +75,8 @@ class S7_DemonDog : S7_DemonBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
     }
 
     override void Tick () {
@@ -99,8 +100,8 @@ class S7_DemonDog : S7_DemonBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 140 * max (1, level / 3));
-            GiveCash (source, 120 * max (1, level / 3));
+            GiveXP (source, int (140 * max (1, level / 3)));
+            GiveCash (source, int (120 * max (1, level / 3)));
         }
     }
 
@@ -115,7 +116,7 @@ class S7_DemonDog : S7_DemonBase {
     Melee:
         TNT1 A      0 A_PlaySound ("Monsters/DemonDog/Attack", CHAN_Voice);
         DDOG EEEFFF 2 A_FaceTarget ();
-        TNT1 A      0 A_CustomMeleeAttack (fRandom (2, 10) * 4, "", "", "Bite");
+        TNT1 A      0 A_CustomMeleeAttack (int (fRandom (2, 10) * 4), "", "", "Bite");
         DDOG GGGG   2 A_FaceTarget ();
         DDOG FFFEEE 2 A_FaceTarget ();
         goto See;

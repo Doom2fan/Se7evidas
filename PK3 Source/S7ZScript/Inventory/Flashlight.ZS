@@ -67,9 +67,9 @@ class S7_Flashlight : Inventory {
         Color colorCVar = S7_PlayerCVar.GetInt (Owner.player, "S7_FlashlightColor");
         double intensityMod = 1; // Eventually this will be a value based on how much battery is left.
 
-        int r = colorCVar.R * intensityMod,
-            g = colorCVar.G * intensityMod,
-            b = colorCVar.B * intensityMod;
+        int r = int (colorCVar.R * intensityMod),
+            g = int (colorCVar.G * intensityMod),
+            b = int (colorCVar.B * intensityMod);
         
         int beamInner = 10;
         int beamOuter = 15;
@@ -134,9 +134,9 @@ class S7_Flashlight : Inventory {
             selfLight1.offsetZ = offsetZ;
         }
         if (selfLight2) {
-            selfLight2.args [0] = r * .75; // R
-            selfLight2.args [1] = g * .75; // G
-            selfLight2.args [2] = b * .75; // B
+            selfLight2.args [0] = int (r * .75); // R
+            selfLight2.args [1] = int (g * .75); // G
+            selfLight2.args [2] = int (b * .75); // B
             selfLight2.args [3] = spillRadius; // Radius
             selfLight2.SpotInnerAngle = spillInner;
             selfLight2.SpotOuterAngle = spillOuter;

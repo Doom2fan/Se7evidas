@@ -214,11 +214,11 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             int maxHealth = pPawn.GetMaxHealth (true);
 
             string energyImg;
-            if (CheckHealth (maxHealth * .75, true))
+            if (CheckHealth (int (maxHealth * .75), true))
                 energyImg = "graphics/HUD/Normal/HOLOBARSGREEN.png";
-            else if (CheckHealth (maxHealth * .50, true))
+            else if (CheckHealth (int (maxHealth * .50), true))
                 energyImg = "graphics/HUD/Normal/HOLOBARSYELLOW.png";
-            else if (CheckHealth (maxHealth * .25, true))
+            else if (CheckHealth (int (maxHealth * .25), true))
                 energyImg = "graphics/HUD/Normal/HOLOBARSORANGE.png";
             else
                 energyImg = "graphics/HUD/Normal/HOLOBARSRED.png";

@@ -187,7 +187,7 @@ class S7_XPSystem : Inventory {
         int setAmount = -1;
 
         if (additive) {
-            int curAmount = GetStat (stat);
+            int curAmount = int (GetStat (stat, true));
             setAmount = curAmount + amount;
 
             if ((setAmount > 0 && setAmount < curAmount) || // If this is true it means we over/underflowed, so nope the fuck out of there.
@@ -224,7 +224,7 @@ class S7_XPSystem : Inventory {
             return;
 
         if (canLevelUp) {
-            int reqXP = BaseXPGoal * (1.0 + 2 * level),
+            int reqXP = int (BaseXPGoal * (1.0 + 2 * level)),
                 nextLevel = level + 1;
 
             if (xpPoints >= reqXP && level < S7_MaxLevel) {

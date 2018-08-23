@@ -166,7 +166,8 @@ class S7_M400Autogun : S7_PlayerSummon {
         xpSys.canLevelUp = true;
 
         // Vitality
-        startHealth = health *= 1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
 
         ammo = 1000;
 
@@ -210,8 +211,8 @@ class S7_M400Autogun : S7_PlayerSummon {
         if (source && source != master) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 80 * max (1, level / 3));
-            GiveCash (source, 75 * max (1, level / 4));
+            GiveXP (source, int (80 * max (1, level / 3)));
+            GiveCash (source, int (75 * max (1, level / 4)));
         }
     }
 

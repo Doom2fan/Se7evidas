@@ -50,9 +50,9 @@ class S7_BlackPanther : S7_HellNobleBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10);
-        int attrPts = floor (xpSys.level * 2.25);
-        attrPts *= .85;
+        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10));
+        int attrPts = int (floor (xpSys.level * 2.25));
+        attrPts = int (attrPts * .85);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -74,7 +74,8 @@ class S7_BlackPanther : S7_HellNobleBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
     }
 
     override void Tick () {
@@ -98,8 +99,8 @@ class S7_BlackPanther : S7_HellNobleBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 1000 * max (1, level / 2.5));
-            GiveCash (source, 1000 * max (1, level / 2.5));
+            GiveXP (source, int (1000 * max (1, level / 2.5)));
+            GiveCash (source, int (1000 * max (1, level / 2.5)));
         }
     }
 
@@ -116,7 +117,7 @@ class S7_BlackPanther : S7_HellNobleBase {
 
         BPNT G 6 {
             A_FaceTarget (0, 0);
-            A_CustomComboAttack ("S7_BlackPantherBall", 32, fRandom [monsterDMG] (1.0, 4.0) * 8, "baron/melee");
+            A_CustomComboAttack ("S7_BlackPantherBall", 32, int (fRandom [monsterDMG] (1.0, 4.0) * 8), "baron/melee");
         }
         goto See;
     Pain:

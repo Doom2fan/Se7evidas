@@ -118,7 +118,7 @@ class S7_BaseWeapon : Weapon {
             mulBonus = fRandom [weaponDamage] (0.0, 2.0);
         }
 
-        return ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus));
+        return int (ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus)));
     }
 
     double ConvWeapRecoil (double amount, double strengthStat) const {

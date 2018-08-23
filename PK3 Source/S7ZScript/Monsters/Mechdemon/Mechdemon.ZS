@@ -51,9 +51,9 @@ class S7_Mechdemon : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 14);
-        int attrPts = floor (xpSys.level * 2);
-        attrPts *= .75;
+        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 14));
+        int attrPts = int (floor (xpSys.level * 2));
+        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -75,7 +75,8 @@ class S7_Mechdemon : S7_DemonBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
     }
 
     override void Tick () {
@@ -99,8 +100,8 @@ class S7_Mechdemon : S7_DemonBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 150 * max (1, level / 2.5));
-            GiveCash (source, 140 * max (1, level / 2.5));
+            GiveXP (source, int (150 * max (1, level / 2.5)));
+            GiveCash (source, int (140 * max (1, level / 2.5)));
         }
     }
 
@@ -122,7 +123,7 @@ class S7_Mechdemon : S7_DemonBase {
         MDMN EEEFF  2 Fast A_FaceTarget ();
         MDMN G      4 Fast {
             A_FaceTarget ();
-            A_CustomMeleeAttack (fRandom (2, 10) * 4, "", "", "Bite");
+            A_CustomMeleeAttack (int (fRandom (2, 10) * 4), "", "", "Bite");
         }
         Goto See;
 

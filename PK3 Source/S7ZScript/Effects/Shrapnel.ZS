@@ -129,7 +129,7 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
     Death:
         #### # 1 {
             A_RearrangePointers (AAPTR_Master, AAPTR_Null, AAPTR_Default);
-            A_Explode (realDamage, 2, XF_HURTSOURCE, false, 2);
+            A_Explode (int (realDamage), 2, XF_HURTSOURCE, false, 2);
         }
         stop;
     }

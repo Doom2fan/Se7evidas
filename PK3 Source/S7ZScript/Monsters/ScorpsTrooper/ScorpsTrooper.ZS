@@ -56,9 +56,9 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 20);
+        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 20));
         int attrPts = xpSys.level;
-        attrPts *= .75;
+        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -80,7 +80,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
 
         ammo = random [monsterAmmo] (12, 23);
     }
@@ -106,8 +107,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 80 * max (1, level / 3));
-            GiveCash (source, 75 * max (1, level / 4));
+            GiveXP (source, int (80 * max (1, level / 3)));
+            GiveCash (source, int (75 * max (1, level / 4)));
         }
     }
 

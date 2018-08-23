@@ -54,9 +54,9 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10);
-        int attrPts = floor (xpSys.level * 2.5);
-        attrPts *= .85;
+        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10));
+        int attrPts = int (floor (xpSys.level * 2.5));
+        attrPts = int (attrPts * .85);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -78,7 +78,8 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
     }
 
     override void Tick () {
@@ -102,13 +103,13 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 1250 * max (1, level / 2.5));
-            GiveCash (source, 1300 * max (1, level / 2.5));
+            GiveXP (source, int (1250 * max (1, level / 2.5)));
+            GiveCash (source, int (1300 * max (1, level / 2.5)));
         }
     }
 
     action void DoMeleeAttack () {
-        A_CustomMeleeAttack (fRandom (1, 4) * 10, "Monsters/InfernalGuardian/MeleeHit", "Monsters/InfernalGuardian/MeleeMiss", "Melee");
+        A_CustomMeleeAttack (int (fRandom (1, 4) * 10), "Monsters/InfernalGuardian/MeleeHit", "Monsters/InfernalGuardian/MeleeMiss", "Melee");
     }
 
     action void DoShieldAttack () {

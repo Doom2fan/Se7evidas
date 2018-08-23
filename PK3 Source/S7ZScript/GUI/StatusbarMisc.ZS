@@ -32,9 +32,12 @@ class S7_FScreenSBarAmmoBar {
         bar.poolType = poolType;
         bar.sprite   = sprite;
 
-        int curX = initialX, curY = 0;
+        double curX = initialX;
+        int curY = 0;
         Array<double> yPos; // This is dumb, but whatever.
+
         yPos.Push (yPos1);
+
         if (yPos2 != double.Infinity)
             yPos.Push (yPos2);
         if (yPos3 != double.Infinity)

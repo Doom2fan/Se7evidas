@@ -196,7 +196,7 @@ class S7_SSItem {
             return BC_InvalidPlayer;
 
         let itemInfo = self.GetInfo (player, amount);
-        int finalPrice = (itemInfo.buyPrice) - ((itemInfo.buyPrice) * discount);
+        int finalPrice = int ((itemInfo.buyPrice) - ((itemInfo.buyPrice) * discount));
         int finalAmount = itemInfo.buyAmount;
 
         if (player.CountInv (self.inventoryName) + finalAmount > itemInfo.maxAmount)
@@ -217,7 +217,7 @@ class S7_SSItem {
             return SC_InvalidPlayer;
 
         let itemInfo = self.GetInfo (player, amount);
-        int finalPrice = (itemInfo.sellPrice) + ((itemInfo.sellPrice) * bonus);
+        int finalPrice = int ((itemInfo.sellPrice) + ((itemInfo.sellPrice) * bonus));
         int finalAmount = itemInfo.sellAmount;
 
         if (player.CountInv (self.inventoryName) < finalAmount)

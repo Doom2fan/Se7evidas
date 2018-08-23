@@ -100,7 +100,7 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
             A_PlaySound ("Explosions/Explosion1");
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
-                self, fRandom [weaponSpc] (100, 150),
+                self, random [weaponSpc] (100, 150),
                 minVel: 200, maxVel: 450,
                 minMass: 10, maxMass: 25,
                 keScale: 125,

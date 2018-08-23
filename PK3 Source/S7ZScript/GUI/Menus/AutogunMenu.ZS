@@ -171,8 +171,8 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         double offs = (smallFont.GetHeight () + 10);
         int controlCount = 0;
-        int bigButtonYOffs = -((17. - smallFont.GetHeight ()) / 2.);
-        int smallButtonYOffs = -((11. - smallFont.GetHeight ()) / 2.);
+        int bigButtonYOffs = -(int ((17. - smallFont.GetHeight ()) / 2.));
+        int smallButtonYOffs = -(int ((11. - smallFont.GetHeight ()) / 2.));
 
         /** Integrity **/
         labelText = StringTable.Localize ("$AUTOGUNMENU_INTEGRITY", true);
@@ -298,7 +298,7 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         if (!inv)
             return -1, -1;
 
-        int corruptionAmount = ceil (inv.corruption / 20.) * 20;
+        int corruptionAmount = int (ceil (inv.corruption / 20.) * 20);
         int price = 50 * (corruptionAmount / 20);
 
         if (price > player.CountInv ("S7_Cash")) {

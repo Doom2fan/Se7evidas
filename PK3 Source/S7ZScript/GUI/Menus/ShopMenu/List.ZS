@@ -246,7 +246,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             double textY = yCoords + 4;
             if (texSize.X > 0)
                 textX = texSize.X + 8 * 2;
-            BrokenLines textLines = smallFont.BreakLines (StringTable.Localize (item.name, true), 200 - (texSize.X + 8 * 3));
+            BrokenLines textLines = smallFont.BreakLines (StringTable.Localize (item.name, true), int (200 - (texSize.X + 8 * 3)));
 
             double clickHeight = (smallFont.GetHeight () * textLines.Count ());
             if (texSize.Y > clickHeight) {

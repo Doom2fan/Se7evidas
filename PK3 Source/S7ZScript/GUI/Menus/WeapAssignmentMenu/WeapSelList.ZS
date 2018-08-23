@@ -222,7 +222,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             double textY = yCoords + 4;
             if (texSize.X > 0)
                 textX = texSize.X + 8 * 2;
-            BrokenLines textLines = smallFont.BreakLines (StringTable.Localize ("$WPBNDMENU_UNSETWP", true), 200 - (texSize.X + 8 * 3));
+            BrokenLines textLines = smallFont.BreakLines (StringTable.Localize ("$WPBNDMENU_UNSETWP", true), int (200 - (texSize.X + 8 * 3)));
 
             double clickHeight = (smallFont.GetHeight () * textLines.Count ());
             if (texSize.Y > clickHeight) {
@@ -288,7 +288,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             double textY = yCoords + 4;
             if (texSize.X > 0)
                 textX = texSize.X + 8 * 2;
-            BrokenLines textLines = smallFont.BreakLines (StringTable.Localize (weap.shortTag, true), 200 - (texSize.X + 8 * 3));
+            BrokenLines textLines = smallFont.BreakLines (StringTable.Localize (weap.shortTag, true), int (200 - (texSize.X + 8 * 3)));
 
             double clickHeight = (smallFont.GetHeight () * textLines.Count ());
             if (texSize.Y > clickHeight) {

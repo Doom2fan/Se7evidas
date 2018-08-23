@@ -99,8 +99,8 @@ extend class S7_BasePlayer {
                     !(self is "S7_DracoPlayer") && !playerData.sprinting && CheckInventory ("S7_Stamina", S7C_DodgeStamina) &&
                     !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && !playerData.lGrabGrabbed
                 ) {
-                    int forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
-                    int sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
+                    double forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
+                    double sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
 
                     if (forwardMove != 0 || sideMove != 0) { // If the player is trying to move
                         TakeInventory ("S7_Stamina", S7C_DodgeStamina); // Take S7C_DodgeStamina stamina

@@ -47,12 +47,12 @@ class S7_HealingSystem : Inventory {
             [regenRateTime, regenRateAmount] = pPawn.xpSys.GetStatMod (S7Stat_Special, specialName: "regenRate");
             regenRateAmount += baseRegenAmount;
 
-            int giveCount = min (regenRateAmount, regenPoints);
+            int giveCount = int (min (regenRateAmount, regenPoints));
 
             pPawn.GiveBody (giveCount);
             regenPoints -= giveCount;
 
-            regenTimer = baseRegenTime * regenRateTime;
+            regenTimer = int (baseRegenTime * regenRateTime);
         } else if (regenPoints < 0) {
             Console.PrintF ("S7 Error: What the hell? S7_HealingSystem.regenPoints became negative!");
             regenPoints = 0;

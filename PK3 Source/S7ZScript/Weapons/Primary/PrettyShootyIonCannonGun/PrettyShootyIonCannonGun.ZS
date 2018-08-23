@@ -163,7 +163,7 @@ class S7_PSICG_FireTester : S7_DistanceTestProjectile {
 //
 //-------------------------------------------------------------------------------------------
 class S7_IonCannonProjectile : S7_Projectile {
-    int realDamage;
+    double realDamage;
 
     default {
         S7_Projectile.movementMode FastProjectile;
@@ -173,7 +173,7 @@ class S7_IonCannonProjectile : S7_Projectile {
         Speed 20;
         RenderStyle "add";
         Scale 0.235;
-        DamageFunction (realDamage);
+        DamageFunction int (realDamage);
         DamageType "IonCannonMain";
         MissileType "S7_IonCannonProjectileTrail";
         MissileHeight 8;
@@ -191,7 +191,7 @@ class S7_IonCannonProjectile : S7_Projectile {
         }
     Idle:
         TNT1 A   0 A_JumpIf (realDamage < 75, "DieOut");
-        PICF AAA 1 bright A_Explode (fRandom [weaponDamage] (1.0, 3.0) * 7, 96, 0, false, 96);
+        PICF AAA 1 bright A_Explode (int (fRandom [weaponDamage] (1.0, 3.0) * 7), 96, 0, false, 96);
         TNT1 A   0 { realDamage -= 5; }
         loop;
 
@@ -248,7 +248,7 @@ class S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
 //
 //-------------------------------------------------------------------------------------------
 class S7_IonCannonRail : S7_Projectile {
-    int realDamage;
+    double realDamage;
     int realDistTrav;
 
     default {

@@ -30,7 +30,7 @@ class S7_CCSecVestData : S7_ArmorData {
     double kevlarDMG;
 
     void UpdateAmount (S7_BasicArmor armor) {
-        armor.amount = clamp (100 * (1 - kevlarDMG / kevlarDMGLimit), 0, 100);
+        armor.amount = int (clamp (100 * (1 - kevlarDMG / kevlarDMGLimit), 0, 100));
     }
 
     override void GotBonus (S7_BasicArmor armor, int amount) {
@@ -47,7 +47,7 @@ class S7_CCSecVestData : S7_ArmorData {
         if (!armor)
             return damage;
 
-        int ret;
+        double ret;
         double kevDMG = 0;
 
         if (inflictor &&
@@ -79,7 +79,7 @@ class S7_CCSecVestData : S7_ArmorData {
         kevlarDMG = clamp (kevlarDMG + max (kevDMG, 0), 0, kevlarDMGLimit);
         UpdateAmount (armor);
 
-        return ret;
+        return int (ret);
     }
 }
 
@@ -118,7 +118,7 @@ class S7_CCCombatArmorData : S7_ArmorData {
     double platesDMG;
 
     void UpdateAmount (S7_BasicArmor armor) {
-        armor.amount = clamp (100 * ((1 - kevlarDMG / kevlarDMGLimit) + (1 - platesDMG / platesDMGLimit)), 0, 200);
+        armor.amount = int (clamp (100 * ((1 - kevlarDMG / kevlarDMGLimit) + (1 - platesDMG / platesDMGLimit)), 0, 200));
     }
 
     override void GotBonus (S7_BasicArmor armor, int amount) {
@@ -143,7 +143,7 @@ class S7_CCCombatArmorData : S7_ArmorData {
         double usrModKev = usrModKevP1 * clamp ((kevDMGFactor - usrKevMShift) / (1-usrKevMShift), 0.0, 1.0);
         double usrDMG = clamp (usrModPlt * usrModKev, usrMin, 1.0);
 
-        return dmg * kevDMG, dmg * pltDMG, dmg * usrDMG;
+        return dmg * kevDMG, dmg * pltDMG, int (dmg * usrDMG);
     }
 
     override void Init (S7_BasicArmor armor) {
@@ -188,12 +188,12 @@ class S7_CCCombatArmorData : S7_ArmorData {
             case 'Fire':
                 pltDMG = max (damage - 15, 0) * 0.25;
                 kevDMG = damage * (fRandom [S7_Armor] (0.75, 1.2) * pltInt);
-                ret = damage  * pltInt;
+                ret = int (damage * pltInt);
                 break;
             default:
                 pltDMG = damage * (0.15 * (1-pltInt));
                 kevDMG = damage * (0.15 * pltInt);
-                ret = damage * clamp ((kevInt + pltDMG) / 2, 0.7, 1.0);
+                ret = int (damage * clamp ((kevInt + pltDMG) / 2, 0.7, 1.0));
                 break;
             }
         } else {

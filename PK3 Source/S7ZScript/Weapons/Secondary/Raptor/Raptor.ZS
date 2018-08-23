@@ -96,7 +96,7 @@ class S7_Raptor : S7_BaseWeapon {
     AltFire:
         RPTM A    1 A_PlaySound ("Weapons/Raptor/Melee", CHAN_5);
         RPTM BC   1;
-        RPTM D    1 A_CustomPunch (15 * fRandom [weaponSpc] (1.0, 3.0), true, 0, "S7_RaptorMPuff", 85);
+        RPTM D    1 A_CustomPunch (int (15 * fRandom [weaponSpc] (1.0, 3.0)), true, 0, "S7_RaptorMPuff", 85);
         RPTM EFGH 1;
         TNT1 A    4;
         RPTN A    1;

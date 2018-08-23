@@ -51,9 +51,9 @@ class S7_Hellion : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15);
-        int attrPts = floor (xpSys.level * 2);
-        attrPts *= .75;
+        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15));
+        int attrPts = int (floor (xpSys.level * 2));
+        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -75,7 +75,8 @@ class S7_Hellion : S7_DemonBase {
         }
 
         // Vitality
-        startHealth = health *= 1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality));
+        startHealth = int (health * (1.0 + (.05 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
     }
 
     override void Tick () {
@@ -99,8 +100,8 @@ class S7_Hellion : S7_DemonBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, 120 * max (1, level / 3));
-            GiveCash (source, 100 * max (1, level / 3));
+            GiveXP (source, int (120 * max (1, level / 3)));
+            GiveCash (source, int (100 * max (1, level / 3)));
         }
     }
 

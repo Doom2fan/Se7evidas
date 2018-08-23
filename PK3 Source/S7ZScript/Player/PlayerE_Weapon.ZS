@@ -52,7 +52,7 @@ extend class S7_BasePlayer {
                     continue;
 
                 Ammo ammoInv = Ammo (FindInventory (res [0]));
-                int maxAmount = floor (res [1].ToInt () * ammoMax);
+                int maxAmount = int (floor (res [1].ToInt () * ammoMax));
 
                 if (ammoInv)
                     ammoInv.maxAmount = maxAmount;
