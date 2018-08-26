@@ -24,6 +24,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_GrenadeCount : Ammo {
     default {
+        Inventory.PickupMessage "$GRENADE_PICKUP";
         Inventory.Amount 1;
         Inventory.MaxAmount 15;
         Ammo.BackpackMaxAmount 15;

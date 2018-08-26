@@ -86,6 +86,9 @@
 
     // Melee
 
+    // Throwables
+        GRENADE_PICKUP              = "Picked up a grenade";
+
 // Menus
     // Player menu
     PLAYERMENUHEADER                = "PLAYER MENU";
