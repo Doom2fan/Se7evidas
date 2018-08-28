@@ -570,6 +570,16 @@ class S7_PowerDodgeEffects : PowerInvulnerable {
         +INVENTORY.NOTELEPORTFREEZE
     }
 
+    override void InitEffect () {
+        Super.InitEffect ();
+
+        if (!Owner)
+            return;
+
+        bNonShootable = Owner.bNonShootable;
+        Owner.bNonShootable = true;
+    }
+
     override void DoEffect () {
         Super.DoEffect ();
 
@@ -599,6 +609,15 @@ class S7_PowerDodgeEffects : PowerInvulnerable {
                 speedMo.bInvisible = true;
             }
         }
+    }
+
+    override void EndEffect () {
+        Super.EndEffect ();
+
+        if (!Owner)
+            return;
+
+        Owner.bNonShootable = bNonShootable;
     }
 }
 

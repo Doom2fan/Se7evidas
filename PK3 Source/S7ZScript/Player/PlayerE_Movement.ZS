@@ -108,8 +108,8 @@ extend class S7_BasePlayer {
                         A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
 
                         GiveInventory ("S7_PowerDodgeEffects", 1);
-                        Thrust (18, (angle - 90) + atan2 (forwardMove, sideMove));
-                        vel.Z += -85;
+                        vel.X = vel.Y = 0.;
+                        Thrust (32, (angle - 90) + atan2 (forwardMove, sideMove));
 
                         playerData.dodgeCooldown = S7_DodgeCooldown;
                     }
