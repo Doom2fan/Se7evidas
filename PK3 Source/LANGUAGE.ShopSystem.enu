@@ -5,7 +5,7 @@ SS_BUYBUTTON                    = "Buy";
 SS_SELLBUTTON                   = "Sell";
 SS_CANCELBUTTON                 = "Cancel";
 SS_SELLTTIP                     = "Press the Tab key to toggle between the buy and sell modes.";
-SS_BUYSELLPOPUPTTIP             = "Hold the Ctrl, Shift, or both keys at once before clicking + or - to add or decrease by 5, 10 or 50, respectively."
+SS_BUYSELLPOPUPTTIP             = "Hold the Ctrl, Shift, or both keys at once before clicking + or - to add or decrease by 5, 10 or 50, respectively.";
 
 SS_CASHFORMAT                   = "%d credits";
 SS_TOTAL                        = "Total amount";
