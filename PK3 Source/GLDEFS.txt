@@ -8,3 +8,8 @@ pointLight MJMPMARKER {
     color 1.0 0.2 0.2
     size 32
 }
+
+hardwareShader postProcess scene {
+    name "S7_Invuln"
+    shader "S7Shaders/GLSL/Invuln.frag" 330
+}

@@ -29,3 +29,15 @@ class S7_ArmorBonusSpawner : RandomSpawner replaces ArmorBonus {
         DropItem "S7_LargeArmorBonus", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Invulnerability Sphere spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_InvulnerabilitySpawner : RandomSpawner replaces InvulnerabilitySphere {
+    default {
+        DropItem "S7_InvulnerabilityType1", 256, 5;
+        DropItem "S7_InvulnerabilityType2", 256, 1;
+    }
+}
