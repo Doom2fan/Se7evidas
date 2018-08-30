@@ -259,7 +259,7 @@ class S7_MD5 {
     bool Put (TZK_ArrayI32 data) {
         uint i, index, partLen;
         uint inputLen = data.Size ();
-        Console.PrintF ("%d", inputLen);
+        //Console.PrintF ("%d", inputLen);
         let tmpBuffer = new ("TZK_ArrayI32");
 
         // Compute number of bytes mod 64
