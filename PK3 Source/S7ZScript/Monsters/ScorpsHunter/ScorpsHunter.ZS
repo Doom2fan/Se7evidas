@@ -228,8 +228,14 @@ class S7_ScorpsHunter : S7_ScorpBase {
             A_FaceTarget (0, 0);
             A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_Weapon);
 
+            double missOffsetHorz = fRandom [monsterSpread] (-3.5, 3.5);
+            double missOffsetVert = fRandom [monsterSpread] (-1.25, 1.25);
+
             for (int i = 0; i < 9; i++) {
-                A_SpawnProjectile ("S7_ScorpsHunterTracer", 35.0, 9, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-3.5, 3.5) );
+                A_SpawnProjectile ("S7_ScorpsHunterTracer", 35.0, 9,
+                            missOffsetHorz + fRandom [monsterSpread] (-0.375, 0.375), CMF_AimDirection | CMF_AbsolutePitch,
+                    pitch + missOffsetVert + fRandom [monsterSpread] (-0.375, 0.375)
+                );
             }
 
             A_SpawnProjectile ("S7_12gaShellCasingSpawn2", 35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
