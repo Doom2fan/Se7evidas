@@ -23,8 +23,12 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_CCSecVestData : S7_ArmorData {
-    const startHeight = 26;
-    const endHeight = 47;
+    const NormalStartHeight = 26;
+    const NormalEndHeight = 47;
+
+    const CrouchStartHeight = 5;
+    const CrouchEndHeight = 22;
+
     const kevlarDMGLimit = 100.0;
 
     double kevlarDMG;
@@ -47,12 +51,19 @@ class S7_CCSecVestData : S7_ArmorData {
         if (!armor)
             return damage;
 
+        let pPawn = PlayerPawn (armor.Owner);
+        if (!pPawn)
+            return damage;
+
         double ret;
         double kevDMG = 0;
 
+        double startHeight = S7_Math.Lerp (NormalStartHeight, CrouchStartHeight, (1 - pPawn.player.crouchfactor) * 2);
+        double   endHeight = S7_Math.Lerp (  NormalEndHeight,   CrouchEndHeight, (1 - pPawn.player.crouchfactor) * 2);
+
         if (inflictor &&
-            (inflictor.pos.z + inflictor.height/2) >= (armor.Owner.pos.z + startHeight) &&
-            (inflictor.pos.z + inflictor.height/2) <= (armor.Owner.pos.z + endHeight)) {
+            (inflictor.pos.z + inflictor.height/2) >= (pPawn.pos.z + startHeight) &&
+            (inflictor.pos.z + inflictor.height/2) <= (pPawn.pos.z + endHeight)) {
             double kevInt = kevlarDMG / kevlarDMGLimit;
 
             switch (damageType) {
@@ -109,8 +120,11 @@ class S7_CCSecVest : S7_BasicArmorPickup {
 //
 //-------------------------------------------------------------------------------------------
 class S7_CCCombatArmorData : S7_ArmorData {
-    const startHeight = 26;
-    const endHeight = 47;
+    const NormalStartHeight = 26;
+    const NormalEndHeight = 47;
+    const CrouchStartHeight = 5;
+    const CrouchEndHeight = 22;
+
     const kevlarDMGLimit = 100.0;
     const platesDMGLimit = 100.0;
 
@@ -159,13 +173,20 @@ class S7_CCCombatArmorData : S7_ArmorData {
         if (!armor)
             return damage;
 
+        let pPawn = PlayerPawn (armor.Owner);
+        if (!pPawn)
+            return damage;
+
         int ret;
         double kevDMG = 0;
         double pltDMG = 0;
 
+        double startHeight = S7_Math.Lerp (NormalStartHeight, CrouchStartHeight, (1 - pPawn.player.crouchfactor) * 2);
+        double   endHeight = S7_Math.Lerp (  NormalEndHeight,   CrouchEndHeight, (1 - pPawn.player.crouchfactor) * 2);
+
         if (inflictor &&
-            (inflictor.pos.z + inflictor.height/2) >= (armor.Owner.pos.z + startHeight) &&
-            (inflictor.pos.z + inflictor.height/2) <= (armor.Owner.pos.z + endHeight)) {
+            (inflictor.pos.z + inflictor.height/2) >= (pPawn.pos.z + startHeight) &&
+            (inflictor.pos.z + inflictor.height/2) <= (pPawn.pos.z + endHeight)) {
             double kevInt = kevlarDMG / kevlarDMGLimit;
             double pltInt = platesDMG / platesDMGLimit;
 
