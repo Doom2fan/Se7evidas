@@ -275,6 +275,38 @@ class S7_BasePlayer : PlayerPawn {
             S7_BasePlayer (player.mo).CustCalcHeight ();
     }
 
+    const BASECROUCHSPEED = (1./8.);
+    override void CrouchMove (int direction) {
+        double defaultHeight = fullHeight;
+        double savedHeight = height;
+        double crouchSpeed = direction * BASECROUCHSPEED;
+        double oldHeight = player.viewheight;
+
+        player.crouchdir = direction;
+        player.crouchfactor += crouchSpeed;
+
+        // check whether the move is ok
+        height = defaultHeight * player.crouchfactor;
+
+        if (!TryMove (pos.XY, false, NULL)) {
+            height = savedHeight;
+
+            if (direction > 0) {
+                // doesn't fit
+                player.crouchfactor -= crouchSpeed;
+                return;
+            }
+        }
+        height = savedHeight;
+
+        player.crouchfactor = clamp (player.crouchfactor, .5, 1.);
+        player.viewheight = ViewHeight * player.crouchfactor;
+        player.crouchviewdelta = player.viewheight - ViewHeight;
+
+        // Check for eyes going above/below fake floor due to crouching motion.
+        CheckFakeFloorTriggers (pos.Z + oldHeight, true);
+    }
+
     const GZD_MAXBOB = 16.0;
     virtual void CustCalcHeight () {
         if (!player || !player.morphTics || !playerData)
