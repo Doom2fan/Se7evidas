@@ -734,6 +734,19 @@
                     "sellPrice": 3,
                     "sellAmount": 1,
                     "global": true
+                },
+                {
+                    "id": [ "L", "S", "S", "G" ],
+                    "name": "$SHORTSSG",
+                    "desc": "$SS_SSGDESC",
+                    "info": "$SS_SSGINFO",
+                    "icon": "sprites/Weapons/Primary/SSG/SSGPA0.png",
+                    "inventoryName": "S7_SSG",
+                    "itemType": "sellItem",
+                    "maxAmount": 1,
+                    "sellPrice": 3500,
+                    "sellAmount": 1,
+                    "global": true
                 }
             ]
         },
