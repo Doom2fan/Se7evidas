@@ -112,7 +112,7 @@ class S7_BasicArmor : BasicArmor {
             if (bonusFactorAmount != armorData.armorBonuses) {
                 double bonuses = clamp (armorData.armorBonuses, 0, 350); // This is clamped to [0-350] because at >~350 the result starts to increase
 
-                bonusFactor = clamp (S7_Math.Mix (1. / ((bonuses + 28) / 30.) * 1.15,  1.7 * log10 ((bonuses + 1) / 50.), .1) + .15, .5, 1.);
+                bonusFactor = clamp (S7_Math.Lerp (1. / ((bonuses + 28) / 30.) * 1.15,  1.7 * log10 ((bonuses + 1) / 50.), .1) + .15, .5, 1.);
                 bonusFactorAmount = armorData.armorBonuses;
             }
 

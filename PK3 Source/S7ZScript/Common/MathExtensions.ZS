@@ -250,7 +250,7 @@ class S7_Math : Actor {
     }
 
     /** General math **/
-    static double Mix (double x, double y, double a) {
+    static double Lerp (double x, double y, double a) {
         return x * (1-a) + y * a;
     }
 }
