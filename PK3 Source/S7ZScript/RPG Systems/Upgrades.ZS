@@ -27,8 +27,8 @@ class S7_UpgradeRadar     : S7_Boolean { } // Enemy radar
 class S7_UpgradeRadarKeys : S7_Boolean { } // Show keys on the radar
 class S7_UpgradeRegen : S7_Boolean { }
 class S7_UpgradeRegenPower : S7_Counter { default { Inventory.MaxAmount 2; } }
-class S7_UpgradeSlot1 : S7_Boolean { }
-class S7_UpgradeSlot2 : S7_Boolean { }
-class S7_UpgradeSlot3 : S7_Boolean { }
-class S7_UpgradeSlot4 : S7_Boolean { }
-class S7_UpgradeSlot5 : S7_Boolean { }
+class S7_UpgradeSlot1 : S7_SlotMaxUpgrade { default { S7_SlotMaxUpgrade.Slot 1; } }
+class S7_UpgradeSlot2 : S7_SlotMaxUpgrade { default { S7_SlotMaxUpgrade.Slot 2; } }
+class S7_UpgradeSlot3 : S7_SlotMaxUpgrade { default { S7_SlotMaxUpgrade.Slot 3; } }
+class S7_UpgradeSlot4 : S7_SlotMaxUpgrade { default { S7_SlotMaxUpgrade.Slot 4; } }
+class S7_UpgradeSlot5 : S7_SlotMaxUpgrade { default { S7_SlotMaxUpgrade.Slot 5; } }

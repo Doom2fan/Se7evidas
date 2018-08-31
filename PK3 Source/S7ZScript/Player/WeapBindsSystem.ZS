@@ -17,6 +17,75 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+class S7_SlotMaxUpgrade : Inventory {
+    bool didUpgrade;
+    meta int upgradeSlot;
+    meta int upgradeAmount;
+
+    property Slot: upgradeSlot;
+    property Amount: upgradeAmount;
+
+    default {
+        Inventory.MaxAmount 1;
+
+        S7_SlotMaxUpgrade.Slot -1;
+        S7_SlotMaxUpgrade.Amount 1;
+    }
+
+    void DoSlotUpgrade (Actor other) {
+        if (!other) {
+            didUpgrade = false;
+            return;
+        }
+
+        if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.NUM_WEAPON_SLOTS - 1)) {
+            Console.Printf ("Invalid weapon slot %d.", upgradeSlot);
+            didUpgrade = true;
+            return;
+        }
+
+        let weapBinds = S7_WeapBindsSystem (other.FindInventory ("S7_WeapBindsSystem"));
+        if (!weapBinds) {
+            didUpgrade = false;
+            return;
+        }
+
+        weapBinds.SlotMaximum [upgradeSlot] = max (0, weapBinds.SlotMaximum [upgradeSlot] + upgradeAmount);
+
+        didUpgrade = true;
+    }
+
+    override void AttachToOwner (Actor other) {
+        Super.AttachToOwner (other);
+
+        DoSlotUpgrade (other);
+    }
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (!didUpgrade)
+            DoSlotUpgrade (Owner);
+    }
+
+    override void DetachFromOwner () {
+        Super.DetachFromOwner ();
+
+        didUpgrade = false;
+        if (!Owner)
+            return;
+
+        if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.NUM_WEAPON_SLOTS - 1))
+            return;
+
+        let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ("S7_WeapBindsSystem"));
+        if (!weapBinds)
+            return;
+
+        weapBinds.SlotMaximum [upgradeSlot] = max (0, weapBinds.SlotMaximum [upgradeSlot] - upgradeAmount);
+    }
+}
+
 class S7_WeapBindsSystem : Inventory {
     const NUM_WEAPON_SLOTS = 10;
     const NUM_WEAPON_SLOTS_DRACO = 4;
