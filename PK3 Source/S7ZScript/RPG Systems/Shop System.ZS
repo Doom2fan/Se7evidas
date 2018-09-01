@@ -346,3 +346,49 @@ class S7_SSItem_Upgrade : S7_SSItem {
         return false;
     }
 }
+
+class S7_SSItem_ThumperGrenade : S7_SSItem {
+    const UnifiedPoolName = "S7_Thumper_PUnified";
+
+    static S7_SSItem_ThumperGrenade Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
+        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
+        SS_DescShowType descShowType = DS_Both
+    ) {
+        S7_SSItem_ThumperGrenade ret = new ("S7_SSItem_ThumperGrenade");
+
+        AssignData (ret, id,
+            name, desc, info, icon,
+            inventoryName, itemType, link,
+            cashItem, maxAmount,
+            buyPrice, buyAmount,
+            sellPrice, sellAmount,
+            descShowType
+        );
+
+        return ret;
+    }
+
+    override S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
+        let ret = self.info.Copy ();
+
+        Inventory unifiedPool;
+
+        if (player && (unifiedPool = player.FindInventory (UnifiedPoolName)))
+            ret.maxAmount = unifiedPool.maxAmount;
+        else {
+            let defaults = GetDefaultByType ((Class<Inventory>) (UnifiedPoolName));
+            ret.maxAmount = defaults ? defaults.maxAmount : 0;
+        }
+
+        ret.buyPrice *= amount;
+        ret.buyAmount *= amount;
+        ret.sellPrice *= amount;
+        ret.sellAmount *= amount;
+
+        return ret;
+    }
+
+    override int GetAmount (S7_BasePlayer player) {
+        return player.CountInv (UnifiedPoolName);
+    }
+}

@@ -33,6 +33,8 @@ SS_SHOTGUNDESC = "The AM-10 \"Lucifer\" Combat Shotgun is a powerful SxS double-
 SS_SHOTGUNINFO = "Manufacturer: Sigma BTK\nCaliber: 20ga\nCapacity: 10 standard-size shells\nFiring modes: Pump-action only";
 
 // Area-damage
+SS_THUMPERDESC = "The XPL-50 \"Thumper\" Grenade Launcher is a pump-action grenade launcher that takes 50mm grenades. It's a powerful, reliable and versatile weapon, earning it a place in most militaries.\nIt accepts a wide variety of loads, ranging from high explosive to nerve gas.";
+SS_THUMPERINFO = "Manufacturer: ShadowFyre\nAmmo: 50mm grenades\nCapacity: 4 + 1 grenades\nFiring modes: Pump-action only";
 
 // Sniper rifles
 SS_CONQUERORDESC = "The MK-17 \"Conqueror\" Anti-Materiel Rifle is a sniper rifle designed and manufactured by Acheron Industries, chambered in the .45 WW cartridge, incorporating a proprietary propellant load that delivers astounding performance from its 90 cm barrel. Alas, that cartridge was to be its downfall, plaguing the weapon with about one "dud" round in every hundred.\nAcheron Industries also offers .45 WW with specialty payloads, but some of these have lowered propellant loads that do not reliably cycle the gas action, so the MK-17 can be manually locked into pump-action-only mode for such ammunition.\nAlthough rather expensive, the MK-17's power and accuracy definitely make up for its high price.";

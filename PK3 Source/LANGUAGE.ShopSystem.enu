@@ -67,14 +67,13 @@ SS_UPGRADES_INFO_DESC           = "Upgrades that give you additional information
 SS_20GA                         = "20 gauge shells";
 SS_12GA                         = "12 gauge shells";
 // 50mm grenades
-SS_TH_ALL                       = "All";
-SS_TH_EXP                       = "Explosive";
-SS_TH_FRAG                      = "Frag";
-SS_TH_THRM                      = "Thermite";
-SS_TH_FLRE                      = "Flare";
-SS_TH_CLST                      = "Clusterbomb";
-SS_TH_NAIL                      = "Nailbomb";
-SS_TH_NGAS                      = "Nerve gas";
+SS_THUMPERGREN_EXPL             = "Explosive";
+SS_THUMPERGREN_FRAG             = "Fragmentation";
+SS_THUMPERGREN_THRM             = "Incendiary";
+SS_THUMPERGREN_FLRE             = "Flare";
+SS_THUMPERGREN_CLST             = "Clusterbomb";
+SS_THUMPERGREN_NAIL             = "Nailbomb";
+SS_THUMPERGREN_NGAS             = "Nerve gas";
 // Explosives
 SS_HANDGRENADES                 = "Hand grenade";
 // Loot
@@ -97,6 +96,14 @@ SS_12GADESC                     = "Box of 12ga #00 buckshot shells";
 // Batteries/Cells
 SS_CELLSDESC                    = "Type A energy cell";
 SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";
+// Thumper grenades
+SS_THUMPERGREN_EXPLDESC         = "A grenade with an explosive charge";
+SS_THUMPERGREN_FRAGDESC         = "A grenade with an explosive charge and a fragmentation shell";
+SS_THUMPERGREN_THRMDESC         = "A grenade with an incendiary charge";
+SS_THUMPERGREN_FLREDESC         = "A flare";
+SS_THUMPERGREN_CLSTDESC         = "A grenade with a clusterbomb load";
+SS_THUMPERGREN_NAILDESC         = "A grenade with an explosive charge and sharp nails";
+SS_THUMPERGREN_NGASDESC         = "A grenade with a nerve gas load";
 // Combat upgrades
 SS_UPGR_LIGHTSLOT_DESC          = "Unlocks an additional light weapon slot, allowing you to carry two light weapons";
 SS_UPGR_ENEMY_INFO_DESC         = "Displays information about the enemy under the crosshair.\nShows the enemy's health and name.";
