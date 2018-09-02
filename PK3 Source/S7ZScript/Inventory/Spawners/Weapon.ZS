@@ -70,3 +70,15 @@ class S7_SuperShotgunSpawner : RandomSpawner replaces SuperShotgun {
         DropItem "S7_Loot_SkullSceptre"     , 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Chaingun spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_ChaingunSpawner : RandomSpawner replaces Chaingun {
+    default {
+        DropItem "S7_Nothing", 256, 3;
+        DropItem "S7_AK47"   , 256, 1;
+    }
+}
