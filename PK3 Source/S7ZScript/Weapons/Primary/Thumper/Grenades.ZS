@@ -96,7 +96,7 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
     states {
     Loople:
         TNT1 A  15 {
-            A_SetScale (0.43);
+            A_SetScale (0.39);
             A_PlaySound ("Explosions/Explosion1");
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
@@ -130,16 +130,16 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     states {
     Loople:
         TNT1 A 15 {
-            A_SetScale (0.43);
+            A_SetScale (0.1875);
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ("ExplosionSplashDMG");
-            A_Explode (80, 80);
+            A_Explode (80, 48);
 
-            int count = 7 - random [weaponSpc] (0, 3);
+            int count = 20 + random [weaponSpc] (0, 5);
             for (; count > 0; count--) {
-                A_SpawnItemEx ("S7_ThumperGrenadeTherm_Fire", fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (-0.025, 0.025), 0.25,
-                    fRandom [weaponSpc] (2.8, 3.0), 0.0, fRandom [weaponSpc] (2.5, 4.0), fRandom [weaponSpc] (0.0, 360.0), SXF_TransferPointers | SXF_NoCheckPosition);
+                A_SpawnItemEx ("S7_ThumperGrenadeTherm_Fire", fRandom [weaponSpc] (-.025, .025), fRandom [weaponSpc] (-.025, .025), .25,
+                    fRandom [weaponSpc] (0., 3.), 0., fRandom [weaponSpc] (2.5, 4.), fRandom [weaponSpc] (0., 360.), SXF_TransferPointers | SXF_NoCheckPosition);
             }
 
             A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
@@ -176,14 +176,14 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
     Loople:
         THGR C  2 bright {
             A_CountdownArg (0, "FadeOut");
-            A_Explode (3, 64, XF_HurtSource, false, 48);
+            A_Explode (1, 45, XF_HurtSource, fulldamagedistance: 45);
         }
         THGR DE 2 bright;
         loop;
     FadeOut:
         THGR C  2 bright {
             A_SetScale (scale.X - 0.035);
-            A_Explode (3, 64, XF_HurtSource, false, 48);
+            A_Explode (1, int (45 * scale.X), XF_HurtSource, fulldamagedistance: int (45 * scale.X));
         }
         THGR DE 2 bright A_FadeOut (0.08);
         loop;
@@ -309,7 +309,7 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ("ExplosionSplashDMG");
-            A_Explode (100, 100);
+            A_Explode (32, 48);
 
             double spawnZ = 0;
             double zMul = 1;
@@ -337,7 +337,7 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
                 );
             }
 
-            A_SetScale (0.43);
+            A_SetScale (0.1875);
             A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
@@ -405,7 +405,7 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
             A_SetDamageType ("ExplosionSplashDMG");
-            A_Explode (95, 95);
+            A_Explode (96, 80);
 
             double spawnZ = 0;
             double zMul = 1;
@@ -433,7 +433,7 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
                 );
             }
 
-            A_SetScale (0.43);
+            A_SetScale (0.3125);
             A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
