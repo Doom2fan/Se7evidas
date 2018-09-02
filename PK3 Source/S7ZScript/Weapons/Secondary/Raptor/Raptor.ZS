@@ -37,7 +37,7 @@ class S7_Raptor : S7_BaseWeapon {
         Inventory.PickupMessage "$RAPTOR";
         Weapon.AmmoType1 "S7_RaptorClip";
         Weapon.AmmoType2 "S7_9mmCartridges";
-        Weapon.AmmoUse 1;
+        Weapon.AmmoUse 2;
         Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "RPTPA0";
         S7_BaseWeapon.ShortTag "$SHORTRAPTOR";
@@ -81,7 +81,7 @@ class S7_Raptor : S7_BaseWeapon {
             A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 3.75);
             for (int i = 0; i < 2; i++) {
                 A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 7, -2);
-                A_FireProjectile ("S7_RaptorTracer", fRandom [weaponSpread] (-0.4, 0.4), 1, 5, 0, 0, fRandom [weaponSpread] (-0.4, 0.4));
+                A_FireProjectile ("S7_RaptorTracer", fRandom [weaponSpread] (-0.4, 0.4), (i == 0), 5, 0, 0, fRandom [weaponSpread] (-0.4, 0.4));
             }
 
             S7_Recoil (-0.8);
