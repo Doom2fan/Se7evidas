@@ -88,7 +88,7 @@ class S7_RocketAmmoSpawner : RandomSpawner replaces RocketAmmo {
 //-------------------------------------------------------------------------------------------
 class S7_RocketBoxSpawner : RandomSpawner replaces RocketBox {
     default {
-        DropItem "S7_Nothing"     , 256, 1;
-        DropItem "S7_GrenadeCount", 256, 3;
+        DropItem "S7_Nothing"   , 256, 1;
+        DropItem "S7_GrenadeBox", 256, 3;
     }
 }
