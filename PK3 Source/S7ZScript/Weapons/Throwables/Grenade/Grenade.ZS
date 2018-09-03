@@ -39,6 +39,19 @@ class S7_GrenadeCount : Ammo {
         stop;
     }
 }
+class S7_GrenadeBox : S7_GrenadeCount {
+    default {
+        Inventory.PickupMessage "$GRENADEBOX_PICKUP";
+        Inventory.Amount 4;
+        Scale 1.;
+    }
+
+    states {
+    Spawn:
+        GRNB A -1;
+        stop;
+    }
+}
 
 class S7_GrenadeWeap : S7_ThrowWeapon {
     default {

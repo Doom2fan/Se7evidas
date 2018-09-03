@@ -83,3 +83,15 @@ class S7_ChaingunSpawner : RandomSpawner replaces Chaingun {
         DropItem "S7_AK47"             , 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Rocket Launcher spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_RocketLauncherSpawner : RandomSpawner replaces RocketLauncher {
+    default {
+        DropItem "S7_GrenadeBox"       , 256, 3;
+        DropItem "S7_Loot_SkullSceptre", 256, 1;
+    }
+}

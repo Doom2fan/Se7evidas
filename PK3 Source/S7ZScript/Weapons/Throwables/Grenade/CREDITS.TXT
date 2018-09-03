@@ -1,7 +1,8 @@
 Coding: Chronos "phantombeta" Ouroboros, Vaecrius
 
 Sprites:
-    HUD Sprites: Uboa, Captain J, Lobotomy Software (Powerslave's grenade's pin), Chronos "phantombeta" Ouroboros (Edits)
+    HUD Sprites, single pickup and thrown grenade: Uboa, Captain J, Lobotomy Software (Powerslave's grenade's pin), Chronos "phantombeta" Ouroboros (Edits)
+    Box pickup: BloodyAcid, Chronos "phantombeta" Ouroboros (Edits)
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file
