@@ -15,6 +15,7 @@ user bool S7_LogLVLUpMsgs               = TRUE;
 user bool S7_AutoReloading              = TRUE;
 user bool S7_HeartbeatsOn               = TRUE;
 user int  S7_HUDType                    = 1;
+user bool S7_AlwaysPickupHealthSpheres  = true;
 
 // Intro
 user bool S7_NoIntro                    = FALSE;

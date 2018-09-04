@@ -113,6 +113,7 @@ optionMenu "S7Settings_User" {
     option "Auto reloading",                                                                        "S7_AutoReloading",             "OnOff"
     option "No newgame intro",                                                                      "S7_NoIntro",                   "OnOff"
     option "No newgame intro (MP only)",                                                            "S7_NoIntroOnMP",               "OnOff"
+    option "Always pickup health spheres",                                                          "S7_AlwaysPickupHealthSpheres", "OnOff"
 
     staticText " "
     staticText "Audio Options", 1

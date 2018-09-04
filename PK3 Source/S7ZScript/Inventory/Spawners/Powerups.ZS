@@ -41,3 +41,25 @@ class S7_InvulnerabilitySpawner : RandomSpawner replaces InvulnerabilitySphere {
         DropItem "S7_InvulnerabilityType2", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Soulsphere spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_SoulsphereSpawner : RandomSpawner replaces Soulsphere {
+    default {
+        DropItem "S7_HeartSphere", 256, 1;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Megasphere spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_MegasphereSpawner : RandomSpawner replaces Megasphere {
+    default {
+        DropItem "S7_SoulSphere", 256, 1;
+    }
+}

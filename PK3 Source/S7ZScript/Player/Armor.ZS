@@ -23,6 +23,7 @@ class S7_ArmorData play {
     virtual void Init (S7_BasicArmor armor) { }
     virtual void Tick (S7_BasicArmor armor) { }
 
+    virtual void FixArmor (S7_BasicArmor armor, int amount) { }
     virtual void GotBonus (S7_BasicArmor armor, int amount) { }
 
     virtual int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {

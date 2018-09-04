@@ -37,10 +37,14 @@ class S7_CCSecVestData : S7_ArmorData {
         armor.amount = int (clamp (100 * (1 - kevlarDMG / kevlarDMGLimit), 0, 100));
     }
 
-    override void GotBonus (S7_BasicArmor armor, int amount) {
+    override void FixArmor (S7_BasicArmor armor, int amount) {
         kevlarDMG = max (kevlarDMG - amount, 0.);
 
         UpdateAmount (armor);
+    }
+
+    override void GotBonus (S7_BasicArmor armor, int amount) {
+        FixArmor (armor, amount);
     }
 
     override void Tick (S7_BasicArmor armor) {
@@ -135,11 +139,15 @@ class S7_CCCombatArmorData : S7_ArmorData {
         armor.amount = int (clamp (100 * ((1 - kevlarDMG / kevlarDMGLimit) + (1 - platesDMG / platesDMGLimit)), 0, 200));
     }
 
-    override void GotBonus (S7_BasicArmor armor, int amount) {
+    override void FixArmor (S7_BasicArmor armor, int amount) {
         kevlarDMG = max (kevlarDMG - (amount / 2.), 0.);
         platesDMG = max (platesDMG - (amount / 2.), 0.);
 
         UpdateAmount (armor);
+    }
+
+    override void GotBonus (S7_BasicArmor armor, int amount) {
+        FixArmor (armor, amount);
     }
 
     protected double, double, int CalcBulletDamage (int dmg, double baseKevDMG, double maxBulletShred,
