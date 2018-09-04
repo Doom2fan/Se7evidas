@@ -139,7 +139,7 @@ class S7_HealWeap : S7_NullWeapon {
         TNT1 A 1 {
             let pPawn = S7_BasePlayer (self);
 
-            if (pPawn) {
+            if (pPawn && invoker.IsPrepared ()) {
                 if (invoker.healProgress >= invoker.healTime) {
                     if (invoker.DoHealing ()) {
                         invoker.usesLeft--;
@@ -222,7 +222,7 @@ class S7_MedikitApplicator : S7_HealWeap {
         S7_HealWeap.HealItem "S7_Medikit";
         S7_HealWeap.HealItemAmount 1;
 
-        S7_HealWeap.HealTime 2 * 35; // 2 seconds
+        S7_HealWeap.HealTime 1.5 * 35; // 2 seconds
         S7_HealWeap.HealAmount 23;
     }
 
@@ -271,7 +271,7 @@ class S7_StimpackApplicator : S7_HealWeap {
         S7_HealWeap.HealItem "S7_Stimpack";
         S7_HealWeap.HealItemAmount 1;
 
-        S7_HealWeap.HealTime 17;
+        S7_HealWeap.HealTime 14;
         S7_HealWeap.HealAmount 20;
     }
 
