@@ -78,6 +78,7 @@
     // Powerups
         HEARTSPHERE_PICKUP          = "Life essence";
         SOULSPHERE_PICKUP           = "Soulsphere";
+        DEMONEYES_PICKUP            = "Demon eyes";
 
     // Loot
         LOOT_SCORPSHUNTERSG_PICKUP        = "Shadow Corps Standard Issue Semi-automatic Shotgun:[+%d 12ga shells]";

@@ -17,6 +17,11 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+//-------------------------------------------------------------------------------------------
+//
+// Life essence
+//
+//-------------------------------------------------------------------------------------------
 /* Credits:
 ** Sprites: Eriance
 */
@@ -71,6 +76,11 @@ class S7_HeartSphere : Inventory { // I am not good at naming things
     }
 }
 
+//-------------------------------------------------------------------------------------------
+//
+// Soulsphere
+//
+//-------------------------------------------------------------------------------------------
 /* Credits:
 ** Sprites: Eriance
 */
@@ -94,6 +104,51 @@ class S7_SoulSphere : S7_HeartSphere {
     states {
     Spawn:
         SPWR EFGH 4 bright;
+        loop;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Demon eyes
+//
+//-------------------------------------------------------------------------------------------
+class S7_DemonEyes_Power : PowerLightAmp {
+    default {
+        Powerup.Duration -120;
+    }
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (Owner.player) {
+            if (!isBlinking ())
+                Shader.SetEnabled (Owner.player, "S7_DemonEyes", true);
+            else
+                Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+        }
+    }
+
+    override void EndEffect () {
+        Super.EndEffect ();
+
+        if (Owner && Owner.player)
+            Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+    }
+}
+
+class S7_DemonEyes : PowerupGiver {
+    default {
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$DEMONEYES_PICKUP";
+        Powerup.Type "S7_DemonEyes_Power";
+
+        +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP +COUNTITEM
+    }
+
+    states {
+    Spawn:
+        S7DE ABCD 4 bright;
         loop;
     }
 }
