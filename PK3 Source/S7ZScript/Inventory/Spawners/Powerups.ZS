@@ -63,3 +63,14 @@ class S7_MegasphereSpawner : RandomSpawner replaces Megasphere {
         DropItem "S7_SoulSphere", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Infrared spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_InfraredSpawner : RandomSpawner replaces Infrared {
+    default {
+        DropItem "S7_FlashlightBattery", 256, 1;
+    }
+}

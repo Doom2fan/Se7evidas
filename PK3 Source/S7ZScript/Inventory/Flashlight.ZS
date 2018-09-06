@@ -25,14 +25,49 @@
 **
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
+class S7_FlashlightBattery : Inventory {
+    default {
+        Tag "$FLASHLIGHT_BATTERY";
+
+        Inventory.MaxAmount 4;
+        Inventory.InterHubAmount 4;
+        Inventory.PickupMessage "$FLASHLIGHT_BATTERY";
+        Inventory.Icon "FLBTA0";
+
+        +INVENTORY.INVBAR
+    }
+
+    override bool Use (bool pickup) {
+        let flashlight = S7_Flashlight (Owner.FindInventory ("S7_Flashlight"));
+
+        if (!flashlight) // Return false if the player doesn't have a flashlight.
+            return false;
+
+        if (flashlight.battery >= S7_Flashlight.MaxBatteryCharge) // Return false if the flashlight already has a full battery.
+            return false;
+
+        flashlight.battery = S7_Flashlight.MaxBatteryCharge;
+
+        return true;
+    }
+
+    states {
+    Spawn:
+        FLBT A -1;
+        stop;
+    }
+}
+
 class S7_Flashlight : Inventory {
+    const MaxBatteryCharge = 35 * 60 * 30;
+
     S7_Flashlight_Spotlight selfLight1, selfLight2;
 
     bool active;
     int battery;
 
     override void BeginPlay () {
-        battery = 35 * 60 * 30;
+        battery = MaxBatteryCharge;
     }
 
     override bool Use (bool pickup) {
@@ -65,7 +100,10 @@ class S7_Flashlight : Inventory {
         battery--;
 
         Color colorCVar = S7_PlayerCVar.GetInt (Owner.player, "S7_FlashlightColor");
-        double intensityMod = 1; // Eventually this will be a value based on how much battery is left.
+        double intensityMod = clamp (1. - ((max (battery - (MaxBatteryCharge/4.), 0.) / MaxBatteryCharge) / 4), 0., 1.);
+
+        if (battery <= 0) // We shouldn't get here in the first place, but whatever.
+            intensityMod = 0.;
 
         int r = int (colorCVar.R * intensityMod),
             g = int (colorCVar.G * intensityMod),
