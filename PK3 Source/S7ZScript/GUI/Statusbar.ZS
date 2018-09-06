@@ -410,6 +410,28 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 let throwWeap = S7_ThrowWeapon (CPlayer.ReadyWeapon);
                 DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (-6, -50), DI_ITEM_RIGHT_BOTTOM);
                 DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mThrowableForce.GetValue (), throwWeap.maxForce, (-7, -51), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+
+                if (CPlayer.ReadyWeapon is "S7_GrenadeWeap") {
+                    let grenWeap = S7_GrenadeWeap (throwWeap);
+
+                    bool drawFuseBar = false;
+
+                    if (grenWeap.cooking && grenWeap.fuse >= 0) {
+                        drawFuseBar = true;
+
+                        if (grenWeap.fuse >= 35 && grenWeap.fuse < 70 && (level.time % 4) == 0)
+                            drawFuseBar = false;
+                        else if (grenWeap.fuse >= 0 && grenWeap.fuse < 35 && (level.time % 2) == 0)
+                            drawFuseBar = false;
+                    }
+
+                    if (drawFuseBar) {
+                        DrawImage ("graphics/HUD/Fullscreen/S7ProgressBarBG.png", (0, -50), DI_ITEM_CENTER_BOTTOM | DI_SCREEN_CENTER_BOTTOM);
+                        DrawBar ("graphics/HUD/Fullscreen/S7ProgressBarFG.png", "graphics/HUD/Fullscreen/S7ProgressBarFakeBG.png",
+                            grenWeap.fuse, grenWeap.fuseLength, (0, -51), 0, 0, DI_ITEM_CENTER_BOTTOM | DI_SCREEN_CENTER_BOTTOM
+                        );
+                    }
+                }
             } else if (CPlayer.ReadyWeapon is "S7_HealWeap") {
                 let app = S7_HealWeap (CPlayer.ReadyWeapon);
                 int progress = app.healProgress;

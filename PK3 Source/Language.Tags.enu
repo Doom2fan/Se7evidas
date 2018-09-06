@@ -72,6 +72,7 @@ LOOT_GOLDCHEST                  = "Chest of gold";
 BERSERKWEAP                     = "Syringe (Berserk)";
 BERSERK                         = "Berserk";
 AUTOGUN                         = "M-400 Autogun";
+FLASHLIGHT_BATTERY              = "Flashlight battery";
 
 // Ammo
 9MM                             = "9x19mm";

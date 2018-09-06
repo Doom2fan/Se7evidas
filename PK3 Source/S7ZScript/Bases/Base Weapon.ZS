@@ -269,8 +269,10 @@ class S7_DracoWeapon : S7_BaseWeapon {
 class S7_ThrowWeapon : S7_BaseWeapon {
     int throwForce;
     int maxForce;
+    int canCancelThrow;
 
     property MaxForce: maxForce;
+    property CanCancelThrow: canCancelThrow;
 
     default {
         S7_ThrowWeapon.MaxForce 30;
@@ -301,8 +303,10 @@ class S7_ThrowWeapon : S7_BaseWeapon {
     states {
     Hold:
         TNT1 A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (invoker.canCancelThrow && CheckInventory ("S7_Reloading", 1))
                 return ResolveState ("CancelThrow");
+            else
+                TakeInventory ("S7_Reloading", 0x7FFFFFFF);
 
             invoker.throwForce = clamp (invoker.throwForce + 1, 0, invoker.maxForce);
             return ResolveState (null);

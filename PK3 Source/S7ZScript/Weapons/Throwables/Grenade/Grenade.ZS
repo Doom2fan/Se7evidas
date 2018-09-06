@@ -63,11 +63,37 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
         S7_BaseWeapon.BindSlot WpSlot_Special;
         S7_ThrowWeapon.MaxForce 30;
+        S7_ThrowWeapon.CanCancelThrow true;
+    }
+
+    bool cooking;
+    int fuse;
+    int fuseLength;
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (cooking && ((fuse--) <= 0 || Owner.health <= 0 || Owner.bKilled)) {
+            Throw ();
+
+            Owner.player.SetPSprite (PSP_Weapon, FindState ('Ready2'), false);
+            throwForce = 0;
+            A_ClearRefire ();
+        }
     }
 
     override void Throw () {
-        Owner.TakeInventory ("S7_GrenadeCount", 1, TIF_NoTakeInfinite);
-        SpawnObject ("S7_ThrownHandGrenade");
+        if (!cooking)
+            Owner.TakeInventory ("S7_GrenadeCount", 1, TIF_NoTakeInfinite);
+
+        let grenade = S7_ThrownHandGrenade (SpawnObject ("S7_ThrownHandGrenade"));
+
+        if (cooking) {
+            grenade.fuse = fuse;
+            fuse = -1;
+
+            cooking = false;
+        }
     }
 
     states {
@@ -79,6 +105,9 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
             if (CheckInventory ("S7_DoMelee", 1))
                 return ResolveState ("QuickMelee");
 
+            if (!invoker.cooking)
+                invoker.fuse = -1;
+
             A_WeaponReady ();
 
             return ResolveState (null);
@@ -86,8 +115,15 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         loop;
 
     Fire:
-        TNT1 A      0 A_JumpIfInventory ("S7_GrenadeCount", 1, 1);
-        goto Ready2;
+        TNT1 A      0 {
+            if (invoker.cooking)
+                return ResolveState ("Hold");
+
+            if (!CheckInventory ("S7_GrenadeCount", 1))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
         TGRN WXY    1;
         TGRN ABCDEF 1;
         TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
@@ -95,11 +131,36 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         TNT1 A      1;
         goto Hold;
 
+    AltFire:
+        TNT1 A      0 {
+            if (!CheckInventory ("S7_GrenadeCount", 1) || invoker.cooking)
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        TGRN WXY    1;
+        TGRN ABCDEF 1;
+        TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
+        TGRN HIJKLM 1;
+        TNT1 A      1 {
+            TakeInventory ("S7_GrenadeCount", 1, TIF_NoTakeInfinite);
+
+            invoker.cooking = true;
+            invoker.fuse = S7_ThrownHandGrenade.FuseTime;
+            invoker.fuseLength = invoker.fuse;
+        }
+        goto Ready2;
+
     CancelThrow:
         TNT1 A      1 {
             TakeInventory ("S7_Reloading", 0x7FFFFFFF);
             invoker.throwForce = 0;
             A_ClearRefire ();
+
+            if (invoker.cooking)
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
         }
         TGRN MLKJIH 1;
         TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
@@ -115,6 +176,8 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 //
 //-------------------------------------------------------------------------------------------
 class S7_ThrownHandGrenade : S7_ThrownObject {
+    const FuseTime = int (ceil (35 * 3.5));
+
     default {
         Radius 5;
         Height 5;
@@ -140,16 +203,20 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
 
     GrenadeState grenState;
     Vector3 oldVel;
-    double fuse;
+    int fuse;
 
     int frameNum;
+
+    override void BeginPlay () {
+        Super.BeginPlay ();
+
+        fuse = FuseTime;
+    }
 
     override void PostBeginPlay () {
         super.PostBeginPlay ();
 
         bNoTeleport = !S7_GrenadeTeleport;
-
-        fuse = 35 * 3.5;
 
         A_ChangeVelocity (cos (pitch) * throwForce, 0, -sin (pitch) * throwForce, CVF_Relative);
 
@@ -171,6 +238,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
 
             case GS_Exploded:
                 bUseBounceState = false;
+                bNoGravity = true;
             case GS_Moving:
                 bSolid = false;
                 bPushable = false;
