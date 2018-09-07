@@ -393,10 +393,10 @@ class S7_CanteenRefill : Inventory replaces HealthBonus {
 
     states {
     Spawn:
-        BON1 A     8;
-        BON1 BCDEF 1;
-        BON1 G     4;
-        BON1 FEDCB 1;
+        BON1 A     8 bright;
+        BON1 BCDEF 1 bright;
+        BON1 G     4 bright;
+        BON1 FEDCB 1 bright;
         loop;
     }
 }
