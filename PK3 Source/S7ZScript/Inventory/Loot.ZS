@@ -222,3 +222,58 @@ class S7_Loot_GoldChest : S7_LootItem {
         stop;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Treasure
+//
+//-------------------------------------------------------------------------------------------
+class S7_Loot_CreditsBriefcase10K : Inventory {
+    default {
+        Inventory.Amount 10000;
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$LOOT_CREDITSCASE_10K";
+        Scale 1;
+
+        +INVENTORY.ALWAYSPICKUP +INVENTORY.AUTOACTIVATE
+    }
+
+    override bool TryPickup (in out Actor toucher) {
+        if (!toucher || toucher.CountInv ("S7_Cash") > 0x7FFFFFFF - Amount) {
+            bAlwaysPickup = false;
+            return false;
+        }
+
+        if (!Super.TryPickup (toucher)) {
+            Console.printf ("aaa");
+            bAlwaysPickup = false;
+            return false;
+        }
+
+        return true;
+    }
+
+    override bool Use (bool pickup) {
+        if (!Owner)
+            return false;
+
+        Owner.GiveInventory ("S7_Cash", Amount);
+        bAlwaysPickup = true;
+
+        return true;
+    }
+
+    states {
+    Spawn:
+        LOT1 F -1;
+        stop;
+    }
+}
+
+class S7_Loot_CreditsBriefcase5K : S7_Loot_CreditsBriefcase10K {
+    default {
+        Inventory.Amount 5000;
+        Inventory.PickupMessage "$LOOT_CREDITSCASE_5K";
+        Scale 0.65;
+    }
+}

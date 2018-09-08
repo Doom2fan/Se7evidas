@@ -83,6 +83,8 @@
     // Loot
         LOOT_SCORPSHUNTERSG_PICKUP        = "Shadow Corps Standard Issue Semi-automatic Shotgun:[+%d 12ga shells]";
         LOOT_SCORPSHUNTERSG_PICKUP_BROKEN = "%d 12ga shells";
+        LOOT_CREDITSCASE_5K               = "Picked up a briefcase with a 5K credits chit";
+        LOOT_CREDITSCASE_10K              = "Picked up a briefcase with a 10K credits chit";
 
 // Weapon Pickups
     // Primary

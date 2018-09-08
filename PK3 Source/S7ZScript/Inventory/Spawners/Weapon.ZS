@@ -95,3 +95,27 @@ class S7_RocketLauncherSpawner : RandomSpawner replaces RocketLauncher {
         DropItem "S7_Loot_SkullSceptre", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Plasma Rifle spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_PlasmaRifleSpawner : RandomSpawner replaces PlasmaRifle {
+    default {
+        DropItem "S7_Loot_CreditsBriefcase5K", 256, 3;
+        DropItem "S7_Loot_GoldChest"         , 256, 1;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// BFG 9000 spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_BFG9000Spawner : RandomSpawner replaces BFG9000 {
+    default {
+        DropItem "S7_Loot_GoldChest"          , 256, 3;
+        DropItem "S7_Loot_CreditsBriefcase10K", 256, 1;
+    }
+}
