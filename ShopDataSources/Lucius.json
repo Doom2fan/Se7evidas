@@ -970,7 +970,7 @@
                     "icon": "sprites/Inventory/Loot/LOT1E0.png",
                     "inventoryName": "S7_Loot_GoldChest",
                     "itemType": "sellItem",
-                    "sellPrice": 8500,
+                    "sellPrice": 7500,
                     "sellAmount": 1,
                     "global": true
                 }
