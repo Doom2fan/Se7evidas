@@ -29,22 +29,25 @@ class S7_Blood : Blood replaces Blood {
         +PUFFGETSOWNER +NOBLOCKMAP +NOTELEPORT
     }
 
+    override void PostBeginPlay () {
+        vel = (0, 0, 0);
+
+        A_FaceTarget ();
+        angle = -angle;
+
+        double xo = fRandom [sfx] (-2, 2),
+               yo = fRandom [sfx] (-2, 2),
+               zo = fRandom [sfx] (-2, 2);
+
+        double xvel = fRandom [sfx] (0, 6),
+               zvel = fRandom [sfx] (4, 7);
+
+        A_SpawnItemEx ("S7_Flying_Blood", xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+    }
+
     states {
     Spawn:
-        BLD1 C  1 noDelay { //A_SpawnDebris ("S7_Flying_Blood", true);
-            A_FaceTarget ();
-            angle = -angle;
-
-            double xo = fRandom [sfx] (-2, 2),
-                   yo = fRandom [sfx] (-2, 2),
-                   zo = fRandom [sfx] (-2, 2);
-
-            double xvel = fRandom [sfx] (0, 6),
-                   zvel = fRandom [sfx] (4, 7);
-
-            A_SpawnItemEx ("S7_Flying_Blood", xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
-        }
-        BLD1 BA 1;
+        BLD1 CBA 1;
         stop;
     }
 }
