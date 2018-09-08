@@ -229,6 +229,7 @@ class S7_WallCheckPuff : S7_TraceTestPuff {
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
     Array<Actor> actorsToIgnore;
+    Array<Actor> actorsRipped;
     
     override ETraceStatus TraceCallback () {
         /*if (!sourceActor)
@@ -241,10 +242,10 @@ class S7_Projectile_Trace : LineTracer {
 
                 let mo = Results.HitActor;
 
-                for (int i = 0; i < actorsToIgnore.Size (); i++) {
-                    if (mo == actorsToIgnore [i])
-                        return TRACE_Skip;
-                }
+                if (actorsToIgnore.Find (mo) != actorsToIgnore.Size ()) // Skip if the actor should be ignored
+                    return TRACE_Skip;
+                if (actorsRipped.Find (mo) != actorsRipped.Size ()) // Skip if the actor was already ripped through
+                    return TRACE_Skip;
 
                 if (mo != sourceActor && (sourceActor.bMissile && mo != sourceActor.target)) {
                     if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
@@ -422,6 +423,7 @@ class S7_Projectile : FastProjectile {
         if (vel != (0, 0, 0) || (pos.Z != floorz)) {
             if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
             tr.actorsToIgnore.Clear ();
+            tr.actorsRipped.Clear ();
 
             if (bMissile && vel.X == 0 && vel.Y == 0 && !IsZeroDamage ())
                 vel.X = MinVel;
@@ -475,11 +477,13 @@ class S7_Projectile : FastProjectile {
 
                 if (collisionHandled)
                     break;
+                else
+                    SetOrigin (oldPos, false);
             }
 
             if (!collisionHandled)
                 SetOrigin (pos + vel, true);
-            TryMove (pos.xy, true, false);
+            //TryMove (pos.xy, true, false);
 
             SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
@@ -531,7 +535,7 @@ class S7_Projectile : FastProjectile {
 
     bool HandleCollision (Vector3 oldPos, Vector3 oldVel) {
         if (abs (level.Vec3Diff (oldPos, tr.Results.hitPos).Length ()) > abs (oldVel.Length ()) + radius) {
-            if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
+            if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor && tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
 
             return false;
@@ -606,9 +610,13 @@ class S7_Projectile : FastProjectile {
             ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? hitSky : false);
 
             return true;
-        } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor)
-            tr.actorsToIgnore.Push (tr.Results.HitActor);
-        else {
+        } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor) {
+            if (tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
+                tr.actorsToIgnore.Push (tr.Results.HitActor);
+
+            if (bRipper && tr.actorsRipped.Find (tr.Results.HitActor) == tr.actorsRipped.Size ())
+                tr.actorsRipped.Push (tr.Results.HitActor);
+        } else {
             if ((tr.Results.HitType == TRACE_HitFloor && floorHit) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingHit)) {
                 SetOrigin (hitPos, interpFastProj);
