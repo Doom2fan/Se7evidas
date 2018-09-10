@@ -26,6 +26,8 @@ class S7_ArmorData play {
     virtual void FixArmor (S7_BasicArmor armor, int amount) { }
     virtual void GotBonus (S7_BasicArmor armor, int amount) { }
 
+    virtual double GetSpeedFactor () { return 1; }
+
     virtual int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {
         int saved;
         int full = max (0, armor.MaxFullAbsorb - armor.AbsorbCount);
@@ -117,7 +119,7 @@ class S7_BasicArmor : BasicArmor {
                 bonusFactorAmount = armorData.armorBonuses;
             }
 
-            newDamage = int (damage * bonusFactor);
+            newDamage = int (newDamage * bonusFactor);
         }
 
         // Once the armor has absorbed its part of the damage, then apply its damage factor, if any, to the player

@@ -143,6 +143,8 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Inventory/Flashlight.ZS"
 #include "S7ZScript/Inventory/Invulnerability.ZS"
 #include "S7ZScript/Inventory/Powerups.ZS"
+#include "S7ZScript/Inventory/Armor/SecurityVest.ZS"
+#include "S7ZScript/Inventory/Armor/CombatArmor.ZS"
 #include "S7ZScript/Inventory/Spawners/Weapon.ZS"
 #include "S7ZScript/Inventory/Spawners/Ammo.ZS"
 #include "S7ZScript/Inventory/Spawners/Powerups.ZS"
