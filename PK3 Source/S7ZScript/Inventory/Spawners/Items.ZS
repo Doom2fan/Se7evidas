@@ -25,7 +25,7 @@
 class S7_SecVestSpawner : RandomSpawner {
     default {
         DropItem "S7_CCSecVest",   256, 2;
-        //DropItem "S7_SBTKSecVest", 256, 1;
+        DropItem "S7_SBTKSecVest", 256, 1;
     }
 }
 class S7_GreenArmorSpawner : RandomSpawner replaces GreenArmor {
@@ -43,7 +43,7 @@ class S7_GreenArmorSpawner : RandomSpawner replaces GreenArmor {
 class S7_CombatArmorSpawner : RandomSpawner {
     default {
         DropItem "S7_CCCombatArmor",   256, 2;
-        //DropItem "S7_SBTKCombatArmor", 256, 1;
+        DropItem "S7_SBTKCombatArmor", 256, 1;
     }
 }
 class S7_BlueArmorSpawner : RandomSpawner replaces BlueArmor {

@@ -2,8 +2,12 @@
 /** Armor **/
 SS_SECVEST_CC_DESC = "Cronus Corps offers a reliable standard security armor in a comfortable form. Kevlar weave affords level II protection for the torso, and optional inserts can boost this significantly.";
 SS_SECVEST_CC_INFO = "Level II\nComposition: Kevlar weave";
-SS_CBTARMR_CC_DESC = "Cronus Corps combat armor offers soldiers level III protection with an accompanying increase in weight, compared to standard issue. The armor's composition of kevlar weave and ceramic scales makes the armor more effective, and makes it last longer than equipment from other manufacturers";
+SS_SECVEST_SBTK_DESC = "Sigma BTK's security vest offers level IIIA protection by using metal scales instead of the more common kevlar weave. This means the vest protects more and lasts longer than its competitors, in exchange for a slight increase in weight.";
+SS_SECVEST_SBTK_INFO = "Level IIIA\nComposition: Metal scales";
+SS_CBTARMR_CC_DESC = "Cronus Corps' combat armor offers soldiers level III protection with an accompanying increase in weight, compared to standard issue. The armor's composition of kevlar weave and ceramic scales makes the armor last longer than equipment from other manufacturers";
 SS_CBTARMR_CC_INFO = "Level III\nComposition: Kevlar weave and ceramic scales";
+SS_CBTARMR_SBTK_DESC = "Sigma BTK's combat armor offers level III protection while being lighter and more effective than its competitors. The armor's carbon fiber composition also results in greater fire resistance than the more traditional kevlar weave.";
+SS_CBTARMR_SBTK_INFO = "Level III\nComposition: Carbon fiber weave with ceramic plate";
 
 /** Health **/
 SS_MEDIKIT_DESC = "A medical aid kit containing sutures, syringes, hypodermic needles, anti-toxin autoinjectors, disposable scalpels and other medical supplies.";

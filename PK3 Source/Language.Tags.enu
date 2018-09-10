@@ -52,7 +52,9 @@ MEDIKIT                         = "Medikit";
 
 // Armor
 SECVEST_CC                      = "Cronus Corps Security Vest";
+SECVEST_SBTK                    = "Sigma BTK Security Vest";
 CBTARMR_CC                      = "Cronus Corps Combat Armor";
+CBTARMR_SBTK                    = "Sigma BTK Combat Armor";
 
 // Keys
 REDKEY                          = "\c[Red]Red\c- keycard";

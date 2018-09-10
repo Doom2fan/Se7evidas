@@ -175,6 +175,20 @@
                     "global": true
                 },
                 {
+                    "id": [ "A", "S", "V", "2" ],
+                    "name": "$SECVEST_SBTK",
+                    "desc": "$SS_SECVEST_SBTK_DESC",
+                    "info": "$SS_SECVEST_SBTK_INFO",
+                    "icon": "sprites/Inventory/Armor/ARSVB0.png",
+                    "inventoryName": "S7_SBTKSecVest",
+                    "itemType": "buyItem",
+                    "maxAmount": 1,
+                    "buyPrice": 1800,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Armor",
+                    "global": true
+                },
+                {
                     "id": [ "A", "C", "A", "1" ],
                     "name": "$CBTARMR_CC",
                     "desc": "$SS_CBTARMR_CC_DESC",
@@ -184,6 +198,20 @@
                     "itemType": "buyItem",
                     "maxAmount": 1,
                     "buyPrice": 2500,
+                    "buyAmount": 1,
+                    "itemClass": "S7_SSItem_Armor",
+                    "global": true
+                },
+                {
+                    "id": [ "A", "C", "A", "2" ],
+                    "name": "$CBTARMR_SBTK",
+                    "desc": "$SS_CBTARMR_SBTK_DESC",
+                    "info": "$SS_CBTARMR_SBTK_INFO",
+                    "icon": "sprites/Inventory/Armor/ARCAB0.png",
+                    "inventoryName": "S7_SBTKCombatArmor",
+                    "itemType": "buyItem",
+                    "maxAmount": 1,
+                    "buyPrice": 3000,
                     "buyAmount": 1,
                     "itemClass": "S7_SSItem_Armor",
                     "global": true
