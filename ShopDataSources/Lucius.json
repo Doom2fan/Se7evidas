@@ -411,7 +411,7 @@
                     "desc": "$SS_BACK_DESC",
                     "icon": "M_BACK_D",
                     "itemType": "pageLink",
-                    "link": "mainPage",
+                    "link": "ammoPage",
                     "global": false
                 },
                 {
