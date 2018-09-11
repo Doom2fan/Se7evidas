@@ -27,7 +27,7 @@
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
 
-class S7_Berserk : Ammo {
+class S7_Berserk : Inventory {
     default {
         Tag "$BERSERK";
         Inventory.Icon "BSRKA0";
@@ -37,7 +37,6 @@ class S7_Berserk : Ammo {
         Inventory.InterHubAmount 5;
 
         +INVENTORY.INVBAR
-        -INVENTORY.KEEPDEPLETED
     }
 
     override bool Use (bool pickup) {
@@ -56,8 +55,6 @@ class S7_BerserkPower : PowerWeaponLevel2 { default { powerup.duration -60; powe
 class S7_BerserkWeap : S7_NullWeapon {
     default {
         Tag "$BERSERKWEAP";
-        Weapon.AmmoType1 "S7_Berserk";
-        Weapon.AmmoUse1 1;
 
         +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE
     }
@@ -72,12 +69,20 @@ class S7_BerserkWeap : S7_NullWeapon {
         stop;
 
     Ready:
-        SYR0 A              1 A_JumpIfNoAmmo ("Ready2");
-        SYR0 BCDEFGHIJKLMNO 1;
+        SYR1 A 1 {
+            A_WeaponOffset (-12.8 * 5, 32 + (12.8 * 5));
+            return CountInv ("S7_Berserk") <= 0 ? ResolveState ("Ready2.NoBerserk") : ResolveState (null);
+        }
+        SYR1 A 1 A_WeaponOffset (-12.8 * 4, 32 + (12.8 * 4));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 2, 32 + (12.8 * 2));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
+        TNT1 A 0 A_WeaponOffset (0, 32);
+        goto Ready2;
     Ready2:
-        SYR1 A 0 A_JumpIfNoAmmo ("Ready2.NoAmmo");
+        SYR1 A 0 A_JumpIf (CountInv ("S7_Berserk") <= 0, "Ready2.NoBerserk");
         goto Ready2.DoThings;
-    Ready2.NoAmmo:
+    Ready2.NoBerserk:
         TNT1 A 0;
         goto Ready2.DoThings;
     Ready2.DoThings:
@@ -94,6 +99,13 @@ class S7_BerserkWeap : S7_NullWeapon {
         goto Ready2;
 
     Deselect:
+        SYR1 A 1 A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 2, 32 + (12.8 * 2));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 4, 32 + (12.8 * 4));
+        SYR1 A 1 A_WeaponOffset (-12.8 * 5, 32 + (12.8 * 5));
+        TNT1 A 0 A_WeaponOffset (0, 32);
+
         TNT1 A 0 A_Lower;
         wait;
 
