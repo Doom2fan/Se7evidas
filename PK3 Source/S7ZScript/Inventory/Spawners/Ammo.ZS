@@ -92,3 +92,29 @@ class S7_RocketBoxSpawner : RandomSpawner replaces RocketBox {
         DropItem "S7_GrenadeBox", 256, 3;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Cell spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_CellSpawner : RandomSpawner replaces Cell {
+    default {
+        DropItem "S7_Nothing"   , 256, 2;
+        DropItem "S7_Cells"     , 256, 3;
+        DropItem "S7_FBSysCells", 256, 1;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Cell Pack spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_CellPackSpawner : RandomSpawner replaces CellPack {
+    default {
+        DropItem "S7_Nothing"      , 256, 5;
+        DropItem "S7_Cells"        , 256, 5;
+        DropItem "S7_FBSysCellPack", 256, 2;
+    }
+}

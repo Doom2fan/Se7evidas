@@ -74,6 +74,7 @@
         20GA_BOX                    = "Box of 20ga shells";
         12GASMALL                   = "Picked up a handful of 12ga shells";
         12GA_BOX                    = "Box of 12ga shells";
+        FBSYSCELLPACK               = "Pack of Firebrand Systems Energy Cells";
 
     // Powerups
         HEARTSPHERE_PICKUP          = "Life essence";

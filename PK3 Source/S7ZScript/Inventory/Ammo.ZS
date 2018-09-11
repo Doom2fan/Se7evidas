@@ -368,6 +368,21 @@ class S7_FBSysCells : Ammo {
     }
 }
 
+class S7_FBSysCellPack : S7_FBSysCells {
+    default {
+        Tag "$FBSYSCELLPACK";
+        Inventory.PickupMessage "$FBSYSCELLPACK";
+        Inventory.Amount 64;
+        Inventory.PickupSound "misc/ammopickup";
+    }
+
+    states {
+    Spawn:
+        CELL D -1;
+        stop;
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Antimatter shells
