@@ -75,3 +75,14 @@ class S7_InfraredSpawner : RandomSpawner replaces Infrared {
         DropItem "S7_FlashlightBattery", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Berserk spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_BerserkSpawner : RandomSpawner replaces Berserk {
+    default {
+        DropItem "S7_Berserk", 256, 1;
+    }
+}
