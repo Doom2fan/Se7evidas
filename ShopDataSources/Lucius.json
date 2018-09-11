@@ -505,9 +505,9 @@
                     "icon": "graphics/Menu/Shop/Icons/ThumperGrenades/NerveGas.png",
                     "inventoryName": "S7_Thumper_PNGas",
                     "itemType": "buySellItem",
-                    "buyPrice": 50,
+                    "buyPrice": 500,
                     "buyAmount": 1,
-                    "sellPrice": 25,
+                    "sellPrice": 250,
                     "sellAmount": 1,
                     "itemClass": "S7_SSItem_ThumperGrenade",
                     "global": true
