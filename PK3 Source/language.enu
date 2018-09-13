@@ -62,6 +62,7 @@
         GOTMEGA                     = "GX Armour";
         S7_ARMORBONUS               = "Enchanted Helmet";
         S7_LARGEARMORBONUS          = "Enchanted Horned Helmet";
+        S7_INVULN                   = "Invulnerability";
 
     // Ammo
         GOTBACKPACK                 = "Backpack";
