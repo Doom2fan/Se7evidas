@@ -106,7 +106,7 @@ class S7_BlackPanther : S7_HellNobleBase {
 
     states {
     Spawn:
-        BPNT A 10 A_Look;
+        BPNT A 10 A_S7Look;
         loop;
     See:
         BPNT AABBCCDD 2 A_Chase;

@@ -92,7 +92,7 @@ class S7_Terminator : S7_DemonBase {
 
     states {
     Spawn:
-        TERM A 10 A_Look;
+        TERM A 10 A_S7Look;
         loop;
 
     See:

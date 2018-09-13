@@ -107,7 +107,7 @@ class S7_Mechdemon : S7_DemonBase {
 
     states {
     Spawn:
-        MDMN A 10 A_Look;
+        MDMN A 10 A_S7Look;
         loop;
     See:
         TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);

@@ -59,7 +59,7 @@ class S7_FatFuck : S7_DemonBase {
 
     states {
     Spawn:
-        FAT1 A 15 A_Look;
+        FAT1 A 15 A_S7Look;
         loop;
 
     See:

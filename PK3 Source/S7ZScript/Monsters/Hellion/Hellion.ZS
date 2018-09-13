@@ -107,7 +107,7 @@ class S7_Hellion : S7_DemonBase {
 
     states {
     Spawn:
-        HELN A 10 A_Look;
+        HELN A 10 A_S7Look;
         loop;
     See:
         HELN AABBCCDDEEFF 2 A_Chase;

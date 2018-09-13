@@ -112,7 +112,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
     // Initialize
     Spawn:
     Idle:
-        SCR2 AAA 1 A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
+        SCR2 AAA 1 A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
 
         SCR2 U  1 {
             if (random [monsterSpc] () < 96)
@@ -127,7 +127,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
                 return ResolveState ("Idle2");
 
             A_SetAngle (angle + fRandom [monsterSpc] (-8, 8), SPF_Interpolate);
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
             A_SetTics (random [monsterSpc] (10, 35));
 
             return ResolveState (null);
@@ -144,14 +144,14 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         goto Idle.Wander;
     Idle.Ambush: // Stay still and ambush enemies
         SCR2 U 3 {
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
             A_SetTics (random [monsterSpc] (3, 5));
         }
         SCR2 U 3 {
             if (random [monsterSpc] () < 96)
                 return ResolveState ("Idle.Ambush");
 
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
             A_SetAngle (angle + fRandom [monsterSpc] (-8, 8), SPF_Interpolate);
             A_SetTics (random [monsterSpc] (3, 5));
 
@@ -161,7 +161,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
     Idle.Wander: // Wander around looking for enemies
         SCR2 ABCD 5 {
             A_Wander ();
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
         }
         TNT1 A 0 A_Jump (random [monsterSpc] () < 18, "Idle");
         loop;

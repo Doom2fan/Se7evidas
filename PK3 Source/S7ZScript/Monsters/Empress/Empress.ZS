@@ -164,7 +164,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Look ();
+            A_S7Look ();
 
             return ResolveState (null);
         }

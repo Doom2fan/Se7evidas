@@ -120,7 +120,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
             if (random [monsterSpc] (0, 255) < 160 && ammo < 10) // Maybe reload if less than 10 shots
                 return ResolveState ("Reload");
 
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted"); // Look for enemies
 
             return ResolveState (null);
         }
@@ -138,7 +138,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
                 return ResolveState ("Idle2");
 
             A_SetAngle (angle + fRandom [monsterSpc] (-8, 8), SPF_Interpolate);
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
             A_SetTics (random [monsterSpc] (10, 35));
 
             return ResolveState (null);
@@ -155,14 +155,14 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         goto Idle.Wander;
     Idle.Ambush: // Stay still and ambush enemies
         SCR1 E 3 {
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
             A_SetTics (random [monsterSpc] (3, 5));
         }
         SCR1 E 3 {
             if (random [monsterSpc] (0, 255) < 96)
                 return ResolveState ("Idle.Ambush");
 
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
             A_SetAngle (angle + fRandom [monsterSpc] (-8, 8), SPF_Interpolate);
             A_SetTics (random [monsterSpc] (3, 5));
 
@@ -172,7 +172,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
     Idle.Wander: // Wander around looking for enemies
         SCR1 ABCD 5 {
             A_Wander ();
-            A_LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
+            A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
         }
         TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 18, "Idle");
         loop;

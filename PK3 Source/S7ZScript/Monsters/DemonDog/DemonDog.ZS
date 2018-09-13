@@ -107,7 +107,7 @@ class S7_DemonDog : S7_DemonBase {
 
     states {
     Spawn:
-        DDOG A 10 A_Look;
+        DDOG A 10 A_S7Look;
         loop;
     See:
         DDOG AABBCCDD 2 A_Chase;

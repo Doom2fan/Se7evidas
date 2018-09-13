@@ -65,11 +65,11 @@ class S7_Succubus : S7_SuccubusBase {
                 ChangeFlying (true);
         }
     Idle:
-        SUCC A 10 A_Look;
+        SUCC A 10 A_S7Look;
         loop;
 
     IdleFlying:
-        SUCF ABCB 3 A_Look;
+        SUCF ABCB 3 A_S7Look;
         loop;
     See:
         SUCC AABBCCDD 4 {

@@ -119,7 +119,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
 
     states {
     Spawn:
-        BOS0 A 10 A_Look;
+        BOS0 A 10 A_S7Look;
         loop;
     See:
         BOS0 AABBCCDD 2 A_Chase;
