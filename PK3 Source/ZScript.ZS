@@ -116,6 +116,7 @@ class S7_IsLoaded : Actor {
 
 // Monsters
 #include "S7ZScript/Monsters/Base Monsters.ZS"
+#include "S7ZScript/Monsters/MonsterBase_Look.ZS"
 #include "S7ZScript/Monsters/Spawners.ZS"
 #include "S7ZScript/Monsters/ScorpsTrooper/ScorpsTrooper.ZS"
 #include "S7ZScript/Monsters/Hellion/Hellion.ZS"
