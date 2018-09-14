@@ -1,0 +1,24 @@
+//-------------------------------------------------------------------------------------------
+//
+// Map
+//
+//-------------------------------------------------------------------------------------------
+brightmap sprite S7MPA0 {
+    map "Brightmaps/Powerups/S7MPA0.png"
+    disablefullbright
+}
+
+brightmap sprite S7MPB0 {
+    map "Brightmaps/Powerups/S7MPB0.png"
+    disablefullbright
+}
+
+brightmap sprite S7MPC0 {
+    map "Brightmaps/Powerups/S7MPC0.png"
+    disablefullbright
+}
+
+brightmap sprite S7MPD0 {
+    map "Brightmaps/Powerups/S7MPD0.png"
+    disablefullbright
+}
