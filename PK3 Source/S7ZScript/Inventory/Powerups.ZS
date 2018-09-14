@@ -152,3 +152,24 @@ class S7_DemonEyes : PowerupGiver {
         loop;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Map
+//
+//-------------------------------------------------------------------------------------------
+class S7_MapPowerup : MapRevealer {
+    default {
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$MAP_PICKUP";
+        Scale 0.5;
+
+        +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP +INVENTORY.FANCYPICKUPSOUND +COUNTITEM
+    }
+
+    states {
+    Spawn:
+        S7MP ABCDCB 4 bright;
+        loop;
+    }
+}

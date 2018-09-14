@@ -86,3 +86,14 @@ class S7_BerserkSpawner : RandomSpawner replaces Berserk {
         DropItem "S7_Berserk", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Allmap spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_AllmapSpawner : RandomSpawner replaces Allmap {
+    default {
+        DropItem "S7_MapPowerup", 256, 1;
+    }
+}
