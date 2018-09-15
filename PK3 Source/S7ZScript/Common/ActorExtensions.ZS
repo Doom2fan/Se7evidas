@@ -18,6 +18,40 @@
 */
 
 class S7_ActorExtensions : Actor {
+    static State GetRaiseState (Actor act) {
+        // Not a monster
+        if (!act.bCorpse)
+            return NULL;
+
+        if (act.tics != -1 && // Not lying still yet
+            !act.curState.bCanRaise) // Or not ready to be raised yet
+            return NULL;
+
+        if (act is "PlayerPawn")
+            return NULL;    // do not resurrect players
+
+        return act.FindState ("Raise");
+    }
+
+
+    /* Summary:
+    **  Checks if an actor is "fast".
+    **
+    ** Arguments:
+    **  mo: The actor to be checked.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether the actor is "fast".
+    */
+    static bool IsFast (Actor act) {
+        if (act.bAlwaysFast)
+            return true;
+        if (act.bNeverFast)
+            return false;
+
+        return G_SkillPropertyInt (SKILLP_FastMonsters);
+    }
+
     /* Summary:
     **  Checks if an actor is in the "void".
     **

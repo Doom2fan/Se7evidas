@@ -14,6 +14,13 @@ extend class S7_MonsterBase {
         return myTeam;
     }
 
+    bool S7_IsInvisible (Actor other) {
+        if (bSeeInvisible)
+            return true;
+
+        return (other.bInvisible);
+    }
+
     //-------------------------------------------------------------------------------------------
     //
     // LookForPlayers
@@ -117,7 +124,7 @@ extend class S7_MonsterBase {
                         continue; // Player isn't sneaking, but still didn't detect
                 }
 
-                if (player.mo.bInvisible)
+                if (S7_IsInvisible (player.mo))
                     continue;
             }
             
@@ -139,18 +146,6 @@ extend class S7_MonsterBase {
     // A_Look
     //
     //-------------------------------------------------------------------------------------------
-    action void A_S7Look_SeeYou () {
-        // [RH] Don't start chasing after a goal if it isn't time yet.
-        if (target == goal) {
-            if (reactiontime > level.maptime)
-                target = NULL;
-        } else if (SeeSound)
-            A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: bBoss ? ATTN_NONE : ATTN_NORM);
-
-        if (target && SeeState)
-            SetState (SeeState);
-    }
-
     action void A_S7Look () {
         Actor targ;
 
@@ -190,21 +185,21 @@ extend class S7_MonsterBase {
         if (bStealth)
             visdir = -1;
 
-        if (targ && targ.bShootable && !targ.bInvisible) {
+        if (targ && targ.bShootable && !invoker.S7_IsInvisible (targ)) {
             if (IsFriend (targ)) { // Be a little more precise!
                 // If we find a valid target here, the wandering logic should *not*
                 // be activated! It would cause the seestate to be set twice.
-                if ((S7_MonsterBase (self)).S7_LookForPlayers (bLookAllAround, NULL) && !target.bInvisible) {
+                if (invoker.S7_LookForPlayers (bLookAllAround, NULL) && !invoker.S7_IsInvisible (target)) {
                     A_S7Look_SeeYou ();
                     return;
                 }
 
                 // Let the self wander around aimlessly looking for a fight
-                if (SeeState && !targ.bInvisible)
+                if (SeeState && !invoker.S7_IsInvisible (targ))
                     SetState (SeeState);
                 else
                     A_Wander ();
-            } else if (!targ.bInvisible) {
+            } else if (!invoker.S7_IsInvisible (targ)) {
                 target = targ;
 
                 if (bAmbush) {
@@ -219,11 +214,23 @@ extend class S7_MonsterBase {
             }
         }
         
-        if (!(S7_MonsterBase (self)).S7_LookForPlayers (bLookAllAround, NULL) || target.bInvisible)
+        if (!invoker.S7_LookForPlayers (bLookAllAround, NULL) || invoker.S7_IsInvisible (target))
             return;
 
         // Go into chase state
         A_S7Look_SeeYou ();
+    }
+
+    action void A_S7Look_SeeYou () {
+        // [RH] Don't start chasing after a goal if it isn't time yet.
+        if (target == goal) {
+            if (reactiontime > level.maptime)
+                target = NULL;
+        } else if (SeeSound)
+            A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: bBoss ? ATTN_NONE : ATTN_NORM);
+
+        if (target && SeeState)
+            SetState (SeeState);
     }
 
     //-------------------------------------------------------------------------------------------
@@ -231,28 +238,6 @@ extend class S7_MonsterBase {
     // A_LookEx
     //
     //-------------------------------------------------------------------------------------------
-    action void A_S7LookEx_SeeYou (int flags, State customSeeState) {
-        // [RH] Don't start chasing after a goal if it isn't time yet.
-        if (target == goal) {
-            if (reactiontime > level.maptime)
-                target = NULL;
-        } else if (SeeSound && !(flags & LOF_NoSeeSound)) {
-            if (flags & LOF_FullVolSeeSound) // Full volume
-                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NONE);
-            else
-                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NORM);
-        }
-
-        if (target && !bInChase) {
-            if (!(flags & LOF_NoJump)) {
-                if (customSeeState)
-                    SetState (customSeeState);
-                else
-                    SetState (SeeState);
-            }
-        }
-    }
-
     action void A_S7LookEx (int flags = 0, double minSeeDist = 0, double maxSeeDist = 0, double maxHearDist = 0, double fov = 0, StateLabel seeStateLabel = null) {
         Actor targ = NULL;
         double dist;
@@ -318,13 +303,13 @@ extend class S7_MonsterBase {
         if (bStealth)
             visdir = -1;
 
-        if (targ && targ.bShootable && !targ.bInvisible) {
+        if (targ && targ.bShootable && !invoker.S7_IsInvisible (targ)) {
             if (IsFriend (targ)) { // Be a little more precise!
                 if (!bStandStill) {
                     if (!(flags & LOF_NoSightCheck)) {
                         // If we find a valid target here, the wandering logic should *not*
                         // be activated! If would cause the seestate to be set twice.
-                        if ((S7_MonsterBase (self)).S7_LookForPlayers (true, params) && !target.bInvisible) {
+                        if (invoker.S7_LookForPlayers (true, params) && !invoker.S7_IsInvisible (target)) {
                             A_S7LookEx_SeeYou (flags, customSeeState);
                             return;
                         }
@@ -332,15 +317,15 @@ extend class S7_MonsterBase {
 
                     // Let the self wander around aimlessly looking for a fight
                     if (!bInChase) {
-                        if (customSeeState && !targ.bInvisible)
+                        if (customSeeState && !invoker.S7_IsInvisible (targ))
                             SetState (customSeeState);
-                        else if (SeeState && !targ.bInvisible)
+                        else if (SeeState && !invoker.S7_IsInvisible (targ))
                             SetState (SeeState);
                         else
                             A_Wander ();
                     }
                 }
-            } else if (!targ.bInvisible) {
+            } else if (!invoker.S7_IsInvisible (targ)) {
                 target = targ; // We already have a target?
                 
                 // [KS] The target can become ourselves in rare circumstances (like
@@ -368,12 +353,34 @@ extend class S7_MonsterBase {
         }
 
         if (!(flags & LOF_NoSightCheck)) {
-            if (!(S7_MonsterBase (self)).S7_LookForPlayers (true, params) || target.bInvisible)
+            if (!invoker.S7_LookForPlayers (true, params) || invoker.S7_IsInvisible (target))
                 return;
         } else
             return;
                     
         // Go into chase state
         A_S7LookEx_SeeYou (flags, customSeeState);
+    }
+
+    action void A_S7LookEx_SeeYou (int flags, State customSeeState) {
+        // [RH] Don't start chasing after a goal if it isn't time yet.
+        if (target == goal) {
+            if (reactiontime > level.maptime)
+                target = NULL;
+        } else if (SeeSound && !(flags & LOF_NoSeeSound)) {
+            if (flags & LOF_FullVolSeeSound) // Full volume
+                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NONE);
+            else
+                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NORM);
+        }
+
+        if (target && !bInChase) {
+            if (!(flags & LOF_NoJump)) {
+                if (customSeeState)
+                    SetState (customSeeState);
+                else
+                    SetState (SeeState);
+            }
+        }
     }
 }
