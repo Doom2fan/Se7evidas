@@ -111,11 +111,11 @@ class S7_Mechdemon : S7_DemonBase {
         loop;
     See:
         TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
-        MDMN AA 2 A_Chase;
-        MDMN BB 2 A_Chase;
+        MDMN AA 2 A_S7ChaseDef;
+        MDMN BB 2 A_S7ChaseDef;
         TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
-        MDMN CC 2 A_Chase;
-        MDMN DD 2 A_Chase;
+        MDMN CC 2 A_S7ChaseDef;
+        MDMN DD 2 A_S7ChaseDef;
         loop;
 
     Melee:

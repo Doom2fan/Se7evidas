@@ -110,7 +110,7 @@ class S7_Hellion : S7_DemonBase {
         HELN A 10 A_S7Look;
         loop;
     See:
-        HELN AABBCCDDEEFF 2 A_Chase;
+        HELN AABBCCDDEEFF 2 A_S7ChaseDef;
         loop;
 
     Missile:

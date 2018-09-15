@@ -110,7 +110,7 @@ class S7_DemonDog : S7_DemonBase {
         DDOG A 10 A_S7Look;
         loop;
     See:
-        DDOG AABBCCDD 2 A_Chase;
+        DDOG AABBCCDD 2 A_S7ChaseDef;
         loop;
 
     Melee:

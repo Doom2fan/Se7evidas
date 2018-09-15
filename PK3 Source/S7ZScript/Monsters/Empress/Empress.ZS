@@ -181,8 +181,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Chase ();
-
+            A_S7ChaseDef ();
             return ResolveState (null);
         }
         TNT1 A    0 A_PlaySound ("Footsteps/Large", CHAN_6);
@@ -190,7 +189,7 @@ class S7_Empress : S7_DemonBase {
             if (health < 1)
                 return ResolveState ("RunAway");
 
-            A_Chase ();
+            A_S7ChaseDef ();
 
             return ResolveState (null);
         }

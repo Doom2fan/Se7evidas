@@ -97,9 +97,9 @@ class S7_Terminator : S7_DemonBase {
 
     See:
         TERM A   4 A_PlaySound ("Footsteps/Large", CHAN_5);
-        TERM ABB 4 A_Chase;
+        TERM ABB 4 A_S7ChaseDef;
         TERM C   4 A_PlaySound ("Footsteps/Large", CHAN_6);
-        TERM CDD 4 A_Chase;
+        TERM CDD 4 A_S7ChaseDef;
         loop;
 
     Missile:

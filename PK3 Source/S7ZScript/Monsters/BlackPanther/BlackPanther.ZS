@@ -109,7 +109,7 @@ class S7_BlackPanther : S7_HellNobleBase {
         BPNT A 10 A_S7Look;
         loop;
     See:
-        BPNT AABBCCDD 2 A_Chase;
+        BPNT AABBCCDD 2 A_S7ChaseDef;
         loop;
     Melee:
     Missile:

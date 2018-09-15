@@ -76,7 +76,7 @@ class S7_Succubus : S7_SuccubusBase {
             if (isFlying)
                 return ResolveState ("StartFlight");
 
-            A_Chase ();
+            A_S7ChaseDef ();
 
             return ResolveState (null);
         }
@@ -87,7 +87,7 @@ class S7_Succubus : S7_SuccubusBase {
             if (isFlying)
                 return ResolveState ("EndFlight");
 
-            A_Chase ();
+            A_S7ChaseDef ();
 
             return ResolveState (null);
         }

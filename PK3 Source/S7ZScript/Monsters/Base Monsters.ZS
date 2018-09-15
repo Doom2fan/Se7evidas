@@ -158,7 +158,7 @@ class S7_ScorpBase : S7_MonsterBase {
             (random [monsterSpc] (0, 255) < 96)
         );
 
-        A_Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NOPLAYACTIVE : 0);
+        A_S7Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NOPLAYACTIVE : 0);
     }
 
     // Default variables

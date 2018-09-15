@@ -64,9 +64,9 @@ class S7_FatFuck : S7_DemonBase {
 
     See:
         TNT1 A      0 A_PlaySound ("Footsteps/Huge", CHAN_5);
-        FAT1 AABBCC 5 A_Chase;
+        FAT1 AABBCC 5 A_S7ChaseDef;
         TNT1 A      0 A_PlaySound ("Footsteps/Huge", CHAN_6);
-        FAT1 DDEEFF 5 A_Chase;
+        FAT1 DDEEFF 5 A_S7ChaseDef;
         loop;
 
     Missile:

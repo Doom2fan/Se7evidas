@@ -122,7 +122,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         BOS0 A 10 A_S7Look;
         loop;
     See:
-        BOS0 AABBCCDD 2 A_Chase;
+        BOS0 AABBCCDD 2 A_S7ChaseDef;
         loop;
 
     Melee:
