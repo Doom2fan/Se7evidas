@@ -238,6 +238,7 @@ class S7_BasePlayer : PlayerPawn {
                 playerData.dying = health < (maxHealth * 0.2);
 
             // Movement
+            Misc_BlurCamera ();
             Movement_Dodging ();
             Movement_LedgeGrabbing ();
             Movement_Sprinting ();
@@ -650,6 +651,38 @@ class S7_PowerDodgeEffects : PowerInvulnerable {
             return;
 
         Owner.bNonShootable = bNonShootable;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Blur effect
+//
+//-------------------------------------------------------------------------------------------
+class S7_BlurCamera : Actor {
+    default {
+        Radius 0;
+        Height 0;
+
+        +NOINTERACTION +NOBLOCKMAP +NOCLIP +INVISIBLE
+        +NOGRAVITY
+    }
+
+    override void Tick () {
+        Super.Tick ();
+
+        Vector2 fwd = AngleToVector (angle, 2);
+
+        if (abs (pitch) > 89)
+            SetXYZ (target.pos + (fwd * max (0.5, cos (pitch)) * 2, sin (-pitch) * 6 + target.height - 4));
+        else
+            SetXYZ (target.pos + (fwd * cos (pitch) * 6, sin (-pitch) * 6 + target.height - 4));
+    }
+
+    states {
+    Spawn:
+        TNT1 A 1;
+        wait;
     }
 }
 

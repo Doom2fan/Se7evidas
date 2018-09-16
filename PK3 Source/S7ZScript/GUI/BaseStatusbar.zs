@@ -40,4 +40,28 @@ class S7_BaseS7HUD : BaseStatusBar {
         let armor = S7_BasicArmor (CPlayer.mo.FindInventory ("S7_BasicArmor"));
         return armor ? armor.ActualSaveAmount : 0;
     }
+
+    void DoBlurEffect (S7_BasePlayer pPawn, double TicFrac) {
+        if (!pPawn)
+            return;
+
+        double mul = 0.0;
+
+        S7_Invisibility_Power invisPwr = null;
+        if (invisPwr = S7_Invisibility_Power (pPawn.FindInventory ("S7_Invisibility_Power")))
+            mul = clamp ((invisPwr.EffectTics * 2.5) / (90 * 35), 0.35, 1.0);
+
+        if (mul ~== 0.0)
+            return;
+
+        BeginHUD (0.075 * mul, true, 640, 360);
+        TexMan.SetCameraToTexture (pPawn.cam4, "S7_CAMTEX3", CPlayer.fov);
+        DrawImage ("S7_CAMTEX3", (0, 0), DI_ITEM_LEFT_TOP | DI_SCREEN_LEFT_TOP);
+        BeginHUD (0.15 * mul, true, 640, 360);
+        TexMan.SetCameraToTexture (pPawn.cam3, "S7_CAMTEX2", CPlayer.fov);
+        DrawImage ("S7_CAMTEX2", (0, 0), DI_ITEM_LEFT_TOP | DI_SCREEN_LEFT_TOP);
+        BeginHUD (0.3 * mul, true, 640, 360);
+        TexMan.SetCameraToTexture (pPawn.cam2, "S7_CAMTEX1", CPlayer.fov);
+        DrawImage ("S7_CAMTEX1", (0, 0), DI_ITEM_LEFT_TOP | DI_SCREEN_LEFT_TOP);
+    }
 }

@@ -132,6 +132,10 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         if (!CPlayer || !CPlayer.mo || !S7_BasePlayer (CPlayer.mo))
             return;
 
+        let pPawn = S7_BasePlayer (CPlayer.mo);
+
+        DoBlurEffect (pPawn, TicFrac);
+
         CVar selectedHUDCvar = CVar.GetCvar ("S7_HUDType", CPlayer);
 
         if (!selectedHUDCvar)
@@ -145,8 +149,6 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
         if (!drawHUD)
             return;
-
-        let pPawn = S7_BasePlayer (CPlayer.mo);
 
         if (selectedHUD == HUDType_Minimal) {
             BeginHUD (1.0, false, 320, 200);

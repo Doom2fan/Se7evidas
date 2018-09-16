@@ -206,3 +206,85 @@ class S7_Biosphere : PowerupGiver {
         loop;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Invisibility
+//
+//-------------------------------------------------------------------------------------------
+class S7_Invisibility_Power : PowerInvisibility {
+    default {
+        Powerup.Duration -90;
+        Powerup.Mode "Fuzzy";
+
+        -SHADOW
+    }
+
+    override void InitEffect () {
+        if (Owner != NULL) {
+            bInvisible = Owner.bInvisible;
+            Owner.bInvisible = true;
+        }
+
+        Super.InitEffect ();
+    }
+
+    override void EndEffect () {
+        Super.EndEffect ();
+
+        if (Owner != NULL)
+            Owner.bInvisible = bInvisible;
+    }
+}
+
+class S7_Invisibility : PowerupGiver {
+    default {
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$INVISIBILITY_PICKUP";
+        Powerup.Type "S7_Invisibility_Power";
+
+        +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP +COUNTITEM
+    }
+
+    int fuzzyTics;
+
+    override void Tick () {
+        Super.Tick ();
+
+        if (Owner)
+            return;
+
+        if (fuzzyTics-- > 0)
+            A_SetRenderStyle (1.0, STYLE_Fuzzy);
+        else {
+            A_SetRenderStyle (1.0, STYLE_Normal);
+
+            if (fuzzyTics <= -17) {
+                if (random [invMisc] (0, 255) < 32) {
+                    if (random [invMisc] (0, 255) < 16)
+                        fuzzyTics = random [invMisc] (17, 35);
+                    else
+                        fuzzyTics = random [invMisc] (3, 5);
+                } else
+                    fuzzyTics = random [invMisc] (-8, 0);
+            }
+        }
+
+        if (globalfreeze || level.frozen)
+            return;
+        
+        let act = Spawn ("S7_InvulnerabilityEffect", pos);
+        if (act) {
+            act.A_SetRenderStyle (act.Alpha, STYLE_Translucent);
+            act.vel = vel + (frandom [sfx] (-1.5, 1.5), frandom [sfx] (-1.5, 1.5), frandom [sfx] (-1.5, 1.5));
+            act.sprite = sprite;
+            act.frame = frame;
+        }
+    }
+
+    states {
+    Spawn:
+        SPWR IJIK 6 bright;
+        loop;
+    }
+}

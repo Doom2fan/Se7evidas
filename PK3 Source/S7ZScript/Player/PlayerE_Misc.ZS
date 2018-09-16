@@ -65,6 +65,50 @@ extend class S7_BasePlayer {
         }
     }
 
+    Actor Misc_BC_GetRightAct (Actor opt1, Actor opt2, Actor opt3, Actor opt4) {
+        if (opt1)
+            return opt1;
+        else if (opt2)
+            return opt2;
+        else if (opt3)
+            return opt3;
+        else if (opt4)
+            return opt4;
+
+        return null;
+    }
+
+    void Misc_BC_DoCamera (out S7_BlurCamera cam, Actor dataActor) {
+        if (!dataActor)
+            return;
+
+        if (!cam) {
+            cam = S7_BlurCamera (Spawn ("S7_BlurCamera"));
+
+            if (!cam)
+                return;
+        }
+
+        cam.target = self;
+
+        cam.ClearInterpolation ();
+        cam.SetOrigin (dataActor.pos, false);
+        cam.vel = dataActor.vel;
+        cam.ClearInterpolation ();
+        cam.angle = dataActor.angle;
+        cam.pitch = dataActor.pitch;
+    }
+
+    S7_BlurCamera cam1, cam2, cam3, cam4;
+    void Misc_BlurCamera () {
+        Misc_BC_DoCamera (cam4, Misc_BC_GetRightAct (cam3, cam2, cam1, self));
+        Misc_BC_DoCamera (cam3, Misc_BC_GetRightAct (cam2, cam1, self, null));
+        Misc_BC_DoCamera (cam2, Misc_BC_GetRightAct (cam1, self, null, null));
+        Misc_BC_DoCamera (cam1, Misc_BC_GetRightAct (self, null, null, null)); // We don't actually show this one.
+        if (cam1)
+            cam1.SetOrigin (cam1.pos + (cos (angle) * 5, sin (angle) * 5, player.viewheight), false);
+    }
+
     void Misc_HellhunterBlade () {
         int curLvl = CountInv ("S7_HellhunterBladeAffinity");
         int curExp = CountInv ("S7_HellhunterBladeExperience");

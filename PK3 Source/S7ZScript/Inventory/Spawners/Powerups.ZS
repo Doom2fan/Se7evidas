@@ -108,3 +108,14 @@ class S7_RadSuitSpawner : RandomSpawner replaces RadSuit {
         DropItem "S7_Biosphere", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Blursphere spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_BlursphereSpawner : RandomSpawner replaces Blursphere {
+    default {
+        DropItem "S7_Invisibility", 256, 1;
+    }
+}
