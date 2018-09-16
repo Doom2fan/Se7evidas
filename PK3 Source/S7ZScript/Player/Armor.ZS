@@ -82,6 +82,20 @@ class S7_BasicArmor : BasicArmor {
         return false;
     }
 
+    static bool IsBulletDamageType (name damageType) {
+        switch (damageType) {
+            case 'PistolTracer':
+            case 'RevolverTracer':
+            case 'ShotgunTracer':
+            case 'RifleTracer':
+            case 'SniperRifleTracer':
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
     override void AbsorbDamage (int damage, Name damageType, out int newdamage) {
         let pPawn = S7_BasePlayer (Owner);
 
@@ -108,7 +122,7 @@ class S7_BasicArmor : BasicArmor {
             }
         }
 
-        if (armorData && (newDamage != damage || ArmorType != 'None')) {
+        if (armorData && (newDamage != damage || ArmorType != 'None') && !IsBulletDamageType (damageType) && !(pPawn.damageInflictor is "S7_BulletTracer")) {
             if (armorData.armorBonuses == 0)
                 bonusFactor = 1.;
 
