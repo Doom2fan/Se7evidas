@@ -97,3 +97,14 @@ class S7_AllmapSpawner : RandomSpawner replaces Allmap {
         DropItem "S7_MapPowerup", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// RadSuit spawner
+//
+//-------------------------------------------------------------------------------------------
+class S7_RadSuitSpawner : RandomSpawner replaces RadSuit {
+    default {
+        DropItem "S7_Biosphere", 256, 1;
+    }
+}

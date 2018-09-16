@@ -173,3 +173,36 @@ class S7_MapPowerup : MapRevealer {
         loop;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Biosphere
+//
+//-------------------------------------------------------------------------------------------
+class S7_BiospherePower : PowerIronFeet {
+    default {
+        Powerup.Duration -80;
+        Powerup.Colormap 0, 0, 0, 0.2, 1.5, 0.2;
+    }
+
+    override void DoEffect () {
+        Powerup.DoEffect ();
+        Super.DoEffect ();
+    }
+}
+
+class S7_Biosphere : PowerupGiver {
+    default {
+        Inventory.MaxAmount 0;
+        Inventory.PickupMessage "$BIOSPHERE_PICKUP";
+        Powerup.Type "S7_BiospherePower";
+
+        +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP
+    }
+
+    states {
+    Spawn:
+        BIOS AB 12 bright;
+        loop;
+    }
+}
