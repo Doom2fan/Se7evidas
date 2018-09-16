@@ -91,8 +91,9 @@ SS_9MMDESC                      = "Box of 9x19mm cartridges";
 SS_45ACPDESC                    = "Drum magazine of .45 ACP cartridges";
 SS_44MDESC                      = ".44 Magnum speedloader";
 SS_762X39DESC                   = "Box of 7.62x39mm cartridges";
+SS_45WWDESC                     = "Pack of .45 WW cartridges";
 SS_20GADESC                     = "Bandolier with 20ga #2 buckshot shells";
-SS_12GADESC                     = "Box of 12ga #00 buckshot shells";
+SS_12GADESC                     = "12ga #00 buckshot shells";
 // Batteries/Cells
 SS_CELLSDESC                    = "Type A energy cell";
 SS_FBSYSCELLSDESC               = "Firebrand Systems energy cell";
@@ -116,8 +117,8 @@ SS_9MMINFO                      = "Amount: 30 cartridges";
 SS_45ACPINFO                    = "Amount: 62 cartridges";
 SS_44MINFO                      = "Amount: 6 cartridges";
 SS_762X39INFO                   = "Amount: 35 cartridges";
+SS_45WWINFO                     = "Amount: 5 cartridges";
 SS_20GAINFO                     = "Amount: 10 shells";
-SS_12GAINFO                     = "Amount: 16 shells";
 // Batteries/Cells
 SS_CELLSINFO                    = "Capacity: 36";
 SS_FBSYSCELLSINFO               = "Capacity: 23";

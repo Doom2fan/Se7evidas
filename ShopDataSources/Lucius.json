@@ -337,6 +337,20 @@
                     "global": true
                 },
                 {
+                    "id": [ "A", "4", "5", "W" ],
+                    "name": "$45WW",
+                    "desc": "$SS_45WWDESC",
+                    "info": "$SS_45WWINFO",
+                    "icon": "graphics/Menu/Shop/Icons/45WWCartridges.png",
+                    "inventoryName": "S7_45WWCartridges",
+                    "itemType": "buySellItem",
+                    "buyPrice": 225,
+                    "buyAmount": 15,
+                    "sellPrice": 15,
+                    "sellAmount": 1,
+                    "global": true
+                },
+                {
                     "id": [ "A", "2", "0", "g" ],
                     "name": "$SS_20GA",
                     "desc": "$SS_20GADESC",
@@ -893,7 +907,6 @@
                     "id": [ "1", "2", "G", "A" ],
                     "name": "$SS_12GA",
                     "desc": "$SS_12GADESC",
-                    "info": "$SS_12GAINFO",
                     "icon": "sprites/Inventory/Ammo/SHELD0.png",
                     "inventoryName": "S7_12gaShells",
                     "itemType": "sellItem",

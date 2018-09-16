@@ -235,8 +235,8 @@ class S7_762x39Cartridges : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_45WWCartridges : Ammo {
     default {
-        Tag "$44WW";
-        Inventory.PickupMessage "$44WW_MAG";
+        Tag "$45WW";
+        Inventory.PickupMessage "$45WW_PACK";
         Inventory.Amount 15;
         Inventory.MaxAmount 450;
         //Inventory.Icon "CLIPG0";

@@ -7,7 +7,7 @@ HITTERSMG                       = "Cronus Corps-Sigma BTK SR20 .45 ACP SMG \"Hit
 FAUCHARD                        = "Firebrand Systems FS/002A Mod 4 Automatic Rifle \"Fauchard\"";       // (FB Sys. Cells)
 BUTTFLY                         = "Firebrand Systems FS/909G SMG \"Butterfly\"";                        // (FB Sys. Cells)
 SSG                             = "Double-barrelled Shotgun";                                           // (12ga)
-CONQUERORSRIFLE                 = "Acheron Industries MK17 Anti-Materiel Sniper Rifle \"Conqueror\"";   // (.44 WW)
+CONQUERORSRIFLE                 = "Acheron Industries MK17 Anti-Materiel Sniper Rifle \"Conqueror\"";   // (.45 WW)
 AK47                            = "Avtomat Kalashnikova 47 Assault Rifle \"Kalash\"";                   // (7.62x39mm)
 // Short
 SHORTAMG                        = "A28 \"Mars\" Assault Rifle";
@@ -83,6 +83,7 @@ FLASHLIGHT_BATTERY              = "Flashlight battery";
 20GA                            = "20ga";
 12GA                            = "12ga";
 762X39                          = "7.62x39mm";
+45WW                            = ".45 Wild Weasel";
 CELLS                           = "Type A Energy Cells";
 FBSYSCELLS                      = "Firebrand Systems Energy Cells";
 
