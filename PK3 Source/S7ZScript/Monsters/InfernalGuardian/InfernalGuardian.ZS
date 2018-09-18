@@ -139,7 +139,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
             if (random [CustomJump] (0, 255) < 128)
                 return ResolveState ("Missile.ShieldAttack");
 
-            A_PlaySound ("Monsters/InfernalGuardian/Attack", CHAN_Body);
+            A_PlaySound ("Monsters/InfernalGuardian/Attack", CHAN_Voice);
 
             return ResolveState (null);
         }
