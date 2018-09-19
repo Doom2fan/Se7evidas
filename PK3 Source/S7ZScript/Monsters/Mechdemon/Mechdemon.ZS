@@ -27,6 +27,7 @@ class S7_Mechdemon : S7_DemonBase {
         Health 150;
         GibHealth -75;
         PainChance 180;
+        Mass 400;
 
         Radius 30;
         Height 56;
