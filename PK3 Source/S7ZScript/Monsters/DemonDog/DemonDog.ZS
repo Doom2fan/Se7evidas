@@ -28,8 +28,8 @@ class S7_DemonDog : S7_DemonBase {
         GibHealth -40;
         PainChance 180;
 
-        Radius 25;
-        Height 48;
+        Radius 20;
+        Height 32;
         Speed 13;
 
         SeeSound "Monsters/DemonDog/Sight";

@@ -24,11 +24,13 @@
 //-------------------------------------------------------------------------------------------
 class S7_Infernal : S7_MonsterBase {
     default {
+        Radius 31;
+        Height 56;
+        Mass 400;
         Health 600;
         GibHealth -300;
         Speed 8;
         PainChance 128;
-        Mass 200;
 
         BloodColor "00 FF FF";
 
