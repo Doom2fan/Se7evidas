@@ -22,12 +22,13 @@
 // Infernal
 //
 //-------------------------------------------------------------------------------------------
-class S7_Infernal : S7_HellNobleBase {
+class S7_Infernal : S7_MonsterBase {
     default {
         Health 600;
         GibHealth -300;
         Speed 8;
         PainChance 128;
+        Mass 200;
 
         BloodColor "00 FF FF";
 
