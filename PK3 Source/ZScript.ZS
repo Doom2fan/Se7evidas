@@ -135,6 +135,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Monsters/Mechdemon/Mechdemon.ZS"
 #include "S7ZScript/Monsters/Shadow/Shadow.ZS"
 #include "S7ZScript/Monsters/InfernalGuardian/InfernalGuardian.ZS"
+#include "S7ZScript/Monsters/Infernal/Infernal.ZS"
 
 // Inventory
 #include "S7ZScript/Inventory/Armor.ZS"

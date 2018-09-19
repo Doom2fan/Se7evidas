@@ -142,9 +142,20 @@ class S7_SpectreSpawner : S7_ReplacementSpawner replaces Spectre {
 //-------------------------------------------------------------------------------------------
 class S7_CacodemonSpawner : S7_ReplacementSpawner replaces Cacodemon {
     default {
-        DropItem "S7_Succubus", 256, 1;
+        DropItem "S7_Infernal", 256, 1;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Pain Elemental spawner
+//
+//-------------------------------------------------------------------------------------------
+/*class S7_PainElementalSpawner : S7_ReplacementSpawner replaces PainElemental {
+    default {
+        DropItem "S7_Succubus", 256, 1;
+    }
+}*/
 
 //-------------------------------------------------------------------------------------------
 //

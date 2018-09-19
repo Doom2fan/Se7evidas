@@ -100,6 +100,7 @@ EMPRESSTAG                      = "Empress";
 SUCCUBUSTAG                     = "Succubus";
 FATFUCKTAG                      = "Corpulent";
 INFERNALGUARDIANTAG             = "Infernal Guardian";
+INFERNALTAG                     = "Infernal";
 
 /** Genders **/
 GEN_MALE                        = "Male";

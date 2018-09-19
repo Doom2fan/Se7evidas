@@ -1,0 +1,21 @@
+Monsters/Infernal/Sight  "sounds/Monsters/Infernal/Sight.ogg"  // Credits: Raven Software
+
+Monsters/Infernal/Active "sounds/Monsters/Infernal/Active.ogg" // Credits: Raven Software, Midway
+
+Monsters/Infernal/Pain   "sounds/Monsters/Infernal/Pain.ogg" // Credits: Raven Software
+
+Monsters/Infernal/Death  "sounds/Monsters/Infernal/Death.ogg" // Credits: Raven Software, Midway
+
+$RANDOM Monsters/Infernal/Attack {
+    Monsters/Infernal/Attack1
+    Monsters/Infernal/Attack2
+    Monsters/Infernal/Attack3
+    Monsters/Infernal/Attack4
+    Monsters/Infernal/Attack5
+}
+
+Monsters/Infernal/Attack1 "sounds/Monsters/Infernal/Attack1.ogg" // By Chronos "phantombeta" Ouroboros. Made from Doom 3 sounds.
+Monsters/Infernal/Attack2 "sounds/Monsters/Infernal/Attack2.ogg" // Ditto.
+Monsters/Infernal/Attack3 "sounds/Monsters/Infernal/Attack3.ogg" // Ditto.
+Monsters/Infernal/Attack4 "sounds/Monsters/Infernal/Attack4.ogg" // Ditto.
+Monsters/Infernal/Attack5 "sounds/Monsters/Infernal/Attack5.ogg" // Ditto.

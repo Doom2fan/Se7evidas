@@ -1,0 +1,6 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    S7_Infernal: Eriance, Chronos "phantombeta" Ouroboros
+
+Sounds: Credits in the SNDINFO file
