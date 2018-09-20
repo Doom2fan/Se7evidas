@@ -179,7 +179,8 @@ class S7_InfernalGuardian : S7_HellNobleBase {
             A_NoBlocking ();
         }
     Death_AirLoop:
-        BOS0 L 1 A_CheckFloor ("Death_HitGround");
+        BOS0 L 5;
+        TNT1 A 0 A_CheckFloor ("Death_HitGround");
         loop;
     Death_HitGround:
         BOS0 MNOPQRS 5;

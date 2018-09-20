@@ -131,7 +131,8 @@ class S7_BlackPanther : S7_HellNobleBase {
             A_NoBlocking ();
         }
     Death_AirLoop:
-        BPNT J 1 A_CheckFloor ("Death_HitGround");
+        BPNT J 5;
+        TNT1 A 0 A_CheckFloor ("Death_HitGround");
         loop;
     Death_HitGround:
         BPNT KLMN 5;

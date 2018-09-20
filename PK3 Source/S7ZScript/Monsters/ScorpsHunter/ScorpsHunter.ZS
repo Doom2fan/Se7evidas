@@ -287,7 +287,8 @@ class S7_ScorpsHunter : S7_ScorpBase {
     Death:
         SCR3 H 5 A_UnblockAndDrop ();
     Death_AirLoop:
-        SCR3 H 1 A_CheckFloor ("Death_HitGround");
+        SCR3 H 5;
+        TNT1 A 0 A_CheckFloor ("Death_HitGround");
         loop;
     Death_HitGround:
         SCR3 I  5 A_Scream;

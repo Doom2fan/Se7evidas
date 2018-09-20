@@ -261,7 +261,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 I 5 A_Scream;
         SCR2 J 5 A_NoBlocking;
     Death_AirLoop:
-        SCR2 J 1 A_CheckFloor ("Death_HitGround");
+        SCR2 J 5;
+        TNT1 A 0 A_CheckFloor ("Death_HitGround");
         loop;
     Death_HitGround:
         SCR2 KL 5;

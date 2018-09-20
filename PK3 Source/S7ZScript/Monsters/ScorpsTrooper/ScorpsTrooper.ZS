@@ -319,7 +319,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 I 5 A_Scream;
         SCR1 J 5 A_NoBlocking;
     Death_AirLoop:
-        SCR1 J 1 A_CheckFloor ("Death_HitGround");
+        SCR1 J 5;
+        TNT1 A 0 A_CheckFloor ("Death_HitGround");
         loop;
     Death_HitGround:
         SCR1 K  5;

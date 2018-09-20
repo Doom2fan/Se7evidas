@@ -134,7 +134,8 @@ class S7_Succubus : S7_SuccubusBase {
         SUCC K 3;
         SUCC L 3 A_NoBlocking;
     Death_AirLoop:
-        SUCC L 1 A_CheckFloor ("Death_HitGround");
+        SUCC L 3;
+        TNT1 A 0 A_CheckFloor ("Death_HitGround");
         loop;
     Death_HitGround:
         SUCC MNOP 3;
