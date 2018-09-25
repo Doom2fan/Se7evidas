@@ -212,7 +212,7 @@ def compile_release (outDir = None, relComp = None):
     additionalFiles = [
         ("Se7evidas-README.txt",),
         ("Se7evidas-TODO.txt",),
-        ("LICENSE", "Se7evidas-Assets license.txt"),
+        ("LICENSE", "Se7evidas-License.txt"),
     ]
 
     if (outDir is not None):
@@ -234,11 +234,19 @@ def compile_release (outDir = None, relComp = None):
 
     try:
         compile_pk3 (tmpDir)
+
+        compress_folder (os.path.join (tmpDir, "Se7evidas-Licenses.zip"), "PK3 Source/!!Licenses", zipfile.ZIP_DEFLATED, IGNORED_FILES, False)
+
         for tup in additionalFiles:
             if (len (tup) == 2):
                 dstName = tup [1]
             else:
                 dstName = tup [0]
+
+            fileBaseDir = os.path.dirname (dstName)
+            if (fileBaseDir is not None and fileBaseDir is not '' and fileBaseDir.isspace () and not os.path.exists (fileBaseDir)):
+                os.makedirs (fileBaseDir)
+
             shutil.copy2 (tup [0], os.path.join (tmpDir, dstName))
 
         print ("")
