@@ -1,0 +1,5 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites: Vader
+
+Sounds: Credits in the SNDINFO file

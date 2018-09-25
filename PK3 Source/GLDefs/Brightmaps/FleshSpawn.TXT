@@ -1,0 +1,44 @@
+brightmap sprite FLSPG1 {
+    Map "Brightmaps/FleshSpawn/FLSPG1.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPG2G8 {
+    Map "Brightmaps/FleshSpawn/FLSPG2.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPG4G6 {
+    Map "Brightmaps/FleshSpawn/FLSPG4.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPG5 {
+    Map "Brightmaps/FleshSpawn/FLSPG5.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPH1 {
+    Map "Brightmaps/FleshSpawn/FLSPH1.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPH2H8 {
+    Map "Brightmaps/FleshSpawn/FLSPH2.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPH3H7 {
+    Map "Brightmaps/FleshSpawn/FLSPH3.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPH4H6 {
+    Map "Brightmaps/FleshSpawn/FLSPH4.png"
+    disableFullBright
+}
+
+brightmap sprite FLSPH5 {
+    Map "Brightmaps/FleshSpawn/FLSPH5.png"
+    disableFullBright
+}

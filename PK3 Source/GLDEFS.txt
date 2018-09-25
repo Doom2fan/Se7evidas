@@ -3,6 +3,7 @@
 #include "GLDefs/Brightmaps/InfernalGuardian.TXT"
 #include "GLDefs/Brightmaps/ArmorBonus.TXT"
 #include "GLDefs/Brightmaps/Powerups.TXT"
+#include "GLDefs/Brightmaps/FleshSpawn.TXT"
 #include "GLDefs/Skyboxes.TXT"
 
 pointLight MJMPMARKER {

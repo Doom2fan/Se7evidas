@@ -1,0 +1,13 @@
+Monsters/FleshSpawn/Sight  "sounds/Monsters/FleshSpawn/Sight.ogg" // From Freedoom
+
+Monsters/FleshSpawn/Active "sounds/Monsters/FleshSpawn/Active.ogg" // Ditto
+
+Monsters/FleshSpawn/Pain   "sounds/Monsters/FleshSpawn/Pain.ogg" // Ditto
+
+Monsters/FleshSpawn/Death  "sounds/Monsters/FleshSpawn/Death.ogg" // From Freedoom, modified slightly
+
+Monsters/FleshSpawn/Attack "sounds/Monsters/FleshSpawn/Attack.ogg" // From Freedoom
+
+Monsters/FleshSpawn/Fireball "sounds/Monsters/FleshSpawn/Fireball.ogg" // Credits: Eriance
+
+Monsters/FleshSpawn/FireballExplode "sounds/Monsters/FleshSpawn/FireballExplode.ogg" // Ditto
