@@ -177,6 +177,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         BOS0 L 5 {
             A_Scream ();
             A_NoBlocking ();
+            bThruActors = true;
         }
     Death_AirLoop:
         BOS0 L 5;
@@ -222,7 +223,10 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         wait;
 
     Raise:
-        BOS0 T         5 { bDontGib = false; }
+        BOS0 T         5 {
+            bDontGib = false;
+            bThruActors = false;
+        }
         BOS0 SRQPONMLK 5;
         goto See;
     }

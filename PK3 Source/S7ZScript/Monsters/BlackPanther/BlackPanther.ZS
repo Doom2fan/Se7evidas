@@ -129,6 +129,7 @@ class S7_BlackPanther : S7_HellNobleBase {
         BPNT J 5 {
             A_Scream ();
             A_NoBlocking ();
+            bThruActors = true;
         }
     Death_AirLoop:
         BPNT J 5;
@@ -139,7 +140,7 @@ class S7_BlackPanther : S7_HellNobleBase {
         BPNT O   -1;
         stop;
     Raise:
-        BPNT O      5;
+        BPNT O      5 { bThruActors = false; }
         BPNT NMLKJI 5;
         goto See;
     }

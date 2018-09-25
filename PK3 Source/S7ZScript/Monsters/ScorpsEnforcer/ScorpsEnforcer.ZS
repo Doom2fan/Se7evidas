@@ -259,7 +259,10 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
     Death:
         SCR2 H 5;
         SCR2 I 5 A_Scream;
-        SCR2 J 5 A_NoBlocking;
+        SCR2 J 5 {
+            A_NoBlocking ();
+            bThruActors = true;
+        }
     Death_AirLoop:
         SCR2 J 5;
         TNT1 A 0 A_CheckFloor ("Death_HitGround");
@@ -326,7 +329,10 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
 
     // Being revived
     Raise:
-        SCR2 L   5 { bDontGib = false; }
+        SCR2 L   5 {
+            bDontGib = false;
+            bThruActors = false;
+        }
         SCR2 K   5;
         SCR2 JIH 5;
         goto See;

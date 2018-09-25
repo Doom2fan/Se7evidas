@@ -132,7 +132,10 @@ class S7_Succubus : S7_SuccubusBase {
         SUCC I 3 { monsDeathType = 0; }
         SUCC J 3 A_Scream;
         SUCC K 3;
-        SUCC L 3 A_NoBlocking;
+        SUCC L 3 {
+            A_NoBlocking ();
+            bThruActors = true;
+        }
     Death_AirLoop:
         SUCC L 3;
         TNT1 A 0 A_CheckFloor ("Death_HitGround");
@@ -157,7 +160,7 @@ class S7_Succubus : S7_SuccubusBase {
         wait;
 
     Raise:
-        SUCC Q        6;
+        SUCC Q        6 { bThruActors = false; }
         SUCC PONMLKJI 6;
         goto See;
     }

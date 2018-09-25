@@ -285,7 +285,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
     // Dead
     Death.Massacre:
     Death:
-        SCR3 H 5 A_UnblockAndDrop ();
+        SCR3 H 5 {
+            A_UnblockAndDrop ();
+            bThruActors = true;
+        }
     Death_AirLoop:
         SCR3 H 5;
         TNT1 A 0 A_CheckFloor ("Death_HitGround");
@@ -355,7 +358,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
     // Being revived
     Raise:
-        SCR3 M    3 { bDontGib = false; }
+        SCR3 M    3 {
+            bDontGib = false;
+            bThruActors = false;
+        }
         SCR3 L    3;
         SCR3 KJIH 5;
         goto See;
