@@ -76,9 +76,9 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         if (cooking && ((fuse--) <= 0 || Owner.health <= 0 || Owner.bKilled)) {
             Throw ();
 
-            Owner.player.SetPSprite (PSP_Weapon, FindState ('Ready2'), false);
             throwForce = 0;
             A_ClearRefire ();
+            Owner.player.SetPSprite (PSP_Weapon, FindState ('Ready2'), false);
         }
     }
 
