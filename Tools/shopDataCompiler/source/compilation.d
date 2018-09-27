@@ -25,10 +25,12 @@ extend class S7_ShopDataEventHandler {
 
 ##PageDefs##
 
-##PageData##
+##PageFuncCalls##
 
 ##ShopDef##
 \t}
+
+##PageFuncs##
 }";
 const string baseShopDef =
 "\t\tlet shop = new (\"S7_SSShop\");
@@ -49,7 +51,9 @@ string compileShop (ShopDef shop) {
         throw new CompilationException ("Encountered a shop definition with no main page");
 
     string [] pageDefs = new string [shop.pages.length];
-    string [] pageData = new string [shop.pages.length];
+    string [] pageFuncs = new string [shop.pages.length];
+    string [] pageFuncCalls = new string [shop.pages.length];
+    string pageFuncArgs = null;
 
     bool mainPageFound = false;
     for (int i = 0; i < shop.pages.length; i++) {
@@ -58,23 +62,33 @@ string compileShop (ShopDef shop) {
         if (page.intName == shop.mainPage)
             mainPageFound = true;
 
-        compilePage (shop, page, pageDefs [i], pageData [i]);
+        if (pageFuncArgs != null)
+            pageFuncArgs ~= format (", S7_SSPage %s", page.intName);
+        else
+            pageFuncArgs = format ("S7_SSPage %s", page.intName);
+
+        pageDefs [i] = format ("\t\tS7_SSPage %s = new (\"S7_SSPage\");", page.intName);
+        pageFuncCalls [i] = format ("\t\t##ShopName##_Populate_%s (##PageFuncCallArgs##);", page.intName);
+        compilePage (shop, page, pageFuncs [i]);
     }
 
     code = code.replace ("##PageDefs##", pageDefs.join (newline))
-        .replace ("##PageData##", pageData.join (newline))
+        .replace ("##PageFuncs##", pageFuncs.join (newline))
+        .replace ("##PageFuncCalls##", pageFuncCalls.join (newline))
+        .replace ("##PageFuncArgs##", pageFuncArgs)
+        .replace ("##PageFuncCallArgs##", pageFuncArgs.replace ("S7_SSPage ", ""))
         .replace ("##ShopDef##", format (baseShopDef, shop.name, shop.cashLabelFormat, shop.cashTypeShown, shop.mainPage))
         .replace ("##ShopName##", shop.intName).replace ("\t", "    "); // Replace ##ShopName## and tabs last so other things can use them
 
     return code;
 }
 
-void compilePage (ShopDef shop, ShopPage page, out string pageDef, out string pageData) {
-    pageDef = format ("\t\tS7_SSPage %s = new (\"S7_SSPage\");", page.intName);
+void compilePage (ShopDef shop, ShopPage page, out string pageFunc) {
     string [] tmpData;
     tmpData.reserve ((page.items.length * 14) + 2);
 
-    tmpData ~= format ("\t\t/* %s */", page.intName);
+    tmpData ~= format ("\t/* %s */", page.intName);
+    tmpData ~= format ("\tvoid ##ShopName##_Populate_%s (##PageFuncArgs##) {", page.intName);
     tmpData ~= format ("\t\t%s.name = \"%s\";", page.intName, page.name);
     tmpData ~= format ("\t\t%s.cashLabelFormat = \"%s\";", page.intName, page.cashLabelFormat);
     tmpData ~= format ("\t\t%s.cashTypeShown = \"%s\";", page.intName, page.cashTypeShown);
@@ -156,6 +170,8 @@ void compilePage (ShopDef shop, ShopPage page, out string pageDef, out string pa
         itemData = null;
     }
 
-    pageData = tmpData.join (newline);
+    tmpData ~= "\t}";
+
+    pageFunc = tmpData.join (newline);
     tmpData = null;
 }
