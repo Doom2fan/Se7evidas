@@ -135,6 +135,20 @@ class S7_DemonEyes_Power : PowerLightAmp {
         if (Owner && Owner.player)
             Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
     }
+
+    override void DetachFromOwner () {
+        if (Owner && Owner.player)
+            Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+
+        Super.DetachFromOwner ();
+    }
+
+    override void OnDestroy () {
+        if (Owner && Owner.player)
+            Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+
+        Super.OnDestroy ();
+    }
 }
 
 class S7_DemonEyes : PowerupGiver {

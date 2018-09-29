@@ -19,6 +19,23 @@
 
 //-------------------------------------------------------------------------------------------
 //
+// Static event handler
+//
+//-------------------------------------------------------------------------------------------
+class S7_StaticEventHandler : StaticEventHandler {
+    override void WorldLoaded (WorldEvent e) {
+        for (int i = 0; i < MAXPLAYERS; i++) {
+            if (!playeringame [i])
+                continue;
+
+            Shader.SetEnabled (players [i], "S7_DemonEyes", false);
+            Shader.SetEnabled (players [i], "S7_Invuln"   , false);
+        }
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Server event handler
 //
 //-------------------------------------------------------------------------------------------
