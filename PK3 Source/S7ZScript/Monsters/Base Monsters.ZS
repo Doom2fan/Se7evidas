@@ -166,6 +166,7 @@ class S7_ScorpBase : S7_MonsterBase {
 
     action void S7_DoScorpsChase () {
         bool canPlayActive = (
+            target &&
             CheckSight (target, SF_SeePastBlockEverything | SF_SeePastShootableLines) &&
             (random [monsterSpc] (0, 255) < 96)
         );
