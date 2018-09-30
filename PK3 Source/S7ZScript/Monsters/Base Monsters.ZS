@@ -43,6 +43,18 @@ class S7_MonsterBase : Actor {
     int monsDeathType;
     Actor grabbedShooter;
 
+    override void BeginPlay () {
+        Super.BeginPlay ();
+
+        aiCountdown = -1;
+    }
+
+    override void Tick () {
+        Super.Tick ();
+
+        SearchBehavior ();
+    }
+
     override void Die (Actor source, Actor inflictor, int dmgflags) {
         Super.Die (source, inflictor, dmgflags);
 
