@@ -4,11 +4,12 @@ Detailed credits are located inside the PK3 file.
 Coding:
     Chronos "phantombeta" Ouroboros.
 
-Some code taken from:
+Some code taken from/written by:
     Vaecrius
     WildWeasel
     Jekyll Grim Payne
-    TerminusEst13
+    Caligari87
+    josh771
 
 Graphics:
     Nintendo
