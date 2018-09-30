@@ -41,6 +41,17 @@ class S7_BaseS7HUD : BaseStatusBar {
         return armor ? armor.ActualSaveAmount : 0;
     }
 
+    void DrawFullscreenCamTex (Actor cam, string tex, double alpha) {
+        int w, h;
+
+        let texID = TexMan.CheckForTexture (tex, TexMan.Type_Any);
+        [w, h] = TexMan.GetSize (texID);
+        double vWidth = h * Screen.GetAspectRatio (); //(double (Screen.GetWidth ()) / double (Screen.GetHeight ()));
+
+        TexMan.SetCameraToTexture (cam, tex, CPlayer.fov);
+        Screen.DrawTexture (texID, false, (vWidth - w) / 2., 0., DTA_VirtualWidthF, vWidth, DTA_VirtualHeightF, double (h), DTA_KeepRatio, true, DTA_Alpha, alpha);
+    }
+
     void DoBlurEffect (S7_BasePlayer pPawn, double TicFrac) {
         if (!pPawn)
             return;
@@ -54,14 +65,8 @@ class S7_BaseS7HUD : BaseStatusBar {
         if (mul ~== 0.0)
             return;
 
-        BeginHUD (0.075 * mul, true, 640, 360);
-        TexMan.SetCameraToTexture (pPawn.cam4, "S7_CAMTEX3", CPlayer.fov);
-        DrawImage ("S7_CAMTEX3", (0, 0), DI_ITEM_LEFT_TOP | DI_SCREEN_LEFT_TOP);
-        BeginHUD (0.15 * mul, true, 640, 360);
-        TexMan.SetCameraToTexture (pPawn.cam3, "S7_CAMTEX2", CPlayer.fov);
-        DrawImage ("S7_CAMTEX2", (0, 0), DI_ITEM_LEFT_TOP | DI_SCREEN_LEFT_TOP);
-        BeginHUD (0.3 * mul, true, 640, 360);
-        TexMan.SetCameraToTexture (pPawn.cam2, "S7_CAMTEX1", CPlayer.fov);
-        DrawImage ("S7_CAMTEX1", (0, 0), DI_ITEM_LEFT_TOP | DI_SCREEN_LEFT_TOP);
+        DrawFullscreenCamTex (pPawn.cam4, "S7_CAMTEX3", 0.075 * mul);
+        DrawFullscreenCamTex (pPawn.cam3, "S7_CAMTEX2", 0.15  * mul);
+        DrawFullscreenCamTex (pPawn.cam2, "S7_CAMTEX1", 0.3   * mul);
     }
 }
