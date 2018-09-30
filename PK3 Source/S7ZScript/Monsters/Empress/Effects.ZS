@@ -43,6 +43,8 @@ class S7_EmpressBlood : S7_Blood {
             Destroy ();
             return;
         }
+
+        Super.PostBeginPlay ();
     }
 }
 
