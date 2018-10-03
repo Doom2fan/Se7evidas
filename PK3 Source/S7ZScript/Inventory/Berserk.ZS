@@ -47,6 +47,12 @@ class S7_Berserk : Inventory {
 
         return false;
     }
+
+    states {
+    Spawn:
+        BSRK A -1;
+        stop;
+    }
 }
 
 class S7_BerserkToken : Powerup { default { powerup.duration -60; powerup.color "FF 20 20", 0.25; } }
