@@ -451,12 +451,13 @@ class S7_Projectile : FastProjectile {
 
                 do {
                     double yOffs = radius * FPColOffs [i * 2];
+                    Vector3 startPos = Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]);
 
-                    if (tr.Trace (Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]), curSector, velUnit, maxDist, 0)) {
+                    if (tr.Trace (startPos, curSector, velUnit, maxDist, 0)) {
                         if (!self)
                             return;
 
-                        if (HandleCollision (oldPos, oldVel)) {
+                        if (HandleCollision (oldPos, oldVel, startPos)) {
                             if (!self)
                                 return;
 
@@ -533,8 +534,9 @@ class S7_Projectile : FastProjectile {
         }
     }
 
-    bool HandleCollision (Vector3 oldPos, Vector3 oldVel) {
-        if (abs (level.Vec3Diff (oldPos, tr.Results.hitPos).Length ()) > abs (oldVel.Length ()) + radius) {
+    bool HandleCollision (Vector3 oldPos, Vector3 oldVel, Vector3 startPos) {
+        double hitDist = level.Vec3Diff (startPos, tr.Results.hitPos).Length ();
+        if (hitDist > abs (oldVel.Length ()) + radius) {
             if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor && tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
 
@@ -542,9 +544,8 @@ class S7_Projectile : FastProjectile {
         }
 
         double maxDist = abs (oldVel.Length ());
-        double hitPosDist = abs (tr.Results.hitPos.Length ());
-        let hitPos = tr.Results.HitPos;
-        hitPos += -(oldVel.Unit () * abs (radius));
+        let hitPos = oldPos + (oldVel.Unit () * hitDist);
+        //hitPos += -(oldVel.Unit () * abs (radius));
 
         SetOrigin (hitPos, interpFastProj);
 
