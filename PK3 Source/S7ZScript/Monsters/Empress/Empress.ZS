@@ -27,9 +27,7 @@ const S7_EmpressMass = 12000;
 
 /** Inventory tokens **/
 // Booleans
-class S7_IsEmpress             : S7_Boolean { }
-class S7_Empress_MidAttack1    : S7_Boolean { }
-class S7_Empress_CastingInvuln : S7_Boolean { }
+class S7_IsEmpress : S7_Boolean { }
 
 /** Main actor **/
 class S7_Empress : S7_DemonBase {
@@ -69,7 +67,7 @@ class S7_Empress : S7_DemonBase {
         +DONTMORPH +MISSILEMORE
     }
 
-    const InvulnDelayTime = floor (35 * 7.5);
+    const InvulnDelayTime = 35 * 25;
     const InvulnLimit = 2500;
     const InvulnShieldAngle = 152.5;
 
@@ -78,6 +76,10 @@ class S7_Empress : S7_DemonBase {
     int ballsCount; // How much invulnerability thingies are left
     int invulnDelay; // How much time left until we can raise the shield
     bool canCastInvuln; // Whether shields can be cast
+
+    bool midAttack1;
+    int attack2Shots;
+    bool castingInvuln;
 
     bool canDieNow;
     Actor deathSource, deathInflictor;
@@ -159,7 +161,7 @@ class S7_Empress : S7_DemonBase {
     Idle:
         HRFR A   1 {
             TakeInventory ("S7_IsDead", 0x7FFFFFFF);
-            TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF);
+            midAttack1 = false;
 
             if (health < 1)
                 return ResolveState ("RunAway");
@@ -174,7 +176,7 @@ class S7_Empress : S7_DemonBase {
     See:
         TNT1 A    0 {
             TakeInventory ("S7_IsDead", 0x7FFFFFFF);
-            TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF);
+            midAttack1 = false;
             A_PlaySound ("Footsteps/Large", CHAN_5);
         }
         HRFR AABB 4 {
@@ -212,18 +214,20 @@ class S7_Empress : S7_DemonBase {
             //bNoBlood = true;
             //bInvulnerable = true;
             //GiveInventory ("S7_EmpressProtection", 1);
-            GiveInventory ("S7_Empress_CastingInvuln", 1);
+            castingInvuln = true;
             A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
         }
         HRFR F  9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCCW", 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
         HRFR F  9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
         HRFR F  9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCCW", 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
-        TNT1 A  0 TakeInventory ("S7_Empress_CastingInvuln", 0x7FFFFFFF);
+        TNT1 A  0 { castingInvuln = false; }
         goto See;
 
     Attack1:
-        TNT1 A     0 GiveInventory ("S7_Empress_MidAttack1", 1);
-        HRFR AAHHH 1 A_FaceTarget (72, 36);
+        TNT1 A    0 { midAttack1 = true; }
+        HRFR AAA  1 A_FaceTarget (19, 9.5);
+        HRFR HHHH 2 bright A_FaceTarget (19, 9.5);
+        HRFR HHHH 2 bright A_FaceTarget (19, 9.5);
 
         HRFR H    1 {
             A_FaceTarget (0, 0);
@@ -245,27 +249,43 @@ class S7_Empress : S7_DemonBase {
 
         HRFR HHHH 5;
         goto See;
-    /*Attack2:
-        HRFR AAHHH 1 A_FaceTarget (72, 36);
+    Attack2:
+        HRFR AAA  1 A_FaceTarget (24, 12);
+        HRFR FFFF 2 bright A_FaceTarget (24, 12);
+        HRFR FFFF 2 bright A_FaceTarget (24, 12);
+        HRFR FFFF 2 bright A_FaceTarget (24, 12);
+        HRFR FFFF 2 bright A_FaceTarget (24, 12);
+        TNT1 A    0 {
+            attack2Shots = random [monsterSpc] (5, 12);
+            A_FaceTarget (0, 0);
+        }
     Attack2.Loople:
-        TNT1 A 0 A_FaceTarget (90, 45);
-        HRFR H 1 A_SpawnProjectile ("S7_EmpressMissile2", 105.0, 0, -135 + fRandom [monsterSpread] (0.0, 90.0), CMF_AimDirection);
-        HRFR HH 1 A_FaceTarget (90, 45);
-        TNT1 A 0 A_FaceTarget (90, 45);
-        HRFR H 1 A_SpawnProjectile ("S7_EmpressMissile2", 105.0, 0,  135 - fRandom [monsterSpread] (0.0, 90.0), CMF_AimDirection);
-        HRFR HH 1 A_FaceTarget (90, 45);
-        HRFR H 1 A_MonsterRefire (40, "See");
-        loop;*/
+        HRFR E    1 bright A_SpawnProjectile ("S7_EmpressMissile2", 50.0,  16, angle: fRandom [monsterSpread] (-0.5, 0.5), pitch: fRandom [monsterSpread] (-1.25, 1.25));
+        HRFR EEEE 1 bright A_FaceTarget (90, 45);
+        HRFR E    1 bright A_SpawnProjectile ("S7_EmpressMissile2", 50.0, -16, angle: fRandom [monsterSpread] (-0.5, 0.5), pitch: fRandom [monsterSpread] (-1.25, 1.25));
+        HRFR EEEE 1 bright A_FaceTarget (90, 45);
+        HRFR E    1 bright {
+            if ((attack2Shots--) <= 0) {
+                attack2Shots = 0;
+
+                return ResolveState ("See");
+            }
+
+            return A_MonsterRefire (40, "See");
+        }
+        loop;
 
     Pain:
         HRFR G 8 {
-            TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF);
+            midAttack1 = false;
+            attack2Shots = 0;
             A_Pain ();
         }
         goto See;
     Pain.Empress_BallExploded:
         HRFR G 13 {
-            TakeInventory ("S7_Empress_MidAttack1", 0x7FFFFFFF);
+            midAttack1 = false;
+            attack2Shots = 0;
             A_Pain ();
         }
         goto See;
@@ -363,27 +383,35 @@ class S7_EmpressDeathSmokeSpawner : Actor {
 class S7_EmpressMissile2 : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4);
-        Speed 45;
+        S7_Projectile.FastProjCollision ColMode_Center | ColMode_Corners;
+
+        Radius 9;
+        Height 20;
+        Speed 40;
+
+        DamageFunction int (floor (fRandom [monsterDMG] (1, 2) * 8));
         MissileType "S7_EmpressMissile2Trail";
         MissileHeight 8;
+
         RenderStyle "add";
+        Scale 0.075;
+
         DeathSound "imp/shotx";
         Obituary "$OB_EMPRESSFB";
         Species "S7EmpressCrap";
-        Scale 0.75;
 
         +FORCEXYBILLBOARD +SEEKERMISSILE +THRUSPECIES
     }
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_RearrangePointers (AAPTR_Target, AAPTR_Null, AAPTR_Null);
-        BAL1 A 1 A_SeekerMissile (65, 65, SMF_Precise | SMF_Look);
-        loop;
+        HRSF AAAAAAAA 1 noDelay bright A_SeekerMissile (4, 4);
+        HRSF A 1 bright;
+        wait;
 
     Death:
-        BAL1 CDE 3 bright;
+        TNT1 A 0 A_SetScale (1.0);
+        HRP1 ABCDE 2 bright;
         stop;
     }
 }
@@ -391,14 +419,14 @@ class S7_EmpressMissile2 : S7_Projectile {
 class S7_EmpressMissile2Trail : S7_FastProjTrailBase {
     default {
         RenderStyle "add";
-        Scale 0.75;
+        Scale 0.075;
 
         +FORCEXYBILLBOARD
     }
 
     states {
     Spawn:
-        BAL1 AAA 1 A_FadeOut (0.35);
+        HRSF AAA 1 bright A_FadeOut (0.5);
         stop;
     }
 }
@@ -406,11 +434,16 @@ class S7_EmpressMissile2Trail : S7_FastProjTrailBase {
 class S7_EmpressMissile1 : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        DamageFunction (fRandom [monsterDMG] (2.0, 4.0) * 7);
+        S7_Projectile.EffectStepMul 0.125 * 2;
+        S7_Projectile.InterpMove false;
+
         Speed 45;
+        DamageFunction (fRandom [monsterDMG] (2.0, 4.0) * 7);
+
         MissileType "S7_EmpressMissile1Trail";
         MissileHeight 8;
         RenderStyle "add";
+
         DeathSound "imp/shotx";
         Obituary "$OB_EMPRESSFB";
         Species "S7EmpressCrap";
@@ -422,21 +455,35 @@ class S7_EmpressMissile1 : S7_Projectile {
     double loopCount;
     Vector3 savedVel;
 
+    override void PostBeginPlay () {
+        bMissile = false; // remove the MISSILE flag so the Draco's defense system won't target it
+        rotAngle = angle;
+        loopCount = 15;
+        savedVel = vel;
+        vel = (0, 0, 0);
+    }
+
+    override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
+        Actor act = Super.StepEffects (initialPos, stepDiff, realVel);
+
+        if (act) {
+            act.SetOrigin (act.Vec3Offset (fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-3, 3)), false);
+            act.vel = (0.0, 0.0, fRandom [sfx] (0.5, 3.0));
+        }
+
+        return act;
+    }
+
     states {
     Spawn:
-        TNT1 A 0 noDelay {
-            bMissile = false; // remove the MISSILE flag so the Draco's defense system won't target it
-            rotAngle = angle;
-            loopCount = 15;
-            savedVel = vel;
-            A_ChangeVelocity (0.0, 0.0, 0.0, CVF_Replace);
-        }
-    Loople:
-        BAL1 A 1 {
-            if (CheckInventory ("S7_IsDead", 1, AAPTR_Target) || !CheckInventory ("S7_Empress_MidAttack1", 1, AAPTR_Target))
+        TNT1 A 1 bright {
+            if (CheckInventory ("S7_IsDead", 1, AAPTR_Target) || !(target is 'S7_Empress') || !(S7_Empress (target)).midAttack1)
                 return ResolveState ("DieOut");
             if (loopCount < 1)
                 return ResolveState ("Flight");
+
+            invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
+            invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
 
             A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, rotAngle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
             rotAngle += 24;
@@ -447,7 +494,7 @@ class S7_EmpressMissile1 : S7_Projectile {
         loop;
 
     Flight:
-        BAL1 A 1 A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
+        TNT1 A 1 bright A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
         TNT1 A 0 {
             bMissile = true; // Make it a projectile again
             vel = savedVel; // Restore the projectile's velocity
@@ -455,27 +502,29 @@ class S7_EmpressMissile1 : S7_Projectile {
             A_SeekerMissile (1, 360, SMF_Precise | SMF_CurSpeed); // Make sure our direction gets adjusted
             A_SeekerMissile (1, 360, SMF_Precise | SMF_CurSpeed);
         }
-        BAL1 A 2 A_SeekerMissile (6, 6, SMF_Precise | SMF_CurSpeed);
+        TNT1 AAAAA 2 bright A_SeekerMissile (6, 6, SMF_Precise | SMF_CurSpeed);
+        TNT1 A 2 bright;
         wait;
 
     DieOut:
         TNT1 A 0 A_Die;
     Death:
-        BAL1 CDE 3 bright;
+        CP00 DEFGH 2 bright;
         stop;
     }
 }
 
-class S7_EmpressMissile1Trail : S7_FastProjTrailBase {
+class S7_EmpressMissile1Trail : S7_FireBase {
     default {
-        RenderStyle "add";
+        Alpha 1.0;
+        Scale 0.25;
 
-        +FORCEXYBILLBOARD
+        +NOINTERACTION +CLIENTSIDEONLY
     }
 
     states {
     Spawn:
-        BAL1 AAA 1 A_FadeOut (0.35);
+        FIR1 ACEHJ 1 bright;
         stop;
     }
 }

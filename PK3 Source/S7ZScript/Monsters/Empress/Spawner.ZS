@@ -84,10 +84,13 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         TNT1 A            0 {
             Super.BeginPlay ();
             Super.PostBeginPlay ();
+            if (tracer) {
+                tracer.target = target;
 
-            for (int i = 0; i < 48; i++) {
-                A_SpawnItemEx ("S7_EmpressSparkle", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
-                    fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+                for (int i = 0; i < 48; i++) {
+                    A_SpawnItemEx ("S7_EmpressSparkle", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
+                        fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+                }
             }
         }
     Idle:

@@ -95,7 +95,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         HRSF A 1 bright {
             OrbitMaster ();
 
-            if (!CheckInventory ("S7_Empress_CastingInvuln", 1, AAPTR_Master))
+            if (!owner.castingInvuln)
                 countdown--;
 
             rotAngle += rotAmount;
