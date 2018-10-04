@@ -130,7 +130,7 @@ class S7_Empress : S7_DemonBase {
 
     override void Die (Actor source, Actor inflictor, int dmgflags) {
         if (canDieNow) {
-            Die (source, inflictor, dmgflags);
+            Super.Die (source, inflictor, dmgflags);
             return;
         } else {
             deathSource = source;
@@ -341,6 +341,7 @@ class S7_Empress : S7_DemonBase {
     /** Death stuff **/
     RunAway:
         TNT1 A 0 {
+            canDieNow = true;
             Die (deathSource, deathInflictor, deathDMGFlags);
         }
         goto Death;
