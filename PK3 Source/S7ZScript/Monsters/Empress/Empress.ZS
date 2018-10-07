@@ -67,7 +67,7 @@ class S7_Empress : S7_DemonBase {
         +DONTMORPH +MISSILEMORE
     }
 
-    const InvulnDelayTime = 35 * 25;
+    const InvulnDelayTime = 35 * 12;
     const InvulnLimit = 2500;
     const InvulnShieldAngle = 152.5;
 
@@ -141,12 +141,9 @@ class S7_Empress : S7_DemonBase {
 
     override void Tick () {
         if (initialized) {
-            if (health > InvulnLimit || shieldUp) {
+            if (health > InvulnLimit || shieldUp)
                 canCastInvuln = false;
-
-                if (shieldUp)
-                    invulnDelay = InvulnDelayTime;
-            } else if (invulnDelay) {
+            else if (invulnDelay >= 0 && !shieldUp) {
                 canCastInvuln = false;
                 invulnDelay--;
             } else if (health <= InvulnLimit && !shieldUp && invulnDelay < 1)
@@ -211,6 +208,7 @@ class S7_Empress : S7_DemonBase {
         HRFR FF 5;
         HRFR F  9 {
             shieldUp = true;
+            invulnDelay = InvulnDelayTime;
             //bNoBlood = true;
             //bInvulnerable = true;
             //GiveInventory ("S7_EmpressProtection", 1);
