@@ -926,6 +926,19 @@
                     "sellPrice": 3500,
                     "sellAmount": 1,
                     "global": true
+                },
+                {
+                    "id": [ "A", "K", "4", "7" ],
+                    "name": "$SHORTAK47",
+                    "desc": "$SS_AK47DESC",
+                    "info": "$SS_AK47INFO",
+                    "icon": "sprites/Weapons/Primary/AK47/AK4PA0.png",
+                    "inventoryName": "S7_AK47",
+                    "itemType": "sellItem",
+                    "maxAmount": 1,
+                    "sellPrice": 6500,
+                    "sellAmount": 1,
+                    "global": true
                 }
             ]
         },
