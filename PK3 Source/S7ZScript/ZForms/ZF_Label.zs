@@ -2,12 +2,13 @@ class S7_ZF_Label : S7_ZF_Element {
 	Font fnt;
 	string text;
 	double textScale;
+	AlignType alignment;
 	int textColor;
 	bool wrap;
 	bool autoSize;
 
-	void config(string text = "", Font fnt = NULL, bool wrap = true, bool autoSize = false,
-	            double textScale = 1, int textColor = Font.CR_WHITE) {
+	void config(string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft, bool wrap = true,
+				bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE) {
 		if (fnt == NULL) {
 			self.fnt = smallfont;
 		}
@@ -15,15 +16,16 @@ class S7_ZF_Label : S7_ZF_Element {
 			self.fnt = fnt;
 		}
 		self.text = text;
+		self.alignment = alignment;
 		self.wrap = wrap;
 		self.autoSize = autoSize;
 		self.textScale = textScale;
 		self.textColor = textColor;
 	}
 
-	S7_ZF_Label init(Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, bool wrap = true,
-	              bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE) {
-		self.config(text, fnt, wrap, autoSize, textScale, textColor);
+	S7_ZF_Label init(Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft,
+				  bool wrap = true, bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE) {
+		self.config(text, fnt, alignment, wrap, autoSize, textScale, textColor);
 		self.setBox(pos, size);
 
 		return self;
@@ -58,13 +60,18 @@ class S7_ZF_Label : S7_ZF_Element {
 		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
 
 		if (!wrap) {
-			drawText((0, 0), fnt, text, textColor, textScale);
+			Vector2 pos = getAlignedDrawPos(box.size, (fnt.stringWidth(text), fnt.getHeight()) * textScale, alignment);
+			drawText(pos, fnt, text, textColor, textScale);
 		}
 		else {
-			BrokenLines printLines = fnt.breakLines(text, int(box.size.x / textScale));
 			int fntHeight = fnt.getHeight();
+			BrokenLines printLines = fnt.breakLines(text, int(box.size.x / textScale));
+			Vector2 pos = getAlignedDrawPos(box.size, (0, fntHeight * printLines.count() * textScale), alignment);
+
 			for (int i = 0; i < printLines.count(); i++) {
-				drawText((0, fntHeight * i * textScale), fnt, printLines.stringAt(i), textColor, textScale);
+				string line = printLines.stringAt(i);
+				Vector2 linePos = getAlignedDrawPos(box.size, (fnt.stringWidth(line) * textScale, 0), alignment);
+				drawText((linePos.x, pos.y + (fntHeight * i * textScale)), fnt, line, textColor, textScale);
 			}
 		}
 

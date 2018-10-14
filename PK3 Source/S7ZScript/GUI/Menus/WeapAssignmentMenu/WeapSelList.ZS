@@ -232,7 +232,9 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
-                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), textLines.StringAt (i), smallFont, false, false, 1, Font.CR_WHITE);
+                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
+                    fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
+                );
                 label.Pack (itemsFrame);
                 weapControls.labels.Push (label);
             }
@@ -298,7 +300,9 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
-                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), textLines.StringAt (i), smallFont, false, false, 1, Font.CR_WHITE);
+                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
+                    fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
+                );
                 label.Pack (itemsFrame);
                 weapControls.labels.Push (label);
             }

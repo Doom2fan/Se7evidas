@@ -110,6 +110,22 @@
     PLAYERMENU_WEAPASSIGN           = "Weapon assignment";
     PLAYERMENU_DRACOWEAPASSIGN      = "Draco weapon assignment";
     PLAYERMENU_M400AUTOGUN          = "M-400 Autogun";
+    // Stats menu
+    STATSMENUHEADER                 = "STATS";
+    STATSMENU_STRENGTH              = "Strength";
+    STATSMENU_AGILITY               = "Agility";
+    STATSMENU_VITALITY              = "Vitality";
+    STATSMENU_DEFENSE               = "Defense";
+    STATSMENU_WILL                  = "Will";
+    STATSMENU_MAGIC                 = "Magic";
+    STATSMENU_TECH                  = "Tech";
+    STATSMENU_TOOLTIP_STRENGTH      = "Increases the damage of your melee attacks, reduces slowdown from heavy weapons and slightly reduces recoil";
+    STATSMENU_TOOLTIP_AGILITY       = "Increases your sprinting speed and maximum stamina";
+    STATSMENU_TOOLTIP_VITALITY      = "Increases your maximum health and increases the efficacy of conventional healing items";
+    STATSMENU_TOOLTIP_DEFENSE       = "Decreases the damage received from enemy attacks";
+    STATSMENU_TOOLTIP_WILL          = "Decreases corruption gain and increases the resistance to certain kinds of magic";
+    STATSMENU_TOOLTIP_MAGIC         = "Increases the power of your magic and your maximum mana";
+    STATSMENU_TOOLTIP_TECH          = "Increases damage dealt by high-tech weapons, decreases the ammo usage of high-tech weapons and decreases cooldown time for high-tech weapons";
     // Autogun menu
     AUTOGUNMENUHEADER               = "M-400 Autogun";
     AUTOGUNMENU_INTEGRITY           = "Integrity";

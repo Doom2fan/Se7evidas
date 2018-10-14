@@ -64,7 +64,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         menusFrame.Pack (mainFrame);
 
         string labelText = StringTable.Localize ("$PLAYERMENUHEADER", true);
-        S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), labelText, bigFont, false, true, 1, Font.CR_WHITE);
+        S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (menusFrame);
 

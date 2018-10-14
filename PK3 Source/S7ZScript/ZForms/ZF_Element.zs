@@ -1,4 +1,26 @@
 class S7_ZF_Element ui {
+	enum AlignType {
+		AlignType_Left    = 1,
+		AlignType_HCenter = 2,
+		AlignType_Right   = 3,
+
+		AlignType_Top     = 1 << 4,
+		AlignType_VCenter = 2 << 4,
+		AlignType_Bottom  = 3 << 4,
+
+		AlignType_TopLeft   = AlignType_Top | AlignType_Left,
+		AlignType_TopCenter = AlignType_Top | AlignType_HCenter,
+		AlignType_TopRight  = AlignType_Top | AlignType_Right,
+
+		AlignType_CenterLeft  = AlignType_VCenter | AlignType_Left,
+		AlignType_Center      = AlignType_VCenter | AlignType_HCenter,
+		AlignType_CenterRight = AlignType_VCenter | AlignType_Right,
+
+		AlignType_BottomLeft   = AlignType_Bottom | AlignType_Left,
+		AlignType_BottomCenter = AlignType_Bottom | AlignType_HCenter,
+		AlignType_BottomRight  = AlignType_Bottom | AlignType_Right,
+	}
+
 	S7_ZF_Frame master;
 
 	S7_ZF_Handler cmdHandler;
@@ -96,6 +118,29 @@ class S7_ZF_Element ui {
 		return TexMan.getScaledSize(TexMan.checkForTexture(texture, TexMan.Type_Any));
 	}
 
+	/// Gets the correct position to draw aligned content at.
+	Vector2 getAlignedDrawPos(Vector2 boxSize, Vector2 contentSize, AlignType align) {
+		Vector2 pos = (0, 0);
+		int horzAlign = align &  15;
+		int vertAlign = align & (15 << 4);
+
+		if (horzAlign == AlignType_HCenter) {
+			pos.x = (boxSize.x - contentSize.x) / 2.0;
+		}
+		else if (horzAlign == AlignType_Right) {
+			pos.x = boxSize.x - contentSize.x;
+		}
+
+		if (vertAlign == AlignType_VCenter) {
+			pos.y = (boxSize.y - contentSize.y) / 2.0;
+		}
+		else if (vertAlign == AlignType_Bottom) {
+			pos.y = boxSize.y - contentSize.y;
+		}
+
+		return pos;
+	}
+
 	/// Draws text, taking into account relative positioning, and scale factor.
 	void drawText(Vector2 relPos, Font fnt, string text, int color = Font.CR_WHITE, double scale = 1, double alpha = 1) {
 		if (scale == 0) return;
@@ -110,18 +155,18 @@ class S7_ZF_Element ui {
 		if (scale.x == 0 || scale.y == 0) return;
 
 		if (clipRect == NULL) {
-			clipRect = new("S7_ZF_AABB");
-			clipRect.pos = (0, 0);
-			clipRect.size = screenSize();
+			clipRect = getClipAABB();
 		}
 		TextureID tex = TexMan.checkForTexture(imageName, TexMan.Type_Any);
 		Vector2 drawPos = relToScreen(relPos);
 		drawPos = (drawPos.x / scale.x, drawPos.y / scale.y);
 		Vector2 virtualSize = scaleToVirtualSize(scale);
-		if (offsets)
+		if (offsets) {
 			Screen.DrawTexture(tex, animate, drawPos.x, drawPos.y, DTA_VirtualWidthF, virtualSize.x, DTA_VirtualHeightF, virtualSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha, DTA_ClipLeft, int(clipRect.pos.x), DTA_ClipTop, int(clipRect.pos.y), DTA_ClipRight, int(clipRect.pos.x + clipRect.size.x), DTA_ClipBottom, int(clipRect.pos.y + clipRect.size.y));
-		else
+		}
+		else {
 			Screen.DrawTexture(tex, animate, drawPos.x, drawPos.y, DTA_VirtualWidthF, virtualSize.x, DTA_VirtualHeightF, virtualSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha, DTA_ClipLeft, int(clipRect.pos.x), DTA_ClipTop, int(clipRect.pos.y), DTA_ClipRight, int(clipRect.pos.x + clipRect.size.x), DTA_ClipBottom, int(clipRect.pos.y + clipRect.size.y), DTA_TopOffset, 0, DTA_LeftOffset, 0);
+		}
 	}
 
 	Vector2 scaleVec(Vector2 vec, Vector2 scale) {
@@ -132,6 +177,11 @@ class S7_ZF_Element ui {
 	/// Scales the image instead of tiling if possible.
 	void drawTiledImage(Vector2 relPos, Vector2 size, string imageName, Vector2 scale = (1, 1)) {
 		Vector2 imageSize = texSize(imageName);
+
+		// Abort if the image has an invalid resolution.
+		if (imageSize.x < 0 || imageSize.x ~== 0 || imageSize.y < 0 || imageSize.y ~== 0) {
+			return;
+		}
 
 		S7_ZF_AABB beforeClip = getClipAABB();
 		S7_ZF_AABB clipTest = new("S7_ZF_AABB");

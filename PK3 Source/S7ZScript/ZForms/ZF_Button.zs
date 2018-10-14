@@ -89,7 +89,7 @@ class S7_ZF_Button : S7_ZF_Element {
 
 		if (singleTex) {
 			string texture = btnTextures[curButtonState];
-			drawImage((0, 0), texture, true);
+			drawTiledImage((0, 0), box.size, texture);
 		}
 		else {
 			S7_ZF_BoxTextures textures = textures[curButtonState];

@@ -1,26 +1,4 @@
 class S7_ZF_Image : S7_ZF_Element {
-	enum AlignType {
-		AlignType_Left    = 1,
-		AlignType_HCenter = 2,
-		AlignType_Right   = 3,
-
-		AlignType_Top     = 1 << 4,
-		AlignType_VCenter = 2 << 4,
-		AlignType_Bottom  = 3 << 4,
-
-		AlignType_TopLeft   = AlignType_Top | AlignType_Left,
-		AlignType_TopCenter = AlignType_Top | AlignType_HCenter,
-		AlignType_TopRight  = AlignType_Top | AlignType_Right,
-
-		AlignType_CenterLeft  = AlignType_VCenter | AlignType_Left,
-		AlignType_Center      = AlignType_VCenter | AlignType_HCenter,
-		AlignType_CenterRight = AlignType_VCenter | AlignType_Right,
-
-		AlignType_BottomLeft   = AlignType_Bottom | AlignType_Left,
-		AlignType_BottomCenter = AlignType_Bottom | AlignType_HCenter,
-		AlignType_BottomRight  = AlignType_Bottom | AlignType_Right,
-	}
-
 	string image;
 	AlignType alignment;
 	Vector2 imageScale;
@@ -52,33 +30,11 @@ class S7_ZF_Image : S7_ZF_Element {
 		}
 
 		Vector2 imageSize = TexMan.getScaledSize(tex);
-		Vector2 pos;
 
 		imageSize.x *= imageScale.x;
 		imageSize.y *= imageScale.y;
 
-		int horzAlign = alignment &  15;
-		int vertAlign = alignment & (15 << 4);
-
-		if (horzAlign == AlignType_Left) {
-			pos.x = 0.0;
-		}
-		else if (horzAlign == AlignType_HCenter) {
-			pos.x = (box.size.x - imageSize.x) / 2;
-		}
-		else if (horzAlign == AlignType_Right) {
-			pos.x = box.size.x - imageSize.x;
-		}
-
-		if (vertAlign == AlignType_Top) {
-			pos.y = 0.0;
-		}
-		else if (vertAlign == AlignType_VCenter) {
-			pos.y = (box.size.y - imageSize.y) / 2;
-		}
-		else if (vertAlign == AlignType_Bottom) {
-			pos.y = box.size.y - imageSize.y;
-		}
+		Vector2 pos = getAlignedDrawPos(box.size, imageSize, alignment);
 
 		drawImage(pos, image, true, imageScale, clipRect: boxToScreen(), offsets: !noOffsets);
 	}

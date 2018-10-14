@@ -108,35 +108,38 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
         background = new ("S7_ZF_Image").Init ((0, 0), (320, 80), "graphics/Menu/Shop/BuySellPopup.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
-        modeLabel = new ("S7_ZF_Label").Init ((4, 4), (40, 10), "", bigFont, false, true, 1, Font.CR_WHITE);
+        modeLabel = new ("S7_ZF_Label").Init ((4, 4), (40, 10), text: "", fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         modeLabel.Pack (self);
 
         itemIcon = new ("S7_ZF_Image").Init ((0, 0), (0, 0), "", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
         itemIcon.Pack (self);
-        itemName = new ("S7_ZF_Label").Init ((0, 0), (0, 0), "", smallFont, false, true, 1, Font.CR_WHITE);
+        itemName = new ("S7_ZF_Label").Init ((0, 0), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         itemName.Pack (self);
 
         totalAmount = new ("S7_ZF_Label").Init ((0, 0), (smallFont.StringWidth (String.Format ("%s: 00000", StringTable.Localize ("$SS_TOTAL", true))), smallFont.GetHeight ()),
-            "", smallFont, false, false, 1, Font.CR_WHITE);
+            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE
+        );
         totalAmount.Pack (self);
         selAmount = new ("S7_ZF_Label").Init ((0, 0), (smallFont.StringWidth (String.Format ("%s: 00000", StringTable.Localize ("$SS_COUNT", true))), smallFont.GetHeight ()),
-            "", smallFont, false, false, 1, Font.CR_WHITE);
+            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE
+        );
         selAmount.Pack (self);
         priceLabel = new ("S7_ZF_Label").Init ((0, 0), (smallFont.StringWidth (String.Format ("%s: 00000000", StringTable.Localize ("$SS_PRICE", true))), smallFont.GetHeight ()),
-            "", smallFont, false, false, 1, Font.CR_WHITE);
+            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE
+        );
         priceLabel.Pack (self);
 
-        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "+", cmdHandler: handler, command: "Add", fnt: smallFont, holdInterval: 1);
+        addButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), text: "+", cmdHandler: handler, command: "Add", fnt: smallFont, holdInterval: 1);
         addButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         addButton.Pack (self);
-        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), "-", cmdHandler: handler, command: "Dec", fnt: smallFont, holdInterval: 1);
+        decButton = new ("S7_ZF_Button").Init ((0, 0), (13, 11), text: "-", cmdHandler: handler, command: "Dec", fnt: smallFont, holdInterval: 1);
         decButton.SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "graphics/Menu/Generic/SmallButton.png");
         decButton.Pack (self);
 
-        acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), "", cmdHandler: handler, command: "Accept", fnt: smallFont);
+        acceptButton = new ("S7_ZF_Button").Init ((196, 57), (55, 17), text: "", cmdHandler: handler, command: "Accept", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         acceptButton.Pack (self);
-        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), StringTable.Localize ("$SS_CANCELBUTTON", true), cmdHandler: handler, command: "Cancel", fnt: smallFont);
+        cancelButton = new ("S7_ZF_Button").Init ((259, 57), (55, 17), text: StringTable.Localize ("$SS_CANCELBUTTON", true), cmdHandler: handler, command: "Cancel", fnt: smallFont);
         cancelButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
         cancelButton.Pack (self);
 

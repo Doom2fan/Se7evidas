@@ -97,6 +97,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
     S7_ZF_Frame statsFrame;
     S7_ZF_Image background;
+    S7_ZF_Label tooltipLabel;
 
     S7_ZF_Label statLabels [7];
     S7_ZF_Label statBaseLabels [7];
@@ -121,36 +122,55 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        statsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 480));
-        statsFrame.Pack (mainFrame);
+        string labelText = StringTable.Localize ("$STATSMENUHEADER", true);
+        S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
+        label.Pack (mainFrame);
 
         background = new ("S7_ZF_Image").Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
-        background.Pack (statsFrame);
+        background.Pack (mainFrame);
 
-        for (int i = 0; i < 7; i++) {
-            double yCoords = 80 + (13 * i);
+        statsFrame = new ("S7_ZF_Frame").Init ((35, 60), (200, 200));
+        statsFrame.Pack (mainFrame);
+
+        for (int i = 0; i < statNames.Size (); i++) {
+            double yCoords = (13 * i);
             string statName = statNames [i];
+            string statText = statNames [i];
+            statText.ToUpper ();
+            statText = StringTable.Localize ("$STATSMENU_" .. statText, true);
 
-            statLabels [i] = new ("S7_ZF_Label").Init ((140, yCoords + 1), (0, SmallFont.GetHeight ()), String.Format ("%s:", statName), smallFont, false, true, 1, Font.CR_WHITE);
+            statLabels [i] = new ("S7_ZF_Label").Init ((0, yCoords + 1), (0, SmallFont.GetHeight ()), text: String.Format ("%s:", statText),
+                fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+            );
+            statLabels [i].cmdHandler = handler;
+            statLabels [i].command = statNames [i];
             statLabels [i].Pack (statsFrame);
-            statBaseLabels [i] = new ("S7_ZF_Label").Init ((220, yCoords + 1), (0, SmallFont.GetHeight ()), "0", smallFont, false, true, 1, Font.CR_WHITE);
+            statBaseLabels [i] = new ("S7_ZF_Label").Init ((80, yCoords + 1), (0, SmallFont.GetHeight ()), text: "0",
+                fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+            );
             statBaseLabels [i].Pack (statsFrame);
-            statAddLabels [i] = new ("S7_ZF_Label").Init ((250, yCoords + 1), (0, SmallFont.GetHeight ()), "+0", smallFont, false, true, 1, Font.CR_WHITE);
+            statAddLabels [i] = new ("S7_ZF_Label").Init ((110, yCoords + 1), (0, SmallFont.GetHeight ()), text: "+0",
+                fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+            );
             statAddLabels [i].Pack (statsFrame);
 
-            statButtons [i] [0] = new ("S7_ZF_Button").Init ((280, yCoords), (13, 11), "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
+            statButtons [i] [0] = new ("S7_ZF_Button").Init ((140, yCoords), (13, 11), text: "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
             statButtons [i] [0].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [0].Pack (statsFrame);
-            statButtons [i] [1] = new ("S7_ZF_Button").Init ((300, yCoords), (13, 11), "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
+            statButtons [i] [1] = new ("S7_ZF_Button").Init ((160, yCoords), (13, 11), text: "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
             statButtons [i] [1].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [1].Pack (statsFrame);
         }
-        acceptButton = new ("S7_ZF_Button").Init ((180, 175), (62, 15), "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
+        acceptButton = new ("S7_ZF_Button").Init ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         acceptButton.Pack (statsFrame);
-        resetButton = new ("S7_ZF_Button").Init ((245, 175), (62, 15), "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
+        resetButton = new ("S7_ZF_Button").Init ((25 + 65, 95), (62, 15), text: "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
         resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         resetButton.Pack (statsFrame);
+
+        tooltipLabel = new ("S7_ZF_Label").Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        tooltipLabel.Pack (mainFrame);
 
         //dontDim = true;
     }
@@ -179,6 +199,23 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         statBaseLabels [4].text = String.Format ("%d", xpSys.willStat);     statAddLabels [4].text = String.Format ("+%d", willAdd);
         statBaseLabels [5].text = String.Format ("%d", xpSys.magicStat);    statAddLabels [5].text = String.Format ("+%d", magicAdd);
         statBaseLabels [6].text = String.Format ("%d", xpSys.techStat);     statAddLabels [6].text = String.Format ("+%d", techAdd);
+
+        for (int i = 0; i < statLabels.Size () + 1; i++) {
+            if (i == statLabels.Size ()) {
+                SetTooltip ("");
+                break;
+            }
+
+            if (statLabels [i].isHovered) {
+                SetTooltip (StringTable.Localize ("$STATSMENU_TOOLTIP_" .. statLabels [i].command));
+                break;
+            }
+        }
+    }
+
+    void SetTooltip (string text) {
+        if (tooltipLabel)
+            tooltipLabel.text = text;
     }
 }
 
