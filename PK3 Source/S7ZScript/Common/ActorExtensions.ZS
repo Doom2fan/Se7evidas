@@ -17,7 +17,96 @@
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
+class S7_CanHitPointData {
+    Vector3 p2;
+
+    double AngleTo;
+    double PitchTo;
+
+    int lineBlockFlags;
+
+    // Stuff to be ignored when tracing.
+    Array<Actor> IgnoredActors;
+    /*Array<int> IgnoredLines;
+    Array<int> IgnoredSectors;*/
+}
+
+class S7_CanHitPointLineTracer : LineTracer {
+    S7_CanHitPointData data;
+
+    override ETraceStatus TraceCallback () {
+        /*if (Results.HitPos.X ~== data.p2.X && Results.HitPos.Y ~== data.p2.Y && Results.HitPos.Z ~== data.p2.Z)
+            return TRACE_Abort;*/
+
+        switch (Results.HitType) {
+            case TRACE_HitActor:
+                if (Results.HitActor && data.IgnoredActors.Find (Results.HitActor) != data.IgnoredActors.Size ())
+                    return TRACE_Skip;
+                if (Results.HitActor.bNoInteraction || Results.HitActor.bNoBlockmap || (!Results.HitActor.bSolid && !Results.HitActor.bShootable))
+                    return TRACE_Skip;
+            break;
+
+            case TRACE_HitFloor:
+            case TRACE_HitCeiling:
+                return TRACE_Stop;
+            break;
+
+            case TRACE_HitWall: {
+                if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower) return TRACE_Stop;
+
+                /*if (data.IgnoredLines.Find (Results.HitLine) != data.IgnoredLines.Size ()) {
+                    if ((Results.HitLine.flags & Line.ML_BLOCKING))
+                        return TRACE_Stop;
+                    else
+                        return TRACE_Skip;
+                }*/
+
+                if ((Results.HitLine.flags & (Line.ML_BLOCKEVERYTHING | Line.ML_BLOCKING)) != 0)
+                    return TRACE_Stop;
+                if (!(Results.HitLine.flags & Line.ML_TWOSIDED))
+                    return TRACE_Stop;
+                if (Results.HitLine.flags & data.lineBlockFlags)
+                    return TRACE_Stop;
+
+                return TRACE_Skip;
+            }
+            break;
+        }
+
+        return TRACE_Stop;
+    }
+}
+
 class S7_ActorExtensions : Actor {
+    const CHP_BlockFlags = Line.ML_BLOCKMONSTERS | Line.ML_BLOCK_PLAYERS | Line.ML_BLOCK_FLOATERS | Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKUSE | Line.ML_BLOCKSIGHT | Line.ML_BLOCKHITSCAN;
+    static bool CanHitPoint (Vector3 p1, Vector3 p2, S7_CanHitPointData data) {
+        if (!data)
+            data = new ("S7_CanHitPointData");
+
+        let diffVec = level.Vec3Diff (p1, p2);
+        double dist = diffVec.Length ();
+
+        [data.AngleTo, data.PitchTo] = S7_Math.GetAnglesTo (p1, p2);
+        data.lineBlockFlags &= CHP_BlockFlags;
+
+        let tracer = new ("S7_CanHitPointLineTracer");
+        tracer.data = data;
+
+        if (tracer.Trace (p1, Sector.PointInSector (p1.XY), diffVec.Unit (), dist, TRACE_PortalRestrict)) {
+            tracer.Destroy ();
+            return false;
+        }
+
+        bool hitActor = (tracer.Results.HitType == TRACE_HitActor && tracer.Results.HitActor);
+        if (hitActor && data.IgnoredActors.Find (tracer.Results.HitActor) == data.IgnoredActors.Size ()) {
+            tracer.Destroy ();
+            return false;
+        }
+
+        tracer.Destroy ();
+        return true;
+    }
+
     static State GetRaiseState (Actor act) {
         // Not a monster
         if (!act.bCorpse)

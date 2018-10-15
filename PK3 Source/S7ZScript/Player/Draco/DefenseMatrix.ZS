@@ -75,41 +75,28 @@ extend class S7_DracoPlayer {
             return false;
 
         double angCos = cos (angle), angSin = sin (angle);
-        let misPos = mo.pos + (0, 0, mo.height / 2);
-        let laserStartPos = pos + (xy_off * angCos, xy_off * angSin, 50);
+        let misPos = mo.Vec3Offset (0, 0, mo.height / 2);
+        let laserStartPos = Vec3Offset (xy_off * angCos, xy_off * angSin, 50);
 
-        Vector3 aimPos = S7_Math.CalculateInterceptShotPosition (laserStartPos, misPos, mo.vel, 350);
+        bool canIntercept;
+        Vector3 aimPos;
+        [canIntercept, aimPos] = S7_Math.CalculateInterceptShotPosition (laserStartPos, misPos, mo.vel, 350);
 
-        if (!(aimPos.x == aimPos.x && aimPos.y == aimPos.y && aimPos.z == aimPos.z))
+        if (!canIntercept)
             return false;
 
-        let marker = Spawn ("S7_DracoADMLaserMarker", aimPos);
-        if (marker) {
-            let oldTracer = tracer;
+        let chpData = new ("S7_CanHitPointData");
+        chpData.ignoredActors.Push (self);
+        chpData.ignoredActors.Push (mo);
+        chpData.lineBlockFlags = Line.ML_BLOCKPROJECTILE;
+        if (!S7_ActorExtensions.CanHitPoint (laserStartPos, misPos, chpData)) {
+            if (S7_ActorExtensions.CanHitPoint (laserStartPos, mo.pos, chpData))
+                aimPos = mo.pos;
+            else
+                return false;
+        }
 
-            marker.A_SetSize (mo.radius, mo.height, false);
-            tracer = marker;
-
-            if (!CheckLOF (CLOFF_FromBase, offsetheight: 50, offsetwidth: xy_off, ptr_target: AAPTR_Tracer)) {
-                marker.SetOrigin (mo.pos, false);
-
-                if (CheckLOF (CLOFF_FromBase, offsetheight: 50, offsetwidth: xy_off, ptr_target: AAPTR_Tracer))
-                    aimPos = mo.pos;
-                else {
-                    tracer = oldTracer;
-                    return false;
-                }
-            }
-
-            tracer = oldTracer;
-            marker.Destroy ();
-        } else
-            return false;
-
-        let aimDiff = level.Vec3Diff (laserStartPos, aimPos);
-        double fAngle = VectorAngle (aimDiff.x, aimDiff.y), fPitch = -VectorAngle (aimDiff.xy.Length (), aimDiff.z);
-
-        let laser = A_SpawnProjectile ("S7_DracoADMLaser", 50, xy_off, fAngle, CMF_AimDirection | CMF_AbsoluteAngle | CMF_AbsolutePitch, fPitch);
+        let laser = A_SpawnProjectile ("S7_DracoADMLaser", 50, xy_off, chpData.AngleTo, CMF_AimDirection | CMF_AbsoluteAngle | CMF_AbsolutePitch, chpData.PitchTo);
 
         if (laser)
             laser.tracer = mo;

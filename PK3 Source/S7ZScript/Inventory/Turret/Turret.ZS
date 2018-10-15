@@ -318,25 +318,6 @@ class S7_M400Autogun : S7_PlayerSummon {
         return double.infinity;
     }
 
-    Vector3 LeadTarget (Actor targ, double heightMod, double projSpeed) {
-        if (!target)
-            return (double.NaN, double.NaN, double.NaN);
-
-        Vector3 targPos = targ.pos;
-        targPos.z += targ.height * heightMod;
-        if (targ.vel.x != 0 || targ.vel.y != 0 || targ.vel.z != 0) { // If the target is moving, lead it.
-            Vector3 tempTargPos = S7_Math.CalculateInterceptShotPosition (pos, targPos, targ.vel, projSpeed);
-
-            if (!(targPos.x != targPos.x) && !(targPos.y != targPos.y) && !(targPos.z != targPos.z))
-                targPos = tempTargPos;
-        }
-
-        let marker = Spawn ("S7_PositionMarker", targPos);
-        A_Face (marker, 0, 0);
-        marker.Destroy ();
-        return targPos;
-    }
-
     void RemoveMarkers (bool destroy) {
         for (int i = 0; i < aimMarkers.Size (); i++) {
             if (aimMarkers [i]) {
@@ -381,7 +362,7 @@ class S7_M400Autogun : S7_PlayerSummon {
                 return ResolveState ("Idle");
             }
 
-            LeadTarget (target, heightMod, 240);
+            LeadTarget (target, 240, (0, 38.5), targHeightOff: heightMod, flags: S7_LTF_TargHeightMul);
 
             return ResolveState (null);
         }
@@ -391,7 +372,7 @@ class S7_M400Autogun : S7_PlayerSummon {
             if (heightMod == double.infinity)
                 heightMod = fRandom [monsterSpc] (0.25, 0.85);
 
-            LeadTarget (target, heightMod, 240);
+            LeadTarget (target, 240, (0, 38.5), targHeightOff: heightMod, flags: S7_LTF_TargHeightMul);
             A_SpawnProjectile ("S7_M400AutogunTracer", 38.5, 0.0, fRandom [monsterSpread] (-1., 1.), 0, fRandom [monsterSpread] (-1., 1.));
             ammo--;
 
