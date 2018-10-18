@@ -61,11 +61,17 @@ class S7_BaseTracer : S7_Projectile {
         +FORCEXYBILLBOARD
     }
 
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        vel = vel.Unit () * trueSpeed;
+    }
+
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            A_ScaleVelocity (1.0 / 25);
-            A_ScaleVelocity (abs (trueSpeed));
+            /*A_ScaleVelocity (1.0 / 25);
+            A_ScaleVelocity (abs (TrueSpeed));*/
             return ResolveState ("Idle");
         }
     }

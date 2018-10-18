@@ -162,33 +162,32 @@ class S7_PSICG_FireTester : S7_DistanceTestProjectile {
 // Main projectile
 //
 //-------------------------------------------------------------------------------------------
-class S7_IonCannonProjectile : S7_Projectile {
+class S7_IonCannonProjectile : S7_BaseTracer {
     double realDamage;
 
     default {
-        S7_Projectile.movementMode FastProjectile;
         S7_Projectile.fastProjCollision ColMode_Center | ColMode_Corners | ColMode_EdgeCenters;
+        S7_BaseTracer.TrueSpeed 35;
+
         Radius 20;
         Height 16;
         Speed 20;
-        RenderStyle "add";
         Scale 0.235;
         DamageFunction int (realDamage);
         DamageType "IonCannonMain";
         MissileType "S7_IonCannonProjectileTrail";
-        MissileHeight 8;
         Decal "S7_IonCannon";
 
-        +FORCEXYBILLBOARD +FORCERADIUSDMG +BLOODLESSIMPACT +NODAMAGETHRUST
+        +FORCERADIUSDMG +BLOODLESSIMPACT
+    }
+
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        realDamage = 280 + (fRandom [weaponDamage] (2.0, 5.0) * 80) + (fRandom [weaponDamage] (-3.0, 3.0) * 40);
     }
 
     states {
-    Spawn:
-        PICF A 0 noDelay {
-            A_ScaleVelocity (1.0 / 20);
-            A_ScaleVelocity (35);
-            realDamage = 280 + (fRandom [weaponDamage] (2.0, 5.0) * 80) + (fRandom [weaponDamage] (-3.0, 3.0) * 40);
-        }
     Idle:
         TNT1 A   0 A_JumpIf (realDamage < 75, "DieOut");
         PICF AAA 1 bright A_Explode (int (fRandom [weaponDamage] (1.0, 3.0) * 7), 96, 0, false, 96);
@@ -247,16 +246,15 @@ class S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
 // Rails
 //
 //-------------------------------------------------------------------------------------------
-class S7_IonCannonRail : S7_Projectile {
+class S7_IonCannonRail : S7_BaseTracer {
     double realDamage;
     int realDistTrav;
 
     default {
-        S7_Projectile.MovementMode FastProjectile;
+        S7_BaseTracer.TrueSpeed 125;
+
         Radius 4;
         Height 4;
-        Speed 25;
-        RenderStyle "add";
         Alpha 1.0;
         Scale 0.08;
         Decal "S7_IonCannonRail";
@@ -264,17 +262,17 @@ class S7_IonCannonRail : S7_Projectile {
         DamageType "IonCannonRail";
         MissileType "S7_IonCannonRailEffectSpawner";
 
-        +NODAMAGETHRUST  +FORCEXYBILLBOARD +RIPPER +FORCERADIUSDMG
-        +BLOODLESSIMPACT
+        +RIPPER +FORCERADIUSDMG +BLOODLESSIMPACT
+        -BLOODSPLATTER
+    }
+
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        realDistTrav = 0;
     }
 
     states {
-    Spawn:
-        PICF A 0 noDelay {
-            A_ScaleVelocity (1.0 / 25);
-            A_ScaleVelocity (125);
-            realDistTrav = 0;
-        }
     Idle:
         TNT1 A 0 A_JumpIf (realDistTrav > 4000, "DieOut");
         PICF A 1 bright {
@@ -319,13 +317,11 @@ class S7_IonCannonRailEffect : S7_TracerEffectsBase {
 }
 
 class S7_IonCannonRailAlt : S7_IonCannonRail {
+    default {
+        S7_BaseTracer.TrueSpeed 138;
+    }
+
     states {
-    Spawn:
-        PICF A 0 noDelay {
-            A_ScaleVelocity (1.0 / 25);
-            A_ScaleVelocity (138);
-            realDistTrav = 0;
-        }
     Idle:
         TNT1 A 0 A_JumpIf (realDistTrav > 4500, "DieOut");
         PICF A 1 bright {
