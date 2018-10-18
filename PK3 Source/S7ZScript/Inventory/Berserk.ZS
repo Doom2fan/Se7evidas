@@ -44,6 +44,12 @@ class S7_Berserk : Inventory {
 
         if (bsrkWeap)
             bsrkWeap.Use (false);
+        else {
+            bsrkWeap = owner.GiveInventoryType ("S7_BerserkWeap");
+
+            if (bsrkWeap)
+                bsrkWeap.Use (false);
+        }
 
         return false;
     }
@@ -55,14 +61,14 @@ class S7_Berserk : Inventory {
     }
 }
 
-class S7_BerserkToken : Powerup { default { powerup.duration -60; powerup.color "FF 20 20", 0.25; } }
-class S7_BerserkPower : PowerWeaponLevel2 { default { powerup.duration -60; powerup.color "00 00 00", 0.0; } }
+class S7_BerserkToken : Powerup { default { Powerup.Duration -60; Powerup.Color "FF 20 20", 0.25; } }
+class S7_BerserkPower : PowerWeaponLevel2 { default { Powerup.Duration -60; Powerup.Color "00 00 00", 0.0; } }
 
-class S7_BerserkWeap : S7_NullWeapon {
+class S7_BerserkWeap : S7_BaseWeapon {
     default {
         Tag "$BERSERKWEAP";
 
-        +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE
+        +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE +WEAPON.CHEATNOTWEAPON
     }
 
     override bool Use (bool pickup) {
