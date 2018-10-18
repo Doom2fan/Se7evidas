@@ -64,6 +64,22 @@ class S7_SSG : S7_BaseWeapon {
         Owner.SetInventory ("S7_SSGFauxClip", 0);
     }
 
+    action void S7_FireSSG (bool right) {
+        if (!right) {
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
+            for (int i = 0; i < 9; i++)
+                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
+            invoker.leftLoaded = false;
+        } else {
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
+            for (int i = 0; i < 9; i++)
+                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 5, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
+            invoker.rightLoaded = false;
+        }
+    }
+
     states {
     Spawn:
         SSGP A -1;
@@ -111,11 +127,7 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
             A_GunFlash ("Flash.Left");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
-            for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
-            invoker.leftLoaded = false;
+            S7_FireSSG (false);
 
             S7_Recoil (-2.175);
 
@@ -135,11 +147,7 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
             A_GunFlash ("Flash.Right");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
-            for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 3, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
-            invoker.rightLoaded = false;
+            S7_FireSSG (true);
 
             S7_Recoil (-2.175);
 
@@ -161,11 +169,7 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
             A_GunFlash ("Flash.Both");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
-            for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
-            invoker.leftLoaded = false;
+            S7_FireSSG (false);
 
             S7_Recoil (-1.0875);
 
@@ -175,11 +179,7 @@ class S7_SSG : S7_BaseWeapon {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
-            for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 3, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
-            invoker.rightLoaded = false;
+            S7_FireSSG (true);
 
             S7_Recoil (-5.4375); // 2.175 * 2.5
         }
@@ -193,11 +193,7 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
             A_GunFlash ("Flash.Right");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 2);
-            for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 3, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
-            invoker.rightLoaded = false;
+            S7_FireSSG (true);
 
             S7_Recoil (-2.175);
         }
@@ -210,11 +206,7 @@ class S7_SSG : S7_BaseWeapon {
             A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
             A_GunFlash ("Flash.Left");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
-            for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -1, 0, fRandom [weaponSpread] (-0.35, 0.35));
-            invoker.leftLoaded = false;
+            S7_FireSSG (false);
 
             S7_Recoil (-2.175);
 

@@ -46,6 +46,20 @@ class S7_Shotgun : S7_BaseWeapon {
 
     int loaded;
 
+    action void S7_FireShotgun (bool right) {
+        if (!right) {
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
+            for (int i = 0; i < 18; i++)
+                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
+        } else {
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
+            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
+            for (int i = 0; i < 18; i++)
+                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 6, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
+        }
+    }
+
     states {
     Spawn:
         DTUP A -1;
@@ -90,10 +104,8 @@ class S7_Shotgun : S7_BaseWeapon {
 
             invoker.loaded = 1;
             invoker.DepleteAmmo (false, true, 1);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3);
-            for (int i = 0; i < 18; i++)
-                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            S7_FireShotgun (false);
+
             S7_Recoil (-1.45);
 
             return ResolveState (null);
@@ -112,10 +124,7 @@ class S7_Shotgun : S7_BaseWeapon {
 
             invoker.loaded = 0;
             invoker.DepleteAmmo (false, true, 1);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
-            for (int i = 0; i < 18; i++)
-                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 4, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            S7_FireShotgun (true);
 
             S7_Recoil (-1.45);
         }
@@ -149,10 +158,7 @@ class S7_Shotgun : S7_BaseWeapon {
 
             invoker.loaded = 1;
             invoker.DepleteAmmo (false, true, 1);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 3);
-            for (int i = 0; i < 18; i++)
-                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            S7_FireShotgun (false);
 
             S7_Recoil (-0.725);
         }
@@ -162,10 +168,7 @@ class S7_Shotgun : S7_BaseWeapon {
 
             invoker.loaded = 0;
             invoker.DepleteAmmo (false, true, 1);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
-            for (int i = 0; i < 18; i++)
-                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 4, -1, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            S7_FireShotgun (true);
 
             S7_Recoil (-2.175);
         }
