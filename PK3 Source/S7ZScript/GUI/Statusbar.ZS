@@ -261,6 +261,13 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             DrawString (mFscreenHUDFont, FormatNumber (pPawn.InvSel.Amount), (37, -76), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
         }
 
+        // Level up indicator
+        if (pPawn.xpSys && pPawn.xpSys.attrPoints > 0) {
+            int attrPts = pPawn.xpSys.attrPoints;
+            string fmtStr = attrPts == 1 ? "%d attribute point available" : "%d attribute points available";
+            DrawString (mFScreenHUDFont, String.Format (fmtStr, attrPts), (111, -18), DI_TEXT_ALIGN_LEFT | DI_NOSHADOW, Font.CR_GREEN);
+        }
+
         // Enemy health bar
         bool enHPBarOn = CheckInventory ("S7_UpgradeEnemyHPBar", 1);
         if (enHPBarOn) {
