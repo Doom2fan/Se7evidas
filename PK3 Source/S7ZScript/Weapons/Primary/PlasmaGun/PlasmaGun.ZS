@@ -31,8 +31,6 @@ class S7_PlasmaGunMag : Ammo {
     }
 }
 
-class S7_PlasmaGun_AltfireLock : S7_Boolean { }
-
 class S7_PlasmaGun : S7_BaseWeapon {
     default {
         Tag "$PLASMAGUN";
@@ -61,6 +59,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
     int charge;
     int chargingLevel;
     bool semiAuto;
+    bool altfireLock;
 
     int GetChargeCost () {
         if (!Owner)
@@ -107,7 +106,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        TNT1 A 0 TakeInventory ("S7_PlasmaGun_AltfireLock", 0x7FFFFFFF);
+        TNT1 A 0 { invoker.altfireLock = false; }
         loop;
 
     Deselect:
@@ -166,6 +165,9 @@ class S7_PlasmaGun : S7_BaseWeapon {
     Reload:
         TNT1 A 0 {
             TakeInventory ("S7_Reloading", 1);
+
+            if (invoker.charge > 0)
+                return ResolveState ("Decharge");
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");
@@ -284,7 +286,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_StopSound (CHAN_Weapon);
             A_WeaponOffset (0, 32);
 
-            GiveInventory ("S7_PlasmaGun_AltfireLock", 1);
+            invoker.altfireLock = true;
             A_ClearRefire ();
 
             if (invoker.chargingLevel <= 0) {
@@ -309,7 +311,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_PlaySound ("Weapons/PlasmaGun/ChargeFinish");
             A_SetBlend ("10 6B DA", 0.25, 5);
 
-            GiveInventory ("S7_PlasmaGun_AltfireLock", 1);
+            invoker.altfireLock = true;
 
             int chargeCost = invoker.GetChargeCost ();
 
