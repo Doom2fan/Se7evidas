@@ -160,7 +160,7 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     Melee:
         FLSP FFAA 1 A_FaceTarget (45, 22.5);
-        FLSP B    2 A_CustomMeleeAttack (damage: random [monsterDMG] (1, 6) * 4, damagetype: "Melee");
+        FLSP B    2 A_CustomMeleeAttack (damage: random [monsterDMG] (1, 4), damagetype: "Melee");
         FLSP AFE  2;
         goto See;
 
