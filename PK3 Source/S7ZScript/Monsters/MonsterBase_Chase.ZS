@@ -1,6 +1,11 @@
 /*
  *  Se7evidas - A GZDoom mod
- *  Copyright (C) 2018 Chronos "phantombeta" Ouroboros
+ *  Copyright (C) 1993-1996 id Software
+ *  Copyright (C) 1994-1996 Raven Software
+ *  Copyright (C) 1998-1998 Chi Hoang, Lee Killough, Jim Flynn, Rand Phares, Ty Halderman
+ *  Copyright (C) 1999-2016 Randy Heit
+ *  Copyright (C) 2002-2016 Christoph Oelckers
+ *  Copyright (C) 2018      Chronos "phantombeta" Ouroboros
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
