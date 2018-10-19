@@ -2,9 +2,9 @@
  *  Se7evidas - A GZDoom mod
  *  Copyright (C) 2018 Chronos "phantombeta" Ouroboros
  *
- *  This program is free software; you can redistribute it and/or modify
+ *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
+ *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -12,9 +12,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /** Math extensions **/
@@ -24,7 +23,7 @@ class S7_Math : Actor {
     **  Calculates the future position of a moving target so that a projectile launched immediately can hit it.
     **  Taken from the GameDev.net article "Shooting at stuff" (https://www.gamedev.net/articles/programming/math-and-physics/shooting-at-stuff-r3884/)
     **  Modified for use in 3D in GZDoom by Chronos "phantombeta" Ouroboros.
-    **  Dual-licensed under the GPL2 and Zlib licenses - this function can be used under the terms of either license.
+    **  Dual-licensed under the GPL3 and Zlib licenses - this function can be used under the terms of either license.
     **
     ** Arguments:
     **  shooterPos: The shooter's position.
