@@ -1,5 +1,6 @@
 /*
  *  Se7evidas - A GZDoom mod
+ *  Copyright (C) ???? MatthewTheGlutton
  *  Copyright (C) 2018 Chronos "phantombeta" Ouroboros
  *
  *  This program is free software: you can redistribute it and/or modify
