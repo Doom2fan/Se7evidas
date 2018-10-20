@@ -28,9 +28,9 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     property UseCos: useCos;
 
     default {
-        Health 100;
-        Radius 20;
-        Height 20;
+        Health 75;
+        Radius 25;
+        Height 25;
         RenderStyle "add";
         DamageFactor "EmpressDeath", 1.0;
         DamageFactor "NerveGas", 0.0;
