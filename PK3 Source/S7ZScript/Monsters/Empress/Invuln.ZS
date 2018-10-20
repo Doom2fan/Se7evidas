@@ -21,7 +21,6 @@
 // Empress' invulnerability orbiter
 //
 //-------------------------------------------------------------------------------------------
-const S7_EmpressOrbiterWarpFlags = WARPF_NoCheckPosition | WARPF_Interpolate;
 class S7_EmpressInvulnOrbiterCW : Actor {
     double rotAmount;
     property RotAmount: rotAmount;
@@ -51,14 +50,54 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     int countdown;
     S7_Empress owner;
 
-    void OrbitMaster () {
-        for (int i = 0; i < 4; i++) {
-            A_SpawnItemEx ("S7_EmpressShieldSparkle", fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5),
-                fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.0, 1.0), 0, SXF_Clientside | SXF_NoCheckPosition);
-        }
-        A_SpawnItemEx ("S7_EmpressShieldFlare", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+    void OrbitMaster (bool initWarp = false) {
+        double zOffs = 50.0 + 40 * (useCos ? cos (40 + rotAngle) : sin (40 + rotAngle));
 
-        A_Warp (AAPTR_Master, 64.0, 0.0, 50.0 + 40 * (useCos ? cos (40 + rotAngle) : sin (40 + rotAngle)), rotAngle, S7_EmpressOrbiterWarpFlags);
+        if (!initWarp) {
+            for (int i = 0; i < 4; i++) {
+                let offs = (fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5));
+
+                let act = S7_EmpressShieldSparkle (Spawn ("S7_EmpressShieldSparkle", Vec3Offset (offs.X, offs.Y, offs.Z)));
+                if (act) {
+                    act.vel = (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.0, 1.0));
+                    act.target = owner;
+                    act.rotAngle = rotAngle;
+                    act.zOffs = zOffs;
+                    act.offs = offs;
+                }
+            }
+
+            let flare = S7_EmpressShieldFlare (Spawn ("S7_EmpressShieldFlare", pos));
+            if (flare) {
+                flare.target = owner;
+                flare.rotAngle = rotAngle;
+                flare.zOffs = zOffs;
+            }
+        }
+
+        int flags = WARPF_NoCheckPosition;
+
+        if (!initWarp)
+            flags |= WARPF_Interpolate;
+
+        Warp (master, xofs: 64.0, zofs: zOffs, angle: rotAngle, flags: flags);
+    }
+
+    override void PostBeginPlay () {
+        A_RearrangePointers (AAPTR_Master, AAPTR_Default, AAPTR_Master);
+
+        if (!master || master.health < 1 || !(master is "S7_Empress"))
+            Destroy ();
+
+        owner = S7_Empress (master);
+
+        rotAngle = 270;
+        countdown = 35 * 12;
+
+        owner.ballsCount++;
+
+        OrbitMaster (true);
+        ClearInterpolation ();
     }
 
     void WasDestroyed () {
@@ -75,22 +114,6 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay {
-            A_RearrangePointers (AAPTR_Master, AAPTR_Default, AAPTR_Master);
-
-            if (!master || master.health < 1 || !(master is "S7_Empress"))
-                Destroy ();
-
-            owner = S7_Empress (master);
-
-            rotAngle = 270;
-            countdown = 35 * 12;
-
-            owner.ballsCount++;
-        }
-        goto Idle;
-
-    Idle:
         HRSF A 1 bright {
             OrbitMaster ();
 

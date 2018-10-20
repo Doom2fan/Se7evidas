@@ -181,6 +181,10 @@ class S7_EmpressShieldSparkle : S7_EmpressSparkle {
         Scale 0.2;
     }
 
+    double rotAngle;
+    double zOffs;
+    Vector3 offs;
+
     states {
     Spawn:
         TNT1 A 0 noDelay {
@@ -188,7 +192,11 @@ class S7_EmpressShieldSparkle : S7_EmpressSparkle {
             return A_Jump (256, "SpawnA", "SpawnB", "SpawnC", "SpawnD", "SpawnE", "SpawnF", "SpawnG", "SpawnH");
         }
     ReallyFadeOutNow:
-        "----" A 1 bright A_FadeOut (0.15);
+        "----" A 1 bright {
+            offs += vel;
+            Warp (target, xofs: 64 + offs.X, yofs: offs.Y, zofs: zOffs + offs.Z, angle: rotAngle, flags: WARPF_NoCheckPosition | WARPF_Interpolate);
+            A_FadeOut (0.15);
+        }
         wait;
     }
 }
@@ -198,6 +206,16 @@ class S7_EmpressShieldFlare : S7_Empress_FXBase {
         Alpha 0.5;
 
         +FORCEXYBILLBOARD
+    }
+
+    double rotAngle;
+    double zOffs;
+
+    override void Tick () {
+        if (self)
+            Warp (target, xofs: 64, zofs: zOffs, angle: rotAngle, flags: WARPF_NoCheckPosition | WARPF_Interpolate);
+
+        Super.Tick ();
     }
 
     states {
