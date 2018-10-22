@@ -380,16 +380,18 @@ class S7_ShopMenu_EventHandler : EventHandler {
 
         if ((strings [1] == "Buy" || strings [1] == "Sell")) {
             let serverData = S7_ServerData.Get ();
-            if (!serverData || !serverData.shopData || !serverData.shopData.mainShop)
+            if (!serverData || !serverData.S7Data.shopData)
                 return;
+
+            let shopData = serverData.S7Data.shopData;
 
             int amount = e.Args [1];
             double mod = 0.0;
             S7_SSItem item = NULL;
 
-            for (int i = 0; i < serverData.shopData.allItems.Size (); i++) {
-                if (serverData.shopData.allItems [i].id == e.Args [0]) {
-                    item = serverData.shopData.allItems [i];
+            for (int i = 0; i < shopData.allItems.Size (); i++) {
+                if (shopData.allItems [i].id == e.Args [0]) {
+                    item = shopData.allItems [i];
                     break;
                 }
             }
@@ -417,9 +419,9 @@ class S7_LuciusShopMenu : S7_ShopMenu {
     override S7_SSShop GetShop () {
         let serverData = S7_ServerData.GetSpecial ();
 
-        if (!serverData || !serverData.shopData || !serverData.shopData.mainShop)
+        if (!serverData || !serverData.S7Data || !serverData.S7Data.shopData)
             return NULL;
 
-        return serverData.shopData.mainShop;
+        return S7_SSShop (serverData.S7Data.shopData.shops.Get ("mainShop"));
     }
 }

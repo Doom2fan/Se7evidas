@@ -16,27 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class S7_ShopData {
-    Array<S7_SSItem> allItems;
+class S7_S7Data_Map {
+    string hash;
+    S7_S7Data_MapData data;
 }
 
-class S7_ShopDataEventHandler : EventHandler {
-    override void WorldLoaded (WorldEvent e) {
-        let serverData = S7_ServerData.Get ();
-        
-        Populate (serverData);
-    }
+class S7_S7Data_MapData {
+    float corruption;
+}
 
-    override void WorldTick () {
-        let serverData = S7_ServerData.Get ();
-        
-        Populate (serverData);
-    }
+class S7_ShopData {
+    Array<S7_SSItem> allItems;
+    S7_Hashmap_StrObj shops;
+}
 
-    void Populate (S7_ServerData serverData) {
-        if (!serverData.shopData) {
-            serverData.shopData = new ("S7_ShopData");
-            mainShop_Populate (serverData);
-        }
+class S7_S7Data {
+    Array<S7_S7Data_Map> mapData;
+    S7_ShopData shopData;
+
+    static S7_S7Data Create () {
+        let ret = new ("S7_S7Data");
+
+        ret.shopData = new ("S7_ShopData");
+        ret.shopData.shops = S7_Hashmap_StrObj.Create ();
+
+        return ret;
     }
 }

@@ -96,47 +96,25 @@ class S7_SSItem {
     S7_SSItemInfo info;
     SS_DescShowType descShowType;
 
-    protected static void AssignData (S7_SSItem item, int id, string name, string desc, string info, string icon, string inventoryName, SS_ItemType itemType,
-        S7_SSPage link, string cashItem, int maxAmount, int buyPrice, int buyAmount, int sellPrice, int sellAmount, SS_DescShowType descShowType
-    ) {
-        if (!item)
-            ThrowAbortException ("Called AssignData with a null item");
-
-        item.id              = id;
-        item.name            = name;
-        item.description     = desc;
-        item.infoText        = info;
-        item.icon            = icon;
-        item.inventoryName   = inventoryName;
-        item.itemType        = itemType;
-        item.link            = link;
-        item.cashItem        = cashItem;
-        item.info            = new ("S7_SSItemInfo");
-        item.info.maxAmount  = maxAmount;
-        item.info.buyPrice   = buyPrice;
-        item.info.buyAmount  = buyAmount;
-        item.info.sellPrice  = sellPrice;
-        item.info.sellAmount = sellAmount;
-        item.descShowType    = descShowType;
+    virtual void Init () {
+        self.name       = "";
+        description     = "";
+        infoText        = "";
+        icon            = "";
+        inventoryName   = "";
+        itemType        = 0;
+        link            = NULL;
+        cashItem        = "S7_Cash";
+        info            = new ("S7_SSItemInfo");
+        info.maxAmount  = -1;
+        info.buyPrice   = 0;
+        info.buyAmount  = 1;
+        info.sellPrice  = 0;
+        info.sellAmount = 1;
+        descShowType    = DS_Both;
     }
 
-    static S7_SSItem Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
-        SS_DescShowType descShowType = DS_Both
-    ) {
-        S7_SSItem ret = new ("S7_SSItem");
-
-        AssignData (ret, id,
-            name, desc, info, icon,
-            inventoryName, itemType, link,
-            cashItem, maxAmount,
-            buyPrice, buyAmount,
-            sellPrice, sellAmount,
-            descShowType
-        );
-
-        return ret;
-    }
+    virtual void PostProcess () { }
 
     virtual int GetAmount (S7_BasePlayer player) {
         return player.CountInv (inventoryName);
@@ -247,14 +225,14 @@ class S7_SSItem {
         let serverData = S7_ServerData.Get ();
         if (!serverData)
             return false;
-        if (!serverData.shopData)
-            serverData.shopData = new ("S7_ShopData");
+        if (!serverData.S7Data.shopData)
+            serverData.S7Data.shopData = new ("S7_ShopData");
 
         uint idx = page.items.Push (self);
         if (idx < 0)
             return false;
 
-        if (serverData.shopData.allItems.Push (self) < 0) {
+        if (serverData.S7Data.shopData.allItems.Push (self) < 0) {
             page.items.Delete (idx, 1);
             return false;
         }
@@ -264,24 +242,6 @@ class S7_SSItem {
 }
 
 class S7_SSItem_Armor : S7_SSItem {
-    static S7_SSItem_Armor Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
-        SS_DescShowType descShowType = DS_Both
-    ) {
-        S7_SSItem_Armor ret = new ("S7_SSItem_Armor");
-
-        AssignData (ret, id,
-            name, desc, info, icon,
-            inventoryName, itemType, link,
-            cashItem, maxAmount,
-            buyPrice, buyAmount,
-            sellPrice, sellAmount,
-            descShowType
-        );
-
-        return ret;
-    }
-
     override bool CanBuy (S7_BasePlayer player, int amount) {
         let basicArmor = S7_BasicArmor (player.FindInventory ("S7_BasicArmor"));
 
@@ -295,12 +255,7 @@ class S7_SSItem_Armor : S7_SSItem {
 class S7_SSItem_Upgrade : S7_SSItem {
     Array<string> requiredUpgrades;
 
-    static S7_SSItem_Upgrade Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
-        SS_DescShowType descShowType = DS_Both
-    ) {
-        S7_SSItem_Upgrade ret = new ("S7_SSItem_Upgrade");
-
+    override void PostProcess () {
         Array<string> strings;
         inventoryName.Split (strings, ";");
 
@@ -309,18 +264,7 @@ class S7_SSItem_Upgrade : S7_SSItem {
         if (strings.Size () > 0)
             strings.Delete (0, 1);
 
-        ret.requiredUpgrades.Copy (strings);
-
-        AssignData (ret, id,
-            name, desc, info, icon,
-            inventoryName, itemType, link,
-            cashItem, maxAmount,
-            buyPrice, buyAmount,
-            sellPrice, sellAmount,
-            descShowType
-        );
-
-        return ret;
+        requiredUpgrades.Copy (strings);
     }
 
     override bool CanBuy (S7_BasePlayer player, int amount) {
@@ -348,24 +292,6 @@ class S7_SSItem_Upgrade : S7_SSItem {
 
 class S7_SSItem_ThumperGrenade : S7_SSItem {
     const UnifiedPoolName = "S7_Thumper_PUnified";
-
-    static S7_SSItem_ThumperGrenade Create (int id, string name = "", string desc = "", string info = "", string icon = "", string inventoryName = "", SS_ItemType itemType = 0,
-        S7_SSPage link = NULL, string cashItem = "S7_Cash", int maxAmount = -1, int buyPrice = 0, int buyAmount = 0, int sellPrice = 0, int sellAmount = 0,
-        SS_DescShowType descShowType = DS_Both
-    ) {
-        S7_SSItem_ThumperGrenade ret = new ("S7_SSItem_ThumperGrenade");
-
-        AssignData (ret, id,
-            name, desc, info, icon,
-            inventoryName, itemType, link,
-            cashItem, maxAmount,
-            buyPrice, buyAmount,
-            sellPrice, sellAmount,
-            descShowType
-        );
-
-        return ret;
-    }
 
     override S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
         let ret = self.info.Copy ();

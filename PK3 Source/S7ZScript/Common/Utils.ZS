@@ -37,4 +37,11 @@ struct S7_Utils {
 
         return (a.CharCodeAt (0) << 24 | b.CharCodeAt (0) << 16 | c.CharCodeAt (0) << 8 | d.CharCodeAt (0));
     }
+
+    static int MakeUIDStr (string val) {
+        if (val.Length () != 4)
+            return 0;
+
+        return (val.CharCodeAt (0) << 24 | val.CharCodeAt (1) << 16 | val.CharCodeAt (2) << 8 | val.CharCodeAt (3));
+    }
 }

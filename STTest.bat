@@ -22,8 +22,6 @@ SET PROG_PROG=""
 SET PROG_ARGS=""
 SET customArgs=""
 
-MAKE all
-
 if %ERRORLEVEL% NEQ 0 (
     GOTO :Finish
 )

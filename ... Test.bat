@@ -11,13 +11,10 @@ if "%S7PROG_QZDOOM%" == "" (
 SET PROG_PROG=""
 SET PROG_ARGS=""
 
-MAKE --file=Makefile.Windows all
-
 if %ERRORLEVEL% NEQ 0 (
     GOTO :Finish
 )
 
-ECHO.
 ECHO 1 - GZDoom
 ECHO 2 - QZDoom
 ECHO 0 - Exit

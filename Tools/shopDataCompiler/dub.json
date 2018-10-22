@@ -1,9 +1,0 @@
-{
-	"name": "shopdatacompiler",
-	"description": "Converts JSON shop definitions into ZScript code.",
-	"copyright": "Copyright © 2017, Chronos Ouroboros",
-	"authors": ["Chronos Ouroboros"],
-    "license": "GPL-2.0",
-	"dependencies": {
-	}
-}

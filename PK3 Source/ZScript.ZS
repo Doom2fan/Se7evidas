@@ -66,6 +66,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/TZKsUtils/TZK_Include.ZS"
 #include "S7ZScript/Constants.ZS"
 #include "S7ZScript/Defaults.ZS"
+#include "S7ZScript/Common/Hashmaps.ZS"
 #include "S7ZScript/Common/ErrorHandling.ZS"
 #include "S7ZScript/Common/Extensions.ZS"
 #include "S7ZScript/Common/MathExtensions.ZS"
@@ -73,11 +74,13 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Common/Utils.ZS"
 #include "S7ZScript/Common/ServerData.ZS"
 #include "S7ZScript/Common/CommonTokens.ZS"
+#include "S7ZScript/Common/S7Data.ZS"
 #include "S7ZScript/EventHandlers.ZS"
 #include "S7ZScript/Weapons/WeapData.ZS"
 #include "S7ZScript/MD5.ZS"
 
 // Bases
+#include "S7ZScript/Bases/Base Parser.ZS"
 #include "S7ZScript/Bases/Base Actors.ZS"
 #include "S7ZScript/Bases/Base Weapon.ZS"
 #include "S7ZScript/Bases/Bullets.ZS"
@@ -94,8 +97,6 @@ class S7_IsLoaded : Actor {
 
 // RPG Systems
 #include "S7ZScript/RPG Systems/Shop System.ZS"
-#include "S7ZScript/RPG Systems/ShopData.ZS"
-#include "S7ZScript/RPG Systems/ShopData/Lucius.ZS"
 #include "S7ZScript/RPG Systems/XP System.ZS"
 #include "S7ZScript/RPG Systems/Upgrades.ZS"
 
@@ -221,3 +222,11 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Weapons/Special/HellBlade/Common.ZS"
 // Throwables
 #include "S7ZScript/Weapons/Throwables/Grenade/Grenade.ZS"
+
+// Parsers
+#include "S7ZScript/Parsers/S7DATA/S7DATAParser.ZS"
+#include "S7ZScript/Parsers/S7DATA/MapData.ZS"
+#include "S7ZScript/Parsers/S7DATA/ShopData.ZS"
+#include "S7ZScript/Parsers/S7DATA/ShopData/Pages.ZS"
+#include "S7ZScript/Parsers/S7DATA/ShopData/Items.ZS"
+#include "S7ZScript/Parsers/S7DATA/ShopData/PostProcessing.ZS"

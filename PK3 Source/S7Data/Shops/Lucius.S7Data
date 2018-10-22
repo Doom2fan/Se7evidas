@@ -1,0 +1,830 @@
+shop "mainShop" {
+    name     = "$SS_MAINSHOP";
+    mainPage = "mainPage";
+
+    cashLabelFormat = "$SS_CASHFORMAT";
+    cashTypeShown   = "S7_Cash";
+    defCashItem     = "S7_Cash";
+
+    pages {
+        page "mainPage" {
+            name = "";
+
+            items {
+                pageLink "CONS" {
+                    name = "$SS_CONSUMABLES";
+                    desc = "$SS_CONSUMABLES_DESC";
+                    icon = ""; // No icon yet
+                    link = "consumablesPage";
+                },
+
+                pageLink "AMMO" {
+                    name = "$SS_AMMO";
+                    desc = "$SS_AMMO_DESC";
+                    icon = "graphics/Menu/Shop/Icons/AmmoPage.png";
+                    link = "ammoPage";
+                },
+
+                pageLink "WEAP" {
+                    name = "$SS_WEAPONS";
+                    desc = "$SS_WEAPONS_DESC";
+                    icon = "graphics/Menu/Shop/Icons/WeapsPage.png";
+                    link = "weaponsPage";
+                },
+
+                pageLink "LOOT" {
+                    name = "$SS_LOOT";
+                    desc = "$SS_LOOT_DESC";
+                    icon = "graphics/Menu/Shop/Icons/LootPage.png";
+                    link = "lootPage";
+                },
+
+                pageLink "UPGR" {
+                    name = "$SS_UPGRADES";
+                    desc = "$SS_UPGRADES_DESC";
+                    icon = "graphics/Menu/Shop/Icons/UpgradesPage.png";
+                    link = "upgradesPage";
+                },
+            }
+        },
+
+        /** Consumables section **/
+        page "consumablesPage" {
+            name = "$SS_CONSUMABLES";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+                pageLink "HLTH" {
+                    name = "$SS_HEALTH";
+                    desc = "$SS_HEALTH_DESC";
+                    icon = "graphics/Menu/Shop/Icons/HealthPage.png";
+                    link = "healthPage";
+                },
+                pageLink "ARMR" {
+                    name = "$SS_ARMOR";
+                    desc = "$SS_ARMOR_DESC";
+                    icon = "sprites/Inventory/Armor/ARCAA0.png";
+                    link = "armorPage";
+                }
+            }
+        },
+
+        page "healthPage" {
+            name = "$SS_HEALTH";
+            backPage = "consumablesPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "consumablesPage";
+                },
+                buySellItem "MKIT" {
+                    name = "$MEDIKIT";
+                    desc = "$SS_MEDIKIT_DESC";
+                    info = "$SS_MEDIKIT_INFO";
+                    icon = "sprites/Inventory/Health/MKITA0.png";
+                    inventoryName = "S7_Medikit";
+                    buyPrice = 700;
+                    sellPrice = 350;
+                },
+                buySellItem "STIM" {
+                    name = "$STIMPACK";
+                    desc = "$SS_STIMPACK_DESC";
+                    info = "$SS_STIMPACK_INFO";
+                    icon = "sprites/Inventory/Health/SPAKA0.png";
+                    inventoryName = "S7_Stimpack";
+                    buyPrice = 400;
+                    sellPrice = 200;
+                },
+            }
+        },
+
+        page "armorPage" {
+            name = "$SS_ARMOR";
+            backPage = "consumablesPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "consumablesPage";
+                },
+                buyItem "ASV1" : "S7_SSItem_Armor" {
+                    name = "$SECVEST_CC";
+                    desc = "$SS_SECVEST_CC_DESC";
+                    info = "$SS_SECVEST_CC_INFO";
+                    icon = "sprites/Inventory/Armor/ARSVA0.png";
+
+                    inventoryName = "S7_CCSecVest";
+                    buyPrice = 1500;
+                },
+                buyItem "ASV2" : "S7_SSItem_Armor" {
+                    name = "$SECVEST_SBTK";
+                    desc = "$SS_SECVEST_SBTK_DESC";
+                    info = "$SS_SECVEST_SBTK_INFO";
+                    icon = "sprites/Inventory/Armor/ARSVB0.png";
+
+                    inventoryName = "S7_SBTKSecVest";
+                    buyPrice = 1800;
+                },
+                buyItem "ACA1" : "S7_SSItem_Armor" {
+                    name = "$CBTARMR_CC";
+                    desc = "$SS_CBTARMR_CC_DESC";
+                    info = "$SS_CBTARMR_CC_INFO";
+                    icon = "sprites/Inventory/Armor/ARCAA0.png";
+
+                    inventoryName = "S7_CCCombatArmor";
+                    buyPrice = 2500;
+                },
+                buyItem "ACA2" : "S7_SSItem_Armor" {
+                    name = "$CBTARMR_SBTK";
+                    desc = "$SS_CBTARMR_SBTK_DESC";
+                    info = "$SS_CBTARMR_SBTK_INFO";
+                    icon = "sprites/Inventory/Armor/ARCAB0.png";
+
+                    inventoryName = "S7_SBTKCombatArmor";
+                    buyPrice = 3000;
+                }
+            }
+        },
+
+        /** Ammo section **/
+        page "ammoPage" {
+            name = "$SS_AMMO";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+                pageLink "ABLT" {
+                    name = "$SS_BULLETS";
+                    desc = "$SS_BULLETS_DESC";
+                    icon = "graphics/Menu/Shop/Icons/BulletsPage.png";
+                    link = "cartridgesPage";
+                },
+                pageLink "ABTR" {
+                    name = "$SS_BATTERIES";
+                    desc = "$SS_BATTERIES_DESC";
+                    icon = "sprites/Inventory/Ammo/CELLA0.png";
+                    link = "batteriesPage";
+                },
+                pageLink "ATHG" {
+                    name = "$SS_THGRENADES";
+                    desc = "$SS_THGRENADES_DESC";
+                    icon = "graphics/Menu/Shop/Icons/ThmpGrenPage.png";
+                    link = "thumperGrenadesPage";
+                }
+            }
+        },
+
+        page "cartridgesPage" {
+            name = "$SS_BULLETS";
+            backPage = "ammoPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "ammoPage";
+                },
+                buySellItem "A9MM" {
+                    name = "$9MM";
+                    desc = "$SS_9MMDESC";
+                    info = "$SS_9MMINFO";
+                    icon = "graphics/Menu/Shop/Icons/9mmCartridges.png";
+
+                    inventoryName = "S7_9mmCartridges";
+                    buyPrice = 240;
+                    buyAmount = 30;
+                    sellPrice = 4;
+                },
+                buySellItem "AACP" {
+                    name = "$45ACP";
+                    desc = "$SS_45ACPDESC";
+                    info = "$SS_45ACPINFO";
+                    icon = "sprites/Inventory/Ammo/CLIPC0.png";
+
+                    inventoryName = "S7_45ACPCartridges";
+                    buyPrice = 386;
+                    buyAmount = 62;
+                    sellPrice = 3;
+                },
+                buySellItem "A44M" {
+                    name = "$44M";
+                    desc = "$SS_44MDESC";
+                    info = "$SS_44MINFO";
+                    icon = "graphics/Menu/Shop/Icons/44MCartridges.png";
+
+                    inventoryName = "S7_44MCartridges";
+                    buyPrice = 150;
+                    buyAmount = 6;
+                    sellPrice = 12;
+                },
+                buySellItem "A762" {
+                    name = "$762X39";
+                    desc = "$SS_762X39DESC";
+                    info = "$SS_762X39INFO";
+                    icon = "graphics/Menu/Shop/Icons/762x39Cartridges.png";
+
+                    inventoryName = "S7_762x39Cartridges";
+                    buyPrice = 613;
+                    buyAmount = 35;
+                    sellPrice = 9;
+                },
+                buySellItem "A45W" {
+                    name = "$45WW";
+                    desc = "$SS_45WWDESC";
+                    info = "$SS_45WWINFO";
+                    icon = "graphics/Menu/Shop/Icons/45WWCartridges.png";
+
+                    inventoryName = "S7_45WWCartridges";
+                    buyPrice = 225;
+                    buyAmount = 15;
+                    sellPrice = 15;
+                },
+                buySellItem "A20g" {
+                    name = "$SS_20GA";
+                    desc = "$SS_20GADESC";
+                    info = "$SS_20GAINFO";
+                    icon = "sprites/Inventory/Ammo/SHELA0.png";
+
+                    inventoryName = "S7_20gaShells";
+                    buyPrice = 200;
+                    buyAmount = 10;
+                    sellPrice = 10;
+                }
+            }
+        },
+
+        page "batteriesPage" {
+            name = "$SS_BATTERIES";
+            backPage = "ammoPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "ammoPage";
+                },
+                buySellItem "ACEL" {
+                    name = "$CELLS";
+                    desc = "$SS_CELLSDESC";
+                    info = "$SS_CELLSINFO";
+                    icon = "sprites/Inventory/Ammo/CELLA0.png";
+
+                    inventoryName = "S7_Cells";
+                    buyPrice = 800;
+                    buyAmount = 36;
+                    sellPrice = 450;
+                    sellAmount = 18;
+                },
+                buySellItem "AFBC" {
+                    name = "$FBSYSCELLS";
+                    desc = "$SS_FBSYSCELLSDESC";
+                    info = "$SS_FBSYSCELLSINFO";
+                    icon = "sprites/Inventory/Ammo/CELLC0.png";
+
+                    inventoryName = "S7_FBSysCells";
+                    buyPrice = 850;
+                    buyAmount = 23;
+                    sellPrice = 500;
+                    sellAmount = 23;
+                }
+            }
+        },
+
+        page "thumperGrenadesPage" {
+            name = "$SS_THGRENADES";
+            backPage = "ammoPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "ammoPage";
+                },
+                buySellItem "THP1" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_EXPL";
+                    desc = "$SS_THUMPERGREN_EXPLDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/Explosive.png";
+
+                    inventoryName = "S7_Thumper_PExp";
+                    buyPrice = 35;
+                    sellPrice = 17;
+                },
+                buySellItem "THP2" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_FRAG";
+                    desc = "$SS_THUMPERGREN_FRAGDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/Fragmentation.png";
+
+                    inventoryName = "S7_Thumper_PFrag";
+                    buyPrice = 42;
+                    sellPrice = 21;
+                },
+                buySellItem "THP3" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_THRM";
+                    desc = "$SS_THUMPERGREN_THRMDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/Incendiary.png";
+
+                    inventoryName = "S7_Thumper_PTherm";
+                    buyPrice = 45;
+                    sellPrice = 22;
+                },
+                buySellItem "THP4" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_FLRE";
+                    desc = "$SS_THUMPERGREN_FLREDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/Flare.png";
+
+                    inventoryName = "S7_Thumper_PFlare";
+                    buyPrice = 20;
+                    sellPrice = 10;
+                },
+                buySellItem "THP5" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_CLST";
+                    desc = "$SS_THUMPERGREN_CLSTDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/Clusterbomb.png";
+
+                    inventoryName = "S7_Thumper_PCluster";
+                    buyPrice = 45;
+                    sellPrice = 22;
+                },
+                buySellItem "THP6" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_NAIL";
+                    desc = "$SS_THUMPERGREN_NAILDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/Nailbomb.png";
+
+                    inventoryName = "S7_Thumper_PNail";
+                    buyPrice = 45;
+                    sellPrice = 22;
+                },
+                buySellItem "THP7" : "S7_SSItem_ThumperGrenade" {
+                    name = "$SS_THUMPERGREN_NGAS";
+                    desc = "$SS_THUMPERGREN_NGASDESC";
+                    icon = "graphics/Menu/Shop/Icons/ThumperGrenades/NerveGas.png";
+
+                    inventoryName = "S7_Thumper_PNGas";
+                    buyPrice = 500;
+                    sellPrice = 250;
+                }
+            }
+        },
+
+        /** Weapons section **/
+        page "weaponsPage" {
+            name = "$SS_WEAPONS";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+                pageLink "SMGS" {
+                    name = "$SS_PG_SMGS";
+                    link = "wpPage_SMGs";
+                },
+                pageLink "ARFL" {
+                    name = "$SS_PG_RIFLES";
+                    link = "wpPage_Rifles";
+                },
+                pageLink "SHGN" {
+                    name = "$SS_PG_SHOTGUNS";
+                    link = "wpPage_Shotguns";
+                },
+                pageLink "SRFL" {
+                    name = "$SS_PG_SNIPERS";
+                    link = "wpPage_Snipers";
+                },
+                pageLink "AOEW" {
+                    name = "$SS_PG_AOE";
+                    link = "wpPage_AOE";
+                },
+                pageLink "EXPL" {
+                    name = "$SS_PG_EXPL";
+                    link = "wpPage_Explosives";
+                }
+            }
+        },
+
+        page "wpPage_SMGs" {
+            name = "$SS_PG_SMGS";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "HTTR" {
+                    name = "$SHORTHITTERSMG";
+                    desc = "$SS_HITTERSMGDESC";
+                    info = "$SS_HITTERSMGINFO";
+                    icon = "sprites/Weapons/Primary/HitterSMG/SR20Z0.png";
+
+                    inventoryName = "S7_HitterSMG";
+                    buyPrice = 2500;
+                    sellPrice = 1875;
+                },
+                buySellItem "LPEW" {
+                    name = "$SHORTBUTTFLY";
+                    desc = "$SS_LSR_PEW_PEWDESC";
+                    info = "$SS_LSR_PEW_PEWINFO";
+                    icon = "sprites/Weapons/Primary/LaserPewPew/BLSPA0.png";
+
+                    inventoryName = "S7_LaserPewPew";
+                    buyPrice = 5000;
+                    sellPrice = 3750;
+                }
+            }
+        },
+
+        page "wpPage_Rifles" {
+            name = "$SS_PG_RIFLES";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "MANX" {
+                    name = "$SHORTMANXCARBINE";
+                    desc = "$SS_MANXDESC";
+                    info = "$SS_MANXINFO";
+                    icon = "sprites/Weapons/Primary/ManxCarbine/MANXZ0.png";
+
+                    inventoryName = "S7_ManxCarbine";
+                    buyPrice = 6500;
+                    sellPrice = 4875;
+                },
+                buySellItem "MARS" {
+                    name = "$SHORTAMG";
+                    desc = "$SS_AMGDESC";
+                    info = "$SS_AMGINFO";
+                    icon = "sprites/Weapons/Primary/AMG/AMGGZ0.png";
+
+                    inventoryName = "S7_AMG";
+                    buyPrice = 11000;
+                    sellPrice = 8250;
+                },
+                buySellItem "FCHD" {
+                    name = "$SHORTFAUCHARD";
+                    desc = "$SS_FAUCHARDDESC";
+                    info = "$SS_FAUCHARDINFO";
+                    icon = "sprites/Weapons/Primary/Fauchard/LRFPA0.png";
+
+                    inventoryName = "S7_Fauchard";
+                    buyPrice = 16500;
+                    sellPrice = 12375;
+                }
+            }
+        },
+
+        page "wpPage_Shotguns" {
+            name = "$SS_PG_SHOTGUNS";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "LDSG" {
+                    name = "$SHORTSHOTGUN";
+                    desc = "$SS_SHOTGUNDESC";
+                    info = "$SS_SHOTGUNINFO";
+                    icon = "sprites/Weapons/Primary/Shotgun/DTUPA0.png";
+
+                    inventoryName = "S7_Shotgun";
+                    buyPrice = 8000;
+                    sellPrice = 6000;
+                }
+            }
+        },
+
+        page "wpPage_Snipers" {
+            name = "$SS_PG_SNIPERS";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "CNQR" {
+                    name = "$SHORTCONQUERORSRIFLE";
+                    desc = "$SS_CONQUERORDESC";
+                    info = "$SS_CONQUERORINFO";
+                    icon = "sprites/Weapons/Primary/ConquerorRifle/CQRPA0.png";
+
+                    inventoryName = "S7_ConquerorRifle";
+                    buyPrice = 30000;
+                    sellPrice = 22500;
+                }
+            }
+        },
+
+        page "wpPage_AOE" {
+            name = "$SS_PG_AOE";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "THMP" {
+                    name = "$SHORTTHUMPER";
+                    desc = "$SS_THUMPERDESC";
+                    info = "$SS_THUMPERINFO";
+                    icon = "sprites/Weapons/Primary/Thumper/THMPU0.png";
+
+                    inventoryName = "S7_Thumper";
+                    buyPrice = 15000;
+                    sellPrice = 11250;
+                }
+            }
+        },
+
+        page "wpPage_Explosives" {
+            name = "$SS_PG_EXPL";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "HGRN" {
+                    name = "$SS_HANDGRENADES";
+                    desc = "$SS_HANDGRENADEDESC";
+                    info = "$SS_HANDGRENADEINFO";
+                    icon = "sprites/Weapons/Throwables/Grenade/TGRNZ0.png";
+
+                    inventoryName = "S7_GrenadeCount";
+                    buyPrice = 200;
+                    sellPrice = 100;
+                }
+            }
+        },
+
+        // Loot
+        page "lootPage" {
+            name = "$SS_LOOT";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+
+                pageLink "WEAP" {
+                    name = "$SS_LOOT_WEAPSNAMMO";
+                    link = "loot_Weapons";
+                },
+
+                pageLink "ARTF" {
+                    name = "$SS_LOOT_ARTIFACTS";
+                    link = "loot_Artifacts";
+                },
+
+                pageLink "TRSR" {
+                    name = "$SS_LOOT_TREASURE";
+                    link = "loot_Treasure";
+                }
+            }
+        },
+
+        page "loot_Weapons" {
+            name = "$SS_LOOT_WEAPSNAMMO";
+            backPage = "lootPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "lootPage";
+                },
+
+                sellItem "SCSG" {
+                    name = "$SS_SCORPS_SG";
+                    desc = "$SS_SCORPS_SG_DESC";
+                    info = "$SS_SCORPS_SG_INFO";
+                    icon = "sprites/Inventory/Loot/LOT1A0.png";
+                    inventoryName = "S7_Loot_ScorpsHunterSG";
+                    sellPrice = 200;
+                },
+                sellItem "12GA" {
+                    name = "$SS_12GA";
+                    desc = "$SS_12GADESC";
+                    icon = "sprites/Inventory/Ammo/SHELD0.png";
+                    inventoryName = "S7_12gaShells";
+                    sellPrice = 3;
+                },
+                sellItem "LSSG" {
+                    name = "$SHORTSSG";
+                    desc = "$SS_SSGDESC";
+                    info = "$SS_SSGINFO";
+                    icon = "sprites/Weapons/Primary/SSG/SSGPA0.png";
+                    inventoryName = "S7_SSG";
+                    sellPrice = 3500;
+                },
+                sellItem "AK47" {
+                    name = "$SHORTAK47";
+                    desc = "$SS_AK47DESC";
+                    info = "$SS_AK47INFO";
+                    icon = "sprites/Weapons/Primary/AK47/AK4PA0.png";
+                    inventoryName = "S7_AK47";
+                    sellPrice = 6500;
+                }
+            }
+        },
+
+        page "loot_Artifacts" {
+            name = "$SS_LOOT_ARTIFACTS";
+            backPage = "lootPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "lootPage";
+                },
+
+                sellItem "LT01" {
+                    name = "$LOOT_SKULLSCEPTRE";
+                    desc = "$SS_LOOT_SKULLSCEPTRE_DESC";
+                    info = "$SS_LOOT_SKULLSCEPTRE_INFO";
+                    icon = "sprites/Inventory/Loot/LOT1B0.png";
+                    inventoryName = "S7_Loot_SkullSceptre";
+                    sellPrice = 400;
+                },
+
+                sellItem "LT02" {
+                    name = "$LOOT_SACRIFICEDAGGER";
+                    desc = "$SS_LOOT_SACRIFICEDAGGER_DESC";
+                    info = "$SS_LOOT_SACRIFICEDAGGER_INFO";
+                    icon = "sprites/Inventory/Loot/LOT1C0.png";
+                    inventoryName = "S7_Loot_SacrificialDagger";
+                    sellPrice = 350;
+                },
+
+                sellItem "LT03" {
+                    name = "$LOOT_BLOODCHALICE";
+                    desc = "$SS_LOOT_BLOODCHALICE_DESC";
+                    info = "$SS_LOOT_BLOODCHALICE_INFO";
+                    icon = "sprites/Inventory/Loot/LOT1D0.png";
+                    inventoryName = "S7_Loot_BloodChalice";
+                    sellPrice = 250;
+                }
+            }
+        },
+
+        page "loot_Treasure" {
+            name = "$SS_LOOT_TREASURE";
+            backPage = "lootPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "lootPage";
+                },
+
+                sellItem "LT04" {
+                    name = "$LOOT_GOLDCHEST";
+                    desc = "$SS_GOLDCHEST_DESC";
+                    info = "$SS_GOLDCHEST_INFO";
+                    icon = "sprites/Inventory/Loot/LOT1E0.png";
+                    inventoryName = "S7_Loot_GoldChest";
+                    sellPrice = 7500;
+                }
+            }
+        },
+
+        // Upgrades section
+        page "upgradesPage" {
+            name = "$SS_UPGRADES";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+                pageLink "CMBT" {
+                    name = "$SS_UPGRADES_COMBAT";
+                    desc = "$SS_UPGRADES_COMBAT_DESC";
+                    link = "upgradesPage_Combat";
+                },
+                pageLink "INFO" {
+                    name = "$SS_UPGRADES_INFO";
+                    desc = "$SS_UPGRADES_INFO_DESC";
+                    link = "upgradesPage_Info";
+                }
+            }
+        },
+
+        page "upgradesPage_Combat" {
+            name = "$SS_UPGRADES_COMBAT";
+            backPage = "upgradesPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "upgradesPage";
+                },
+
+                buyItem "SLT0" : "S7_SSItem_Upgrade" {
+                    name = "$SS_UPGR_LIGHTSLOT";
+                    desc = "$SS_UPGR_LIGHTSLOT_DESC";
+                    //"icon = "sprites/Inventory/Loot/LOT1E0.png";
+
+                    inventoryName = "S7_UpgradeSlot2";
+                    buyPrice = 5000;
+                }
+            }
+        },
+
+        page "upgradesPage_Info" {
+            name = "$SS_UPGRADES_INFO";
+            backPage = "upgradesPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "upgradesPage";
+                },
+
+                buyItem "EHPB" : "S7_SSItem_Upgrade" {
+                    name = "$SS_UPGR_ENEMY_INFO";
+                    desc = "$SS_UPGR_ENEMY_INFO_DESC";
+                    //"icon = "sprites/Inventory/Loot/LOT1E0.png";
+
+                    inventoryName = "S7_UpgradeEnemyHPBar";
+                    buyPrice = 2000;
+                },
+
+                buyItem "RDAR" : "S7_SSItem_Upgrade" {
+                    name = "$SS_UPGR_RADAR";
+                    desc = "$SS_UPGR_RADAR_DESC";
+                    //"icon = "sprites/Inventory/Loot/LOT1E0.png";
+
+                    inventoryName = "S7_UpgradeRadar";
+                    buyPrice = 7500;
+                },
+
+                buyItem "RDRK" : "S7_SSItem_Upgrade" {
+                    name = "$SS_UPGR_RADAR_KEYS";
+                    desc = "$SS_UPGR_RADAR_KEYS_DESC";
+                    //"icon = "sprites/Inventory/Loot/LOT1E0.png";
+
+                    inventoryName = "S7_UpgradeRadarKeys;S7_UpgradeRadar";
+                    buyPrice = 1500;
+                }
+            }
+        }
+    }
+}

@@ -55,13 +55,43 @@ class S7_MapData : Thinker {
 }
 
 class S7_ServerData : Thinker {
-    transient S7_ShopData shopData;
+    transient S7_S7Data S7Data;
     uint mapCount;
     // Map events
     int queuedMapEvent;
     // Level system
     int maxLevel;
     int avgLevel, highestLevel, lowestLevel;
+
+    void ParseS7Data () {
+        let data = S7_S7Data.Create ();
+
+        int lumpNum = -1;
+        while ((lumpNum = Wads.FindLump ("S7DATA", lumpNum + 1, Wads.GlobalNamespace)) >= 0) {
+            let lump   = TZK_LumpStream.Create (lumpNum);
+            let parser = S7_S7DataParser.Create (lump);
+
+            parser.SetInitialData (data);
+
+            int startTime = MSTime ();
+            if (parser.Parse ()) {
+                int endTime = MSTime ();
+                Console.Printf ("%d", endTime - startTime);
+                data = parser.GetOutput ();
+            } else
+                Console.PrintF ("%s", parser.GetTrace (true));
+        }
+
+        S7Data = data;
+
+        if (data) {
+            for (int i = 0; i < data.mapData.Size (); i++) {
+                let map = data.mapData [i];
+                Console.PrintF ("map [%s]", map.hash);
+                Console.PrintF ("  corruption: %f", map.data.corruption);
+            }
+        }
+    }
 
     override void Tick () {
         avgLevel = 0;
@@ -110,6 +140,9 @@ class S7_ServerData : Thinker {
 
         if (!p)
             p = new ("S7_ServerData").Init ();
+
+        if (p && !p.S7Data)
+            p.ParseS7Data ();
 
         return p;
     }
