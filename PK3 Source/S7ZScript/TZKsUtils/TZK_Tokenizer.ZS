@@ -93,61 +93,56 @@ class TZK_Token
 
 class TZK_Tokenizer
 {
+    protected int posLine, posChar;
     private TZK_Stream m_Stream;
 
     static TZK_Tokenizer Create(TZK_Stream input)
     {
-        if(!input.CanRead() || !input.CanSeek ())
+        if(!input.CanRead() || !input.CanSeek())
             return null;
 
         let tok = new("TZK_Tokenizer");
+
+        tok.posLine = 1;
+        tok.posChar = 1;
         tok.m_Stream = input;
+
         return tok;
     }
 
     private void SkipWhitespace()
     {
         while(TZK_Character.IsWhitespace(m_Stream.Peek()))
-            m_Stream.Read();
-    }
-
-    virtual int, int CurPos()
-    {
-        int pos = m_Stream.Position();
-        int curChar;
-        int lines = 0;
-        int lastLinePos = 0;
-
-        m_Stream.Seek(0, SEEK_Begin);
-        while(m_Stream.Position() <= pos && !m_Stream.EOF())
-        {
-            curChar = m_Stream.Read();
-
-            if(curChar == ASCII_LF) {
-                lines++;
-                lastLinePos = m_Stream.Position();
-            }
-        }
-
-        m_Stream.Seek(lastLinePos, SEEK_Begin);
-        int charPos = 0;
-        while(m_Stream.Position() <= pos && !m_Stream.EOF())
-        {
-            curChar = m_Stream.Read();
-            charPos++;
-        }
-
-        m_Stream.Seek(pos, SEEK_Begin);
-
-        return lines + 1, charPos;
+            ReadChar();
     }
 
     virtual TZK_Token Peek()
     {
+        let curLine = posLine;
+        let curChar = posChar;
         let pos = m_Stream.Position();
         let tok = Next();
         m_Stream.Seek(pos, SEEK_Begin);
+        posLine = curLine;
+        curChar = posChar;
         return tok;
+    }
+
+    protected virtual int ReadChar()
+    {
+        int ret = m_Stream.Read();
+
+        if(ret == ASCII_LF)
+        {
+            posLine++;
+            posChar = 1;
+        }
+        else
+        {
+            posChar++;
+        }
+
+        return ret;
     }
 
     virtual TZK_Token Next()
@@ -162,8 +157,9 @@ class TZK_Tokenizer
             return tk;
         }
 
-        [tk.line, tk.charPos] = CurPos ();
-        let c    = m_Stream.Read();
+        tk.line = posLine;
+        tk.charPos = posChar;
+        let c    = ReadChar();
         tk.value = TZK_Character.ToString(c);
         switch(c)
         {
@@ -177,7 +173,7 @@ class TZK_Tokenizer
 
             do
             {
-                c = m_Stream.Read();
+                c = ReadChar();
 
                 // handle escape sequences
                 if(c == ASCII_Backslash)
@@ -189,19 +185,19 @@ class TZK_Tokenizer
                     case ASCII_Quote: // '''
                     case ASCII_Backslash: // '\'
                         tk.value.AppendFormat("%c", peek);
-                        m_Stream.Read();
+                        ReadChar();
                         break;
                     case ASCII_Lower_A: // 'a'
                         tk.value.AppendFormat("%s", "\a");
-                        m_Stream.Read();
+                        ReadChar();
                         break;
                     case ASCII_Lower_N: // 'n'
                         tk.value.AppendFormat("%s", "\n");
-                        m_Stream.Read();
+                        ReadChar();
                         break;
                     case ASCII_Lower_R: // 'r'
                         tk.value.AppendFormat("%s", "\r");
-                        m_Stream.Read();
+                        ReadChar();
                         break;
                     default: // ignore unknown sequences
                         tk.value.AppendFormat("%c", c);
@@ -219,15 +215,15 @@ class TZK_Tokenizer
             switch(m_Stream.Peek())
             {
             case ASCII_Asterisk: // '/*' - multi-line comment
-                c = m_Stream.Read();
+                c = ReadChar();
                 while(true)
                 {
-                    c = m_Stream.Read();
+                    c = ReadChar();
 
                     // have we encountered "*/"?
                     if(c == ASCII_Asterisk && m_Stream.Peek() == ASCII_Slash)
                     {
-                        m_Stream.Read();
+                        ReadChar();
                         break;
                     }
 
@@ -241,7 +237,7 @@ class TZK_Tokenizer
                 {
                     // keep reading until we reach a
                     // new line or the end of the stream.
-                    c = m_Stream.Read();
+                    c = ReadChar();
                 } while(c != ASCII_LF && !m_Stream.EOF())
                 tk.Destroy();
                 return Next();
@@ -271,7 +267,7 @@ class TZK_Tokenizer
                     if(!TZK_Character.IsLetterOrDigit(peek) && peek != ASCII_Underscore)
                         break;
 
-                    c = m_Stream.Read();
+                    c = ReadChar();
                     peek = m_Stream.Peek();
                 }
             }
@@ -290,7 +286,7 @@ class TZK_Tokenizer
                     if(!TZK_Character.IsDigit(peek))
                         break;
 
-                    c = m_Stream.Read();
+                    c = ReadChar();
                     peek = m_Stream.Peek();
                 }
             }
