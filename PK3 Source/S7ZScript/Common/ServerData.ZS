@@ -73,10 +73,7 @@ class S7_ServerData : Thinker {
 
             parser.SetInitialData (data);
 
-            int startTime = MSTime ();
             if (parser.Parse ()) {
-                int endTime = MSTime ();
-                Console.Printf ("%d", endTime - startTime);
                 data = parser.GetOutput ();
             } else
                 Console.PrintF ("%s", parser.GetTrace (true));
