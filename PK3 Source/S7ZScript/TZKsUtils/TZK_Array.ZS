@@ -141,3 +141,23 @@ class TZK_ArrayPtr
 	uint Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
+
+class TZK_ArrayObj
+{
+	Array<Object> Values;
+	
+	uint Size() { return Values.Size(); }
+	void Copy(TZK_ArrayObj other) { Values.Copy(other.Values); }
+	void Move(TZK_ArrayObj other) { Values.Move(other.Values); }
+	uint Find(Object item) { return Values.Find(item); }
+	uint Push(Object item) { return Values.Push(item); }
+	bool Pop() { return Values.Pop(); }
+	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
+	void Insert(uint index, Object item) { Values.Insert(index, item); }
+	void ShrinkToFit() { Values.ShrinkToFit(); }
+	void Grow(uint amount) { Values.Grow(amount); }
+	void Resize(uint amount) { Values.Resize(amount); }
+	uint Reserve(uint amount) { return Values.Reserve(amount); }
+	uint Max() { return Values.Max(); }
+	void Clear() { Values.Clear(); }
+}
