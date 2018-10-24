@@ -44,6 +44,7 @@ class S7_AMG : S7_BaseWeapon {
     }
 
     const BASEZOOMFACTOR = 3.5;
+    const BURSTLENGTH = 4;
     bool burstFire;
     int  burstCount;
     bool   zoomed;
@@ -224,7 +225,7 @@ class S7_AMG : S7_BaseWeapon {
 
     Fire.Burst:
         AMGG C 2 {
-            if (++invoker.burstCount >= 3) // If a full burst has been shot, just reset burstCount - since the A_Refire is in the else, it won't be run.
+            if (++invoker.burstCount >= BURSTLENGTH) // If a full burst has been shot, just reset burstCount - since the A_Refire is in the else, it won't be run.
                 invoker.burstCount = 0;
             else
                 A_Refire ();
@@ -267,7 +268,7 @@ class S7_AMG : S7_BaseWeapon {
 
     Fire.Zoom.Burst:
         SCP1 A 2 {
-            if (++invoker.burstCount >= 3) { // If a full burst has been shot, just reset burstCount - since the A_Refire is in the else, it won't be run.
+            if (++invoker.burstCount >= BURSTLENGTH) { // If a full burst has been shot, just reset burstCount - since the A_Refire is in the else, it won't be run.
                 invoker.burstCount = 0;
             } else
                 A_Refire ("Fire");
