@@ -544,8 +544,8 @@ shop "mainShop" {
                     icon = "sprites/Weapons/Primary/ConquerorRifle/CQRPA0.png";
 
                     inventoryName = "S7_ConquerorRifle";
-                    buyPrice = 30000;
-                    sellPrice = 22500;
+                    buyPrice = 25000;
+                    sellPrice = 18750;
                 }
             }
         },
