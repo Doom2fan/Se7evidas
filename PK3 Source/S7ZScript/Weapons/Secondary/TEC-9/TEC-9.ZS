@@ -43,6 +43,7 @@ class S7_TEC9 : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 
+    const BURSTLENGTH = 3;
     bool burstFire;
     int burstCount;
 
@@ -120,7 +121,7 @@ class S7_TEC9 : S7_BaseWeapon {
             if (invoker.burstFire)
                 invoker.burstCount++;
 
-            if (invoker.burstFire && invoker.burstCount >= 3)
+            if (invoker.burstFire && invoker.burstCount >= BURSTLENGTH)
                 invoker.burstCount = 0;
             else
                 A_Refire ();
