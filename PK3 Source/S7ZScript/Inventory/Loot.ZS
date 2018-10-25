@@ -80,6 +80,7 @@ class S7_Thumper_Used : S7_LootItem {
 // Dropped loot weapons
 //
 //-------------------------------------------------------------------------------------------
+// Sprite credits: Amuscaria/Eriance
 class S7_Loot_ScorpsHunterSG : S7_LootItem {
     default {
         S7_LootItem.BlocksUsed 15;
@@ -145,6 +146,7 @@ class S7_Loot_ScorpsHunterSG : S7_LootItem {
 // Artifacts
 //
 //-------------------------------------------------------------------------------------------
+// Sprite credits: Id Software
 class S7_Loot_SkullSceptre : S7_LootItem {
     default {
         S7_LootItem.BlocksUsed 10;
@@ -163,6 +165,7 @@ class S7_Loot_SkullSceptre : S7_LootItem {
     }
 }
 
+// Sprite credits: Id Software
 class S7_Loot_SacrificialDagger : S7_LootItem {
     default {
         S7_LootItem.BlocksUsed 6;
@@ -181,6 +184,7 @@ class S7_Loot_SacrificialDagger : S7_LootItem {
     }
 }
 
+// Sprite credits: Id Software
 class S7_Loot_BloodChalice : S7_LootItem {
     default {
         S7_LootItem.BlocksUsed 4;
@@ -204,6 +208,7 @@ class S7_Loot_BloodChalice : S7_LootItem {
 // Treasure
 //
 //-------------------------------------------------------------------------------------------
+// Sprite credits: Id Software
 class S7_Loot_GoldChest : S7_LootItem {
     default {
         S7_LootItem.BlocksUsed 25;
@@ -227,6 +232,7 @@ class S7_Loot_GoldChest : S7_LootItem {
 // Treasure
 //
 //-------------------------------------------------------------------------------------------
+// Sprite credits: amv2k9
 class S7_Loot_CreditsBriefcase10K : Inventory {
     default {
         Inventory.Amount 10000;
