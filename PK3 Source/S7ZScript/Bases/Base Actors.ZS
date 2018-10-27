@@ -371,12 +371,19 @@ class S7_Projectile : FastProjectile {
     }
 
     void SpawnEffects (Vector3 initialPos, double dist, Vector3 stepSize) {
-        if (radius <= 0 || dist <= 0)
+        if (radius <= 0 || dist <= 0 || stepSize.XY.Length () <= 0 || stepSize.X != stepSize.X || stepSize.Y != stepSize.Y)
             return;
 
-        int count = 8;
-        while (abs (stepSize.X) > radius * count || abs (stepSize.Y) > radius * count)
+        double count = 8;
+        while (abs (stepSize.X) > radius * count || abs (stepSize.Y) > radius * count) {
+            if (count == double.infinity || count == -double.infinity) {
+                if (S7_DebugMode)
+                    Console.Printf ("S7_Projectile.SpawnEffects: count overflowed");
+
+                return;
+            }
             count += count;
+        }
 
         Vector3 frac = stepSize / count;
 
