@@ -87,6 +87,9 @@ FLASHLIGHT_BATTERY              = "Flashlight battery";
 CELLS                           = "Type A Energy Cells";
 FBSYSCELLS                      = "Firebrand Systems Energy Cells";
 
+// Weapon mods
+WEAPMOD_MANXSCOPE               = "C23 \"Manx\" Carbine scope";
+
 /** Monsters **/
 SCRPSTROOTAG                    = "Shadow Corps Trooper";
 SCRPSHNTRTAG                    = "Shadow Corps Hunter";

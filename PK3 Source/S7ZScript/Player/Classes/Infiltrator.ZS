@@ -45,8 +45,10 @@ class S7_InfiltratorPlayer : S7_ScoutPlayer {
         GiveInventory ("S7_9mmCartridges", 6 * 23);
 
         GiveBasics_GiveStartingWeapon ("S7_TEC9");
-        let manx = GiveBasics_GiveStartingWeapon ("S7_ManxCarbine");
+        let manx = S7_ManxCarbine (GiveBasics_GiveStartingWeapon ("S7_ManxCarbine"));
         // The TEC9 and the Manx should start out suppressed, but mods aren't in yet.
+        if (manx)
+            manx.hasScope = true;
 
         weapBinds.LastWeapon = manx;
         player.PendingWeapon = manx;

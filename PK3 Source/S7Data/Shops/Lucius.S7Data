@@ -45,6 +45,13 @@ shop "mainShop" {
                     icon = "graphics/Menu/Shop/Icons/UpgradesPage.png";
                     link = "upgradesPage";
                 },
+
+                pageLink "WMOD" {
+                    name = "$SS_WEAP_MODS";
+                    desc = "$SS_WEAP_MODS_DESC";
+                    icon = "graphics/Menu/Shop/Icons/WeapModsPage.png";
+                    link = "WeapModsPage";
+                },
             }
         },
 
@@ -825,6 +832,29 @@ shop "mainShop" {
                     buyPrice = 1500;
                 }
             }
-        }
+        },
+
+        page "WeapModsPage" {
+            name = "$SS_WEAP_MODS";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+                buySellItem "MNX1" {
+                    name = "$WEAPMOD_MANXSCOPE";
+                    desc = "$SS_MANXSCOPE_DESC";
+                    info = "$SS_MANXSCOPE_INFO";
+                    icon = "sprites/Inventory/WeapMods/WMODA0.png";
+                    inventoryName = "S7_ManxScope";
+                    buyPrice = 2500;
+                    sellPrice = 2000;
+                },
+            }
+        },
     }
 }

@@ -35,6 +35,8 @@ SS_BULLETS                      = "Cartridges";
 SS_BATTERIES                    = "Energy cells";
 SS_THGRENADES                   = "50mm grenades";
 
+SS_WEAP_MODS                    = "Weapon mods";
+
 SS_LOOT                         = "Loot";
 SS_LOOT_WEAPSNAMMO              = "Weapons and ammo";
 SS_LOOT_ARTIFACTS               = "Artifacts";
@@ -55,6 +57,8 @@ SS_AMMO_DESC                    = "Buy ammunition for your weapons or sell your 
 SS_BULLETS_DESC                 = "Cartridges and shells";
 SS_BATTERIES_DESC               = "Batteries and energy cells";
 SS_THGRENADES_DESC              = "50mm grenades for the XPL-50 \"Thumper\" Grenade Launcher";
+
+SS_WEAP_MODS_DESC               = "Modifications and accessories for your weapons.";
 
 SS_LOOT_DESC                    = "Sell items useless to you";
 

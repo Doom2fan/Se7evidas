@@ -1,0 +1,109 @@
+sprite "MNXSA0", 69, 46 {
+    offset -224, -112
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSB0", 69, 46 {
+    offset -228, -116
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSC0", 69, 46 {
+    offset -226, -114
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSD0", 69, 46 {
+    offset -226, -112
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSE0", 45, 47 {
+    offset -247, -129
+    patch "graphics/Weapons/ManxCarbine/Scope2.png", 0, 0
+}
+
+sprite "MNXSF0", 45, 47 {
+    offset -263, -126
+    patch "graphics/Weapons/ManxCarbine/Scope2.png", 0, 0
+}
+
+sprite "MNXSG0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSH0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSI0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSJ0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSK0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSL0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSM0", 46, 69 {
+    offset -258, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSN0", 46, 69 {
+    offset -259, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSO0", 46, 69 {
+    offset -262, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSP0", 46, 69 {
+    offset -260, -155
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0  { rotate 90 }
+}
+
+sprite "MNXSQ0", 45, 47 {
+    offset -264, -126
+    patch "graphics/Weapons/ManxCarbine/Scope2.png", 0, 0
+}
+
+sprite "MNXST0", 69, 46 {
+    offset -280, -168
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSU0", 69, 46 {
+    offset -272, -160
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSV0", 69, 46 {
+    offset -256, -144
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSW0", 69, 46 {
+    offset -240, -128
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}
+
+sprite "MNXSX0", 69, 46 {
+    offset -232, -120
+    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
+}

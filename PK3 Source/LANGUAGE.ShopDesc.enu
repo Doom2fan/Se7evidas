@@ -48,6 +48,10 @@ SS_CONQUERORINFO = "Manufacturer: Acheron Industries\nCaliber: .45 WW\nCapacity:
 SS_HANDGRENADEDESC = "Fragmentation hand grenade";
 SS_HANDGRENADEINFO = "Fuse: ~3.5 seconds";
 
+/** Weapon mods **/
+SS_MANXSCOPE_DESC = "A scope for Cronus Corps' C23 \"Manx\" Carbine.";
+SS_MANXSCOPE_INFO = "Magnification: 2-4x";
+
 /** Loot **/
 SS_SCORPS_SG_DESC = "Shadow Corps' standard-issue semi-automatic shotgun, chambered in 12 gauge.\nAs with most Shadow Corps equipment, it's a pretty flimsy weapon. They can easily be damaged to the point of uselessness.";
 SS_SCORPS_SG_INFO = "";
