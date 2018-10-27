@@ -64,7 +64,8 @@ class S7_BaseTracer : S7_Projectile {
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        vel = vel.Unit () * trueSpeed;
+        if (!(vel.Length () ~== 0))
+            vel = vel.Unit () * trueSpeed;
     }
 
     states {
