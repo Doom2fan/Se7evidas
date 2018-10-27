@@ -345,7 +345,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
                 // Draw ammo bar(s)
                 let lppWeap = S7_LaserPewPew (CPlayer.ReadyWeapon);
-                bool hasTwo = CheckInventory ("S7_LaserPewPewSecond", 1);
+                bool hasTwo = lppWeap.amount > 1;
 
                 if (hasTwo && lppWeap.akimbo) {
                     DrawImage ("graphics/HUD/Fullscreen/FireMode/BLSDual.png", (5, 5), DI_ITEM_LEFT_TOP);

@@ -38,17 +38,18 @@ class S7_LaserPewPewClipSecond : Ammo {
     }
 }
 
-class S7_LaserPewPewSecond : S7_Boolean { } // This one stays as an inventory token because we don't want it to be removed if the gun is removed or dropped.
 class S7_LaserPewPew : S7_BaseWeapon {
     const MagSize = 32;
 
     default {
         Tag "$BUTTFLY";
         Inventory.PickupMessage "$BUTTFLY";
+        Inventory.MaxAmount 2;
         Weapon.AmmoType1 "S7_LaserPewPewClip";
         Weapon.AmmoType2 "S7_FBSysCells";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "BLSPA0";
         S7_BaseWeapon.ShortTag "$SHORTBUTTFLY";
         S7_BaseWeapon.BindSlot WpSlot_Light;
@@ -114,7 +115,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG A   2 {
             TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
 
-            if (!CheckInventory ("S7_LaserPewPewSecond", 1))
+            if (invoker.amount <= 1)
                 return ResolveState ("Ready2");
             if (invoker.akimbo)
                 return ResolveState ("ChangeMode.ToSingle");
@@ -221,7 +222,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     DryFire.End:
         #### # 3 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
         #### # 0 {
-            if (CheckInventory ("S7_LaserPewPewSecond", 1) && CheckInventory ("S7_LaserPewPewClipSecond", 1))
+            if (invoker.amount > 1 && CheckInventory ("S7_LaserPewPewClipSecond", 1))
                 return ResolveState ("Reload.SwapGuns");
 
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
@@ -332,7 +333,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         }
     AkimboRight.Ready:
         BLS2 A 1 {
-            if (!CheckInventory ("S7_LaserPewPewSecond", 1))
+            if (invoker.amount <= 1)
                 return ResolveState ("AkimboRight.NoSecLPP");
             if (!invoker.akimbo)
                 return ResolveState ("AkimboRight.Derped");
@@ -350,7 +351,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto AkimboRight.Ready;
     AkimboLeft.Ready:
         BLS2 A 1 {
-            if (!CheckInventory ("S7_LaserPewPewSecond", 1))
+            if (invoker.amount <= 1)
                 return ResolveState ("AkimboLeft.NoSecLPP");
             if (!invoker.akimbo)
                 return ResolveState ("AkimboLeft.Derped");
