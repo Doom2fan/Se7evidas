@@ -132,6 +132,7 @@ shop "mainShop" {
                     icon = "sprites/Inventory/Armor/ARSVA0.png";
 
                     inventoryName = "S7_CCSecVest";
+                    maxAmount = 1;
                     buyPrice = 1500;
                 },
                 buyItem "ASV2" : "S7_SSItem_Armor" {
@@ -141,6 +142,7 @@ shop "mainShop" {
                     icon = "sprites/Inventory/Armor/ARSVB0.png";
 
                     inventoryName = "S7_SBTKSecVest";
+                    maxAmount = 1;
                     buyPrice = 1800;
                 },
                 buyItem "ACA1" : "S7_SSItem_Armor" {
@@ -150,6 +152,7 @@ shop "mainShop" {
                     icon = "sprites/Inventory/Armor/ARCAA0.png";
 
                     inventoryName = "S7_CCCombatArmor";
+                    maxAmount = 1;
                     buyPrice = 2500;
                 },
                 buyItem "ACA2" : "S7_SSItem_Armor" {
@@ -159,6 +162,7 @@ shop "mainShop" {
                     icon = "sprites/Inventory/Armor/ARCAB0.png";
 
                     inventoryName = "S7_SBTKCombatArmor";
+                    maxAmount = 1;
                     buyPrice = 3000;
                 }
             }
