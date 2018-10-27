@@ -66,7 +66,7 @@ class S7_BaseWeapon : Weapon {
         S7_BaseWeapon.Icon "";
         S7_BaseWeapon.BindSlot -1;
 
-        +INVENTORY.UNDROPPABLE +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT
+        +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT
     }
 
     int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
@@ -102,6 +102,45 @@ class S7_BaseWeapon : Weapon {
 
     override bool Use (bool pickup) { // Override Use so it can't be used to bypass the weapon limits
         return false;
+    }
+
+    override Inventory CreateTossable (int amt) {
+        // If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
+        // like the fist can't be dropped because you'll never see it.)
+        if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL)
+            return NULL;
+        if (bUndroppable || bUntossable || Owner == NULL || Amount <= 0)
+            return NULL;
+
+        // Will pretty much always be true, but ehhh...
+        if (Owner && Owner.player && Owner.player.ReadyWeapon == self) {
+            int weapState = Owner.player.WeaponState;
+
+            if (!(weapState & WF_WeaponSwitchOK))
+                return NULL;
+            if (weapState & WF_DisableSwitch)
+                return NULL;
+        }
+
+        amt = 1; // Never drop more than one instance of a weapon
+
+        if (Amount == 1 && !bKeepDepleted) {
+            BecomePickup ();
+            DropTime = 30;
+            bSpecial = bSolid = false;
+            return self;
+        }
+
+        let copy = Inventory (Spawn (GetClass (), Owner.Pos, NO_REPLACE));
+        if (copy != NULL) {
+            copy.MaxAmount = MaxAmount;
+            copy.Amount = amt;
+            copy.DropTime = 30;
+            copy.bSpecial = copy.bSolid = false;
+            Amount -= amt;
+        }
+
+        return copy;
     }
 
     action int S7_GetMeleeDamage (double baseDamage, double mul) {
