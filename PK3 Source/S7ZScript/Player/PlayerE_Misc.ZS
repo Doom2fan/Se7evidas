@@ -17,6 +17,26 @@
 */
 
 extend class S7_BasePlayer {
+    static const string PermanentItems [] = {
+        "S7_GrenadeWeap:S7_GrenadeCount",
+        "S7_BerserkWeap:S7_Berserk",
+        "S7_Thumper_PUnified"
+    };
+
+    void Misc_PermanentItems () {
+        for (int i = 0; i < PermanentItems.Size (); i++) {
+            Array<String> parts;
+            PermanentItems [i].Split (parts, ":");
+
+            // If this happens someone's a fucking idiot.
+            if (parts.Size () < 1 || parts.Size () > 2)
+                continue;
+
+            if ((parts.Size () == 1 || CheckInventory (parts [1], 1)) && !CheckInventory (parts [0], 1))
+                GiveInventory (parts [0], 1);
+        }
+    }
+
     void Misc_StaminaRegen () {
         int curStamina = CountInv ("S7_Stamina");
         int maxStamina = GetMaxStamina ();

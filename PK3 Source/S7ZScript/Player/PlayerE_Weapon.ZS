@@ -17,25 +17,6 @@
 */
 
 extend class S7_BasePlayer {
-    static const string PermanentWeapons [] = {
-        "S7_GrenadeWeap:S7_GrenadeCount",
-        "S7_BerserkWeap:S7_Berserk"
-    };
-
-    void Weapon_PermanentWeapons () {
-        for (int i = 0; i < PermanentWeapons.Size (); i++) {
-            Array<String> parts;
-            PermanentWeapons [i].Split (parts, ":");
-
-            // If this happens someone's a fucking idiot.
-            if (parts.Size () < 1 || parts.Size () > 2)
-                continue;
-
-            if ((parts.Size () == 1 || CheckInventory (parts [1], 1)) && !CheckInventory (parts [0], 1))
-                GiveInventory (parts [0], 1);
-        }
-    }
-
     const BaseAmmoMax = 6.0;
     void Weapon_SetAmmoMax () {
         double ammoMax = BaseAmmoMax;

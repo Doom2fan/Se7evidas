@@ -416,4 +416,29 @@ class S7_Thumper_PFlare   : Ammo { default { Inventory.Amount 0; Inventory.MaxAm
 class S7_Thumper_PCluster : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
 class S7_Thumper_PNail    : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
 class S7_Thumper_PNGas    : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
-class S7_Thumper_PUnified : Ammo { default { Inventory.Amount 0; Inventory.MaxAmount 40; +INVENTORY.IGNORESKILL } }
+class S7_Thumper_PUnified : Ammo {
+    default {
+        Inventory.Amount 0;
+        Inventory.MaxAmount 40;
+
+        +INVENTORY.IGNORESKILL
+    }
+
+    static clearscope int CalculateUnifiedAmount (Actor act) {
+        return (
+            act.CountInv ("S7_Thumper_PExp"    ) +
+            act.CountInv ("S7_Thumper_PFrag"   ) +
+            act.CountInv ("S7_Thumper_PTherm"  ) +
+            act.CountInv ("S7_Thumper_PFlare"  ) +
+            act.CountInv ("S7_Thumper_PCluster") +
+            act.CountInv ("S7_Thumper_PNail"   ) +
+            act.CountInv ("S7_Thumper_PNGas"   )
+        );
+    }
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        amount = CalculateUnifiedAmount (Owner);
+    }
+}

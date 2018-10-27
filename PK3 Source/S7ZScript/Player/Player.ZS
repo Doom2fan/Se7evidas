@@ -244,9 +244,9 @@ class S7_BasePlayer : PlayerPawn {
             Movement_WallJump ();
             Movement_MultiJump ();
             // Weapons
-            Weapon_PermanentWeapons ();
             Weapon_SetAmmoMax ();
             // Misc
+            Misc_PermanentItems ();
             Misc_StaminaRegen ();
             Misc_Heartbeats ();
             Misc_HellhunterBlade ();

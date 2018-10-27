@@ -314,6 +314,9 @@ class S7_SSItem_ThumperGrenade : S7_SSItem {
     }
 
     override int GetAmount (S7_BasePlayer player) {
-        return player.CountInv (UnifiedPoolName);
+        if (!player)
+            return 0;
+
+        return S7_Thumper_PUnified.CalculateUnifiedAmount (player);
     }
 }
