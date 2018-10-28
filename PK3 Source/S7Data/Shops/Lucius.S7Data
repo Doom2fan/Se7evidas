@@ -446,6 +446,16 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
+                buySellItem "KRNS" {
+                    name = "$SHORTTEC9";
+                    desc = "$SS_TEC9DESC";
+                    info = "$SS_TEC9INFO";
+                    icon = "sprites/Weapons/Secondary/TEC-9/TEC9Z0.png";
+
+                    inventoryName = "S7_TEC9";
+                    buyPrice = 1500;
+                    sellPrice = 1125;
+                },
                 buySellItem "HTTR" {
                     name = "$SHORTHITTERSMG";
                     desc = "$SS_HITTERSMGDESC";
