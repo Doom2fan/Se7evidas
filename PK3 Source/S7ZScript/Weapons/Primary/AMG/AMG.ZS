@@ -34,13 +34,16 @@ class S7_AMG : S7_BaseWeapon {
     default {
         Tag "$AMG";
         Inventory.PickupMessage "$AMG";
+
         Weapon.AmmoType1 "S7_AMGMag";
         Weapon.AmmoType2 "S7_762x39Cartridges";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "AMGGZ0";
         S7_BaseWeapon.ShortTag "$SHORTAMG";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.UsesMag true;
     }
 
     const BASEZOOMFACTOR = 3.5;

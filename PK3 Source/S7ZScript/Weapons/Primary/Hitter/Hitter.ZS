@@ -34,13 +34,16 @@ class S7_HitterSMG : S7_BaseWeapon {
     default {
         Tag "$HITTERSMG";
         Inventory.PickupMessage "HITTERSMG";
+
         Weapon.AmmoType1 "S7_HitterSMGClip";
         Weapon.AmmoType2 "S7_45ACPCartridges";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "SR20Z0";
         S7_BaseWeapon.ShortTag "$SHORTHITTERSMG";
         S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.UsesMag true;
     }
 
     bool upperJammed, lowerJammed;

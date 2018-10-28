@@ -51,10 +51,12 @@ class S7_BaseWeapon : Weapon {
     String weapIcon;
     String shortTag;
     S7_WeaponSlots bindSlot;
+    bool usesMag;
 
     property Icon: weapIcon;
     property ShortTag: shortTag;
     property BindSlot: bindSlot;
+    property UsesMag: usesMag;
 
     default {
         Inventory.PickupSound "misc/gunpickup";
@@ -63,10 +65,13 @@ class S7_BaseWeapon : Weapon {
         Weapon.BobSpeed 2.0;
         Weapon.BobStyle "inverseSmooth";
         Weapon.Kickback 100;
+
         S7_BaseWeapon.Icon "";
         S7_BaseWeapon.BindSlot -1;
+        S7_BaseWeapon.UsesMag false;
 
-        +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT
+        +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT +INVENTORY.RESTRICTABSOLUTELY
+        +INVENTORY.TRANSFER
     }
 
     int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
@@ -107,7 +112,7 @@ class S7_BaseWeapon : Weapon {
     override Inventory CreateTossable (int amt) {
         // If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
         // like the fist can't be dropped because you'll never see it.)
-        if (SpawnState == GetDefaultByType("Actor").SpawnState || SpawnState == NULL)
+        if (SpawnState == GetDefaultByType ("Actor").SpawnState || SpawnState == NULL)
             return NULL;
         if (bUndroppable || bUntossable || Owner == NULL || Amount <= 0)
             return NULL;
@@ -125,9 +130,17 @@ class S7_BaseWeapon : Weapon {
         amt = 1; // Never drop more than one instance of a weapon
 
         if (Amount == 1 && !bKeepDepleted) {
+            let ammo1Act = Ammo1;
+
             BecomePickup ();
             DropTime = 30;
             bSpecial = bSolid = false;
+
+            if (usesMag) {
+                ammo1Act.BecomePickup ();
+                self.AddInventory (ammo1Act);
+            }
+
             return self;
         }
 
@@ -141,6 +154,21 @@ class S7_BaseWeapon : Weapon {
         }
 
         return copy;
+    }
+
+    Inventory DropAmmo (class<Inventory> itemClass, Actor act, int amt, Vector3 offs = (0, 0, 0), double angleOffs = 0) {
+        let drop = Inventory (Spawn (itemClass, act.Vec3Offset (0 + offs.X, 0 + offs.Y, 10. + offs.Z)));
+
+        if (drop) {
+            drop.amount = amt;
+
+            drop.angle = act.angle + angleOffs;
+            drop.VelFromAngle (5.);
+            drop.vel.Z = 1.;
+            drop.vel += act.vel;
+        }
+
+        return drop;
     }
 
     action int S7_GetMeleeDamage (double baseDamage, double mul) {
@@ -174,6 +202,44 @@ class S7_BaseWeapon : Weapon {
 
         return xpSystem;
     }
+
+    /* Summary:
+    **  Called before an item is sold. Return value indicates whether to continue the transaction.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether or not to continue selling the weapon.
+    */
+    virtual bool SS_PreSell (int amount) {
+        if (usesMag && Ammo1 && Ammo2) {
+            int count = Ammo1.Amount;
+            int excess = max ((Ammo2.Amount + count) - Ammo2.MaxAmount, 0);
+
+            if ((count - excess) > 0)
+                Owner.GiveInventory (Ammo2.GetClass (), count - excess);
+
+            if (excess > 0) {
+                let drop = Ammo (Spawn (Ammo2.GetClass (), Owner.Vec3Offset (0, 0, 10.)));
+
+                if (drop) {
+                    drop.amount = excess;
+
+                    drop.angle = Owner.angle;
+                    drop.VelFromAngle (5.);
+                    drop.vel.Z = 1.;
+                    drop.vel += Owner.vel;
+                }
+            }
+
+            Owner.TakeInventory (Ammo1.GetClass (), count);
+        }
+
+        return true;
+    }
+
+    /* Summary:
+    **  Called after the weapon has been successfully sold.
+    */
+    virtual void SS_OnSell (int amount) { }
 
     virtual void V_S7_Recoil (double amount) {
         if (S7_Debug_NoRecoil)

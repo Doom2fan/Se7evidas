@@ -67,6 +67,35 @@ class S7_LaserPewPew : S7_BaseWeapon {
         return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.025;
     }
 
+    void LPP_DoDropAmmo (Ammo mag, Ammo pool) {
+        if (mag && pool) {
+            int count = mag.Amount;
+            int excess = max ((pool.Amount + count) - pool.MaxAmount, 0);
+
+            if ((count - excess) > 0)
+                Owner.GiveInventory (pool.GetClass (), count - excess);
+
+            if (excess > 0)
+                DropAmmo (pool.GetClass (), Owner, excess);
+
+            Owner.TakeInventory (mag.GetClass (), count);
+        }
+    }
+
+    override bool SS_PreSell (int amount) {
+        let secondMag = Ammo (Owner.FindInventory ("S7_LaserPewPewClipSecond"));
+
+        if (self.amount < 2)
+            LPP_DoDropAmmo (Ammo1, Ammo2);
+        else if (amount > 1) {
+            LPP_DoDropAmmo (Ammo1, Ammo2);
+            LPP_DoDropAmmo (secondMag, Ammo2);
+        } else if (amount == 1 && self.amount > 1)
+            LPP_DoDropAmmo (secondMag, Ammo2);
+
+        return true;
+    }
+
     bool akimbo, sights;
 
     states {

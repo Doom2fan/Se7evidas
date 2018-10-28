@@ -55,12 +55,15 @@ class S7_Thumper : S7_BaseWeapon {
     default {
         Tag "$THUMPER";
         Inventory.PickupMessage "$THUMPER";
+
         Weapon.AmmoType1 "S7_ThumperMag";
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "THMPU0";
         S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
+        S7_BaseWeapon.UsesMag false;
 
         +WEAPON.NOAUTOAIM
     }
@@ -113,6 +116,32 @@ class S7_Thumper : S7_BaseWeapon {
 
         Owner.SetInventory ("S7_ThumperMag", magazine.Size ());
         Owner.SetInventory ("S7_ThumperSelectedPool", selectedPool - 1);
+    }
+
+    override bool SS_PreSell (int amount) {
+        int unifiedMax;
+
+        let unifiedPool = Owner.FindInventory ('S7_Thumper_PUnified');
+        if (unifiedPool)
+            unifiedMax = unifiedPool.MaxAmount;
+        else
+            unifiedMax = GetDefaultByType ('S7_Thumper_PUnified').MaxAmount;
+
+        int unifiedCount;
+        while (magazine.Size () > 0) {
+            unifiedCount = S7_Thumper_PUnified.CalculateUnifiedAmount (Owner);
+
+            int type = magazine [magazine.Size ()-1];
+            magazine.Pop ();
+
+            class<Inventory> typeClass = PoolNames [type];
+            if (unifiedCount < unifiedMax)
+                Owner.GiveInventory (typeClass, 1);
+            else
+                DropAmmo (typeClass, Owner, 1);
+        }
+
+        return true;
     }
 
     states {

@@ -204,8 +204,15 @@ class S7_SSItem {
         if (!CanSell (player, amount))
             return SC_Unknown;
 
+        S7_BaseWeapon weap;
+        if (weap = S7_BaseWeapon (player.FindInventory (inventoryName)))
+            weap.SS_PreSell (amount);
+
         player.GiveInventory (self.cashItem, finalPrice);
         player.TakeInventory (self.inventoryName, finalAmount);
+
+        if (weap = S7_BaseWeapon (player.FindInventory (inventoryName)))
+            weap.SS_OnSell (amount);
 
         return SC_Success;
     }

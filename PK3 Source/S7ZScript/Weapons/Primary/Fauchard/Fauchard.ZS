@@ -34,13 +34,16 @@ class S7_Fauchard : S7_BaseWeapon {
     default {
         Tag "$FAUCHARD";
         Inventory.PickupMessage "$FAUCHARD";
+
         Weapon.AmmoType1 "S7_FauchardMag";
         Weapon.AmmoType2 "S7_FBSysCells";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "LRFPA0";
         S7_BaseWeapon.ShortTag "$SHORTFAUCHARD";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.UsesMag true;
     }
 
     double GetDamageBonus () {

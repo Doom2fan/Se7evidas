@@ -34,13 +34,16 @@ class S7_ManxCarbine : S7_BaseWeapon {
     default {
         Tag "$MANXCARBINE";
         Inventory.PickupMessage "$MANXCARBINE";
+
         Weapon.AmmoType1 "S7_ManxCarbineClip";
         Weapon.AmmoType2 "S7_9mmCartridges";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "MANXZ0";
         S7_BaseWeapon.ShortTag "$SHORTMANXCARBINE";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.UsesMag true;
     }
 
     const MANX_SCOPEOVERLAY_ID = 20;

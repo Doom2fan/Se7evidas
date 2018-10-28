@@ -34,13 +34,16 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     default {
         Tag "$CONQUERORSRIFLE";
         Inventory.PickupMessage "$CONQUERORSRIFLE";
+
         Weapon.AmmoType1 "S7_ConquerorRifleClip";
         Weapon.AmmoType2 "S7_45WWCartridges";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "CQRPA0";
         S7_BaseWeapon.ShortTag "$SHORTCONQUERORSRIFLE";
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
+        S7_BaseWeapon.UsesMag true;
     }
 
     const BASEZOOMFACTOR = 4.5;

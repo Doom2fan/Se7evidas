@@ -34,13 +34,16 @@ class S7_Revolver : S7_BaseWeapon {
     default {
         Tag "$REVOLVER";
         Inventory.PickupMessage "$REVOLVER";
+
         Weapon.AmmoType1 "S7_RevolverClip";
         Weapon.AmmoType2 "S7_44MCartridges";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "RVLPA0";
         S7_BaseWeapon.ShortTag "$SHORTREVOLVER";
         S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.UsesMag true;
     }
 
     states {

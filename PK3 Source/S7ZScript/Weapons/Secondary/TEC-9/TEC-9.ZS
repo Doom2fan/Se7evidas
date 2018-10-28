@@ -34,13 +34,16 @@ class S7_TEC9 : S7_BaseWeapon {
     default {
         Tag "$TEC9";
         Inventory.PickupMessage "$TEC9";
+
         Weapon.AmmoType1 "S7_TEC9Clip";
         Weapon.AmmoType2 "S7_9mmCartridges";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "TEC9Z0";
         S7_BaseWeapon.ShortTag "$SHORTTEC9";
         S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.UsesMag true;
     }
 
     const BURSTLENGTH = 3;

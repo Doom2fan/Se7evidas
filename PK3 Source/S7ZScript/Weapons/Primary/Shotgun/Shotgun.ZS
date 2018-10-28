@@ -34,16 +34,38 @@ class S7_Shotgun : S7_BaseWeapon {
     default {
         Tag "$SHOTGUN";
         Inventory.PickupMessage "$SHOTGUN";
+
         Weapon.AmmoType1 "S7_ShotgunMag";
         Weapon.AmmoType2 "S7_20gaShells";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "DTUPA0";
         S7_BaseWeapon.ShortTag "$SHORTSHOTGUN";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.UsesMag true;
     }
 
     int loaded;
+
+    override bool SS_PreSell (int amount) {
+        int amt = Ammo1.Amount + loaded;
+
+        if ((Ammo2.Amount + amt) > Ammo2.MaxAmount && amt == (GetDefaultByType (Ammo2.GetClass ()).Amount))
+            DropAmmo (Ammo2.GetClass (), Owner, 1);
+        else {
+            for (int i = amt; i > 0; i--) {
+                if (Ammo2.Amount < Ammo2.MaxAmount)
+                    Owner.GiveInventory (Ammo2.GetClass (), 1);
+                else
+                    DropAmmo (Ammo2.GetClass (), Owner, 1, angleOffs: fRandom [invSpc] (-5, 5));
+            }
+        }
+
+        Owner.TakeInventory (Ammo1.GetClass (), 0x7FFFFFFF);
+
+        return true;
+    }
 
     action void S7_FireShotgun (bool right) {
         if (!right) {

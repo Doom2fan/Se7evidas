@@ -34,13 +34,16 @@ class S7_PlasmaGun : S7_BaseWeapon {
     default {
         Tag "$PLASMAGUN";
         Inventory.PickupMessage "$PLASMAGUN";
+
         Weapon.AmmoType1 "S7_PlasmaGunMag";
         Weapon.AmmoType2 "S7_Cells";
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "PLSGU0";
         S7_BaseWeapon.ShortTag "$SHORTPLASMAGUN";
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
+        S7_BaseWeapon.UsesMag true;
     }
 
     override void DoEffect () {

@@ -36,13 +36,16 @@ class S7_SSG : S7_BaseWeapon {
     default {
         Tag "$SSG";
         Inventory.PickupMessage "$SSG";
+
         Weapon.AmmoType1 "S7_SSGFauxClip";
         Weapon.AmmoType2 "S7_12gaShells";
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "SSGPA0";
         S7_BaseWeapon.ShortTag "$SHORTSSG";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.UsesMag false;
     }
 
     bool leftLoaded, rightLoaded, firingBoth;
@@ -61,6 +64,21 @@ class S7_SSG : S7_BaseWeapon {
         Owner.SetInventory ("S7_SSGLeftLoadedToken",  0);
         Owner.SetInventory ("S7_SSGRightLoadedToken", 0);
         Owner.SetInventory ("S7_SSGFauxClip", 0);
+    }
+
+    override bool SS_PreSell (int amount) {
+        int count = 0;
+        if ( leftLoaded) count++;
+        if (rightLoaded) count++;
+
+        for (int i = 0; i < count; i++) {
+            if (Ammo2.Amount < Ammo2.MaxAmount)
+                Owner.GiveInventory (Ammo2.GetClass (), 1);
+            else
+                DropAmmo (Ammo2.GetClass (), Owner, 1);
+        }
+
+        return true;
     }
 
     action void S7_FireSSG (bool right) {

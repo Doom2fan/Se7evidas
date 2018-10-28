@@ -34,13 +34,16 @@ class S7_Raptor : S7_BaseWeapon {
     default {
         Tag "$RAPTOR";
         Inventory.PickupMessage "$RAPTOR";
+
         Weapon.AmmoType1 "S7_RaptorClip";
         Weapon.AmmoType2 "S7_9mmCartridges";
         Weapon.AmmoUse 2;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "RPTPA0";
         S7_BaseWeapon.ShortTag "$SHORTRAPTOR";
         S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.UsesMag true;
     }
 
     states {
