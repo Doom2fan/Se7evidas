@@ -18,7 +18,7 @@
 
 class S7_ManxScope : Inventory {
     default {
-        Inventory.MaxAmount 1;
+        Inventory.MaxAmount 50;
         Inventory.Icon "WMODA0";
 
         Tag "WEAPMOD_MANXSCOPE";
