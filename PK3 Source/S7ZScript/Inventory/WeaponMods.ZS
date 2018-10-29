@@ -21,7 +21,9 @@ class S7_ManxScope : Inventory {
         Inventory.MaxAmount 50;
         Inventory.Icon "WMODA0";
 
-        Tag "WEAPMOD_MANXSCOPE";
+        Tag "$WEAPMOD_MANXSCOPE";
+
+        +INVENTORY.INVBAR
     }
 
     override bool Use (bool pickup) {
