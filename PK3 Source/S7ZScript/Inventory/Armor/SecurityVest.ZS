@@ -110,7 +110,7 @@ class S7_CCSecVest : S7_BasicArmorPickup {
         Inventory.Icon "ARSVA0";
         Tag "$SECVEST_CC";
 
-        S7_BasicArmorPickup.DataClass "S7_CCSecVestData";
+        S7_BasicArmorPickup.DataClass 'S7_CCSecVestData';
     }
 
     states {
@@ -218,7 +218,7 @@ class S7_SBTKSecVest : S7_BasicArmorPickup {
         Inventory.Icon "ARSVB0";
         Tag "$SECVEST_SBTK";
 
-        S7_BasicArmorPickup.DataClass "S7_SBTKSecVestData";
+        S7_BasicArmorPickup.DataClass 'S7_SBTKSecVestData';
     }
 
     states {

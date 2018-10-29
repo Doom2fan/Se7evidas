@@ -35,8 +35,8 @@ class S7_AK47 : S7_BaseWeapon {
         Tag "$AK47";
         Inventory.PickupMessage "$AK47";
 
-        Weapon.AmmoType1 "S7_AK47Clip";
-        Weapon.AmmoType2 "S7_762x39Cartridges";
+        Weapon.AmmoType1 'S7_AK47Clip';
+        Weapon.AmmoType2 'S7_762x39Cartridges';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -68,11 +68,11 @@ class S7_AK47 : S7_BaseWeapon {
         AK47 A     1;
     Ready2:
         AK47 A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            if (CheckInventory ("S7_ChangeFireMode", 1))
+            if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");
 
             A_WeaponReady ();
@@ -83,7 +83,7 @@ class S7_AK47 : S7_BaseWeapon {
 
     ChangeMode:
         AK47 A 5 {
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             if (invoker.semiOnly)
                 invoker.semiAuto = true;
@@ -110,9 +110,9 @@ class S7_AK47 : S7_BaseWeapon {
 
             A_AlertMonsters ();
             A_GunFlash ("Flash");
-            A_FireProjectile ("S7_AK47_Tracer", fRandom [weaponSpread] (-0.16, 0.16), true, 7, -0.5, 0, fRandom [weaponSpread] (-0.16, 0.16));
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.5, 4);
-            A_FireProjectile ("S7_RifleCasingSpawn", 0, 0, 13, -12);
+            A_FireProjectile ('S7_AK47_Tracer', fRandom [weaponSpread] (-0.16, 0.16), true, 7, -0.5, 0, fRandom [weaponSpread] (-0.16, 0.16));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3.5, 4);
+            A_FireProjectile ('S7_RifleCasingSpawn', 0, 0, 13, -12);
 
             A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             S7_Recoil (-0.7);
@@ -152,7 +152,7 @@ class S7_AK47 : S7_BaseWeapon {
 
     Reload:
         TNT1 A 0 {
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");

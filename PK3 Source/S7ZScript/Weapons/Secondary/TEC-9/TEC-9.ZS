@@ -35,8 +35,8 @@ class S7_TEC9 : S7_BaseWeapon {
         Tag "$TEC9";
         Inventory.PickupMessage "$TEC9";
 
-        Weapon.AmmoType1 "S7_TEC9Clip";
-        Weapon.AmmoType2 "S7_9mmCartridges";
+        Weapon.AmmoType1 'S7_TEC9Clip';
+        Weapon.AmmoType2 'S7_9mmCartridges';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -68,11 +68,11 @@ class S7_TEC9 : S7_BaseWeapon {
         TEC9 A 1 {
             invoker.burstCount = 0;
 
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            if (CheckInventory ("S7_ChangeFireMode", 1))
+            if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");
 
             A_WeaponReady ();
@@ -95,9 +95,9 @@ class S7_TEC9 : S7_BaseWeapon {
             A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1.8, 4.5);
-            A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 9, -2);
-            A_FireProjectile ("S7_TEC9Tracer", fRandom [weaponSpread] (-0.45, 0.45), 1, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1.8, 4.5);
+            A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 9, -2);
+            A_FireProjectile ('S7_TEC9Tracer', fRandom [weaponSpread] (-0.45, 0.45), 1, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
 
             if (invoker.burstFire) {
                 S7_Recoil (-0.5);
@@ -137,7 +137,7 @@ class S7_TEC9 : S7_BaseWeapon {
 
     ChangeMode:
         TEC9 A 5 {
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
             invoker.burstCount = 0;
 
             if (invoker.burstFire)
@@ -161,7 +161,7 @@ class S7_TEC9 : S7_BaseWeapon {
 
     Reload:
         TNT1 A 0 {
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
             A_ClearRefire ();
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))

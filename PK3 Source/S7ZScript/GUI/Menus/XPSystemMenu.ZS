@@ -56,7 +56,7 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
         if (!link.CPlayer || !link.CPlayer.mo)
             return;
 
-        let xpSys = S7_PlayerXPSystem (link.CPlayer.mo.FindInventory ("S7_PlayerXPSystem"));
+        let xpSys = S7_PlayerXPSystem (link.CPlayer.mo.FindInventory ('S7_PlayerXPSystem'));
         int amount = take ? -1 : 1;
 
         if (!xpSys)
@@ -115,21 +115,21 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
         CPlayer = players [consolePlayer];
 
-        handler = new ("S7_XPSystemMenuHandler");
+        handler = new ('S7_XPSystemMenuHandler');
         handler.link = self;
 
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         string labelText = StringTable.Localize ("$STATSMENUHEADER", true);
-        S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (mainFrame);
 
-        background = new ("S7_ZF_Image").Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
+        background = new ('S7_ZF_Image').Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (mainFrame);
 
-        statsFrame = new ("S7_ZF_Frame").Init ((35, 60), (200, 200));
+        statsFrame = new ('S7_ZF_Frame').Init ((35, 60), (200, 200));
         statsFrame.Pack (mainFrame);
 
         for (int i = 0; i < statNames.Size (); i++) {
@@ -139,36 +139,36 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statText.ToUpper ();
             statText = StringTable.Localize ("$STATSMENU_" .. statText, true);
 
-            statLabels [i] = new ("S7_ZF_Label").Init ((0, yCoords + 1), (0, SmallFont.GetHeight ()), text: String.Format ("%s:", statText),
+            statLabels [i] = new ('S7_ZF_Label').Init ((0, yCoords + 1), (0, SmallFont.GetHeight ()), text: String.Format ("%s:", statText),
                 fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
             );
             statLabels [i].cmdHandler = handler;
             statLabels [i].command = statNames [i];
             statLabels [i].Pack (statsFrame);
-            statBaseLabels [i] = new ("S7_ZF_Label").Init ((80, yCoords + 1), (0, SmallFont.GetHeight ()), text: "0",
+            statBaseLabels [i] = new ('S7_ZF_Label').Init ((80, yCoords + 1), (0, SmallFont.GetHeight ()), text: "0",
                 fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
             );
             statBaseLabels [i].Pack (statsFrame);
-            statAddLabels [i] = new ("S7_ZF_Label").Init ((110, yCoords + 1), (0, SmallFont.GetHeight ()), text: "+0",
+            statAddLabels [i] = new ('S7_ZF_Label').Init ((110, yCoords + 1), (0, SmallFont.GetHeight ()), text: "+0",
                 fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
             );
             statAddLabels [i].Pack (statsFrame);
 
-            statButtons [i] [0] = new ("S7_ZF_Button").Init ((140, yCoords), (13, 11), text: "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
+            statButtons [i] [0] = new ('S7_ZF_Button').Init ((140, yCoords), (13, 11), text: "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
             statButtons [i] [0].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [0].Pack (statsFrame);
-            statButtons [i] [1] = new ("S7_ZF_Button").Init ((160, yCoords), (13, 11), text: "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
+            statButtons [i] [1] = new ('S7_ZF_Button').Init ((160, yCoords), (13, 11), text: "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
             statButtons [i] [1].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
             statButtons [i] [1].Pack (statsFrame);
         }
-        acceptButton = new ("S7_ZF_Button").Init ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
+        acceptButton = new ('S7_ZF_Button').Init ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
         acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         acceptButton.Pack (statsFrame);
-        resetButton = new ("S7_ZF_Button").Init ((25 + 65, 95), (62, 15), text: "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
+        resetButton = new ('S7_ZF_Button').Init ((25 + 65, 95), (62, 15), text: "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
         resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         resetButton.Pack (statsFrame);
 
-        tooltipLabel = new ("S7_ZF_Label").Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
         tooltipLabel.Pack (mainFrame);
 
         //dontDim = true;
@@ -180,7 +180,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         if (!CPlayer || !CPlayer.mo)
             return;
 
-        let xpSys = S7_PlayerXPSystem (CPlayer.mo.FindInventory ("S7_PlayerXPSystem"));
+        let xpSys = S7_PlayerXPSystem (CPlayer.mo.FindInventory ('S7_PlayerXPSystem'));
 
         if (!xpSys)
             return;
@@ -225,7 +225,7 @@ class S7_XPSysMenuEventHandler : EventHandler {
         if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
             return;
 
-        let xpSys = S7_PlayerXPSystem (players [e.Player].mo.FindInventory ("S7_PlayerXPSystem"));
+        let xpSys = S7_PlayerXPSystem (players [e.Player].mo.FindInventory ('S7_PlayerXPSystem'));
         Array<String> strings;
         e.Name.Split (strings, ":");
         if (strings.Size () != 2 || strings [0] != "S7_XPSysMenuConfirm") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_XPSysMenuConfirm"

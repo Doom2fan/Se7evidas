@@ -25,7 +25,7 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
         let mapData = S7_MapData.Get ();
 
         if (level.maptime <= 1) {
-            let spawnPos = new ("S7_MapData_SpawnPos");
+            let spawnPos = new ('S7_MapData_SpawnPos');
 
             spawnPos.actorClass = GetReplacee (GetClass ());
             spawnPos.pos = spawnPoint;
@@ -74,7 +74,7 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
 //-------------------------------------------------------------------------------------------
 class S7_ZombiemanSpawner : S7_ReplacementSpawner replaces Zombieman {
     default {
-        DropItem "S7_ScorpsTrooper", 256, 1;
+        DropItem 'S7_ScorpsTrooper', 256, 1;
     }
 }
 
@@ -85,7 +85,7 @@ class S7_ZombiemanSpawner : S7_ReplacementSpawner replaces Zombieman {
 //-------------------------------------------------------------------------------------------
 class S7_ShotgunGuySpawner : S7_ReplacementSpawner replaces ShotgunGuy {
     default {
-        DropItem "S7_ScorpsHunter", 256, 1;
+        DropItem 'S7_ScorpsHunter', 256, 1;
     }
 }
 
@@ -96,7 +96,7 @@ class S7_ShotgunGuySpawner : S7_ReplacementSpawner replaces ShotgunGuy {
 //-------------------------------------------------------------------------------------------
 class S7_ImpSpawner : S7_ReplacementSpawner replaces DoomImp {
     default {
-        DropItem "S7_Hellion", 256, 1;
+        DropItem 'S7_Hellion', 256, 1;
     }
 }
 
@@ -107,7 +107,7 @@ class S7_ImpSpawner : S7_ReplacementSpawner replaces DoomImp {
 //-------------------------------------------------------------------------------------------
 class S7_ChaingunGuySpawner : S7_ReplacementSpawner replaces ChaingunGuy {
     default {
-        DropItem "S7_ScorpsEnforcer", 256, 1;
+        DropItem 'S7_ScorpsEnforcer', 256, 1;
     }
 }
 
@@ -118,8 +118,8 @@ class S7_ChaingunGuySpawner : S7_ReplacementSpawner replaces ChaingunGuy {
 //-------------------------------------------------------------------------------------------
 class S7_DemonSpawner : S7_ReplacementSpawner replaces Demon {
     default {
-        DropItem "S7_DemonDog",  256, 3;
-        DropItem "S7_Mechdemon", 256, 1;
+        DropItem 'S7_DemonDog',  256, 3;
+        DropItem 'S7_Mechdemon', 256, 1;
     }
 }
 
@@ -130,7 +130,7 @@ class S7_DemonSpawner : S7_ReplacementSpawner replaces Demon {
 //-------------------------------------------------------------------------------------------
 class S7_SpectreSpawner : S7_ReplacementSpawner replaces Spectre {
     default {
-        DropItem "S7_ShadowDemon", 256, 1;
+        DropItem 'S7_ShadowDemon', 256, 1;
     }
 }
 
@@ -141,7 +141,7 @@ class S7_SpectreSpawner : S7_ReplacementSpawner replaces Spectre {
 //-------------------------------------------------------------------------------------------
 class S7_LostSoulSpawner : S7_ReplacementSpawner replaces LostSoul {
     default {
-        DropItem "S7_FleshSpawn", 256, 1;
+        DropItem 'S7_FleshSpawn', 256, 1;
     }
 }
 
@@ -152,7 +152,7 @@ class S7_LostSoulSpawner : S7_ReplacementSpawner replaces LostSoul {
 //-------------------------------------------------------------------------------------------
 class S7_CacodemonSpawner : S7_ReplacementSpawner replaces Cacodemon {
     default {
-        DropItem "S7_Infernal", 256, 1;
+        DropItem 'S7_Infernal', 256, 1;
     }
 }
 
@@ -163,7 +163,7 @@ class S7_CacodemonSpawner : S7_ReplacementSpawner replaces Cacodemon {
 //-------------------------------------------------------------------------------------------
 /*class S7_PainElementalSpawner : S7_ReplacementSpawner replaces PainElemental {
     default {
-        DropItem "S7_Succubus", 256, 1;
+        DropItem 'S7_Succubus', 256, 1;
     }
 }*/
 
@@ -174,7 +174,7 @@ class S7_CacodemonSpawner : S7_ReplacementSpawner replaces Cacodemon {
 //-------------------------------------------------------------------------------------------
 class S7_MancubusSpawner : S7_ReplacementSpawner replaces Fatso {
     default {
-        DropItem "S7_FatFuck", 256, 1;
+        DropItem 'S7_FatFuck', 256, 1;
     }
 }
 
@@ -185,7 +185,7 @@ class S7_MancubusSpawner : S7_ReplacementSpawner replaces Fatso {
 //-------------------------------------------------------------------------------------------
 class S7_HellKnightSpawner : S7_ReplacementSpawner replaces HellKnight {
     default {
-        DropItem "S7_BlackPanther", 256, 1;
+        DropItem 'S7_BlackPanther', 256, 1;
     }
 }
 
@@ -196,7 +196,7 @@ class S7_HellKnightSpawner : S7_ReplacementSpawner replaces HellKnight {
 //-------------------------------------------------------------------------------------------
 class S7_BaronOfHellSpawner : S7_ReplacementSpawner replaces BaronOfHell {
     default {
-        DropItem "S7_InfernalGuardian", 256, 1;
+        DropItem 'S7_InfernalGuardian', 256, 1;
     }
 }
 
@@ -207,6 +207,6 @@ class S7_BaronOfHellSpawner : S7_ReplacementSpawner replaces BaronOfHell {
 //-------------------------------------------------------------------------------------------
 class S7_CyberdemonSpawner : S7_ReplacementSpawner replaces Cyberdemon {
     default {
-        DropItem "S7_EmpressPreSpawn", 256, 1;
+        DropItem 'S7_EmpressPreSpawn', 256, 1;
     }
 }

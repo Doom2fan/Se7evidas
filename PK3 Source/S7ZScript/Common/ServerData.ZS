@@ -34,17 +34,17 @@ class S7_MapData : Thinker {
     }
 
     static S7_MapData Get () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_MapData", STAT_INFO);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_MapData', STAT_INFO);
         let p = S7_MapData (it.Next ());
 
         if (!p)
-            p = new ("S7_MapData").Init ();
+            p = new ('S7_MapData').Init ();
 
         return p;
     }
 
     clearscope static S7_MapData GetSpecial () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_MapData", STAT_INFO);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_MapData', STAT_INFO);
         let p = S7_MapData (it.Next ());
 
         if (!p)
@@ -98,7 +98,7 @@ class S7_ServerData : Thinker {
         int pCount;
         for (int i = 0; i < MAXPLAYERS; i++) {
             if (playeringame [i] && players [i].mo) {
-                if (!(players [i].mo is "S7_BasePlayer"))
+                if (!(players [i].mo is 'S7_BasePlayer'))
                     continue;
 
                 let pPawn = S7_BasePlayer (players [i].mo);
@@ -132,11 +132,11 @@ class S7_ServerData : Thinker {
     }
 
     static S7_ServerData Get () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_ServerData", STAT_STATIC);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_ServerData', STAT_STATIC);
         let p = S7_ServerData (it.Next ());
 
         if (!p)
-            p = new ("S7_ServerData").Init ();
+            p = new ('S7_ServerData').Init ();
 
         if (p && !p.S7Data)
             p.ParseS7Data ();
@@ -145,7 +145,7 @@ class S7_ServerData : Thinker {
     }
 
     clearscope static S7_ServerData GetSpecial () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_ServerData", STAT_STATIC);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_ServerData', STAT_STATIC);
         let p = S7_ServerData (it.Next ());
 
         if (!p)

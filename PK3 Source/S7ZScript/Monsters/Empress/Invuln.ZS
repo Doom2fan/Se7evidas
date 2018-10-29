@@ -34,7 +34,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         RenderStyle "add";
         DamageFactor "EmpressDeath", 1.0;
         DamageFactor "NerveGas", 0.0;
-        Species "S7EmpressCrap";
+        Species 'S7EmpressCrap';
         Scale 0.1;
         Alpha 1.0;
 
@@ -57,7 +57,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
             for (int i = 0; i < 4; i++) {
                 let offs = (fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5));
 
-                let act = S7_EmpressShieldSparkle (Spawn ("S7_EmpressShieldSparkle", Vec3Offset (offs.X, offs.Y, offs.Z)));
+                let act = S7_EmpressShieldSparkle (Spawn ('S7_EmpressShieldSparkle', Vec3Offset (offs.X, offs.Y, offs.Z)));
                 if (act) {
                     act.vel = (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.0, 1.0));
                     act.target = owner;
@@ -67,7 +67,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
                 }
             }
 
-            let flare = S7_EmpressShieldFlare (Spawn ("S7_EmpressShieldFlare", pos));
+            let flare = S7_EmpressShieldFlare (Spawn ('S7_EmpressShieldFlare', pos));
             if (flare) {
                 flare.target = owner;
                 flare.rotAngle = rotAngle;
@@ -86,7 +86,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     override void PostBeginPlay () {
         A_RearrangePointers (AAPTR_Master, AAPTR_Default, AAPTR_Master);
 
-        if (!master || master.health < 1 || !(master is "S7_Empress"))
+        if (!master || master.health < 1 || !(master is 'S7_Empress'))
             Destroy ();
 
         owner = S7_Empress (master);
@@ -123,7 +123,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
             rotAngle += rotAmount;
 
             if (countdown < 1) {
-                A_Die ("NonKilledDeath");
+                A_Die ('NonKilledDeath');
                 return ResolveState ("Death.NonKilledDeath");
             }
 
@@ -134,7 +134,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     Death:
         TNT1 A 1 {
             WasDestroyed ();
-            A_DamageMaster (random [miscDamage] (1, 8) * 8, "Empress_BallExploded", DMSS_FoilInvul); // That's gotta hurt.
+            A_DamageMaster (random [miscDamage] (1, 8) * 8, 'Empress_BallExploded', DMSS_FoilInvul); // That's gotta hurt.
         }
         // Explosion here
         stop;

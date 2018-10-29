@@ -39,7 +39,7 @@ class S7_ArmorBonus : Inventory {
     }
 
     override bool TryPickup (in out Actor toucher) {
-        let basicArmor = S7_BasicArmor (toucher.FindInventory ("S7_BasicArmor"));
+        let basicArmor = S7_BasicArmor (toucher.FindInventory ('S7_BasicArmor'));
 
         if (basicArmor && basicArmor.armorData && basicArmor.ArmorType != 'None') {
             basicArmor.armorData.armorBonuses += amount;

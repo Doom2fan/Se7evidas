@@ -35,8 +35,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
         Tag "$MANXCARBINE";
         Inventory.PickupMessage "$MANXCARBINE";
 
-        Weapon.AmmoType1 "S7_ManxCarbineClip";
-        Weapon.AmmoType2 "S7_9mmCartridges";
+        Weapon.AmmoType1 'S7_ManxCarbineClip';
+        Weapon.AmmoType2 'S7_9mmCartridges';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -68,11 +68,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
         if (!pspWeap || !pspOverlay)
             return;
 
-        if (showOverlay && pspWeap.sprite == GetSpriteIndex ("MANX")) {
+        if (showOverlay && pspWeap.sprite == GetSpriteIndex ('MANX')) {
             pspOverlay.sprite = GetSpriteIndex (sprite);
             pspOverlay.frame = pspWeap.frame;
         } else {
-            pspOverlay.sprite = GetSpriteIndex ("TNT1");
+            pspOverlay.sprite = GetSpriteIndex ('TNT1');
             pspOverlay.frame = 0;
         }
     }
@@ -81,9 +81,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
     Spawn:
         MANX Z 1 {
             if (invoker.hasScope)
-                sprite = GetSpriteIndex ("MNXS");
+                sprite = GetSpriteIndex ('MNXS');
             else
-                sprite = GetSpriteIndex ("MANX");
+                sprite = GetSpriteIndex ('MANX');
         }
         loop;
 
@@ -92,11 +92,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
         MANX TUVWXA 1;
     Ready2:
         MANX A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            if (CheckInventory ("S7_ChangeFireMode", 1))
+            if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");
 
             int flagsWR = 0;
@@ -117,13 +117,13 @@ class S7_ManxCarbine : S7_BaseWeapon {
     Ready2.DoStuff:
         #### # 1 {
             if (invoker.zoomed)
-                TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
+                TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            if (CheckInventory ("S7_ChangeFireMode", 1))
+            if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");
 
             int flagsWR = 0;
@@ -136,7 +136,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        #### # 0 TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
+        #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
         #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
@@ -180,9 +180,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3.75, 1.75);
-            A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 15, -9);
-            A_FireProjectile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-0.25, 0.25), 1, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3.75, 1.75);
+            A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 15, -9);
+            A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.25, 0.25), 1, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
             S7_Recoil (-0.5);
 
             return ResolveState (null);
@@ -201,9 +201,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     Fire.Zoom:
         SCP1 D 1 {
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 0);
-            A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 8, -8);
-            A_FireProjectile ("S7_ManxCarbineTracer", fRandom [weaponSpread] (-0.24, 0.24), 1, 0, -3, 0, fRandom [weaponSpread] (-0.24, 0.24));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 0, 0);
+            A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 8, -8);
+            A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.24, 0.24), 1, 0, -3, 0, fRandom [weaponSpread] (-0.24, 0.24));
 
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
             S7_Recoil (-0.5);
@@ -238,9 +238,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
         }
         goto ChangeZoomLevel;
     DoZoom:
-        #### # 1 A_JumpIf (CheckInventory ("S7_HoldingZoom", 1), "Ready2.HoldingZoom");
+        #### # 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
         SCP1 D 8 {
-            GiveInventory ("S7_HoldingZoom", 1);
+            GiveInventory ('S7_HoldingZoom', 1);
 
             if (!invoker.zoomed) {
                 invoker.zoomed = true;
@@ -283,7 +283,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     ChangeMode:
         #### # 5 {
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             if (invoker.semiAuto)
                 invoker.semiAuto = false;
@@ -311,18 +311,18 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2;
 
     DryReload:
-        TNT1 A 0 GiveInventory ("S7_Reloading", 1);
+        TNT1 A 0 GiveInventory ('S7_Reloading', 1);
     Reload:
         TNT1 A 0 {
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1)) {
-                TakeInventory ("S7_Reloading", 1);
+                TakeInventory ('S7_Reloading', 1);
                 return ResolveState ("Ready2");
             }
 
             if (invoker.zoomed)
                 return ResolveState ("Unzoom");
 
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
             if (ammoAmount <= 0)

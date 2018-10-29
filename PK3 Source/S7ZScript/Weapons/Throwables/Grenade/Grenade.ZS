@@ -56,7 +56,7 @@ class S7_GrenadeBox : S7_GrenadeCount {
 class S7_GrenadeWeap : S7_ThrowWeapon {
     default {
         Tag "$GRENADEWEAP";
-        Weapon.AmmoType "S7_GrenadeCount";
+        Weapon.AmmoType 'S7_GrenadeCount';
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
         S7_BaseWeapon.Icon "TGRNZ0";
@@ -84,9 +84,9 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
     override void Throw () {
         if (!cooking)
-            Owner.TakeInventory ("S7_GrenadeCount", 1, TIF_NoTakeInfinite);
+            Owner.TakeInventory ('S7_GrenadeCount', 1, TIF_NoTakeInfinite);
 
-        let grenade = S7_ThrownHandGrenade (SpawnObject ("S7_ThrownHandGrenade"));
+        let grenade = S7_ThrownHandGrenade (SpawnObject ('S7_ThrownHandGrenade'));
 
         if (cooking) {
             grenade.fuse = fuse;
@@ -100,9 +100,9 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
     Ready:
     Ready2:
         TNT1 A 1 {
-            TakeInventory ("S7_Reloading", 0x7FFFFFFF);
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
-            if (CheckInventory ("S7_DoMelee", 1))
+            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
 
             if (!invoker.cooking)
@@ -119,7 +119,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
             if (invoker.cooking)
                 return ResolveState ("Hold");
 
-            if (!CheckInventory ("S7_GrenadeCount", 1))
+            if (!CheckInventory ('S7_GrenadeCount', 1))
                 return ResolveState ("Ready2");
 
             return ResolveState (null);
@@ -133,7 +133,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
     AltFire:
         TNT1 A      0 {
-            if (!CheckInventory ("S7_GrenadeCount", 1) || invoker.cooking)
+            if (!CheckInventory ('S7_GrenadeCount', 1) || invoker.cooking)
                 return ResolveState ("Ready2");
 
             return ResolveState (null);
@@ -143,7 +143,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
         TGRN HIJKLM 1;
         TNT1 A      1 {
-            TakeInventory ("S7_GrenadeCount", 1, TIF_NoTakeInfinite);
+            TakeInventory ('S7_GrenadeCount', 1, TIF_NoTakeInfinite);
 
             invoker.cooking = true;
             invoker.fuse = S7_ThrownHandGrenade.FuseTime;
@@ -153,7 +153,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
     CancelThrow:
         TNT1 A      1 {
-            TakeInventory ("S7_Reloading", 0x7FFFFFFF);
+            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
             invoker.throwForce = 0;
             A_ClearRefire ();
 
@@ -324,7 +324,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
                 keScale: 150,
                 zOff: 2.0, flags: SXF_TransferPointers
             );
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (random [weaponDamage] (192.0, 256.0), random [weaponSpread] (192.0, 256.0));
         }
         XPL1 BCDE 3 bright;

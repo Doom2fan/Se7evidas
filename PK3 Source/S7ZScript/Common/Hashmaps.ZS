@@ -18,7 +18,7 @@
 
 class S7_Hashmap_StrObj {
     static S7_Hashmap_StrObj Create () {
-        let ret = new ("S7_Hashmap_StrObj");
+        let ret = new ('S7_Hashmap_StrObj');
 
         ret.Keys.Clear ();
         ret.Values.Clear ();

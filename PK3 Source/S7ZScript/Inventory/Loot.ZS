@@ -37,7 +37,7 @@ class S7_LootItem : Inventory {
         int usedBlocksCount = 0;
 
         for (let inv = toucher.inv; inv; inv = inv.inv) {
-            if (!(inv is "S7_LootItem"))
+            if (!(inv is 'S7_LootItem'))
                 continue;
 
             let lootItem = S7_LootItem (inv);
@@ -111,7 +111,7 @@ class S7_Loot_ScorpsHunterSG : S7_LootItem {
             amount = 0;
 
         if (ret = Super.TryPickup (toucher))
-            toucher.GiveInventory ("S7_12gaShells", shellsCount);
+            toucher.GiveInventory ('S7_12gaShells', shellsCount);
 
         return ret;
     }
@@ -244,7 +244,7 @@ class S7_Loot_CreditsBriefcase10K : Inventory {
     }
 
     override bool TryPickup (in out Actor toucher) {
-        if (!toucher || toucher.CountInv ("S7_Cash") > 0x7FFFFFFF - Amount) {
+        if (!toucher || toucher.CountInv ('S7_Cash') > 0x7FFFFFFF - Amount) {
             bAlwaysPickup = false;
             return false;
         }
@@ -262,7 +262,7 @@ class S7_Loot_CreditsBriefcase10K : Inventory {
         if (!Owner)
             return false;
 
-        Owner.GiveInventory ("S7_Cash", Amount);
+        Owner.GiveInventory ('S7_Cash', Amount);
         bAlwaysPickup = true;
 
         return true;

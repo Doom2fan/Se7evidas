@@ -37,7 +37,7 @@ extend class S7_MapEventThinker {
             spawnSpots.Copy (mapData.monsterSpawnPos);
 
             for (int i = 0; i < spawnSpots.Size (); i++) {
-                Actor.Spawn ("S7_MEATW_Eyes", spawnSpots [i].pos);
+                Actor.Spawn ('S7_MEATW_Eyes', spawnSpots [i].pos);
             }
         }
     }

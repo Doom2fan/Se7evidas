@@ -47,8 +47,8 @@ class S7_Infernal : S7_MonsterBase {
 
     override void PostBeginPlay () {
         if (!xpSys) {
-            GiveInventory ("S7_XPSystem", 1);
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
         let serverData = S7_ServerData.Get ();
@@ -82,10 +82,10 @@ class S7_Infernal : S7_MonsterBase {
 
     override void Tick () {
         if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             if (!xpSys) {
-                GiveInventory ("S7_XPSystem", 1);
-                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             }
         }
 
@@ -119,7 +119,7 @@ class S7_Infernal : S7_MonsterBase {
 
         INFR J 6 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_InfernalBall", 32);
+            A_SpawnProjectile ('S7_InfernalBall', 32);
         }
         goto See;
 
@@ -158,7 +158,7 @@ class S7_InfernalBall : S7_FireballBase {
         DamageFunction (fRandom [monsterDMG] (1.0, 6.0) * 5);
         Speed 15;
         Obituary "$OBINFERNAL";
-        Decal "Scorch";
+        Decal 'Scorch';
 
         SeeSound "Monsters/Infernal/Attack";
     }

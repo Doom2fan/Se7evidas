@@ -21,22 +21,22 @@ class S7_BaseS7HUD : BaseStatusBar {
         let dracoPlayer = S7_DracoPlayer (CPlayer.mo);
 
         if (max) {
-            if (!dracoPlayer) return GetMaxAmount ("S7_Stamina");
+            if (!dracoPlayer) return GetMaxAmount ('S7_Stamina');
             else return 500;
         } else {
-            if (!dracoPlayer) return GetAmount ("S7_Stamina");
+            if (!dracoPlayer) return GetAmount ('S7_Stamina');
             else return dracoPlayer.defenseMatrixEnergy;
         }
     }
 
     /** Armor stuff **/
     int GetS7ArmorAmount () {
-        let armor = CPlayer.mo.FindInventory ("S7_BasicArmor");
+        let armor = CPlayer.mo.FindInventory ('S7_BasicArmor');
         return armor ? armor.Amount : 0;
     }
 
     int GetS7ArmorSaveAmount () {
-        let armor = S7_BasicArmor (CPlayer.mo.FindInventory ("S7_BasicArmor"));
+        let armor = S7_BasicArmor (CPlayer.mo.FindInventory ('S7_BasicArmor'));
         return armor ? armor.ActualSaveAmount : 0;
     }
 
@@ -58,7 +58,7 @@ class S7_BaseS7HUD : BaseStatusBar {
         double mul = 0.0;
 
         S7_Invisibility_Power invisPwr = null;
-        if (invisPwr = S7_Invisibility_Power (pPawn.FindInventory ("S7_Invisibility_Power")))
+        if (invisPwr = S7_Invisibility_Power (pPawn.FindInventory ('S7_Invisibility_Power')))
             mul = clamp ((invisPwr.EffectTics * 2.5) / (90 * 35), 0.35, 1.0);
 
         if (mul ~== 0.0)

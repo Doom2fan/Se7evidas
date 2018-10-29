@@ -53,7 +53,7 @@ class S7_GibbingBlood : S7_Flying_Blood {
 
             return ResolveState (null);
         }
-        BLD1 CCCBBBAAA 1 A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
+        BLD1 CCCBBBAAA 1 A_SpawnItemEx ('S7_Flying_Blood_Trail', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
         loop;
 
     Death:
@@ -129,7 +129,7 @@ class S7_GenericGoreBits : S7_GoreBase {
         #### # 1 {
             if (!bNoBlood && (trailSpawnDuration--) > 0) {
                 bool MUDA; Actor trail;
-                [MUDA, trail] = A_SpawnItemEx ("S7_Gibs_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
+                [MUDA, trail] = A_SpawnItemEx ('S7_Gibs_Blood_Trail', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
                 trail.SetOrigin (oldCoords, false);
             }
 

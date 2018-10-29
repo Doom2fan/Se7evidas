@@ -39,17 +39,17 @@ class S7_InfantryPlayer : S7_BasePlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ("S7_KickMelee", 1);
+        GiveInventory ('S7_KickMelee', 1);
         // Equipment
-        GiveInventory ("S7_GrenadeCount", 4);
-        GiveInventory ("S7_Stimpack", 3);
-        GiveInventory ("S7_Medikit", 2);
+        GiveInventory ('S7_GrenadeCount', 4);
+        GiveInventory ('S7_Stimpack', 3);
+        GiveInventory ('S7_Medikit', 2);
         // Ammo
-        GiveInventory ("S7_RaptorClip", 16);
-        GiveInventory ("S7_9mmCartridges", 70);
+        GiveInventory ('S7_RaptorClip', 16);
+        GiveInventory ('S7_9mmCartridges', 70);
 
-        GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
-        let raptor = GiveBasics_GiveStartingWeapon ("S7_Raptor");
+        GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
+        let raptor = GiveBasics_GiveStartingWeapon ('S7_Raptor');
 
         weapBinds.LastWeapon = raptor;
         player.PendingWeapon = raptor;
@@ -129,21 +129,21 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ("S7_KickMelee", 1);
+        GiveInventory ('S7_KickMelee', 1);
         // Equipment
-        GiveInventory ("S7_GrenadeCount", 4);
-        GiveInventory ("S7_Stimpack", 3);
-        GiveInventory ("S7_Medikit", 2);
-        GiveInventory ("S7_Flashlight", 1);
+        GiveInventory ('S7_GrenadeCount', 4);
+        GiveInventory ('S7_Stimpack', 3);
+        GiveInventory ('S7_Medikit', 2);
+        GiveInventory ('S7_Flashlight', 1);
         // Ammo
-        GiveInventory ("S7_RaptorClip", 16);
-        GiveInventory ("S7_9mmCartridges", 50);
-        GiveInventory ("S7_AMGMag", 35);
-        GiveInventory ("S7_762x39Cartridges", 160);
+        GiveInventory ('S7_RaptorClip', 16);
+        GiveInventory ('S7_9mmCartridges', 50);
+        GiveInventory ('S7_AMGMag', 35);
+        GiveInventory ('S7_762x39Cartridges', 160);
 
-        GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
-        GiveBasics_GiveStartingWeapon ("S7_Raptor");
-        let rifle = GiveBasics_GiveStartingWeapon ("S7_AMG");
+        GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
+        GiveBasics_GiveStartingWeapon ('S7_Raptor');
+        let rifle = GiveBasics_GiveStartingWeapon ('S7_AMG');
 
         weapBinds.LastWeapon = rifle;
         player.PendingWeapon = rifle;

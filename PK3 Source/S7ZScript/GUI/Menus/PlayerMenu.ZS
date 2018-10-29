@@ -21,15 +21,15 @@ class S7_PlayerMenuHandler : S7_ZF_Handler {
 
     override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "openXPSysMenu")
-            Menu.SetMenu ("S7_XPSystemMenu");
+            Menu.SetMenu ('S7_XPSystemMenu');
         else if (command == "openLuciusShop")
-            Menu.SetMenu ("S7_LuciusShopMenu");
+            Menu.SetMenu ('S7_LuciusShopMenu');
         else if (command == "openWeapAssignMenu")
-            Menu.SetMenu ("S7_WeapAssignMenu");
+            Menu.SetMenu ('S7_WeapAssignMenu');
         else if (command == "openDracoWeapMenu")
-            Menu.SetMenu ("S7_DracoWeapAssignMenu");
+            Menu.SetMenu ('S7_DracoWeapAssignMenu');
         else if (command == "openAutogunMenu")
-            Menu.SetMenu ("S7_AutogunMenu");
+            Menu.SetMenu ('S7_AutogunMenu');
     }
 }
 
@@ -53,17 +53,17 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         if (!CPlayer || !CPlayer.mo)
             return;
 
-        handler = new ("S7_PlayerMenuHandler");
+        handler = new ('S7_PlayerMenuHandler');
         handler.link = self;
 
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        menusFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 480));
+        menusFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 480));
         menusFrame.Pack (mainFrame);
 
         string labelText = StringTable.Localize ("$PLAYERMENUHEADER", true);
-        S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (menusFrame);
 
@@ -73,9 +73,9 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         AddButton (xpSysButton, "$PLAYERMENU_XPMENU", 15 + ((fontHeight+4) * buttonCount++), handler, "openXPSysMenu");
         AddButton (luciusShopButton, "$PLAYERMENU_LUCIUSSHOP", 15 + ((fontHeight+4) * buttonCount++), handler, "openLuciusShop");
         AddButton (weapAssignButton, "$PLAYERMENU_WEAPASSIGN", 15 + ((fontHeight+4) * buttonCount++), handler, "openWeapAssignMenu");
-        if (true) //CheckInventory ("S7_DracoStored"))
+        if (true) //CheckInventory ('S7_DracoStored'))
             AddButton (dracoWeapAssignButton, "$PLAYERMENU_DRACOWEAPASSIGN", 15 + ((fontHeight+4) * buttonCount++), handler, "openDracoWeapMenu");
-        if (CheckInventory ("S7_M400AutogunStored"))
+        if (CheckInventory ('S7_M400AutogunStored'))
             AddButton (m400AutogunButton, "$PLAYERMENU_M400AUTOGUN", 15 + ((fontHeight+4) * buttonCount++), handler, "openAutogunMenu");
 
         //dontDim = true;
@@ -93,7 +93,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         string btnText = StringTable.Localize (label, true);
         int btnTextWidth = smallFont.StringWidth (btnText), btnTextHeight = smallFont.GetHeight ();
 
-        button = new ("S7_ZF_Button").Init (((640 - btnTextWidth) / 2, ((480 - btnTextHeight) / 2) + yOffs), (btnTextWidth, btnTextHeight),
+        button = new ('S7_ZF_Button').Init (((640 - btnTextWidth) / 2, ((480 - btnTextHeight) / 2) + yOffs), (btnTextWidth, btnTextHeight),
             btnText, cmdHandler: cmdHandler, command: command, fnt: smallFont);
         button.SetTexture ("", "", "", "");
         button.Pack (menusFrame);

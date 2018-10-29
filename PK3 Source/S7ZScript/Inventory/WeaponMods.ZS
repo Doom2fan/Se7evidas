@@ -28,7 +28,7 @@ class S7_ManxScope : Inventory {
         if (!Owner)
             return false;
 
-        let manx = S7_ManxCarbine (Owner.FindInventory ("S7_ManxCarbine"));
+        let manx = S7_ManxCarbine (Owner.FindInventory ('S7_ManxCarbine'));
         if (!manx || manx.hasScope)
             return false;
 

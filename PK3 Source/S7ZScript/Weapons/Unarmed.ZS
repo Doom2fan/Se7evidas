@@ -57,7 +57,7 @@ class S7_SprintWeapon : S7_NullWeapon {
     states {
     Ready:
         TNT1 A 1 {
-            let pData = S7_PlayerData (FindInventory ("S7_PlayerData"));
+            let pData = S7_PlayerData (FindInventory ('S7_PlayerData'));
 
             bool sprinting = false;
             if (pData) sprinting = pData.sprinting;
@@ -72,7 +72,7 @@ class S7_LedgeGrabWeapon : S7_NullWeapon {
     states {
     Ready:
         TNT1 A 1 {
-            let pData = S7_PlayerData (FindInventory ("S7_PlayerData"));
+            let pData = S7_PlayerData (FindInventory ('S7_PlayerData'));
 
             bool grabbed = false;
             if (pData) grabbed = pData.lGrabGrabbed;

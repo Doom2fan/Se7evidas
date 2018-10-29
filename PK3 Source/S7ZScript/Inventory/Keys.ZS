@@ -47,7 +47,7 @@ class S7_KeycardReplacerBase : Key {
 class S7_RedKeycard : S7_KeycardReplacerBase replaces RedCard {
     default {
         Inventory.PickupMessage "$REDKEY";
-        Species "RedCard";
+        Species 'RedCard';
     }
 
     states {
@@ -65,7 +65,7 @@ class S7_RedKeycard : S7_KeycardReplacerBase replaces RedCard {
 class S7_BlueKeycard : S7_KeycardReplacerBase replaces BlueCard {
     default {
         Inventory.PickupMessage "$BLUEKEY";
-        Species "BlueCard";
+        Species 'BlueCard';
     }
 
     states {
@@ -83,7 +83,7 @@ class S7_BlueKeycard : S7_KeycardReplacerBase replaces BlueCard {
 class S7_YellowKeycard : S7_KeycardReplacerBase replaces YellowCard {
     default {
         Inventory.PickupMessage "$YELLOWKEY";
-        Species "YellowCard";
+        Species 'YellowCard';
     }
 
     states {

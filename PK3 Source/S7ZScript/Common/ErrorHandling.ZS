@@ -26,7 +26,7 @@ class S7_Error {
     virtual void SetSource (string src) { source = src; }
 
     static S7_Error Create (string message = "", string source = "") {
-        let ret = new ("S7_Error");
+        let ret = new ('S7_Error');
         ret.message = message;
         ret.source = source;
         return ret;
@@ -37,7 +37,7 @@ class S7_Exception : S7_Error {
     S7_Exception innerException;
 
     static S7_Exception Create (string message = "", string source = "", S7_Exception innerException = NULL) {
-        let ret = new ("S7_Exception");
+        let ret = new ('S7_Exception');
         ret.message = message;
         ret.source = source;
         ret.innerException = innerException;

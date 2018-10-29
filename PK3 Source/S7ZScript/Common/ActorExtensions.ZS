@@ -80,7 +80,7 @@ class S7_ActorExtensions : Actor {
     const CHP_BlockFlags = Line.ML_BLOCKMONSTERS | Line.ML_BLOCK_PLAYERS | Line.ML_BLOCK_FLOATERS | Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKUSE | Line.ML_BLOCKSIGHT | Line.ML_BLOCKHITSCAN;
     static bool CanHitPoint (Vector3 p1, Vector3 p2, S7_CanHitPointData data) {
         if (!data)
-            data = new ("S7_CanHitPointData");
+            data = new ('S7_CanHitPointData');
 
         let diffVec = level.Vec3Diff (p1, p2);
         double dist = diffVec.Length ();
@@ -88,7 +88,7 @@ class S7_ActorExtensions : Actor {
         [data.AngleTo, data.PitchTo] = S7_Math.GetAnglesTo (p1, p2);
         data.lineBlockFlags &= CHP_BlockFlags;
 
-        let tracer = new ("S7_CanHitPointLineTracer");
+        let tracer = new ('S7_CanHitPointLineTracer');
         tracer.data = data;
 
         if (tracer.Trace (p1, Sector.PointInSector (p1.XY), diffVec.Unit (), dist, TRACE_PortalRestrict)) {
@@ -115,10 +115,10 @@ class S7_ActorExtensions : Actor {
             !act.curState.bCanRaise) // Or not ready to be raised yet
             return NULL;
 
-        if (act is "PlayerPawn")
+        if (act is 'PlayerPawn')
             return NULL;    // do not resurrect players
 
-        return act.FindState ("Raise");
+        return act.FindState ('Raise');
     }
 
 
@@ -150,11 +150,11 @@ class S7_ActorExtensions : Actor {
     **  Returns a bool indicating whether the actor is in the "void".
     */
     static bool IsInVoid (Actor mo) {
-        let secPoly = new ("S7_Polygon");
+        let secPoly = new ('S7_Polygon');
 
         Sector sec = mo.CurSector;
         for (int i = 0; i < sec.lines.Size (); i++) {
-            let line = new ("S7_Line");
+            let line = new ('S7_Line');
 
             line.v1 = sec.lines [i].v1.p;
             line.v2 = sec.lines [i].v2.p;
@@ -245,7 +245,7 @@ class S7_ActorExtensions : Actor {
                 if (true)//!(i_compatflags & COMPATF_NOTOSSDROPS))
                     TossItem (mo);
 
-                if (mo is "Inventory") {
+                if (mo is 'Inventory') {
                     let inv = Inventory (mo);
 
                     inv.ModifyDropAmount (dropamount);

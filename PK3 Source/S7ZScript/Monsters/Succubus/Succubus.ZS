@@ -31,7 +31,7 @@ class S7_Succubus : S7_SuccubusBase {
         PainSound "Succubus/Pain";
         DeathSound "Succubus/Death";
         Obituary "$OBSUCCUBUS";
-        Species "Succubus";
+        Species 'Succubus';
         Tag "$SUCCUBUSTAG";
     }
 
@@ -117,7 +117,7 @@ class S7_Succubus : S7_SuccubusBase {
 
         SUCC F 3 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_HellionBall", 45.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_HellionBall', 45.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         SUCC G 4;
         goto See;

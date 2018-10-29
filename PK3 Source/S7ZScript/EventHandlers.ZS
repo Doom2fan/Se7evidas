@@ -125,9 +125,9 @@ class S7_PlayerEventHandler : EventHandler {
             let pPawn = players [e.Player].mo;
 
             if (pPawn && strings [1] == "Melee")
-                pPawn.SetInventory ("S7_DoMelee", 1);
+                pPawn.SetInventory ('S7_DoMelee', 1);
             else if (pPawn && strings [1] == "FiringMode")
-                pPawn.SetInventory ("S7_ChangeFireMode", 1);
+                pPawn.SetInventory ('S7_ChangeFireMode', 1);
         } else if (strings [0] == "S7_WeapBindsSystem")
             WeapBindsSystem (e);
     }
@@ -172,9 +172,9 @@ class S7_PlayerEventHandler : EventHandler {
                 let pPawn = players [consoleplayer].mo;
 
                 if (pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu")
-                    Menu.SetMenu ("S7_PlayerMenu");
+                    Menu.SetMenu ('S7_PlayerMenu');
                 else if (pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
-                    Menu.SetMenu ("S7_LuciusShopMenu");
+                    Menu.SetMenu ('S7_LuciusShopMenu');
             }
         }
     }
@@ -185,12 +185,12 @@ class S7_PlayerEventHandler : EventHandler {
         if (!player) // Return if the player is null
             return;
 
-        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ("S7_WeapBindsSystem"));
+        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ('S7_WeapBindsSystem'));
 
         if (!weapBinds) // Return if weapBinds is null
             return;
 
-        bool isDraco = (player.mo is "S7_DracoPlayer");
+        bool isDraco = (player.mo is 'S7_DracoPlayer');
 
         Array<String> commandStrings;
         e.Name.Split (commandStrings, ":");
@@ -223,7 +223,7 @@ class S7_PlayerEventHandler : EventHandler {
             CVar tagColor = CVar.GetCVar ("nametagcolor", player);
             if (dispTags && weapon && (dispTags.GetInt () & 2))
                 S7_HudMessageFade.Show (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
-                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: "SmallFont");
+                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: 'SmallFont');
         } else if (commandStrings [1] == "prev") {
             S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false, isDraco);
 
@@ -236,33 +236,33 @@ class S7_PlayerEventHandler : EventHandler {
             CVar tagColor = CVar.GetCVar ("nametagcolor", player);
             if (dispTags && weapon && (dispTags.GetInt () & 2))
                 S7_HudMessageFade.Show (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
-                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: "SmallFont");
+                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: 'SmallFont');
         } else if (commandStrings [1] == "test") {
             for (int i = 1; i <= 5; i++)
                 weapBinds.SlotMaximum [i] = 3;
 
             // Medium
-            WeapBindsSystem_Derp (player, 1, "S7_AK47");
-            WeapBindsSystem_Derp (player, 1, "S7_Fauchard");
-            WeapBindsSystem_Derp (player, 1, "S7_SSG");
+            WeapBindsSystem_Derp (player, 1, 'S7_AK47');
+            WeapBindsSystem_Derp (player, 1, 'S7_Fauchard');
+            WeapBindsSystem_Derp (player, 1, 'S7_SSG');
             // Light
             weapBinds.Binds [2].Clear ();
-            WeapBindsSystem_Derp (player, 2, "S7_Revolver");
-            WeapBindsSystem_Derp (player, 2, "S7_HitterSMG");
-            WeapBindsSystem_Derp (player, 2, "S7_LaserPewPew");
+            WeapBindsSystem_Derp (player, 2, 'S7_Revolver');
+            WeapBindsSystem_Derp (player, 2, 'S7_HitterSMG');
+            WeapBindsSystem_Derp (player, 2, 'S7_LaserPewPew');
             // Heavy
-            WeapBindsSystem_Derp (player, 3, "S7_ConquerorRifle");
-            WeapBindsSystem_Derp (player, 3, "S7_Thumper");
+            WeapBindsSystem_Derp (player, 3, 'S7_ConquerorRifle');
+            WeapBindsSystem_Derp (player, 3, 'S7_Thumper');
             // Area-damage
-            WeapBindsSystem_Derp (player, 4, "S7_PrettyShootyIonCannonGun");
+            WeapBindsSystem_Derp (player, 4, 'S7_PrettyShootyIonCannonGun');
             // Special
-            WeapBindsSystem_Derp (player, 5, "S7_GrenadeWeap");
-            WeapBindsSystem_Derp (player, 5, "S7_SoulLance");
+            WeapBindsSystem_Derp (player, 5, 'S7_GrenadeWeap');
+            WeapBindsSystem_Derp (player, 5, 'S7_SoulLance');
         }
     }
     void WeapBindsSystem_Derp (PlayerInfo player, int slot, string weapon) {
         if (!player) return;
-        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ("S7_WeapBindsSystem"));
+        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ('S7_WeapBindsSystem'));
         if (!weapBinds) return;
         let weapInv = S7_BaseWeapon (player.mo.FindInventory (weapon));
 

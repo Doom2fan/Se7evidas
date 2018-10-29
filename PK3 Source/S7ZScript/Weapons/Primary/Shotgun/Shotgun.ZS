@@ -35,8 +35,8 @@ class S7_Shotgun : S7_BaseWeapon {
         Tag "$SHOTGUN";
         Inventory.PickupMessage "$SHOTGUN";
 
-        Weapon.AmmoType1 "S7_ShotgunMag";
-        Weapon.AmmoType2 "S7_20gaShells";
+        Weapon.AmmoType1 'S7_ShotgunMag';
+        Weapon.AmmoType2 'S7_20gaShells';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -69,15 +69,15 @@ class S7_Shotgun : S7_BaseWeapon {
 
     action void S7_FireShotgun (bool right) {
         if (!right) {
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 2);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1, 2);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1, 2);
             for (int i = 0; i < 18; i++)
-                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
+                A_FireProjectile ('S7_SSGTracer', fRandom [weaponSpread] (-0.25, 0.25), 0, 2, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
         } else {
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 2);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3, 2);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3, 2);
             for (int i = 0; i < 18; i++)
-                A_FireProjectile ("S7_SSGTracer", fRandom [weaponSpread] (-0.25, 0.25), 0, 6, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
+                A_FireProjectile ('S7_SSGTracer', fRandom [weaponSpread] (-0.25, 0.25), 0, 6, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
         }
     }
 
@@ -90,11 +90,11 @@ class S7_Shotgun : S7_BaseWeapon {
         SSGR VWXYZA 1;
     Ready2:
         SSGR A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_ChangeFireMode", 1);
+            TakeInventory ('S7_ChangeFireMode', 1);
 
             A_WeaponReady ();
 
@@ -227,8 +227,8 @@ class S7_Shotgun : S7_BaseWeapon {
             return ResolveState (null);
         }
         SSGF H    2 {
-            A_FireProjectile ("S7_ShellCasingSpawn", 0, 0, 6, -3);
-            A_FireProjectile ("S7_ShellCasingSpawn", 0, 0, 6, -3);
+            A_FireProjectile ('S7_ShellCasingSpawn', 0, 0, 6, -3);
+            A_FireProjectile ('S7_ShellCasingSpawn', 0, 0, 6, -3);
             A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
         }
         SSGF IK   2;
@@ -240,7 +240,7 @@ class S7_Shotgun : S7_BaseWeapon {
         SSGR A 3 A_PlaySound ("Weapons/Misc/DryFire", CHAN_7);
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading")) {
-                GiveInventory ("S7_Reloading", 1);
+                GiveInventory ('S7_Reloading', 1);
                 return ResolveState ("Reload");
             }
 
@@ -249,17 +249,17 @@ class S7_Shotgun : S7_BaseWeapon {
         goto Ready2;
 
     Reload:
-        SSGR A 5 A_JumpIf (!CheckInventory ("S7_Reloading", 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2, "ReloadFinish");
+        SSGR A 5 A_JumpIf (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2, "ReloadFinish");
         TNT1 A 0 A_JumpIf (invoker.loaded != 2, "InsertShells.Pump");
         goto InsertShells;
 
     InsertShells:
         DSGR A       1 {
-            if (!CheckInventory ("S7_Reloading", 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2)
+            if (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2)
                 return ResolveState ("ReloadFinish");
 
-            GiveInventory ("S7_ShotgunMag", 2);
-            TakeInventory ("S7_20gaShells", 2);
+            GiveInventory ('S7_ShotgunMag', 2);
+            TakeInventory ('S7_20gaShells', 2);
             A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5);
 
             return ResolveState (null);
@@ -279,14 +279,14 @@ class S7_Shotgun : S7_BaseWeapon {
             } else if (invoker.loaded == 1) {
                 TakeInventory (invoker.ammoType1, 1); // Remove the extra shell
                 GiveInventory (invoker.ammoType2, 1);
-                A_FireProjectile ("S7_ShellCasingSpawn", 0, 0, 6, -3);
+                A_FireProjectile ('S7_ShellCasingSpawn', 0, 0, 6, -3);
                 if (CheckInventory (invoker.ammoType1, 2))
                     invoker.loaded = 2; // Load 2 shells into the chamber
                 else
                     invoker.loaded = 0;
             } else if (invoker.loaded <= 0 && CheckInventory (invoker.ammoType1, 2)) {
-                A_FireProjectile ("S7_ShellCasingSpawn", 0, 0, 6, -3);
-                A_FireProjectile ("S7_ShellCasingSpawn", 0, 0, 6, -3);
+                A_FireProjectile ('S7_ShellCasingSpawn', 0, 0, 6, -3);
+                A_FireProjectile ('S7_ShellCasingSpawn', 0, 0, 6, -3);
                 invoker.loaded = 2;
             } else
                 return ResolveState ("InsertShells");
@@ -300,7 +300,7 @@ class S7_Shotgun : S7_BaseWeapon {
         goto InsertShells;
 
     ReloadFinish:
-        TNT1 A 0 TakeInventory ("S7_Reloading", 1);
+        TNT1 A 0 TakeInventory ('S7_Reloading', 1);
         goto Ready2;
     }
 }

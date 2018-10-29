@@ -92,8 +92,8 @@ class S7_SoulSphere : S7_HeartSphere {
     override bool Use (bool pickup) {
         Super.Use (pickup);
 
-        Owner.GiveInventory ("S7_ArmorBonus", random [invSpc] (25, 35));
-        let armor = S7_BasicArmor (Owner.FindInventory ("S7_BasicArmor"));
+        Owner.GiveInventory ('S7_ArmorBonus', random [invSpc] (25, 35));
+        let armor = S7_BasicArmor (Owner.FindInventory ('S7_BasicArmor'));
         if (armor && armor.armorData)
             armor.armorData.FixArmor (armor, 0x7FFFFFFF);
         
@@ -208,7 +208,7 @@ class S7_Biosphere : PowerupGiver {
     default {
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$BIOSPHERE_PICKUP";
-        Powerup.Type "S7_BiospherePower";
+        Powerup.Type 'S7_BiospherePower';
 
         +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP
     }
@@ -254,7 +254,7 @@ class S7_Invisibility : PowerupGiver {
     default {
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$INVISIBILITY_PICKUP";
-        Powerup.Type "S7_Invisibility_Power";
+        Powerup.Type 'S7_Invisibility_Power';
 
         +INVENTORY.AUTOACTIVATE +INVENTORY.ALWAYSPICKUP +COUNTITEM
     }
@@ -286,7 +286,7 @@ class S7_Invisibility : PowerupGiver {
         if (globalfreeze || level.frozen)
             return;
         
-        let act = Spawn ("S7_InvulnerabilityEffect", pos);
+        let act = Spawn ('S7_InvulnerabilityEffect', pos);
         if (act) {
             act.A_SetRenderStyle (act.Alpha, STYLE_Translucent);
             act.vel = vel + (frandom [sfx] (-1.5, 1.5), frandom [sfx] (-1.5, 1.5), frandom [sfx] (-1.5, 1.5));

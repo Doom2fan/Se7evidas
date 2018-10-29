@@ -46,7 +46,7 @@ class S7_HealWeap : S7_NullWeapon {
     default {
         S7_HealWeap.MaxUses 1; // Just to provide sane defaults
 
-        S7_HealWeap.HealItem "";
+        S7_HealWeap.HealItem '';
         S7_HealWeap.HealItemAmount 1;
 
         S7_HealWeap.HealTime 1;
@@ -93,10 +93,10 @@ class S7_HealWeap : S7_NullWeapon {
         TNT1 A 1 {
             invoker.healProgress = -1;
 
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_Reloading", 0x7FFFFFFF);
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             A_ClearRefire ();
             A_WeaponReady ();
@@ -198,7 +198,7 @@ class S7_Medikit : S7_HealWeapItem replaces Medikit {
     default {
         Tag "$MEDIKIT";
 
-        S7_HealWeapItem.HealWeap "S7_MedikitApplicator";
+        S7_HealWeapItem.HealWeap 'S7_MedikitApplicator';
         Inventory.MaxAmount 4;
         Inventory.InterHubAmount 4;
         Inventory.PickupMessage "$MEDIKIT";
@@ -218,7 +218,7 @@ class S7_MedikitApplicator : S7_HealWeap {
     default {
         S7_HealWeap.MaxUses 2;
 
-        S7_HealWeap.HealItem "S7_Medikit";
+        S7_HealWeap.HealItem 'S7_Medikit';
         S7_HealWeap.HealItemAmount 1;
 
         S7_HealWeap.HealTime floor (1.5 * 35); // 1.5 seconds
@@ -247,7 +247,7 @@ class S7_Stimpack : S7_HealWeapItem replaces Stimpack {
     default {
         Tag "$STIMPACK";
 
-        S7_HealWeapItem.HealWeap "S7_StimpackApplicator";
+        S7_HealWeapItem.HealWeap 'S7_StimpackApplicator';
         Inventory.MaxAmount 8;
         Inventory.InterHubAmount 8;
         Inventory.PickupMessage "$STIMPACK";
@@ -267,7 +267,7 @@ class S7_StimpackApplicator : S7_HealWeap {
     default {
         S7_HealWeap.MaxUses 1;
 
-        S7_HealWeap.HealItem "S7_Stimpack";
+        S7_HealWeap.HealItem 'S7_Stimpack';
         S7_HealWeap.HealItemAmount 1;
 
         S7_HealWeap.HealTime 14;
@@ -293,7 +293,7 @@ class S7_StimpackApplicator : S7_HealWeap {
         if (!pPawn || !pPawn.xpSys || !pPawn.CanGiveHealing (false))
             return false;
 
-        let regenMod = new ("S7_Stimpack_FasterRegen");
+        let regenMod = new ('S7_Stimpack_FasterRegen');
 
         if (!pPawn.xpSys.AddStatMod (regenMod)) {
             regenMod.Destroy ();
@@ -379,10 +379,10 @@ class S7_CanteenRefill : Inventory replaces HealthBonus {
     }
 
     override bool TryPickup (in out Actor toucher) {
-        let canteen = toucher.FindInventory ("S7_Canteen");
+        let canteen = toucher.FindInventory ('S7_Canteen');
 
         if (!canteen || canteen.Amount < canteen.MaxAmount) {
-            toucher.GiveInventory ("S7_Canteen", Amount);
+            toucher.GiveInventory ('S7_Canteen', Amount);
             GoAwayAndDie();
             return true;
         }

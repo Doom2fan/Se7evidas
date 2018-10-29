@@ -39,8 +39,8 @@ class S7_HBPuff_Base : Actor {
     states {
     Spawn:
         TNT1 A 3 noDelay {
-            A_GiveToTarget ("S7_HellhunterBladeExperience", 4);
-            A_GiveToTarget ("S7_HellhunterBladeLust", 5);
+            A_GiveToTarget ('S7_HellhunterBladeExperience', 4);
+            A_GiveToTarget ('S7_HellhunterBladeLust', 5);
         }
         stop;
     Crash:

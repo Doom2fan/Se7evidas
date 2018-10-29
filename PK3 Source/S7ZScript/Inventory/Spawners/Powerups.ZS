@@ -23,9 +23,9 @@
 //-------------------------------------------------------------------------------------------
 class S7_ArmorBonusSpawner : RandomSpawner replaces ArmorBonus {
     default {
-        DropItem "S7_Nothing",         256, 2;
-        DropItem "S7_ArmorBonus",      256, 4;
-        DropItem "S7_LargeArmorBonus", 256, 1;
+        DropItem 'S7_Nothing',         256, 2;
+        DropItem 'S7_ArmorBonus',      256, 4;
+        DropItem 'S7_LargeArmorBonus', 256, 1;
     }
 }
 
@@ -36,8 +36,8 @@ class S7_ArmorBonusSpawner : RandomSpawner replaces ArmorBonus {
 //-------------------------------------------------------------------------------------------
 class S7_InvulnerabilitySpawner : RandomSpawner replaces InvulnerabilitySphere {
     default {
-        DropItem "S7_InvulnerabilityType1", 256, 5;
-        DropItem "S7_InvulnerabilityType2", 256, 1;
+        DropItem 'S7_InvulnerabilityType1', 256, 5;
+        DropItem 'S7_InvulnerabilityType2', 256, 1;
     }
 }
 
@@ -48,7 +48,7 @@ class S7_InvulnerabilitySpawner : RandomSpawner replaces InvulnerabilitySphere {
 //-------------------------------------------------------------------------------------------
 class S7_SoulsphereSpawner : RandomSpawner replaces Soulsphere {
     default {
-        DropItem "S7_HeartSphere", 256, 1;
+        DropItem 'S7_HeartSphere', 256, 1;
     }
 }
 
@@ -59,7 +59,7 @@ class S7_SoulsphereSpawner : RandomSpawner replaces Soulsphere {
 //-------------------------------------------------------------------------------------------
 class S7_MegasphereSpawner : RandomSpawner replaces Megasphere {
     default {
-        DropItem "S7_SoulSphere", 256, 1;
+        DropItem 'S7_SoulSphere', 256, 1;
     }
 }
 
@@ -70,8 +70,8 @@ class S7_MegasphereSpawner : RandomSpawner replaces Megasphere {
 //-------------------------------------------------------------------------------------------
 class S7_InfraredSpawner : RandomSpawner replaces Infrared {
     default {
-        DropItem "S7_DemonEyes"        , 256, 3;
-        DropItem "S7_FlashlightBattery", 256, 1;
+        DropItem 'S7_DemonEyes'        , 256, 3;
+        DropItem 'S7_FlashlightBattery', 256, 1;
     }
 }
 
@@ -82,7 +82,7 @@ class S7_InfraredSpawner : RandomSpawner replaces Infrared {
 //-------------------------------------------------------------------------------------------
 class S7_BerserkSpawner : RandomSpawner replaces Berserk {
     default {
-        DropItem "S7_Berserk", 256, 1;
+        DropItem 'S7_Berserk', 256, 1;
     }
 }
 
@@ -93,7 +93,7 @@ class S7_BerserkSpawner : RandomSpawner replaces Berserk {
 //-------------------------------------------------------------------------------------------
 class S7_AllmapSpawner : RandomSpawner replaces Allmap {
     default {
-        DropItem "S7_MapPowerup", 256, 1;
+        DropItem 'S7_MapPowerup', 256, 1;
     }
 }
 
@@ -104,7 +104,7 @@ class S7_AllmapSpawner : RandomSpawner replaces Allmap {
 //-------------------------------------------------------------------------------------------
 class S7_RadSuitSpawner : RandomSpawner replaces RadSuit {
     default {
-        DropItem "S7_Biosphere", 256, 1;
+        DropItem 'S7_Biosphere', 256, 1;
     }
 }
 
@@ -115,6 +115,6 @@ class S7_RadSuitSpawner : RandomSpawner replaces RadSuit {
 //-------------------------------------------------------------------------------------------
 class S7_BlursphereSpawner : RandomSpawner replaces Blursphere {
     default {
-        DropItem "S7_Invisibility", 256, 1;
+        DropItem 'S7_Invisibility', 256, 1;
     }
 }

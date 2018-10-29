@@ -88,16 +88,16 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         link = menuLink;
         isDraco = draco;
 
-        bigFont = Font.GetFont ("BigFont");
+        bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        background = new ("S7_ZF_Image").Init ((0, 0), (200, 246), "graphics/Menu/WeapAssignment/ListBG.png", S7_ZF_Image.AlignType_TopLeft);
+        background = new ('S7_ZF_Image').Init ((0, 0), (200, 246), "graphics/Menu/WeapAssignment/ListBG.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
 
-        clippingFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 246 - 3 - 5));
+        clippingFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 246 - 3 - 5));
         clippingFrame.Pack (self);
 
-        handler = new ("S7_WeapAssignMenu_ListHandler");
+        handler = new ('S7_WeapAssignMenu_ListHandler');
         handler.link = link;
 
         CPlayer = pPawn;
@@ -198,20 +198,20 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             items.Clear ();
         }
 
-        itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 0));
+        itemsFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 0));
         itemsFrame.Pack (clippingFrame);
 
         double yCoords = 0.0; // We have to do it like this because entries have variable lengths based on contents
 
         if (link.selectedX >= 0 && link.selectedY >= 0 && link.weapBinds.BindUsed (link.selectedX + 1, link.selectedY, isDraco)) {
-            let weapControls = new ("S7_WeapAssignMenu_ListWeap");
+            let weapControls = new ('S7_WeapAssignMenu_ListWeap');
             weapControls.weaponName = "@__NoWeapon__";
             weapControls.weaponInst = NULL;
 
             Vector2 texSize = (0, 0);
 
             // Clickable area
-            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: "Weapon:@__NoWeapon__", null, null, null, null, null);
+            let button = new ('S7_ZF_Button').Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: "Weapon:@__NoWeapon__", null, null, null, null, null);
             button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             weapControls.clickableArea = button;
@@ -231,7 +231,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
-                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
+                let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
                     fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
                 );
                 label.Pack (itemsFrame);
@@ -240,7 +240,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            /*let icon = new ("S7_ZF_Image").Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon, noOffsets: true);
+            /*let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon, noOffsets: true);
             icon.Pack (itemsFrame);
             weapControls.icon = icon;*/
 
@@ -248,16 +248,16 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
 
-            let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
+            let sep = new ('S7_ZF_Image').Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
             sep.Pack (itemsFrame);
             yCoords += 2;
         }
 
         let inv = CPlayer.inv;
         while (inv) {
-            if (!(inv is "S7_BaseWeapon") ||
-                (!isDraco &&  (inv is "S7_DracoWeapon")) ||
-                ( isDraco && !(inv is "S7_DracoWeapon"))
+            if (!(inv is 'S7_BaseWeapon') ||
+                (!isDraco &&  (inv is 'S7_DracoWeapon')) ||
+                ( isDraco && !(inv is 'S7_DracoWeapon'))
             ) {
                 inv = inv.inv;
                 continue;
@@ -270,7 +270,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                 continue;
             }
 
-            let weapControls = new ("S7_WeapAssignMenu_ListWeap");
+            let weapControls = new ('S7_WeapAssignMenu_ListWeap');
             weapControls.weaponName = weap.GetClassName ();
             weapControls.weaponInst = weap;
 
@@ -279,7 +279,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                 texSize = TexMan.GetScaledSize (tex);
 
             // Clickable area
-            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Weapon:%s", weapControls.weaponName), null, null, null, null, null);
+            let button = new ('S7_ZF_Button').Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Weapon:%s", weapControls.weaponName), null, null, null, null, null);
             button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             weapControls.clickableArea = button;
@@ -299,7 +299,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
-                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
+                let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
                     fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
                 );
                 label.Pack (itemsFrame);
@@ -308,7 +308,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            let icon = new ("S7_ZF_Image").Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon, noOffsets: true);
+            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon, noOffsets: true);
             icon.Pack (itemsFrame);
             weapControls.icon = icon;
 
@@ -316,7 +316,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
 
-            let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
+            let sep = new ('S7_ZF_Image').Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
             sep.Pack (itemsFrame);
             yCoords += 2;
 

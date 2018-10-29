@@ -18,7 +18,7 @@
 
 class S7_S7DataParser : S7_BaseParser {
     static S7_S7DataParser Create (TZK_Stream input) {
-        let parser = new ("S7_S7DataParser");
+        let parser = new ('S7_S7DataParser');
         parser.m_Stream = input;
         parser.m_Tokenizer = TZK_Tokenizer.Create (input);
         return parser;
@@ -38,7 +38,7 @@ class S7_S7DataParser : S7_BaseParser {
         TZK_Token tk;
 
         if (!parsedData)
-            parsedData = new ("S7_S7Data");
+            parsedData = new ('S7_S7Data');
 
         while ((tk = m_Tokenizer.Next ()).type != TOK_EOF) { // Read until the end of the file
             // Error out if we don't have an identifier

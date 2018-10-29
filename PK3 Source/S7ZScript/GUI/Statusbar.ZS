@@ -57,13 +57,13 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         fullscreenOffsets = true;
 
         // Initialize the fonts
-        mSmallFont = HUDFont.Create ("SmallFont");
-        mBigFont = HUDFont.Create ("BigFont");
-        Font fnt = "S7HUDFONT";
+        mSmallFont = HUDFont.Create ('SmallFont');
+        mBigFont = HUDFont.Create ('BigFont');
+        Font fnt = 'S7HUDFONT';
         mNormalHUDFont = HUDFont.Create (fnt, fnt.GetCharWidth ("0"), true, 1, 1);
-        fnt = "S7FSHUDFNT.lmp";
+        fnt = 'S7FSHUDFNT.lmp';
         mFscreenHUDFont = HUDFont.Create (fnt, 0, false, 1, 1);
-        fnt = "Fonts/MapMarkers.FON2";
+        fnt = 'Fonts/MapMarkers.FON2';
         mRadarMarkers = HUDFont.Create (fnt, fnt.GetCharWidth ("A"), true, 1, 1);
         // Initialize the interpolators
         mHealthInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 8);
@@ -78,16 +78,16 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         // Initialize the inventory bar
         diparms = InventoryBarState.Create ();
         // Populate the fullscreen statusbar ammo bars list
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_Raptor", "S7_RaptorClip", "Inventory", 16, "graphics/HUD/Cartridges/S7H9MM.png", -10, -5, -20, -18));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_TEC9", "S7_TEC9Clip", "Inventory", 32, "graphics/HUD/Cartridges/S7H9MM.png", -10, -4, -20, -18));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_Revolver", "S7_RevolverClip", "Inventory", 6, "graphics/HUD/Cartridges/S7H44M.png", -11, -7, -23));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_AMG", "S7_AMGMag", "Inventory", 35, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26, -25));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_ManxCarbine", "S7_ManxCarbineClip", "Inventory", 23, "graphics/HUD/Cartridges/S7H9MM.png", -10, -4, -20, -18));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_Shotgun", "S7_ShotgunMag", "Inventory", 10, "graphics/HUD/Cartridges/S7H20GA.png", -16, -8, -32, -31));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_HitterSMG", "S7_HitterSMGClip", "Inventory", 62, "graphics/HUD/Cartridges/S7H45ACP.png", -10, -2, -20, -19, -18));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_GrenadeWeap", "S7_GrenadeCount", "Inventory", 15, "graphics/HUD/Throwables/S7TGRICN.png", -15, -8, -22, -24));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_ConquerorRifle", "S7_ConquerorRifleClip", "Inventory", 15, "graphics/HUD/Cartridges/S7H45WW.png", -14, -7, -43, -41));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ("S7_AK47", "S7_AK47Clip", "Inventory", 30, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Raptor', 'S7_RaptorClip', "Inventory", 16, "graphics/HUD/Cartridges/S7H9MM.png", -10, -5, -20, -18));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_TEC9', 'S7_TEC9Clip', "Inventory", 32, "graphics/HUD/Cartridges/S7H9MM.png", -10, -4, -20, -18));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Revolver', 'S7_RevolverClip', "Inventory", 6, "graphics/HUD/Cartridges/S7H44M.png", -11, -7, -23));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_AMG', 'S7_AMGMag', "Inventory", 35, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26, -25));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_ManxCarbine', 'S7_ManxCarbineClip', "Inventory", 23, "graphics/HUD/Cartridges/S7H9MM.png", -10, -4, -20, -18));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Shotgun', 'S7_ShotgunMag', "Inventory", 10, "graphics/HUD/Cartridges/S7H20GA.png", -16, -8, -32, -31));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_HitterSMG', 'S7_HitterSMGClip', "Inventory", 62, "graphics/HUD/Cartridges/S7H45ACP.png", -10, -2, -20, -19, -18));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_GrenadeWeap', 'S7_GrenadeCount', "Inventory", 15, "graphics/HUD/Throwables/S7TGRICN.png", -15, -8, -22, -24));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_ConquerorRifle', 'S7_ConquerorRifleClip', "Inventory", 15, "graphics/HUD/Cartridges/S7H45WW.png", -14, -7, -43, -41));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_AK47', 'S7_AK47Clip', "Inventory", 30, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26));
     }
 
     override void NewGame () {
@@ -110,13 +110,13 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mHealthInterpolator.Update (CPlayer.health);
         mArmorInterpolator.Update  (GetS7ArmorAmount ());
         mStaminInterpolator.Update (GetStamina (false));
-        mCashInterpolator.Update   (GetAmount ("S7_Cash"));
-        mLsrRfInterpolator.Update (GetAmount ("S7_FauchardMag"));
-        mPlsmMGInterpolator.Update (GetAmount ("S7_PlasmaGunMag"));
-        mLPPInterpolator1.Update  (GetAmount ("S7_LaserPewPewClip"));
-        mLPPInterpolator2.Update  (GetAmount ("S7_LaserPewPewClipSecond"));
+        mCashInterpolator.Update   (GetAmount ('S7_Cash'));
+        mLsrRfInterpolator.Update (GetAmount ('S7_FauchardMag'));
+        mPlsmMGInterpolator.Update (GetAmount ('S7_PlasmaGunMag'));
+        mLPPInterpolator1.Update  (GetAmount ('S7_LaserPewPewClip'));
+        mLPPInterpolator2.Update  (GetAmount ('S7_LaserPewPewClipSecond'));
 
-        if (CPlayer && CPlayer.ReadyWeapon is "S7_ThrowWeapon") {
+        if (CPlayer && CPlayer.ReadyWeapon is 'S7_ThrowWeapon') {
             let throwWeap = S7_ThrowWeapon (CPlayer.ReadyWeapon);
             mThrowableForce.Update (throwWeap.throwForce);
         } else
@@ -163,7 +163,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
     }
 
     protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos, double TicFrac) {
-        if (CheckInventory ("S7_UpgradeRadar", 1)) {
+        if (CheckInventory ('S7_UpgradeRadar', 1)) {
             DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
 
             double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
@@ -172,7 +172,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
             double markerYOffs = mRadarMarkers.mFont.GetHeight () / 2.0;
 
-            bool showKeys = CheckInventory ("S7_UpgradeRadarKeys", 1);
+            bool showKeys = CheckInventory ('S7_UpgradeRadarKeys', 1);
 
             let actorFinder = BlockThingsIterator.Create (pPawn, RADAR_MAXDIST);
             Actor curActor;
@@ -185,7 +185,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                         colour = (curActor.isFriend (pPawn)) ? Font.CR_GREEN : Font.CR_RED;
                     else
                         colour = Font.CR_DARKGRAY;
-                } else if (showKeys && curActor.bSpecial && curActor is "Key")
+                } else if (showKeys && curActor.bSpecial && curActor is 'Key')
                     colour = Font.CR_GOLD;
                 else
                     continue;
@@ -211,7 +211,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         DrawImage ("HELMTOP", (0, 0), DI_ITEM_TOP | DI_SCREEN_HCENTER);
         DrawImage ("HELMBTML", (0, 0), DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM);
         DrawImage ("HELMBTMR", (0, 0), DI_ITEM_RIGHT_BOTTOM | DI_SCREEN_RIGHT_BOTTOM);
-        if (!CheckInventory ("S7_DisableHud", 1)) {
+        if (!CheckInventory ('S7_DisableHud', 1)) {
             alpha = 0.75;
 
             DrawImage ("graphics/HUD/Normal/HOLOBARSNONE.png", (0, 27), DI_ITEM_TOP | DI_SCREEN_HCENTER);
@@ -233,8 +233,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), maxHealth, (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetS7ArmorSaveAmount (), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
             // Draw health/armor numbers
-            DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ("HUD_Health"));
-            DrawString (mNormalHUDFont, FormatNumber (mArmorInterpolator.GetValue (), 1, 3), (33, 50), DI_TEXT_ALIGN_RIGHT | DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ("HUD_Armour"));
+            DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ('HUD_Health'));
+            DrawString (mNormalHUDFont, FormatNumber (mArmorInterpolator.GetValue (), 1, 3), (33, 50), DI_TEXT_ALIGN_RIGHT | DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ('HUD_Armour'));
         }
     }
 
@@ -272,7 +272,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         }
 
         // Enemy health bar
-        bool enHPBarOn = CheckInventory ("S7_UpgradeEnemyHPBar", 1);
+        bool enHPBarOn = CheckInventory ('S7_UpgradeEnemyHPBar', 1);
         if (enHPBarOn) {
             let enemy = pPawn.playerLineTarget;
 
@@ -314,7 +314,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
         // Ammo bars
         if (CPlayer.ReadyWeapon) {
-            if (CheckWeaponSelected ("S7_SSG")) {
+            if (CheckWeaponSelected ('S7_SSG')) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
@@ -322,23 +322,23 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 // Draw shells
                 if (CheckInventory ("S7_SSGRightLoadedToken", 1)) DrawImage ("graphics/HUD/Cartridges/S7H12GA.png", (-17, -29), DI_ITEM_LEFT_TOP);
                 if (CheckInventory ("S7_SSGLeftLoadedToken",  1)) DrawImage ("graphics/HUD/Cartridges/S7H12GA.png", (-31, -29), DI_ITEM_LEFT_TOP);
-            } else if (CheckWeaponSelected ("S7_Fauchard")) {
+            } else if (CheckWeaponSelected ('S7_Fauchard')) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
 
                 // Draw ammo bar
                 DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
-                    mLsrRfInterpolator.GetValue (), GetMaxAmount ("S7_FauchardMag"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
-            } else if (CheckWeaponSelected ("S7_PlasmaGun")) {
+                    mLsrRfInterpolator.GetValue (), GetMaxAmount ('S7_FauchardMag'), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+            } else if (CheckWeaponSelected ('S7_PlasmaGun')) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
 
                 // Draw ammo bar
                 DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
-                    mPlsmMGInterpolator.GetValue (), GetMaxAmount ("S7_PlasmaGunMag"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
-            } else if (CheckWeaponSelected ("S7_LaserPewPew")) {
+                    mPlsmMGInterpolator.GetValue (), GetMaxAmount ('S7_PlasmaGunMag'), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+            } else if (CheckWeaponSelected ('S7_LaserPewPew')) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
                 DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
@@ -350,32 +350,32 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 if (hasTwo && lppWeap.akimbo) {
                     DrawImage ("graphics/HUD/Fullscreen/FireMode/BLSDual.png", (5, 5), DI_ITEM_LEFT_TOP);
 
-                    DrawBar ("S7LPPDFG", "S7LPPDBG", mLPPInterpolator1.GetValue (), GetMaxAmount ("S7_LaserPewPewClip"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
-                    DrawBar ("S7LPPDFG", "S7LPPDBG", mLPPInterpolator2.GetValue (), GetMaxAmount ("S7_LaserPewPewClipSecond"), (-5, -23), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+                    DrawBar ("S7LPPDFG", "S7LPPDBG", mLPPInterpolator1.GetValue (), GetMaxAmount ('S7_LaserPewPewClip'), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+                    DrawBar ("S7LPPDFG", "S7LPPDBG", mLPPInterpolator2.GetValue (), GetMaxAmount ('S7_LaserPewPewClipSecond'), (-5, -23), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
                 } else {
                     if (hasTwo)
                         DrawImage ("graphics/HUD/Fullscreen/FireMode/BLSCycle.png", (5, 5), DI_ITEM_LEFT_TOP);
 
                     DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
-                        mLPPInterpolator1.GetValue (), GetMaxAmount ("S7_LaserPewPewClip"), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+                        mLPPInterpolator1.GetValue (), GetMaxAmount ('S7_LaserPewPewClip'), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
                 }
-            } else if (CheckWeaponSelected ("S7_Thumper")) {
+            } else if (CheckWeaponSelected ('S7_Thumper')) {
                 static const string ThumperGrenNames [] = { "", "Explosive", "Fragmentation", "Incendiary", "Flare", "Clusterbomb", "Nailbomb", "Nerve Gas" };
                 static const int ThumperGrenColors [] = { Font.CR_WHITE, Font.CR_ORANGE, Font.CR_GREEN, Font.CR_DARKRED, Font.CR_WHITE, Font.CR_BLUE, Font.CR_YELLOW, Font.CR_BLACK };
 
                 // Draw ammo pools count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
-                DrawString (mFScreenHUDFont, FormatNumber (GetAmount ("S7_Thumper_PUnified"), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+                DrawString (mFScreenHUDFont, FormatNumber (GetAmount ('S7_Thumper_PUnified'), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
 
                 for (int i = 1; i < ThumperGrenNames.Size (); i++) {
-                    bool selected = GetAmount ("S7_ThumperSelectedPool") == (i - 1);
+                    bool selected = GetAmount ('S7_ThumperSelectedPool') == (i - 1);
                     string poolText = String.Format (selected ? ">%s:      " : "%s:      ", ThumperGrenNames [i]);
                     int colour = (selected ? Font.CR_RED : ThumperGrenColors [i]);
                     DrawString (mFScreenHUDFont, poolText, (-6, -50 - (7 * (8-i))), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, colour);
                     DrawString (mFScreenHUDFont, FormatNumber (GetAmount (S7_Thumper.PoolNames [i]), 1, 5), (-6, -50 - (7 * (8-i))), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, colour);
                 }
                 for (int i = 0; i < 5; i++) {
-                    int grenType = GetAmount (String.Format ("S7_ThumperMag%d", i + 1));
+                    int grenType = GetAmount (String.Format ('S7_ThumperMag%d', i + 1));
                     if (grenType == S7_TH_None)
                         continue;
 
@@ -426,12 +426,12 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 }
             }
 
-            if (CPlayer.ReadyWeapon is "S7_ThrowWeapon") {
+            if (CPlayer.ReadyWeapon is 'S7_ThrowWeapon') {
                 let throwWeap = S7_ThrowWeapon (CPlayer.ReadyWeapon);
                 DrawImage ("graphics/HUD/Fullscreen/S7BARFR0.png", (-6, -50), DI_ITEM_RIGHT_BOTTOM);
                 DrawBar ("graphics/HUD/Fullscreen/S7HLTHBR.png", "S7BARBK0", mThrowableForce.GetValue (), throwWeap.maxForce, (-7, -51), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
 
-                if (CPlayer.ReadyWeapon is "S7_GrenadeWeap") {
+                if (CPlayer.ReadyWeapon is 'S7_GrenadeWeap') {
                     let grenWeap = S7_GrenadeWeap (throwWeap);
 
                     bool drawFuseBar = false;
@@ -452,7 +452,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                         );
                     }
                 }
-            } else if (CPlayer.ReadyWeapon is "S7_HealWeap") {
+            } else if (CPlayer.ReadyWeapon is 'S7_HealWeap') {
                 let app = S7_HealWeap (CPlayer.ReadyWeapon);
                 int progress = app.healProgress;
                 int maxProgress = app.healTime;

@@ -121,8 +121,8 @@ class S7_EmpressPentagramCorner : S7_Empress_FXBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            A_SpawnProjectile ("S7_EmpressPentagramLine", 0.0, 0, -198, CMF_AimDirection);
-            A_SpawnProjectile ("S7_EmpressPentagramLine", 0.0, 0,  198, CMF_AimDirection);
+            A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0, -198, CMF_AimDirection);
+            A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0,  198, CMF_AimDirection);
         }
         stop;
     }
@@ -144,7 +144,7 @@ class S7_EmpressPentagramLine : S7_Empress_FXBase {
 
     states {
     Spawn:
-        TNT1 AAAAAAAAAA 1 A_SpawnItemEx ("S7_EmpressPentagramFire", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAAAA 1 A_SpawnItemEx ('S7_EmpressPentagramFire', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         stop;
     }
 }
@@ -236,7 +236,7 @@ class S7_EmpressShieldHitspark : S7_Empress_FXBase {
     Spawn:
         TNT1 A 0 noDelay {
             for (int i = random [sfx] (4, 6); i > 0; i--) {
-                A_SpawnItemEx ("S7_EmpressShieldHitsparkSparkle",
+                A_SpawnItemEx ('S7_EmpressShieldHitsparkSparkle',
                     xvel: fRandom [sfx] (2, 8), zvel: fRandom [sfx] (-6, 6), angle: fRandom [sfx] (0, 360),
                     flags: SXF_NoCheckPosition | SXF_Clientside
                 );

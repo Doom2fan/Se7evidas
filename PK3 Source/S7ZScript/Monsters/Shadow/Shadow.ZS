@@ -27,7 +27,7 @@ class S7_ShadowDemon : S7_Mechdemon {
         Alpha .25;
 
         Obituary "$OBSHADOW";
-        Species "Mechdemon";
+        Species 'Mechdemon';
         Tag "$SHADOWTAG";
     }
 

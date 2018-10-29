@@ -99,7 +99,7 @@ class S7_XPSystem : Inventory {
     }
 
     bool AddStatusEffects (S7_Effect effect) {
-        if (effect is "S7_StatModifier")
+        if (effect is 'S7_StatModifier')
             return false;
 
         if (!effect.Init (Owner, self))
@@ -109,7 +109,7 @@ class S7_XPSystem : Inventory {
         return true;
     }
     bool RemoveStatusEffects (S7_Effect effect) {
-        if (effect is "S7_StatModifier") // Don't even bother, we're not gonna find that here.
+        if (effect is 'S7_StatModifier') // Don't even bother, we're not gonna find that here.
             return true;
 
         for (int i = statusEffects.Size () - 1; i >= 0; i--) {
@@ -257,7 +257,7 @@ class S7_XPSystem : Inventory {
         //S7Stat_Magic
     };
     virtual void OnLevelUp () {
-        if (Owner is "S7_BasePlayer" && Owner.player)
+        if (Owner is 'S7_BasePlayer' && Owner.player)
             return;
 
         int attrPoints = random [XPSys] (3, 5);

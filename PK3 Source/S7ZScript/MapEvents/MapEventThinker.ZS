@@ -21,7 +21,7 @@ class S7_MapEventThinker : Thinker {
         let meThinker = Get ();
 
         if (!meThinker) {
-            meThinker = new ("S7_MapEventThinker");
+            meThinker = new ('S7_MapEventThinker');
             meThinker.ChangeStatNum (STAT_INFO);
         }
 
@@ -34,7 +34,7 @@ class S7_MapEventThinker : Thinker {
     }
 
     static S7_MapEventThinker Get () {
-        ThinkerIterator it = ThinkerIterator.Create ("S7_MapEventThinker", STAT_INFO);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_MapEventThinker', STAT_INFO);
         return S7_MapEventThinker (it.Next ());
     }
 
@@ -66,7 +66,7 @@ class S7_MapEventThinker : Thinker {
 
                 case MEVNT_GhostTown: {
                     S_ChangeMusic ("", force: true); // Remove the music
-                    let spot = Actor.Spawn ("MapSpot", (0.0, 0.0, 0.0)); // Spawn a mapspot
+                    let spot = Actor.Spawn ('MapSpot', (0.0, 0.0, 0.0)); // Spawn a mapspot
                     spot.A_PlaySound ("MapEvents/GhostTown/Wind", CHAN_Body | CHAN_ListenerZ | CHAN_NoPause, 1.0, true, ATTN_None); // Play a wind sound on it
                 }
                 break;
@@ -103,7 +103,7 @@ class S7_MapEventThinker : Thinker {
     /** Utility functions **/
     void SetAllLight (int lightLevel, bool removeEffects) {
         if (removeEffects) {
-            ThinkerIterator it = ThinkerIterator.Create ("Lighting");
+            ThinkerIterator it = ThinkerIterator.Create ('Lighting');
             Lighting effect;
 
             while (effect = Lighting (it.Next ()))

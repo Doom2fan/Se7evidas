@@ -59,10 +59,10 @@ class S7_ThumperGrenade : S7_Projectile {
             A_SetScale (0.5);
             A_PlaySound ("Explosions/Explosion1");
 
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (128, 128);
 
-            A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
     }
@@ -106,10 +106,10 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
                 zOff: 2.0, flags: SXF_TransferPointers
             );
 
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (100, 100);
 
-            A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
     }
@@ -132,16 +132,16 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
             A_SetScale (0.1875);
             A_PlaySound ("Explosions/Explosion1");
 
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (80, 48);
 
             int count = 20 + random [weaponSpc] (0, 5);
             for (; count > 0; count--) {
-                A_SpawnItemEx ("S7_ThumperGrenadeTherm_Fire", fRandom [weaponSpc] (-.025, .025), fRandom [weaponSpc] (-.025, .025), .25,
+                A_SpawnItemEx ('S7_ThumperGrenadeTherm_Fire', fRandom [weaponSpc] (-.025, .025), fRandom [weaponSpc] (-.025, .025), .25,
                     fRandom [weaponSpc] (0., 3.), 0., fRandom [weaponSpc] (2.5, 4.), fRandom [weaponSpc] (0., 360.), SXF_TransferPointers | SXF_NoCheckPosition);
             }
 
-            A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
     }
@@ -155,7 +155,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
         Args 72;
         RenderStyle "add";
         DamageFunction 0;
-        DamageType "ThermiteFire";
+        DamageType 'ThermiteFire';
 
         +FORCEXYBILLBOARD +NODAMAGETHRUST +BLOODLESSIMPACT +FORCERADIUSDMG
         +THRUACTORS       +DONTSPLASH
@@ -197,7 +197,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     default {
         DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 5);
-        DamageType "TH_GrenadeImpact";
+        DamageType 'TH_GrenadeImpact';
         Translation "112:127=80:95";
 
         -NOGRAVITY
@@ -212,7 +212,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         time = maxTime = random [weaponSpc] (1025, 1050);
 
         if (!dynLight)
-            dynLight = PointLight (Spawn ("PointLight")); // Spawn the dynamic light
+            dynLight = PointLight (Spawn ('PointLight')); // Spawn the dynamic light
         dynLight.target = self;
         dynLight.args [DynamicLight.Light_Red] = 114; // Color - Red
         dynLight.args [DynamicLight.Light_Green] = 186; // Color - Green
@@ -285,7 +285,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
                 dynLight.A_Remove (AAPTR_Default, RMVF_EVERYTHING);
 
             A_StopSound (CHAN_7);
-            A_SpawnItemEx ("S7_Thumper_Used", 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
+            A_SpawnItemEx ('S7_Thumper_Used', 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
         }
         stop;
     }
@@ -307,7 +307,7 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
 
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (32, 48);
 
             double spawnZ = 0;
@@ -330,14 +330,14 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
             }
 
             for (int i = random [weaponSpc] (24, 32); i > 0; i--) {
-                A_SpawnProjectile ("S7_ThumperGrenadeCluster_Bomb", spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
+                A_SpawnProjectile ('S7_ThumperGrenadeCluster_Bomb', spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
                     CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
                     fRandom [weaponSpc] (pitchMin, pitchMax)
                 );
             }
 
             A_SetScale (0.1875);
-            A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
     }
@@ -376,7 +376,7 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
 
             A_PlaySound ("Explosions/Explosion2", CHAN_Body, 0.25);
 
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (random [weaponSpc] (5, 6), 32, fulldamagedistance: 32);
 
             A_SetScale (0.2);
@@ -403,7 +403,7 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
     Loople:
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
-            A_SetDamageType ("ExplosionSplashDMG");
+            A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (96, 80);
 
             double spawnZ = 0;
@@ -426,14 +426,14 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
             }
 
             for (int i = random [weaponSpc] (64, 96); i > 0; i--) {
-                A_SpawnProjectile ("S7_ThumperGrenadeNail_Nail", spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
+                A_SpawnProjectile ('S7_ThumperGrenadeNail_Nail', spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
                     CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
                     fRandom [weaponSpc] (pitchMin, pitchMax)
                 );
             }
 
             A_SetScale (0.3125);
-            A_SpawnItemEx ("S7_ThumperExplosion", 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
         stop;
     }
@@ -446,7 +446,7 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
         Height 2;
         DamageFunction (fRandom [weaponDamage] (5.0, 10.0));
         Speed 1;
-        /*MissileType "S7_HeatSmokeStatic";
+        /*MissileType 'S7_HeatSmokeStatic';
         MissileHeight 8;*/
 
         +NOGRAVITY +BLOODSPLATTER +NOEXTREMEDEATH +NODAMAGETHRUST
@@ -479,7 +479,7 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
 class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
     default {
         DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 6);
-        DamageType "TH_GrenadeImpact";
+        DamageType 'TH_GrenadeImpact';
         Translation "112:127=104:111";
     }
 
@@ -496,12 +496,12 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             bBloodlessImpact = true;
             bForceRadiusDMG = true;
 
-            A_SetDamageType ("NerveGas");
+            A_SetDamageType ('NerveGas');
             A_Explode (random [weaponDamage] (25, 30), 192, XF_HurtSource, FALSE, 80);
 
             for (int i = 0; i < 360; i += 25) {
-                A_SpawnItemEx ("S7_ThumperGrenadeNGas_GasCloud_Trail", 0.0, 0.0, 1.0,  6.0, 0.0, 0.5, i, SXF_NoCheckPosition);
-                A_SpawnItemEx ("S7_ThumperGrenadeNGas_GasCloud_Trail", 0.0, 0.0, 1.0,  3.0, 0.0, 0.5, i + 12.5, SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  6.0, 0.0, 0.5, i, SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  3.0, 0.0, 0.5, i + 12.5, SXF_NoCheckPosition);
             }
 
             time = (2 * 35) - random [weaponSpc] (-10, 10);
@@ -512,14 +512,14 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
                 return ResolveState ("Die");
 
             A_Explode (3, 128, XF_HurtSource, FALSE, 32);
-            A_SpawnItemEx ("S7_ThumperGrenadeNGas_GasCloud_Trail", 0.0, 0.0, 0.25, 0.0, 0.0, 3.5, 0, SXF_NoCheckPosition);
+            A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 0.25, 0.0, 0.0, 3.5, 0, SXF_NoCheckPosition);
             time--;
 
             return ResolveState (null);
         }
         loop;
     Die:
-        THGR B 1 A_SpawnItemEx ("S7_Thumper_Used", 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
+        THGR B 1 A_SpawnItemEx ('S7_Thumper_Used', 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
         stop;
     }
 }

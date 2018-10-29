@@ -76,7 +76,7 @@ class S7_SSItemInfo {
     uint sellPrice;
     uint sellAmount;
     S7_SSItemInfo Copy () {
-        let ret = new ("S7_SSItemInfo");
+        let ret = new ('S7_SSItemInfo');
         ret.maxAmount = self.maxAmount;
         ret.buyPrice  = self.buyPrice;  ret.buyAmount  = self.buyAmount;
         ret.sellPrice = self.sellPrice; ret.sellAmount = self.sellAmount;
@@ -105,7 +105,7 @@ class S7_SSItem {
         itemType        = 0;
         link            = NULL;
         cashItem        = "S7_Cash";
-        info            = new ("S7_SSItemInfo");
+        info            = new ('S7_SSItemInfo');
         info.maxAmount  = -1;
         info.buyPrice   = 0;
         info.buyAmount  = 1;
@@ -233,7 +233,7 @@ class S7_SSItem {
         if (!serverData)
             return false;
         if (!serverData.S7Data.shopData)
-            serverData.S7Data.shopData = new ("S7_ShopData");
+            serverData.S7Data.shopData = new ('S7_ShopData');
 
         uint idx = page.items.Push (self);
         if (idx < 0)
@@ -250,7 +250,7 @@ class S7_SSItem {
 
 class S7_SSItem_Armor : S7_SSItem {
     override bool CanBuy (S7_BasePlayer player, int amount) {
-        let basicArmor = S7_BasicArmor (player.FindInventory ("S7_BasicArmor"));
+        let basicArmor = S7_BasicArmor (player.FindInventory ('S7_BasicArmor'));
 
         if (!basicArmor || basicArmor.ArmorType != inventoryName || basicArmor.Amount < basicArmor.ActualSaveAmount)
             return Super.CanBuy (player, amount);

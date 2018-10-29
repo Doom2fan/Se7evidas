@@ -46,14 +46,14 @@ class S7_PlayerXPSystem : S7_XPSystem {
 
                 if (message != "" && !additional)
                     S7_HudMessageFade.Show (consoleplayer, message, 2, (0.5 * 800, 0.8 * 600), 35 * 3, 7, 10,
-                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: "SmallFont", screenSize: (800, 600));
+                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: 'SmallFont', screenSize: (800, 600));
                 else {
                     S7_HudMessageFade.Show (consoleplayer, String.Format ("You've reached level %d.\nYou have gained %d attribute points.", lvl, attrPts), 2, (0.5 * 800, 0.8 * 600), 35 * 3, 7, 10,
-                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: "SmallFont", screenSize: (800, 600));
+                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: 'SmallFont', screenSize: (800, 600));
 
                     if (message != "")
                         S7_HudMessageFade.Show (consoleplayer, message, 2, (0.5 * 800, 0.8 * 4805), 35 * 3, 7, 10,
-                            flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: "SmallFont", screenSize: (800, 600));
+                            flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: 'SmallFont', screenSize: (800, 600));
                 }
             }
         }
@@ -70,7 +70,7 @@ class S7_PlayerXPSystem : S7_XPSystem {
             return;
 
         // Agility
-        let staminaItem = pPawn.FindInventory ("S7_Stamina");
+        let staminaItem = pPawn.FindInventory ('S7_Stamina');
         if (staminaItem)
             staminaItem.maxAmount = pPawn.GetMaxStamina ();
 
@@ -81,7 +81,7 @@ class S7_PlayerXPSystem : S7_XPSystem {
         pPawn.damageFactor = clamp (1.0 - (0.01 * GetStat (S7Stat_Defense)), 0.1, 1.0);
 
         // Magic
-        let manaItem = pPawn.FindInventory ("S7_Mana");
+        let manaItem = pPawn.FindInventory ('S7_Mana');
         if (manaItem)
             manaItem.maxAmount = pPawn.GetMaxMana ();
     }

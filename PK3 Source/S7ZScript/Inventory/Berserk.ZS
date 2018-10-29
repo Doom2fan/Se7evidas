@@ -39,12 +39,12 @@ class S7_Berserk : Inventory {
     }
 
     override bool Use (bool pickup) {
-        let bsrkWeap = Owner.FindInventory ("S7_BerserkWeap");
+        let bsrkWeap = Owner.FindInventory ('S7_BerserkWeap');
 
         if (bsrkWeap)
             bsrkWeap.Use (false);
         else {
-            bsrkWeap = owner.GiveInventoryType ("S7_BerserkWeap");
+            bsrkWeap = owner.GiveInventoryType ('S7_BerserkWeap');
 
             if (bsrkWeap)
                 bsrkWeap.Use (false);
@@ -76,13 +76,13 @@ class S7_BerserkWeap : S7_BaseWeapon {
 
     states {
     Spawn:
-        TNT1 A 0 A_SpawnItemEx ("S7_Berserk", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition);
+        TNT1 A 0 A_SpawnItemEx ('S7_Berserk', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition);
         stop;
 
     Ready:
         SYR1 A 1 {
             A_WeaponOffset (-12.8 * 5, 32 + (12.8 * 5));
-            return CountInv ("S7_Berserk") <= 0 ? ResolveState ("Ready2.NoBerserk") : ResolveState (null);
+            return CountInv ('S7_Berserk') <= 0 ? ResolveState ("Ready2.NoBerserk") : ResolveState (null);
         }
         SYR1 A 1 A_WeaponOffset (-12.8 * 4, 32 + (12.8 * 4));
         SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
@@ -91,17 +91,17 @@ class S7_BerserkWeap : S7_BaseWeapon {
         TNT1 A 0 A_WeaponOffset (0, 32);
         goto Ready2;
     Ready2:
-        SYR1 A 0 A_JumpIf (CountInv ("S7_Berserk") <= 0, "Ready2.NoBerserk");
+        SYR1 A 0 A_JumpIf (CountInv ('S7_Berserk') <= 0, "Ready2.NoBerserk");
         goto Ready2.DoThings;
     Ready2.NoBerserk:
         TNT1 A 0;
         goto Ready2.DoThings;
     Ready2.DoThings:
         #### # 1 {
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_Reloading", 0x7FFFFFFF);
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             A_WeaponReady ();
 
@@ -121,7 +121,7 @@ class S7_BerserkWeap : S7_BaseWeapon {
         wait;
 
     Fire:
-        SYR1 A          3 A_JumpIf (!invoker.CheckAmmo (PrimaryFire, false, true) || CheckInventory ("S7_BerserkToken", 1), "Ready2");
+        SYR1 A          3 A_JumpIf (!invoker.CheckAmmo (PrimaryFire, false, true) || CheckInventory ('S7_BerserkToken', 1), "Ready2");
         SYR1 CDD        3;
         SYR1 EFGHI      1;
         SYR1 J          5;
@@ -134,9 +134,9 @@ class S7_BerserkWeap : S7_BaseWeapon {
         }
         SYR1 P          2;
         SYR1 Q          2 {
-            TakeInventory ("S7_Berserk", 1);
-            GiveInventory ("S7_BerserkPower", 1);
-            GiveInventory ("S7_BerserkToken", 1);
+            TakeInventory ('S7_Berserk', 1);
+            GiveInventory ('S7_BerserkPower', 1);
+            GiveInventory ('S7_BerserkToken', 1);
         }
         SYR1 QRSTUVWWWX 2;
         SYR1 Y          8;
@@ -148,7 +148,7 @@ class S7_BerserkWeap : S7_BaseWeapon {
         SYR2 HIJKL      1;
         TNT1 A          0;
         SYR2 MN         1;
-        SYR2 O          1 A_FireProjectile ("S7_SpentSyringe", 0, 0, 0, 0);
+        SYR2 O          1 A_FireProjectile ('S7_SpentSyringe', 0, 0, 0, 0);
         SYR2 PQR        1;
         TNT1 A          8;
         goto Ready;

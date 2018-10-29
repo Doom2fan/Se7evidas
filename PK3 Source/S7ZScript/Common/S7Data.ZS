@@ -35,9 +35,9 @@ class S7_S7Data {
     S7_ShopData shopData;
 
     static S7_S7Data Create () {
-        let ret = new ("S7_S7Data");
+        let ret = new ('S7_S7Data');
 
-        ret.shopData = new ("S7_ShopData");
+        ret.shopData = new ('S7_ShopData');
         ret.shopData.shops = S7_Hashmap_StrObj.Create ();
 
         return ret;

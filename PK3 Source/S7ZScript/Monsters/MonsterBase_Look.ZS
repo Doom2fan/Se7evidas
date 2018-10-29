@@ -177,7 +177,7 @@ extend class S7_MonsterBase {
 
         // [RH] Set goal now if appropriate
         if (special == 229 && Args [0] == 0) { // 229 == Thing_SetGoal
-            let iterator = ActorIterator.Create (Args [1], "PatrolPoint");
+            let iterator = ActorIterator.Create (Args [1], 'PatrolPoint');
 
             special = 0;
             goal = iterator.Next ();
@@ -282,7 +282,7 @@ extend class S7_MonsterBase {
 
         // [RH] Set goal now if appropriate
         if (special == 229 && Args [0] == 0) { // 229 == Thing_SetGoal
-            let iterator = ActorIterator.Create (Args [1], "PatrolPoint");
+            let iterator = ActorIterator.Create (Args [1], 'PatrolPoint');
 
             special = 0;
             goal = iterator.Next ();

@@ -56,7 +56,7 @@ class S7_Thumper : S7_BaseWeapon {
         Tag "$THUMPER";
         Inventory.PickupMessage "$THUMPER";
 
-        Weapon.AmmoType1 "S7_ThumperMag";
+        Weapon.AmmoType1 'S7_ThumperMag';
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
 
@@ -70,7 +70,7 @@ class S7_Thumper : S7_BaseWeapon {
 
     bool chambered;
     int selectedPool;
-    string casingType;
+    class<Actor> casingType;
     Array<int> magazine;
 
     static const Class<Inventory> PoolNames [] = {
@@ -114,8 +114,8 @@ class S7_Thumper : S7_BaseWeapon {
         for (; i < 5; i++)
             Owner.SetInventory (MagTokens [i], 0);
 
-        Owner.SetInventory ("S7_ThumperMag", magazine.Size ());
-        Owner.SetInventory ("S7_ThumperSelectedPool", selectedPool - 1);
+        Owner.SetInventory ('S7_ThumperMag', magazine.Size ());
+        Owner.SetInventory ('S7_ThumperSelectedPool', selectedPool - 1);
     }
 
     override bool SS_PreSell (int amount) {
@@ -153,11 +153,11 @@ class S7_Thumper : S7_BaseWeapon {
         THMP VWXYZA 1;
     Ready2:
         THMP A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            if (CheckInventory ("S7_ChangeFireMode", 1))
+            if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");
 
             A_WeaponReady ();
@@ -175,7 +175,7 @@ class S7_Thumper : S7_BaseWeapon {
             if (!invoker.chambered)
                 return ResolveState ("Pump");
 
-            string projType;
+            class<Actor> projType;
             int grenType = invoker.magazine [invoker.magazine.Size () - 1];
             invoker.magazine.Pop ();
             switch (grenType) {
@@ -184,32 +184,32 @@ class S7_Thumper : S7_BaseWeapon {
                     return ResolveState ("Ready2"); // Shouldn't happen, but better safe than sorry.
                     break;
                 case S7_TH_Exp:
-                    invoker.casingType = "S7_50mmCasingSpawn";
-                    projType = "S7_ThumperGrenade";
+                    invoker.casingType = 'S7_50mmCasingSpawn';
+                    projType = 'S7_ThumperGrenade';
                     break;
                 case S7_TH_Frag:
-                    invoker.casingType = "S7_50mmCasingSpawnFrag";
-                    projType = "S7_ThumperGrenadeFrag";
+                    invoker.casingType = 'S7_50mmCasingSpawnFrag';
+                    projType = 'S7_ThumperGrenadeFrag';
                     break;
                 case S7_TH_Therm:
-                    invoker.casingType = "S7_50mmCasingSpawnTherm";
-                    projType = "S7_ThumperGrenadeTherm";
+                    invoker.casingType = 'S7_50mmCasingSpawnTherm';
+                    projType = 'S7_ThumperGrenadeTherm';
                     break;
                 case S7_TH_Flare:
-                    invoker.casingType = "S7_50mmCasingSpawnFlare";
-                    projType = "S7_ThumperGrenadeFlare";
+                    invoker.casingType = 'S7_50mmCasingSpawnFlare';
+                    projType = 'S7_ThumperGrenadeFlare';
                     break;
                 case S7_TH_Cluster:
-                    invoker.casingType = "S7_50mmCasingSpawnCluster";
-                    projType = "S7_ThumperGrenadeCluster";
+                    invoker.casingType = 'S7_50mmCasingSpawnCluster';
+                    projType = 'S7_ThumperGrenadeCluster';
                     break;
                 case S7_TH_Nail:
-                    invoker.casingType = "S7_50mmCasingSpawnNail";
-                    projType = "S7_ThumperGrenadeNail";
+                    invoker.casingType = 'S7_50mmCasingSpawnNail';
+                    projType = 'S7_ThumperGrenadeNail';
                     break;
                 case S7_TH_NGas:
-                    invoker.casingType = "S7_50mmCasingSpawnNGas";
-                    projType = "S7_ThumperGrenadeNGas";
+                    invoker.casingType = 'S7_50mmCasingSpawnNGas';
+                    projType = 'S7_ThumperGrenadeNGas';
                     break;
             }
 
@@ -218,7 +218,7 @@ class S7_Thumper : S7_BaseWeapon {
             A_GunFlash ();
 
             A_FireProjectile (projType, 0, 0, 8, -5, 0, -3.0);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4.25, 3.25);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4.25, 3.25);
             invoker.chambered = false;
 
             S7_Recoil (-1.65);
@@ -231,7 +231,7 @@ class S7_Thumper : S7_BaseWeapon {
 
     ChangeMode:
         THMP A 5 {
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
             A_PlaySound ("Weapons/ModeChange", CHAN_6);
 
             bool looped = false;
@@ -268,10 +268,10 @@ class S7_Thumper : S7_BaseWeapon {
         THPP B   1 {
             A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
 
-            if (invoker.casingType != "")
+            if (invoker.casingType)
                 A_FireProjectile (invoker.casingType, 0, 0, 10, -9);
 
-            invoker.casingType = "";
+            invoker.casingType = NULL;
         }
         THPP C   1;
         THPP D   6;
@@ -287,7 +287,7 @@ class S7_Thumper : S7_BaseWeapon {
         THMP A 1;
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading")) {
-                GiveInventory ("S7_Reloading", 1);
+                GiveInventory ('S7_Reloading', 1);
                 return ResolveState ("Reload");
             }
 
@@ -297,7 +297,7 @@ class S7_Thumper : S7_BaseWeapon {
 
     Reload:
         THMP A    2 {
-            if (!CheckInventory ("S7_Reloading", 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
+            if (!CheckInventory ('S7_Reloading', 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
                 return ResolveState ("EndReload");
 
             return ResolveState (null);
@@ -307,7 +307,7 @@ class S7_Thumper : S7_BaseWeapon {
         goto InsertShells;
     InsertShells:
         THPR E 13 {
-            if (!CheckInventory ("S7_Reloading", 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
+            if (!CheckInventory ('S7_Reloading', 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
                 return ResolveState ("Reloaded");
 
             return ResolveState (null);
@@ -334,22 +334,22 @@ class S7_Thumper : S7_BaseWeapon {
         THPP B     1 {
             A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
 
-            if (invoker.casingType != "")
+            if (invoker.casingType)
                 A_FireProjectile (invoker.casingType, 0, 0, 10, -9);
 
-            invoker.casingType = "";
+            invoker.casingType = NULL;
         }
         THPP C     1;
         THPP D     6;
         THPP CBA   1;
-        THMP A     2 A_JumpIf (invoker.CountCurPoolAmmo () < 1 || !CheckInventory ("S7_Reloading", 1), "EndReload");
+        THMP A     2 A_JumpIf (invoker.CountCurPoolAmmo () < 1 || !CheckInventory ('S7_Reloading', 1), "EndReload");
         THPR ABCDE 2;
         goto InsertShells;
 
     Reloaded:
         THPR EDCBA 2;
     EndReload:
-        TNT1 A 0 TakeInventory ("S7_Reloading", 0x7FFFFFFF);
+        TNT1 A 0 TakeInventory ('S7_Reloading', 0x7FFFFFFF);
         goto Ready2;
     }
 }

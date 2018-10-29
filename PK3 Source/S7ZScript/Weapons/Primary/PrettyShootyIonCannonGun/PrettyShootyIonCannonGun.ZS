@@ -28,8 +28,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         Tag "$IONCANNON";
         Inventory.PickupMessage "$IONCANNON";
 
-        //Weapon.AmmoType1 "S7_PrettyShootyIonCannonGunMag";
-        //Weapon.AmmoType2 "S7_Cells";
+        //Weapon.AmmoType1 'S7_PrettyShootyIonCannonGunMag';
+        //Weapon.AmmoType2 'S7_Cells';
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
 
@@ -47,17 +47,17 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         stop;
 
     Ready:
-        TNT1 A      0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        TNT1 A      0 TakeInventory ('S7_PSICG_CantFire', 0x7FFFFFFF);
         PIC1 TUVWXA 1;
     Ready2:
         PIC1 AAAAAAAAAAAABBCCDDEEFFGGGGGFFEEDDCCBB 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            /*if (CheckInventory ("S7_ChangeFireMode", 1))
+            /*if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");*/
-            TakeInventory ("S7_ChangeFireMode", 1);
+            TakeInventory ('S7_ChangeFireMode', 1);
 
             A_WeaponReady ();
 
@@ -70,22 +70,22 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         goto TrueDeselect;
 
     Reload:
-        PIC1 A 5 TakeInventory ("S7_Reloading", 1);
+        PIC1 A 5 TakeInventory ('S7_Reloading', 1);
         goto Ready2;
 
     Fire:
         // Distance check
-        TNT1 A        0 A_FireBullets (0.0, 0.0, 1, 0, "S7_PSICG_FireTesterPuff", FBF_NoRandom | FBF_NoFlash | FBF_NoRandomPuffZ, 192);
-        TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire");
-        TNT1 A        0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        TNT1 A        0 A_FireBullets (0.0, 0.0, 1, 0, 'S7_PSICG_FireTesterPuff', FBF_NoRandom | FBF_NoFlash | FBF_NoRandomPuffZ, 192);
+        TNT1 A        0 A_JumpIfInventory ('S7_PSICG_CantFire', 1, "CantFire");
+        TNT1 A        0 TakeInventory ('S7_PSICG_CantFire', 0x7FFFFFFF);
         // Space check
-        PIC1 A        3 A_FireProjectile ("S7_PSICG_FireTester", 0.0, 0, 6, -3.3);
-        TNT1 A        0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire");
-        TNT1 A        0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        PIC1 A        3 A_FireProjectile ('S7_PSICG_FireTester', 0.0, 0, 6, -3.3);
+        TNT1 A        0 A_JumpIfInventory ('S7_PSICG_CantFire', 1, "CantFire");
+        TNT1 A        0 TakeInventory ('S7_PSICG_CantFire', 0x7FFFFFFF);
         // Fire
-        TNT1 A        0 A_FireProjectile ("S7_IonCannonProjectile", 0.0, 1, 6, -3.3);
-        TNT1 AAA      0 A_FireProjectile ("S7_IonCannonRail", fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5));
-        TNT1 A        0 A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0);
+        TNT1 A        0 A_FireProjectile ('S7_IonCannonProjectile', 0.0, 1, 6, -3.3);
+        TNT1 AAA      0 A_FireProjectile ('S7_IonCannonRail', fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5));
+        TNT1 A        0 A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4, 0);
     Fire.Anim:
         PIC1 A        1 offset (8, 40);
         PIC1 B        1 offset (6, 38);
@@ -93,34 +93,34 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 D        1 offset (2, 34);
         TNT1 A        0 A_WeaponReady (WRF_DisableSwitch | WRF_DisableSwitch | WRF_NoFire);
         PIC1 EFG      1;
-        PIC1 GGGGGGGG 2 A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
-        PIC1 GGGGGGGG 2 A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
         PIC1 G        4;
         PIC1 FEDCBA   2;
         PIC1 A        5;
         goto Ready2;
 
     AltFire:
-        TNT1 A       0 A_JumpIfInventory ("S7_PSICG_AltFireType2", 1, "AltFire.MainOnly");
-        TNT1 AAAAAAA 0 A_FireProjectile ("S7_IonCannonRailAlt", fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5));
-        TNT1 A       0 A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0);
+        TNT1 A       0 A_JumpIfInventory ('S7_PSICG_AltFireType2', 1, "AltFire.MainOnly");
+        TNT1 AAAAAAA 0 A_FireProjectile ('S7_IonCannonRailAlt', fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5));
+        TNT1 A       0 A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4, 0);
         goto Fire.Anim;
     AltFire.MainOnly:
         // Distance check
-        TNT1 A 0 A_FireBullets (0.0, 0.0, 1, 0, "S7_PSICG_FireTesterPuff", FBF_NoRandom | FBF_NoFlash | FBF_NoRandomPuffZ, 192);
-        TNT1 A 0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire");
-        TNT1 A 0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        TNT1 A 0 A_FireBullets (0.0, 0.0, 1, 0, 'S7_PSICG_FireTesterPuff', FBF_NoRandom | FBF_NoFlash | FBF_NoRandomPuffZ, 192);
+        TNT1 A 0 A_JumpIfInventory ('S7_PSICG_CantFire', 1, "CantFire");
+        TNT1 A 0 TakeInventory ('S7_PSICG_CantFire', 0x7FFFFFFF);
         // Space check
-        PIC1 A 3 A_FireProjectile ("S7_PSICG_FireTester", 0.0, 0, 6, -3.3);
-        TNT1 A 0 A_JumpIfInventory ("S7_PSICG_CantFire", 1, "CantFire");
-        TNT1 A 0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        PIC1 A 3 A_FireProjectile ('S7_PSICG_FireTester', 0.0, 0, 6, -3.3);
+        TNT1 A 0 A_JumpIfInventory ('S7_PSICG_CantFire', 1, "CantFire");
+        TNT1 A 0 TakeInventory ('S7_PSICG_CantFire', 0x7FFFFFFF);
         // Fire
-        TNT1 A 0 A_FireProjectile ("S7_IonCannonProjectileAlt", 0.0, 1, 6, -3.3);
-        TNT1 A 0 A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 4, 0);
+        TNT1 A 0 A_FireProjectile ('S7_IonCannonProjectileAlt', 0.0, 1, 6, -3.3);
+        TNT1 A 0 A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4, 0);
         goto Fire.Anim;
 
     CantFire:
-        TNT1 A 0 TakeInventory ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        TNT1 A 0 TakeInventory ('S7_PSICG_CantFire', 0x7FFFFFFF);
         PIC1 A 1 A_PlaySound ("Weapons/PSICG/Error", CHAN_6);
         goto Ready2;
     }
@@ -134,7 +134,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 class S7_PSICG_FireTesterPuff : S7_DistanceTestPuff {
     states {
     RunStuff:
-        TNT1 A 2 A_GiveToTarget ("S7_PSICG_CantFire", 1);
+        TNT1 A 2 A_GiveToTarget ('S7_PSICG_CantFire', 1);
         stop;
     }
 }
@@ -150,11 +150,11 @@ class S7_PSICG_FireTester : S7_DistanceTestProjectile {
             A_ScaleVelocity (1.0 / 20);
             A_ScaleVelocity (35.0);
         }
-        TNT1 A 2 A_TakeFromTarget ("S7_PSICG_CantFire", 0x7FFFFFFF);
+        TNT1 A 2 A_TakeFromTarget ('S7_PSICG_CantFire', 0x7FFFFFFF);
         stop;
 
     Death:
-        TNT1 A 2 A_GiveToTarget ("S7_PSICG_CantFire", 1);
+        TNT1 A 2 A_GiveToTarget ('S7_PSICG_CantFire', 1);
         stop;
     }
 }
@@ -176,9 +176,9 @@ class S7_IonCannonProjectile : S7_BaseTracer {
         Speed 20;
         Scale 0.235;
         DamageFunction int (realDamage);
-        DamageType "IonCannonMain";
-        MissileType "S7_IonCannonProjectileTrail";
-        Decal "S7_IonCannon";
+        DamageType 'IonCannonMain';
+        MissileType 'S7_IonCannonProjectileTrail';
+        Decal 'S7_IonCannon';
 
         +FORCERADIUSDMG +BLOODLESSIMPACT
     }
@@ -259,10 +259,10 @@ class S7_IonCannonRail : S7_BaseTracer {
         Height 4;
         Alpha 1.0;
         Scale 0.08;
-        Decal "S7_IonCannonRail";
+        Decal 'S7_IonCannonRail';
         DamageFunction (realDamage);
-        DamageType "IonCannonRail";
-        MissileType "S7_IonCannonRailEffectSpawner";
+        DamageType 'IonCannonRail';
+        MissileType 'S7_IonCannonRailEffectSpawner';
 
         +RIPPER +FORCERADIUSDMG +BLOODLESSIMPACT
         -BLOODSPLATTER
@@ -298,7 +298,7 @@ class S7_IonCannonRail : S7_BaseTracer {
 class S7_IonCannonRailEffectSpawner : S7_TracerEffectsBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnItemEx ("S7_IonCannonRailEffect", 0.0 + fRandom [sfx] (-2.5, 2.5), 0.0 + fRandom [sfx] (-2.5, 2.5), 8.0 + fRandom [sfx] (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 A 0 noDelay A_SpawnItemEx ('S7_IonCannonRailEffect', 0.0 + fRandom [sfx] (-2.5, 2.5), 0.0 + fRandom [sfx] (-2.5, 2.5), 8.0 + fRandom [sfx] (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         stop;
     }
 }

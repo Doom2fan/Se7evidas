@@ -35,8 +35,8 @@ class S7_HitterSMG : S7_BaseWeapon {
         Tag "$HITTERSMG";
         Inventory.PickupMessage "HITTERSMG";
 
-        Weapon.AmmoType1 "S7_HitterSMGClip";
-        Weapon.AmmoType2 "S7_45ACPCartridges";
+        Weapon.AmmoType1 'S7_HitterSMGClip';
+        Weapon.AmmoType2 'S7_45ACPCartridges';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -58,9 +58,9 @@ class S7_HitterSMG : S7_BaseWeapon {
         SR20 A     1;
     Ready2:
         SR20 A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
 
             A_WeaponReady ();
@@ -85,14 +85,14 @@ class S7_HitterSMG : S7_BaseWeapon {
                 return ResolveState ("DoubleJammed");
 
             if (!invoker.upperJammed) {
-                A_FireProjectile ("S7_45ACPCasingSpawn", 0, 0, 9, -2);
-                A_FireProjectile ("S7_HitterSMGTracer", fRandom [weaponSpread] (-0.5, 0.5), 1, 3, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
+                A_FireProjectile ('S7_45ACPCasingSpawn', 0, 0, 9, -2);
+                A_FireProjectile ('S7_HitterSMGTracer', fRandom [weaponSpread] (-0.5, 0.5), 1, 3, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
             } else
                 A_PlaySound ("Weapons/DryFirePistol", CHAN_6);
 
             if (!invoker.lowerJammed) {
-                A_FireProjectile ("S7_45ACPCasingSpawn", 0, 0, 9, -2);
-                A_FireProjectile ("S7_HitterSMGTracer", fRandom [weaponSpread] (-0.5, 0.5), 1, 2, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
+                A_FireProjectile ('S7_45ACPCasingSpawn', 0, 0, 9, -2);
+                A_FireProjectile ('S7_HitterSMGTracer', fRandom [weaponSpread] (-0.5, 0.5), 1, 2, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
             } else
                 A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
 
@@ -105,7 +105,7 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/HitterSMG/Fire", CHAN_Weapon);
             A_AlertMonsters ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4.25);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 4.25);
 
             if (random [weaponSpc] () < 3) {
                 int jamType = randomPick [weaponSpc] (0, 0, 1, 1, 2); // More likely to jam only one barrel
@@ -154,12 +154,12 @@ class S7_HitterSMG : S7_BaseWeapon {
         SR20 KLMNOP 1;
         SR20 Q      1 {
             if (invoker.upperJammed || CheckInventory (invoker.ammoType1, 1)) {
-                A_FireProjectile ("S7_45ACPCasingSpawn", 0, 0, 9, -2);
+                A_FireProjectile ('S7_45ACPCasingSpawn', 0, 0, 9, -2);
                 if (!invoker.upperJammed)
                     TakeInventory (invoker.ammoType1, 1);
             }
             if (invoker.lowerJammed || CheckInventory (invoker.ammoType1, 1)) {
-                A_FireProjectile ("S7_45ACPCasingSpawn", 0, 0, 9, -2);
+                A_FireProjectile ('S7_45ACPCasingSpawn', 0, 0, 9, -2);
                 if (!invoker.lowerJammed)
                     TakeInventory (invoker.ammoType1, 1);
             }
@@ -169,7 +169,7 @@ class S7_HitterSMG : S7_BaseWeapon {
             A_PlaySound ("Weapons/HitterSMG/Slide", CHAN_6);
         }
         SR20 RSTUVW 1;
-        SR20 A 1 A_JumpIf (CheckInventory ("S7_Reloading", 1), "Reload");
+        SR20 A 1 A_JumpIf (CheckInventory ('S7_Reloading', 1), "Reload");
         goto Ready2;
 
     Reload:
@@ -179,7 +179,7 @@ class S7_HitterSMG : S7_BaseWeapon {
             if (invoker.upperJammed || invoker.lowerJammed)
                 return ResolveState ("AltFire");
 
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");

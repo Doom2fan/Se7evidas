@@ -18,8 +18,8 @@
 
 /* Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
 ** Usage:
-**  Weapons:  A_FireCustomMissile ("<Casing spawner actor>", 0, 0, <int xPos>, <float yPos>)
-**  Monsters: A_SpawnProjectile ("<Casing spawner actor>", <float yPos/zPos>, <int xPos>, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
+**  Weapons:  A_FireCustomMissile ('<Casing spawner actor>', 0, 0, <int xPos>, <float yPos>)
+**  Monsters: A_SpawnProjectile ('<Casing spawner actor>', <float yPos/zPos>, <int xPos>, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)
 */
 
 class S7_CasingSmoke : S7_ShotSmokeTrail {
@@ -125,7 +125,7 @@ class S7_CasingBase : S7_EffectsBase {
 class S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_ShellCasing", 0, 0, fRandom [casingStuff] (80, 100), 2, fRandom [casingStuff] (40, 60));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (80, 100), 2, fRandom [casingStuff] (40, 60));
         stop;
     }
 }
@@ -138,7 +138,7 @@ class S7_ShellCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS0 ABCDEFGH 2; // A_SpawnItemEx ("S7_CasingSmoke")
+        CAS0 ABCDEFGH 2; // A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -151,7 +151,7 @@ class S7_ShellCasing : S7_CasingBase {
 class S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_12gaShellCasing", 0, 0, -110, 2, -50);
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', 0, 0, -110, 2, -50);
         stop;
     }
 }
@@ -159,7 +159,7 @@ class S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
 class S7_12gaShellCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_12gaShellCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -174,7 +174,7 @@ class S7_12gaShellCasing : S7_CasingBase {
     Spawn:
         CAS4 FFGGHABCDEFGH 2;
     Idle:
-        CAS4 ABCDEFGH 2; // A_SpawnItemEx ("S7_CasingSmoke")
+        CAS4 ABCDEFGH 2; // A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -187,7 +187,7 @@ class S7_12gaShellCasing : S7_CasingBase {
 class S7_9mmCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_9mmCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_9mmCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -200,7 +200,7 @@ class S7_9mmCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS1 ABCDEFGH 2; // noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS1 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -213,7 +213,7 @@ class S7_9mmCasing : S7_CasingBase {
 class S7_45ACPCasingSpawn : S7_9mmCasingSpawn {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_45ACPCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45ACPCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -228,7 +228,7 @@ class S7_45ACPCasing : S7_9mmCasing { default { Scale .3; } }
 class S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_RevolverCasing", -5, 0, 0, 2, 90);
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RevolverCasing', -5, 0, 0, 2, 90);
         stop;
     }
 }
@@ -241,7 +241,7 @@ class S7_RevolverCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS2 ABCDEFGH 2; // noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS2 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -254,14 +254,14 @@ class S7_RevolverCasing : S7_CasingBase {
 class S7_RifleCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_RifleCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RifleCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
 class S7_RifleCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_RifleCasing", -5, 0, fRandom [casingStuff] (80, 100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RifleCasing', -5, 0, fRandom [casingStuff] (80, 100), 2, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -274,7 +274,7 @@ class S7_RifleCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS3 ABCDEFGH 2; // noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS3 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -287,14 +287,14 @@ class S7_RifleCasing : S7_CasingBase {
 class S7_45WWCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_45WWCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
 class S7_45WWCasingSpawnRifle : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ("S7_45WWCasing", -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -55));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -55));
         stop;
     }
 }
@@ -307,7 +307,7 @@ class S7_45WWCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS5 ABCDEFGH 2; // noDelay A_SpawnItemEx ("S7_CasingSmoke")
+        CAS5 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }

@@ -124,10 +124,10 @@ class S7_CustomKey : CustomInventory {
 class S7_DistanceTestPuff : Actor {
     default {
         Damage 0;
-        DamageType "TesterProjectile";
+        DamageType 'TesterProjectile';
         Alpha 0.0;
         Scale 0.0;
-        Decal "None";
+        Decal 'None';
 
         +BLOODLESSIMPACT +PAINLESS +NOPAIN +PUFFGETSOWNER
         +NOTIMEFREEZE
@@ -155,10 +155,10 @@ class S7_DistanceTestProjectile : FastProjectile {
     default {
         Speed 25;
         Damage 0;
-        DamageType "TesterProjectile";
+        DamageType 'TesterProjectile';
         Alpha 0.0;
         Scale 0.0;
-        Decal "None";
+        Decal 'None';
 
         Projectile;
 

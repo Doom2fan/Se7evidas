@@ -33,11 +33,11 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
         Speed 1;
         Mass 0;
 
-        //MissileType "S7_ShrapnelSmoke";
+        //MissileType 'S7_ShrapnelSmoke';
         MissileHeight 8;
 
         DamageFunction (0);
-        DamageType "Shrapnel";
+        DamageType 'Shrapnel';
         Obituary "$OB_SHRAPNEL";
 
         +FORCEXYBILLBOARD +NOEXTREMEDEATH +BLOODSPLATTER +NODAMAGETHRUST
@@ -110,17 +110,17 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
         goto Flight;
     Flight:
         #### #   1 {
-            //A_SpawnItemEx ("S7_ShrapnelSmoke");
+            //A_SpawnItemEx ('S7_ShrapnelSmoke');
             A_ChangeVelocity (0, 0, -1);
         }
         #### ### 1 {
             A_ChangeVelocity (vel.X * 0.9, vel.Y * 0.9, vel.Z - 1, CVF_Replace);
-            //A_SpawnItemEx ("S7_ShrapnelSmoke");
+            //A_SpawnItemEx ('S7_ShrapnelSmoke');
         }
     FlightActual:
         #### ## 1 {
             A_ChangeVelocity (vel.X * 0.9 + fRandom [shrapnel] (-1, 1), vel.Y * 0.9 + fRandom [shrapnel] (-1, 1), vel.Z - 1, CVF_Replace);
-            //A_SpawnItemEx ("S7_ShrapnelSmoke");
+            //A_SpawnItemEx ('S7_ShrapnelSmoke');
         }
         //#### #  0 { realDamage *= 0.9; }
         loop;
@@ -183,7 +183,7 @@ extend class S7_ActorExtensions {
         int sieFlags = (flags & (SXF_TransferPointers | SXF_SetMaster | SXF_SetTracer | SXF_SetTarget));
         for (int i = 0; i < count; i++) {
             bool spawned; Actor act;
-            [spawned, act] = spawner.A_SpawnItemEx ("S7_Shrapnel", xOff + fRandom [shrapnelSpawn] (-2.0, 2.0), yOff + fRandom [shrapnelSpawn] (-2.0, 2.0), zOff, 0.0, 0.0, 0.0, fRandom [shrapnelSpawn] (0.0, 359.0), SXF_NoCheckPosition | sieFlags);
+            [spawned, act] = spawner.A_SpawnItemEx ('S7_Shrapnel', xOff + fRandom [shrapnelSpawn] (-2.0, 2.0), yOff + fRandom [shrapnelSpawn] (-2.0, 2.0), zOff, 0.0, 0.0, 0.0, fRandom [shrapnelSpawn] (0.0, 359.0), SXF_NoCheckPosition | sieFlags);
 
             if (!spawned || !act)
                 continue;

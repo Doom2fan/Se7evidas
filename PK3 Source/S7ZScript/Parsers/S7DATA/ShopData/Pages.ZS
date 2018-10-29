@@ -19,7 +19,7 @@
 extend class S7_S7DataParser {
     protected void ParseShop_Page (S7_SSShop shopData, S7_S7DP_TempShopData tmpShopData) {
         string pageName;
-        let pageData = new ("S7_SSPage");
+        let pageData = new ('S7_SSPage');
 
         TZK_Token t;
 

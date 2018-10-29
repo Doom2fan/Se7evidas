@@ -122,16 +122,16 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         self.Pack (frame);
         link = menuLink;
 
-        bigFont = Font.GetFont ("BigFont");
+        bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        background = new ("S7_ZF_Image").Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignType_TopLeft);
+        background = new ('S7_ZF_Image').Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
 
-        clippingFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 400 - 3));
+        clippingFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 400 - 3));
         clippingFrame.Pack (self);
 
-        handler = new ("S7_ShopMenu_ListHandler");
+        handler = new ('S7_ShopMenu_ListHandler');
         handler.link = link;
 
         SetShop (shopData);
@@ -214,7 +214,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             itemsFrame = NULL;
         }
 
-        itemsFrame = new ("S7_ZF_Frame").Init ((0, 3), (200, 0));
+        itemsFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 0));
         itemsFrame.Pack (clippingFrame);
 
         curPage = page;
@@ -225,7 +225,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             let item = curPage.items [i];
             if (!item)
                 continue;
-            let itemControls = new ("S7_ShopMenu_ListItem");
+            let itemControls = new ('S7_ShopMenu_ListItem');
             itemControls.id = item.id;
             itemControls.itemData = item;
 
@@ -235,7 +235,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
                 texSize = TexMan.GetScaledSize (tex);
 
             // Clickable area
-            let button = new ("S7_ZF_Button").Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Entry:0x%.8X", item.id), fnt: smallFont);
+            let button = new ('S7_ZF_Button').Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Entry:0x%.8X", item.id), fnt: smallFont);
             button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             itemControls.clickableArea = button;
@@ -255,7 +255,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
 
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
-                let label = new ("S7_ZF_Label").Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
+                let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
                     fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
                 );
                 label.Pack (itemsFrame);
@@ -264,7 +264,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            let icon = new ("S7_ZF_Image").Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, item.icon, noOffsets: true);
+            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, item.icon, noOffsets: true);
             icon.Pack (itemsFrame);
             itemControls.icon = icon;
 
@@ -272,7 +272,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
 
-            let sep = new ("S7_ZF_Image").Init ((0, yCoords), (200, 2), "graphics/Menu/Shop/ListSep.png");
+            let sep = new ('S7_ZF_Image').Init ((0, yCoords), (200, 2), "graphics/Menu/Shop/ListSep.png");
             sep.Pack (itemsFrame);
             yCoords += 2;
         }

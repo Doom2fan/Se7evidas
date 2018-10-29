@@ -25,7 +25,7 @@ class S7_FScreenSBarAmmoBar {
     Array<double> yPositions;
 
     static S7_FScreenSBarAmmoBar GenerateBar (Class<Weapon> weap, Class<Inventory> magType, Class<Inventory> poolType, int ammoMax, string sprite, double initialX, double xIncrAmount, double yPos1, double yPos2 = double.Infinity, double yPos3 = double.Infinity) {
-        let bar = new ("S7_FScreenSBarAmmoBar");
+        let bar = new ('S7_FScreenSBarAmmoBar');
         bar.weap     = weap;
         bar.magType  = magType;
         bar.poolType = poolType;

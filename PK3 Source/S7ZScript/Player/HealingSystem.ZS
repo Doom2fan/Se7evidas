@@ -30,7 +30,7 @@ class S7_HealingSystem : Inventory {
     }
 
     override void DoEffect () {
-        if (!Owner || !(Owner is "S7_BasePlayer"))
+        if (!Owner || !(Owner is 'S7_BasePlayer'))
             return;
 
         let pPawn = S7_BasePlayer (Owner);

@@ -83,53 +83,53 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         menuactive = Menu.OnNoPause;
 
         CPlayer = players [consolePlayer];
-        weapBinds = S7_WeapBindsSystem (CPlayer.mo.FindInventory ("S7_WeapBindsSystem"));
+        weapBinds = S7_WeapBindsSystem (CPlayer.mo.FindInventory ('S7_WeapBindsSystem'));
 
-        handler = new ("S7_WeapAssignMenuHandler");
+        handler = new ('S7_WeapAssignMenuHandler');
         handler.link = self;
 
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        slotsFrame = new ("S7_ZF_Frame").Init ((0, 0), (640, 210));
+        slotsFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 210));
         slotsFrame.Pack (mainFrame);
-        weapSelFrame = new ("S7_ZF_Frame").Init ((0, 210), (640, 270));
+        weapSelFrame = new ('S7_ZF_Frame').Init ((0, 210), (640, 270));
         weapSelFrame.Pack (mainFrame);
 
         OnInit ();
 
         string labelText = "WEAPON SLOT ASSIGNMENT";
-        S7_ZF_Label label = new ("S7_ZF_Label").Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (slotsFrame);
 
         for (int x = 0; x < 5; x++) {
             double xCoords = 19.0 + ((105.0 + 19.0) * x);
             labelText = weapLabelsText [x];
-            label = new ("S7_ZF_Label").Init ((xCoords, 48), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+            label = new ('S7_ZF_Label').Init ((xCoords, 48), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
             label.box.pos.X += (105.0 / 2) - (smallFont.stringWidth (labelText) / 2.0);
             label.Pack (slotsFrame);
 
             for (int y = 0; y < 3; y++) {
                 double yCoords = 72.0 + ((40.0 + 8.0) * y);
                 // Button
-                slotButtons [x] [y] = new ("S7_ZF_Button").Init ((xCoords, yCoords), (107, 42), text: "", cmdHandler: handler, command: String.Format ("SetSlot:%d,%d", x, y), null, null, null, null);
+                slotButtons [x] [y] = new ('S7_ZF_Button').Init ((xCoords, yCoords), (107, 42), text: "", cmdHandler: handler, command: String.Format ("SetSlot:%d,%d", x, y), null, null, null, null);
                 slotButtons [x] [y].SetTexture (
                     "graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png",
                     "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "graphics/Menu/WeapAssignment/WeapSlotDisabled.png"
                 );
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
-                slotImages [x] [y] = new ("S7_ZF_Image").Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center, noOffsets: true);
+                slotImages [x] [y] = new ('S7_ZF_Image').Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center, noOffsets: true);
                 slotImages [x] [y].Pack (slotsFrame);
             }
         }
 
-        infoBG = new ("S7_ZF_Image").Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
+        infoBG = new ('S7_ZF_Image').Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
         infoBG.Pack (weapSelFrame);
-        infoLabel = new ("S7_ZF_Label").Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), text: "", fnt: smallFont, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        infoLabel = new ('S7_ZF_Label').Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), text: "", fnt: smallFont, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
         infoLabel.Pack (weapSelFrame);
-        itemsList = S7_WeapAssignMenu_List (new ("S7_WeapAssignMenu_List").InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
+        itemsList = S7_WeapAssignMenu_List (new ('S7_WeapAssignMenu_List').InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
 
         selectedX = selectedY = -1;
 
@@ -152,7 +152,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
     void UpdateData () {
         if (!weapBinds)
-            weapBinds = S7_WeapBindsSystem (CPlayer.mo.FindInventory ("S7_WeapBindsSystem"));
+            weapBinds = S7_WeapBindsSystem (CPlayer.mo.FindInventory ('S7_WeapBindsSystem'));
 
         S7_BaseWeapon selectedWeap;
 
@@ -268,7 +268,7 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
             if (!pPawn)
                 return;
 
-            let weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
+            let weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ('S7_WeapBindsSystem'));
             if (!weapBinds)
                 return;
 
@@ -282,7 +282,7 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
             if (!pPawn)
                 return;
 
-            let weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ("S7_WeapBindsSystem"));
+            let weapBinds = S7_WeapBindsSystem (pPawn.FindInventory ('S7_WeapBindsSystem'));
             if (!weapBinds)
                 return;
 

@@ -37,8 +37,8 @@ class S7_SSG : S7_BaseWeapon {
         Tag "$SSG";
         Inventory.PickupMessage "$SSG";
 
-        Weapon.AmmoType1 "S7_SSGFauxClip";
-        Weapon.AmmoType2 "S7_12gaShells";
+        Weapon.AmmoType1 'S7_SSGFauxClip';
+        Weapon.AmmoType2 'S7_12gaShells';
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
 
@@ -53,17 +53,17 @@ class S7_SSG : S7_BaseWeapon {
     override void DoEffect () {
         Super.DoEffect ();
 
-        Owner.SetInventory ("S7_SSGLeftLoadedToken",  (leftLoaded  ? 1 : 0));
-        Owner.SetInventory ("S7_SSGRightLoadedToken", (rightLoaded ? 1 : 0));
-        Owner.SetInventory ("S7_SSGFauxClip", Owner.CountInv ("S7_SSGLeftLoadedToken") + Owner.CountInv ("S7_SSGRightLoadedToken"));
+        Owner.SetInventory ('S7_SSGLeftLoadedToken',  (leftLoaded  ? 1 : 0));
+        Owner.SetInventory ('S7_SSGRightLoadedToken', (rightLoaded ? 1 : 0));
+        Owner.SetInventory ('S7_SSGFauxClip', Owner.CountInv ('S7_SSGLeftLoadedToken') + Owner.CountInv ('S7_SSGRightLoadedToken'));
     }
 
     override void DetachFromOwner () {
         Super.DetachFromOwner ();
 
-        Owner.SetInventory ("S7_SSGLeftLoadedToken",  0);
-        Owner.SetInventory ("S7_SSGRightLoadedToken", 0);
-        Owner.SetInventory ("S7_SSGFauxClip", 0);
+        Owner.SetInventory ('S7_SSGLeftLoadedToken',  0);
+        Owner.SetInventory ('S7_SSGRightLoadedToken', 0);
+        Owner.SetInventory ('S7_SSGFauxClip', 0);
     }
 
     override bool SS_PreSell (int amount) {
@@ -83,16 +83,16 @@ class S7_SSG : S7_BaseWeapon {
 
     action void S7_FireSSG (bool right) {
         if (!right) {
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 1, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1, 1.5);
             for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
+                A_FireProjectile ('S7_12gaTracer', fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.leftLoaded = false;
         } else {
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 1.5);
             for (int i = 0; i < 9; i++)
-                A_FireProjectile ("S7_12gaTracer", fRandom [weaponSpread] (-0.35, 0.35), 1, 5, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
+                A_FireProjectile ('S7_12gaTracer', fRandom [weaponSpread] (-0.35, 0.35), 1, 5, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.rightLoaded = false;
         }
     }
@@ -107,11 +107,11 @@ class S7_SSG : S7_BaseWeapon {
         SSG0 A     1;
     Ready2:
         SSG0 A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK)), altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
             if (attack && altAttack)
@@ -257,7 +257,7 @@ class S7_SSG : S7_BaseWeapon {
 
     Reload:
         TNT1 A     0 {
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             if ((invoker.leftLoaded && invoker.rightLoaded) ||
                 (!invoker.leftLoaded && !invoker.rightLoaded && !CheckInventory (invoker.ammoType2, 2)) ||
@@ -283,8 +283,8 @@ class S7_SSG : S7_BaseWeapon {
 
     LoadBoth:
         SSG0 F         1 {
-            A_FireProjectile ("S7_12gaShellCasingSpawn", 0, 0, 4, -16);
-            A_FireProjectile ("S7_12gaShellCasingSpawn", 0, 0, 7, -18);
+            A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 4, -16);
+            A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 7, -18);
         }
         SSG0 GHIJKLMNO 1;
         SSG0 P         1 {
@@ -305,7 +305,7 @@ class S7_SSG : S7_BaseWeapon {
         goto ReloadEnd;
 
     LoadLeft:
-        SSG3 A         1 A_FireProjectile ("S7_12gaShellCasingSpawn", 0, 0, 4, -16);
+        SSG3 A         1 A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 4, -16);
         SSG3 BCDEFHIJK 1;
         SSG0 Q         4 {
             A_PlaySound ("Weapons/SSG/In", CHAN_6);
@@ -317,7 +317,7 @@ class S7_SSG : S7_BaseWeapon {
         goto ReloadEnd;
 
     LoadRight:
-        SSG2 A      1 A_FireProjectile ("S7_12gaShellCasingSpawn", 0, 0, 7, -18);
+        SSG2 A      1 A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 7, -18);
         SSG2 BCDE   1;
         SSG0 WXYZ   1;
         SSG1 A      1;

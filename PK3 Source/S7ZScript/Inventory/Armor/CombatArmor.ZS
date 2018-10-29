@@ -153,7 +153,7 @@ class S7_CCCombatArmor : S7_BasicArmorPickup {
         Inventory.Icon "ARCAA0";
         Tag "$CBTARMR_CC";
 
-        S7_BasicArmorPickup.DataClass "S7_CCCombatArmorData";
+        S7_BasicArmorPickup.DataClass 'S7_CCCombatArmorData';
     }
 
     states {
@@ -248,7 +248,7 @@ class S7_SBTKCombatArmor : S7_BasicArmorPickup {
         Inventory.Icon "ARCAB0";
         Tag "$CBTARMR_SBTK";
 
-        S7_BasicArmorPickup.DataClass "S7_SBTKCombatArmorData";
+        S7_BasicArmorPickup.DataClass 'S7_SBTKCombatArmorData';
     }
 
     states {

@@ -53,8 +53,8 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     override void PostBeginPlay () {
         if (!xpSys) {
-            GiveInventory ("S7_XPSystem", 1);
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
         let serverData = S7_ServerData.Get ();
@@ -90,10 +90,10 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     override void Tick () {
         if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             if (!xpSys) {
-                GiveInventory ("S7_XPSystem", 1);
-                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             }
         }
 
@@ -160,14 +160,14 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     Melee:
         FLSP FFAA 1 A_FaceTarget (45, 22.5);
-        FLSP B    2 A_CustomMeleeAttack (damage: random [monsterDMG] (1, 4), damagetype: "Melee");
+        FLSP B    2 A_CustomMeleeAttack (damage: random [monsterDMG] (1, 4), damagetype: 'Melee');
         FLSP AFE  2;
         goto See;
 
     Missile:
         FLSP CCCC 2 A_FaceTarget (30, 15);
         FLSP GG   2 A_FaceTarget (30, 15);
-        FLSP H    4 bright A_SpawnProjectile ("S7_FleshSpawnBall", 12);
+        FLSP H    4 bright A_SpawnProjectile ('S7_FleshSpawnBall', 12);
         FLSP EA   2;
         goto See;
 
@@ -242,15 +242,15 @@ class S7_FleshSpawn : S7_MonsterBase {
         FLSP Q 3 {
             A_XScream ();
 
-            A_SpawnItemEx ("FleshSpawnGib6", zVel: fRandom [sfx] (-3., 0.), flags: SXF_NoCheckPosition);
-            FS_SpawnGib ("FleshSpawnGib1",  14,  0, fRandom [sfx] (-40, -10));
-            FS_SpawnGib ("FleshSpawnGib2",   6,  2, fRandom [sfx] (-25,   0));
-            FS_SpawnGib ("FleshSpawnGib2B", 10, -2, fRandom [sfx] (-25,   0));
-            FS_SpawnGib ("FleshSpawnGib3",   8,  0, fRandom [sfx] (-35,   0));
-            FS_SpawnGib ("FleshSpawnGib4",  12,  5, fRandom [sfx] (-40,   5));
-            FS_SpawnGib ("FleshSpawnGib4B",  5, -5, fRandom [sfx] (-30,   0));
-            FS_SpawnGib ("FleshSpawnGib5",   6,  3, fRandom [sfx] (-60, -10));
-            FS_SpawnGib ("FleshSpawnGib5",   8,  0, fRandom [sfx] (-55,  10));
+            A_SpawnItemEx ('FleshSpawnGib6', zVel: fRandom [sfx] (-3., 0.), flags: SXF_NoCheckPosition);
+            FS_SpawnGib ('FleshSpawnGib1',  14,  0, fRandom [sfx] (-40, -10));
+            FS_SpawnGib ('FleshSpawnGib2',   6,  2, fRandom [sfx] (-25,   0));
+            FS_SpawnGib ('FleshSpawnGib2B', 10, -2, fRandom [sfx] (-25,   0));
+            FS_SpawnGib ('FleshSpawnGib3',   8,  0, fRandom [sfx] (-35,   0));
+            FS_SpawnGib ('FleshSpawnGib4',  12,  5, fRandom [sfx] (-40,   5));
+            FS_SpawnGib ('FleshSpawnGib4B',  5, -5, fRandom [sfx] (-30,   0));
+            FS_SpawnGib ('FleshSpawnGib5',   6,  3, fRandom [sfx] (-60, -10));
+            FS_SpawnGib ('FleshSpawnGib5',   8,  0, fRandom [sfx] (-55,  10));
         }
         FLSP RSTU 3;
         stop;
@@ -279,7 +279,7 @@ class S7_FleshSpawnBall : S7_FireballBase {
         DamageFunction int (fRandom [monsterDMG] (1.0, 6.0) * 4);
         Obituary "$OBFLESHSPAWNBALL";
         RenderStyle "Add";
-        Decal "Scorch";
+        Decal 'Scorch';
 
         SeeSound "Monsters/FleshSpawn/Fireball";
     }

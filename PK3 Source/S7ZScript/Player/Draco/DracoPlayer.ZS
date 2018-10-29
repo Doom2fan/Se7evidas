@@ -35,8 +35,8 @@ class S7_DracoThing : Inventory {
         if (pPawn.weapBinds)
             pPawn.weapBinds.LastWeapon = NULL;
 
-        if (!(pPawn is "S7_DracoPlayer"))
-            pPawn.player.MorphPlayer (pPawn.player, "S7_DracoPlayer", 0x7FFFFFFF, morphFlags, NULL, NULL);
+        if (!(pPawn is 'S7_DracoPlayer'))
+            pPawn.player.MorphPlayer (pPawn.player, 'S7_DracoPlayer', 0x7FFFFFFF, morphFlags, NULL, NULL);
         else
             pPawn.player.UndoPlayerMorph (pPawn.player, MRF_UndoAlways, false);
 

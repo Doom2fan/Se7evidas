@@ -22,7 +22,7 @@ class byteArray {
 
 class S7_MD5 {
     static S7_MD5 Create () {
-        S7_MD5 ret = new ("S7_MD5");
+        S7_MD5 ret = new ('S7_MD5');
         ret.Reset ();
 
         return ret;
@@ -31,7 +31,7 @@ class S7_MD5 {
     static string FromStream (TZK_Stream stream) {
         let md5 = S7_MD5.Create ();
 
-        let tmpArr = new ("TZK_ArrayI32");
+        let tmpArr = new ('TZK_ArrayI32');
 
         for (int i = 0; i < stream.Length (); i++)
             tmpArr.Push (stream.Read ());
@@ -259,7 +259,7 @@ class S7_MD5 {
         uint i, index, partLen;
         uint inputLen = data.Size ();
         //Console.PrintF ("%d", inputLen);
-        let tmpBuffer = new ("TZK_ArrayI32");
+        let tmpBuffer = new ('TZK_ArrayI32');
 
         // Compute number of bytes mod 64
         index = uint ((uint (_count) >>> 3) & (64 - 1));
@@ -314,7 +314,7 @@ class S7_MD5 {
 
     string Finish () {
         string data = "";
-        let padArr = new ("TZK_ArrayI32"), bitsArr = new ("TZK_ArrayI32");
+        let padArr = new ('TZK_ArrayI32'), bitsArr = new ('TZK_ArrayI32');
         uint index, padLen;
         
         // Save number of bits

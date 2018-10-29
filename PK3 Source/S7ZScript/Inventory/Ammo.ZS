@@ -43,65 +43,65 @@ class S7_Backpack : CustomInventory replaces Backpack {
         BPAK A -1;
         stop;
     Pickup:
-        TNT1 A 0 A_JumpIfInventory ("S7_BackpackToken", 1, "GotOne");
-        TNT1 A 0 GiveInventory ("S7_BackpackToken", 1);
+        TNT1 A 0 A_JumpIfInventory ('S7_BackpackToken', 1, "GotOne");
+        TNT1 A 0 GiveInventory ('S7_BackpackToken', 1);
         goto GiveAmmo;
     GotOne:
-        TNT1 A 0 A_DropItem ("S7_BackpackNoAmmo");
+        TNT1 A 0 A_DropItem ('S7_BackpackNoAmmo');
         goto GiveAmmo;
 
     GiveAmmo:
         TNT1 A 1 A_Jump (256, "Give9mm", "Give45ACP");
         wait;
     Give9mm:
-        TNT1 A 0 A_JumpIfInventory ("S7_9mmCartridges", 0, "No9mm");
-        TNT1 A 0 GiveInventory ("S7_9mmCartridges", 15 * 2);
+        TNT1 A 0 A_JumpIfInventory ('S7_9mmCartridges', 0, "No9mm");
+        TNT1 A 0 GiveInventory ('S7_9mmCartridges', 15 * 2);
         goto GiveAmmoP2;
     No9mm:
-        TNT1 AA 0 A_DropItem ("S7_9mmCartridges");
+        TNT1 AA 0 A_DropItem ('S7_9mmCartridges');
         goto GiveAmmoP2;
     Give45ACP:
-        TNT1 A 0 A_JumpIfInventory ("S7_45ACPCartridges", 0, "No45ACP");
-        TNT1 A 0 GiveInventory ("S7_45ACPCartridges", 62 * 2);
+        TNT1 A 0 A_JumpIfInventory ('S7_45ACPCartridges', 0, "No45ACP");
+        TNT1 A 0 GiveInventory ('S7_45ACPCartridges', 62 * 2);
         goto GiveAmmoP2;
     No45ACP:
-        TNT1 AA 0 A_DropItem ("S7_45ACPCartridges");
+        TNT1 AA 0 A_DropItem ('S7_45ACPCartridges');
         goto GiveAmmoP2;
 
     GiveAmmoP2:
         TNT1 A 1 A_Jump (256, "Give44M", "GiveShells");
         wait;
     Give44M:
-        TNT1 A 0 A_JumpIfInventory ("S7_44MCartridges", 0, "No44M");
-        TNT1 A 0 GiveInventory ("S7_44MCartridges", 6 * 2);
+        TNT1 A 0 A_JumpIfInventory ('S7_44MCartridges', 0, "No44M");
+        TNT1 A 0 GiveInventory ('S7_44MCartridges', 6 * 2);
         goto GiveAmmoP3;
     No44M:
-        TNT1 AA 0 A_DropItem ("S7_44MCartridges");
+        TNT1 AA 0 A_DropItem ('S7_44MCartridges');
         goto GiveAmmoP3;
     GiveShells:
-        TNT1 A 0 A_JumpIfInventory ("S7_20gaShells", 0, "NoShells");
-        TNT1 A 0 GiveInventory ("S7_20gaShells", 10 * 2);
+        TNT1 A 0 A_JumpIfInventory ('S7_20gaShells', 0, "NoShells");
+        TNT1 A 0 GiveInventory ('S7_20gaShells', 10 * 2);
         goto GiveAmmoP3;
     NoShells:
-        TNT1 AA 0 A_DropItem ("S7_20gaShells");
+        TNT1 AA 0 A_DropItem ('S7_20gaShells');
         goto GiveAmmoP3;
 
     GiveAmmoP3:
         TNT1 A 1 A_Jump (256, "Give762x39", "GiveCells");
         wait;
     Give762x39:
-        TNT1 A 0 A_JumpIfInventory ("S7_762x39Cartridges", 0, "No762x39");
-        TNT1 A 0 GiveInventory ("S7_762x39Cartridges", 35 * 2);
+        TNT1 A 0 A_JumpIfInventory ('S7_762x39Cartridges', 0, "No762x39");
+        TNT1 A 0 GiveInventory ('S7_762x39Cartridges', 35 * 2);
         goto EndSuccess;
     No762x39:
-        TNT1 AA 0 A_DropItem ("S7_762x39Cartridges");
+        TNT1 AA 0 A_DropItem ('S7_762x39Cartridges');
         goto EndSuccess;
     GiveCells:
-        TNT1 A 0 A_JumpIfInventory ("S7_Cells", 0, "NoCells");
-        TNT1 A 0 GiveInventory ("S7_Cells", (18 * 2) * 2);
+        TNT1 A 0 A_JumpIfInventory ('S7_Cells', 0, "NoCells");
+        TNT1 A 0 GiveInventory ('S7_Cells', (18 * 2) * 2);
         goto EndSuccess;
     NoCells:
-        TNT1 AA 0 A_DropItem ("S7_Cells");
+        TNT1 AA 0 A_DropItem ('S7_Cells');
         goto EndSuccess;
 
 
@@ -129,8 +129,8 @@ class S7_BackpackNoAmmo : S7_Backpack {
         BPAK A -1;
         stop;
     Pickup:
-        TNT1 A 0 A_JumpIfInventory ("S7_BackpackToken", 1, "EndFail");
-        TNT1 A 0 GiveInventory ("S7_BackpackToken", 1);
+        TNT1 A 0 A_JumpIfInventory ('S7_BackpackToken', 1, "EndFail");
+        TNT1 A 0 GiveInventory ('S7_BackpackToken', 1);
         goto EndSuccess;
     }
 }
@@ -514,13 +514,13 @@ class S7_Thumper_PUnified : Ammo {
 
     static clearscope int CalculateUnifiedAmount (Actor act) {
         return (
-            act.CountInv ("S7_Thumper_PExp"    ) +
-            act.CountInv ("S7_Thumper_PFrag"   ) +
-            act.CountInv ("S7_Thumper_PTherm"  ) +
-            act.CountInv ("S7_Thumper_PFlare"  ) +
-            act.CountInv ("S7_Thumper_PCluster") +
-            act.CountInv ("S7_Thumper_PNail"   ) +
-            act.CountInv ("S7_Thumper_PNGas"   )
+            act.CountInv ('S7_Thumper_PExp'    ) +
+            act.CountInv ('S7_Thumper_PFrag'   ) +
+            act.CountInv ('S7_Thumper_PTherm'  ) +
+            act.CountInv ('S7_Thumper_PFlare'  ) +
+            act.CountInv ('S7_Thumper_PCluster') +
+            act.CountInv ('S7_Thumper_PNail'   ) +
+            act.CountInv ('S7_Thumper_PNGas'   )
         );
     }
 

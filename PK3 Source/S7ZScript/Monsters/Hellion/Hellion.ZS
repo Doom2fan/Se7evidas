@@ -34,7 +34,7 @@ class S7_Hellion : S7_DemonBase {
         PainSound "Monsters/Hellion/Pain";
         DeathSound "Monsters/Hellion/Death";
         Obituary "$OBHELLION";
-        Species "Hellion";
+        Species 'Hellion';
         Tag "$HELLIONTAG";
 
         // Fire damage reduction
@@ -45,8 +45,8 @@ class S7_Hellion : S7_DemonBase {
 
     override void PostBeginPlay () {
         if (!xpSys) {
-            GiveInventory ("S7_XPSystem", 1);
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
         let serverData = S7_ServerData.Get ();
@@ -80,10 +80,10 @@ class S7_Hellion : S7_DemonBase {
 
     override void Tick () {
         if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             if (!xpSys) {
-                GiveInventory ("S7_XPSystem", 1);
-                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             }
         }
 
@@ -119,7 +119,7 @@ class S7_Hellion : S7_DemonBase {
 
         HELN L 6 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_HellionBall", 35.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_HellionBall', 35.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         goto See;
 
@@ -165,19 +165,19 @@ class S7_Hellion : S7_DemonBase {
                 double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
                 double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
 
-                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_GibbingBlood', xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition);
             }
 
             for (int i = random [sfx] (6, 8); i >= 0; i--) {
                 bool MUDA; Actor cloud;
-                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                [MUDA, cloud] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
                  flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
             }
 
             for (int i = random [sfx] (8, 15); i >= 0; i--) {
                 bool MUDA; Actor gib;
-                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                [MUDA, gib] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [sfx] (-7, 7),
                     xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
                     flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
@@ -209,7 +209,7 @@ class S7_Hellion : S7_DemonBase {
 class S7_HellionBall : S7_FireballBase {
     default {
         DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 6);
-        DamageType "Fire";
+        DamageType 'Fire';
         Speed 12;
         FastSpeed 24;
         Obituary "$OBHELLIONFB";
@@ -218,8 +218,8 @@ class S7_HellionBall : S7_FireballBase {
     states {
     Spawn:
         CP00 AABBCC 1 bright {
-            A_SpawnItemEx ("S7_FireballSmoke",  0.0, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
-            A_SpawnItemEx ("S7_FireballSmoke", -2.5, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
+            A_SpawnItemEx ('S7_FireballSmoke',  0.0, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
+            A_SpawnItemEx ('S7_FireballSmoke', -2.5, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
         }
         loop;
     Death:

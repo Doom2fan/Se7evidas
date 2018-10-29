@@ -65,10 +65,10 @@ extend class S7_BasePlayer {
             let savedpending = player.PendingWeapon;
             for (int i = 0; i < AllActorClasses.Size (); ++i) {
                 let type = (class<S7_BaseWeapon>) (AllActorClasses [i]);
-                if (type != null && type != "S7_BaseWeapon") {
+                if (type != null && type != 'S7_BaseWeapon') {
                     // Don't give replaced weapons unless the replacement was done by Dehacked.
                     let rep = GetReplacement (type);
-                    if (rep == type || rep is "DehackedPickup") {
+                    if (rep == type || rep is 'DehackedPickup') {
                         readonly<S7_BaseWeapon> def = GetDefaultByType (type);
                         if (giveall == ALL_YESYES || !def.bCheatNotWeapon)
                             GiveInventory (type, 1, true);

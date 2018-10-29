@@ -25,7 +25,7 @@ class S7_M400AutogunTracer : S7_BulletTracer {
     default {
         S7_BaseTracer.TrueSpeed 240;
         DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 3.875);
-        DamageType "RifleTracer";
+        DamageType 'RifleTracer';
     }
 }
 
@@ -57,7 +57,7 @@ class S7_M400AutogunStored : Inventory {
             return false;
 
         bool success; Actor act;
-        [success, act] = owner.A_SpawnItemEx ("S7_M400Autogun", owner.radius + (25*2), flags: SXF_TransferTranslation | SXF_SetMaster);
+        [success, act] = owner.A_SpawnItemEx ('S7_M400Autogun', owner.radius + (25*2), flags: SXF_TransferTranslation | SXF_SetMaster);
 
         if (!success || !act)
             return false;
@@ -106,7 +106,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         PainChance 0;
 
         Obituary "$OBM400AUTOGUN";
-        Species "M400Autogun";
+        Species 'M400Autogun';
         Tag "$AUTOGUN";
 
         DamageFactor "Plasma", 1.0;
@@ -132,14 +132,14 @@ class S7_M400Autogun : S7_PlayerSummon {
         if (user != master || useTimer == -1)
             return false;
 
-        if (user.CheckInventory ("S7_M400AutogunStored", 1)) {
+        if (user.CheckInventory ('S7_M400AutogunStored', 1)) {
             useTimer = 0;
             return false;
         }
 
         if (useTimer > 0) {
-            user.GiveInventory ("S7_M400AutogunStored", 1);
-            let stored = S7_M400AutogunStored (user.FindInventory ("S7_M400AutogunStored"));
+            user.GiveInventory ('S7_M400AutogunStored', 1);
+            let stored = S7_M400AutogunStored (user.FindInventory ('S7_M400AutogunStored'));
 
             stored.integrity = health;
             stored.ammo = ammo;
@@ -157,8 +157,8 @@ class S7_M400Autogun : S7_PlayerSummon {
 
     override void PostBeginPlay () {
         if (!xpSys) {
-            GiveInventory ("S7_XPSystem", 1);
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
         let serverData = S7_ServerData.Get ();
@@ -191,10 +191,10 @@ class S7_M400Autogun : S7_PlayerSummon {
             useTimer--;
 
         if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             if (!xpSys) {
-                GiveInventory ("S7_XPSystem", 1);
-                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             }
         }
 
@@ -222,7 +222,7 @@ class S7_M400Autogun : S7_PlayerSummon {
             aimMarker.SetOrigin (data.HitLocation, !(aimMarker.alpha ~== 0.));
             aimMarker.alpha = (markerHit ? 1. : 0.);
         } else {
-            aimMarker = Spawn ("S7_TurretRedDot", data.HitLocation);
+            aimMarker = Spawn ('S7_TurretRedDot', data.HitLocation);
             aimMarker.target = self;
             aimMarker.alpha = 0.;
         }
@@ -372,7 +372,7 @@ class S7_M400Autogun : S7_PlayerSummon {
                 heightMod = fRandom [monsterSpc] (0.25, 0.85);
 
             LeadTarget (target, 240, (0, 38.5), targHeightOff: heightMod, flags: S7_LTF_TargHeightMul);
-            A_SpawnProjectile ("S7_M400AutogunTracer", 38.5, 0.0, fRandom [monsterSpread] (-1., 1.), 0, fRandom [monsterSpread] (-1., 1.));
+            A_SpawnProjectile ('S7_M400AutogunTracer', 38.5, 0.0, fRandom [monsterSpread] (-1., 1.), 0, fRandom [monsterSpread] (-1., 1.));
             ammo--;
 
             A_PlaySound ("Inventory/Turret/Fire", CHAN_Weapon);
@@ -389,7 +389,7 @@ class S7_M400Autogun : S7_PlayerSummon {
             useTimer = -1;
 
             A_PlaySound ("Explosions/Explosion1", CHAN_Body, 0.5);
-            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
             if (expl)
                 expl.scale = (0.2, 0.2);
         }
@@ -402,14 +402,14 @@ class S7_M400Autogun : S7_PlayerSummon {
             RemoveMarkers (true);
             useTimer = -1;
 
-            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
             if (expl) {
                 expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body, .5);
                 expl.A_SetScale (.2);
             }
         }
         TRT1 A 10 {
-            let expl = Spawn ("S7_TurretExplosion", pos + (fRandom [sfx] (-10, 10), fRandom [sfx] (-10, 10), 42 + fRandom [sfx] (-6, 6)));
+            let expl = Spawn ('S7_TurretExplosion', pos + (fRandom [sfx] (-10, 10), fRandom [sfx] (-10, 10), 42 + fRandom [sfx] (-6, 6)));
             if (expl) {
                 expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body, .5);
                 expl.A_SetScale (.2);
@@ -418,7 +418,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         TRT1 AAAAAAA 1 {
             A_SetTics (random [monsterSpc] (4, 6));
 
-            let expl = Spawn ("S7_TurretExplosion", pos + (fRandom [sfx] (-10, 10), fRandom [sfx] (-10, 10), 42 + fRandom [sfx] (-6, 6)));
+            let expl = Spawn ('S7_TurretExplosion', pos + (fRandom [sfx] (-10, 10), fRandom [sfx] (-10, 10), 42 + fRandom [sfx] (-6, 6)));
             if (expl) {
                 expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body, fRandom [sfx] (.5, .65));
                 expl.A_SetScale (fRandom [sfx] (.15, .3));
@@ -426,7 +426,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         }
         TRT1 A 15;
         TRT1 A 70 {
-            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
             if (expl) {
                 expl.A_PlaySound ("Explosions/Explosion1", CHAN_Body);
                 expl.A_SetScale (.25);
@@ -434,7 +434,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         }
         TRT1 C -1 {
             A_PlaySound ("Explosions/Explosion2", CHAN_Body);
-            let expl = Spawn ("S7_TurretExplosion", pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
             if (expl)
                 expl.A_SetScale (.5);
         }

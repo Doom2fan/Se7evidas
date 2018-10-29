@@ -57,7 +57,7 @@ class S7_MonsterBase : Actor {
     override void Die (Actor source, Actor inflictor, int dmgflags) {
         Super.Die (source, inflictor, dmgflags);
 
-        if (source is "S7_PlayerSummon") {
+        if (source is 'S7_PlayerSummon') {
             if (source.master && source.master.player && multiplayer)
                 source.player.killcount++;
         }
@@ -67,17 +67,17 @@ class S7_MonsterBase : Actor {
     virtual void OnDeath (Actor source, Actor inflictor, int dmgflags) { }
 
     S7_XPSystem GetXPSystem () {
-        return S7_XPSystem (FindInventory ("S7_XPSystem", true));
+        return S7_XPSystem (FindInventory ('S7_XPSystem', true));
     }
 
     void GiveXP (Actor act, int amount) {
         if (!act || amount <= 0)
             return;
 
-        S7_XPSystem xpSys = S7_XPSystem (act.FindInventory ("S7_XPSystem", true));
+        S7_XPSystem xpSys = S7_XPSystem (act.FindInventory ('S7_XPSystem', true));
 
-        if (!xpSys && act is "S7_PlayerSummon" && act.master)
-            xpSys = S7_XPSystem (act.master.FindInventory ("S7_XPSystem", true));
+        if (!xpSys && act is 'S7_PlayerSummon' && act.master)
+            xpSys = S7_XPSystem (act.master.FindInventory ('S7_XPSystem', true));
 
         if (!xpSys)
             return;
@@ -89,7 +89,7 @@ class S7_MonsterBase : Actor {
         if (!act || amount <= 0)
             return;
 
-        if (act is "S7_PlayerSummon") {
+        if (act is 'S7_PlayerSummon') {
             if (!act.master)
                 return;
 

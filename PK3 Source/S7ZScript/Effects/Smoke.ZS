@@ -65,7 +65,7 @@ class S7_ShotSmoke : S7_WhiteSmoke {
 
     states {
     Spawn:
-        SMOK ABCDEFGHIJKLMNOPQ 1 noDelay A_SpawnItem ("S7_ShotSmokeTrail");
+        SMOK ABCDEFGHIJKLMNOPQ 1 noDelay A_SpawnItem ('S7_ShotSmokeTrail');
         stop;
     }
 }
@@ -100,7 +100,7 @@ class S7_ShotSmoke_Spawner : S7_WhiteSmoke { // By wildweasel, edited by Chronos
         TNT1 A 1 A_Jump (256, "Death");
         wait;
     Death:
-        TNT1 A 0 A_SpawnProjectile ("S7_ShotSmoke", -2, 0, 0);
+        TNT1 A 0 A_SpawnProjectile ('S7_ShotSmoke', -2, 0, 0);
         stop;
     }
 }
@@ -115,7 +115,7 @@ class S7_BlackShotSmoke : S7_ShotSmoke {
 
     states {
     Spawn:
-        SMOK ABCDEFGHIJKLMNOPQ 1 noDelay A_SpawnItem ("S7_BlackShotSmokeTrail");
+        SMOK ABCDEFGHIJKLMNOPQ 1 noDelay A_SpawnItem ('S7_BlackShotSmokeTrail');
         stop;
     }
 }
@@ -130,7 +130,7 @@ class S7_BlackShotSmokeTrail : S7_ShotSmokeTrail {
 class S7_BlackShotSmoke_Spawner : S7_ShotSmoke_Spawner {
     states {
     Death:
-        TNT1 A 0 A_SpawnProjectile ("S7_BlackShotSmoke", -2, 0, 0);
+        TNT1 A 0 A_SpawnProjectile ('S7_BlackShotSmoke', -2, 0, 0);
         stop;
     }
 }
@@ -149,7 +149,7 @@ class S7_SmokingPiece : S7_DebrisGeneral { // Edited by Chronos "phantombeta" Ou
     states {
     Spawn:
         TNT1 A 1 noDelay A_JumpIf (waterLevel >= 1, "Water");
-        TNT1 A 1 A_SpawnItem ("S7_SmokingPieceSmoke");
+        TNT1 A 1 A_SpawnItem ('S7_SmokingPieceSmoke');
         loop;
     Water:
         TNT1 A 1;
@@ -169,7 +169,7 @@ class S7_SmokingPieceSmoke : S7_ShotSmokeTrail {
 class S7_ShotSmoke_2_Spawner : S7_ShotSmoke_Spawner {
     states {
     Death:
-        TNT1 A 0 A_SpawnProjectile ("S7_ShotSmoke_2", -2, 0, 0);
+        TNT1 A 0 A_SpawnProjectile ('S7_ShotSmoke_2', -2, 0, 0);
         stop;
     }
 }
@@ -197,7 +197,7 @@ class S7_HeatSmoke : S7_ShotSmoke {
 
     states {
     Spawn:
-        SMOK EFGHIJKLMNOPQ 1 noDelay A_SpawnItem ("S7_HeatSmokeTrail");
+        SMOK EFGHIJKLMNOPQ 1 noDelay A_SpawnItem ('S7_HeatSmokeTrail');
         stop;
     }
 }
@@ -224,7 +224,7 @@ class S7_HeatSmokeSpawner : S7_DebrisGeneral {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnItem ("S7_HeatSmoke", 0, 0);
+        TNT1 A 0 noDelay A_SpawnItem ('S7_HeatSmoke', 0, 0);
         stop;
     }
 }

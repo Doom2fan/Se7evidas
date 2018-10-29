@@ -45,8 +45,8 @@ class S7_LaserPewPew : S7_BaseWeapon {
         Tag "$BUTTFLY";
         Inventory.PickupMessage "$BUTTFLY";
         Inventory.MaxAmount 2;
-        Weapon.AmmoType1 "S7_LaserPewPewClip";
-        Weapon.AmmoType2 "S7_FBSysCells";
+        Weapon.AmmoType1 'S7_LaserPewPewClip';
+        Weapon.AmmoType2 'S7_FBSysCells';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -83,7 +83,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     }
 
     override bool SS_PreSell (int amount) {
-        let secondMag = Ammo (Owner.FindInventory ("S7_LaserPewPewClipSecond"));
+        let secondMag = Ammo (Owner.FindInventory ('S7_LaserPewPewClipSecond'));
 
         if (self.amount < 2)
             LPP_DoDropAmmo (Ammo1, Ammo2);
@@ -118,23 +118,23 @@ class S7_LaserPewPew : S7_BaseWeapon {
             if (invoker.akimbo)
                 return ResolveState ("AkimboRight.Ready");
 
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
             if (!invoker.sights) {
-                if (CheckInventory ("S7_DoMelee", 1))
+                if (CheckInventory ('S7_DoMelee', 1))
                     return ResolveState ("QuickMelee");
-                if (CheckInventory ("S7_ChangeFireMode", 1))
+                if (CheckInventory ('S7_ChangeFireMode', 1))
                     return ResolveState ("ChangeMode");
             } else {
-                TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
-                TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+                TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+                TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
             }
 
             A_WeaponReady (WRF_AllowZoom | WRF_NoSecondary);
 
             return ResolveState (null);
         }
-        #### # 0 TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
+        #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
         #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | WRF_AllowZoom);
@@ -142,7 +142,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
     ChangeMode:
         BLSG A   2 {
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             if (invoker.amount <= 1)
                 return ResolveState ("Ready2");
@@ -200,8 +200,8 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 return ResolveState ("Fire.Sights");
 
             A_GunFlash ("Flash");
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.5, 3);
-            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2.5, 3);
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
                 proj.bonusDamage = invoker.GetDamageBonus ();
@@ -218,8 +218,8 @@ class S7_LaserPewPew : S7_BaseWeapon {
     Fire.Sights:
         BLSG K 1 {
             A_GunFlash ("Flash.Sights");
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 0, 4);
-            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 0, -1, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 0, 4);
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), 1, 0, -1, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
                 proj.bonusDamage = invoker.GetDamageBonus ();
@@ -251,7 +251,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     DryFire.End:
         #### # 3 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
         #### # 0 {
-            if (invoker.amount > 1 && CheckInventory ("S7_LaserPewPewClipSecond", 1))
+            if (invoker.amount > 1 && CheckInventory ('S7_LaserPewPewClipSecond', 1))
                 return ResolveState ("Reload.SwapGuns");
 
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
@@ -270,10 +270,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 return ResolveState ("AkimboRight.Ready");
             }
 
-            if (CheckInventory ("S7_HoldingZoom", 1))
+            if (CheckInventory ('S7_HoldingZoom', 1))
                 return ResolveState ("Ready2.HoldingZoom");
 
-            GiveInventory ("S7_HoldingZoom", 1);
+            GiveInventory ('S7_HoldingZoom', 1);
 
             if (invoker.sights)
                 return ResolveState ("Unzoom");
@@ -311,7 +311,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto Reload;
     Reload:
         TNT1 A 0 {
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             if (invoker.sights)
                 return ResolveState ("Reload.Sights");
@@ -338,9 +338,9 @@ class S7_LaserPewPew : S7_BaseWeapon {
     Reload.SwapGuns: // Gun swapping
         BLSG AZYXWV 1;
         TNT1 A      5 {
-            int mag1 = CountInv ("S7_LaserPewPewClip"), mag2 = CountInv ("S7_LaserPewPewClipSecond");
-            SetInventory ("S7_LaserPewPewClip", mag2);
-            SetInventory ("S7_LaserPewPewClipSecond", mag1);
+            int mag1 = CountInv ('S7_LaserPewPewClip'), mag2 = CountInv ('S7_LaserPewPewClipSecond');
+            SetInventory ('S7_LaserPewPewClip', mag2);
+            SetInventory ('S7_LaserPewPewClipSecond', mag1);
         }
         BLSG VWXYZA 1;
         goto Ready2;
@@ -367,11 +367,11 @@ class S7_LaserPewPew : S7_BaseWeapon {
             if (!invoker.akimbo)
                 return ResolveState ("AkimboRight.Derped");
 
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("AkimboRight.Reload");
-            if (CheckInventory ("S7_ChangeFireMode", 1))
+            if (CheckInventory ('S7_ChangeFireMode', 1))
                 return ResolveState ("ChangeMode");
-            TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
             A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch);
 
@@ -425,8 +425,8 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2.5, 3);
-            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2.5, 3);
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), 1, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
                 proj.bonusDamage = invoker.GetDamageBonus ();
@@ -443,7 +443,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AltFire:
     AkimboLeft.Fire:
         BLS2 A 1 {
-            if (!CheckInventory ("S7_LaserPewPewClipSecond", 1))
+            if (!CheckInventory ('S7_LaserPewPewClipSecond', 1))
                 return ResolveState ("AkimboLeft.Dryfire");
 
             A_Overlay (1001, "Flash");
@@ -451,13 +451,13 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, -2.5, 3);
-            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ("S7_LaserPewPew_Tracer", fRandom [weaponSpread] (-0.2, 0.2), 0, -6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, -2.5, 3);
+            let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), 0, -6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
                 proj.bonusDamage = invoker.GetDamageBonus ();
 
-            TakeInventory ("S7_LaserPewPewClipSecond", 1);
+            TakeInventory ('S7_LaserPewPewClipSecond', 1);
 
             S7_Recoil (-0.38);
 
@@ -472,7 +472,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AkimboRight.Dryfire:
         BLS2 A 7 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
         TNT1 A 0 {
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ("S7_LaserPewPewClipSecond", 1)) // Check the opposite ammo, if there's none, we can go ahead and reload
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ('S7_LaserPewPewClipSecond', 1)) // Check the opposite ammo, if there's none, we can go ahead and reload
                 return ResolveState ("AkimboRight.Reload");
             return ResolveState (null);
         }
@@ -480,22 +480,22 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AkimboLeft.Dryfire:
         BLS2 A 7 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_6);
         TNT1 A 0 {
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ("S7_LaserPewPewClip", 1))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ('S7_LaserPewPewClip', 1))
                 return ResolveState ("AkimboLeft.Reload");
             return ResolveState (null);
         }
         goto AkimboLeft.Ready;
 
     AkimboLeft.Reload:
-        TNT1 A 0 GiveInventory ("S7_Reloading", 1);
+        TNT1 A 0 GiveInventory ('S7_Reloading', 1);
         goto AkimboLeft.Ready;
     AkimboRight.Reload:
         TNT1 A 0 {
-            TakeInventory ("S7_Reloading", 0x7FFFFFFF);
+            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
 
-            int mag1 = CountInv ("S7_LaserPewPewClip"), mag2 = CountInv ("S7_LaserPewPewClipSecond"),
+            int mag1 = CountInv ('S7_LaserPewPewClip'), mag2 = CountInv ('S7_LaserPewPewClipSecond'),
                 mag1Req = S7_LaserPewPew.MagSize - mag1, mag2Req = S7_LaserPewPew.MagSize - mag2,
-                ammoPool = CountInv ("S7_FBSysCells");
+                ammoPool = CountInv ('S7_FBSysCells');
 
             if (mag1Req + mag2Req <= 0 || ammoPool <= 0)
                 return ResolveState (null);
@@ -510,7 +510,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 if (mag1Req != mag2Req) {
                     int ammoDiff = abs (mag1Req - mag2Req); // Get the difference
                     ammoToGive = ((ammoDiff > ammoPool) ? ammoPool : AmmoDiff); // Make sure the given amount isn't greater than the available amount
-                    GiveInventory ((mag1Req - mag2Req > 0) ? "S7_LaserPewPewClip" : "S7_LaserPewPewClipSecond", ammoToGive); // Give the ammo
+                    GiveInventory ((mag1Req - mag2Req > 0) ? 'S7_LaserPewPewClip' : 'S7_LaserPewPewClipSecond', ammoToGive); // Give the ammo
                     ammoGiven += ammoToGive;
                 }
 
@@ -518,16 +518,16 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 if (ammoPool - ammoGiven > 1) {
                     ammoToGive = ammoPool - ammoGiven;
                     ammoToGive = ((ammoToGive & 1) ? ammoToGive - 1 : AmmoToGive) / 2;  // Calculate the amount to give
-                    GiveInventory ("S7_LaserPewPewClip", ammoToGive); // Give the ammo
-                    GiveInventory ("S7_LaserPewPewClipSecond", ammoToGive);
+                    GiveInventory ('S7_LaserPewPewClip', ammoToGive); // Give the ammo
+                    GiveInventory ('S7_LaserPewPewClipSecond', ammoToGive);
                     ammoGiven += ammoToGive * 2;
                 }
 
-                TakeInventory ("S7_FBSysCells", ammoGiven); // Take the ammo from the ammo pool
+                TakeInventory ('S7_FBSysCells', ammoGiven); // Take the ammo from the ammo pool
             } else {
-                GiveInventory ("S7_LaserPewPewClip", mag1Req);
-                GiveInventory ("S7_LaserPewPewClipSecond", mag2Req);
-                TakeInventory ("S7_FBSysCells", mag1Req + mag2Req);
+                GiveInventory ('S7_LaserPewPewClip', mag1Req);
+                GiveInventory ('S7_LaserPewPewClipSecond', mag2Req);
+                TakeInventory ('S7_FBSysCells', mag1Req + mag2Req);
             }
 
             return ResolveState ("AkimboRight.ReloadAnim");
@@ -601,10 +601,10 @@ class S7_LaserPewPew_Tracer : S7_BaseTracer {
     default {
         DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8 * (1-bonusDamage));
         S7_BaseTracer.TrueSpeed 310;
-        DamageType "LaserTracer";
+        DamageType 'LaserTracer';
         Scale 0.0125;
-        MissileType "S7_LaserPewPew_Tracer_Trail";
-        Decal "S7_LaserPewPewDecal";
+        MissileType 'S7_LaserPewPew_Tracer_Trail';
+        Decal 'S7_LaserPewPewDecal';
 
         -BLOODSPLATTER
     }
@@ -617,7 +617,7 @@ class S7_LaserPewPew_Tracer : S7_BaseTracer {
     Death:
     Crash:
         TNT1 A 0 A_FaceTarget;
-        TNT1 A 3; //A_SpawnItemEx ("S7_LaserPewPew_Puff")
+        TNT1 A 3; //A_SpawnItemEx ('S7_LaserPewPew_Puff')
         stop;
     XDeath:
         TNT1 A 3;

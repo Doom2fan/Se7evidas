@@ -57,7 +57,7 @@ class S7_BasicArmor : BasicArmor {
 
     override void DoEffect () {
         Inventory basicArmor;
-        if (basicArmor = Owner.FindInventory ("BasicArmor"))
+        if (basicArmor = Owner.FindInventory ('BasicArmor'))
             Owner.RemoveInventory (basicArmor);
 
         if (armorData)
@@ -65,14 +65,14 @@ class S7_BasicArmor : BasicArmor {
     }
 
     override bool HandlePickup (Inventory item) {
-        if (item.GetClass () == "S7_BasicArmor")
+        if (item.GetClass () == 'S7_BasicArmor')
             return true; // You shouldn't be picking up S7_BasicArmor anyway.
 
         if (!item.bIgnoreSkill) {
-            /*if (item is "S7_BasicArmorBonus") {
+            /*if (item is 'S7_BasicArmorBonus') {
                 let armor = S7_BasicArmorBonus (item);
                 armor.SaveAmount = int (armor.SaveAmount * G_SkillPropertyFloat (SKILLP_ArmorFactor));
-            } else*/ if (item is "S7_BasicArmorPickup") {
+            } else*/ if (item is 'S7_BasicArmorPickup') {
                 let armor = S7_BasicArmorPickup (item);
                 armor.SaveAmount = int (armor.SaveAmount * G_SkillPropertyFloat (SKILLP_ArmorFactor));
             }
@@ -121,7 +121,7 @@ class S7_BasicArmor : BasicArmor {
             }
         }
 
-        if (armorData && (newDamage != damage || ArmorType != 'None') && !IsBulletDamageType (damageType) && !(pPawn.damageInflictor is "S7_BulletTracer")) {
+        if (armorData && (newDamage != damage || ArmorType != 'None') && !IsBulletDamageType (damageType) && !(pPawn.damageInflictor is 'S7_BulletTracer')) {
             if (armorData.armorBonuses == 0)
                 bonusFactor = 1.;
 
@@ -147,7 +147,7 @@ class S7_BasicArmorPickup : BasicArmorPickup {
     property DataClass: dataClass;
 
     default {
-        S7_BasicArmorPickup.dataClass "S7_ArmorData";
+        S7_BasicArmorPickup.dataClass 'S7_ArmorData';
     }
 
     override Inventory CreateCopy (Actor other) {
@@ -159,11 +159,11 @@ class S7_BasicArmorPickup : BasicArmorPickup {
     }
 
     override bool Use (bool pickup) {
-        let armor = S7_BasicArmor (Owner.FindInventory ("S7_BasicArmor"));
+        let armor = S7_BasicArmor (Owner.FindInventory ('S7_BasicArmor'));
 
         // This should really never happen but let's be prepared for a broken inventory.
         if (armor == null) {
-            armor = S7_BasicArmor (Spawn ("S7_BasicArmor"));
+            armor = S7_BasicArmor (Spawn ('S7_BasicArmor'));
             armor.BecomeItem ();
             Owner.AddInventory (armor);
         } else {

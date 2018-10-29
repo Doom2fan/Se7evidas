@@ -30,7 +30,7 @@ class S7_FatFuck : S7_DemonBase {
         PainChance 80;
         Mass 1500;
         BloodColor "DA E1 00";
-        Species "S7FatFuck";
+        Species 'S7FatFuck';
         Tag "$FATFUCKTAG";
 
         SeeSound "fatso/sight";
@@ -92,8 +92,8 @@ class S7_FatFuck : S7_DemonBase {
         }
         FAT1 HHHHHH 2 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_FatFuckFlame", 25.0, -25, -2.5 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
-            A_SpawnProjectile ("S7_FatFuckFlame", 25.0,  25,  2.5 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckFlame', 25.0, -25, -2.5 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckFlame', 25.0,  25,  2.5 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 I 5 { attackRepeatCount++; }
         goto FlamethrowerAttack;
@@ -105,24 +105,24 @@ class S7_FatFuck : S7_DemonBase {
         FAT1 H     10 bright {
             A_FaceTarget (0, 0);
             A_PlaySound ("fatso/attack", CHAN_Weapon);
-            A_SpawnProjectile ("S7_FatFuckShot", 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
-            A_SpawnProjectile ("S7_FatFuckShot", 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 IIIGGG 2 A_FaceTarget (60, 30);
 
         FAT1 H     10 bright {
             A_FaceTarget (0, 0);
             A_PlaySound ("fatso/attack", CHAN_Weapon);
-            A_SpawnProjectile ("S7_FatFuckShot", 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
-            A_SpawnProjectile ("S7_FatFuckShot", 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 IIIGGG 2 A_FaceTarget (60, 30);
 
         FAT1 H 10 bright {
             A_FaceTarget (0, 0);
             A_PlaySound ("fatso/attack", CHAN_Weapon);
-            A_SpawnProjectile ("S7_FatFuckShot", 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
-            A_SpawnProjectile ("S7_FatFuckShot", 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 IG 6;
         goto See;
@@ -180,7 +180,7 @@ class S7_FatFuckFlame_Trail : S7_EffectsBase {
     Spawn:
         TNT1 A 0 noDelay {
             for (int i = random [sfx] (1, 3); i > 0; i--) {
-                A_SpawnItemEx ("S7_FatFuckFlame_Fire",
+                A_SpawnItemEx ('S7_FatFuckFlame_Fire',
                 yOfs: fRandom [sfx] (-6, 6), zOfs: fRandom [sfx] (-6, 6),
                 xVel: fRandom [sfx] (-.25, .25), yVel: fRandom [sfx] (-.25, .25), zVel: fRandom [sfx] (-.25, .25),
                 flags: SXF_NoCheckPosition | SXF_Clientside);
@@ -208,24 +208,24 @@ class S7_FatFuckFlame : S7_Projectile {
         Height 8;
         Speed 60;
 
-        MissileType "S7_FatFuckFlame_Trail";
+        MissileType 'S7_FatFuckFlame_Trail';
         MissileHeight 8;
 
         DamageFunction (random (3, 6));
-        DamageType "Fire";
+        DamageType 'Fire';
 
         Obituary "$OBFATSOFLAMETHROWER";
     }
 
     states {
     Spawn:
-        TNT1 A 4 A_SpawnItemEx ("S7_FatFuckFlame_Trail", flags: SXF_NoCheckPosition | SXF_Clientside);
+        TNT1 A 4 A_SpawnItemEx ('S7_FatFuckFlame_Trail', flags: SXF_NoCheckPosition | SXF_Clientside);
         stop;
     
     Death:
         TNT1 AA 1 {
             for (int i = random [sfx] (3, 5); i > 0; i--) {
-                A_SpawnItemEx ("S7_FatFuckFlame_Fire",
+                A_SpawnItemEx ('S7_FatFuckFlame_Fire',
                 yOfs: fRandom [sfx] (-3, 3), zOfs: fRandom [sfx] (-3, 3),
                 xVel: fRandom [sfx] (-3, 3), yVel: fRandom [sfx] (-3, 3), zVel: fRandom [sfx] (-3, 3),
                 flags: SXF_NoCheckPosition | SXF_Clientside);

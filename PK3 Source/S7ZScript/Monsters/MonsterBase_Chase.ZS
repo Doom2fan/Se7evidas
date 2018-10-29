@@ -174,8 +174,8 @@ extend class S7_MonsterBase {
 
             if (result) {
                 // Reached the goal
-                ActorIterator iterator = ActorIterator.Create (goal.args [0], "PatrolPoint");
-                ActorIterator specit = ActorIterator.Create (goal.tid, "PatrolSpecial");
+                ActorIterator iterator = ActorIterator.Create (goal.args [0], 'PatrolPoint');
+                ActorIterator specit = ActorIterator.Create (goal.tid, 'PatrolSpecial');
                 Actor spec;
 
                 // Execute the specials of any PatrolSpecials with the same TID

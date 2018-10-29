@@ -35,8 +35,8 @@ class S7_Raptor : S7_BaseWeapon {
         Tag "$RAPTOR";
         Inventory.PickupMessage "$RAPTOR";
 
-        Weapon.AmmoType1 "S7_RaptorClip";
-        Weapon.AmmoType2 "S7_9mmCartridges";
+        Weapon.AmmoType1 'S7_RaptorClip';
+        Weapon.AmmoType2 'S7_9mmCartridges';
         Weapon.AmmoUse 2;
         Weapon.AmmoGive 0;
 
@@ -55,11 +55,11 @@ class S7_Raptor : S7_BaseWeapon {
         RPTN VWXYZA 1;
     Ready2:
         RPTN A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             A_WeaponReady ();
 
@@ -80,10 +80,10 @@ class S7_Raptor : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 3, 3.75);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3, 3.75);
             for (int i = 0; i < 2; i++) {
-                A_FireProjectile ("S7_9mmCasingSpawn", 0, 0, 7, -2);
-                A_FireProjectile ("S7_RaptorTracer", fRandom [weaponSpread] (-0.4, 0.4), (i == 0), 5, 0, 0, fRandom [weaponSpread] (-0.4, 0.4));
+                A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 7, -2);
+                A_FireProjectile ('S7_RaptorTracer', fRandom [weaponSpread] (-0.4, 0.4), (i == 0), 5, 0, 0, fRandom [weaponSpread] (-0.4, 0.4));
             }
 
             S7_Recoil (-0.8);
@@ -98,7 +98,7 @@ class S7_Raptor : S7_BaseWeapon {
     AltFire:
         RPTM A    1 A_PlaySound ("Weapons/Raptor/Melee", CHAN_5);
         RPTM BC   1;
-        RPTM D    1 A_CustomPunch (int (15 * fRandom [weaponSpc] (1.0, 3.0)), true, 0, "S7_RaptorMPuff", 85);
+        RPTM D    1 A_CustomPunch (int (15 * fRandom [weaponSpc] (1.0, 3.0)), true, 0, 'S7_RaptorMPuff', 85);
         RPTM EFGH 1;
         TNT1 A    4;
         RPTN A    1;
@@ -117,7 +117,7 @@ class S7_Raptor : S7_BaseWeapon {
 
     Reload:
         TNT1 A 0 {
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");

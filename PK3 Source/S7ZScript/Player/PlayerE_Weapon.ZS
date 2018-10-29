@@ -21,7 +21,7 @@ extend class S7_BasePlayer {
     void Weapon_SetAmmoMax () {
         double ammoMax = BaseAmmoMax;
 
-        if (CheckInventory ("S7_BackpackToken", 1))
+        if (CheckInventory ('S7_BackpackToken', 1))
             ammoMax += 2.0;
 
         if (ammoMax != playerData.ammoMaxMult) { // Only update if it changed...

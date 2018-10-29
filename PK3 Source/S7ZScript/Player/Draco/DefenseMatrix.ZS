@@ -35,15 +35,15 @@ extend class S7_DracoPlayer {
             dmEnergyRegenTime--;
 
         if (defenseMatrixEnergy > 0) {
-            ThinkerIterator actorFinder = ThinkerIterator.Create ("Actor", Thinker.STAT_DEFAULT);
+            ThinkerIterator actorFinder = ThinkerIterator.Create ('Actor', Thinker.STAT_DEFAULT);
 
             Actor mo;
             while (mo = Actor (actorFinder.Next ())) {
-                if (mo is "S7_EffectsBase" || !mo.bMissile || mo.bKilled || !mo.target || mo.target == self || isFriend (mo.target))
+                if (mo is 'S7_EffectsBase' || !mo.bMissile || mo.bKilled || !mo.target || mo.target == self || isFriend (mo.target))
                     continue;
 
                 if (defenseMatrixEnergy >= 5 && abs (Distance3D (mo)) <= 160.0 && !(random [dracoADM] () < 8)) {
-                    let zap = Spawn ("S7_DracoADMZap", mo.pos, ALLOW_REPLACE);
+                    let zap = Spawn ('S7_DracoADMZap', mo.pos, ALLOW_REPLACE);
                     zap.target = self;
                     mo.ExplodeMissile (NULL, zap, false);
 
@@ -84,7 +84,7 @@ extend class S7_DracoPlayer {
         if (!canIntercept)
             return false;
 
-        let chpData = new ("S7_CanHitPointData");
+        let chpData = new ('S7_CanHitPointData');
         chpData.ignoredActors.Push (self);
         chpData.ignoredActors.Push (mo);
         chpData.lineBlockFlags = Line.ML_BLOCKPROJECTILE;
@@ -95,7 +95,7 @@ extend class S7_DracoPlayer {
                 return false;
         }
 
-        let laser = A_SpawnProjectile ("S7_DracoADMLaser", 50, xy_off, chpData.AngleTo, CMF_AimDirection | CMF_AbsoluteAngle | CMF_AbsolutePitch, chpData.PitchTo);
+        let laser = A_SpawnProjectile ('S7_DracoADMLaser', 50, xy_off, chpData.AngleTo, CMF_AimDirection | CMF_AbsoluteAngle | CMF_AbsolutePitch, chpData.PitchTo);
 
         if (laser)
             laser.tracer = mo;
@@ -132,7 +132,7 @@ class S7_DracoADMZap : S7_DebrisGeneral {
                 double spd = fRandom [sfx] (-5.0, 5.0);
                 double ang = fRandom [sfx] (0, 360);
 
-                A_SpawnItemEx ("S7_DracoADMZapSparks", fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (-2.0, 2.0),
+                A_SpawnItemEx ('S7_DracoADMZapSparks', fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (-2.0, 2.0),
                     spd * cos (ang), spd * sin (ang), fRandom [sfx] (1.5, 3.0), flags: SXF_NoCheckPosition | SXF_Clientside | SXF_SetTarget);
             }
         }
@@ -170,10 +170,10 @@ class S7_DracoADMLaser : S7_BaseTracer {
         S7_Projectile.MovementMode OldFastProj;
         DamageFunction (fRandom [weaponDamage] (1.0, 4.0));
         Speed 350;
-        DamageType "LaserTracer";
+        DamageType 'LaserTracer';
         Scale 0.015;
-        MissileType "S7_LaserTracerTrail";
-        Decal "S7_LaserDecal";
+        MissileType 'S7_LaserTracerTrail';
+        Decal 'S7_LaserDecal';
 
         -BLOODSPLATTER
     }
@@ -196,7 +196,7 @@ class S7_DracoADMLaser : S7_BaseTracer {
 
     Death:
     Crash:
-        TNT1 A 3; //A_SpawnItemEx ("S7_LaserPuff")
+        TNT1 A 3; //A_SpawnItemEx ('S7_LaserPuff')
         stop;
     XDeath:
         TNT1 A 3;

@@ -38,7 +38,7 @@ class S7_FlashlightBattery : Inventory {
     }
 
     override bool Use (bool pickup) {
-        let flashlight = S7_Flashlight (Owner.FindInventory ("S7_Flashlight"));
+        let flashlight = S7_Flashlight (Owner.FindInventory ('S7_Flashlight'));
 
         if (!flashlight) // Return false if the player doesn't have a flashlight.
             return false;
@@ -148,11 +148,11 @@ class S7_Flashlight : Inventory {
         }
 
         if (!selfLight1) {
-            selfLight1 = S7_Flashlight_Spotlight (Spawn ("S7_Flashlight_Spotlight", Owner.pos, false));
+            selfLight1 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, false));
             selfLight1.followTarget = Owner;
         }
         if (!selfLight2) {
-            selfLight2 = S7_Flashlight_Spotlight (Spawn ("S7_Flashlight_Spotlight", Owner.pos, false));
+            selfLight2 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, false));
             selfLight2.followTarget = Owner;
         }
 

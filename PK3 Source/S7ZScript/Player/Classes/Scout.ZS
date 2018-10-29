@@ -39,18 +39,18 @@ class S7_ScoutPlayer : S7_BasePlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ("S7_DaggerMelee", 1);
-        GiveInventory ("S7_MultiJump_Max", 1); // Scouts can do double jumps from the start
+        GiveInventory ('S7_DaggerMelee', 1);
+        GiveInventory ('S7_MultiJump_Max', 1); // Scouts can do double jumps from the start
         // Equipment
-        GiveInventory ("S7_GrenadeCount", 4);
-        GiveInventory ("S7_Stimpack", 3);
-        GiveInventory ("S7_Medikit", 1);
+        GiveInventory ('S7_GrenadeCount', 4);
+        GiveInventory ('S7_Stimpack', 3);
+        GiveInventory ('S7_Medikit', 1);
         // Ammo
-        GiveInventory ("S7_TEC9Clip", 32);
-        GiveInventory ("S7_9mmCartridges", 130);
+        GiveInventory ('S7_TEC9Clip', 32);
+        GiveInventory ('S7_9mmCartridges', 130);
 
-        GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
-        let tec9 = GiveBasics_GiveStartingWeapon ("S7_TEC9");
+        GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
+        let tec9 = GiveBasics_GiveStartingWeapon ('S7_TEC9');
 
         weapBinds.LastWeapon = tec9;
         player.PendingWeapon = tec9;

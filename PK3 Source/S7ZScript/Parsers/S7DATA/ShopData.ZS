@@ -24,7 +24,7 @@ class S7_S7DP_TempShopData {
     S7_Hashmap_StrObj fakePages;
 
     static S7_S7DP_TempShopData Create () {
-        let ret = new ("S7_S7DP_TempShopData");
+        let ret = new ('S7_S7DP_TempShopData');
 
         ret.pages = S7_Hashmap_StrObj.Create ();
         ret.fakePages = S7_Hashmap_StrObj.Create ();
@@ -51,7 +51,7 @@ extend class S7_S7DataParser {
         S7_S7DP_ShopDataFakePage page = S7_S7DP_ShopDataFakePage (tmpShopData.fakePages.Get (valStr));
 
         if (!page) {
-            page = new ("S7_S7DP_ShopDataFakePage");
+            page = new ('S7_S7DP_ShopDataFakePage');
             page.linkName = valStr;
         }
 
@@ -60,7 +60,7 @@ extend class S7_S7DataParser {
 
     protected void ParseShop () {
         string shopName;
-        let shopData = new ("S7_SSShop");
+        let shopData = new ('S7_SSShop');
         let tmpShopData = S7_S7DP_TempShopData.Create ();
 
         TZK_Token t;

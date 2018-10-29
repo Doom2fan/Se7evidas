@@ -95,18 +95,18 @@ extend class S7_BasePlayer {
             if (playerData.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
                 if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) && (pos.Z - floorZ) <= 0 &&
-                    !(self is "S7_DracoPlayer") && !playerData.sprinting && CheckInventory ("S7_Stamina", S7C_DodgeStamina) &&
-                    !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && !playerData.lGrabGrabbed
+                    !(self is 'S7_DracoPlayer') && !playerData.sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
+                    !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !playerData.lGrabGrabbed
                 ) {
                     double forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
                     double sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
 
                     if (forwardMove != 0 || sideMove != 0) { // If the player is trying to move
-                        TakeInventory ("S7_Stamina", S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
+                        TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
 
                         A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
 
-                        GiveInventory ("S7_PowerDodgeEffects", 1);
+                        GiveInventory ('S7_PowerDodgeEffects', 1);
                         vel.X = vel.Y = 0.;
                         Thrust (32, (angle - 90) + atan2 (forwardMove, sideMove));
 
@@ -116,11 +116,11 @@ extend class S7_BasePlayer {
             } else
                 playerData.dodgeCooldown--;
         } else
-            TakeInventory ("S7_PowerDodgeEffects", 0x7FFFFFFF);
+            TakeInventory ('S7_PowerDodgeEffects', 0x7FFFFFFF);
     }
 
     void Movement_MultiJump () {
-        if (!level.IsJumpingAllowed () || health <= 0 || playerData.lGrabGrabbed || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+        if (!level.IsJumpingAllowed () || health <= 0 || playerData.lGrabGrabbed || playerData.wjumpJustJumped || CheckInventory ('S7_SoulLance_BeamGrabbed', 1))
             return;
 
         if (player.onground || bOnMobj) {
@@ -128,7 +128,7 @@ extend class S7_BasePlayer {
             return;
         }
 
-        int mJumpMax = CountInv ("S7_MultiJump_Max");
+        int mJumpMax = CountInv ('S7_MultiJump_Max');
         if (mJumpMax < 1 || playerData.mjumpCount >= mJumpMax)
             return;
 
@@ -137,7 +137,7 @@ extend class S7_BasePlayer {
             return;
 
         if ((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
-            let marker = Spawn ("S7_MultiJump_Marker", pos); // Spawn the multijump effect
+            let marker = Spawn ('S7_MultiJump_Marker', pos); // Spawn the multijump effect
             marker.angle = angle;
             vel.Z = force;
             playerData.mjumpCount++; // Increment the jump counter by 1
@@ -150,7 +150,7 @@ extend class S7_BasePlayer {
         if (playerData.wjumpJustJumped)
             playerData.wjumpJustJumped--;
 
-        if (health <= 0 || (self is "S7_DracoPlayer") || playerData.wjumpJustJumped || CheckInventory ("S7_SoulLance_BeamGrabbed", 1))
+        if (health <= 0 || (self is 'S7_DracoPlayer') || playerData.wjumpJustJumped || CheckInventory ('S7_SoulLance_BeamGrabbed', 1))
             return;
 
         if ((player.cmd.forwardmove < 0 || playerData.lGrabGrabbed) && (player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && (pos.Z - GetZAt ()) >= 16.0) {
@@ -214,7 +214,7 @@ extend class S7_BasePlayer {
         int weapFlags = WF_WeaponReady | WF_WeaponSwitchOK;
 
         return (
-            ((player.WeaponState & weapFlags) == weapFlags) || player.ReadyWeapon is "S7_SprintWeapon"
+            ((player.WeaponState & weapFlags) == weapFlags) || player.ReadyWeapon is 'S7_SprintWeapon'
         );
     }
     void Movement_LedgeGrabbing () {
@@ -227,9 +227,9 @@ extend class S7_BasePlayer {
             if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 ||
                 S7_ActorExtensions.IsInVoid (marker)) {
                 if (crushFingers)
-                    DamageMobj (null, null, 4, "Crush", DMG_No_Armor | DMG_Thrustless);
+                    DamageMobj (null, null, 4, 'Crush', DMG_No_Armor | DMG_Thrustless);
 
-                if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && weapBinds.LastWeapon)
+                if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && weapBinds.LastWeapon)
                     player.PendingWeapon = weapBinds.LastWeapon;
 
                 marker.Destroy ();
@@ -258,7 +258,7 @@ extend class S7_BasePlayer {
             if (playerData.lGrabMarker)
                 playerData.lGrabMarker.Destroy ();
 
-            if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && weapBinds.LastWeapon)
+            if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && weapBinds.LastWeapon)
                 player.PendingWeapon = weapBinds.LastWeapon;
 
             playerData.lGrabMarker = null;
@@ -275,7 +275,7 @@ extend class S7_BasePlayer {
 
             if (ledgeHeight > maxStepHeight && ledgeHeight <= LedgeGrab_MaxHeight) {
                 bool MUDA;
-                [MUDA, playerData.lGrabMarker] = A_SpawnItemEx ("S7_LedgeMarker", spRadius + LedgeGrab_MaxReach, zofs: ledgeHeight);
+                [MUDA, playerData.lGrabMarker] = A_SpawnItemEx ('S7_LedgeMarker', spRadius + LedgeGrab_MaxReach, zofs: ledgeHeight);
 
                 if (playerData.lGrabMarker) {
                     let marker = S7_LedgeMarker (playerData.lGrabMarker);
@@ -287,8 +287,8 @@ extend class S7_BasePlayer {
                         if (!playerData.wjumpJustJumped)
                             playerData.wjumpJustJumped = 1;
 
-                        GiveInventory ("S7_LedgeGrabWeapon", 1);
-                        player.PendingWeapon = Weapon (FindInventory ("S7_LedgeGrabWeapon"));
+                        GiveInventory ('S7_LedgeGrabWeapon', 1);
+                        player.PendingWeapon = Weapon (FindInventory ('S7_LedgeGrabWeapon'));
 
                         playerData.lGrabGrabbed = true;
                     } else {
@@ -300,10 +300,10 @@ extend class S7_BasePlayer {
             }
         }
 
-        if (player.ReadyWeapon is "S7_LedgeGrabWeapon" && !playerData.lGrabGrabbed && weapBinds.LastWeapon)
+        if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && !playerData.lGrabGrabbed && weapBinds.LastWeapon)
             player.PendingWeapon = weapBinds.LastWeapon;
-        else if (!playerData.lGrabGrabbed && CheckInventory ("S7_LedgeGrabWeapon", 1))
-            TakeInventory ("S7_LedgeGrabWeapon", 0x7FFFFFFF);
+        else if (!playerData.lGrabGrabbed && CheckInventory ('S7_LedgeGrabWeapon', 1))
+            TakeInventory ('S7_LedgeGrabWeapon', 0x7FFFFFFF);
     }
 
     void Movement_Sprinting () {
@@ -312,45 +312,45 @@ extend class S7_BasePlayer {
 
         if (health > 0) {
             // This is here just in case something fucks up and the player keeps the sprint "weapon" for some reason.
-            if (player.ReadyWeapon is "S7_SprintWeapon" && !playerData.sprinting && weapBinds.LastWeapon)
+            if (player.ReadyWeapon is 'S7_SprintWeapon' && !playerData.sprinting && weapBinds.LastWeapon)
                 player.PendingWeapon = weapBinds.LastWeapon;
-            else if (!playerData.sprinting && CheckInventory ("S7_SprintWeapon", 1))
-                TakeInventory ("S7_SprintWeapon", 0x7FFFFFFF);
+            else if (!playerData.sprinting && CheckInventory ('S7_SprintWeapon', 1))
+                TakeInventory ('S7_SprintWeapon', 0x7FFFFFFF);
 
-            if (playerData.sprintTics == -1 && CheckInventory ("S7_Stamina", 75))
+            if (playerData.sprintTics == -1 && CheckInventory ('S7_Stamina', 75))
                 playerData.sprintTics = 0;
 
             // Start/stop sprinting
             if (!playerData.sprinting && playerData.sprintTics != -1 &&
-                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ("S7_Stamina", S7C_SprintStamina) &&
-                !CheckInventory ("S7_SoulLance_BeamGrabbed", 1) && !(self is "S7_DracoPlayer") && !playerData.lGrabGrabbed
+                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
+                !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !(self is 'S7_DracoPlayer') && !playerData.lGrabGrabbed
                 ) {
                 playerData.sprinting = true;
                 playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
                 playerData.sprintTics = 0;
                 playerData.oldAgility = double.NaN;
 
-                GiveInventory ("S7_SprintWeapon", 1);
-                player.PendingWeapon = Weapon (FindInventory ("S7_SprintWeapon"));
+                GiveInventory ('S7_SprintWeapon', 1);
+                player.PendingWeapon = Weapon (FindInventory ('S7_SprintWeapon'));
             } else if (playerData.sprinting &&
-                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ("S7_Stamina") < S7C_SprintStamina ||
-                CheckInventory ("S7_SoulLance_BeamGrabbed", 1) || playerData.lGrabGrabbed || (self is "S7_DracoPlayer"))
+                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
+                CheckInventory ('S7_SoulLance_BeamGrabbed', 1) || playerData.lGrabGrabbed || (self is 'S7_DracoPlayer'))
                 ) {
                 if (playerData.sprintTics < 5)
-                    TakeInventory ("S7_Stamina", playerData.sprintTics);
+                    TakeInventory ('S7_Stamina', playerData.sprintTics);
 
                 playerData.sprinting = false;
                 playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
-                playerData.sprintTics = (!CheckInventory ("S7_Stamina", 5)) ? -1 : 0;
+                playerData.sprintTics = (!CheckInventory ('S7_Stamina', 5)) ? -1 : 0;
 
                 if (!playerData.lGrabGrabbed && weapBinds.LastWeapon)
                     player.PendingWeapon = weapBinds.LastWeapon;
             }
-            if (playerData.sprinting && player.ReadyWeapon is "S7_SprintWeapon") {
+            if (playerData.sprinting && player.ReadyWeapon is 'S7_SprintWeapon') {
                 if (player.onground) {
                     if (playerData.sprintTics++ >= 5 && (forwardMove != 0.0 || sideMove != 0.0)) {
                         playerData.sprintTics = 0;
-                        TakeInventory ("S7_Stamina", S7C_SprintStamina);
+                        TakeInventory ('S7_Stamina', S7C_SprintStamina);
                     } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
                         playerData.sprintTics++;
                 }

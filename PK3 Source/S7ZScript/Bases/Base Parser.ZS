@@ -47,7 +47,7 @@ class S7_ParsingException : S7_Exception {
     static S7_ParsingException Create (string msg = "", string src = "", S7_Exception inner = NULL,
         EParserError err = ERR_None, TZK_Token tkn = NULL, bool notEx = false
     ) {
-        let ret = new ("S7_ParsingException");
+        let ret = new ('S7_ParsingException');
         ret.message = msg; ret.source = src; ret.innerException = inner;
         ret.error = err;
         ret.tkn = tkn;
@@ -75,7 +75,7 @@ class S7_UnexpectedToken : S7_ParsingException {
     override void SetMessage (string msg) { }
 
     static S7_UnexpectedToken Create (string src, TZK_Token tkn, string value = "") {
-        let ret = new ("S7_UnexpectedToken");
+        let ret = new ('S7_UnexpectedToken');
         ret.message = ""; ret.innerException = NULL; ret.notException = false;
         ret.source = src;
         ret.error = ERR_BadToken;
@@ -94,7 +94,7 @@ class S7_BadTokenPE : S7_ParsingException {
     override void SetMessage (string msg) { }
 
     static S7_BadTokenPE Create (string src, ETokenType expectedType, TZK_Token tkn) {
-        let ret = new ("S7_BadTokenPE");
+        let ret = new ('S7_BadTokenPE');
         ret.message = ""; ret.innerException = NULL; ret.notException = false;
         ret.source = src;
         ret.error = ERR_BadToken;

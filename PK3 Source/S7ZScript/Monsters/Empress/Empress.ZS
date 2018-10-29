@@ -40,13 +40,13 @@ class S7_Empress : S7_DemonBase {
         PainChance "Empress_BallExploded", 256;
         PainChance "S7_SoulLance_Beam", 256;
         MinMissileChance 160;
-        BloodType "S7_EmpressBlood", "S7_EmpressBloodSplatter";
+        BloodType 'S7_EmpressBlood', 'S7_EmpressBloodSplatter';
         BloodColor "B2 11 DE";
         SeeSound "cyber/sight";
         PainSound "cyber/pain";
         DeathSound "cyber/death";
         ActiveSound "cyber/active";
-        Species "S7Empress";
+        Species 'S7Empress';
         Tag "$EMPRESSTAG";
 
         // Demon/Reanimated flesh damage reduction
@@ -87,8 +87,8 @@ class S7_Empress : S7_DemonBase {
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        GiveInventory ("S7_IsEmpress", 1);
-        TakeInventory ("S7_IsDead", 0x7FFFFFFF);
+        GiveInventory ('S7_IsEmpress', 1);
+        TakeInventory ('S7_IsDead', 0x7FFFFFFF);
 
         initialized = true;
     }
@@ -112,7 +112,7 @@ class S7_Empress : S7_DemonBase {
             bNoPain = !(random [monsterSpc] () < 48);
             bNoBlood = true;
 
-            Spawn ("S7_EmpressShieldHitspark", inflictor.pos);
+            Spawn ('S7_EmpressShieldHitspark', inflictor.pos);
         } else if (shieldUp) {
             if (damage < TELEFRAG_DAMAGE)
                 damage /= 2;
@@ -165,7 +165,7 @@ class S7_Empress : S7_DemonBase {
     Spawn:
     Idle:
         HRFR A   1 {
-            TakeInventory ("S7_IsDead", 0x7FFFFFFF);
+            TakeInventory ('S7_IsDead', 0x7FFFFFFF);
             midAttack1 = false;
 
             if (health < 1)
@@ -180,7 +180,7 @@ class S7_Empress : S7_DemonBase {
 
     See:
         TNT1 A    0 {
-            TakeInventory ("S7_IsDead", 0x7FFFFFFF);
+            TakeInventory ('S7_IsDead', 0x7FFFFFFF);
             midAttack1 = false;
             A_PlaySound ("Footsteps/Large", CHAN_5);
         }
@@ -219,13 +219,13 @@ class S7_Empress : S7_DemonBase {
             invulnDelay = InvulnDelayTime;
             //bNoBlood = true;
             //bInvulnerable = true;
-            //GiveInventory ("S7_EmpressProtection", 1);
+            //GiveInventory ('S7_EmpressProtection', 1);
             castingInvuln = true;
-            A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
+            A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
         }
-        HRFR F  9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCCW", 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
-        HRFR F  9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCW",  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
-        HRFR F  9 A_SpawnItemEx ("S7_EmpressInvulnOrbiterCCW", 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
+        HRFR F  9 A_SpawnItemEx ('S7_EmpressInvulnOrbiterCCW', 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
+        HRFR F  9 A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
+        HRFR F  9 A_SpawnItemEx ('S7_EmpressInvulnOrbiterCCW', 64.0, 0.0, 50.0, 0.0, 0.0, 0.0, 0.0, SXF_NoCheckPosition | SXF_SetMaster);
         TNT1 A  0 { castingInvuln = false; }
         goto See;
 
@@ -237,19 +237,19 @@ class S7_Empress : S7_DemonBase {
 
         HRFR H    1 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_EmpressMissile1", 105.0);
+            A_SpawnProjectile ('S7_EmpressMissile1', 105.0);
         }
         HRFR HHHH 1 A_FaceTarget (90, 45);
 
         HRFR H    1 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_EmpressMissile1", 105.0);
+            A_SpawnProjectile ('S7_EmpressMissile1', 105.0);
         }
         HRFR HHHH 1 A_FaceTarget (90, 45);
 
         HRFR H    1 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ("S7_EmpressMissile1", 105.0);
+            A_SpawnProjectile ('S7_EmpressMissile1', 105.0);
         }
         HRFR HHHH 1 A_FaceTarget (90, 45);
 
@@ -266,9 +266,9 @@ class S7_Empress : S7_DemonBase {
             A_FaceTarget (0, 0);
         }
     Attack2.Loople:
-        HRFR E    1 bright A_SpawnProjectile ("S7_EmpressMissile2", 50.0,  16, angle: fRandom [monsterSpread] (-0.5, 0.5), pitch: fRandom [monsterSpread] (-1.25, 1.25));
+        HRFR E    1 bright A_SpawnProjectile ('S7_EmpressMissile2', 50.0,  16, angle: fRandom [monsterSpread] (-0.5, 0.5), pitch: fRandom [monsterSpread] (-1.25, 1.25));
         HRFR EEEE 1 bright A_FaceTarget (90, 45);
-        HRFR E    1 bright A_SpawnProjectile ("S7_EmpressMissile2", 50.0, -16, angle: fRandom [monsterSpread] (-0.5, 0.5), pitch: fRandom [monsterSpread] (-1.25, 1.25));
+        HRFR E    1 bright A_SpawnProjectile ('S7_EmpressMissile2', 50.0, -16, angle: fRandom [monsterSpread] (-0.5, 0.5), pitch: fRandom [monsterSpread] (-1.25, 1.25));
         HRFR EEEE 1 bright A_FaceTarget (90, 45);
         HRFR E    1 bright {
             if ((attack2Shots--) <= 0) {
@@ -298,7 +298,7 @@ class S7_Empress : S7_DemonBase {
 
     Pain.S7_SoulLance_Beam:
         HRFR G 3 {
-            if ((target && target.CheckInventory ("S7_SoulLance_BeamGrabbed", 1)) || random [monsterSpc] () < 4)
+            if ((target && target.CheckInventory ('S7_SoulLance_BeamGrabbed', 1)) || random [monsterSpc] () < 4)
                 return ResolveState ("Pain");
 
             return CheckIfInTargetLOS (360.0, JLOSF_AllyNoJump) ? ResolveState ("SLance_BeamGrab") : ResolveState (null);
@@ -309,12 +309,12 @@ class S7_Empress : S7_DemonBase {
             if (!target)
                 return ResolveState ("SLance_BeamLost");
 
-            ACS_NamedExecuteAlways ("S7_SLanceBeamGrab", 0); // Execute the ACS script. (this will get changed to ZScript later)
+            ACS_NamedExecuteAlways ('S7_SLanceBeamGrab', 0); // Execute the ACS script. (this will get changed to ZScript later)
 
             bNoPain = true;
             A_SetMass (0x7FFFFFFF);
-            target.GiveInventory ("S7_SoulLance_BeamGrabbed", 1);
-            GiveInventory ("S7_SoulLance_BeamGrabbed", 1);
+            target.GiveInventory ('S7_SoulLance_BeamGrabbed', 1);
+            GiveInventory ('S7_SoulLance_BeamGrabbed', 1);
 
             return ResolveState (null);
         }
@@ -322,7 +322,7 @@ class S7_Empress : S7_DemonBase {
         HRFR E 1 {
             A_FaceTarget ();
 
-            if (!CheckInventory ("S7_SoulLance_BeamGrabbed", 1) || !CheckIfInTargetLOS (360.0, JLOSF_AllyNoJump))
+            if (!CheckInventory ('S7_SoulLance_BeamGrabbed', 1) || !CheckIfInTargetLOS (360.0, JLOSF_AllyNoJump))
                 return ResolveState ("SLance_BeamLost");
 
             return ResolveState (null);
@@ -336,9 +336,9 @@ class S7_Empress : S7_DemonBase {
                 bNoPain = false;
 
             if (target)
-                target.TakeInventory ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF);
+                target.TakeInventory ('S7_SoulLance_BeamGrabbed', 0x7FFFFFFF);
 
-            TakeInventory ("S7_SoulLance_BeamGrabbed", 0x7FFFFFFF);
+            TakeInventory ('S7_SoulLance_BeamGrabbed', 0x7FFFFFFF);
             A_FaceTarget ();
         }
         TNT1 A 0 A_JumpIf (health < 1, "RunAway");
@@ -353,20 +353,20 @@ class S7_Empress : S7_DemonBase {
         goto Death;
     Death:
         TNT1 A 0 {
-            GiveInventory ("S7_IsDead", 1);
-            return (CheckInventory ("S7_SoulLance_BeamGrabbed", 1) ? ResolveState ("SLance_BeamLost") : ResolveState ("Death2"));
+            GiveInventory ('S7_IsDead', 1);
+            return (CheckInventory ('S7_SoulLance_BeamGrabbed', 1) ? ResolveState ("SLance_BeamLost") : ResolveState ("Death2"));
         }
     Death2:
         HRFR GGG    13 A_Pain;
-        HRFR FFFFFF  1 A_SpawnItemEx ("S7_EmpressDeathSmokeSpawner", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        HRFR FFFFFF  1 A_SpawnItemEx ('S7_EmpressDeathSmokeSpawner', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         HRFR F       2;
         TNT1 A      -1 {
             for (int i = 0; i < 48; i++) {
-                A_SpawnItemEx ("S7_EmpressSparkle", fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
+                A_SpawnItemEx ('S7_EmpressSparkle', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
                     fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
             A_NoBlocking ();
-            A_DamageChildren (0x7FFFFFFF, "EmpressDeath");
+            A_DamageChildren (0x7FFFFFFF, 'EmpressDeath');
             A_KillChildren ();
             Destroy ();
         }
@@ -382,7 +382,7 @@ class S7_EmpressDeathSmokeSpawner : Actor {
 
     states {
     Spawn:
-        TNT1 AAAAAAAA 0 A_SpawnItemEx ("S7_EmpressSmoke", fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 85.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAA 0 A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 85.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         stop;
     }
 }
@@ -397,7 +397,7 @@ class S7_EmpressMissile2 : S7_Projectile {
         Speed 40;
 
         DamageFunction int (floor (fRandom [monsterDMG] (1, 2) * 8));
-        MissileType "S7_EmpressMissile2Trail";
+        MissileType 'S7_EmpressMissile2Trail';
         MissileHeight 8;
 
         RenderStyle "add";
@@ -405,7 +405,7 @@ class S7_EmpressMissile2 : S7_Projectile {
 
         DeathSound "imp/shotx";
         Obituary "$OB_EMPRESSFB";
-        Species "S7EmpressCrap";
+        Species 'S7EmpressCrap';
 
         +FORCEXYBILLBOARD +SEEKERMISSILE +THRUSPECIES
     }
@@ -447,13 +447,13 @@ class S7_EmpressMissile1 : S7_Projectile {
         Speed 45;
         DamageFunction (fRandom [monsterDMG] (2.0, 4.0) * 7);
 
-        MissileType "S7_EmpressMissile1Trail";
+        MissileType 'S7_EmpressMissile1Trail';
         MissileHeight 8;
         RenderStyle "add";
 
         DeathSound "imp/shotx";
         Obituary "$OB_EMPRESSFB";
-        Species "S7EmpressCrap";
+        Species 'S7EmpressCrap';
 
         +FORCEXYBILLBOARD +SEEKERMISSILE +THRUSPECIES
     }
@@ -484,7 +484,7 @@ class S7_EmpressMissile1 : S7_Projectile {
     states {
     Spawn:
         TNT1 A 1 bright {
-            if (CheckInventory ("S7_IsDead", 1, AAPTR_Target) || !(target is 'S7_Empress') || !(S7_Empress (target)).midAttack1)
+            if (CheckInventory ('S7_IsDead', 1, AAPTR_Target) || !(target is 'S7_Empress') || !(S7_Empress (target)).midAttack1)
                 return ResolveState ("DieOut");
             if (loopCount < 1)
                 return ResolveState ("Flight");

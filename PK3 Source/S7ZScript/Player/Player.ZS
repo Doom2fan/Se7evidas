@@ -95,12 +95,12 @@ class S7_BasePlayer : PlayerPawn {
         Player.DisplayName "Player";
 
         // Weapon Slots
-        /*player.weaponSlot 1, "S7_Raptor", "S7_TEC9", "S7_Revolver"
-        player.weaponSlot 2, "S7_Shotgun", "S7_AMG", "S7_ManxCarbine", "S7_HitterSMG", "S7_Fauchard", "S7_SSG", "S7_LaserPewPew", "S7_ConquerorRifle", "S7_AK47"
-        player.weaponSlot 3, "S7_HellwarriorBladeForm1"
-        player.weaponSlot 4, "S7_PrettyShootyIonCannonGun", "S7_PlasmaGun", "S7_Thumper", "S7_AntimatterGun"
-        player.weaponSlot 5, "S7_GrenadeWeap"
-        player.weaponSlot 6, "S7_BerserkWeap"*/
+        /*player.weaponSlot 1, 'S7_Raptor', 'S7_TEC9', 'S7_Revolver'
+        player.weaponSlot 2, 'S7_Shotgun', 'S7_AMG', 'S7_ManxCarbine', 'S7_HitterSMG', 'S7_Fauchard', 'S7_SSG', 'S7_LaserPewPew', 'S7_ConquerorRifle', 'S7_AK47'
+        player.weaponSlot 3, 'S7_HellwarriorBladeForm1'
+        player.weaponSlot 4, 'S7_PrettyShootyIonCannonGun', 'S7_PlasmaGun', 'S7_Thumper', 'S7_AntimatterGun'
+        player.weaponSlot 5, 'S7_GrenadeWeap'
+        player.weaponSlot 6, 'S7_BerserkWeap'*/
 
         // Misc
         Radius 16;
@@ -129,35 +129,35 @@ class S7_BasePlayer : PlayerPawn {
         int giveCount = 0;
 
         if (!playerData) {
-            if (!(playerData = S7_PlayerData (FindInventory ("S7_PlayerData")))) {
-                GiveInventory ("S7_PlayerData", 1);
-                playerData = S7_PlayerData (FindInventory ("S7_PlayerData"));
+            if (!(playerData = S7_PlayerData (FindInventory ('S7_PlayerData')))) {
+                GiveInventory ('S7_PlayerData', 1);
+                playerData = S7_PlayerData (FindInventory ('S7_PlayerData'));
                 giveCount++;
             }
         }
         if (!weapBinds) {
-            if (!(weapBinds = S7_WeapBindsSystem (FindInventory ("S7_WeapBindsSystem")))) {
-                GiveInventory ("S7_WeapBindsSystem", 1);
-                weapBinds = S7_WeapBindsSystem (FindInventory ("S7_WeapBindsSystem"));
+            if (!(weapBinds = S7_WeapBindsSystem (FindInventory ('S7_WeapBindsSystem')))) {
+                GiveInventory ('S7_WeapBindsSystem', 1);
+                weapBinds = S7_WeapBindsSystem (FindInventory ('S7_WeapBindsSystem'));
                 giveCount++;
             }
         }
         if (!xpSys) {
-            if (!(xpSys = S7_PlayerXPSystem (FindInventory ("S7_PlayerXPSystem")))) {
-                GiveInventory ("S7_PlayerXPSystem", 1);
-                xpSys = S7_PlayerXPSystem (FindInventory ("S7_PlayerXPSystem"));
+            if (!(xpSys = S7_PlayerXPSystem (FindInventory ('S7_PlayerXPSystem')))) {
+                GiveInventory ('S7_PlayerXPSystem', 1);
+                xpSys = S7_PlayerXPSystem (FindInventory ('S7_PlayerXPSystem'));
                 giveCount++;
             }
         }
         if (!healSys) {
-            if (!(healSys = S7_HealingSystem (FindInventory ("S7_HealingSystem")))) {
-                GiveInventory ("S7_HealingSystem", 1);
-                healSys = S7_HealingSystem (FindInventory ("S7_HealingSystem"));
+            if (!(healSys = S7_HealingSystem (FindInventory ('S7_HealingSystem')))) {
+                GiveInventory ('S7_HealingSystem', 1);
+                healSys = S7_HealingSystem (FindInventory ('S7_HealingSystem'));
                 giveCount++;
             }
         }
-        if (!FindInventory ("S7_BasicArmor")) {
-            let armor = S7_BasicArmor (Spawn ("S7_BasicArmor"));
+        if (!FindInventory ('S7_BasicArmor')) {
+            let armor = S7_BasicArmor (Spawn ('S7_BasicArmor'));
             armor.BecomeItem ();
             AddInventory (armor);
             giveCount++;
@@ -167,18 +167,18 @@ class S7_BasePlayer : PlayerPawn {
             Weapon_SetAmmoMax ();
 
             if (S7_InitialCashAmount > 0)
-                GiveInventory ("S7_Cash", S7_InitialCashAmount);
-            GiveInventory ("S7_BerserkWeap", 1);
+                GiveInventory ('S7_Cash', S7_InitialCashAmount);
+            GiveInventory ('S7_BerserkWeap', 1);
 
             // Equipment
-            GiveInventory ("S7_Canteen", 2000);
-            GiveInventory ("S7_CCSecVest", 1);
+            GiveInventory ('S7_Canteen', 2000);
+            GiveInventory ('S7_CCSecVest', 1);
             // Ammo and similars
-            GiveInventory ("S7_Stamina", 0x7FFFFFFF);
-            GiveInventory ("S7_Mana", 0x7FFFFFFF);
+            GiveInventory ('S7_Stamina', 0x7FFFFFFF);
+            GiveInventory ('S7_Mana', 0x7FFFFFFF);
             // Tokens
-            GiveInventory ("S7_StaminaRegen", 1);
-            GiveInventory ("S7_ManaRegen", 1);
+            GiveInventory ('S7_StaminaRegen', 1);
+            GiveInventory ('S7_ManaRegen', 1);
             
             GiveBasics_ClassSpecific ();
 
@@ -188,7 +188,7 @@ class S7_BasePlayer : PlayerPawn {
     }
 
     virtual void GiveBasics_ClassSpecific () {
-        GiveInventory ("S7_KickMelee", 1); // Default to kick melee
+        GiveInventory ('S7_KickMelee', 1); // Default to kick melee
     }
 
     override void PostBeginPlay () {
@@ -227,11 +227,11 @@ class S7_BasePlayer : PlayerPawn {
             return;
 
         if (!(player.cheats & CF_PREDICTING)) {
-            if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ("S7_BasicArmor"))
+            if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ('S7_BasicArmor'))
                 GiveBasics (); // We only check it in this function to avoid a function call.
 
             if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
-                SetInventory ("S7_Reloading", !CheckInventory ("S7_Reloading", 1));
+                SetInventory ('S7_Reloading', !CheckInventory ('S7_Reloading', 1));
 
             if (playerData)
                 playerData.dying = health < (maxHealth * 0.2);
@@ -271,7 +271,7 @@ class S7_BasePlayer : PlayerPawn {
     override void DeathThink () {
         Super.DeathThink ();
 
-        if (player.morphTics && (player.mo is "S7_BasePlayer"))
+        if (player.morphTics && (player.mo is 'S7_BasePlayer'))
             S7_BasePlayer (player.mo).CustCalcHeight ();
     }
 
@@ -468,19 +468,19 @@ class S7_BasePlayer : PlayerPawn {
                 double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
                 double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
 
-                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+                A_SpawnItemEx ('S7_GibbingBlood', xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
             }
 
             for (int i = random [sfx] (6, 8); i >= 0; i--) {
                 bool MUDA; Actor cloud;
-                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                [MUDA, cloud] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
                  flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
             }
 
             for (int i = random [sfx] (8, 15); i >= 0; i--) {
                 bool MUDA; Actor gib;
-                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                [MUDA, gib] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [sfx] (-7, 7),
                     xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
                     flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
@@ -508,17 +508,17 @@ class S7_BasePlayer : PlayerPawn {
 
     Death.Plasma:
         TNT1 A                  0 Thing_SetTranslation (0, 7);
-        TNT1 A                  0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
         PLAY H                 10 A_PlayerScream;
-        PLAY I                 10 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        TNT1 A                  0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY I                 10 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
         PLAY J                 10 A_NoBlocking;
-        PLAY K                 10 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        TNT1 A                  0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY K                 10 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
         PLAY L                 10 A_PlaySound ("Misc/Body", CHAN_Body);
-        PLAY M                 10 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        TNT1 A                  0 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ("S7_BlackSmoke", random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY M                 10 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
         PLAY N                 -1;
         stop;
     }
@@ -624,7 +624,7 @@ class S7_PowerDodgeEffects : PowerInvulnerable {
         if (level.time & 1)
             return;
 
-        Actor speedMo = Spawn ("S7_DodgeTrail", Owner.Pos, NO_REPLACE);
+        Actor speedMo = Spawn ('S7_DodgeTrail', Owner.Pos, NO_REPLACE);
         if (speedMo) {
             speedMo.Angle = Owner.Angle;
             speedMo.Translation = Owner.Translation;
@@ -725,7 +725,7 @@ class GETTHATSHITOUTTAHERE : Actor {
         goto See;
     Missile:
         SKEL J 5 bright A_FaceTarget;
-        SKEL K 5        A_SpawnProjectile ("GETTHATSHITOUTTAHERETRACER");
+        SKEL K 5        A_SpawnProjectile ('GETTHATSHITOUTTAHERETRACER');
         SKEL K 5        A_FaceTarget;
         goto See;
     Pain:

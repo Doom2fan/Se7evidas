@@ -51,7 +51,7 @@ extend class S7_S7DataParser {
 
     protected void ParseMapData_Map () {
         TZK_Token t;
-        let mData = new ("S7_S7Data_MapData");
+        let mData = new ('S7_S7Data_MapData');
         Array<string> hashes;
 
         do {
@@ -104,7 +104,7 @@ extend class S7_S7DataParser {
         }
 
         for (int i = 0; i < hashes.Size (); i++) {
-            let mDataMap = new ("S7_S7Data_Map");
+            let mDataMap = new ('S7_S7Data_Map');
 
             mDataMap.hash = hashes [i];
             mDataMap.data = mData;

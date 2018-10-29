@@ -25,8 +25,8 @@ class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
         DamageFunction (fRandom [weaponDamage] (1.0, 5.0) * 1);
         S7_BaseTracer.TrueSpeed 200;
-        DamageType "ShotgunTracer";
-        MissileType "S7_SSGTracerTrail";
+        DamageType 'ShotgunTracer';
+        MissileType 'S7_SSGTracerTrail';
     }
 }
 class S7_ScorpsHunter : S7_ScorpBase {
@@ -39,7 +39,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         PainSound "Monsters/ScorpsHunter/Pain";
         DeathSound "Monsters/ScorpsHunter/Death";
         Obituary "$OBSCORPSHUNTER";
-        Species "ScorpsTrooper";
+        Species 'ScorpsTrooper';
         Tag "$SCRPSHNTRTAG";
     }
 
@@ -48,8 +48,8 @@ class S7_ScorpsHunter : S7_ScorpBase {
     override void PostBeginPlay () {
         SetTag (S7_Utils.GenName_Male_Eng ());
         if (!xpSys) {
-            GiveInventory ("S7_XPSystem", 1);
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
         let serverData = S7_ServerData.Get ();
@@ -85,10 +85,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
     override void Tick () {
         if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             if (!xpSys) {
-                GiveInventory ("S7_XPSystem", 1);
-                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             }
         }
 
@@ -112,7 +112,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     action void A_UnblockAndDrop () {
         A_NoBlocking ();
 
-        let shotty = S7_Loot_ScorpsHunterSG (S7_ActorExtensions.DropItem (self, "S7_Loot_ScorpsHunterSG", 1, 128));
+        let shotty = S7_Loot_ScorpsHunterSG (S7_ActorExtensions.DropItem (self, 'S7_Loot_ScorpsHunterSG', 1, 128));
         if (shotty) {
             if (random [monsterSpc] () <= 128) { // Don't always drop with ammo, either!
                 shotty.isBroken = (random [monsterSpc] () <= 96);
@@ -231,14 +231,14 @@ class S7_ScorpsHunter : S7_ScorpBase {
             double missOffsetVert = fRandom [monsterSpread] (-1.25, 1.25);
 
             for (int i = 0; i < 9; i++) {
-                A_SpawnProjectile ("S7_ScorpsHunterTracer", 35.0, 9,
+                A_SpawnProjectile ('S7_ScorpsHunterTracer', 35.0, 9,
                             missOffsetHorz + fRandom [monsterSpread] (-0.375, 0.375), CMF_AimDirection | CMF_AbsolutePitch,
                     pitch + missOffsetVert + fRandom [monsterSpread] (-0.375, 0.375)
                 );
             }
 
-            A_SpawnProjectile ("S7_12gaShellCasingSpawn2", 35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            A_SpawnProjectile ("S7_ShotSmoke_2_Spawner",   35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
+            A_SpawnProjectile ('S7_12gaShellCasingSpawn2', 35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
+            A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',   35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
 
             ammo--;
         }
@@ -327,19 +327,19 @@ class S7_ScorpsHunter : S7_ScorpBase {
                 double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
                 double xvel = fRandom [sfx] (0, 6), zvel = fRandom [sfx] (4, 12);
 
-                A_SpawnItemEx ("S7_GibbingBlood", xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_GibbingBlood', xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition);
             }
 
             for (int i = random [sfx] (6, 8); i >= 0; i--) {
                 bool MUDA; Actor cloud;
-                [MUDA, cloud] = A_SpawnItemEx ("S7_GoreBloodCloud", xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                [MUDA, cloud] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
                  flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
             }
 
             for (int i = random [sfx] (8, 15); i >= 0; i--) {
                 bool MUDA; Actor gib;
-                [MUDA, gib] = A_SpawnItemEx ("S7_GenericGoreBits", zofs: defHeight + fRandom [sfx] (-7, 7),
+                [MUDA, gib] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [sfx] (-7, 7),
                     xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
                     flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );

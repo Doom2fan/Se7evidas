@@ -41,7 +41,7 @@ class S7_Blood : Blood replaces Blood {
         double xvel = fRandom [sfx] (0, 6),
                zvel = fRandom [sfx] (4, 7);
 
-        A_SpawnItemEx ("S7_Flying_Blood", xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+        A_SpawnItemEx ('S7_Flying_Blood', xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
     }
 
     states {
@@ -76,7 +76,7 @@ class S7_Flying_Blood : S7_EffectsBase {
     states {
     Spawn:
         TNT1 A 0 noDelay { bMissile = true; }
-        BLD1 CCCBBBAAA 1 A_SpawnItemEx ("S7_Flying_Blood_Trail", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
+        BLD1 CCCBBBAAA 1 A_SpawnItemEx ('S7_Flying_Blood_Trail', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
         loop;
 
     Death:
@@ -84,7 +84,7 @@ class S7_Flying_Blood : S7_EffectsBase {
             if (BlockingMobj || BlockingLine || pos.Z > (floorZ + 1))
                 return ResolveState ("Crash");
 
-            A_SpawnItemEx ("S7_BloodSpot", flags: S7_BloodSXFFlags);
+            A_SpawnItemEx ('S7_BloodSpot', flags: S7_BloodSXFFlags);
 
             return ResolveState ("Null");
         }

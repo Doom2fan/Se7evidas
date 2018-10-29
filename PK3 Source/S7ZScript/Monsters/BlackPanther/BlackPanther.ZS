@@ -32,7 +32,7 @@ class S7_BlackPanther : S7_HellNobleBase {
         PainSound "BlackPanther/Pain";
         DeathSound "BlackPanther/Death";
         HitObituary "$OBBPANTHER_MELEE";
-        Species "HellNoble";
+        Species 'HellNoble';
         Tag "$BLCKPNTTAG";
 
         // (Mini-)Boss damage reduction
@@ -44,8 +44,8 @@ class S7_BlackPanther : S7_HellNobleBase {
 
     override void PostBeginPlay () {
         if (!xpSys) {
-            GiveInventory ("S7_XPSystem", 1);
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
         let serverData = S7_ServerData.Get ();
@@ -79,10 +79,10 @@ class S7_BlackPanther : S7_HellNobleBase {
 
     override void Tick () {
         if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             if (!xpSys) {
-                GiveInventory ("S7_XPSystem", 1);
-                xpSys = S7_XPSystem (FindInventory ("S7_XPSystem", true));
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
             }
         }
 
@@ -116,7 +116,7 @@ class S7_BlackPanther : S7_HellNobleBase {
 
         BPNT G 6 {
             A_FaceTarget (0, 0);
-            A_CustomComboAttack ("S7_BlackPantherBall", 32, int (fRandom [monsterDMG] (1.0, 4.0) * 8), "baron/melee");
+            A_CustomComboAttack ('S7_BlackPantherBall', 32, int (fRandom [monsterDMG] (1.0, 4.0) * 8), "baron/melee");
         }
         goto See;
     Pain:

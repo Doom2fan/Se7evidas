@@ -38,7 +38,7 @@ extend class S7_BasePlayer {
     }
 
     void Misc_StaminaRegen () {
-        int curStamina = CountInv ("S7_Stamina");
+        int curStamina = CountInv ('S7_Stamina');
         int maxStamina = GetMaxStamina ();
 
         if (health <= 0 || curStamina == maxStamina || playerData.sprinting) {
@@ -46,7 +46,7 @@ extend class S7_BasePlayer {
             return;
         }
 
-        bool berserkActive = CheckInventory ("S7_BerserkToken", 1);
+        bool berserkActive = CheckInventory ('S7_BerserkToken', 1);
         int count = 1, interval = 1;
 
         if (berserkActive)
@@ -55,7 +55,7 @@ extend class S7_BasePlayer {
             interval = berserkActive ? 2 : 3;
 
         if (playerData.staminaTics >= interval) {
-            GiveInventory ("S7_Stamina", count);
+            GiveInventory ('S7_Stamina', count);
             playerData.staminaTics = 0;
         }
 
@@ -102,7 +102,7 @@ extend class S7_BasePlayer {
             return;
 
         if (!cam) {
-            cam = S7_BlurCamera (Spawn ("S7_BlurCamera"));
+            cam = S7_BlurCamera (Spawn ('S7_BlurCamera'));
 
             if (!cam)
                 return;
@@ -129,12 +129,12 @@ extend class S7_BasePlayer {
     }
 
     void Misc_HellhunterBlade () {
-        int curLvl = CountInv ("S7_HellhunterBladeAffinity");
-        int curExp = CountInv ("S7_HellhunterBladeExperience");
+        int curLvl = CountInv ('S7_HellhunterBladeAffinity');
+        int curExp = CountInv ('S7_HellhunterBladeExperience');
         int nxtLvl = 2500 + curLvl * 1250;
         if (curLvl < 10 && curExp >= nxtLvl) {
-            GiveInventory ("S7_HellhunterBladeAffinity", 1);
-            TakeInventory ("S7_HellhunterBladeExperience", nxtLvl);
+            GiveInventory ('S7_HellhunterBladeAffinity', 1);
+            TakeInventory ('S7_HellhunterBladeExperience', nxtLvl);
         }
     }
 }

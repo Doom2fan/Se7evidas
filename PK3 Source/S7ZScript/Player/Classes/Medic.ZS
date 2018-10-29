@@ -31,20 +31,20 @@ class S7_EMTPlayer : S7_ScoutPlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ("S7_KickMelee", 1);
-        GiveInventory ("S7_MultiJump_Max", 1); // Scouts can do double jumps from the start
+        GiveInventory ('S7_KickMelee', 1);
+        GiveInventory ('S7_MultiJump_Max', 1); // Scouts can do double jumps from the start
         // Equipment
-        GiveInventory ("S7_Flashlight", 1); // Starts with a flashlight
-        GiveInventory ("S7_GrenadeCount", 2);
-        GiveInventory ("S7_Stimpack", 4);
-        GiveInventory ("S7_Medikit", 2);
-        GiveInventory ("S7_Flashlight", 1);
+        GiveInventory ('S7_Flashlight', 1); // Starts with a flashlight
+        GiveInventory ('S7_GrenadeCount', 2);
+        GiveInventory ('S7_Stimpack', 4);
+        GiveInventory ('S7_Medikit', 2);
+        GiveInventory ('S7_Flashlight', 1);
         // Ammo
-        GiveInventory ("S7_RevolverClip", 6);
-        GiveInventory ("S7_44MCartridges", 18);
+        GiveInventory ('S7_RevolverClip', 6);
+        GiveInventory ('S7_44MCartridges', 18);
 
-        GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
-        let revolver = GiveBasics_GiveStartingWeapon ("S7_Revolver");
+        GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
+        let revolver = GiveBasics_GiveStartingWeapon ('S7_Revolver');
 
         weapBinds.LastWeapon = revolver;
         player.PendingWeapon = revolver;
@@ -74,17 +74,17 @@ class S7_MedicPlayer : S7_BasePlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ("S7_KickMelee", 1);
+        GiveInventory ('S7_KickMelee', 1);
         // Equipment
-        GiveInventory ("S7_GrenadeCount", 2);
-        GiveInventory ("S7_Stimpack", 6);
-        GiveInventory ("S7_Medikit", 4);
+        GiveInventory ('S7_GrenadeCount', 2);
+        GiveInventory ('S7_Stimpack', 6);
+        GiveInventory ('S7_Medikit', 4);
         // Ammo
-        GiveInventory ("S7_RevolverClip", 6);
-        GiveInventory ("S7_44MCartridges", 24);
+        GiveInventory ('S7_RevolverClip', 6);
+        GiveInventory ('S7_44MCartridges', 24);
 
-        GiveBasics_GiveStartingWeapon ("S7_GrenadeWeap");
-        let revolver = GiveBasics_GiveStartingWeapon ("S7_Revolver");
+        GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
+        let revolver = GiveBasics_GiveStartingWeapon ('S7_Revolver');
 
         weapBinds.LastWeapon = revolver;
         player.PendingWeapon = revolver;

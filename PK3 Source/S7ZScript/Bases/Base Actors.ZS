@@ -33,7 +33,7 @@ class S7_FireballBase : S7_Projectile {
         Alpha 1.0;
         SeeSound "baron/attack";
         DeathSound "baron/shotx";
-        Decal "BaronScorch";
+        Decal 'BaronScorch';
 
         +RANDOMIZE
     }
@@ -57,7 +57,7 @@ class S7_MonsterSpawner : RandomSpawner {
     // Literally the only reason we're even overriding this is because we can't override GetDropItems.
     override void BeginPlay () {
         if (bouncecount >= MAX_RANDOMSPAWNERS_RECURSION) { // Prevents infinite recursions
-            Spawn ("Unknown", Pos, NO_REPLACE); // Show that there's a problem.
+            Spawn ('Unknown', Pos, NO_REPLACE); // Show that there's a problem.
             Destroy ();
             return;
         }
@@ -110,7 +110,7 @@ class S7_MonsterSpawner : RandomSpawner {
 
             // So now we can spawn the dropped item.
             if (di == null) {
-                Spawn ("Unknown", Pos, NO_REPLACE); // Show that there's a problem.
+                Spawn ('Unknown', Pos, NO_REPLACE); // Show that there's a problem.
                 Destroy ();
                 return;
             } else if (random [randomspawn] () <= di.Probability) // prob 255 = always spawn, prob 0 = almost never spawn.
@@ -165,7 +165,7 @@ class S7_MEvntNoMonster : Actor {
     Idle:
         TNT1 A 1;
         TNT1 A 0 A_CheckSight ("Idle");
-        TNT1 A 1 A_Die ("S7_ForceKillSpcDMG");
+        TNT1 A 1 A_Die ('S7_ForceKillSpcDMG');
         wait;
 
     Death:
@@ -427,7 +427,7 @@ class S7_Projectile : FastProjectile {
             return;
 
         if (vel != (0, 0, 0) || (pos.Z != floorz)) {
-            if (!tr) { tr = new ("S7_Projectile_Trace"); tr.sourceActor = self; }
+            if (!tr) { tr = new ('S7_Projectile_Trace'); tr.sourceActor = self; }
             tr.actorsToIgnore.Clear ();
             tr.actorsRipped.Clear ();
 

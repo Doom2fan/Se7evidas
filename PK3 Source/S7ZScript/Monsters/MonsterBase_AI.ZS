@@ -128,7 +128,7 @@ extend class S7_MonsterBase {
             // Player LOS, set goal to last known position.
             case AI_Chasing:
                 // Simple check to see if the monster has aquired another target.
-                if (target != aiLastKnown [0] && ! (target is "S7_LastKnownPositionMarker")) {
+                if (target != aiLastKnown [0] && ! (target is 'S7_LastKnownPositionMarker')) {
                     aiMode = AI_Normal;
                     goal = null;
                     bChaseGoal = false;

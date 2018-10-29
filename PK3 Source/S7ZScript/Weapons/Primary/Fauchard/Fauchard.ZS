@@ -35,8 +35,8 @@ class S7_Fauchard : S7_BaseWeapon {
         Tag "$FAUCHARD";
         Inventory.PickupMessage "$FAUCHARD";
 
-        Weapon.AmmoType1 "S7_FauchardMag";
-        Weapon.AmmoType2 "S7_FBSysCells";
+        Weapon.AmmoType1 'S7_FauchardMag';
+        Weapon.AmmoType2 'S7_FBSysCells';
         Weapon.AmmoUse 1;
         Weapon.AmmoGive 0;
 
@@ -69,11 +69,11 @@ class S7_Fauchard : S7_BaseWeapon {
         LSRF VWXYZA 1;
     Ready2:
         LSRF A 1 {
-            if (CheckInventory ("S7_Reloading", 1))
+            if (CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("Reload");
-            if (CheckInventory ("S7_DoMelee", 1))
+            if (CheckInventory ('S7_DoMelee', 1))
                 return ResolveState ("QuickMelee");
-            TakeInventory ("S7_ChangeFireMode", 0x7FFFFFFF);
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             A_WeaponReady ();
 
@@ -93,8 +93,8 @@ class S7_Fauchard : S7_BaseWeapon {
             A_PlaySound ("Weapons/Fauchard/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             A_AlertMonsters ();
             A_GunFlash ();
-            A_FireProjectile ("S7_ShotSmoke_2_Spawner", 0, 0, 2, 4);
-            let proj = S7_FauchardTracer (A_FireProjectile ("S7_FauchardTracer", fRandom [weaponSpread] (-0.14, 0.14), 1, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 4);
+            let proj = S7_FauchardTracer (A_FireProjectile ('S7_FauchardTracer', fRandom [weaponSpread] (-0.14, 0.14), 1, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14)));
 
             if (proj)
                 proj.bonusDamage = invoker.GetDamageBonus ();
@@ -132,7 +132,7 @@ class S7_Fauchard : S7_BaseWeapon {
 
     Reload:
         TNT1 A 0 {
-            TakeInventory ("S7_Reloading", 1);
+            TakeInventory ('S7_Reloading', 1);
 
             if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
                 return ResolveState ("Ready2");
@@ -167,10 +167,10 @@ class S7_FauchardTracer : S7_BaseTracer {
     default {
         DamageFunction (fRandom [weaponDamage] (1.0, 4.0) * 12 * (1-bonusDamage));
         S7_BaseTracer.TrueSpeed 300;
-        DamageType "LaserTracer";
+        DamageType 'LaserTracer';
         Scale 0.015;
-        MissileType "S7_LaserTracerTrail";
-        Decal "S7_LaserDecal";
+        MissileType 'S7_LaserTracerTrail';
+        Decal 'S7_LaserDecal';
 
         -BLOODSPLATTER
     }
@@ -182,7 +182,7 @@ class S7_FauchardTracer : S7_BaseTracer {
 
     Death:
     Crash:
-        TNT1 A 3; //A_SpawnItemEx ("S7_LaserPuff")
+        TNT1 A 3; //A_SpawnItemEx ('S7_LaserPuff')
         stop;
     XDeath:
         TNT1 A 3;

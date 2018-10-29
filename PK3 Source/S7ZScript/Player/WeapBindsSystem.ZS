@@ -43,7 +43,7 @@ class S7_SlotMaxUpgrade : Inventory {
             return;
         }
 
-        let weapBinds = S7_WeapBindsSystem (other.FindInventory ("S7_WeapBindsSystem"));
+        let weapBinds = S7_WeapBindsSystem (other.FindInventory ('S7_WeapBindsSystem'));
         if (!weapBinds) {
             didUpgrade = false;
             return;
@@ -77,7 +77,7 @@ class S7_SlotMaxUpgrade : Inventory {
         if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.NUM_WEAPON_SLOTS - 1))
             return;
 
-        let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ("S7_WeapBindsSystem"));
+        let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ('S7_WeapBindsSystem'));
         if (!weapBinds)
             return;
 
@@ -259,13 +259,13 @@ class S7_WeapBindsSystem : Inventory {
                 if (weapons [i] == player.ReadyWeapon || (player.ReadyWeapon.bPowered_Up && player.ReadyWeapon.SisterWeapon == weapons [i])) {
                     j = (i == 0 ? weapons.Size () - 1 : i - 1);
                     for (; j != i; j = (j == 0 ? weapons.Size () - 1 : j - 1))
-                        if (weapons [j] && weapons [j] is "Weapon" && (!checkAmmo || weapons [j].CheckAmmo (weapon.EitherFire, false)))
+                        if (weapons [j] && weapons [j] is 'Weapon' && (!checkAmmo || weapons [j].CheckAmmo (weapon.EitherFire, false)))
                             return weapons [j];
                 }
             }
         }
         for (i = weapons.Size () - 1; i >= 0; i--)
-            if (weapons [i] && weapons [i] is "Weapon" && (!checkAmmo || weapons [i].CheckAmmo (weapon.EitherFire, false)))
+            if (weapons [i] && weapons [i] is 'Weapon' && (!checkAmmo || weapons [i].CheckAmmo (weapon.EitherFire, false)))
                 return weapons [i];
 
         return S7_BaseWeapon (player.ReadyWeapon);
@@ -328,7 +328,7 @@ class S7_WeapBindsSystem : Inventory {
             } while ((slot != startSlot || index != startIndex) && slotsChecked <= slotsCount);
         }
 
-        if (player.ReadyWeapon is "S7_NullWeapon")
+        if (player.ReadyWeapon is 'S7_NullWeapon')
             return LastWeapon;
         else
             return S7_BaseWeapon (player.ReadyWeapon);

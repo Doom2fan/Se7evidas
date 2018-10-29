@@ -90,7 +90,7 @@ class S7_BaseWeapon : Weapon {
     }
 
     override void DetachFromOwner () {
-        let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ("S7_WeapBindsSystem"));
+        let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ('S7_WeapBindsSystem'));
         if (!weapBinds)
             return;
 
@@ -112,7 +112,7 @@ class S7_BaseWeapon : Weapon {
     override Inventory CreateTossable (int amt) {
         // If self actor lacks a SpawnState, don't drop it. (e.g. A base weapon
         // like the fist can't be dropped because you'll never see it.)
-        if (SpawnState == GetDefaultByType ("Actor").SpawnState || SpawnState == NULL)
+        if (SpawnState == GetDefaultByType ('Actor').SpawnState || SpawnState == NULL)
             return NULL;
         if (bUndroppable || bUntossable || Owner == NULL || Amount <= 0)
             return NULL;
@@ -179,7 +179,7 @@ class S7_BaseWeapon : Weapon {
         if (pPawn && pPawn.xpSys)
             baseMul += pPawn.xpSys.GetStat (S7Stat_Strength, false) * 0.025;
 
-        if (CheckInventory ("S7_BerserkToken", 1)) {
+        if (CheckInventory ('S7_BerserkToken', 1)) {
             baseMul *= 3.0;
             mulBonus = fRandom [weaponDamage] (0.0, 2.0);
         }
@@ -192,10 +192,10 @@ class S7_BaseWeapon : Weapon {
     }
 
     S7_XPSystem GetOwnerXPSystem () {
-        if (!Owner || !(Owner is "S7_BasePlayer"))
+        if (!Owner || !(Owner is 'S7_BasePlayer'))
             return null;
 
-        let xpSystem = S7_XPSystem (Owner.FindInventory ("S7_XPSystem", true));
+        let xpSystem = S7_XPSystem (Owner.FindInventory ('S7_XPSystem', true));
 
         if (!xpSystem)
             return null;
@@ -284,8 +284,8 @@ class S7_BaseWeapon : Weapon {
     Deselect:
     TrueDeselect:
         TNT1 A 0 {
-            TakeInventory ("S7_HoldingZoom", 0x7FFFFFFF);
-            TakeInventory ("S7_Weap_ReadyFrame", 0x7FFFFFFF);
+            TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
+            TakeInventory ('S7_Weap_ReadyFrame', 0x7FFFFFFF);
             A_ZoomFactor (1.0);
 
             if (!health)
@@ -301,12 +301,12 @@ class S7_BaseWeapon : Weapon {
 
     QuickMelee:
         TNT1 A 0 {
-            TakeInventory ("S7_DoMelee", 0x7FFFFFFF);
-            if (CheckInventory ("S7_DaggerMelee", 1))
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+            if (CheckInventory ('S7_DaggerMelee', 1))
                 return ResolveState ("DaggerMelee");
-            if (CheckInventory ("S7_PunchMelee", 1))
+            if (CheckInventory ('S7_PunchMelee', 1))
                 return ResolveState ("PunchMelee");
-            if (CheckInventory ("S7_KickMelee", 1))
+            if (CheckInventory ('S7_KickMelee', 1))
                 return ResolveState ("KickMelee");
 
             return ResolveState ("KickMelee");
@@ -317,18 +317,18 @@ class S7_BaseWeapon : Weapon {
         wait;
     DaggerMelee1:
         DAG1 ABCD 1;
-        DAG1 E    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
-        DAG1 F    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuff");
-        DAG1 G    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
+        DAG1 E    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
+        DAG1 F    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
+        DAG1 G    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
         DAG1 H    1;
         TNT1 A    5;
         TNT1 A    0 A_Jump (256, "MeleeDone");
         wait;
     DaggerMelee2:
         DAG2 AB  1;
-        DAG2 C   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
-        DAG2 D   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuff");
-        DAG2 EF  1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_DaggerPuffSilent");
+        DAG2 C   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
+        DAG2 D   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
+        DAG2 EF  1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
         DAG2 GH  1;
         TNT1 A   5;
         TNT1 A   0 A_Jump (256, "MeleeDone");
@@ -340,7 +340,7 @@ class S7_BaseWeapon : Weapon {
 
     KickMelee:
         KICK BCD   1;
-        KICK H     1 A_CustomPunch (S7_GetMeleeDamage (13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, "S7_MeleePuff");
+        KICK H     1 A_CustomPunch (S7_GetMeleeDamage (13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_MeleePuff');
         KICK HHHIG 1;
         KICK FEDCB 1;
         KICK A     1;
@@ -349,7 +349,7 @@ class S7_BaseWeapon : Weapon {
         wait;
 
     MeleeDone:
-        TNT1 A 0 A_JumpIfInventory ("S7_DoMelee", 1, "QuickMelee");
+        TNT1 A 0 A_JumpIfInventory ('S7_DoMelee', 1, "QuickMelee");
         TNT1 A 0 A_Jump (256, "Ready");
         wait;
     }
@@ -407,10 +407,10 @@ class S7_ThrowWeapon : S7_BaseWeapon {
     states {
     Hold:
         TNT1 A 1 {
-            if (invoker.canCancelThrow && CheckInventory ("S7_Reloading", 1))
+            if (invoker.canCancelThrow && CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("CancelThrow");
             else
-                TakeInventory ("S7_Reloading", 0x7FFFFFFF);
+                TakeInventory ('S7_Reloading', 0x7FFFFFFF);
 
             invoker.throwForce = clamp (invoker.throwForce + 1, 0, invoker.maxForce);
             return ResolveState (null);
@@ -437,7 +437,7 @@ class S7_ThrownObject : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_MeleePuff : S7_EffectsBase {
     default {
-        DamageType "Kick";
+        DamageType 'Kick';
         AttackSound "Weapons/Kick/HitWall";
         ActiveSound "Weapons/Kick/Swing";
 
@@ -453,7 +453,7 @@ class S7_MeleePuff : S7_EffectsBase {
 
 class S7_MeleePuffStrong : S7_MeleePuff {
     default {
-        Decal "FistScorch";
+        Decal 'FistScorch';
         AttackSound "Weapons/Kick/Strong";
         ActiveSound "Weapons/Kick/Swing";
 
@@ -463,14 +463,14 @@ class S7_MeleePuffStrong : S7_MeleePuff {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnItem ("S7_ShotSmoke");
+        TNT1 A 0 noDelay A_SpawnItem ('S7_ShotSmoke');
         stop;
     }
 }
 
 class S7_DaggerPuff : S7_MeleePuff {
     default {
-        DamageType "Blade";
+        DamageType 'Blade';
         AttackSound "Weapons/Tridagger/HitWall";
         ActiveSound "Weapons/Tridagger/Swing";
     }
