@@ -265,39 +265,6 @@ class S7_20gaShells : Ammo {
         Inventory.PickupSound "misc/ammopickup";
     }
 
-    override void PostBeginPlay () {
-        Super.PostBeginPlay ();
-
-        if (Owner)
-            return;
-
-        let ownClass = GetClass ();
-
-        if (ownClass == 'S7_20gaShells') {
-            if (amount == 1)
-                SetStateLabel ("Spawn.Single");
-            else if (amount > 0 && amount != 10) {
-                int amt = Amount;
-                amount = 1;
-                SetStateLabel ("Spawn.Single");
-
-                for (int i = amt - 1; i > 0; i--) {
-                    let act = Inventory (Spawn (ownClass, pos));
-
-                    if (!act)
-                        continue;
-
-                    act.Amount = 1;
-                    act.vel = (vel + AngleToVector (fRandom [invSpc] (0, 360), fRandom [invSpc] (1, 5)));
-                    act.target = target;
-                    act.master = master;
-                    act.tracer = tracer;
-                    act.ChangeTID (TID);
-                }
-            }
-        }
-    }
-
     override String PickupMessage () {
         if (amount == 1)
             return "$20GA_SINGLE";
@@ -307,7 +274,35 @@ class S7_20gaShells : Ammo {
 
     states {
     Spawn:
-        SHEL A -1;
+        SHEL A -1 noDelay {
+            let ownClass = GetClass ();
+
+            if (ownClass == 'S7_20gaShells') {
+                if (amount == 1)
+                    return ResolveState ("Spawn.Single");
+                else if (amount > 0 && amount != 10) {
+                    int amt = Amount;
+                    amount = 1;
+                    return ResolveState ("Spawn.Single");
+
+                    for (int i = amt - 1; i > 0; i--) {
+                        let act = Inventory (Spawn (ownClass, pos));
+
+                        if (!act)
+                            continue;
+
+                        act.Amount = 1;
+                        act.vel = (vel + AngleToVector (fRandom [invSpc] (0, 360), fRandom [invSpc] (1, 5)));
+                        act.target = target;
+                        act.master = master;
+                        act.tracer = tracer;
+                        act.ChangeTID (TID);
+                    }
+                }
+            }
+
+            return ResolveState (null);
+        }
         stop;
     Spawn.Single:
         TNT1 A  0 A_SetScale (0.25);
@@ -345,49 +340,44 @@ class S7_12gaShells : Ammo {
         Inventory.PickupSound "misc/ammopickup";
     }
 
-    override void PostBeginPlay () {
-        Super.PostBeginPlay ();
-
-        if (Owner)
-            return;
-
-        let ownClass = GetClass ();
-
-        if (ownClass == 'S7_12gaShells') {
-            if (amount == 1)
-                SetStateLabel ("Spawn.Single");
-            else if (amount > 0 && amount != 6) {
-                int amt = Amount;
-                amount = 1;
-                SetStateLabel ("Spawn.Single");
-
-                for (int i = amt - 1; i > 0; i--) {
-                    let act = Inventory (Spawn (ownClass, pos));
-
-                    if (!act)
-                        continue;
-
-                    act.Amount = 1;
-                    act.vel = (vel + AngleToVector (fRandom [invSpc] (0, 360), fRandom [invSpc] (1, 5)));
-                    act.target = target;
-                    act.master = master;
-                    act.tracer = tracer;
-                    act.ChangeTID (TID);
-                }
-            }
-        }
-    }
-
     override String PickupMessage () {
         if (amount == 1)
-            return "$20GA_SINGLE";
+            return "$12GA_SINGLE";
         
         return PickupMsg;
     }
 
     states {
     Spawn:
-        SHEL B -1;
+        SHEL B -1 noDelay {
+            let ownClass = GetClass ();
+
+            if (ownClass == 'S7_12gaShells') {
+                if (amount == 1)
+                    return ResolveState ("Spawn.Single");
+                else if (amount > 0 && amount != 6) {
+                    int amt = Amount;
+                    amount = 1;
+                    return ResolveState ("Spawn.Single");
+
+                    for (int i = amt - 1; i > 0; i--) {
+                        let act = Inventory (Spawn (ownClass, pos));
+
+                        if (!act)
+                            continue;
+
+                        act.Amount = 1;
+                        act.vel = (vel + AngleToVector (fRandom [invSpc] (0, 360), fRandom [invSpc] (1, 5)));
+                        act.target = target;
+                        act.master = master;
+                        act.tracer = tracer;
+                        act.ChangeTID (TID);
+                    }
+                }
+            }
+
+            return ResolveState (null);
+        }
         stop;
     Spawn.Single:
         TNT1 A  0 A_SetScale (0.25);

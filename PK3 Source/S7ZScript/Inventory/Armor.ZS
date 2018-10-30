@@ -45,7 +45,7 @@ class S7_ArmorBonus : Inventory {
             basicArmor.armorData.armorBonuses += amount;
             basicArmor.armorData.GotBonus (basicArmor, amount);
 
-            GoAwayAndDie();
+            GoAwayAndDie ();
 
             return true;
         }
