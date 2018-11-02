@@ -149,3 +149,36 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
         player.PendingWeapon = rifle;
     }
 }
+
+//-------------------------------------------------------------------------------------------
+//
+// Enforcer playerclass
+//
+//-------------------------------------------------------------------------------------------
+class S7_EnforcerPlayer : S7_InfantryPlayer {
+    default {
+        // Class stuff
+        Player.DisplayName "$S7_ENFORCERPLAYER";
+    }
+
+    override void GiveBasics_ClassSpecific () {
+        GiveInventory ('S7_KickMelee', 1);
+        // Equipment
+        GiveInventory ('S7_GrenadeCount', 4);
+        GiveInventory ('S7_Stimpack', 3);
+        GiveInventory ('S7_Medikit', 2);
+        GiveInventory ('S7_Flashlight', 1);
+        // Ammo
+        GiveInventory ('S7_RevolverClip', 6);
+        GiveInventory ('S7_44MCartridges', 24);
+        GiveInventory ('S7_ShotgunMag', 10);
+        GiveInventory ('S7_20gaShells', 20);
+
+        GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
+        GiveBasics_GiveStartingWeapon ('S7_Revolver');
+        let shotgun = GiveBasics_GiveStartingWeapon ('S7_Shotgun');
+
+        weapBinds.LastWeapon = shotgun;
+        player.PendingWeapon = shotgun;
+    }
+}

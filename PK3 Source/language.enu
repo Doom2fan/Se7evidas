@@ -53,6 +53,7 @@
     S7_MEDICPLAYER                  = "Battle medic";
     S7_INFANTRYPLAYER               = "Infantry";
     S7_RIFLEMANPLAYER               = "Rifleman";
+    S7_ENFORCERPLAYER               = "Enforcer";
 
 // Levels
 
