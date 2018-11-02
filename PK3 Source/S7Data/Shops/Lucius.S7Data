@@ -446,7 +446,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "KRNS" {
+                buySellItem "TEC9" {
                     name = "$SHORTTEC9";
                     desc = "$SS_TEC9DESC";
                     info = "$SS_TEC9INFO";
