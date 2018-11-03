@@ -21,6 +21,7 @@ SS_ARMOR                        = "Armor";
 SS_HEALTH                       = "Health";
 
 SS_WEAPONS                      = "Weapons";
+SS_PG_PISTOLS                   = "Pistols";
 SS_PG_SMGS                      = "Submachine guns";
 SS_PG_RIFLES                    = "Rifles";
 SS_PG_MGS                       = "Machine guns";
