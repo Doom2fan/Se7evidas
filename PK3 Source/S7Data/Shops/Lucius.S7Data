@@ -410,7 +410,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "mainPage";
                 },
-                pageLink "SMGS" {
+                pageLink "PIST" {
                     name = "$SS_PG_PISTOLS";
                     link = "wpPage_Pistols";
                 },
