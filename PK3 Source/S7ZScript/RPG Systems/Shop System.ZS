@@ -58,6 +58,8 @@ class S7_SSShop {
     string name;
     string cashLabelFormat;
     string cashTypeShown;
+    string buyCostLabel;
+    string sellCostLabel;
     S7_SSPage mainPage;
 }
 
@@ -65,6 +67,8 @@ class S7_SSPage {
     string name;
     string cashLabelFormat;
     string cashTypeShown;
+    string buyCostLabel;
+    string sellCostLabel;
     S7_SSPage backPage;
     Array<S7_SSItem> items;
 }

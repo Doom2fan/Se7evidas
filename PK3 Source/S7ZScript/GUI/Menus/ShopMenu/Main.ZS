@@ -315,9 +315,11 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                     cashInv = shopData.cashTypeShown;
             }
 
-            if (formatStr != "" && cashInv != "")
-                playerDataLabel.Text = String.Format (formatStr, CPlayer.mo.CountInv (cashInv));
-            else
+            if (formatStr != "" && cashInv != "") {
+                playerDataLabel.Text = formatStr;
+                playerDataLabel.Text.Replace ("%D", "%d");
+                playerDataLabel.Text.Replace ("%d", String.Format ("%d", CPlayer.mo.CountInv (cashInv)));
+            } else
                 playerDataLabel.Text = "";
         }
 
@@ -329,13 +331,47 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             Select (NULL);
     }
 
-    void Select (S7_SSItem item) {
+    string GetCostString (int price, bool isSellMode) {
+        string fmtStr = "";
+
+        if (!isSellMode) {
+            if (itemsList && itemsList.curPage && itemsList.curPage.buyCostLabel != "")
+                fmtStr = StringTable.Localize (itemsList.curPage.buyCostLabel, true);
+            if (shopData && shopData.buyCostLabel != "" && fmtStr == "")
+                fmtStr = StringTable.Localize (shopData.buyCostLabel, true);
+        } else {
+            if (itemsList && itemsList.curPage && itemsList.curPage.sellCostLabel != "")
+                fmtStr = StringTable.Localize (itemsList.curPage.sellCostLabel, true);
+            if (shopData && shopData.sellCostLabel != "" && fmtStr == "")
+                fmtStr = StringTable.Localize (shopData.sellCostLabel, true);
+        }
+
+        fmtStr.Replace ("%D", "%d");
+        fmtStr.Replace ("%d", String.Format ("%d", price));
+        return fmtStr;
+    }
+
+    void SetDescription (S7_SSItem item) {
         string desc = "";
         string info = "";
 
-        if (item && (item.descShowType & DS_Select)) {
+        if (item) {
             desc = StringTable.Localize (item.description, true);
             info = StringTable.Localize (item.infoText, true);
+        }
+
+        if ((item.itemType & IT_BuySellItem) != 0) {
+            string costString = "";
+
+            let itemInfo = item.GetInfo (S7_BasePlayer (CPlayer.mo), 1);
+
+            if (!sellMode && (item.itemType & IT_BuyItem))
+                costString = GetCostString (itemInfo.buyPrice, sellMode);
+            else if (sellMode && (item.itemType & IT_SellItem))
+                costString = GetCostString (itemInfo.sellPrice, sellMode);
+
+            if (costString != "")
+                desc = String.Format ("%s\n\n%s", costString, desc);
         }
 
         if (descLabel)
@@ -344,22 +380,18 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             infoLabel.text = info;
     }
 
-    void Hover (S7_SSItem item) {
-        string desc = "";
-        string info = "";
-
-        if (item && (item.descShowType & DS_Hover)) {
-            desc = StringTable.Localize (item.description, true);
-            info = StringTable.Localize (item.infoText, true);
+    void Select (S7_SSItem item) {
+        if (item && (item.descShowType & DS_Select))
+            SetDescription (item);
+        else if (!item) {
+            descLabel.text = "";
+            infoLabel.text = "";
         }
+    }
 
-        if (!desc.Length () && !info.Length ())
-            return;
-
-        if (descLabel)
-            descLabel.text = desc;
-        if (infoLabel)
-            infoLabel.text = info;
+    void Hover (S7_SSItem item) {
+        if (item && (item.descShowType & DS_Hover))
+            SetDescription (item);
     }
 }
 

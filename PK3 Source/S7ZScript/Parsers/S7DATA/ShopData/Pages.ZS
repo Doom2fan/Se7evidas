@@ -34,6 +34,8 @@ extend class S7_S7DataParser {
         bool nameParsed            = false,
              cashLabelFormatParsed = false,
              cashTypeShownParsed   = false,
+             buyCostLabelParsed    = false,
+             sellCostLabelParsed   = false,
              backPageParsed        = false;
 
         // We're going to keep reading tokens until we hit a closing brace '}'
@@ -76,6 +78,28 @@ extend class S7_S7DataParser {
                 } else {
                     ParseAssignment (pageData.cashTypeShown, VT_String);
                     cashTypeShownParsed = true;
+                }
+            break;
+
+            case 'buyCostLabel':
+                if (buyCostLabelParsed) {
+                    m_ParsingException = S7_ParsingException.Create ("\"buyCostLabel\" was encountered twice", "S7_S7DataParser.ParseShop_Page", m_ParsingException);
+                    pageData.Destroy ();
+                    return;
+                } else {
+                    ParseAssignment (pageData.buyCostLabel, VT_String);
+                    buyCostLabelParsed = true;
+                }
+            break;
+
+            case 'sellCostLabel':
+                if (sellCostLabelParsed) {
+                    m_ParsingException = S7_ParsingException.Create ("\"sellCostLabel\" was encountered twice", "S7_S7DataParser.ParseShop_Page", m_ParsingException);
+                    pageData.Destroy ();
+                    return;
+                } else {
+                    ParseAssignment (pageData.sellCostLabel, VT_String);
+                    sellCostLabelParsed = true;
                 }
             break;
 

@@ -4,6 +4,8 @@ shop "mainShop" {
 
     cashLabelFormat = "$SS_CASHFORMAT";
     cashTypeShown   = "S7_Cash";
+    buyCostLabel    = "$SS_COSTLABEL";
+    sellCostLabel   = "$SS_COSTLABEL";
     defCashItem     = "S7_Cash";
 
     pages {
