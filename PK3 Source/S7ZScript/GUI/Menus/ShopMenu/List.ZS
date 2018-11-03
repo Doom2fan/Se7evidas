@@ -58,6 +58,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
             link.SetPage (page);
 
             link.selectedItem = NULL;
+            link.hoveredItem = NULL;
         } else if (link.selectedItem != item) { // If the item isn't already selected
             list.Select (item);
             link.selectedItem = item;

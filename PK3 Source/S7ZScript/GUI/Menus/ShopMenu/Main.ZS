@@ -214,6 +214,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                         SetPage (backPage);
 
                         selectedItem = NULL;
+                        hoveredItem = NULL;
                         return true;
                     } else
                         return false;
