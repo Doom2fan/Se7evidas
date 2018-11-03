@@ -286,23 +286,25 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         }
 
         if ((!sellMode && cash < price) || // If buying, check if there's not enough money
-            (sellMode && (cash + price) >= maxCash) // If selling, check if there's too much money
+            ( sellMode && (cash + price) >= maxCash) // If selling, check if there's too much money
         ) {
             priceLabel.textColor = Font.CR_DARKRED;
             acceptButton.textColor = Font.CR_DARKGRAY;
 
             acceptButton.disabled = true;
-        } else if (
+        }
+        if (
             (!sellMode && (selectedItem.GetAmount (pPawn) + total) > info.maxAmount) || // If buying, check if there's too much of the item
-            (sellMode && total > selectedItem.GetAmount (pPawn)) // If selling, check if there's not enough of the item
+            ( sellMode && total > selectedItem.GetAmount (pPawn)) // If selling, check if there's not enough of the item
         ) {
             selAmount.textColor = Font.CR_DARKRED;
             totalAmount.textColor = Font.CR_DARKRED;
             acceptButton.textColor = Font.CR_DARKGRAY;
 
             acceptButton.disabled = true;
-        } else if ((!sellMode && !selectedItem.CanBuy  (pPawn, amount)) ||
-                    (sellMode && !selectedItem.CanSell (pPawn, amount)))
+        }
+        if ((!sellMode && !selectedItem.CanBuy  (pPawn, amount)) ||
+            ( sellMode && !selectedItem.CanSell (pPawn, amount)))
             acceptButton.disabled = true;
 
         bool noShowQuant = info.maxAmount == 1;
