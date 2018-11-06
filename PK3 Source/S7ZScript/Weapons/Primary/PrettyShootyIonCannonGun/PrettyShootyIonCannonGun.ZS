@@ -92,7 +92,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             let proj = S7_IonCannonProjectile (A_FireProjectile (proj, 0.0, useAmmo, 6, -3.3));
 
             if (proj)
-                proj.damageBonus = invoker.GetDamageBonus ();
+                proj.bonusDamage = invoker.GetDamageBonus ();
         }
 
         return canFire;
@@ -171,7 +171,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                 let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRail', fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
 
                 if (proj)
-                    proj.damageBonus = invoker.GetDamageBonus ();
+                    proj.bonusDamage = invoker.GetDamageBonus ();
             }
 
             A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4, 0);
@@ -209,7 +209,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                     let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRailAlt', fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
 
                     if (proj)
-                        proj.damageBonus = invoker.GetDamageBonus ();
+                        proj.bonusDamage = invoker.GetDamageBonus ();
                 }
             } else {
                 if (!FireMainProjectile ('S7_IonCannonProjectileAlt', false))
@@ -306,7 +306,7 @@ class S7_IonCannonInverse : Inventory {
 //-------------------------------------------------------------------------------------------
 class S7_IonCannonProjectile : S7_BaseTracer {
     double realDamage;
-    double damageBonus;
+    double bonusDamage;
 
     default {
         S7_Projectile.fastProjCollision ColMode_Center | ColMode_Corners | ColMode_EdgeCenters;
@@ -316,7 +316,7 @@ class S7_IonCannonProjectile : S7_BaseTracer {
         Height 16;
         Speed 20;
         Scale 0.235;
-        DamageFunction int (ceil (realDamage * damageBonus));
+        DamageFunction int (ceil (realDamage * (1 + bonusDamage)));
         DamageType 'IonCannonMain';
         MissileType 'S7_IonCannonProjectileTrail';
         Decal 'S7_IonCannon';
@@ -392,7 +392,7 @@ class S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
 class S7_IonCannonRail : S7_BaseTracer {
     double realDamage;
     int realDistTrav;
-    double damageBonus;
+    double bonusDamage;
 
     default {
         S7_BaseTracer.TrueSpeed 125;
@@ -402,7 +402,7 @@ class S7_IonCannonRail : S7_BaseTracer {
         Alpha 1.0;
         Scale 0.08;
         Decal 'S7_IonCannonRail';
-        DamageFunction int (ceil (realDamage * damageBonus));
+        DamageFunction int (ceil (realDamage * (1 + bonusDamage)));
         DamageType 'IonCannonRail';
         MissileType 'S7_IonCannonRailEffectSpawner';
 

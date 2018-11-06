@@ -599,7 +599,7 @@ class S7_LaserPewPew_Tracer : S7_BaseTracer {
     double bonusDamage;
 
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8 * (1-bonusDamage));
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8 * (1+bonusDamage));
         S7_BaseTracer.TrueSpeed 310;
         DamageType 'LaserTracer';
         Scale 0.0125;
