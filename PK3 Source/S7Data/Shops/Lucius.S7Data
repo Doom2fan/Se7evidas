@@ -631,6 +631,16 @@ shop "mainShop" {
                     inventoryName = "S7_Thumper";
                     buyPrice = 15000;
                     sellPrice = 11250;
+                },
+                buySellItem "THMP" {
+                    name = "$SHORTIONCANNON";
+                    desc = "$SS_IONCANNONDESC";
+                    info = "$SS_IONCANNONINFO";
+                    icon = "sprites/Weapons/Primary/PrettyShootyIonCannonGun/PIC1Z0.png";
+
+                    inventoryName = "S7_PrettyShootyIonCannonGun";
+                    buyPrice = 25000;
+                    sellPrice = 18750;
                 }
             }
         },

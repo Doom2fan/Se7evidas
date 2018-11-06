@@ -4,4 +4,4 @@ Sprites:
     HUD Sprites: Blox, Captain J, Kronos, LucasArts, chronoteeth, Chronos "phantombeta" Ouroboros (Edits)
     Animation: Chronos "phantombeta" Ouroboros
 
-Sounds: None yet :P
+Sounds: Credits in the SNDINFO file
