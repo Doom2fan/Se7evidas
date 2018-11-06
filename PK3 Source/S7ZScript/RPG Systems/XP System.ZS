@@ -223,7 +223,7 @@ class S7_XPSystem : Inventory {
             return;
 
         if (canLevelUp) {
-            int reqXP = int (BaseXPGoal * (1.0 + 2 * level)),
+            int reqXP = int (BaseXPGoal * (1.0 + .75 * level)),
                 nextLevel = level + 1;
 
             if (xpPoints >= reqXP && level < S7_MaxLevel) {
