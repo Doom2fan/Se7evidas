@@ -39,14 +39,14 @@ extend class S7_BasePlayer {
         else if (name ~== "everything")
             giveall = ALL_YESYES;
 
-        if (giveall == ALL_YESYES || name ~== "levels") {
-            xpSys.GiveXP (int.max);
+        if (name ~== "levels") {
+            xpSys.GiveXP (amount);
 
             if (!giveall)
                 return;
         }
 
-        if (giveall == ALL_YESYES || name ~== "attrPoints") {
+        if (name ~== "attrPoints") {
             xpSys.attrPoints += amount;
 
             if (!giveall)
