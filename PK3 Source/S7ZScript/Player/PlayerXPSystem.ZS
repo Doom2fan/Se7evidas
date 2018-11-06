@@ -58,7 +58,8 @@ class S7_PlayerXPSystem : S7_XPSystem {
             }
         }
 
-        Owner.A_PlaySound ("Player/LevelUp", CHAN_UI);
+        CVar globalLevelUpSoundsCVar = CVar.GetCVar ("S7_GlobalLevelUpSounds", players [consoleplayer]);
+        Owner.A_PlaySound ("Player/LevelUp", CHAN_Body, volume: .75, local: (!globalLevelUpSoundsCVar || !globalLevelUpSoundsCVar.GetBool ()));
     }
 
     override void DoEffect () {

@@ -118,6 +118,7 @@ optionMenu "S7Settings_User" {
     staticText " "
     staticText "Audio Options", 1
     option "Heartbeats on",                                                                         "S7_HeartbeatsOn",              "OnOff"
+    option "Global level up chimes",                                                                "S7_GlobalLevelUpSounds",       "OnOff"
 
     staticText " "
     staticText "Performance Options", 1

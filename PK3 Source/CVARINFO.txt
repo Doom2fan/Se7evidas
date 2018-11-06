@@ -12,6 +12,7 @@ server noarchive bool S7_Debug_NoRecoil = FALSE;
 /** User CVars **/
 user bool S7_MsgsOn                     = TRUE;
 user bool S7_LogLVLUpMsgs               = TRUE;
+user bool S7_GlobalLevelUpSounds        = FALSE;
 user bool S7_AutoReloading              = TRUE;
 user bool S7_HeartbeatsOn               = TRUE;
 user int  S7_HUDType                    = 1;
