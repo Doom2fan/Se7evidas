@@ -227,11 +227,11 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         goto Fire.Anim;
 
     CantFire:
-        PIC1 A 1 A_PlaySound ("Weapons/PSICG/Error", CHAN_6);
+        PIC1 A 1 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Error", CHAN_6);
         goto Ready2;
 
     DryFire:
-        PIC1 A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        PIC1 A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
                 return S7_DoReload ();

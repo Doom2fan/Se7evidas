@@ -296,7 +296,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     DryFire:
         MANX A 3 {
-            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
 
             if (invoker.zoomed)
                 return ResolveState ("DryFire.Zoom");

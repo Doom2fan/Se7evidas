@@ -126,7 +126,7 @@ class S7_Fauchard : S7_BaseWeapon {
         stop;
 
     DryFire:
-        LSRF A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        LSRF A 3 A_PlaySound ("Weapons/DryFireLaser", CHAN_7);
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
 

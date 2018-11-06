@@ -284,7 +284,7 @@ class S7_Thumper : S7_BaseWeapon {
         stop;
 
     DryFire:
-        THMP A 1;
+        THMP A 1 A_PlaySound ("Weapons/Thumper/Dryfire", CHAN_7);
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading")) {
                 GiveInventory ('S7_Reloading', 1);

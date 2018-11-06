@@ -1,5 +1,6 @@
 Weapons/Thumper/Fire             "sounds/Weapons/Primary/Thumper/Fire.ogg"          // By Chronos "phantombeta" Ouroboros. Made from sounds from Quake 4 and Wolfenstein: Enemy Territory.
 Weapons/Thumper/Pump             "sounds/Weapons/Primary/Thumper/Pump.ogg"          // From Quake 4. Edited by Chronos "phantombeta" Ouroboros.
+Weapons/Thumper/Dryfire          "sounds/Weapons/Primary/Thumper/Dryfire.ogg"       // From Killing Floor. Ripped by marrub.
 
 $RANDOM Weapons/Thumper/ShellIn {
     Weapons/Thumper/ShellIn1

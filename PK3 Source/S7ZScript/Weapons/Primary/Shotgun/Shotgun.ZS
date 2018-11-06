@@ -237,7 +237,7 @@ class S7_Shotgun : S7_BaseWeapon {
         goto Ready2;
 
     DryFire:
-        SSGR A 3 A_PlaySound ("Weapons/Misc/DryFire", CHAN_7);
+        SSGR A 3 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading")) {
                 GiveInventory ('S7_Reloading', 1);

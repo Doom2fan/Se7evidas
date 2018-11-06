@@ -1,4 +1,8 @@
 Weapons/ModeChange                                    "sounds/Weapons/Misc/ModeChange.ogg"
-Weapons/DryFirePistol                                 "sounds/Weapons/Misc/DryFirePistol.ogg" // From Quake 4
-Weapons/DryFireRifle                                  "sounds/Weapons/Misc/DryFireRifle.ogg"  // From Counter-Strike: Condition Zero
-Weapons/GrenadePinPull                                "sounds/Weapons/Misc/PinPull.ogg"       // From Counter-Strike
+Weapons/DryFirePistol                                 "sounds/Weapons/Misc/DryFirePistol.ogg"  // From Quake 4
+Weapons/DryFireRifle                                  "sounds/Weapons/Misc/DryFireRifle.ogg"   // From Counter-Strike: Condition Zero
+Weapons/DryFireSMG                                    "sounds/Weapons/Misc/DryFireSMG.ogg"     // From Killing Floor. Ripped by marrub
+Weapons/DryFireShotgun                                "sounds/Weapons/Misc/DryFireShotgun.ogg" // Ditto
+Weapons/DryFirePlasma                                 "sounds/Weapons/Misc/DryFirePlasma.ogg"  // Ditto
+Weapons/DryFireLaser                                  "sounds/Weapons/Misc/DryFireLaser.ogg"   // By revo794
+Weapons/GrenadePinPull                                "sounds/Weapons/Misc/PinPull.ogg"        // From Counter-Strike

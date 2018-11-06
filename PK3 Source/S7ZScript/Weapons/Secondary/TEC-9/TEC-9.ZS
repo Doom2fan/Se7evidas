@@ -152,7 +152,7 @@ class S7_TEC9 : S7_BaseWeapon {
     DryFire:
         TEC9 B 1 {
             invoker.burstCount = 0;
-            A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
+            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
             A_ClearRefire ();
         }
         TEC9 A 3;

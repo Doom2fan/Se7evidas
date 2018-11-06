@@ -155,13 +155,13 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
     DryFire:
         PLSG A 3 {
-            A_PlaySound ("Weapons/Misc/Dryfire", CHAN_7);
+            A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
             A_WeaponOffset (0, 32);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
     DryFire.Alt:
-        PLSG A 3 A_PlaySound ("Weapons/Misc/Dryfire", CHAN_7);
+        PLSG A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
         goto Ready2;
 
     Reload:

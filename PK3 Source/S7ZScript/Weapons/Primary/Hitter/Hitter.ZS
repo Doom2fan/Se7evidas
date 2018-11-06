@@ -88,13 +88,13 @@ class S7_HitterSMG : S7_BaseWeapon {
                 A_FireProjectile ('S7_45ACPCasingSpawn', 0, 0, 9, -2);
                 A_FireProjectile ('S7_HitterSMGTracer', fRandom [weaponSpread] (-0.5, 0.5), 1, 3, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
             } else
-                A_PlaySound ("Weapons/DryFirePistol", CHAN_6);
+                A_PlaySound ("Weapons/DryFireSMG", CHAN_6);
 
             if (!invoker.lowerJammed) {
                 A_FireProjectile ('S7_45ACPCasingSpawn', 0, 0, 9, -2);
                 A_FireProjectile ('S7_HitterSMGTracer', fRandom [weaponSpread] (-0.5, 0.5), 1, 2, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
             } else
-                A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
+                A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
 
             if (invoker.upperJammed)
                 A_GunFlash ("Flash.UpperJammed");
@@ -128,13 +128,13 @@ class S7_HitterSMG : S7_BaseWeapon {
         goto Ready2;
 
     DryFire:
-        SR20 A 3 A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
+        SR20 A 3 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
         goto Ready2;
     DryFire.Firing:
         SR20 A    1 {
             A_ClearRefire ();
-            A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
+            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
         }
         SR20 EDCB 1;
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
@@ -143,7 +143,7 @@ class S7_HitterSMG : S7_BaseWeapon {
     DoubleJammed:
         SR20 A     1 {
             A_ClearRefire ();
-            A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
+            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
         }
         SR20 CEDCB 1;
         SR20 A     1;
