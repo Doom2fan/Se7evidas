@@ -317,8 +317,8 @@ class S7_BaseWeapon : Weapon {
         wait;
     DaggerMelee1:
         DAG1 ABCD 1;
-        DAG1 E    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
-        DAG1 F    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
+        DAG1 E    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
+        DAG1 F    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
         DAG1 G    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
         DAG1 H    1;
         TNT1 A    5;
@@ -326,8 +326,8 @@ class S7_BaseWeapon : Weapon {
         wait;
     DaggerMelee2:
         DAG2 AB  1;
-        DAG2 C   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
-        DAG2 D   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
+        DAG2 C   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
+        DAG2 D   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
         DAG2 EF  1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
         DAG2 GH  1;
         TNT1 A   5;
@@ -471,14 +471,16 @@ class S7_MeleePuffStrong : S7_MeleePuff {
 class S7_DaggerPuff : S7_MeleePuff {
     default {
         DamageType 'Blade';
-        AttackSound "Weapons/Tridagger/HitWall";
         ActiveSound "Weapons/Tridagger/Swing";
+        AttackSound "Weapons/Tridagger/HitWall";
+        SeeSound "Weapons/Tridagger/HitFlesh";
     }
 }
 class S7_DaggerPuffSilent : S7_DaggerPuff {
     default {
-        AttackSound "";
         ActiveSound "";
+        AttackSound "";
+        SeeSound "";
     }
 }
 

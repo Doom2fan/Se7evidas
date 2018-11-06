@@ -14,11 +14,31 @@ $RANDOM Weapons/Tridagger/Swing {
     Weapons/Tridagger/Swing1
     Weapons/Tridagger/Swing2
     Weapons/Tridagger/Swing3
+    Weapons/Tridagger/Swing4
 }
-Weapons/Tridagger/Swing1        "sounds/Weapons/Quick Melee/Tridagger/Swing1.ogg"
-Weapons/Tridagger/Swing2        "sounds/Weapons/Quick Melee/Tridagger/Swing2.ogg"
-Weapons/Tridagger/Swing3        "sounds/Weapons/Quick Melee/Tridagger/Swing3.ogg"
-$LIMIT Weapons/Tridagger/Swing 1
-$LIMIT Weapons/Tridagger/Swing1 1
-$LIMIT Weapons/Tridagger/Swing2 1
-$LIMIT Weapons/Tridagger/Swing3 1
+Weapons/Tridagger/Swing1        "sounds/Weapons/Quick Melee/Tridagger/Swing1.ogg" // From Killing Floor. Ripped by marrub.
+Weapons/Tridagger/Swing2        "sounds/Weapons/Quick Melee/Tridagger/Swing2.ogg" // Ditto.
+Weapons/Tridagger/Swing3        "sounds/Weapons/Quick Melee/Tridagger/Swing3.ogg" // Ditto.
+Weapons/Tridagger/Swing4        "sounds/Weapons/Quick Melee/Tridagger/Swing4.ogg" // Ditto.
+
+$RANDOM Weapons/Tridagger/HitWall {
+    Weapons/Tridagger/HitWall1
+    Weapons/Tridagger/HitWall2
+    Weapons/Tridagger/HitWall3
+    Weapons/Tridagger/HitWall4
+}
+Weapons/Tridagger/HitWall1        "sounds/Weapons/Quick Melee/Tridagger/HitWall1.ogg" // From Killing Floor. Ripped by marrub.
+Weapons/Tridagger/HitWall2        "sounds/Weapons/Quick Melee/Tridagger/HitWall2.ogg" // Ditto.
+Weapons/Tridagger/HitWall3        "sounds/Weapons/Quick Melee/Tridagger/HitWall3.ogg" // Ditto.
+Weapons/Tridagger/HitWall4        "sounds/Weapons/Quick Melee/Tridagger/HitWall4.ogg" // Ditto.
+
+$RANDOM Weapons/Tridagger/HitFlesh {
+    Weapons/Tridagger/HitFlesh1
+    Weapons/Tridagger/HitFlesh2
+    Weapons/Tridagger/HitFlesh3
+    Weapons/Tridagger/HitFlesh4
+}
+Weapons/Tridagger/HitFlesh1        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh1.ogg" // From Killing Floor. Ripped by marrub.
+Weapons/Tridagger/HitFlesh2        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh2.ogg" // Ditto.
+Weapons/Tridagger/HitFlesh3        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh3.ogg" // Ditto.
+Weapons/Tridagger/HitFlesh4        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh4.ogg" // Ditto.
