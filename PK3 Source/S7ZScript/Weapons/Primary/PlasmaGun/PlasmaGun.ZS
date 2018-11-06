@@ -124,8 +124,8 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 3);
-            let proj = S7_PlasmaGunRail (A_FireProjectile ('S7_PlasmaGunRail', fRandom [weaponSpread] (-0.275, 0.275), 1, 6, -4, 0, fRandom [weaponSpread] (-0.275, 0.275)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 3);
+            let proj = S7_PlasmaGunRail (A_FireProjectile ('S7_PlasmaGunRail', fRandom [weaponSpread] (-0.275, 0.275), true, 6, -4, 0, fRandom [weaponSpread] (-0.275, 0.275)));
 
             if (proj)
                 proj.damageBonus = invoker.GetDamageBonus ();
@@ -220,7 +220,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
                 proj.damageBonus = invoker.GetDamageBonus ();
 
             for (int i = 0; i < (invoker.charge + 1); i++)
-                A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 3);
+                A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 3);
 
             A_WeaponOffset (8, 40);
             A_GunFlash ("Flash.Charged");

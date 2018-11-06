@@ -218,7 +218,7 @@ class S7_Thumper : S7_BaseWeapon {
             A_GunFlash ();
 
             A_FireProjectile (projType, 0, 0, 8, -5, 0, -3.0);
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4.25, 3.25);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4.25, 3.25);
             invoker.chambered = false;
 
             S7_Recoil (-1.65);

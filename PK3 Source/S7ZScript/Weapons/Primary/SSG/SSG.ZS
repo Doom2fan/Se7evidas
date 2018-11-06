@@ -83,16 +83,16 @@ class S7_SSG : S7_BaseWeapon {
 
     action void S7_FireSSG (bool right) {
         if (!right) {
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1, 1.5);
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 1, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1, 1.5);
             for (int i = 0; i < 9; i++)
-                A_FireProjectile ('S7_12gaTracer', fRandom [weaponSpread] (-0.35, 0.35), 1, 2, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
+                A_FireProjectile ('S7_12gaTracer', fRandom [weaponSpread] (-0.35, 0.35), true, 2, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.leftLoaded = false;
         } else {
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 1.5);
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 1.5);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 1.5);
             for (int i = 0; i < 9; i++)
-                A_FireProjectile ('S7_12gaTracer', fRandom [weaponSpread] (-0.35, 0.35), 1, 5, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
+                A_FireProjectile ('S7_12gaTracer', fRandom [weaponSpread] (-0.35, 0.35), true, 5, -8, 0, fRandom [weaponSpread] (-0.35, 0.35));
             invoker.rightLoaded = false;
         }
     }
@@ -283,8 +283,8 @@ class S7_SSG : S7_BaseWeapon {
 
     LoadBoth:
         SSG0 F         1 {
-            A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 4, -16);
-            A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 7, -18);
+            A_FireProjectile ('S7_12gaShellCasingSpawn', 0, false, 4, -16);
+            A_FireProjectile ('S7_12gaShellCasingSpawn', 0, false, 7, -18);
         }
         SSG0 GHIJKLMNO 1;
         SSG0 P         1 {
@@ -305,7 +305,7 @@ class S7_SSG : S7_BaseWeapon {
         goto ReloadEnd;
 
     LoadLeft:
-        SSG3 A         1 A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 4, -16);
+        SSG3 A         1 A_FireProjectile ('S7_12gaShellCasingSpawn', 0, false, 4, -16);
         SSG3 BCDEFHIJK 1;
         SSG0 Q         4 {
             A_PlaySound ("Weapons/SSG/In", CHAN_6);
@@ -317,7 +317,7 @@ class S7_SSG : S7_BaseWeapon {
         goto ReloadEnd;
 
     LoadRight:
-        SSG2 A      1 A_FireProjectile ('S7_12gaShellCasingSpawn', 0, 0, 7, -18);
+        SSG2 A      1 A_FireProjectile ('S7_12gaShellCasingSpawn', 0, false, 7, -18);
         SSG2 BCDE   1;
         SSG0 WXYZ   1;
         SSG1 A      1;

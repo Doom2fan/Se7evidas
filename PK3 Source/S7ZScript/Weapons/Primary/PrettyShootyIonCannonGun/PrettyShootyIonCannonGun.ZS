@@ -53,7 +53,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     action bool FireMainProjectile (class<S7_IonCannonProjectile> proj, bool useAmmo = true) {
         bool canFire = true;
 
-        let act = A_FireProjectile ('S7_IonCannonSpaceTester', 0.0, 0, 6, -3.3);
+        let act = A_FireProjectile ('S7_IonCannonSpaceTester', 0.0, false, 6, -3.3);
         if (act) {
             Vector3 startPos = act.pos;
             Vector3 stepSize = act.vel;
@@ -168,13 +168,13 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                 return ResolveState ("CantFire");
 
             for (int i = 0; i < 5; i++) {
-                let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRail', fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
+                let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRail', fRandom [weaponSpread] (-1.5, 1.5), false, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
 
                 if (proj)
                     proj.bonusDamage = invoker.GetDamageBonus ();
             }
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4, 0);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4, 0);
             A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 
@@ -190,8 +190,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 D        1 A_WeaponOffset (2, 34, WOF_Interpolate);
         TNT1 A        0 A_WeaponReady (WRF_DisableSwitch | WRF_DisableSwitch | WRF_NoFire);
         PIC1 EFG      1;
-        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
-        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, false, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, false, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
         PIC1 G        4;
         PIC1 FEDCBA   2;
         PIC1 A        5;
@@ -206,7 +206,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 
             if (!invoker.altFireType2) {
                 for (int i = 0; i < 7; i++) {
-                    let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRailAlt', fRandom [weaponSpread] (-1.5, 1.5), 0, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
+                    let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRailAlt', fRandom [weaponSpread] (-1.5, 1.5), false, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
 
                     if (proj)
                         proj.bonusDamage = invoker.GetDamageBonus ();
@@ -216,7 +216,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                     return ResolveState ("CantFire");
             }
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 4, 0);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4, 0);
             A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 

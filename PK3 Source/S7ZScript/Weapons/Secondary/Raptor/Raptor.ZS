@@ -80,9 +80,9 @@ class S7_Raptor : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3, 3.75);
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3, 3.75);
             for (int i = 0; i < 2; i++) {
-                A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 7, -2);
+                A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 7, -2);
                 A_FireProjectile ('S7_RaptorTracer', fRandom [weaponSpread] (-0.4, 0.4), (i == 0), 5, 0, 0, fRandom [weaponSpread] (-0.4, 0.4));
             }
 

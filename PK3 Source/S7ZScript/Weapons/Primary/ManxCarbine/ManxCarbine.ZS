@@ -180,9 +180,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 3.75, 1.75);
-            A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 15, -9);
-            A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.25, 0.25), 1, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3.75, 1.75);
+            A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 15, -9);
+            A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.25, 0.25), true, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
             S7_Recoil (-0.5);
 
             return ResolveState (null);
@@ -201,9 +201,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     Fire.Zoom:
         SCP1 D 1 {
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 0, 0);
-            A_FireProjectile ('S7_9mmCasingSpawn', 0, 0, 8, -8);
-            A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.24, 0.24), 1, 0, -3, 0, fRandom [weaponSpread] (-0.24, 0.24));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 0, 0);
+            A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 8, -8);
+            A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.24, 0.24), true, 0, -3, 0, fRandom [weaponSpread] (-0.24, 0.24));
 
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
             S7_Recoil (-0.5);

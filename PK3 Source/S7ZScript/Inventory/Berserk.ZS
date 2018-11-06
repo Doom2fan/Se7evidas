@@ -148,7 +148,7 @@ class S7_BerserkWeap : S7_BaseWeapon {
         SYR2 HIJKL      1;
         TNT1 A          0;
         SYR2 MN         1;
-        SYR2 O          1 A_FireProjectile ('S7_SpentSyringe', 0, 0, 0, 0);
+        SYR2 O          1 A_FireProjectile ('S7_SpentSyringe', 0, false, 0, 0);
         SYR2 PQR        1;
         TNT1 A          8;
         goto Ready;

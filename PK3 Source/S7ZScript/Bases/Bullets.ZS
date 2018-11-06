@@ -20,7 +20,7 @@
 // Credits:
 // Coding: WildWeasel, Chronos "phantombeta" Ouroboros
 // Sprites: Chronos "phantombeta" Ouroboros
-// Weapons: A_FireProjectile (tracerName, fRandom [weaponSpread] (-, horizontalSpread), 1, horizontalOffset, verticalOffset, 0, fRandom [weaponSpread] (-, verticalSpread))
+// Weapons: A_FireProjectile (tracerName, fRandom [weaponSpread] (-, horizontalSpread), true, horizontalOffset, verticalOffset, 0, fRandom [weaponSpread] (-, verticalSpread))
 // Monsters: A_SpawnProjectile (tracerName, verticalOffset, horizontalOffset, fRandom [monsterSpread] (-, horizontalSpread), 0, fRandom [monsterSpread] (-, verticalSpread))
 
 //-------------------------------------------------------------------------------------------

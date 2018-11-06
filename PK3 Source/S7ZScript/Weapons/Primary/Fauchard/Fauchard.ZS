@@ -93,8 +93,8 @@ class S7_Fauchard : S7_BaseWeapon {
             A_PlaySound ("Weapons/Fauchard/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             A_AlertMonsters ();
             A_GunFlash ();
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 4);
-            let proj = S7_FauchardTracer (A_FireProjectile ('S7_FauchardTracer', fRandom [weaponSpread] (-0.14, 0.14), 1, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14)));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 4);
+            let proj = S7_FauchardTracer (A_FireProjectile ('S7_FauchardTracer', fRandom [weaponSpread] (-0.14, 0.14), true, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14)));
 
             if (proj)
                 proj.bonusDamage = invoker.GetDamageBonus ();

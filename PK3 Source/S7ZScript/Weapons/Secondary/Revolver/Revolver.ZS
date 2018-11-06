@@ -83,8 +83,8 @@ class S7_Revolver : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, 0, 2, 5);
-            A_FireProjectile ('S7_RevolverTracer', fRandom [weaponSpread] (-0.5, 0.5), 1, 5, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
+            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 5);
+            A_FireProjectile ('S7_RevolverTracer', fRandom [weaponSpread] (-0.5, 0.5), true, 5, 2, 0, fRandom [weaponSpread] (-0.5, 0.5));
 
             S7_Recoil (-1.75);
 
@@ -133,8 +133,8 @@ class S7_Revolver : S7_BaseWeapon {
         RVLV T     1 {
             A_PlaySound ("Weapons/Revolver/Eject", CHAN_6);
             for (int i = 0; i < 3; i++) {
-                A_FireProjectile ('S7_RevolverCasingSpawn', 0, 0, 8 + i, -2);
-                A_FireProjectile ('S7_RevolverCasingSpawn', 0, 0, 8 + i, -3);
+                A_FireProjectile ('S7_RevolverCasingSpawn', 0, false, 8 + i, -2);
+                A_FireProjectile ('S7_RevolverCasingSpawn', 0, false, 8 + i, -3);
             }
         }
         RVLV U     5;
