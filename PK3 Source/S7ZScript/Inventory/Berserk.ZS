@@ -103,25 +103,26 @@ class S7_BerserkWeap : S7_BaseWeapon {
             TakeInventory ('S7_Reloading', 0x7FFFFFFF);
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
-            A_WeaponReady ();
+            A_WeaponReady (CheckInventory ('S7_Berserk', 1) ? WRF_NoPrimary : 0);
 
             return ResolveState (null);
         }
         goto Ready2;
 
     Deselect:
-        SYR1 A 1 A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
+        SYR1 A 1 {
+            A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
+            return CountInv ('S7_Berserk') <= 0 ? ResolveState ("TrueDeselect") : ResolveState (null);
+        }
         SYR1 A 1 A_WeaponOffset (-12.8 * 2, 32 + (12.8 * 2));
         SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
         SYR1 A 1 A_WeaponOffset (-12.8 * 4, 32 + (12.8 * 4));
         SYR1 A 1 A_WeaponOffset (-12.8 * 5, 32 + (12.8 * 5));
         TNT1 A 0 A_WeaponOffset (0, 32);
-
-        TNT1 A 0 A_Lower;
-        wait;
+        goto TrueDeselect;
 
     Fire:
-        SYR1 A          3 A_JumpIf (!invoker.CheckAmmo (PrimaryFire, false, true) || CheckInventory ('S7_BerserkToken', 1), "Ready2");
+        SYR1 A          3 A_JumpIf (!CheckInventory ('S7_Berserk', 1) || CheckInventory ('S7_BerserkToken', 1), "Ready2");
         SYR1 CDD        3;
         SYR1 EFGHI      1;
         SYR1 J          5;
