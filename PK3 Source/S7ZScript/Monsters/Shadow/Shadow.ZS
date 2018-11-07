@@ -29,6 +29,8 @@ class S7_ShadowDemon : S7_Mechdemon {
         Obituary "$OBSHADOW";
         Species 'Mechdemon';
         Tag "$SHADOWTAG";
+
+        +CANTSEEK
     }
 
     override void Tick () {
