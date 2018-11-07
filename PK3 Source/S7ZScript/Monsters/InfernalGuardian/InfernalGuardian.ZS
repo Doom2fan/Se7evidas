@@ -41,7 +41,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         DamageFactor "ExplosionSplashDMG", 0.75;
         DamageFactor "Shrapnel", 0.85;
 
-        +BOSSDEATH
+        +BOSSDEATH +MISSILEMORE
     }
 
     S7_XPSystem xpSys;
