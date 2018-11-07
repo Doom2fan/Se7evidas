@@ -632,7 +632,7 @@ shop "mainShop" {
                     buyPrice = 15000;
                     sellPrice = 11250;
                 },
-                buySellItem "THMP" {
+                buySellItem "GTX2" {
                     name = "$SHORTIONCANNON";
                     desc = "$SS_IONCANNONDESC";
                     info = "$SS_IONCANNONINFO";
