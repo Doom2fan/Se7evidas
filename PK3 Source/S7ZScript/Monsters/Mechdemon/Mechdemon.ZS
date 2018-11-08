@@ -22,6 +22,8 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_Mechdemon : S7_DemonBase {
+    const S7_ChargeSpeed = 25;
+
     default {
         Health 150;
         GibHealth -75;
@@ -32,17 +34,20 @@ class S7_Mechdemon : S7_DemonBase {
         Height 56;
         Speed 10;
 
-        SeeSound "Monsters/MechDemon/Sight";
-        ActiveSound "Monsters/MechDemon/Active";
-        PainSound "Monsters/MechDemon/Pain";
-        DeathSound "Monsters/MechDemon/Death";
+        SeeSound "Monsters/Mechdemon/Sight";
+        ActiveSound "Monsters/Mechdemon/Active";
+        PainSound "Monsters/Mechdemon/Pain";
+        DeathSound "Monsters/Mechdemon/Death";
 
         Obituary "$OBMECHDEMON";
         Species 'Mechdemon';
         Tag "$MECHDEMONTAG";
+
+        +MISSILEMORE +MISSILEEVENMORE
     }
 
     S7_XPSystem xpSys;
+    int chargeCooldown;
 
     override void PostBeginPlay () {
         if (!xpSys) {
@@ -77,6 +82,9 @@ class S7_Mechdemon : S7_DemonBase {
         // Vitality
         startHealth = int (health * (1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality))));
         health = startHealth;
+
+        // Misc
+        chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
     }
 
     override void Tick () {
@@ -105,27 +113,71 @@ class S7_Mechdemon : S7_DemonBase {
         }
     }
 
+    action void S7_DoChase (int tics) {
+        StateLabel missileLabel = null;
+
+        double distance = target ? Distance2D (target) : double.NaN;
+        if (invoker.chargeCooldown <= 0 && distance > 32 && distance < 512)
+            missileLabel = "Missile";
+
+        A_S7Chase ("Melee", missileLabel);
+        invoker.chargeCooldown = max (invoker.chargeCooldown - tics, 0);
+    }
+
+    action state S7_DoCharge () {
+        Vector3 oldPos = pos;
+
+        if (!TryMove (pos.XY + AngleToVector (angle, S7_ChargeSpeed), true, false)) {
+            if (BlockingMobj) {
+                BlockingMobj.DamageMobj (self, self, random [monsterDMG] (5, 15), "Melee");
+                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
+
+                return ResolveState ("See");
+            }
+
+            if (BlockingLine) {
+                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
+                return ResolveState ("See");
+            }
+        }
+
+        Prev = oldPos;
+        
+        return ResolveState (null);
+    }
+
     states {
     Spawn:
         MDMN A 10 A_S7Look;
         loop;
     See:
         TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
-        MDMN AA 2 A_S7ChaseDef;
-        MDMN BB 2 A_S7ChaseDef;
+        MDMN AA 2 S7_DoChase (2);
+        MDMN BB 2 S7_DoChase (2);
         TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
-        MDMN CC 2 A_S7ChaseDef;
-        MDMN DD 2 A_S7ChaseDef;
+        MDMN CC 2 S7_DoChase (2);
+        MDMN DD 2 S7_DoChase (2);
         loop;
 
     Melee:
-        TNT1 A      0 A_PlaySound ("Monsters/MechDemon/Attack", CHAN_Voice);
+        TNT1 A      0 A_PlaySound ("Monsters/Mechdemon/Attack", CHAN_Voice);
         MDMN EEEFF  2 Fast A_FaceTarget ();
         MDMN G      4 Fast {
             A_FaceTarget ();
             A_CustomMeleeAttack (int (fRandom (2, 10) * 4), "", "", 'Bite');
         }
-        Goto See;
+        goto See;
+
+    Missile:
+        MDMN AAAA 0 A_FaceTarget (0, 0);
+    Charge.RunLoop:
+        TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
+        MDMN AA 2 S7_DoCharge ();
+        MDMN BB 2 S7_DoCharge ();
+        TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
+        MDMN CC 2 S7_DoCharge ();
+        MDMN DD 2 S7_DoCharge ();
+        loop;
 
     Pain:
         MDMN H 2;

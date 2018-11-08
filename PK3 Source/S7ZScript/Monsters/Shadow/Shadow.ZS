@@ -48,4 +48,9 @@ class S7_ShadowDemon : S7_Mechdemon {
 
         Super.Tick ();
     }
+
+    states {
+    Missile:
+        stop;
+    }
 }
