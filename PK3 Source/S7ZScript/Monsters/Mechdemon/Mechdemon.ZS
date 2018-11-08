@@ -113,11 +113,26 @@ class S7_Mechdemon : S7_DemonBase {
         }
     }
 
+    bool CanCharge () {
+        if (!target)
+            return false;
+
+        if (chargeCooldown > 0)
+            return false;
+        if (target.bFloat || (target.pos.Z > target.floorZ))
+            return false;
+
+        double distance = Distance2D (target);
+        if (distance < 32 || distance > 512)
+            return false;
+
+        return true;
+    }
+
     action void S7_DoChase (int tics) {
         StateLabel missileLabel = null;
 
-        double distance = target ? Distance2D (target) : double.NaN;
-        if (invoker.chargeCooldown <= 0 && distance > 32 && distance < 512)
+        if (invoker.CanCharge ())
             missileLabel = "Missile";
 
         A_S7Chase ("Melee", missileLabel);
