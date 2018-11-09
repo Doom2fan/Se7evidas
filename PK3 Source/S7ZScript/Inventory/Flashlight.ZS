@@ -18,12 +18,9 @@
 */
 
 /* Credits:
-** Coding: Caligari87, Chronos "phantombeta" Ouroboros
+** Coding: Chronos "phantombeta" Ouroboros
 **
-** Sprites:
-**   Sprites: None yet lol.
-**
-** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
+** Sprites: Id Software, Chronos "phantombeta" Ouroboros
 */
 class S7_FlashlightBattery : Inventory {
     default {
@@ -58,6 +55,14 @@ class S7_FlashlightBattery : Inventory {
     }
 }
 
+/* Credits:
+** Coding: Caligari87, Chronos "phantombeta" Ouroboros
+**
+** Sprites:
+**   Sprites: None yet lol.
+**
+** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
+*/
 class S7_Flashlight : Inventory {
     const MaxBatteryCharge = 35 * 60 * 30;
 
