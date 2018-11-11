@@ -124,7 +124,7 @@ class S7_XPSystem : Inventory {
 
     clearscope double, double GetStatMod (S7_StatType stat, string specialName = "") {
         if (stat == S7Stat_Special && specialName == "")
-            return double.NaN;
+            return double.NaN, double.NaN;
 
         double ret1 = 1.0;
         double ret2 = 0.0;

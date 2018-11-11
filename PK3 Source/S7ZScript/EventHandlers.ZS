@@ -219,8 +219,8 @@ class S7_PlayerEventHandler : EventHandler {
                 weapBinds.LastWeapon = weapon;
             }
 
-            CVar dispTags = CVar.GetCVar ("displaynametags", player);
-            CVar tagColor = CVar.GetCVar ("nametagcolor", player);
+            CVar dispTags = CVar.GetCVar ("displaynametags", players [consoleplayer]);
+            CVar tagColor = CVar.GetCVar ("nametagcolor", players [consoleplayer]);
             if (dispTags && weapon && (dispTags.GetInt () & 2))
                 S7_HudMessageFade.Show (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
                     color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: 'SmallFont');
@@ -232,8 +232,8 @@ class S7_PlayerEventHandler : EventHandler {
                 weapBinds.LastWeapon = weapon;
             }
 
-            CVar dispTags = CVar.GetCVar ("displaynametags", player);
-            CVar tagColor = CVar.GetCVar ("nametagcolor", player);
+            CVar dispTags = CVar.GetCVar ("displaynametags", players [consoleplayer]);
+            CVar tagColor = CVar.GetCVar ("nametagcolor", players [consoleplayer]);
             if (dispTags && weapon && (dispTags.GetInt () & 2))
                 S7_HudMessageFade.Show (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
                     color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: 'SmallFont');
