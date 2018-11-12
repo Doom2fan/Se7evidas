@@ -339,7 +339,7 @@ class S7_Projectile : FastProjectile {
         class<Actor> trail = MissileName;
 
         if (trail != null) {
-            Vector3 finalPos = initialPos + stepDiff;
+            Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
 
             Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
             act.SetOrigin (finalPos, false);
@@ -553,7 +553,7 @@ class S7_Projectile : FastProjectile {
         }
 
         double maxDist = abs (oldVel.Length ());
-        let hitPos = oldPos + (oldVel.Unit () * hitDist);
+        let hitPos = level.Vec3Offset (oldPos, (oldVel.Unit () * hitDist));
         //hitPos += -(oldVel.Unit () * abs (radius));
 
         SetOrigin (hitPos, interpFastProj);
@@ -594,10 +594,8 @@ class S7_Projectile : FastProjectile {
 
         if (tr.Results.HitType == TRACE_HitFloor)
             hitPos = tr.Results.HitPos;
-        else if (tr.Results.HitType == TRACE_HitCeiling) {
-            hitPos = tr.Results.HitPos;
-            hitPos -= (0, 0, height);
-        }
+        else if (tr.Results.HitType == TRACE_HitCeiling)
+            hitPos = level.Vec3Offset (tr.Results.HitPos, (0, 0, -height));
 
         Vector3 rHitPos = tr.Results.HitPos;
 
@@ -605,12 +603,12 @@ class S7_Projectile : FastProjectile {
         double realCeilingZ = GetZAt (rHitPos.X, rHitPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng | GZF_Ceiling);
 
         bool floorHit = (rHitPos.Z <= realFloorZ || rHitPos.Z ~== realFloorZ);
-        bool ceilingHit = (rHitPos.Z + height) > realCeilingZ;
+        bool ceilingHit = level.Vec3Offset (rHitPos.Z, height) > realCeilingZ;
 
         FCheckPosition tm;
         tm.DoRipping = bRipper;
 
-        if (!TryMove (hitPos.XY + (double.epsilon * 3, double.epsilon * 3), true, tm: tm)) {
+        if (!TryMove (level.Vec3Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
             bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
