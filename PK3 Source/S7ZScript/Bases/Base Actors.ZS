@@ -446,6 +446,9 @@ class S7_Projectile : FastProjectile {
             int loopBreaker = 0;
             bool collisionHandled = false;
             for (int i = 0; i < iMax; i++) {
+                if (colFlags == 0 || !bNoInteraction || !bNoClip)
+                    break;
+
                 if ((i >= 0 && i <= 3) && !(colFlags & ColMode_EdgeCenters))
                     continue;
                 else if ((i >= 4 && i <= 7) && !(colFlags & ColMode_Corners))
@@ -504,7 +507,7 @@ class S7_Projectile : FastProjectile {
                 if (hitSky && !bSkyExplode) {
                     Destroy ();
                     return;
-                } else if (floorHit || ceilingHit) {
+                } else if ((floorHit || ceilingHit) && !bNoInteraction && !bNoClip) {
                     SetZ (floorHit ? GetZAt () : ceilingZ - height);
 
                     if (floorHit)
