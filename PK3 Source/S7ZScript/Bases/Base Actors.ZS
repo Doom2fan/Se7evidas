@@ -603,12 +603,15 @@ class S7_Projectile : FastProjectile {
         double realCeilingZ = GetZAt (rHitPos.X, rHitPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng | GZF_Ceiling);
 
         bool floorHit = (rHitPos.Z <= realFloorZ || rHitPos.Z ~== realFloorZ);
-        bool ceilingHit = level.Vec3Offset (rHitPos.Z, height) > realCeilingZ;
+        bool ceilingHit; {
+            let hitPosTop = level.Vec3Offset (rHitPos, (0, 0, height));
+            ceilingHit = hitPosTop.Z > realCeilingZ;
+        }
 
         FCheckPosition tm;
         tm.DoRipping = bRipper;
 
-        if (!TryMove (level.Vec3Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
+        if (!TryMove (level.Vec2Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
             bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
