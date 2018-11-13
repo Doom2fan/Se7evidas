@@ -121,30 +121,67 @@ class S7_EmpressPentagramCorner : S7_Empress_FXBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0, -198, CMF_AimDirection);
-            A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0,  198, CMF_AimDirection);
+            Array<Actor> lines;
+            lines.Push (A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0, -198, CMF_AimDirection));
+            lines.Push (A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0,  198, CMF_AimDirection));
+
+            for (int i = 0; i < lines.Size (); i++) {
+                let line = lines [i];
+
+                if (!line)
+                    continue;
+
+                line.SetOrigin (pos, false);
+            }
         }
         stop;
     }
 }
 
 // Line
-class S7_EmpressPentagramLine : S7_Empress_FXBase {
+class S7_EmpressPentagramLine : S7_Projectile {
     default {
+        S7_Projectile.MovementMode FastProjectile;
+        S7_Projectile.FastProjCollision 0;
+        S7_Projectile.InterpMove false;
+
         Radius 1;
         Height 1;
         DamageFunction (0);
         Speed 18;
 
-        Projectile;
+        MissileType "S7_EmpressPentagramFire";
 
         +NOTARGET +NOBLOOD +NOCLIP +THRUACTORS
         +PAINLESS +RIPPER  +BLOODLESSIMPACT
     }
 
+    override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
+        class<Actor> trail = MissileName;
+
+        if (trail != null) {
+            Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
+
+            Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
+            act.SetOrigin (finalPos, false);
+
+            if (act != null) {
+                act.angle = angle;
+                act.pitch = pitch;
+            }
+
+            return act;
+        }
+
+        return NULL;
+    }
+
     states {
     Spawn:
-        TNT1 AAAAAAAAAA 1 A_SpawnItemEx ('S7_EmpressPentagramFire', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAAAA 1;// A_SpawnItemEx ('S7_EmpressPentagramFire', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        stop;
+    Death:
+        TNT1 A 1;
         stop;
     }
 }
@@ -155,17 +192,23 @@ class S7_EmpressPentagramFire : S7_Empress_FXBase {
         Radius 1;
         Height 1;
         ReactionTime 4;
+        Scale 0.1;
+
+        +FORCEXYBILLBOARD
     }
 
     states {
     Spawn:
-        EPTF ABCDEFGHIJKLM 3 bright;
+        HRSF AAAAAAAAAAAAA 3 bright;
+        //EPTF ABCDEFGHIJKLM 3 bright;
         TNT1 A             0 A_Countdown;
         loop;
 
     Death:
-        EPTF NOP 3 bright;
-        stop;
+        /*EPTF NOP 3 bright;
+        stop;*/
+        HRSF A 1 A_FadeOut (0.1);
+        loop;
     }
 }
 

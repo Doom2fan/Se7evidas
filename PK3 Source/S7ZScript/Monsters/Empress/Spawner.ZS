@@ -75,8 +75,8 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
 
     GOGOGO:
         TNT1 A            0 {
-            for (int i = 0; i < 5; i++)
-                A_SpawnItemEx ('S7_EmpressPentagramCorner', 180.0, 0.0, 0.0, 0.0, 0.0, 0.0, 72 * i, SXF_Clientside | SXF_NoCheckPosition);;
+            for (int i = 0; i < (5*2); i++)
+                A_SpawnItemEx ('S7_EmpressPentagramCorner', 180.0, 0.0, 0.0, 0.0, 0.0, 0.0, (72/2.) * i, SXF_Clientside | SXF_NoCheckPosition);
         }
         TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         TNT1 A            5;
