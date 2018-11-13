@@ -30,6 +30,7 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         DropItem 'S7_Empress', 256;
 
         +LOOKALLAROUND
+        -NOSECTOR
     }
 
     int loopCount;
