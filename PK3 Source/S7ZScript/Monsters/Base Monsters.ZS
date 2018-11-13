@@ -42,6 +42,13 @@ class S7_MonsterBase : Actor {
     int monsDeathType;
     Actor grabbedShooter;
 
+    override String GetObituary (Actor victim, Actor inflictor, Name mod, bool playerattack) {
+        if (inflictor && inflictor.Obituary)
+            return inflictor.Obituary;
+
+        return Super.GetObituary (victim, inflictor, mod, playerattack);
+    }
+
     override void BeginPlay () {
         Super.BeginPlay ();
 
