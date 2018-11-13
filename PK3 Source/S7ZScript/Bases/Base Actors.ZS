@@ -446,7 +446,7 @@ class S7_Projectile : FastProjectile {
             int loopBreaker = 0;
             bool collisionHandled = false;
             for (int i = 0; i < iMax; i++) {
-                if (colFlags == 0 || !bNoInteraction || !bNoClip)
+                if (colFlags == 0 || bNoInteraction || bNoClip)
                     break;
 
                 if ((i >= 0 && i <= 3) && !(colFlags & ColMode_EdgeCenters))
