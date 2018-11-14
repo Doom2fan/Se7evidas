@@ -2,10 +2,10 @@
 SETLOCAL
 
 if "%S7PROG_GZDOOM%" == "" (
-    SET S7PROG_GZDOOM="gzdoom.exe"
+    SET S7PROG_GZDOOM="gzdoom"
 )
 if "%S7PROG_QZDOOM%" == "" (
-    SET S7PROG_QZDOOM="qzdoom.exe"
+    SET S7PROG_QZDOOM="qzdoom"
 )
 
 SET PROG_PROG=""
