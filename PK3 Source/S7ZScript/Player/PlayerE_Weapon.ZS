@@ -19,6 +19,9 @@
 extend class S7_BasePlayer {
     const BaseAmmoMax = 6.0;
     void Weapon_SetAmmoMax () {
+        if (player.cheats & CF_PREDICTING)
+            return;
+
         double ammoMax = BaseAmmoMax;
 
         if (CheckInventory ('S7_BackpackToken', 1))

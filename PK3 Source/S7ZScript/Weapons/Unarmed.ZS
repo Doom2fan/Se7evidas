@@ -57,10 +57,10 @@ class S7_SprintWeapon : S7_NullWeapon {
     states {
     Ready:
         TNT1 A 1 {
-            let pData = S7_PlayerData (FindInventory ('S7_PlayerData'));
+            let pPawn = S7_BasePlayer (self);
 
             bool sprinting = false;
-            if (pData) sprinting = pData.sprinting;
+            if (pPawn) sprinting = pPawn.sprint_Sprinting;
 
             A_WeaponReady (WRF_NoFire | WRF_NoBob | (sprinting ? WRF_DisableSwitch : 0));
         }

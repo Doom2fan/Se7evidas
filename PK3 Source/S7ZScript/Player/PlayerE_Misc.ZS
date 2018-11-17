@@ -24,6 +24,9 @@ extend class S7_BasePlayer {
     };
 
     void Misc_PermanentItems () {
+        if (player.cheats & CF_PREDICTING)
+            return;
+
         for (int i = 0; i < PermanentItems.Size (); i++) {
             Array<String> parts;
             PermanentItems [i].Split (parts, ":");
@@ -38,10 +41,13 @@ extend class S7_BasePlayer {
     }
 
     void Misc_StaminaRegen () {
+        if (player.cheats & CF_PREDICTING)
+            return;
+
         int curStamina = CountInv ('S7_Stamina');
         int maxStamina = GetMaxStamina ();
 
-        if (health <= 0 || curStamina == maxStamina || playerData.sprinting) {
+        if (health <= 0 || curStamina == maxStamina || sprint_Sprinting) {
             playerData.staminaTics = 0;
             return;
         }
@@ -120,6 +126,9 @@ extend class S7_BasePlayer {
 
     S7_BlurCamera cam1, cam2, cam3, cam4;
     void Misc_BlurCamera () {
+        if (player.cheats & CF_PREDICTING)
+            return;
+
         Misc_BC_DoCamera (cam4, Misc_BC_GetRightAct (cam3, cam2, cam1, self));
         Misc_BC_DoCamera (cam3, Misc_BC_GetRightAct (cam2, cam1, self, null));
         Misc_BC_DoCamera (cam2, Misc_BC_GetRightAct (cam1, self, null, null));
@@ -129,6 +138,9 @@ extend class S7_BasePlayer {
     }
 
     void Misc_HellhunterBlade () {
+        if (player.cheats & CF_PREDICTING)
+            return;
+
         int curLvl = CountInv ('S7_HellhunterBladeAffinity');
         int curExp = CountInv ('S7_HellhunterBladeExperience');
         int nxtLvl = 2500 + curLvl * 1250;

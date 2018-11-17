@@ -66,8 +66,9 @@ extend class S7_BasePlayer {
                 bobfactor *= player.crouchfactor;
             }
 
-            forwardmove = fm * movefactor * (35 / TICRATE);
-            sidemove = sm * movefactor * (35 / TICRATE);
+            double sprintFactor = 1.0 + (sprint_Sprinting ? sprint_SpeedFactor : 0.0);
+            forwardmove = fm * movefactor * (35 / TICRATE) * sprintFactor;
+            sidemove = sm * movefactor * (35 / TICRATE) * sprintFactor;
 
             if (forwardmove) {
                 Bob (Angle, cmd.forwardmove * bobfactor / 256., true);
@@ -95,31 +96,36 @@ extend class S7_BasePlayer {
             if (playerData.dodgeCooldown <= 0) { // If dodgeCooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
                 if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) && (pos.Z - floorZ) <= 0 &&
-                    !(self is 'S7_DracoPlayer') && !playerData.sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
+                    !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
                     !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !playerData.lGrabGrabbed
                 ) {
                     double forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
                     double sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
 
                     if (forwardMove != 0 || sideMove != 0) { // If the player is trying to move
-                        TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
+                        if (!(player.cheats & CF_PREDICTING))
+                            TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
 
                         A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
 
-                        GiveInventory ('S7_PowerDodgeEffects', 1);
+                        if (!(player.cheats & CF_PREDICTING))
+                            GiveInventory ('S7_PowerDodgeEffects', 1);
                         vel.X = vel.Y = 0.;
                         Thrust (32, (angle - 90) + atan2 (forwardMove, sideMove));
 
-                        playerData.dodgeCooldown = S7_DodgeCooldown;
+                        if (!(player.cheats & CF_PREDICTING))
+                            playerData.dodgeCooldown = S7_DodgeCooldown;
                     }
                 }
-            } else
+            } else if (!(player.cheats & CF_PREDICTING))
                 playerData.dodgeCooldown--;
-        } else
+        } else if (!(player.cheats & CF_PREDICTING))
             TakeInventory ('S7_PowerDodgeEffects', 0x7FFFFFFF);
     }
 
     void Movement_MultiJump () {
+        if (player.cheats & CF_PREDICTING)
+            return;
         if (!level.IsJumpingAllowed () || health <= 0 || playerData.lGrabGrabbed || playerData.wjumpJustJumped || CheckInventory ('S7_SoulLance_BeamGrabbed', 1))
             return;
 
@@ -147,7 +153,7 @@ extend class S7_BasePlayer {
     const WallJumpHitCount = 12.0;
     const WallJumpHitInterval = 45.0 / WallJumpHitCount;
     void Movement_WallJump () {
-        if (playerData.wjumpJustJumped)
+        if (playerData.wjumpJustJumped && !(player.cheats & CF_PREDICTING))
             playerData.wjumpJustJumped--;
 
         if (health <= 0 || (self is 'S7_DracoPlayer') || playerData.wjumpJustJumped || CheckInventory ('S7_SoulLance_BeamGrabbed', 1))
@@ -184,12 +190,13 @@ extend class S7_BasePlayer {
                         else if (velChange.Z < 0.0) velChange.Z  = wallJumpZVel * -velChange.Z;
                         else                        velChange.Z *= wallJumpZVel;
 
-                        playerData.wjumpJustJumped = S7C_WJumpDelay;
+                        if (!(player.cheats & CF_PREDICTING))
+                            playerData.wjumpJustJumped = S7C_WJumpDelay;
                         vel = velChange;
                         A_SetPitch (VectorAngle (wallNormal.XY.Length (), wallNormal.Z), SPF_ForceClamp | SPF_Interpolate);
                         A_SetAngle (VectorAngle (wallNormal.X, wallNormal.Y), SPF_ForceClamp | SPF_Interpolate);
 
-                        if (playerData.lGrabGrabbed)
+                        if (playerData.lGrabGrabbed && !(player.cheats & CF_PREDICTING))
                             playerData.lGrabGrabbed = false;
 
                         return;
@@ -214,7 +221,7 @@ extend class S7_BasePlayer {
         int weapFlags = WF_WeaponReady | WF_WeaponSwitchOK;
 
         return (
-            ((player.WeaponState & weapFlags) == weapFlags) || player.ReadyWeapon is 'S7_SprintWeapon'
+            ((player.WeaponState & weapFlags) == weapFlags)
         );
     }
     void Movement_LedgeGrabbing () {
@@ -226,6 +233,9 @@ extend class S7_BasePlayer {
             bool crushFingers = ((marker.ceilingZ - marker.floorZ) < 1 || marker.floorZ >= self.ceilingZ);
             if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 ||
                 S7_ActorExtensions.IsInVoid (marker)) {
+                if (player.cheats & CF_PREDICTING)
+                    return;
+
                 if (crushFingers)
                     DamageMobj (null, null, 4, 'Crush', DMG_No_Armor | DMG_Thrustless);
 
@@ -242,9 +252,9 @@ extend class S7_BasePlayer {
             double angleToMarker = AngleTo (marker);
             double angleDiff = DeltaAngle (angleToMarker, angle);
             if (angleDiff < -90)
-                A_SetAngle (angleToMarker - 90);
+                A_SetAngle (angleToMarker - 90, SPF_Interpolate);
             if (angleDiff >  90)
-                A_SetAngle (angleToMarker + 90);
+                A_SetAngle (angleToMarker + 90, SPF_Interpolate);
 
             double viewZ = pos.Z + player.viewHeight;
             Vector3 newVel = (
@@ -255,19 +265,21 @@ extend class S7_BasePlayer {
 
             vel = newVel;
         } else if ((!playerData.lGrabGrabbed && playerData.lGrabMarker) || (playerData.lGrabGrabbed && !playerData.lGrabMarker)) {
-            if (playerData.lGrabMarker)
-                playerData.lGrabMarker.Destroy ();
+            if (!(player.cheats & CF_PREDICTING)) {
+                if (playerData.lGrabMarker)
+                    playerData.lGrabMarker.Destroy ();
 
-            if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && weapBinds.LastWeapon)
-                player.PendingWeapon = weapBinds.LastWeapon;
+                if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && weapBinds.LastWeapon)
+                    player.PendingWeapon = weapBinds.LastWeapon;
 
-            playerData.lGrabMarker = null;
-            playerData.lGrabGrabbed = false;
+                playerData.lGrabMarker = null;
+                playerData.lGrabGrabbed = false;
+            }
 
             return;
         }
 
-        if (!playerData.lGrabGrabbed && vel.Z < 0.0 && vel.xy.Length () < 5 && Movement_LGrab_CheckWeap ()) {
+        if (!playerData.lGrabGrabbed && vel.Z < 0.0 && vel.xy.Length () < 5 && Movement_LGrab_CheckWeap () && !(player.cheats & CF_PREDICTING)) {
             let oldPos = pos;
             SetXYZ (pos + (0, 0, height));
             double ledgeHeight = GetZAt (spRadius + LedgeGrab_MaxReach, 0) - oldPos.Z;
@@ -300,10 +312,12 @@ extend class S7_BasePlayer {
             }
         }
 
-        if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && !playerData.lGrabGrabbed && weapBinds.LastWeapon)
-            player.PendingWeapon = weapBinds.LastWeapon;
-        else if (!playerData.lGrabGrabbed && CheckInventory ('S7_LedgeGrabWeapon', 1))
-            TakeInventory ('S7_LedgeGrabWeapon', 0x7FFFFFFF);
+        if (!(player.cheats & CF_PREDICTING)) {
+            if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && !playerData.lGrabGrabbed && weapBinds.LastWeapon)
+                player.PendingWeapon = weapBinds.LastWeapon;
+            else if (!playerData.lGrabGrabbed && CheckInventory ('S7_LedgeGrabWeapon', 1))
+                TakeInventory ('S7_LedgeGrabWeapon', 0x7FFFFFFF);
+        }
     }
 
     void Movement_Sprinting () {
@@ -311,66 +325,56 @@ extend class S7_BasePlayer {
         double sideMove = abs (player.cmd.sidemove) / 10240;
 
         if (health > 0) {
-            // This is here just in case something fucks up and the player keeps the sprint "weapon" for some reason.
-            if (player.ReadyWeapon is 'S7_SprintWeapon' && !playerData.sprinting && weapBinds.LastWeapon)
-                player.PendingWeapon = weapBinds.LastWeapon;
-            else if (!playerData.sprinting && CheckInventory ('S7_SprintWeapon', 1))
-                TakeInventory ('S7_SprintWeapon', 0x7FFFFFFF);
+            if (!(player.cheats & CF_PREDICTING)) {
+                if (sprint_Tics == -1 && CheckInventory ('S7_Stamina', 75))
+                    sprint_Tics = 0;
 
-            if (playerData.sprintTics == -1 && CheckInventory ('S7_Stamina', 75))
-                playerData.sprintTics = 0;
-
-            // Start/stop sprinting
-            if (!playerData.sprinting && playerData.sprintTics != -1 &&
-                (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
-                !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !(self is 'S7_DracoPlayer') && !playerData.lGrabGrabbed
+                // Start/stop sprinting
+                if (!sprint_Sprinting && sprint_Tics != -1 &&
+                    (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
+                    !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !(self is 'S7_DracoPlayer') && !playerData.lGrabGrabbed
                 ) {
-                playerData.sprinting = true;
-                playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
-                playerData.sprintTics = 0;
-                playerData.oldAgility = double.NaN;
-
-                GiveInventory ('S7_SprintWeapon', 1);
-                player.PendingWeapon = Weapon (FindInventory ('S7_SprintWeapon'));
-            } else if (playerData.sprinting &&
-                (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
-                CheckInventory ('S7_SoulLance_BeamGrabbed', 1) || playerData.lGrabGrabbed || (self is 'S7_DracoPlayer'))
+                    sprint_Sprinting = true;
+                    sprint_SpeedFactor = sprint_SpdFacPproc = 0.0;
+                    sprint_Tics = 0;
+                    sprint_OldAgility = double.NaN;
+                } else if (sprint_Sprinting &&
+                    (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
+                    CheckInventory ('S7_SoulLance_BeamGrabbed', 1) || playerData.lGrabGrabbed || (self is 'S7_DracoPlayer'))
                 ) {
-                if (playerData.sprintTics < 5)
-                    TakeInventory ('S7_Stamina', playerData.sprintTics);
+                    if (sprint_Tics < 5)
+                        TakeInventory ('S7_Stamina', sprint_Tics);
 
-                playerData.sprinting = false;
-                playerData.sprintSpeedFactor = playerData.sprintSpdFacPproc = 0.0;
-                playerData.sprintTics = (!CheckInventory ('S7_Stamina', 5)) ? -1 : 0;
+                    sprint_Sprinting = false;
+                    sprint_SpeedFactor = sprint_SpdFacPproc = 0.0;
+                    sprint_Tics = (!CheckInventory ('S7_Stamina', 5)) ? -1 : 0;
+                }
 
-                if (!playerData.lGrabGrabbed && weapBinds.LastWeapon)
-                    player.PendingWeapon = weapBinds.LastWeapon;
-            }
-            if (playerData.sprinting && player.ReadyWeapon is 'S7_SprintWeapon') {
-                if (player.onground) {
-                    if (playerData.sprintTics++ >= 5 && (forwardMove != 0.0 || sideMove != 0.0)) {
-                        playerData.sprintTics = 0;
-                        TakeInventory ('S7_Stamina', S7C_SprintStamina);
-                    } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
-                        playerData.sprintTics++;
+                if (sprint_Sprinting) {
+                    if (player.onground) {
+                        if (sprint_Tics++ >= 5 && (forwardMove != 0.0 || sideMove != 0.0)) {
+                            sprint_Tics = 0;
+
+                            TakeInventory ('S7_Stamina', S7C_SprintStamina);
+                        } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
+                            sprint_Tics++;
+                    }
                 }
 
                 double newAgility = xpSys.GetStat (S7Stat_Agility);
-                if (newAgility != playerData.oldAgility) {
+                if (newAgility != sprint_OldAgility) {
                     if (newAgility > 0) // Just so it doesn't explode
-                        playerData.sprintSpdFacPproc = 0.1 * log (newAgility);
+                        sprint_SpdFacPproc = 0.1 * log (newAgility);
                     else
-                        playerData.sprintSpdFacPproc = 0;
-                    playerData.oldAgility = newAgility;
+                        sprint_SpdFacPproc = 0;
+                    sprint_OldAgility = newAgility;
                 }
-
-                if (!player.onground)
-                    playerData.sprintSpeedFactor = 0.0;
-                else if ((forwardMove > 0.5 || sideMove > 0.5))
-                    playerData.sprintSpeedFactor = Clamp (0.5 + playerData.sprintSpdFacPproc, 0.0, 2.5);
-                else
-                    playerData.sprintSpeedFactor = Clamp (0.5 + (0.5 + playerData.sprintSpdFacPproc) * 2, 0.0, 2.5);
             }
+
+            if ((forwardMove > 0.5 || sideMove > 0.5))
+                sprint_SpeedFactor = Clamp (0.5 + sprint_SpdFacPproc, 0.0, 2.5);
+            else
+                sprint_SpeedFactor = Clamp (0.5 + (0.5 + sprint_SpdFacPproc) * 2, 0.0, 2.5);
         }
     }
 }

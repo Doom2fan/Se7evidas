@@ -39,11 +39,6 @@ class S7_PlayerData : Inventory {
     // Ledge grabbing
     bool  lGrabGrabbed;
     Actor lGrabMarker;
-    // Sprinting
-    bool   sprinting;
-    int    sprintTics; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
-    double oldAgility; // oldAgility: This is used for checking if the agility stat changed.
-    double sprintSpeedFactor, sprintSpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
     /** Weapons **/
     double ammoMaxMult;
     /** Misc **/
@@ -59,16 +54,10 @@ class S7_PlayerData : Inventory {
     // Hack for getting viewbob in morphed players
     double bob;
 
-    override double GetSpeedFactor () {
-        return 1 + sprintSpeedFactor;
-    }
-
     override void AttachToOwner (Actor other) {
         Super.AttachToOwner (other);
-        dying = sprinting = false;
-        dodgeCooldown = mjumpCount = wjumpJustJumped = sprintTics = staminaTics = heartbeatTics = 0;
-        sprintSpeedFactor = sprintSpdFacPproc = 0;
-        oldAgility = double.NaN;
+        dying = false;
+        dodgeCooldown = mjumpCount = wjumpJustJumped = staminaTics = heartbeatTics = 0;
         milkRegenRate = 2;
         milkUseRate = 20;
     }
@@ -121,6 +110,12 @@ class S7_BasePlayer : PlayerPawn {
     bool stepFrame;
     actor playerLineTarget;
     actor damageInflictor, damageSource;
+
+    // Sprinting
+    bool   sprint_Sprinting;
+    int    sprint_Tics; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
+    double sprint_OldAgility; // oldAgility: This is used for checking if the agility stat changed.
+    double sprint_SpeedFactor, sprint_SpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
 
     void GiveBasics () {
         if (!player || player.mo != self)
@@ -191,6 +186,12 @@ class S7_BasePlayer : PlayerPawn {
         GiveInventory ('S7_KickMelee', 1); // Default to kick melee
     }
 
+    override void BeginPlay () {
+        Super.BeginPlay ();
+
+        sprint_OldAgility = double.NaN;
+    }
+
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
@@ -235,22 +236,22 @@ class S7_BasePlayer : PlayerPawn {
 
             if (playerData)
                 playerData.dying = health < (maxHealth * 0.2);
-
-            // Movement
-            Misc_BlurCamera ();
-            Movement_Dodging ();
-            Movement_LedgeGrabbing ();
-            Movement_Sprinting ();
-            Movement_WallJump ();
-            Movement_MultiJump ();
-            // Weapons
-            Weapon_SetAmmoMax ();
-            // Misc
-            Misc_PermanentItems ();
-            Misc_StaminaRegen ();
-            Misc_Heartbeats ();
-            Misc_HellhunterBlade ();
         }
+
+        // Movement
+        Misc_BlurCamera ();
+        Movement_Dodging ();
+        Movement_LedgeGrabbing ();
+        Movement_Sprinting ();
+        Movement_WallJump ();
+        Movement_MultiJump ();
+        // Weapons
+        Weapon_SetAmmoMax ();
+        // Misc
+        Misc_PermanentItems ();
+        Misc_StaminaRegen ();
+        Misc_Heartbeats ();
+        Misc_HellhunterBlade ();
     }
 
     override void OnRespawn () {
@@ -669,6 +670,11 @@ class S7_BlurCamera : Actor {
 
     override void Tick () {
         Super.Tick ();
+
+        if (!target) {
+            Destroy ();
+            return;
+        }
 
         Vector2 fwd = AngleToVector (angle, 2);
 
