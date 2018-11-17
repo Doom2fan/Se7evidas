@@ -68,17 +68,7 @@ class S7_Fauchard : S7_BaseWeapon {
     Ready:
         LSRF VWXYZA 1;
     Ready2:
-        LSRF A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-
-            A_WeaponReady ();
-
-            return ResolveState (null);
-        }
+        LSRF A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:

@@ -67,17 +67,7 @@ class S7_TEC9 : S7_BaseWeapon {
     Ready2:
         TEC9 A 1 {
             invoker.burstCount = 0;
-
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
-            A_WeaponReady ();
-
-            return ResolveState (null);
+            S7_WeaponReady ("Reload", "ChangeMode");
         }
         loop;
 

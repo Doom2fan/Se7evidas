@@ -92,18 +92,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
         MANX TUVWXA 1;
     Ready2:
         MANX A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
             int flagsWR = 0;
             if (invoker.hasScope)
                 flagsWR |= WRF_AllowZoom;
 
-            A_WeaponReady (flagsWR);
+            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: flagsWR);
 
             return ResolveState (null);
         }
@@ -119,27 +112,20 @@ class S7_ManxCarbine : S7_BaseWeapon {
             if (invoker.zoomed)
                 TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
             int flagsWR = 0;
             if (invoker.hasScope)
                 flagsWR |= WRF_AllowZoom;
             if (invoker.zoomed)
                 flagsWR |= WRF_NoBob;
 
-            A_WeaponReady (flagsWR);
+            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: flagsWR);
 
             return ResolveState (null);
         }
         #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
+        #### # 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
         goto Ready2;
 
     Overlay.Scope:

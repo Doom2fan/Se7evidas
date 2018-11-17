@@ -118,26 +118,19 @@ class S7_LaserPewPew : S7_BaseWeapon {
             if (invoker.akimbo)
                 return ResolveState ("AkimboRight.Ready");
 
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (!invoker.sights) {
-                if (CheckInventory ('S7_DoMelee', 1))
-                    return ResolveState ("QuickMelee");
-                if (CheckInventory ('S7_ChangeFireMode', 1))
-                    return ResolveState ("ChangeMode");
-            } else {
+            if (invoker.sights) {
                 TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
                 TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
             }
 
-            A_WeaponReady (WRF_AllowZoom | WRF_NoSecondary);
+            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom | WRF_NoSecondary);
 
             return ResolveState (null);
         }
         #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | WRF_AllowZoom);
+        #### # 1 S7_WeaponReady (null, null, null, wrFlags: WRF_NoFire | WRF_NoSwitch | WRF_AllowZoom);
         goto Ready2;
 
     ChangeMode:
@@ -367,13 +360,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             if (!invoker.akimbo)
                 return ResolveState ("AkimboRight.Derped");
 
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("AkimboRight.Reload");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
-
-            A_WeaponReady (WRF_NoSecondary | WRF_DisableSwitch);
+            S7_WeaponReady ("AkimboRight.Reload", "ChangeMode", null, wrFlags: WRF_NoSecondary | WRF_DisableSwitch);
 
             return ResolveState (null);
         }

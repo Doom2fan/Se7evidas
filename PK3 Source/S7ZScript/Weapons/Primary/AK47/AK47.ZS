@@ -67,18 +67,7 @@ class S7_AK47 : S7_BaseWeapon {
         AK4S ABCDE 1;
         AK47 A     1;
     Ready2:
-        AK47 A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
-            A_WeaponReady ();
-
-            return ResolveState (null);
-        }
+        AK47 A 1 S7_WeaponReady ("Reload", "ChangeMode");
         loop;
 
     ChangeMode:

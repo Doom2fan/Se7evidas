@@ -55,17 +55,7 @@ class S7_Revolver : S7_BaseWeapon {
         RVLS ABCDE 1;
         RVLV A     1;
     Ready2:
-        RVLV A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-
-            A_WeaponReady ();
-
-            return ResolveState (null);
-        }
+        RVLV A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:

@@ -153,14 +153,7 @@ class S7_Thumper : S7_BaseWeapon {
         THMP VWXYZA 1;
     Ready2:
         THMP A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
-            A_WeaponReady ();
+            S7_WeaponReady ("Reload", "ChangeMode");
 
             return ResolveState (null);
         }

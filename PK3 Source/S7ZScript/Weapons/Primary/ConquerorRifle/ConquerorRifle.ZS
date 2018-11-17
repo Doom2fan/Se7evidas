@@ -75,21 +75,12 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.zoomed)
                 TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
-            A_WeaponReady (WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
-
-            return ResolveState (null);
+            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
         }
         #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 A_WeaponReady (WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
+        #### # 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
         goto Ready2;
 
     Zoom:

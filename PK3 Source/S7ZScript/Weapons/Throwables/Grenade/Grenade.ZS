@@ -100,17 +100,10 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
     Ready:
     Ready2:
         TNT1 A 1 {
-            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-
             if (!invoker.cooking)
                 invoker.fuse = -1;
 
-            A_WeaponReady ();
-
-            return ResolveState (null);
+            S7_WeaponReady (null, null);
         }
         loop;
 

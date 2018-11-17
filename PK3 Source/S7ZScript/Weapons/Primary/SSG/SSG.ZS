@@ -107,12 +107,6 @@ class S7_SSG : S7_BaseWeapon {
         SSG0 A     1;
     Ready2:
         SSG0 A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-
             bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK)), altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
             if (attack && altAttack)
                 return ResolveState ("Fire.Both");
@@ -121,7 +115,7 @@ class S7_SSG : S7_BaseWeapon {
             if (altAttack)
                 return ResolveState ("Fire.Right");
 
-            A_WeaponReady (WRF_NoFire);
+            S7_WeaponReady ("Reload", null, wrFlags: WRF_NoFire);
 
             return ResolveState (null);
         }

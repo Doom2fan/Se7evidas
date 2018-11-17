@@ -96,18 +96,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
     Ready:
         PLSG VWXYZA 1;
     Ready2:
-        PLSG A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            if (CheckInventory ('S7_ChangeFireMode', 1))
-                return ResolveState ("ChangeMode");
-
-            A_WeaponReady (((invoker.charge >= CHARGE_MAX) ? WRF_NoSecondary : 0));
-
-            return ResolveState (null);
-        }
+        PLSG A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: ((invoker.charge >= CHARGE_MAX) ? WRF_NoSecondary : 0));
         TNT1 A 0 { invoker.altfireLock = false; }
         loop;
 

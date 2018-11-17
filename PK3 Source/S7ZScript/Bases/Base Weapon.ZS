@@ -257,6 +257,25 @@ class S7_BaseWeapon : Weapon {
         invoker.V_S7_Recoil (amount);
     }
 
+    action void S7_WeaponReady (StateLabel reloadState, StateLabel fireModeState, StateLabel quickMeleeState = "QuickMelee", int wrFlags = 0) {
+        if (reloadState && CheckInventory ('S7_Reloading', 1))
+            player.SetPSprite (PSP_Weapon, ResolveState (reloadState));
+        else if (!reloadState)
+            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
+
+        if (fireModeState && CheckInventory ('S7_ChangeFireMode', 1))
+            player.SetPSprite (PSP_Weapon, ResolveState (fireModeState));
+        else if (!fireModeState)
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
+
+        if (quickMeleeState && CheckInventory ('S7_DoMelee', 1))
+            player.SetPSprite (PSP_Weapon, ResolveState (quickMeleeState));
+        else if (!quickMeleeState)
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+
+        A_WeaponReady (wrFlags);
+    }
+
     states {
     DryFire:
         TNT1 A 0 {

@@ -89,17 +89,7 @@ class S7_Shotgun : S7_BaseWeapon {
     Ready:
         SSGR VWXYZA 1;
     Ready2:
-        SSGR A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            TakeInventory ('S7_ChangeFireMode', 1);
-
-            A_WeaponReady ();
-
-            return ResolveState (null);
-        }
+        SSGR A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:

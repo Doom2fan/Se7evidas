@@ -57,16 +57,7 @@ class S7_HitterSMG : S7_BaseWeapon {
         SR2S ABCDE 1;
         SR20 A     1;
     Ready2:
-        SR20 A 1 {
-            if (CheckInventory ('S7_Reloading', 1))
-                return ResolveState ("Reload");
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-
-            A_WeaponReady ();
-
-            return ResolveState (null);
-        }
+        SR20 A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:

@@ -141,11 +141,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                 if (st != null)
                     return st;
             }
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            TakeInventory ('S7_ChangeFireMode', 1);
-
-            A_WeaponReady ();
+            
+            S7_WeaponReady (null, null);
 
             return ResolveState (null);
         }
