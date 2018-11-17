@@ -135,7 +135,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 TUVWXA 1;
     Ready2:
         PIC1 AAAAAAAAAAAABBCCDDEEFFGGGGGFFEEDDCCBB 1 {
-            if (CheckInventory ('S7_Reloading', 1)) {
+            if (CheckInventory ('S7_Reloading', 1) && invoker.CanReload ()) {
                 let st = S7_DoReload ();
 
                 if (st != null)
@@ -230,7 +230,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     DryFire:
         PIC1 A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
         TNT1 A 0 {
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ())
                 return S7_DoReload ();
 
             return ResolveState (null);

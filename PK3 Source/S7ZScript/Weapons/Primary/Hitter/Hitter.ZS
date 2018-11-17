@@ -120,7 +120,7 @@ class S7_HitterSMG : S7_BaseWeapon {
 
     DryFire:
         SR20 A 3 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
     DryFire.Firing:
         SR20 A    1 {
@@ -128,7 +128,7 @@ class S7_HitterSMG : S7_BaseWeapon {
             A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
         }
         SR20 EDCB 1;
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     DoubleJammed:

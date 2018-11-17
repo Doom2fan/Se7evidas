@@ -289,11 +289,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "DryReload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "DryReload");
         goto Ready2;
     DryFire.Zoom:
         SCP1 D 3;
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "DryReload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "DryReload");
         goto Ready2;
 
     DryReload:

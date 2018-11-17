@@ -136,7 +136,7 @@ class S7_AK47 : S7_BaseWeapon {
 
     DryFire:
         AK47 A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     Reload:

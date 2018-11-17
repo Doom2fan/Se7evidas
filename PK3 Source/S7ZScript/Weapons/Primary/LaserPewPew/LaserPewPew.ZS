@@ -123,7 +123,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
             }
 
-            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom | WRF_NoSecondary);
+            S7_WeaponReady ("Reload", "ChangeMode", flags: S7WRF_ChangeModeWhileSprinting, wrFlags: WRF_AllowZoom | WRF_NoSecondary);
 
             return ResolveState (null);
         }
@@ -247,7 +247,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             if (invoker.amount > 1 && CheckInventory ('S7_LaserPewPewClipSecond', 1))
                 return ResolveState ("Reload.SwapGuns");
 
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ())
                 return ResolveState ("Reload");
 
             return ResolveState (null);
@@ -459,7 +459,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AkimboRight.Dryfire:
         BLS2 A 7 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
         TNT1 A 0 {
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ('S7_LaserPewPewClipSecond', 1)) // Check the opposite ammo, if there's none, we can go ahead and reload
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload () && !CheckInventory ('S7_LaserPewPewClipSecond', 1)) // Check the opposite ammo, if there's none, we can go ahead and reload
                 return ResolveState ("AkimboRight.Reload");
             return ResolveState (null);
         }
@@ -467,7 +467,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     AkimboLeft.Dryfire:
         BLS2 A 7 A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_6);
         TNT1 A 0 {
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && !CheckInventory ('S7_LaserPewPewClip', 1))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload () && !CheckInventory ('S7_LaserPewPewClip', 1))
                 return ResolveState ("AkimboLeft.Reload");
             return ResolveState (null);
         }

@@ -46,6 +46,7 @@ class S7_SSG : S7_BaseWeapon {
         S7_BaseWeapon.ShortTag "$SHORTSSG";
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag false;
+        S7_BaseWeapon.CanReloadWhileSprinting true;
     }
 
     bool leftLoaded, rightLoaded, firingBoth;
@@ -246,7 +247,7 @@ class S7_SSG : S7_BaseWeapon {
                   SSG0 A 2 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7); goto DryFireEnd;
 
     DryFireEnd:
-        TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
+        TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     Reload:

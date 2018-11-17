@@ -146,7 +146,7 @@ class S7_TEC9 : S7_BaseWeapon {
             A_ClearRefire ();
         }
         TEC9 A 3;
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"), "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     Reload:

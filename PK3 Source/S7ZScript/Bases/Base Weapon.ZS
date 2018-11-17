@@ -48,15 +48,22 @@ class S7_KickMelee : S7_Boolean { }
 //
 //-------------------------------------------------------------------------------------------
 class S7_BaseWeapon : Weapon {
+    enum S7_WeaponReadyFlags {
+        S7WRF_ChangeModeWhileSprinting = 1 << 0,
+        S7WRF_MeleeWhileSprinting      = 1 << 1,
+    };
+
     String weapIcon;
     String shortTag;
     S7_WeaponSlots bindSlot;
     bool usesMag;
+    bool reloadWhileSprinting;
 
     property Icon: weapIcon;
     property ShortTag: shortTag;
     property BindSlot: bindSlot;
     property UsesMag: usesMag;
+    property CanReloadWhileSprinting: reloadWhileSprinting;
 
     default {
         Inventory.PickupSound "misc/gunpickup";
@@ -69,6 +76,7 @@ class S7_BaseWeapon : Weapon {
         S7_BaseWeapon.Icon "";
         S7_BaseWeapon.BindSlot -1;
         S7_BaseWeapon.UsesMag false;
+        S7_BaseWeapon.CanReloadWhileSprinting false;
 
         +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT +INVENTORY.RESTRICTABSOLUTELY
         +INVENTORY.TRANSFER
@@ -191,6 +199,13 @@ class S7_BaseWeapon : Weapon {
         return amount * (1 - clamp ((log10 (strengthStat) / 5) + (.000035 * (strengthStat**2)), 0., .75));
     }
 
+    bool CanReload () {
+        let pPawn = S7_BasePlayer (Owner);
+        bool sprinting = pPawn ? pPawn.sprint_Sprinting : false;
+
+        return (!sprinting || reloadWhileSprinting);
+    }
+
     S7_XPSystem GetOwnerXPSystem () {
         if (!Owner || !(Owner is 'S7_BasePlayer'))
             return null;
@@ -257,20 +272,23 @@ class S7_BaseWeapon : Weapon {
         invoker.V_S7_Recoil (amount);
     }
 
-    action void S7_WeaponReady (StateLabel reloadState, StateLabel fireModeState, StateLabel quickMeleeState = "QuickMelee", int wrFlags = 0) {
-        if (reloadState && CheckInventory ('S7_Reloading', 1))
+    action void S7_WeaponReady (StateLabel reloadState, StateLabel fireModeState, StateLabel quickMeleeState = "QuickMelee", int flags = 0, int wrFlags = 0) {
+        let pPawn = S7_BasePlayer (self);
+        bool sprinting = pPawn ? pPawn.sprint_Sprinting : false;
+
+        if (reloadState && CheckInventory ('S7_Reloading', 1) && invoker.CanReload ())
             player.SetPSprite (PSP_Weapon, ResolveState (reloadState));
-        else if (!reloadState)
+        else
             TakeInventory ('S7_Reloading', 0x7FFFFFFF);
 
-        if (fireModeState && CheckInventory ('S7_ChangeFireMode', 1))
+        if (fireModeState && CheckInventory ('S7_ChangeFireMode', 1) && (!sprinting || (flags & S7WRF_ChangeModeWhileSprinting)))
             player.SetPSprite (PSP_Weapon, ResolveState (fireModeState));
-        else if (!fireModeState)
+        else
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
-        if (quickMeleeState && CheckInventory ('S7_DoMelee', 1))
+        if (quickMeleeState && CheckInventory ('S7_DoMelee', 1) && (!sprinting || (flags & S7WRF_MeleeWhileSprinting)))
             player.SetPSprite (PSP_Weapon, ResolveState (quickMeleeState));
-        else if (!quickMeleeState)
+        else
             TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
         A_WeaponReady (wrFlags);
@@ -281,7 +299,7 @@ class S7_BaseWeapon : Weapon {
         TNT1 A 0 {
             A_PlaySound ("Weapons/DryFire", CHAN_Weapon);
 
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading"))
+            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ())
                 return ResolveState ("Reload");
 
             return ResolveState (null);
