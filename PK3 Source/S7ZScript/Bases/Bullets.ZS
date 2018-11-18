@@ -61,6 +61,8 @@ class S7_BaseTracer : S7_Projectile {
         +FORCEXYBILLBOARD
     }
 
+    double bonusDMGFactor;
+
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 

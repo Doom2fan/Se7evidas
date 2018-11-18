@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 2);
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 2 * (1+bonusDMGFactor));
         DamageType 'PistolTracer';
     }
 }
@@ -55,9 +55,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 20));
+        xpSys.level = int (floor (max (1.0, double (serverData.avgLevel) / 2.)));
         int attrPts = xpSys.level;
-        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -106,9 +105,36 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (80 * max (1, level / 3)));
-            GiveCash (source, int (75 * max (1, level / 4)));
+            GiveXP (source, int (80 * max (1, level / 3.)));
+            GiveCash (source, int (75 * max (1, level / 4.)));
         }
+    }
+
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * .05;
+    }
+
+    void DoFireGun () {
+        A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
+
+        double agilityStat = xpSys ? xpSys.GetStat (S7Stat_Agility, false) : 0.;
+        double accuracyMod = clamp ((1. - (agilityStat * .007)), .25, 1.);
+        let tracer = S7_BaseTracer (
+            A_SpawnProjectile ('S7_ManxCarbineTracerEnemy', 35.0, 9, fRandom [monsterSpread] (-spreadX, spreadX) * accuracyMod,
+                CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-spreadY, spreadY) * accuracyMod
+            )
+        );
+
+        if (tracer)
+            tracer.bonusDMGFactor = GetDamageBonus ();
+
+        A_SpawnProjectile ('S7_9mmCasingSpawn',         35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
+        A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',    35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
+
+        ammo--;
     }
 
     states {
@@ -226,11 +252,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 E 1 A_FaceTarget (turn * 2, turn * 2);
         SCR1 F 1 {
             A_FaceTarget (0, 0);
-            A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
-            A_SpawnProjectile ('S7_ManxCarbineTracerEnemy', 35.0, 9, fRandom [monsterSpread] (-spreadX, spreadX), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-spreadY, spreadY));
-            A_SpawnProjectile ('S7_9mmCasingSpawn',         35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',    35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            ammo--;
+            
+            DoFireGun ();
         }
         SCR1 EEE 1 A_FaceTarget (turn * 1.5, turn * 1.5);
         TNT1 A 0 {
@@ -257,13 +280,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
             return ResolveState (null);
         }
         SCR1 E 1;
-        SCR1 F 1 {
-            A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
-            A_SpawnProjectile ('S7_ManxCarbineTracerEnemy', 35.0, 9, fRandom [monsterSpread] (-spreadX, spreadX), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-spreadY, spreadY));
-            A_SpawnProjectile ('S7_9mmCasingSpawn',         35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',    35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            ammo--;
-        }
+        SCR1 F 1 DoFireGun ();
         SCR1 E 3;
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target comes into LOS, go back to normal shooting

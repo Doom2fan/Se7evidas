@@ -50,9 +50,8 @@ class S7_DemonDog : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15));
-        int attrPts = int (floor (xpSys.level * 2));
-        attrPts = int (attrPts * .75);
+        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 6.5));
+        int attrPts = xpSys.level * 2;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -104,6 +103,13 @@ class S7_DemonDog : S7_DemonBase {
         }
     }
 
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.065;
+    }
+
     states {
     Spawn:
         DDOG A 10 A_S7Look;
@@ -115,7 +121,7 @@ class S7_DemonDog : S7_DemonBase {
     Melee:
         TNT1 A      0 A_PlaySound ("Monsters/DemonDog/Attack", CHAN_Voice);
         DDOG EEEFFF 2 A_FaceTarget ();
-        TNT1 A      0 A_CustomMeleeAttack (int (fRandom (2, 10) * 4), "", "", 'Bite');
+        TNT1 A      0 A_CustomMeleeAttack (int (fRandom (2, 10) * 4 * (1 + GetDamageBonus ())), "", "", 'Bite');
         DDOG GGGG   2 A_FaceTarget ();
         DDOG FFFEEE 2 A_FaceTarget ();
         goto See;

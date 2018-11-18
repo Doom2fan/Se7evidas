@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 5.0) * 1);
+        DamageFunction (fRandom [weaponDamage] (1.0, 5.0) * (1 + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 200;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
@@ -53,9 +53,8 @@ class S7_ScorpsHunter : S7_ScorpBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 17.5));
+        xpSys.level = int (floor (random [monsterStats] (1, 2) * max (1.0, double (serverData.avgLevel) / 2.)));
         int attrPts = int (floor (xpSys.level * 1.5));
-        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -107,6 +106,40 @@ class S7_ScorpsHunter : S7_ScorpBase {
             GiveXP (source, int (100 * max (1, level / 3)));
             GiveCash (source, int (85 * max (1, level / 4)));
         }
+    }
+
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * .045;
+    }
+
+    void DoFireGun () {
+        A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_Weapon);
+
+        double agilityStat = xpSys ? xpSys.GetStat (S7Stat_Agility, false) : 0.;
+        double accuracyMod = clamp ((1. - (agilityStat * .005)), .25, 1.);
+
+        double missOffsetHorz = fRandom [monsterSpread] (-3.5 , 3.5 ) * accuracyMod;
+        double missOffsetVert = fRandom [monsterSpread] (-1.25, 1.25) * accuracyMod;
+
+        for (int i = 0; i < 9; i++) {
+            let tracer = S7_BaseTracer (
+                A_SpawnProjectile ('S7_ScorpsHunterTracer', 35., 9,
+                            missOffsetHorz + fRandom [monsterSpread] (-.375, .375), CMF_AimDirection | CMF_AbsolutePitch,
+                    pitch + missOffsetVert + fRandom [monsterSpread] (-.375, .375)
+                )
+            );
+
+            if (tracer)
+                tracer.bonusDMGFactor = GetDamageBonus ();
+        }
+
+        A_SpawnProjectile ('S7_12gaShellCasingSpawn2', 35., 9, 0., CMF_AbsolutePitch | CMF_AimDirection, 0.);
+        A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',   35., 9, 0., CMF_AbsolutePitch | CMF_AimDirection, 0.);
+
+        ammo--;
     }
 
     action void A_UnblockAndDrop () {
@@ -225,22 +258,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 E 1 A_FaceTarget (turn * 2, turn * 2);
         SCR3 F 1 {
             A_FaceTarget (0, 0);
-            A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_Weapon);
-
-            double missOffsetHorz = fRandom [monsterSpread] (-3.5, 3.5);
-            double missOffsetVert = fRandom [monsterSpread] (-1.25, 1.25);
-
-            for (int i = 0; i < 9; i++) {
-                A_SpawnProjectile ('S7_ScorpsHunterTracer', 35.0, 9,
-                            missOffsetHorz + fRandom [monsterSpread] (-0.375, 0.375), CMF_AimDirection | CMF_AbsolutePitch,
-                    pitch + missOffsetVert + fRandom [monsterSpread] (-0.375, 0.375)
-                );
-            }
-
-            A_SpawnProjectile ('S7_12gaShellCasingSpawn2', 35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',   35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-
-            ammo--;
+            DoFireGun ();
         }
         goto EndShoot;
 

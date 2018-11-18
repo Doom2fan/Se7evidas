@@ -50,9 +50,8 @@ class S7_Hellion : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 15));
-        int attrPts = int (floor (xpSys.level * 2));
-        attrPts = int (attrPts * .75);
+        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 5.));
+        int attrPts = xpSys.level * 2;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -104,6 +103,13 @@ class S7_Hellion : S7_DemonBase {
         }
     }
 
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.065;
+    }
+
     states {
     Spawn:
         HELN A 10 A_S7Look;
@@ -119,7 +125,11 @@ class S7_Hellion : S7_DemonBase {
 
         HELN L 6 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ('S7_HellionBall', 35.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
+            
+            let proj = S7_HellionBall (A_SpawnProjectile ('S7_HellionBall', 35.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch));
+
+            if (proj)
+                proj.bonusDMGFactor = GetDamageBonus ();
         }
         goto See;
 
@@ -207,8 +217,10 @@ class S7_Hellion : S7_DemonBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_HellionBall : S7_FireballBase {
+    double bonusDMGFactor;
+
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 6);
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 6 * (1+bonusDMGFactor));
         DamageType 'Fire';
         Speed 12;
         FastSpeed 24;

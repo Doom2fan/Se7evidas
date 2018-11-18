@@ -49,9 +49,8 @@ class S7_BlackPanther : S7_HellNobleBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10));
+        xpSys.level = int (random [monsterStats] (1, 4) * max (1.0, double (serverData.avgLevel) / 8.));
         int attrPts = int (floor (xpSys.level * 2.25));
-        attrPts = int (attrPts * .85);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -103,6 +102,13 @@ class S7_BlackPanther : S7_HellNobleBase {
         }
     }
 
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.065;
+    }
+
     states {
     Spawn:
         BPNT A 10 A_S7Look;
@@ -116,7 +122,15 @@ class S7_BlackPanther : S7_HellNobleBase {
 
         BPNT G 6 {
             A_FaceTarget (0, 0);
-            A_CustomComboAttack ('S7_BlackPantherBall', 32, int (fRandom [monsterDMG] (1.0, 4.0) * 8), "baron/melee");
+
+            if (CheckMeleeRange ())
+                A_CustomMeleeAttack (int (fRandom [monsterDMG] (1.0, 4.0) * 8 * (1 + bonusDMGFactor)), "baron/melee");
+            else {
+                let proj = S7_BlackPantherBall (A_SpawnProjectile ('S7_BlackPantherBall', 32.));
+
+                if (proj)
+                    proj.bonusDMGFactor = GetDamageBonus ();
+            }
         }
         goto See;
     Pain:
@@ -151,8 +165,10 @@ class S7_BlackPanther : S7_HellNobleBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_BlackPantherBall : S7_FireballBase {
+    double bonusDMGFactor;
+
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 8);
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 8 * (1+bonusDMGFactor));
         Speed 18;
         Obituary "$OBBPANTHER";
     }
@@ -162,7 +178,7 @@ class S7_BlackPantherBall : S7_FireballBase {
         PNTB AB 2 bright;
         loop;
     Death:
-        TNT1 A      0 A_Explode (16, 16, 0);
+        TNT1 A      0 A_Explode (int (floor (16 * (1 + bonusDMGFactor / 2.))), 16, 0);
         PNTB CDEFGH 2 bright;
         stop;
     }

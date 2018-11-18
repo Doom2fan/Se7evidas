@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4);
+        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 4 * (1+bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 250;
         DamageType 'RifleTracer';
     }
@@ -54,9 +54,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 6) * max (1.0, double (serverData.avgLevel) / 17.5));
+        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 5.));
         int attrPts = int (floor (xpSys.level * 1.5));
-        attrPts = int (attrPts * .75);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -105,6 +104,32 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             GiveXP (source, int (150 * max (1, level / 3)));
             GiveCash (source, int (120 * max (1, level / 4)));
         }
+    }
+
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * .025;
+    }
+
+    void DoFireGun () {
+        A_PlaySound ("Monsters/ScorpsEnforcer/Fire", CHAN_Weapon);
+
+        double agilityStat = xpSys ? xpSys.GetStat (S7Stat_Agility, false) : 0.;
+        double accuracyMod = clamp ((1. - (agilityStat * .005)), .45, 1.);
+
+        let tracer = S7_BaseTracer (
+            A_SpawnProjectile ('S7_ScorpsEnforcerTracer', 35.0, 10, fRandom [monsterSpread] (-spreadX, spreadX) * accuracyMod,
+                CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-spreadY, spreadY) * accuracyMod
+            )
+        );
+
+        if (tracer)
+            tracer.bonusDMGFactor = GetDamageBonus ();
+
+        A_SpawnProjectile ('S7_RifleCasingSpawn',     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
+        A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
     }
 
     states {
@@ -208,10 +233,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 E 1 A_FaceTarget (turn * 2, turn * 2);
         SCR2 F 1 {
             A_FaceTarget (0, 0);
-            A_PlaySound ("Monsters/ScorpsEnforcer/Fire", CHAN_Weapon);
-            A_SpawnProjectile ('S7_ScorpsEnforcerTracer', 35.0, 10, fRandom [monsterSpread] (-spreadX, spreadX), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-spreadY, spreadY));
-            A_SpawnProjectile ('S7_RifleCasingSpawn',     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
+            DoFireGun ();
         }
         SCR2 U 2;
         SCR2 U 1 A_JumpIf (fireMode, 1); // If we're firing full auto, skip this frame
@@ -226,12 +248,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
 
     CoverFire:
         SCR2 E 1 A_JumpIf (!target || target.health <= 0, "EndShoot"); // If the target is dead or we have no target, stop firing
-        SCR2 F 1 {
-            A_PlaySound ("Monsters/ScorpsEnforcer/Fire", CHAN_Weapon);
-            A_SpawnProjectile ('S7_ScorpsEnforcerTracer', 35.0, 10, fRandom [monsterSpread] (-spreadX, spreadX), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-spreadY, spreadY));
-            A_SpawnProjectile ('S7_RifleCasingSpawn',     35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-            A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',  35.0, 10, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
-        }
+        SCR2 F 1 DoFireGun ();
         SCR2 U 2;
         SCR2 U 1 A_JumpIf (fireMode, 1); // If we're firing full auto, skip this frame
         TNT1 A 0 {

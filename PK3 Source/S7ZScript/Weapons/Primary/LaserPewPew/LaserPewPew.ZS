@@ -197,7 +197,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), true, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
-                proj.bonusDamage = invoker.GetDamageBonus ();
+                proj.bonusDMGFactor = invoker.GetDamageBonus ();
 
             S7_Recoil (-0.38);
 
@@ -205,7 +205,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         }
         BLSG C 1 S7_Recoil (-0.07);
         BLSG B 1 S7_Recoil (-0.07);
-        BLSG A 1;
+        BLSG A 1;   
         BLSG A 1 A_Refire ("Fire");
         goto Ready2;
     Fire.Sights:
@@ -215,7 +215,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), true, 0, -1, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
-                proj.bonusDamage = invoker.GetDamageBonus ();
+                proj.bonusDMGFactor = invoker.GetDamageBonus ();
 
             A_ZoomFactor (1.270);
             S7_Recoil (-0.38);
@@ -416,7 +416,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), true, 6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
-                proj.bonusDamage = invoker.GetDamageBonus ();
+                proj.bonusDMGFactor = invoker.GetDamageBonus ();
 
             S7_Recoil (-0.38);
 
@@ -442,7 +442,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             let proj = S7_LaserPewPew_Tracer (A_FireProjectile ('S7_LaserPewPew_Tracer', fRandom [weaponSpread] (-0.2, 0.2), false, -6, -2, 0, fRandom [weaponSpread] (-0.2, 0.2)));
 
             if (proj)
-                proj.bonusDamage = invoker.GetDamageBonus ();
+                proj.bonusDMGFactor = invoker.GetDamageBonus ();
 
             TakeInventory ('S7_LaserPewPewClipSecond', 1);
 
@@ -583,10 +583,8 @@ class S7_LaserPewPew : S7_BaseWeapon {
 //
 //-------------------------------------------------------------------------------------------
 class S7_LaserPewPew_Tracer : S7_BaseTracer {
-    double bonusDamage;
-
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8 * (1+bonusDamage));
+        DamageFunction (fRandom [weaponDamage] (1.0, 4.25) * 8 * (1+bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 310;
         DamageType 'LaserTracer';
         Scale 0.0125;

@@ -58,9 +58,8 @@ class S7_FleshSpawn : S7_MonsterBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 14));
-        int attrPts = int (floor (xpSys.level * 2));
-        attrPts = int (attrPts * .75);
+        xpSys.level = int (max (1.0, double (serverData.avgLevel) / 5.));
+        int attrPts = int (floor (xpSys.level * 1.5));
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -138,6 +137,13 @@ class S7_FleshSpawn : S7_MonsterBase {
         A_SpawnItemEx (gibClass, xOfs: xyOffs * cos (angle), yOfs: xyOffs * sin (angle), zOfs: zOffs, xVel: vX, yVel: vY, zVel: vZ, flags: SXF_NoCheckPosition | SXF_AbsoluteAngle);
     }
 
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.045;
+    }
+
     states {
     Spawn:
         FLSP A 8 A_S7Look;
@@ -160,14 +166,19 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     Melee:
         FLSP FFAA 1 A_FaceTarget (45, 22.5);
-        FLSP B    2 A_CustomMeleeAttack (damage: random [monsterDMG] (1, 4), damagetype: 'Melee');
+        FLSP B    2 A_CustomMeleeAttack (damage: int (floor (random [monsterDMG] (1, 4) * (1 + GetDamageBonus ()))), damagetype: 'Melee');
         FLSP AFE  2;
         goto See;
 
     Missile:
         FLSP CCCC 2 A_FaceTarget (30, 15);
         FLSP GG   2 A_FaceTarget (30, 15);
-        FLSP H    4 bright A_SpawnProjectile ('S7_FleshSpawnBall', 12);
+        FLSP H    4 bright {
+            let proj = S7_FleshSpawnBall (A_SpawnProjectile ('S7_FleshSpawnBall', 12));
+
+            if (proj)
+                proj.bonusDMGFactor = GetDamageBonus ();
+        }
         FLSP EA   2;
         goto See;
 
@@ -268,6 +279,8 @@ class S7_FleshSpawn : S7_MonsterBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_FleshSpawnBall : S7_FireballBase {
+    double bonusDMGFactor;
+
     default {
         Radius 3;
         Height 5;
@@ -276,7 +289,7 @@ class S7_FleshSpawnBall : S7_FireballBase {
         S7_Projectile.FastProjCollision ColMode_EdgeCenters;
         Speed 15;
 
-        DamageFunction int (fRandom [monsterDMG] (1.0, 6.0) * 4);
+        DamageFunction int (fRandom [monsterDMG] (1.0, 6.0) * 4 * (1+bonusDMGFactor));
         Obituary "$OBFLESHSPAWNBALL";
         RenderStyle "Add";
         Decal 'Scorch';

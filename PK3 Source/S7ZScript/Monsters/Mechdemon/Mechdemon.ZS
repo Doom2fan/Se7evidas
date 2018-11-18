@@ -56,9 +56,8 @@ class S7_Mechdemon : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 14));
-        int attrPts = int (floor (xpSys.level * 2));
-        attrPts = int (attrPts * .75);
+        xpSys.level = int (random [monsterStats] (1, 4) * max (1.0, double (serverData.avgLevel) / 6.5));
+        int attrPts = int (floor (xpSys.level * 2.5));
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -144,7 +143,7 @@ class S7_Mechdemon : S7_DemonBase {
 
         if (!TryMove (pos.XY + AngleToVector (angle, S7_ChargeSpeed), true, false)) {
             if (BlockingMobj) {
-                BlockingMobj.DamageMobj (self, self, random [monsterDMG] (5, 15), "Melee");
+                BlockingMobj.DamageMobj (self, self, int (random [monsterDMG] (5, 15) * (1 + invoker.GetDamageBonus ())), "Melee");
                 invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
 
                 return ResolveState ("See");
@@ -159,6 +158,13 @@ class S7_Mechdemon : S7_DemonBase {
         Prev = oldPos;
         
         return ResolveState (null);
+    }
+
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.07;
     }
 
     states {
@@ -179,7 +185,7 @@ class S7_Mechdemon : S7_DemonBase {
         MDMN EEEFF  2 Fast A_FaceTarget ();
         MDMN G      4 Fast {
             A_FaceTarget ();
-            A_CustomMeleeAttack (int (fRandom (2, 10) * 4), "", "", 'Bite');
+            A_CustomMeleeAttack (int (fRandom (2, 10) * 4 * GetDamageBonus ()), "", "", 'Bite');
         }
         goto See;
 

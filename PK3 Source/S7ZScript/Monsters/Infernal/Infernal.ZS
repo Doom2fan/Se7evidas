@@ -52,9 +52,8 @@ class S7_Infernal : S7_MonsterBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 12.5));
+        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 9.5));
         int attrPts = int (floor (xpSys.level * 2.5));
-        attrPts = int (attrPts * .85);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -106,6 +105,13 @@ class S7_Infernal : S7_MonsterBase {
         }
     }
 
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.075;
+    }
+
     states {
     Spawn:
         INFR A 10 bright A_S7Look;
@@ -119,7 +125,11 @@ class S7_Infernal : S7_MonsterBase {
 
         INFR J 6 {
             A_FaceTarget (0, 0);
-            A_SpawnProjectile ('S7_InfernalBall', 32);
+            
+            let proj = S7_InfernalBall (A_SpawnProjectile ('S7_InfernalBall', 32));
+
+            if (proj)
+                proj.bonusDMGFactor = GetDamageBonus ();
         }
         goto See;
 
@@ -152,10 +162,12 @@ class S7_Infernal : S7_MonsterBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_InfernalBall : S7_FireballBase {
+    double bonusDMGFactor;
+
     default {
         Radius 16;
         Height 25;
-        DamageFunction (fRandom [monsterDMG] (1.0, 6.0) * 5);
+        DamageFunction (fRandom [monsterDMG] (1.0, 6.0) * 5 * (1+bonusDMGFactor));
         Speed 15;
         Obituary "$OBINFERNAL";
         Decal 'Scorch';

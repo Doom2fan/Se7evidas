@@ -55,7 +55,6 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10));
         int attrPts = int (floor (xpSys.level * 2.5));
-        attrPts = int (attrPts * .85);
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
@@ -107,13 +106,23 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         }
     }
 
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.075;
+    }
+
     action void DoMeleeAttack () {
-        A_CustomMeleeAttack (int (fRandom (1, 4) * 10), "Monsters/InfernalGuardian/MeleeHit", "Monsters/InfernalGuardian/MeleeMiss", "Melee");
+        A_CustomMeleeAttack (int (fRandom (1, 4) * 10 * (1 + invoker.GetDamageBonus ())), "Monsters/InfernalGuardian/MeleeHit", "Monsters/InfernalGuardian/MeleeMiss", "Melee");
     }
 
     action void DoShieldAttack () {
         A_FaceTarget (0, 0);
-        A_SpawnProjectile ('S7_InfernalGuardianShieldShot', 32, -4);
+        let proj = S7_InfernalGuardianShieldShot (A_SpawnProjectile ('S7_InfernalGuardianShieldShot', 32, -4));
+
+        if (proj)
+            proj.bonusDMGFactor = invoker.GetDamageBonus ();
     }
 
     states {
@@ -147,9 +156,12 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         BOS0 G 6 {
             A_FaceTarget (0, 0);
 
-            if (!CheckMeleeRange ())
-                A_SpawnProjectile ('S7_InfernalGuardianBall', 32);
-            else
+            if (!CheckMeleeRange ()) {
+                let proj = S7_InfernalGuardianBall (A_SpawnProjectile ('S7_InfernalGuardianBall', 32));
+
+                if (proj)
+                    proj.bonusDMGFactor = GetDamageBonus ();
+            } else
                 DoMeleeAttack ();
         }
         goto See;
@@ -237,8 +249,10 @@ class S7_InfernalGuardian : S7_HellNobleBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_InfernalGuardianBall : S7_FireballBase {
+    double bonusDMGFactor;
+
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 16);
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 16 * (1+bonusDMGFactor));
         Speed 15;
         Obituary "$OBINFERNALGUARDIAN";
 
@@ -251,7 +265,7 @@ class S7_InfernalGuardianBall : S7_FireballBase {
         BS0P AB 2 bright;
         loop;
     Death:
-        TNT1 A      0 A_Explode (32, 24, 8);
+        TNT1 A      0 A_Explode (int (floor (32 * (1 + bonusDMGFactor / 2.))), 24, 8);
         BS0P CDEFGH 2 bright;
         stop;
     }
@@ -263,8 +277,10 @@ class S7_InfernalGuardianBall : S7_FireballBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_InfernalGuardianShieldShot : S7_FireballBase {
+    double bonusDMGFactor;
+
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 4);
+        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 4 * (1+bonusDMGFactor));
         Speed 18;
         Obituary "$OBINFERNALGUARDIAN";
 
