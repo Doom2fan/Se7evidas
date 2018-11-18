@@ -124,7 +124,7 @@ class S7_BlackPanther : S7_HellNobleBase {
             A_FaceTarget (0, 0);
 
             if (CheckMeleeRange ())
-                A_CustomMeleeAttack (int (fRandom [monsterDMG] (1.0, 4.0) * 8 * (1 + bonusDMGFactor)), "baron/melee");
+                A_CustomMeleeAttack (int (fRandom [monsterDMG] (1.0, 4.0) * 8 * (1 + GetDamageBonus ())), "baron/melee");
             else {
                 let proj = S7_BlackPantherBall (A_SpawnProjectile ('S7_BlackPantherBall', 32.));
 
