@@ -333,7 +333,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
                 );
             }
         }
-        TNT1 A 1;
+        CRSH A 1 { translation = bloodTranslation; }
         wait;
     /*XDeath:
         SCR2 N  5 { monsDeathType = 1; }

@@ -391,7 +391,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
                 );
             }
         }
-        TNT1 A 1;
+        CRSH A 1 { translation = bloodTranslation; }
         wait;
     /*XDeath:
         SPOS M     5 { monsDeathType = 1; }

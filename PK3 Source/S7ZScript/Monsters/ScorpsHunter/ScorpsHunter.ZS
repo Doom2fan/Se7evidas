@@ -363,7 +363,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
                 );
             }
         }
-        TNT1 A 1;
+        CRSH A 1 { translation = bloodTranslation; }
         wait;
     /*XDeath:
         SPOS O     5 { monsDeathType = 1; }

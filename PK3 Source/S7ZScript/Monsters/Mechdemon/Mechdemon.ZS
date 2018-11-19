@@ -259,7 +259,7 @@ class S7_Mechdemon : S7_DemonBase {
                 );
             }
         }
-        TNT1 A 1;
+        CRSH B 1 { translation = bloodTranslation; }
         wait;
 
     Raise:

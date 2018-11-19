@@ -230,7 +230,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
                 );
             }
         }
-        TNT1 A 1;
+        CRSH B 1 { translation = bloodTranslation; }
         wait;
 
     Raise:

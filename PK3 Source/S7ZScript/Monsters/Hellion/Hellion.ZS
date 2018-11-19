@@ -193,7 +193,7 @@ class S7_Hellion : S7_DemonBase {
                 );
             }
         }
-        TNT1 A 1;
+        CRSH A 1 { translation = bloodTranslation; }
         wait;
     /*XDeath:
         HELN U    6 { monsDeathType = 1; }
