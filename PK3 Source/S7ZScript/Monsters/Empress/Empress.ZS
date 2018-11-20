@@ -360,7 +360,7 @@ class S7_Empress : S7_DemonBase {
         HRFR GGG    13 A_Pain;
         HRFR FFFFFF  1 A_SpawnItemEx ('S7_EmpressDeathSmokeSpawner', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         HRFR F       2;
-        TNT1 A      -1 {
+        TNT1 A      35 {
             for (int i = 0; i < 48; i++) {
                 A_SpawnItemEx ('S7_EmpressSparkle', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
                     fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
@@ -368,8 +368,8 @@ class S7_Empress : S7_DemonBase {
             A_NoBlocking ();
             A_DamageChildren (0x7FFFFFFF, 'EmpressDeath');
             A_KillChildren ();
-            Destroy ();
         }
+        TNT1 A      -1;
         stop;
     }
 }

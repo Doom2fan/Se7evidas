@@ -45,98 +45,19 @@ class S7_FireballBase : S7_Projectile {
 //
 //-------------------------------------------------------------------------------------------
 /** Monster spawner base
-*** Usage: Works exactly like RandomSpawner, except you can override MS_GetMonsterSpawnList to change the spawner's behaviour.
+*** Usage: Works exactly like RandomSpawner, except it does some changes to boss monster behaviour.
 *** Virtuals:
 ***     void PostSpawn (Actor spawned): Called when the actor is finished spawning. (From RandomSpawner)
-***     DropItem MS_GetMonsterSpawnList (): called when getting the monster spawn list. (From S7_MonsterSpawner)
+***     Name ChooseSpawn (): Called when getting the monster spawn list. (From RandomSpawner)
 **/
-// 99% of this is taken from the normal RandomSpawner code. I wouldn't need to do this if GetDropItems was a virtual function :V
 class S7_MonsterSpawner : RandomSpawner {
-    virtual class<Actor> MS_GetMonsterSpawnList () { return null; }
+    // This function is needed for handling boss replacers
+    override void Tick () {
+        Actor.Tick ();
 
-    // Literally the only reason we're even overriding this is because we can't override GetDropItems.
-    override void BeginPlay () {
-        if (bouncecount >= MAX_RANDOMSPAWNERS_RECURSION) { // Prevents infinite recursions
-            Spawn ('Unknown', Pos, NO_REPLACE); // Show that there's a problem.
+        if (!tracer || (tracer.health <= 0 && tracer.tics == -1)) {
+            A_BossDeath ();
             Destroy ();
-            return;
-        }
-
-        let actClass = MS_GetMonsterSpawnList ();
-        if (actClass != null) {
-            DoSpawnActor (actClass);
-            return;
-        }
-
-        DropItem di;   // di will be our drop item list iterator
-        DropItem drop; // while drop stays as the reference point.
-        int n = 0;
-        bool nomonsters = sv_nomonsters || level.nomonsters;
-
-        drop = di = GetDropItems ();
-        if (di != null) {
-            while (di != null) {
-                if (di.Name != 'None') {
-                    if (!nomonsters || !IsMonster (di)) {
-                        int amt = di.Amount;
-                        if (amt < 0) amt = 1; // default value is -1, we need a positive value.
-                        n += amt; // this is how we can weight the list.
-                    }
-                    di = di.Next;
-                }
-            }
-            if (n == 0) { // Nothing left to spawn. They must have all been monsters, and monsters are disabled.
-                Destroy ();
-                return;
-            }
-            // Then we reset the iterator to the start position...
-            di = drop;
-            // Take a random number...
-            n = random [randomspawn] (0, n - 1);
-            // And iterate in the array up to the random number chosen.
-            while (n > -1 && di != null) {
-                if (di.Name != 'None' && (!nomonsters || !IsMonster (di))) {
-                    int amt = di.Amount;
-                    if (amt < 0) amt = 1;
-                    n -= amt;
-                    if ((di.Next != null) && (n > -1))
-                        di = di.Next;
-                    else
-                        n = -1;
-                }
-                else
-                    di = di.Next;
-            }
-
-            // So now we can spawn the dropped item.
-            if (di == null) {
-                Spawn ('Unknown', Pos, NO_REPLACE); // Show that there's a problem.
-                Destroy ();
-                return;
-            } else if (random [randomspawn] () <= di.Probability) // prob 255 = always spawn, prob 0 = almost never spawn.
-                DoSpawnActor (di.Name);
-        }
-    }
-
-    void DoSpawnActor (class<Actor> cls) {
-        // Handle replacement here so as to get the proper speed and flags for missiles
-        if (cls != null) {
-            Class<Actor> rep = GetReplacement (cls);
-            if (rep != null)
-                cls = rep;
-        }
-
-        if (cls != null) {
-            Species = Name (cls);
-            readonly<Actor> defmobj = GetDefaultByType (cls);
-            Speed = defmobj.Speed;
-            bMissile |= defmobj.bMissile;
-            bSeekerMissile |= defmobj.bSeekerMissile;
-            bSpectral |= defmobj.bSpectral;
-        }
-        else {
-            A_Log (TEXTCOLOR_RED .. "Unknown item class ".. cls .." to drop from a random spawner (Custom Se7evidas monster spawner)\n");
-            Species = 'None';
         }
     }
 }
@@ -169,7 +90,7 @@ class S7_MEvntNoMonster : Actor {
         wait;
 
     Death:
-        TNT1 A 0 A_NoBlocking;
+        TNT1 A 35 A_NoBlocking;
         TNT1 A -1;
         stop;
 

@@ -34,6 +34,7 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
     }
 
     int loopCount;
+    Actor spawnedEmpress;
 
     override void BeginPlay () { Actor.BeginPlay (); }
     override void PostBeginPlay () { Actor.PostBeginPlay (); }
@@ -82,10 +83,18 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
         TNT1 A            5;
         TNT1 A            0 {
+            let prevTracer = tracer;
+
             Super.BeginPlay ();
             Super.PostBeginPlay ();
+
             if (tracer) {
-                tracer.target = target;
+                spawnedEmpress = tracer;
+                tracer = prevTracer;
+
+                spawnedEmpress.target = target;
+                spawnedEmpress.master = master;
+                spawnedEmpress.tracer = tracer;
 
                 for (int i = 0; i < 48; i++) {
                     A_SpawnItemEx ('S7_EmpressSparkle', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
@@ -95,7 +104,7 @@ class S7_EmpressPreSpawn : S7_MonsterSpawner {
         }
     Idle:
         TNT1 A 1 {
-            if (!tracer || tracer.health <= 0) {
+            if (!spawnedEmpress || (spawnedEmpress.health <= 0 && spawnedEmpress.tics == -1)) {
                 A_BossDeath ();
                 Destroy ();
             }
