@@ -73,6 +73,46 @@ class S7_MonsterBase : Actor {
     }
     virtual void OnDeath (Actor source, Actor inflictor, int dmgflags) { }
 
+    action void S7_SpawnGibs () {
+        double defHeight = default.height / 2;
+
+        for (int i = random [sfx] (8, 16); i >= 0; i--) {
+            double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
+            double xvel = fRandom [sfx] (0,  6),
+                   zvel = fRandom [sfx] (4, 12);
+
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_GibbingBlood',
+                xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel,
+                angle: fRandom [sfx] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition
+            );
+
+            if (success && act)
+                act.vel = vel + act.vel;
+        }
+
+        for (int i = random [sfx] (6, 8); i >= 0; i--) {
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+            );
+
+            if (success && act)
+                act.vel = vel + act.vel;
+        }
+
+        for (int i = random [sfx] (8, 15); i >= 0; i--) {
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [sfx] (-7, 7),
+                xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
+                flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
+            );
+
+            if (success && act)
+                act.vel = vel + act.vel;
+        }
+    }
+
     S7_XPSystem GetXPSystem () {
         return S7_XPSystem (FindInventory ('S7_XPSystem', true));
     }
