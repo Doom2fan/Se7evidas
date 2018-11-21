@@ -66,7 +66,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
     override bool SS_PreSell (int amount) {
         if (hasScope) {
             if (!Owner.CheckInventory ('S7_ManxScope', 0))
-                GiveInventory ('S7_ManxScope');
+                Owner.GiveInventory ('S7_ManxScope', 1);
             else
                 DropAmmo ('S7_ManxScope', Owner, 1);
 
@@ -75,7 +75,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
         if (hasSuppressor) {
             if (!Owner.CheckInventory ('S7_ManxSuppressor', 0))
-                GiveInventory ('S7_ManxSuppressor');
+                Owner.GiveInventory ('S7_ManxSuppressor', 1);
             else
                 DropAmmo ('S7_ManxSuppressor', Owner, 1);
 

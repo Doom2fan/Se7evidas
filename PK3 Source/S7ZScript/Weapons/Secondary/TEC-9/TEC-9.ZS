@@ -62,7 +62,7 @@ class S7_TEC9 : S7_BaseWeapon {
     override bool SS_PreSell (int amount) {
         if (hasSuppressor) {
             if (!Owner.CheckInventory ('S7_TEC9Suppressor', 0))
-                GiveInventory ('S7_TEC9Suppressor');
+                Owner.GiveInventory ('S7_TEC9Suppressor', 1);
             else
                 DropAmmo ('S7_TEC9Suppressor', Owner, 1);
 
