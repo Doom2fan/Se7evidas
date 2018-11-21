@@ -57,6 +57,17 @@ class S7_ManxCarbine : S7_BaseWeapon {
     bool   zoomed;
     double zoomLevel;
 
+    override void Tick () {
+        if (hasScope && hasSuppressor)
+            weapIcon = "MNXPD0";
+        else if (hasSuppressor)
+            weapIcon = "MNXPC0";
+        else if (hasScope)
+            weapIcon = "MNXPB0";
+        else
+            weapIcon = "MNXPA0";
+    }
+
     override void DoEffect () {
         Super.DoEffect ();
 
