@@ -46,6 +46,9 @@ class S7_TEC9 : S7_BaseWeapon {
         S7_BaseWeapon.UsesMag true;
     }
 
+    const TEC9_SUPPRESSOROVERLAY_ID = 20;
+    bool hasSuppressor;
+
     const BURSTLENGTH = 3;
     bool burstFire;
     int burstCount;
@@ -56,13 +59,37 @@ class S7_TEC9 : S7_BaseWeapon {
         fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
     }
 
-    states {
+    action void TEC9_RunOverlay (int id, name sprite, bool showOverlay) {
+        let pspWeap = player.FindPSprite (PSP_Weapon);
+        let pspOverlay = player.FindPSprite (id);
 
+        if (!pspWeap || !pspOverlay)
+            return;
+
+        if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TEC9')) {
+            pspOverlay.sprite = GetSpriteIndex (sprite);
+            pspOverlay.frame = pspWeap.frame;
+        } else if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TECR')) {
+            pspOverlay.sprite = GetSpriteIndex (sprite);
+            pspOverlay.frame = 0;
+        } else {
+            pspOverlay.sprite = GetSpriteIndex ('TNT1');
+            pspOverlay.frame = 0;
+        }
+    }
+
+    states {
     Spawn:
-        TEC9 Z -1;
-        loop;
+        TEC9 Z 1 {
+            if (invoker.hasSuppressor)
+                sprite = GetSpriteIndex ('TECS');
+            else
+                sprite = GetSpriteIndex ('TEC9');
+        }
+        goto Spawn;
 
     Ready:
+        TNT1 A 0 A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
         TEC9 TUVWXA 1;
     Ready2:
         TEC9 A 1 {
@@ -71,8 +98,20 @@ class S7_TEC9 : S7_BaseWeapon {
         }
         loop;
 
+    Overlay.Suppressor:
+        TECS A 1 {
+            TEC9_RunOverlay (TEC9_SUPPRESSOROVERLAY_ID, "TECS", invoker.hasSuppressor);
+
+            if (invoker.hasSuppressor)
+                A_WeaponOffset (12, 32 + 12);
+            else
+                A_WeaponOffset (0, 32);
+        }
+        loop;
+
     Deselect:
         TEC9 AXWVUT 1;
+        TNT1 A 0 A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Null");
         goto TrueDeselect;
 
     Fire:
@@ -82,12 +121,24 @@ class S7_TEC9 : S7_BaseWeapon {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
-            A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
-            A_AlertMonsters ();
-            A_GunFlash ();
+            if (!invoker.hasSuppressor) {
+                A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
+                A_AlertMonsters ();
+                A_GunFlash ();
+            } else {
+                A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon, volume: 0.35);
+                A_AlertMonsters (384.0);
+            }
+
             A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1.8, 4.5);
-            A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 9, -2);
-            A_FireProjectile ('S7_TEC9Tracer', fRandom [weaponSpread] (-0.45, 0.45), true, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
+
+            if (!invoker.hasSuppressor) {
+                A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 9, -2);
+                A_FireProjectile ('S7_TEC9Tracer', fRandom [weaponSpread] (-0.45, 0.45), true, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
+            } else {
+                A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 11, -4);
+                A_FireProjectile ('S7_TEC9Tracer', fRandom [weaponSpread] (-0.45, 0.45), true, 3, 1, 0, fRandom [weaponSpread] (-0.45, 0.45));
+            }
 
             if (invoker.burstFire) {
                 S7_Recoil (-0.5);

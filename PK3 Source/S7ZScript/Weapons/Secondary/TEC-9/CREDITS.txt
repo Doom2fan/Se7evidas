@@ -1,7 +1,9 @@
 Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    HUD and Pickup Sprites: Captain J, TheMightyHeracross, Chronos "phantombeta" Ouroboros
+    HUD Sprites: Scuba Steve, Captain J, TheMightyHeracross, Chronos "phantombeta" Ouroboros
+    Pickup Sprites: Vostyok
+    Supressor: Vostyok
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file

@@ -46,8 +46,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
         S7_BaseWeapon.UsesMag true;
     }
 
-    const MANX_SCOPEOVERLAY_ID = 20;
+    const MANX_SCOPEOVERLAY_ID      = 20;
+    const MANX_SUPPRESSOROVERLAY_ID = 21;
     bool hasScope;
+    bool hasSuppressor;
 
     bool semiAuto;
 
@@ -79,16 +81,23 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     states {
     Spawn:
-        MANX Z 1 {
-            if (invoker.hasScope)
-                sprite = GetSpriteIndex ('MNXS');
+        MNXP A 1 {
+            if (invoker.hasScope && invoker.hasSuppressor)
+                frame = 3;
+            else if (invoker.hasSuppressor)
+                frame = 2;
+            else if (invoker.hasScope)
+                frame = 1;
             else
-                sprite = GetSpriteIndex ('MANX');
+                frame = 0;
         }
         loop;
 
     Ready:
-        TNT1 A 0 A_Overlay (MANX_SCOPEOVERLAY_ID, "Overlay.Scope");
+        TNT1 A 0 {
+            A_Overlay (MANX_SCOPEOVERLAY_ID     , "Overlay.Scope"     );
+            A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
+        }
         MANX TUVWXA 1;
     Ready2:
         MANX A 1 {
@@ -129,7 +138,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2;
 
     Overlay.Scope:
-        MNXS A 1 Manx_RunOverlay (MANX_SCOPEOVERLAY_ID, 'MNXS', invoker.hasScope);
+        MNX2 A 1 Manx_RunOverlay (MANX_SCOPEOVERLAY_ID, 'MNX2', invoker.hasScope);
+        loop;
+    Overlay.Suppressor:
+        MNX3 A 1 Manx_RunOverlay (MANX_SUPPRESSOROVERLAY_ID, 'MNX3', invoker.hasSuppressor);
         loop;
 
     Deselect:
@@ -143,7 +155,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
         }
         MANX AXWVUT 1;
         TNT1 A 0 {
-            A_Overlay (MANX_SCOPEOVERLAY_ID, "Null");
+            A_Overlay (MANX_SCOPEOVERLAY_ID     , "Null");
+            A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Null");
         }
         goto TrueDeselect;
     Deselect.Zoom:
@@ -159,16 +172,26 @@ class S7_ManxCarbine : S7_BaseWeapon {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
-            A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
-            A_AlertMonsters ();
-            A_GunFlash ();
+            if (!invoker.hasSuppressor) {
+                A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
+                A_AlertMonsters ();
+                A_GunFlash ();
+            } else {
+                A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon, volume: 0.4);
+                A_AlertMonsters (512.0);
+            }
 
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3.75, 1.75);
+            if (!invoker.hasSuppressor)
+                A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3.75, 1.75);
+            else
+                A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2.25, 3.15);
+
             A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 15, -9);
             A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.25, 0.25), true, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
+
             S7_Recoil (-0.5);
 
             return ResolveState (null);

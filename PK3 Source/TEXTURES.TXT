@@ -12,6 +12,7 @@
 #include "S7TEXTURES/Weapons/LaserPewPewAkimbo.txt"
 #include "S7TEXTURES/Weapons/ManxCarbine.txt"
 #include "S7TEXTURES/Weapons/ManxCarbineScope.txt"
+#include "S7TEXTURES/Weapons/ManxCarbineSuppressor.txt"
 #include "S7TEXTURES/Weapons/PlasmaGun.txt"
 #include "S7TEXTURES/Weapons/PrettyShootyIonCannonGun.txt"
 #include "S7TEXTURES/Weapons/QuickMelee.txt"
@@ -20,6 +21,7 @@
 #include "S7TEXTURES/Weapons/Shotgun.txt"
 #include "S7TEXTURES/Weapons/SSG.txt"
 #include "S7TEXTURES/Weapons/TEC-9.txt"
+#include "S7TEXTURES/Weapons/TEC-9Suppressed.txt"
 #include "S7TEXTURES/Weapons/Thumper.txt"
 
 // Inventory

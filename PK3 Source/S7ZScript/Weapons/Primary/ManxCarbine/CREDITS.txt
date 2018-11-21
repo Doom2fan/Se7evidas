@@ -2,6 +2,8 @@ Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
     HUD and Pickup Sprites: DoomNukem, TheRailgunner, Carbine Dioxide, Chronos "phantombeta" Ouroboros
+    Scope: DoomNukem, Chronos "phantombeta" Ouroboros
+    Supressor: Vostyok
     Animation: Chronos "phantombeta" Ouroboros
 
 Sounds: Credits in the SNDINFO file
