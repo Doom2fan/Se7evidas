@@ -918,6 +918,24 @@ shop "mainShop" {
                     buyPrice = 2500;
                     sellPrice = 2000;
                 },
+                buySellItem "MNX2" {
+                    name = "$WEAPMOD_MANXSUPPRESSOR";
+                    desc = "$SS_MANXSUPPRESSOR_DESC";
+                    info = "$SS_MANXSUPPRESSOR_INFO";
+                    icon = "sprites/Inventory/WeapMods/WMODB0.png";
+                    inventoryName = "S7_ManxSuppressor";
+                    buyPrice = 2750;
+                    sellPrice = 2200;
+                },
+                buySellItem "TECS" {
+                    name = "$WEAPMOD_TEC9SUPPRESSOR";
+                    desc = "$SS_TEC9SUPPRESSOR_DESC";
+                    info = "$SS_TEC9SUPPRESSOR_INFO";
+                    icon = "sprites/Inventory/WeapMods/WMODC0.png";
+                    inventoryName = "S7_TEC9Suppressor";
+                    buyPrice = 2000;
+                    sellPrice = 1600;
+                },
             }
         },
     }

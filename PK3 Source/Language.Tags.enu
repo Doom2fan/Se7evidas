@@ -89,6 +89,8 @@ FBSYSCELLS                      = "Firebrand Systems Energy Cells";
 
 // Weapon mods
 WEAPMOD_MANXSCOPE               = "C23 \"Manx\" Carbine scope";
+WEAPMOD_MANXSUPPRESSOR          = "C23 \"Manx\" Carbine suppressor";
+WEAPMOD_TEC9SUPPRESSOR          = "S18 \"Kronos\" SMG suppressor";
 
 /** Monsters **/
 SCRPSTROOTAG                    = "Shadow Corps Trooper";

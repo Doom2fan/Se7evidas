@@ -67,6 +67,12 @@ SS_HANDGRENADEINFO = "Fuse: ~3.5 seconds";
 SS_MANXSCOPE_DESC = "A scope for Cronus Corps' C23 \"Manx\" Carbine.";
 SS_MANXSCOPE_INFO = "Magnification: 2-4x";
 
+SS_MANXSUPPRESSOR_DESC = "A suppressor for Cronus Corps' C23 \"Manx\" Carbine.";
+SS_MANXSUPPRESSOR_INFO = "";
+
+SS_TEC9SUPPRESSOR_DESC = "A suppressor for Cronus Corps' S18 \"Kronos\" SMG.";
+SS_TEC9SUPPRESSOR_INFO = "";
+
 /** Loot **/
 SS_SCORPS_SG_DESC = "Shadow Corps' standard-issue semi-automatic shotgun, chambered in 12 gauge.\nAs with most Shadow Corps equipment, it's a pretty flimsy weapon. They can easily be damaged to the point of uselessness.";
 SS_SCORPS_SG_INFO = "";

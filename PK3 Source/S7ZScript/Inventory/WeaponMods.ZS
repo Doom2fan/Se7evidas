@@ -44,3 +44,61 @@ class S7_ManxScope : Inventory {
         stop;
     }
 }
+
+class S7_ManxSuppressor : Inventory {
+    default {
+        Inventory.MaxAmount 50;
+        Inventory.Icon "WMODB0";
+
+        Tag "$WEAPMOD_MANXSUPPRESSOR";
+
+        +INVENTORY.INVBAR
+    }
+
+    override bool Use (bool pickup) {
+        if (!Owner)
+            return false;
+
+        let manx = S7_ManxCarbine (Owner.FindInventory ('S7_ManxCarbine'));
+        if (!manx || manx.hasSuppressor)
+            return false;
+
+        manx.hasSuppressor = true;
+        return true;
+    }
+
+    states {
+    Spawn:
+        WMOD B -1;
+        stop;
+    }
+}
+
+class S7_TEC9Suppressor : Inventory {
+    default {
+        Inventory.MaxAmount 50;
+        Inventory.Icon "WMODC0";
+
+        Tag "$WEAPMOD_TEC9SUPPRESSOR";
+
+        +INVENTORY.INVBAR
+    }
+
+    override bool Use (bool pickup) {
+        if (!Owner)
+            return false;
+
+        let tec9 = S7_TEC9 (Owner.FindInventory ('S7_TEC9'));
+        if (!tec9 || tec9.hasSuppressor)
+            return false;
+
+        tec9.hasSuppressor = true;
+        return true;
+    }
+
+    states {
+    Spawn:
+        WMOD C -1;
+        stop;
+    }
+}
