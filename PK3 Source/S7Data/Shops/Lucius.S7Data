@@ -534,7 +534,7 @@ shop "mainShop" {
                     name = "$SHORTMANXCARBINE";
                     desc = "$SS_MANXDESC";
                     info = "$SS_MANXINFO";
-                    icon = "sprites/Weapons/Primary/ManxCarbine/MANXZ0.png";
+                    icon = "sprites/Weapons/Primary/ManxCarbine/MNXPA0.png";
 
                     inventoryName = "S7_ManxCarbine";
                     buyPrice = 6500;
