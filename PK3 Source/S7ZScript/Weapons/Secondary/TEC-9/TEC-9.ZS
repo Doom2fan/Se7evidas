@@ -59,6 +59,19 @@ class S7_TEC9 : S7_BaseWeapon {
         fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
     }
 
+    override bool SS_PreSell (int amount) {
+        if (hasSuppressor) {
+            if (!Owner.CheckInventory ('S7_TEC9Suppressor', 0))
+                GiveInventory ('S7_TEC9Suppressor');
+            else
+                DropAmmo ('S7_TEC9Suppressor', Owner, 1);
+
+            hasSuppressor = false;
+        }
+
+        return true;
+    }
+
     action void TEC9_RunOverlay (int id, name sprite, bool showOverlay) {
         let pspWeap = player.FindPSprite (PSP_Weapon);
         let pspOverlay = player.FindPSprite (id);

@@ -63,6 +63,28 @@ class S7_ManxCarbine : S7_BaseWeapon {
         fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
     }
 
+    override bool SS_PreSell (int amount) {
+        if (hasScope) {
+            if (!Owner.CheckInventory ('S7_ManxScope', 0))
+                GiveInventory ('S7_ManxScope');
+            else
+                DropAmmo ('S7_ManxScope', Owner, 1);
+
+            hasScope = false;
+        }
+
+        if (hasSuppressor) {
+            if (!Owner.CheckInventory ('S7_ManxSuppressor', 0))
+                GiveInventory ('S7_ManxSuppressor');
+            else
+                DropAmmo ('S7_ManxSuppressor', Owner, 1);
+
+            hasSuppressor = false;
+        }
+
+        return true;
+    }
+
     action void Manx_RunOverlay (int id, name sprite, bool showOverlay) {
         let pspWeap = player.FindPSprite (PSP_Weapon);
         let pspOverlay = player.FindPSprite (id);
