@@ -1,8 +1,3 @@
-defaultListMenu {
-    font "LOGOFNT", "Untranslated"
-    linespacing 19
-}
-
 //-------------------------------------------------------------------------------------------
 //
 // Main Menu
@@ -10,11 +5,14 @@ defaultListMenu {
 //-------------------------------------------------------------------------------------------
 
 listMenu "MainMenu" {
-    font "LOGOFNT", "Untranslated"
-    staticText 17, 8, "Se7evidas"
+    //font "LOGOFNT", "Untranslated"
+    //staticText 17, 8, "Se7evidas"
+    staticPatch 25, 0, "M_S7LOGO"
 
     font "SMALLFONT", "Untranslated"
-    position 37, 41
+    Selector "M_SKULL1", -28, -7
+    linespacing 13
+    position 75, 100
 
     textItem "New",           "n", "PlayerclassMenu"
     textItem "Options",       "o", "OptionsMenu"
