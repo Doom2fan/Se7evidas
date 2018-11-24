@@ -73,8 +73,6 @@ class S7_BaseTracer : S7_Projectile {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            /*A_ScaleVelocity (1.0 / 25);
-            A_ScaleVelocity (abs (TrueSpeed));*/
             return ResolveState ("Idle");
         }
     }
@@ -103,7 +101,10 @@ class S7_BulletTracer : S7_BaseTracer {
         SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
         stop;
     XDeath:
-        TNT1 A 3 A_PlaySound ("Tracers/HitFlesh", CHAN_Body);
+        TNT1 A 3 {
+            if (random [misc] (0, 255) < 96)
+                A_PlaySound ("Tracers/HitFlesh", CHAN_Body, volume: 0.5);
+        }
         stop;
     }
 }
