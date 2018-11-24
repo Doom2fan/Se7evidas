@@ -201,6 +201,7 @@ class S7_HellionBall : S7_FireballBase {
         Speed 12;
         FastSpeed 24;
         Obituary "$OBHELLIONFB";
+        SeeSound "Monsters/Hellion/Fireball"
     }
 
     states {
