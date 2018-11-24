@@ -74,7 +74,7 @@ optionValue "S7_Flashlight_Mount" {
 optionValue "S7_HUDStyles" {
     0, "No HUD"
     1, "Minimal"
-    2, "Helmet"
+    2, "Helmet (Unfinished)"
 }
 
 optionMenu "S7Settings_User" {
