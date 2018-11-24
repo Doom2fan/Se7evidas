@@ -418,7 +418,7 @@ class S7_Projectile : FastProjectile {
 
             SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
-            if (!collisionHandled) {
+            if (!collisionHandled && bMissile) {
                 bool floorHit = pos.Z <= floorZ;
                 bool ceilingHit = (pos.Z + height) > ceilingZ;
 
