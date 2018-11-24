@@ -2,7 +2,7 @@ This file is just a general "acknowledgement" credits file.
 Detailed credits are located inside the PK3 file.
 
 Coding:
-    Chronos "phantombeta" Ouroboros.
+    Chronos "phantombeta" Ouroboros
 
 Some code taken from/written by:
     Vaecrius
@@ -73,7 +73,6 @@ Sounds:
     TerminusEst13
     WildWeasel
     Zanieon
-
 
 Special thanks to:
     Gutawer: For helping out quite a bit with ZScript, and for the walljumping math.
