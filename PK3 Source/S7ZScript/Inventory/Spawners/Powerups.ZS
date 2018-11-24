@@ -23,9 +23,10 @@
 //-------------------------------------------------------------------------------------------
 class S7_ArmorBonusSpawner : RandomSpawner replaces ArmorBonus {
     default {
+        DropItem 'S7_CanteenRefill',   256, 2;
         DropItem 'S7_Nothing',         256, 2;
-        DropItem 'S7_ArmorBonus',      256, 4;
-        DropItem 'S7_LargeArmorBonus', 256, 1;
+        DropItem 'S7_ArmorBonus',      256, 8;
+        DropItem 'S7_LargeArmorBonus', 256, 2;
     }
 }
 
