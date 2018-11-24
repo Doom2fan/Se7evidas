@@ -468,5 +468,31 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
         if (isInventoryBarVisible ())
             DrawInventoryBar (diparms, (0, 0), 8, DI_SCREEN_CENTER_BOTTOM, HX_SHADOW);
+
+        {
+            double initialKeyY = -115;
+
+            Vector2 keyPos = (15, initialKeyY);
+            int rowCount = 0;
+            double rowWidth = 0;
+
+            for (let i = CPlayer.mo.Inv; i != null; i = i.Inv) {
+                if (i is "Key" && i.Icon.IsValid ()) {
+                    DrawTexture (i.Icon, keyPos, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_LEFT_TOP);
+
+                    Vector2 size = TexMan.GetScaledSize (i.Icon);
+                    keyPos.Y -= size.Y + 2;
+                    rowWidth = max (rowWidth, size.X);
+
+                    if (++rowCount >= 3) {
+                        keyPos.Y = initialKeyY;
+                        keyPos.X += rowWidth + 2;
+
+                        rowWidth = 0;
+                        rowCount = 0;
+                    }
+                }
+            }
+        }
     }
 }
