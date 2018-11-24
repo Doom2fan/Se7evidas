@@ -2,3 +2,4 @@ BlackPanther/Sight      "sounds/Monsters/BlackPanther/Sight.ogg"  // Made by Chr
 BlackPanther/Active     "sounds/Monsters/BlackPanther/Active.ogg" // Ditto
 BlackPanther/Pain       "sounds/Monsters/BlackPanther/Pain.ogg"   // Ditto
 BlackPanther/Death      "sounds/Monsters/BlackPanther/Death.ogg"  // From Per Kristian's pk_doom_sfx_20120224.wad
+BlackPanther/Melee      "sounds/Monsters/BlackPanther/Melee.ogg"  // Ditto

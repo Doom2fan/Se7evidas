@@ -181,7 +181,7 @@ class S7_InfernalBall : S7_FireballBase {
         INFP AB 2 bright;
         loop;
     Death:
-        TNT1 A      0 A_PlaySound ("baron/shotx", CHAN_5);
+        TNT1 A      0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
         INFP CDEFGH 2 bright;
         stop;
     }

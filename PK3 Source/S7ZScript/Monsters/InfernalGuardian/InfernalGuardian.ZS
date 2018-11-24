@@ -233,7 +233,6 @@ class S7_InfernalGuardianBall : S7_FireballBase {
         Obituary "$OBINFERNALGUARDIAN";
 
         SeeSound "Monsters/InfernalGuardian/AttackFireball";
-        DeathSound "baron/shotx";
     }
 
     states {
@@ -241,7 +240,10 @@ class S7_InfernalGuardianBall : S7_FireballBase {
         BS0P AB 2 bright;
         loop;
     Death:
-        TNT1 A      0 A_Explode (int (floor (32 * (1 + bonusDMGFactor / 2.))), 24, 8);
+        TNT1 A      0 {
+            A_Explode (int (floor (32 * (1 + bonusDMGFactor / 2.))), 24, 8);
+            A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
+        }
         BS0P CDEFGH 2 bright;
         stop;
     }
@@ -261,7 +263,6 @@ class S7_InfernalGuardianShieldShot : S7_FireballBase {
         Obituary "$OBINFERNALGUARDIAN";
 
         SeeSound "Monsters/InfernalGuardian/AttackShield";
-        DeathSound "baron/shotx";
     }
 
     states {
@@ -269,6 +270,7 @@ class S7_InfernalGuardianShieldShot : S7_FireballBase {
         BS0P I 1 bright;
         loop;
     Death:
+        TNT1 A       0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
         BS0P JKLMNOP 2 bright;
         stop;
     }

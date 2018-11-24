@@ -201,7 +201,7 @@ class S7_HellionBall : S7_FireballBase {
         Speed 12;
         FastSpeed 24;
         Obituary "$OBHELLIONFB";
-        SeeSound "Monsters/Hellion/Fireball"
+        SeeSound "Monsters/Hellion/Fireball";
     }
 
     states {
@@ -212,6 +212,7 @@ class S7_HellionBall : S7_FireballBase {
         }
         loop;
     Death:
+        TNT1 A     0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
         CP00 DEFGH 2 bright;
         stop;
     }

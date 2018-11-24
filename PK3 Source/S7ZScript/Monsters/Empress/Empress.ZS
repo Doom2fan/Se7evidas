@@ -403,7 +403,7 @@ class S7_EmpressMissile2 : S7_Projectile {
         RenderStyle "add";
         Scale 0.075;
 
-        DeathSound "imp/shotx";
+        DeathSound "Misc/Common/FireballHit";
         Obituary "$OB_EMPRESSFB";
         Species 'S7EmpressCrap';
 
@@ -451,7 +451,7 @@ class S7_EmpressMissile1 : S7_Projectile {
         MissileHeight 8;
         RenderStyle "add";
 
-        DeathSound "imp/shotx";
+        DeathSound "Misc/Common/FireballHit";
         Obituary "$OB_EMPRESSFB";
         Species 'S7EmpressCrap';
 
