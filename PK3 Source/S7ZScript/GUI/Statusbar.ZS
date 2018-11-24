@@ -43,6 +43,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
     DynamicValueInterpolator mCashInterpolator;
     DynamicValueInterpolator mLsrRfInterpolator;
     DynamicValueInterpolator mPlsmMGInterpolator;
+    DynamicValueInterpolator mIonCannonInterpolator;
     DynamicValueInterpolator mLPPInterpolator1;
     DynamicValueInterpolator mLPPInterpolator2;
     DynamicValueInterpolator mThrowableForce;
@@ -72,6 +73,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mCashInterpolator   = DynamicValueInterpolator.Create (0, 0.25, 1, 1 << 28);
         mLsrRfInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mPlsmMGInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
+        mIonCannonInterpolator = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mLPPInterpolator1  = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mLPPInterpolator2  = DynamicValueInterpolator.Create (0, 0.25, 1, 25);
         mThrowableForce    = DynamicValueInterpolator.Create (0, 0.25, 1,  8);
@@ -99,6 +101,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mCashInterpolator.Reset   (0);
         mLsrRfInterpolator.Reset (0);
         mPlsmMGInterpolator.Reset (0);
+        mIonCannonInterpolator.Reset (0);
         mLPPInterpolator1.Reset  (0);
         mLPPInterpolator2.Reset  (0);
         mThrowableForce.Reset  (0);
@@ -113,6 +116,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         mCashInterpolator.Update   (GetAmount ('S7_Cash'));
         mLsrRfInterpolator.Update (GetAmount ('S7_FauchardMag'));
         mPlsmMGInterpolator.Update (GetAmount ('S7_PlasmaGunMag'));
+        mIonCannonInterpolator.Update (GetAmount ('S7_PrettyShootyIonCannonGunMag'));
         mLPPInterpolator1.Update  (GetAmount ('S7_LaserPewPewClip'));
         mLPPInterpolator2.Update  (GetAmount ('S7_LaserPewPewClipSecond'));
 
@@ -338,6 +342,14 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 // Draw ammo bar
                 DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
                     mPlsmMGInterpolator.GetValue (), GetMaxAmount ('S7_PlasmaGunMag'), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
+            } else if (CheckWeaponSelected ('S7_PrettyShootyIonCannonGun')) {
+                // Draw ammo pool count
+                DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+                DrawString (mFScreenHUDFont, FormatNumber (GetAmount (CPlayer.ReadyWeapon.AmmoType2), 1, 5), (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
+
+                // Draw ammo bar
+                DrawBar ("graphics/HUD/Fullscreen/S7LRABFG.png", "graphics/HUD/Fullscreen/S7LRABBG.png",
+                    mIonCannonInterpolator.GetValue (), GetMaxAmount ('S7_PrettyShootyIonCannonGunMag'), (-5, -5), 0, SHADER_REVERSE, DI_ITEM_RIGHT_BOTTOM);
             } else if (CheckWeaponSelected ('S7_LaserPewPew')) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_TEXT_ALIGN_RIGHT | DI_NOSHADOW, Font.CR_WHITE);
