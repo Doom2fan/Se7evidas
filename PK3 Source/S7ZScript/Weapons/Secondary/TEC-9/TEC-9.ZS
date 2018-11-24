@@ -54,6 +54,11 @@ class S7_TEC9 : S7_BaseWeapon {
     int burstCount;
 
     override void Tick () {
+        Super.Tick ();
+
+        if (!self)
+            return;
+
         if (hasSuppressor)
             weapIcon = "TECSZ0";
         else
