@@ -39,6 +39,7 @@ class S7_InfiltratorPlayer : S7_ScoutPlayer {
         // Equipment
         GiveInventory ('S7_Stimpack', 3);
         GiveInventory ('S7_Medikit', 1);
+        GiveInventory ('S7_Flashlight', 1);
         // Ammo
         GiveInventory ('S7_TEC9Clip', 32);
         GiveInventory ('S7_ManxCarbineClip', 23);
