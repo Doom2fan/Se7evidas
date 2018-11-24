@@ -173,6 +173,7 @@ class S7_InfernalBall : S7_FireballBase {
         Decal 'Scorch';
 
         SeeSound "Monsters/Infernal/Attack";
+        DeathSound "";
     }
 
     states {

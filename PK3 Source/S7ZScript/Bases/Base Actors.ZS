@@ -31,7 +31,6 @@ class S7_FireballBase : S7_Projectile {
         Damage 8;
         RenderStyle "add";
         Alpha 1.0;
-        SeeSound "baron/attack";
         DeathSound "baron/shotx";
         Decal 'BaronScorch';
 

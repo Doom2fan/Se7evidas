@@ -295,6 +295,7 @@ class S7_FleshSpawnBall : S7_FireballBase {
         Decal 'Scorch';
 
         SeeSound "Monsters/FleshSpawn/Fireball";
+        DeathSound "";
     }
 
     states {
