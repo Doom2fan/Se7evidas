@@ -230,11 +230,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 15, -9);
             A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.25, 0.25), true, 6, -3, 0, fRandom [weaponSpread] (-0.25, 0.25));
 
-            S7_Recoil (-0.5);
+            S7_Recoil (-0.3);
 
             return ResolveState (null);
         }
-        MANX B 1 S7_Recoil (-0.5);
+        MANX B 1 S7_Recoil (-0.3);
         MANX C 1 A_JumpIf (invoker.semiAuto, "Fire.Semi");
         MANX A 1;
         MANX A 1 A_Refire;
@@ -253,11 +253,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_FireProjectile ('S7_ManxCarbineTracer', fRandom [weaponSpread] (-0.24, 0.24), true, 0, -3, 0, fRandom [weaponSpread] (-0.24, 0.24));
 
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
-            S7_Recoil (-0.5);
+            S7_Recoil (-0.3);
         }
         SCP1 D 1 {
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .975);
-            S7_Recoil (-0.5);
+            S7_Recoil (-0.3);
         }
         SCP1 D 1 {
             A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
