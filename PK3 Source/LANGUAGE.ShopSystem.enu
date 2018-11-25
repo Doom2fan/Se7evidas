@@ -86,6 +86,7 @@ SS_HANDGRENADES                 = "Hand grenade";
 SS_SCORPS_SG                    = "Shadow Corps Semi-auto Shotgun";
 // Combat upgrades
 SS_UPGR_LIGHTSLOT               = "Additional light weapon slot";
+SS_UPGR_MEDIUMSLOT              = "Additional medium weapon slot";
 // Info upgrades
 SS_UPGR_ENEMY_INFO              = "Enemy info";
 SS_UPGR_RADAR                   = "Radar";
@@ -112,7 +113,8 @@ SS_THUMPERGREN_CLSTDESC         = "A grenade with a clusterbomb load";
 SS_THUMPERGREN_NAILDESC         = "A grenade with an explosive charge and sharp nails";
 SS_THUMPERGREN_NGASDESC         = "A grenade with a nerve gas load";
 // Combat upgrades
-SS_UPGR_LIGHTSLOT_DESC          = "Unlocks an additional light weapon slot, allowing you to carry two light weapons";
+SS_UPGR_LIGHTSLOT_DESC          = "Unlocks an additional light weapon slot, allowing you to have two equipped light weapons";
+SS_UPGR_MEDIUMSLOT_DESC         = "Unlocks an additional medium weapon slot, allowing you to have two equipped medium weapons";
 SS_UPGR_ENEMY_INFO_DESC         = "Displays information about the enemy under the crosshair.\nShows the enemy's health and name.";
 SS_UPGR_RADAR_DESC              = "Displays a radar on the HUD. Enemies are shown as red points.";
 SS_UPGR_RADAR_KEYS_DESC         = "Shows keys as golden points on the radar";

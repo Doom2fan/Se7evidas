@@ -853,6 +853,15 @@ shop "mainShop" {
 
                     inventoryName = "S7_UpgradeSlot2";
                     buyPrice = 5000;
+                },
+
+                buyItem "SLT1" : "S7_SSItem_Upgrade" {
+                    name = "$SS_UPGR_MEDIUMSLOT";
+                    desc = "$SS_UPGR_MEDIUMSLOT_DESC";
+                    //"icon = "sprites/Inventory/Loot/LOT1E0.png";
+
+                    inventoryName = "S7_UpgradeSlot1";
+                    buyPrice = 5000;
                 }
             }
         },
