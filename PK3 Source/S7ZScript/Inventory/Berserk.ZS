@@ -111,8 +111,12 @@ class S7_BerserkWeap : S7_BaseWeapon {
 
     Deselect:
         SYR1 A 1 {
+            if (CountInv ('S7_Berserk') <= 0)
+                return ResolveState ("TrueDeselect");
+
             A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
-            return CountInv ('S7_Berserk') <= 0 ? ResolveState ("TrueDeselect") : ResolveState (null);
+
+            return ResolveState (null);
         }
         SYR1 A 1 A_WeaponOffset (-12.8 * 2, 32 + (12.8 * 2));
         SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
