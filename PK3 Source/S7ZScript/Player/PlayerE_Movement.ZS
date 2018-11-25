@@ -321,8 +321,8 @@ extend class S7_BasePlayer {
     }
 
     void Movement_Sprinting () {
-        double forwardMove = abs (player.cmd.forwardmove) / 12800;
-        double sideMove = abs (player.cmd.sidemove) / 10240;
+        double forwardMove = abs (player.cmd.forwardmove) / 12800.0;
+        double sideMove = abs (player.cmd.sidemove) / 10240.0;
 
         if (health > 0) {
             if (!(player.cheats & CF_PREDICTING)) {
