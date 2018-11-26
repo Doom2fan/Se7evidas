@@ -220,6 +220,9 @@ class S7_BasePlayer : PlayerPawn {
     }
 
     override void PlayerThink () {
+        if (!(player.cheats & CF_PREDICTING))
+            player.cheats |= CF_INTERPVIEW;
+
         Super.PlayerThink ();
 
         CustCalcHeight ();
