@@ -14,12 +14,12 @@ CAESARCHAINGUN                  = "Acheron Industries VX-10 Chaingun \"Caesar\""
 SHORTAMG                        = "A28 \"Mars\" Assault Rifle";
 SHORTSHOTGUN                    = "AM-10 \"Lucifer\" Combat Shotgun";
 SHORTMANXCARBINE                = "C23 \"Manx\" Selective-fire Carbine";
-SHORTHITTERSMG                  = "SR20 .45 ACP SMG \"Hitter\"";
-SHORTFAUCHARD                   = "FS/002A Mod 4 Automatic Rifle \"Fauchard\"";
-SHORTBUTTFLY                    = "FS/909G SMG \"Butterfly\"";
+SHORTHITTERSMG                  = "SR20 \"Hitter\" .45 ACP SMG";
+SHORTFAUCHARD                   = "FS/002A Mod 4 \"Fauchard\"Automatic Rifle";
+SHORTBUTTFLY                    = "FS/909G \"Butterfly\" SMG";
 SHORTSSG                        = "Super Shotgun";
-SHORTCONQUERORSRIFLE            = "MK17 Anti-Materiel Rifle \"Conqueror\"";
-SHORTAK47                       = "AK-47 Assault Rifle \"Kalash\"";
+SHORTCONQUERORSRIFLE            = "MK17 \"Conqueror\" Anti-Materiel Rifle";
+SHORTAK47                       = "AK-47 \"Kalash\" Assault Rifle";
 SHORTCAESARCHAINGUN             = "VX-10 \"Caesar\" Chaingun";
 
 /** Secondary Weapons **/
