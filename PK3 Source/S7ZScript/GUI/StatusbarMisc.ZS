@@ -23,13 +23,16 @@ class S7_FScreenSBarAmmoBar {
     string sprite;
     Array<double> xPositions;
     Array<double> yPositions;
+    Vector2 scale;
+    int rowsCount;
 
-    static S7_FScreenSBarAmmoBar GenerateBar (Class<Weapon> weap, Class<Inventory> magType, Class<Inventory> poolType, int ammoMax, string sprite, double initialX, double xIncrAmount, double yPos1, double yPos2 = double.Infinity, double yPos3 = double.Infinity) {
+    static S7_FScreenSBarAmmoBar GenerateBar (Class<Weapon> weap, Class<Inventory> magType, Class<Inventory> poolType, int ammoMax, string sprite, double initialX, double xIncrAmount, double yPos1, double yPos2 = double.Infinity, double yPos3 = double.Infinity, Vector2 scale = (1, 1)) {
         let bar = new ('S7_FScreenSBarAmmoBar');
         bar.weap     = weap;
         bar.magType  = magType;
         bar.poolType = poolType;
         bar.sprite   = sprite;
+        bar.scale    = scale;
 
         double curX = initialX;
         int curY = 0;
@@ -42,13 +45,34 @@ class S7_FScreenSBarAmmoBar {
         if (yPos3 != double.Infinity)
             yPos.Push (yPos3);
 
+        bar.rowsCount = yPos.Size ();
+
+        Array<double> xPositions; xPositions.Clear ();
+        Array<double> yPositions; yPositions.Clear ();
+
         for (int i = 0; i < ammoMax; i++) {
-            bar.xPositions.Push (curX);
-            bar.yPositions.Push (yPos [curY]);
-            curX += xIncrAmount;
+            xPositions.Push (initialX + (xIncrAmount * i));
+            yPositions.Push (yPos [curY]);
             curY++;
-            if (curY >= yPos.Size ())
+            if (curY >= bar.rowsCount)
                 curY = 0;
+        }
+        bar.xPositions.Clear (); bar.xPositions.Reserve (ammoMax);
+        bar.yPositions.Clear (); bar.yPositions.Reserve (ammoMax);
+
+        for (int x = ammoMax; x >= 0;) {
+            int startY = (x % bar.rowsCount);
+            if (startY == 0) startY = bar.rowsCount;
+
+            for (int y = startY; y >= 0; y--) {
+                if ((x - y) >= ammoMax || (x - y) < 0)
+                    continue;
+
+                bar.xPositions [x - y] = xPositions [x - y];
+                bar.yPositions [x - y] = yPositions [x - y];
+            }
+
+            x -= startY;
         }
 
         return bar;

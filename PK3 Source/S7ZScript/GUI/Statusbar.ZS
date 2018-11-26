@@ -87,7 +87,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_ManxCarbine', 'S7_ManxCarbineClip', "Inventory", 23, "graphics/HUD/Cartridges/S7H9MM.png", -10, -4, -20, -18));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Shotgun', 'S7_ShotgunMag', "Inventory", 10, "graphics/HUD/Cartridges/S7H20GA.png", -16, -8, -32, -31));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_HitterSMG', 'S7_HitterSMGClip', "Inventory", 62, "graphics/HUD/Cartridges/S7H45ACP.png", -10, -2, -20, -19, -18));
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_GrenadeWeap', 'S7_GrenadeCount', "Inventory", 15, "graphics/HUD/Throwables/S7TGRICN.png", -15, -8, -22, -24));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_GrenadeWeap', 'S7_GrenadeCount', "Inventory", 15, "graphics/HUD/Throwables/S7TGRICN.png", -15, -8, -24, -22));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_ConquerorRifle', 'S7_ConquerorRifleClip', "Inventory", 15, "graphics/HUD/Cartridges/S7H45WW.png", -14, -7, -43, -41));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_AK47', 'S7_AK47Clip', "Inventory", 30, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26));
     }
@@ -430,8 +430,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
                         // Draw in-mag count
                         int maxX = min (bar.xPositions.Size (), GetAmount (bar.magType));
-                        for (int x = 0; x < maxX; x++)
-                            DrawImage (bar.sprite, (bar.xPositions [x], bar.yPositions [x]), DI_ITEM_LEFT_TOP);
+                        for (int x = maxX-1; x >= 0; x--)
+                            DrawImage (bar.sprite, (bar.xPositions [x], bar.yPositions [x]), DI_ITEM_LEFT_TOP, scale: bar.scale);
 
                         break;
                     }
