@@ -1,0 +1,7 @@
+Coding: Chronos "phantombeta" Ouroboros
+
+Sprites:
+    Sprites: NMN/Paul, Corrupt Marine, 3D Realms, Marty Kirra
+    Animation: Marty Kirra
+
+Sounds: Credits in the SNDINFO file

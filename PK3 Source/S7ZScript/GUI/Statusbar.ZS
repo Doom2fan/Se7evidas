@@ -90,6 +90,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_GrenadeWeap', 'S7_GrenadeCount', "Inventory", 15, "graphics/HUD/Throwables/S7TGRICN.png", -15, -8, -24, -22));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_ConquerorRifle', 'S7_ConquerorRifleClip', "Inventory", 15, "graphics/HUD/Cartridges/S7H45WW.png", -14, -7, -43, -41));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_AK47', 'S7_AK47Clip', "Inventory", 30, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_CaesarChaingun', 'S7_CaesarChaingunMag', "Inventory", 100, "graphics/HUD/Cartridges/S7H45WW.png", -14, -3, -43, -42, -41, scale: (0.75, 1.0)));
     }
 
     override void NewGame () {

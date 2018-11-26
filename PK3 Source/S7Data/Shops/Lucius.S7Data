@@ -265,9 +265,9 @@ shop "mainShop" {
                     icon = "graphics/Menu/Shop/Icons/45WWCartridges.png";
 
                     inventoryName = "S7_45WWCartridges";
-                    buyPrice = 225;
+                    buyPrice = 338;
                     buyAmount = 15;
-                    sellPrice = 15;
+                    sellPrice = 11;
                 },
                 buySellItem "A20g" {
                     name = "$SS_20GA";
@@ -422,6 +422,10 @@ shop "mainShop" {
                     name = "$SS_PG_RIFLES";
                     link = "wpPage_Rifles";
                 },
+                pageLink "MGNS" {
+                    name = "$SS_PG_MACHINEGUNS";
+                    link = "wpPage_Machineguns";
+                },
                 pageLink "SHGN" {
                     name = "$SS_PG_SHOTGUNS";
                     link = "wpPage_Shotguns";
@@ -559,6 +563,30 @@ shop "mainShop" {
                     inventoryName = "S7_Fauchard";
                     buyPrice = 16500;
                     sellPrice = 12375;
+                }
+            }
+        },
+
+        page "wpPage_Machineguns" {
+            name = "$SS_PG_MACHINEGUNS";
+            backPage = "weaponsPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "weaponsPage";
+                },
+                buySellItem "CESR" {
+                    name = "$SHORTCAESARCHAINGUN";
+                    desc = "$SS_CAESARCHAINGUNDESC";
+                    info = "$SS_CAESARCHAINGUNINFO";
+                    icon = "sprites/Weapons/Primary/CaesarChaingun/CESRZ0.png";
+
+                    inventoryName = "S7_CaesarChaingun";
+                    buyPrice = 25000;
+                    sellPrice = 18750;
                 }
             }
         },

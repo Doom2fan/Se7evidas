@@ -117,6 +117,7 @@ class S7_WeapData {
         "S7_ManxCarbine:$WPDSC_MANX",
         // Machineguns
         "S7_PlasmaGun:$WPDSC_PLASMAMG",
+        "S7_CaesarChaingun:$WPDSC_CAESARCHAINGUN",
         // Shotguns
         "S7_Shotgun:$WPDSC_SHOTGUN",
         "S7_SSG:$WPDSC_SSG",

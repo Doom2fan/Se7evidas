@@ -9,6 +9,7 @@ BUTTFLY                         = "Firebrand Systems FS/909G SMG \"Butterfly\"";
 SSG                             = "Double-barrelled Shotgun";                                           // (12ga)
 CONQUERORSRIFLE                 = "Acheron Industries MK17 Anti-Materiel Sniper Rifle \"Conqueror\"";   // (.45 WW)
 AK47                            = "Avtomat Kalashnikova 47 Assault Rifle \"Kalash\"";                   // (7.62x39mm)
+CAESARCHAINGUN                  = "Acheron Industries VX-10 Chaingun \"Caesar\"";                       // (.45 WW)
 // Short
 SHORTAMG                        = "A28 \"Mars\" Assault Rifle";
 SHORTSHOTGUN                    = "AM-10 \"Lucifer\" Combat Shotgun";
@@ -19,6 +20,7 @@ SHORTBUTTFLY                    = "FS/909G SMG \"Butterfly\"";
 SHORTSSG                        = "Super Shotgun";
 SHORTCONQUERORSRIFLE            = "MK17 Anti-Materiel Rifle \"Conqueror\"";
 SHORTAK47                       = "AK-47 Assault Rifle \"Kalash\"";
+SHORTCAESARCHAINGUN             = "VX-10 \"Caesar\" Chaingun";
 
 /** Secondary Weapons **/
 RAPTOR                          = "Cronus Corps R16 Pistol \"Raptor\"";                                 // (9x19mm)

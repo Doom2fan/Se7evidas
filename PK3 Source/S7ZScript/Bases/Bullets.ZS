@@ -263,6 +263,16 @@ class S7_ConquerorRifle_Tracer : S7_BulletTracer {
         DamageFunction (fRandom [weaponDamage] (1.0, 2.5) * 70);
         S7_BaseTracer.TrueSpeed 550; // So you need to compensate less when firing at long range
         DamageType 'SniperRifleTracer';
+        S7_Projectile.EffectStepMul 0.036;
+    }
+}
+
+class S7_CaesarChaingun_Tracer : S7_BulletTracer {
+    default {
+        DamageFunction (fRandom [weaponDamage] (1.0, 2.5) * 36);
+        S7_BaseTracer.TrueSpeed 500;
+        DamageType 'SniperRifleTracer';
+        S7_Projectile.EffectStepMul 0.036;
     }
 }
 

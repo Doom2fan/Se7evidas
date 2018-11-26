@@ -43,6 +43,8 @@ SS_FAUCHARDDESC = "The FS/002A Mod 4 \"Fauchard\" Automatic Rifle is one of Fire
 SS_FAUCHARDINFO = "Manufacturer: Firebrand Systems\nAmmo type: Firebrand Systems energy cells\nCapacity: 23 shots\nFiring modes: Full-auto only\nFiring speed: 600 RPM";
 
 // Machineguns
+SS_CAESARCHAINGUNDESC = "Acheron Industries only recently released this weapon in an effort to salvage the botched \"Wild Weasel\" project. Experiencing a failure to ignite in nearly one percent of rounds fired poses less of a problem for a chain-powered action. At the same time, the .45 WW cartridge allows a fantastic sustained rate of fire without overheating. The Caesar chaingun is expected to enjoy moderate success in the market as a high-performance vehicle or Draco-mounted machine gun.";
+SS_CAESARCHAINGUNINFO = "Manufacturer: Acheron Industries\nCaliber: .45 WW\nCapacity: 100 cartridges\nFiring modes: Full-auto only. Selectable firing speed\nFiring speed: 525/700/1050 RPM";
 
 // Shotguns
 SS_SHOTGUNDESC = "The AM-10 \"Lucifer\" Combat Shotgun is a powerful SxS double-barreled shotgun chambered in 20 gauge. Unlike most double-barreled shotguns, the AM-10 is a tube-fed pump-action shotgun. Its design integrates high-quality recoil reduction to allow both barrels to be fired simultaneously.\nAs with most shotguns, the AM-10 is a versatile weapon - a variety of specialty loads exists, from slugs and flechettes to explosive slugs and nerve gas.";

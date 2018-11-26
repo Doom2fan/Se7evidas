@@ -1,0 +1,20 @@
+$RANDOM Weapons/CaesarChaingun/Fire {
+    Weapons/CaesarChaingun/Fire1
+    Weapons/CaesarChaingun/Fire2
+    Weapons/CaesarChaingun/Fire3
+    Weapons/CaesarChaingun/Fire4
+    Weapons/CaesarChaingun/Fire5
+    Weapons/CaesarChaingun/Fire6
+    Weapons/CaesarChaingun/Fire7
+}
+
+Weapons/CaesarChaingun/Fire1    "sounds/Weapons/Primary/CaesarChaingun/Fire1.ogg" // By Chronos "phantombeta" Ouroboros. Made from sounds by revo794 and sounds from Killing Floor ripped by marrub.
+Weapons/CaesarChaingun/Fire2    "sounds/Weapons/Primary/CaesarChaingun/Fire2.ogg" // Ditto.
+Weapons/CaesarChaingun/Fire3    "sounds/Weapons/Primary/CaesarChaingun/Fire3.ogg" // Ditto.
+Weapons/CaesarChaingun/Fire4    "sounds/Weapons/Primary/CaesarChaingun/Fire4.ogg" // Ditto.
+Weapons/CaesarChaingun/Fire5    "sounds/Weapons/Primary/CaesarChaingun/Fire5.ogg" // Ditto.
+Weapons/CaesarChaingun/Fire6    "sounds/Weapons/Primary/CaesarChaingun/Fire6.ogg" // Ditto.
+Weapons/CaesarChaingun/Fire7    "sounds/Weapons/Primary/CaesarChaingun/Fire7.ogg" // Ditto.
+
+Weapons/CaesarChaingun/Out      "sounds/Weapons/Primary/CaesarChaingun/Out.ogg" // From Killing Floor. Ripped by marrub
+Weapons/CaesarChaingun/In       "sounds/Weapons/Primary/CaesarChaingun/In.ogg"  // Ditto.
