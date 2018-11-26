@@ -50,9 +50,9 @@ class S7_PistolSpawner : RandomSpawner replaces Pistol {
 //-------------------------------------------------------------------------------------------
 class S7_ShotgunSpawner : RandomSpawner replaces Shotgun {
     default {
-        DropItem 'S7_Loot_BloodChalice'     , 256, 7;
+        DropItem 'S7_Loot_BloodChalice'     , 256, 6;
         DropItem 'S7_Loot_SacrificialDagger', 256, 2;
-        DropItem 'S7_SSG'                   , 256, 1;
+        DropItem 'S7_SSG'                   , 256, 2;
     }
 }
 
@@ -63,10 +63,10 @@ class S7_ShotgunSpawner : RandomSpawner replaces Shotgun {
 //-------------------------------------------------------------------------------------------
 class S7_SuperShotgunSpawner : RandomSpawner replaces SuperShotgun {
     default {
-        DropItem 'S7_Loot_BloodChalice'     , 256, 4;
-        DropItem 'S7_Loot_SacrificialDagger', 256, 3;
-        DropItem 'S7_SSG'                   , 256, 2;
-        DropItem 'S7_Loot_SkullSceptre'     , 256, 1;
+        DropItem 'S7_Loot_BloodChalice'     , 256, 7;
+        DropItem 'S7_Loot_SacrificialDagger', 256, 6;
+        DropItem 'S7_SSG'                   , 256, 5;
+        DropItem 'S7_Loot_SkullSceptre'     , 256, 2;
     }
 }
 
