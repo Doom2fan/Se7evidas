@@ -97,7 +97,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
 
                 A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);
 
-                S7_Recoil (-0.45);
+                S7_Recoil (-0.9);
                 A_WeaponOffset (6, 32 + 6);
             } else
                 invoker.DepleteAmmo (false);
@@ -108,7 +108,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         }
         CESR A 1 {
             if (!invoker.firedDud) {
-                S7_Recoil (-0.3);
+                S7_Recoil (-0.9);
                 A_WeaponOffset (3, 32 + 3);
             }
         }
@@ -119,7 +119,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 case  2: A_SetTics (0); break;
             }
             if (!invoker.firedDud)
-                S7_Recoil (-0.3);
+                S7_Recoil (-0.9);
 
             A_WeaponOffset (0, 32);
         }
