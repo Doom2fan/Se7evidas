@@ -61,7 +61,12 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         loop;
 
     Ready:
-        // DERP
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 5), 32 + (14.4 * 5), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 4), 32 + (14.4 * 4), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 3), 32 + (14.4 * 3), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 2), 32 + (14.4 * 2), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 1), 32 + (14.4 * 1), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0, 32);
     Ready2:
         CESR A 1 S7_WeaponReady ("Reload", "ChangeMode");
         loop;
@@ -78,7 +83,12 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         goto Ready2;
 
     Deselect:
-        // DERP
+        CESR A 1 A_WeaponOffset (0, 32);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 1), 32 + (14.4 * 1), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 2), 32 + (14.4 * 2), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 3), 32 + (14.4 * 3), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 4), 32 + (14.4 * 4), WOF_Interpolate);
+        CESR A 1 A_WeaponOffset (0 + (14.4 * 5), 32 + (14.4 * 5), WOF_Interpolate);
         goto TrueDeselect;
 
     Fire:
