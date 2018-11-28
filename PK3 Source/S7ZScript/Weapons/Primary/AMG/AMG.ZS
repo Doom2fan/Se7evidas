@@ -69,7 +69,12 @@ class S7_AMG : S7_BaseWeapon {
             invoker.burstCount = 0;
             invoker.zoomed = false;
         }
-        AMGG TUVWXA 1;
+        AMGG A 1 DoSelectOffset ((72, 72));
+        AMGG A 1 DoSelectOffset ((56, 56));
+        AMGG A 1 DoSelectOffset ((40, 40));
+        AMGG A 1 DoSelectOffset ((24, 24));
+        AMGG A 1 DoSelectOffset (( 8,  8));
+        AMGG A 1 DoSelectOffset (( 0,  0));
     Ready2:
         AMGG A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
         goto Ready2.DoStuff;
@@ -100,7 +105,12 @@ class S7_AMG : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        AMGG AXWVUT 1;
+        AMGG A 1 DoSelectOffset (( 0,  0));
+        AMGG A 1 DoSelectOffset (( 8,  8));
+        AMGG A 1 DoSelectOffset ((24, 24));
+        AMGG A 1 DoSelectOffset ((40, 40));
+        AMGG A 1 DoSelectOffset ((56, 56));
+        AMGG A 1 DoSelectOffset ((72, 72));
         goto TrueDeselect;
     Deselect.Zoom:
         AMGG A 8 {

@@ -19,32 +19,6 @@ sprite "TEC9D0", 110, 112 {
     patch "graphics/Weapons/TEC-9/Part3.png", 15, 17
 }
 
-// Selection
-sprite "TEC9T0", 110, 112 {
-    offset -254, -156
-    patch "TEC9A0", 0, 0
-}
-
-sprite "TEC9U0", 110, 112 {
-    offset -238, -140
-    patch "TEC9A0", 0, 0
-}
-
-sprite "TEC9V0", 110, 112 {
-    offset -222, -124
-    patch "TEC9A0", 0, 0
-}
-
-sprite "TEC9W0", 110, 112 {
-    offset -206, -108
-    patch "TEC9A0", 0, 0
-}
-
-sprite "TEC9X0", 110, 112 {
-    offset -190, -92
-    patch "TEC9A0", 0, 0
-}
-
 // Reloading
 sprite "TECRA0", 320, 200 {
     offset 8, 0

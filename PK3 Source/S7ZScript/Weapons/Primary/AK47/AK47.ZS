@@ -63,9 +63,24 @@ class S7_AK47 : S7_BaseWeapon {
         AK4P A -1;
         loop;
 
+    Select.Hand:
+        HAN0 F 1 DoSelectOffset ((142, 159), -5, true);
+        HAN0 F 1 DoSelectOffset ((151, 146), -5);
+        HAN0 F 1 DoSelectOffset ((157, 129), -5);
+        HAN0 F 1 DoSelectOffset ((160, 111), -5);
+        HAN0 F 1 DoSelectOffset ((162,  96), -5);
+        stop;
     Ready:
-        AK4S ABCDE 1;
-        AK47 A     1;
+        AK47 S 1 {
+            DoSelectOffset ((69, 72));
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        AK47 S 1 DoSelectOffset ((48, 48));
+        AK47 S 1 DoSelectOffset ((24, 24));
+        AK47 S 1 DoSelectOffset (( 8,  8));
+        AK47 S 1 DoSelectOffset (( 0,  0));
+        AK47 A 1 DoSelectOffset (( 0,  0));
     Ready2:
         AK47 A 1 S7_WeaponReady ("Reload", "ChangeMode");
         loop;
@@ -87,9 +102,24 @@ class S7_AK47 : S7_BaseWeapon {
         }
         goto Ready2;
 
+    Deselect.Hand:
+        HAN0 F 1 DoSelectOffset ((162,  96), -5, true);
+        HAN0 F 1 DoSelectOffset ((160, 111), -5);
+        HAN0 F 1 DoSelectOffset ((157, 129), -5);
+        HAN0 F 1 DoSelectOffset ((151, 146), -5);
+        HAN0 F 1 DoSelectOffset ((142, 159), -5);
+        stop;
     Deselect:
-        AK47 A     1;
-        AK4S EDCBA 1;
+        AK47 A 1 DoSelectOffset (( 0,  0));
+        AK47 S 1 {
+            DoSelectOffset (( 0,  0));
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        AK47 S 1 DoSelectOffset (( 8,  8));
+        AK47 S 1 DoSelectOffset ((24, 24));
+        AK47 S 1 DoSelectOffset ((48, 48));
+        AK47 S 1 DoSelectOffset ((69, 72));
         goto TrueDeselect;
 
     Fire:

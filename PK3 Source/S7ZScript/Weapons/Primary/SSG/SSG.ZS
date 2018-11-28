@@ -104,8 +104,12 @@ class S7_SSG : S7_BaseWeapon {
         loop;
 
     Ready:
-        SSGS ABCDE 1;
-        SSG0 A     1;
+        SSG0 A 1 DoSelectOffset ((-71, 50));
+        SSG0 A 1 DoSelectOffset ((-61, 35));
+        SSG0 A 1 DoSelectOffset ((-48, 21));
+        SSG0 A 1 DoSelectOffset ((-34, 11));
+        SSG0 A 1 DoSelectOffset ((-11,  4));
+        SSG0 A 1 DoSelectOffset ((  0,  0));
     Ready2:
         SSG0 A 1 {
             bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK)), altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
@@ -123,8 +127,12 @@ class S7_SSG : S7_BaseWeapon {
         loop;
 
     Deselect:
-        SSG0 A     1;
-        SSGS EDCBA 1;
+        SSG0 A 1 DoSelectOffset ((  0,  0));
+        SSG0 A 1 DoSelectOffset ((-11,  4));
+        SSG0 A 1 DoSelectOffset ((-34, 11));
+        SSG0 A 1 DoSelectOffset ((-48, 21));
+        SSG0 A 1 DoSelectOffset ((-61, 35));
+        SSG0 A 1 DoSelectOffset ((-71, 50));
         goto TrueDeselect;
 
     Fire.Left:

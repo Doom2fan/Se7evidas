@@ -136,7 +136,12 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_Overlay (MANX_SCOPEOVERLAY_ID     , "Overlay.Scope"     );
             A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
         }
-        MANX TUVWXA 1;
+        MANX A 1 DoSelectOffset ((56, 56));
+        MANX A 1 DoSelectOffset ((48, 48));
+        MANX A 1 DoSelectOffset ((32, 32));
+        MANX A 1 DoSelectOffset ((16, 16));
+        MANX A 1 DoSelectOffset (( 8,  8));
+        MANX A 1 DoSelectOffset (( 0,  0));
     Ready2:
         MANX A 1 {
             int flagsWR = 0;
@@ -191,7 +196,12 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        MANX AXWVUT 1;
+        MANX A 1 DoSelectOffset (( 0,  0));
+        MANX A 1 DoSelectOffset (( 8,  8));
+        MANX A 1 DoSelectOffset ((16, 16));
+        MANX A 1 DoSelectOffset ((32, 32));
+        MANX A 1 DoSelectOffset ((48, 48));
+        MANX A 1 DoSelectOffset ((56, 56));
         TNT1 A 0 {
             A_Overlay (MANX_SCOPEOVERLAY_ID     , "Null");
             A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Null");

@@ -62,8 +62,24 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         CQRP A -1;
         loop;
 
+    Select.Hand:
+        TNT1 A 1;
+        HAN0 A 1 DoSelectOffset (( 61, 162), -5, true);
+        HAN0 A 1 DoSelectOffset (( 91, 135), -5);
+        HAN0 F 1 DoSelectOffset ((116, 122), -5);
+        HAN0 F 1 DoSelectOffset ((132, 105), -5);
+        stop;
     Ready:
-        CQR1 VWXYZA 1;
+        CQR1 N 1 {
+            DoSelectOffset ((109, 77));
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        CQR1 N 1 DoSelectOffset (( 82, 60));
+        CQR1 N 1 DoSelectOffset (( 57, 43));
+        CQR1 N 1 DoSelectOffset (( 34, 27));
+        CQR1 N 1 DoSelectOffset (( 12, 15));
+        CQR1 A 1 DoSelectOffset ((  0,  0));
     Ready2:
         CQR1 A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
         goto Ready2.DoThings;
@@ -154,16 +170,32 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
         goto Ready2;
 
+    Deselect.Hand:
+        HAN0 F 1 DoSelectOffset ((132, 105), -5, true);
+        HAN0 F 1 DoSelectOffset ((116, 122), -5);
+        HAN0 A 1 DoSelectOffset (( 91, 135), -5);
+        HAN0 A 1 DoSelectOffset (( 61, 162), -5);
+        TNT1 A 1;
+        stop;
     Deselect:
-        CQR1 A     1 {
+        CQR1 A 1 {
             if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");
 
             A_SetCrosshair (0);
+
             return ResolveState (null);
         }
-        CQR1 ZYXWV 1;
-        goto Super::Deselect;
+        CQR1 N 1 {
+            DoSelectOffset (( 12, 15));
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        CQR1 N 1 DoSelectOffset (( 34, 27));
+        CQR1 N 1 DoSelectOffset (( 57, 43));
+        CQR1 N 1 DoSelectOffset (( 82, 60));
+        CQR1 N 1 DoSelectOffset ((109, 77));
+        goto TrueDeselect;
     Deselect.Zoom:
         CQR1 A 8 {
             A_SetBlend ("00 00 00", 1.0, 8);

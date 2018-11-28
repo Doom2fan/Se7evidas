@@ -206,6 +206,30 @@ class S7_BaseWeapon : Weapon {
         return (!sprinting || reloadWhileSprinting);
     }
 
+    action int InterpolateWeaponSwitch () {
+        CVar iws = CVar.GetCVar ("S7_InterpolateWeaponSwitch", player);
+
+        return ((iws && iws.GetInt ()) ? WOF_Interpolate : 0);
+    }
+
+    virtual Vector2 DoSelectOffset_InitialOffset () {
+        return (0, 0);
+    }
+
+    action void DoSelectOffset (Vector2 offs, int overlay = int.min, bool forceNoInterpolate = false) {
+        let initOffs = invoker.DoSelectOffset_InitialOffset ();
+
+        CVar iws = CVar.GetCVar ("S7_InterpolateWeaponSwitch", player);
+        int doInterpolate = ((!forceNoInterpolate && iws && iws.GetInt ()) ? WOF_Interpolate : 0);
+
+        offs = (initOffs.X + offs.X, 32 + initOffs.Y + offs.Y);
+
+        if (overlay == int.min)
+            A_WeaponOffset (offs.X, offs.Y, doInterpolate);
+        else
+            A_OverlayOffset (overlay, offs.X, offs.Y, doInterpolate);
+    }
+
     S7_XPSystem GetOwnerXPSystem () {
         if (!Owner || !(Owner is 'S7_BasePlayer'))
             return null;
@@ -324,14 +348,15 @@ class S7_BaseWeapon : Weapon {
             TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
             TakeInventory ('S7_Weap_ReadyFrame', 0x7FFFFFFF);
             A_ZoomFactor (1.0);
+            A_WeaponOffset (0, 32);
 
             if (!health)
                 return ResolveState ("Deselect.DEAD");
 
-            A_Lower ();
             return ResolveState (null);
         }
-        loop;
+        TNT1 A 0 A_Lower ();
+        wait;
     Deselect.DEAD:
         TNT1 A 1 A_Lower;
         wait;

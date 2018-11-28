@@ -82,28 +82,3 @@ sprite "MNX3Q0", 25, 37 {
     offset -246, -78
     patch "graphics/Weapons/ManxCarbine/Suppressor2.png", 0, 0
 }
-
-sprite "MNX3T0", 34, 35 {
-    offset -236, -146
-    patch "graphics/Weapons/ManxCarbine/Suppressor.png", 0, 0
-}
-
-sprite "MNX3U0", 34, 35 {
-    offset -228, -138
-    patch "graphics/Weapons/ManxCarbine/Suppressor.png", 0, 0
-}
-
-sprite "MNX3V0", 34, 35 {
-    offset -212, -122
-    patch "graphics/Weapons/ManxCarbine/Suppressor.png", 0, 0
-}
-
-sprite "MNX3W0", 34, 35 {
-    offset -196, -106
-    patch "graphics/Weapons/ManxCarbine/Suppressor.png", 0, 0
-}
-
-sprite "MNX3X0", 34, 35 {
-    offset -188, -98
-    patch "graphics/Weapons/ManxCarbine/Suppressor.png", 0, 0
-}

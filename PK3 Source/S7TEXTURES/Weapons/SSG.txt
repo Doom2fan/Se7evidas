@@ -382,28 +382,3 @@ sprite SSG3M0, 119, 42 {
     patch "graphics/Weapons/SSG/Part6.png", 43, 31
     patch "graphics/Weapons/SSG/LHand6.png", 41, 0
 }
-
-sprite SSGSA0, 73, 61 {
-    offset -84, -157
-    patch SSG0A0, 0, 0
-}
-
-sprite SSGSB0, 73, 61 {
-    offset -94, -142
-    patch SSG0A0, 0, 0
-}
-
-sprite SSGSC0, 73, 61 {
-    offset -107, -128
-    patch SSG0A0, 0, 0
-}
-
-sprite SSGSD0, 73, 61 {
-    offset -121, -118
-    patch SSG0A0, 0, 0
-}
-
-sprite SSGSE0, 73, 61 {
-    offset -144, -111
-    patch SSG0A0, 0, 0
-}

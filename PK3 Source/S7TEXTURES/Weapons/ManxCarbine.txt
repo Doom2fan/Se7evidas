@@ -97,28 +97,3 @@ sprite "MANXQ0", 117, 69 {
     patch "graphics/Weapons/ManxCarbine/Frame2.png", 57, 0
     patch "graphics/Hands/Hand-006.png", -20, 34
 }
-
-sprite "MANXT0", 122, 62 {
-    offset -237, -162
-    patch "MANXA0", 0, 0
-}
-
-sprite "MANXU0", 122, 62 {
-    offset -229, -154
-    patch "MANXA0", 0, 0
-}
-
-sprite "MANXV0", 122, 62 {
-    offset -213, -138
-    patch "MANXA0", 0, 0
-}
-
-sprite "MANXW0", 122, 62 {
-    offset -197, -122
-    patch "MANXA0", 0, 0
-}
-
-sprite "MANXX0", 122, 62 {
-    offset -189, -114
-    patch "MANXA0", 0, 0
-}

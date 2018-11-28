@@ -54,15 +54,23 @@ class S7_HitterSMG : S7_BaseWeapon {
         loop;
 
     Ready:
-        SR2S ABCDE 1;
-        SR20 A     1;
+        SR20 A 1 DoSelectOffset ((88, 88));
+        SR20 A 1 DoSelectOffset ((72, 72));
+        SR20 A 1 DoSelectOffset ((48, 48));
+        SR20 A 1 DoSelectOffset ((24, 24));
+        SR20 A 1 DoSelectOffset (( 8,  8));
+        SR20 A 1 DoSelectOffset (( 0,  0));
     Ready2:
         SR20 A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:
-        SR20 A     1;
-        SR2S EDCBA 1;
+        SR20 A 1 DoSelectOffset (( 0,  0));
+        SR20 A 1 DoSelectOffset (( 8,  8));
+        SR20 A 1 DoSelectOffset ((24, 24));
+        SR20 A 1 DoSelectOffset ((48, 48));
+        SR20 A 1 DoSelectOffset ((72, 72));
+        SR20 A 1 DoSelectOffset ((88, 88));
         goto TrueDeselect;
 
     Fire:

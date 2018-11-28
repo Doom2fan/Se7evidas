@@ -132,7 +132,12 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         stop;
 
     Ready:
-        PIC1 TUVWXA 1;
+        PIC1 A 1 DoSelectOffset ((88, 88));
+        PIC1 A 1 DoSelectOffset ((64, 64));
+        PIC1 A 1 DoSelectOffset ((40, 40));
+        PIC1 A 1 DoSelectOffset ((24, 24));
+        PIC1 A 1 DoSelectOffset (( 8,  8));
+        PIC1 A 1 DoSelectOffset (( 0,  0));
     Ready2:
         PIC1 AAAAAAAAAAAABBCCDDEEFFGGGGGFFEEDDCCBB 1 {
             if (CheckInventory ('S7_Reloading', 1) && invoker.CanReload ()) {
@@ -149,7 +154,12 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         loop;
 
     Deselect:
-        PIC1 AXWVUT 1;
+        PIC1 A 1 DoSelectOffset (( 0,  0));
+        PIC1 A 1 DoSelectOffset (( 8,  8));
+        PIC1 A 1 DoSelectOffset ((24, 24));
+        PIC1 A 1 DoSelectOffset ((40, 40));
+        PIC1 A 1 DoSelectOffset ((64, 64));
+        PIC1 A 1 DoSelectOffset ((88, 88));
         goto TrueDeselect;
 
     Reload:

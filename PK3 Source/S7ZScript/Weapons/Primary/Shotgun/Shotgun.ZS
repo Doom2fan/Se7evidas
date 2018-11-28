@@ -87,13 +87,23 @@ class S7_Shotgun : S7_BaseWeapon {
         stop;
 
     Ready:
-        SSGR VWXYZA 1;
+        SSGR A 1 DoSelectOffset ((64, 64));
+        SSGR A 1 DoSelectOffset ((48, 48));
+        SSGR A 1 DoSelectOffset ((32, 32));
+        SSGR A 1 DoSelectOffset ((16, 16));
+        SSGR A 1 DoSelectOffset (( 8,  8));
+        SSGR A 1 DoSelectOffset (( 0,  0));
     Ready2:
         SSGR A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:
-        SSGR AZYXWV 1;
+        SSGR A 1 DoSelectOffset (( 0,  0));
+        SSGR A 1 DoSelectOffset (( 8,  8));
+        SSGR A 1 DoSelectOffset ((16, 16));
+        SSGR A 1 DoSelectOffset ((32, 32));
+        SSGR A 1 DoSelectOffset ((48, 48));
+        SSGR A 1 DoSelectOffset ((64, 64));
         goto TrueDeselect;
 
     Fire:

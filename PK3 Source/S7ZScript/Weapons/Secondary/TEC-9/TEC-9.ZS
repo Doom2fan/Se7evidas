@@ -46,6 +46,8 @@ class S7_TEC9 : S7_BaseWeapon {
         S7_BaseWeapon.UsesMag true;
     }
 
+    bool selecting;
+
     const TEC9_SUPPRESSOROVERLAY_ID = 20;
     bool hasSuppressor;
 
@@ -84,23 +86,8 @@ class S7_TEC9 : S7_BaseWeapon {
         return true;
     }
 
-    action void TEC9_RunOverlay (int id, name sprite, bool showOverlay) {
-        let pspWeap = player.FindPSprite (PSP_Weapon);
-        let pspOverlay = player.FindPSprite (id);
-
-        if (!pspWeap || !pspOverlay)
-            return;
-
-        if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TEC9')) {
-            pspOverlay.sprite = GetSpriteIndex (sprite);
-            pspOverlay.frame = pspWeap.frame;
-        } else if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TECR')) {
-            pspOverlay.sprite = GetSpriteIndex (sprite);
-            pspOverlay.frame = 0;
-        } else {
-            pspOverlay.sprite = GetSpriteIndex ('TNT1');
-            pspOverlay.frame = 0;
-        }
+    override Vector2 DoSelectOffset_InitialOffset () {
+        return hasSuppressor ? (12, 12) : (0, 0);
     }
 
     states {
@@ -114,8 +101,17 @@ class S7_TEC9 : S7_BaseWeapon {
         goto Spawn;
 
     Ready:
-        TNT1 A 0 A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
-        TEC9 TUVWXA 1;
+        TNT1 A 0 {
+            invoker.selecting = true;
+            A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
+        }
+        TEC9 A 1 DoSelectOffset ((80, 80));
+        TEC9 A 1 DoSelectOffset ((64, 64));
+        TEC9 A 1 DoSelectOffset ((48, 48));
+        TEC9 A 1 DoSelectOffset ((32, 32));
+        TEC9 A 1 DoSelectOffset ((16, 16));
+        TEC9 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 0 { invoker.selecting = false; }
     Ready2:
         TEC9 A 1 {
             invoker.burstCount = 0;
@@ -125,18 +121,50 @@ class S7_TEC9 : S7_BaseWeapon {
 
     Overlay.Suppressor:
         TECS A 1 {
-            TEC9_RunOverlay (TEC9_SUPPRESSOROVERLAY_ID, "TECS", invoker.hasSuppressor);
+            {
+                name sprite = 'TECS';
+                int id = TEC9_SUPPRESSOROVERLAY_ID;
+                bool showOverlay = invoker.hasSuppressor;
 
-            if (invoker.hasSuppressor)
-                A_WeaponOffset (12, 32 + 12);
-            else
-                A_WeaponOffset (0, 32);
+                let pspWeap = player.FindPSprite (PSP_Weapon);
+                let pspOverlay = player.FindPSprite (id);
+
+                if (!pspWeap || !pspOverlay)
+                    return;
+
+                if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TEC9')) {
+                    pspOverlay.sprite = GetSpriteIndex (sprite);
+                    pspOverlay.frame = pspWeap.frame;
+                } else if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TECR')) {
+                    pspOverlay.sprite = GetSpriteIndex (sprite);
+                    pspOverlay.frame = 0;
+                } else {
+                    pspOverlay.sprite = GetSpriteIndex ('TNT1');
+                    pspOverlay.frame = 0;
+                }
+            }
+
+            if (!invoker.selecting) {
+                if (invoker.hasSuppressor)
+                    A_WeaponOffset (12, 32 + 12);
+                else
+                    A_WeaponOffset (0, 32);
+            }
         }
         loop;
 
     Deselect:
-        TEC9 AXWVUT 1;
-        TNT1 A 0 A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Null");
+        TNT1 A 0 { invoker.selecting = true; }
+        TEC9 A 1 DoSelectOffset (( 0,  0));
+        TEC9 A 1 DoSelectOffset ((16, 16));
+        TEC9 A 1 DoSelectOffset ((32, 32));
+        TEC9 A 1 DoSelectOffset ((48, 48));
+        TEC9 A 1 DoSelectOffset ((64, 64));
+        TEC9 A 1 DoSelectOffset ((80, 80));
+        TNT1 A 0 {
+            invoker.selecting = false;
+            A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Null");
+        }
         goto TrueDeselect;
 
     Fire:

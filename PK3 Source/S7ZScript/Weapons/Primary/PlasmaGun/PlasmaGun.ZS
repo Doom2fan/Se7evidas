@@ -94,14 +94,24 @@ class S7_PlasmaGun : S7_BaseWeapon {
         stop;
 
     Ready:
-        PLSG VWXYZA 1;
+        PLSG A 1 DoSelectOffset ((72, 72));
+        PLSG A 1 DoSelectOffset ((60, 58));
+        PLSG A 1 DoSelectOffset ((48, 48));
+        PLSG A 1 DoSelectOffset ((38, 37));
+        PLSG A 1 DoSelectOffset ((24, 24));
+        PLSG A 1 DoSelectOffset (( 0,  0));
     Ready2:
         PLSG A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: ((invoker.charge >= CHARGE_MAX) ? WRF_NoSecondary : 0));
         TNT1 A 0 { invoker.altfireLock = false; }
         loop;
 
     Deselect:
-        PLSG AZYXWV 1;
+        PLSG A 1 DoSelectOffset (( 0,  0));
+        PLSG A 1 DoSelectOffset ((24, 24));
+        PLSG A 1 DoSelectOffset ((38, 37));
+        PLSG A 1 DoSelectOffset ((48, 48));
+        PLSG A 1 DoSelectOffset ((60, 58));
+        PLSG A 1 DoSelectOffset ((72, 72));
         goto TrueDeselect;
 
     Fire:

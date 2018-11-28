@@ -92,32 +92,3 @@ sprite CQR1R0, 179, 126 {
     offset -176, -56
     patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
 }
-
-sprite CQR1V0, 80, 64 {
-    offset -284, -136
-    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 0, 0
-}
-
-sprite CQR1W0, 320, 200 {
-    offset -61, -119
-    patch "graphics/Hands/Hand-001.png", 0, 43
-    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 196, 0
-}
-
-sprite CQR1X0, 246, 98 {
-    offset -91, -102
-    patch "graphics/Hands/Hand-001.png", 0, 33
-    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 141, 0
-}
-
-sprite CQR1Y0, 248, 114 {
-    offset -116, -86
-    patch "graphics/Hands/Hand-006.png", 0, 36
-    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 93, 0
-}
-
-sprite CQR1Z0, 236, 123 {
-    offset -132, -71
-    patch "graphics/Hands/Hand-006.png", 0, 34
-    patch "graphics/Weapons/ConquerorRifle/Frame3.png", 58, 0
-}

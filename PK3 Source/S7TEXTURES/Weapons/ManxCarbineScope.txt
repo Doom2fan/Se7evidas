@@ -82,28 +82,3 @@ sprite "MNX2Q0", 45, 47 {
     offset -264, -126
     patch "graphics/Weapons/ManxCarbine/Scope2.png", 0, 0
 }
-
-sprite "MNX2T0", 69, 46 {
-    offset -280, -168
-    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
-}
-
-sprite "MNX2U0", 69, 46 {
-    offset -272, -160
-    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
-}
-
-sprite "MNX2V0", 69, 46 {
-    offset -256, -144
-    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
-}
-
-sprite "MNX2W0", 69, 46 {
-    offset -240, -128
-    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
-}
-
-sprite "MNX2X0", 69, 46 {
-    offset -232, -120
-    patch "graphics/Weapons/ManxCarbine/Scope.png", 0, 0
-}
