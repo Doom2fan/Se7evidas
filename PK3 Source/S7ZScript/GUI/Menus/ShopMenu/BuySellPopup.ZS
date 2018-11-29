@@ -223,8 +223,17 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         let pPawn = S7_BasePlayer (link.CPlayer.mo);
         if (info && amount > info.maxAmount)
             amount = info.maxAmount;
-        if (sellMode && selectedItem && amount > selectedItem.GetAmount (pPawn))
-            amount = selectedItem.GetAmount (pPawn);
+        if (selectedItem) {
+            let itemInfo = selectedItem.GetInfo (pPawn, 1);
+
+            int totalAmt = !sellMode ? (amount * itemInfo.buyAmount) : (amount * itemInfo.sellAmount);
+            int heldAmt = selectedItem.GetAmount (pPawn);
+
+            if (!sellMode && (info.maxAmount - (totalAmt + heldAmt)) <= 0)
+                amount = int (floor (double (info.maxAmount - heldAmt) / itemInfo.buyAmount));
+            else if (sellMode && totalAmt > heldAmt)
+                amount = heldAmt;
+        }
         if (amount < 1)
             amount = 1;
 
