@@ -369,8 +369,6 @@ class S7_CanteenRefill : Inventory replaces HealthBonus {
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$GOTHTHBONUS";
         Scale 0.5;
-
-        +COUNTITEM
     }
 
     override void PostBeginPlay () {
