@@ -136,7 +136,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_Overlay (MANX_SCOPEOVERLAY_ID     , "Overlay.Scope"     );
             A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
         }
-        MANX A 1 DoSelectOffset ((56, 56));
+        MANX A 1 DoSelectOffset ((56, 56), forceNoInterpolate: true);
         MANX A 1 DoSelectOffset ((48, 48));
         MANX A 1 DoSelectOffset ((32, 32));
         MANX A 1 DoSelectOffset ((16, 16));

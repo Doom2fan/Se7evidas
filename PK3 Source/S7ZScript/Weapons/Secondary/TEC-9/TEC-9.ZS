@@ -105,7 +105,7 @@ class S7_TEC9 : S7_BaseWeapon {
             invoker.selecting = true;
             A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
         }
-        TEC9 A 1 DoSelectOffset ((80, 80));
+        TEC9 A 1 DoSelectOffset ((80, 80), forceNoInterpolate: true);
         TEC9 A 1 DoSelectOffset ((64, 64));
         TEC9 A 1 DoSelectOffset ((48, 48));
         TEC9 A 1 DoSelectOffset ((32, 32));

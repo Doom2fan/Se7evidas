@@ -65,14 +65,48 @@ class S7_Fauchard : S7_BaseWeapon {
         LRFP A -1;
         stop;
 
+    Select.Hand:
+        TNT1 A 1;
+        HAN0 A 1 DoSelectOffset (( 98, 156), -5, true);
+        HAN0 A 1 DoSelectOffset ((110, 137), -5);
+        HAN0 A 1 DoSelectOffset ((120, 122), -5);
+        HAN0 A 1 DoSelectOffset ((134, 106), -5);
+        stop;
     Ready:
-        LSRF VWXYZA 1;
+        LSRF H 1 {
+            DoSelectOffset ((69, 49), forceNoInterpolate: true);
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        LSRF H 1 DoSelectOffset (( 48,  33));
+        LSRF H 1 DoSelectOffset (( 36,  16));
+        LSRF H 1 DoSelectOffset ((-4 , -4 ));
+        LSRF H 1 DoSelectOffset ((-24, -23));
+        LSRF A 1 {
+            DoSelectOffset ((10, 4), forceNoInterpolate: true);
+            DoSelectOffset ((0, 0));
+        }
     Ready2:
         LSRF A 1 S7_WeaponReady ("Reload", null);
         loop;
 
+    Deselect.Hand:
+        HAN0 A 1 DoSelectOffset ((134, 106), -5, true);
+        HAN0 A 1 DoSelectOffset ((120, 122), -5);
+        HAN0 A 1 DoSelectOffset ((110, 137), -5);
+        HAN0 A 1 DoSelectOffset (( 98, 156), -5);
+        stop;
     Deselect:
-        LSRF AZYXWV 1;
+        LSRF A 1;
+        LSRF H 1 {
+            DoSelectOffset ((-24, -23), forceNoInterpolate: true);
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        LSRF H 1 DoSelectOffset ((-4 , -4 ));
+        LSRF H 1 DoSelectOffset (( 36,  16));
+        LSRF H 1 DoSelectOffset (( 48,  33));
+        LSRF H 1 DoSelectOffset (( 69,  49));
         goto TrueDeselect;
 
     Fire:

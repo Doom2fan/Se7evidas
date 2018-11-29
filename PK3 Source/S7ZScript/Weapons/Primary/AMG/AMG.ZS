@@ -69,7 +69,7 @@ class S7_AMG : S7_BaseWeapon {
             invoker.burstCount = 0;
             invoker.zoomed = false;
         }
-        AMGG A 1 DoSelectOffset ((72, 72));
+        AMGG A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
         AMGG A 1 DoSelectOffset ((56, 56));
         AMGG A 1 DoSelectOffset ((40, 40));
         AMGG A 1 DoSelectOffset ((24, 24));

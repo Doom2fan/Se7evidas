@@ -87,31 +87,3 @@ sprite BLSGP0, 66, 137 {
     offset -112, -49
     patch "graphics/weapons/LaserPewPew/Frame3.png", 0, 0
 }
-
-sprite BLSGV0, 74, 119 {
-    offset -287, -139
-    patch "graphics/weapons/LaserPewPew/Frame2.png", -1, 0
-}
-
-sprite BLSGW0, 215, 119 {
-    offset -128, -124
-    patch "graphics/weapons/LaserPewPew/Frame2.png", 140, 0
-    patch "graphics/Hands/Hand-001.png", 0, 41
-}
-
-sprite BLSGX0, 184, 119 {
-    offset -139, -107
-    patch "graphics/weapons/LaserPewPew/Frame2.png", 109, 0
-    patch "graphics/Hands/Hand-001.png", 0, 50
-}
-
-sprite BLSGY0, 145, 119 {
-    offset -153, -92
-    patch "graphics/weapons/LaserPewPew/Frame2.png", 70, 0
-    patch "graphics/Hands/Hand-001.png", 0, 55
-}
-
-sprite BLSGZ0, 95, 119 {
-    offset -184, -82
-    patch "graphics/weapons/LaserPewPew/Frame1.png", 0, 0
-}

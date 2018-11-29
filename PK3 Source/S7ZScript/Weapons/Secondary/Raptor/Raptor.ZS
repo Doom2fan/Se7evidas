@@ -52,13 +52,23 @@ class S7_Raptor : S7_BaseWeapon {
         loop;
 
     Ready:
-        RPTN VWXYZA 1;
+        RPTN A 1 DoSelectOffset ((80, 80), forceNoInterpolate: true);
+        RPTN A 1 DoSelectOffset ((64, 64));
+        RPTN A 1 DoSelectOffset ((48, 48));
+        RPTN A 1 DoSelectOffset ((32, 32));
+        RPTN A 1 DoSelectOffset ((14, 14));
+        RPTN A 1 DoSelectOffset (( 0,  0));
     Ready2:
         RPTN A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:
-        RPTN AZYXWV 1;
+        RPTN A 1 DoSelectOffset (( 0,  0));
+        RPTN A 1 DoSelectOffset ((14, 14));
+        RPTN A 1 DoSelectOffset ((32, 32));
+        RPTN A 1 DoSelectOffset ((48, 48));
+        RPTN A 1 DoSelectOffset ((64, 64));
+        RPTN A 1 DoSelectOffset ((80, 80));
         goto TrueDeselect;
 
     Fire:

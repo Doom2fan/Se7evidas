@@ -132,7 +132,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         stop;
 
     Ready:
-        PIC1 A 1 DoSelectOffset ((88, 88));
+        PIC1 A 1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
         PIC1 A 1 DoSelectOffset ((64, 64));
         PIC1 A 1 DoSelectOffset ((40, 40));
         PIC1 A 1 DoSelectOffset ((24, 24));

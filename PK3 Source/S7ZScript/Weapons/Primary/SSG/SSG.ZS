@@ -104,7 +104,7 @@ class S7_SSG : S7_BaseWeapon {
         loop;
 
     Ready:
-        SSG0 A 1 DoSelectOffset ((-71, 50));
+        SSG0 A 1 DoSelectOffset ((-71, 50), forceNoInterpolate: true);
         SSG0 A 1 DoSelectOffset ((-61, 35));
         SSG0 A 1 DoSelectOffset ((-48, 21));
         SSG0 A 1 DoSelectOffset ((-34, 11));

@@ -94,7 +94,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         stop;
 
     Ready:
-        PLSG A 1 DoSelectOffset ((72, 72));
+        PLSG A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
         PLSG A 1 DoSelectOffset ((60, 58));
         PLSG A 1 DoSelectOffset ((48, 48));
         PLSG A 1 DoSelectOffset ((38, 37));

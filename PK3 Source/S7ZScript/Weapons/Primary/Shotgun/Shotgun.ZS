@@ -87,7 +87,7 @@ class S7_Shotgun : S7_BaseWeapon {
         stop;
 
     Ready:
-        SSGR A 1 DoSelectOffset ((64, 64));
+        SSGR A 1 DoSelectOffset ((64, 64), forceNoInterpolate: true);
         SSGR A 1 DoSelectOffset ((48, 48));
         SSGR A 1 DoSelectOffset ((32, 32));
         SSGR A 1 DoSelectOffset ((16, 16));

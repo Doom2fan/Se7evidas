@@ -71,7 +71,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         stop;
     Ready:
         CQR1 N 1 {
-            DoSelectOffset ((109, 77));
+            DoSelectOffset ((109, 77), forceNoInterpolate: true);
             A_Overlay (-5, "Select.Hand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
         }
@@ -187,7 +187,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             return ResolveState (null);
         }
         CQR1 N 1 {
-            DoSelectOffset (( 12, 15));
+            DoSelectOffset (( 12, 15), forceNoInterpolate: true);
             A_Overlay (-5, "Deselect.Hand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
         }

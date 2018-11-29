@@ -72,7 +72,7 @@ class S7_AK47 : S7_BaseWeapon {
         stop;
     Ready:
         AK47 S 1 {
-            DoSelectOffset ((69, 72));
+            DoSelectOffset ((69, 72), forceNoInterpolate: true);
             A_Overlay (-5, "Select.Hand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
         }
@@ -110,7 +110,7 @@ class S7_AK47 : S7_BaseWeapon {
         HAN0 F 1 DoSelectOffset ((142, 159), -5);
         stop;
     Deselect:
-        AK47 A 1 DoSelectOffset (( 0,  0));
+        AK47 A 1;
         AK47 S 1 {
             DoSelectOffset (( 0,  0));
             A_Overlay (-5, "Deselect.Hand");

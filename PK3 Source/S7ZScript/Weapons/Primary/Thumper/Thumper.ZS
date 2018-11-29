@@ -149,8 +149,26 @@ class S7_Thumper : S7_BaseWeapon {
         THMP U -1;
         stop;
 
+    Select.Hand:
+        HAN0 A 1 DoSelectOffset ((132, 151), -5, forceNoInterpolate: true);
+        HAN0 A 1 DoSelectOffset ((149, 140), -5);
+        HAN0 A 1 DoSelectOffset ((161, 127), -5);
+        HAN0 A 1 DoSelectOffset ((168, 122), -5);
+        stop;
     Ready:
-        THMP VWXYZA 1;
+        THPR E 1 DoSelectOffset ((77, 55), forceNoInterpolate: true);
+        THPR E 1 {
+            DoSelectOffset ((45, 32));
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        THPR E 1 DoSelectOffset (( 14,  10));
+        THPR E 1 DoSelectOffset ((  1,   1));
+        THPR E 1 DoSelectOffset ((-16, -13));
+        THMP A 1 {
+            DoSelectOffset ((10, 3), forceNoInterpolate: true);
+            DoSelectOffset (( 0, 0));
+        }
     Ready2:
         THMP A 1 {
             S7_WeaponReady ("Reload", "ChangeMode");
@@ -159,8 +177,23 @@ class S7_Thumper : S7_BaseWeapon {
         }
         loop;
 
+    Deselect.Hand:
+        HAN0 A 1 DoSelectOffset ((168, 122), -5, forceNoInterpolate: true);
+        HAN0 A 1 DoSelectOffset ((161, 127), -5);
+        HAN0 A 1 DoSelectOffset ((149, 140), -5);
+        HAN0 A 1 DoSelectOffset ((132, 151), -5);
+        stop;
     Deselect:
-        THMP AZYXWV 1;
+        THMP A 1 DoSelectOffset ((0, 0));
+        THPR E 1 {
+            DoSelectOffset ((-16, -13));
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        THPR E 1 DoSelectOffset (( 1,  1));
+        THPR E 1 DoSelectOffset ((14, 10));
+        THPR E 1 DoSelectOffset ((45, 32));
+        THPR E 1 DoSelectOffset ((77, 55));
         goto TrueDeselect;
 
     Fire:

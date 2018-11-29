@@ -54,7 +54,7 @@ class S7_HitterSMG : S7_BaseWeapon {
         loop;
 
     Ready:
-        SR20 A 1 DoSelectOffset ((88, 88));
+        SR20 A 1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
         SR20 A 1 DoSelectOffset ((72, 72));
         SR20 A 1 DoSelectOffset ((48, 48));
         SR20 A 1 DoSelectOffset ((24, 24));

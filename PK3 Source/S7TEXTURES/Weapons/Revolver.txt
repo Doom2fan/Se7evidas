@@ -19,32 +19,6 @@ sprite "RVLVG0", 115, 143 {
     patch "graphics/Weapons/Revolver/Frame3.png", 0, 0
 }
 
-// Selection
-sprite "RVLSA0", 85, 106 {
-    offset -266, -160
-    patch "RVLVA0", 0, 0
-}
-
-sprite "RVLSB0", 85, 106 {
-    offset -242, -136
-    patch "RVLVA0", 0, 0
-}
-
-sprite "RVLSC0", 85, 106 {
-    offset -218, -112
-    patch "RVLVA0", 0, 0
-}
-
-sprite "RVLSD0", 85, 106 {
-    offset -194, -88
-    patch "RVLVA0", 0, 0
-}
-
-sprite "RVLSE0", 85, 106 {
-    offset -178, -72
-    patch "RVLVA0", 0, 0
-}
-
 // Reloading
 sprite "RVLVH0", 85, 106 {
     offset -165, -69

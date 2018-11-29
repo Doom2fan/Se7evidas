@@ -52,15 +52,23 @@ class S7_Revolver : S7_BaseWeapon {
         loop;
 
     Ready:
-        RVLS ABCDE 1;
-        RVLV A     1;
+        RVLV A 1 DoSelectOffset ((96, 96), forceNoInterpolate: true);
+        RVLV A 1 DoSelectOffset ((72, 72));
+        RVLV A 1 DoSelectOffset ((48, 48));
+        RVLV A 1 DoSelectOffset ((24, 24));
+        RVLV A 1 DoSelectOffset (( 8,  8));
+        RVLV A 1 DoSelectOffset (( 0,  0));
     Ready2:
         RVLV A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Deselect:
-        RVLV A     1;
-        RVLS EDCBA 1;
+        RVLV A 1 DoSelectOffset (( 0,  0));
+        RVLV A 1 DoSelectOffset (( 8,  8));
+        RVLV A 1 DoSelectOffset ((24, 24));
+        RVLV A 1 DoSelectOffset ((48, 48));
+        RVLV A 1 DoSelectOffset ((72, 72));
+        RVLV A 1 DoSelectOffset ((96, 96));
         goto TrueDeselect;
 
     Fire:

@@ -104,9 +104,25 @@ class S7_LaserPewPew : S7_BaseWeapon {
         loop;
 
     /** Normal mode **/
+    Select.Hand:
+        HAN0 A 1 DoSelectOffset ((128, 165), -5, true);
+        HAN0 A 1 DoSelectOffset ((139, 157), -5);
+        HAN0 A 1 DoSelectOffset ((153, 147), -5);
+        stop;
     Ready:
-        BLSG V     1 A_JumpIf (invoker.akimbo, "Ready.Akimbo");
-        BLSG WXYZA 1;
+        BLSG F 1 {
+            DoSelectOffset ((103, 67), forceNoInterpolate: true);
+            invoker.akimbo = false;
+        }
+        BLSG F 1 {
+            DoSelectOffset (( 84, 52));
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        BLSG F 1 DoSelectOffset (( 64, 35));
+        BLSG F 1 DoSelectOffset (( 39, 20));
+        BLSG A 1 DoSelectOffset (( 20, 10));
+        BLSG A 1 DoSelectOffset ((  0,  0));
     Ready2:
         BLSG A 0 A_JumpIf (invoker.sights, "Ready2.Sights");
         goto Ready2.DoThings;
@@ -142,11 +158,11 @@ class S7_LaserPewPew : S7_BaseWeapon {
             if (invoker.akimbo)
                 return ResolveState ("ChangeMode.ToSingle");
 
-            invoker.akimbo = true;
             return ResolveState (null);
         }
         BLSG DEF 2;
         BLS2 A   7 {
+            invoker.akimbo = true;
             A_Overlay (2, "AkimboLeft.Select");
         }
         goto AkimboRight.Ready;
@@ -158,17 +174,28 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG FEDA 2;
         goto Ready2;
 
+    Deselect.Hand:
+        HAN0 A 1 DoSelectOffset ((153, 147), -5, true);
+        HAN0 A 1 DoSelectOffset ((139, 157), -5);
+        HAN0 A 1 DoSelectOffset ((128, 165), -5);
+        stop;
     Deselect:
-        BLSG A 1 {
+        TNT1 A 0 {
             if (invoker.sights)
                 return ResolveState ("Deselect.Sights");
-            if (invoker.akimbo)
-                return ResolveState ("AkimboRight.Deselect");
 
             return ResolveState (null);
         }
-
-        BLSG ZYXWV 1;
+        BLSG A 1;
+        BLSG A 1 DoSelectOffset (( 20, 10));
+        BLSG F 1 {
+            DoSelectOffset (( 39, 20));
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        BLSG F 1 DoSelectOffset (( 64, 35));
+        BLSG F 1 DoSelectOffset (( 84, 52));
+        BLSG F 1 DoSelectOffset ((103, 67));
         goto TrueDeselect;
     Deselect.Sights:
         BLSG K   1 { invoker.sights = false; }
@@ -329,13 +356,34 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG IIJEDAA 2;
         goto Ready2;
     Reload.SwapGuns: // Gun swapping
-        BLSG AZYXWV 1;
-        TNT1 A      5 {
+        BLSG A 1;
+        BLSG A 1 DoSelectOffset (( 20, 10));
+        BLSG F 1 {
+            DoSelectOffset (( 39, 20));
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        BLSG F 1 DoSelectOffset (( 64, 35));
+        BLSG F 1 DoSelectOffset (( 84, 52));
+        BLSG F 1 DoSelectOffset ((103, 67));
+
+        TNT1 A 10 {
             int mag1 = CountInv ('S7_LaserPewPewClip'), mag2 = CountInv ('S7_LaserPewPewClipSecond');
             SetInventory ('S7_LaserPewPewClip', mag2);
             SetInventory ('S7_LaserPewPewClipSecond', mag1);
         }
-        BLSG VWXYZA 1;
+
+
+        BLSG F 1 DoSelectOffset ((103, 67));
+        BLSG F 1 {
+            DoSelectOffset (( 84, 52));
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        BLSG F 1 DoSelectOffset (( 64, 35));
+        BLSG F 1 DoSelectOffset (( 39, 20));
+        BLSG A 1 DoSelectOffset (( 20, 10));
+        BLSG A 1 DoSelectOffset ((  0,  0));
         goto Ready2;
 
     // Muzzle flashes
@@ -347,12 +395,6 @@ class S7_LaserPewPew : S7_BaseWeapon {
         stop;
 
     /** Akimbo mode **/
-    Ready.Akimbo:
-        BLS2 ZYXWVU 1;
-        BLS2 U      1 {
-            A_Overlay (2, "AkimboLeft.Ready");
-            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
-        }
     AkimboRight.Ready:
         BLS2 A 1 {
             if (invoker.amount <= 1)
@@ -371,36 +413,40 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 return ResolveState ("AkimboLeft.NoSecLPP");
             if (!invoker.akimbo)
                 return ResolveState ("AkimboLeft.Derped");
-
-            if ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK))
+            if ((player.cmd.buttons & BT_ALTATTACK))
                 return ResolveState ("AkimboLeft.Fire");
 
             return ResolveState (null);
         }
         goto AkimboLeft.Ready;
 
-    AkimboRight.Deselect:
-        BLS2 L    1 {
-            A_Overlay (2, "AkimboLeft.DeselectReal");
-            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
-        }
-        BLS2 MNOP 1;
-        goto Super::Deselect;
-    AkimboLeft.DeselectReal:
-        BLS2 LMNOP 1;
-        //BLS2 GHIJK 1;
-        stop;
-
     AkimboLeft.Select:
-        BLS2 K      1 A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast, true);
-        BLS2 KJIHGD 1;
-        BLS2 D      1;
-        TNT1 A      0 A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
+        TNT1 A 0 {
+            A_OverlayFlags (2, PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
+            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob, false);
+        }
+        BLSG F 1 DoSelectOffset ((103, 67), 2, forceNoInterpolate: true);
+        BLSG F 1 DoSelectOffset (( 84, 52), 2);
+        BLSG F 1 DoSelectOffset (( 64, 35), 2);
+        BLSG F 1 DoSelectOffset (( 39, 20), 2);
+        BLSG F 1 DoSelectOffset (( 20, 10), 2);
+        BLSG F 1 DoSelectOffset ((  0,  0), 2);
+        TNT1 A 0 {
+            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob, true);
+            A_OverlayOffset (2, 0, 0);
+        }
         goto AkimboLeft.Ready;
     AkimboLeft.Deselect:
-        BLS2 D      1 A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast, true);
-        BLS2 DGHIJK 1;
-        BLS2 K      1;
+        TNT1 A 0 {
+            A_OverlayFlags (2, PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
+            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob, false);
+        }
+        BLSG F 1 DoSelectOffset ((  0,  0), 2, forceNoInterpolate: true);
+        BLSG F 1 DoSelectOffset (( 20, 10), 2);
+        BLSG F 1 DoSelectOffset (( 39, 20), 2);
+        BLSG F 1 DoSelectOffset (( 64, 35), 2);
+        BLSG F 1 DoSelectOffset (( 84, 52), 2);
+        BLSG F 1 DoSelectOffset ((103, 67), 2);
         stop;
 
     AkimboRight.Fire:
@@ -521,42 +567,76 @@ class S7_LaserPewPew : S7_BaseWeapon {
         }
         goto AkimboRight.Ready;
     AkimboRight.ReloadAnim:
-        BLS2 A     3 {
+        BLS2 A 3 {
             A_Overlay (2, "AkimboLeft.ReloadAnim");
-            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast, true);
+            A_OverlayFlags (2, PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
+            A_OverlayFlags (2, PSPF_AddWeapon, false);
+            A_OverlayOffset (2, 0, 32);
             A_PlaySound ("Weapons/LaserPewPew/Out", CHAN_6);
         }
-        BLS2 AAAAA 1; // Left buttfly lower
-        BLS2 A     2; // Start right clip insert
+        // Left buttfly lower
+        BLS2 AAAAA 1;
+        // Start right clip insert
+        BLS2 A     2;
         BLSG G     2 A_PlaySound ("Weapons/LaserPewPew/In", CHAN_7);
         BLSG HIIJJ 2;
         BLSG IHG   2; // Finish right clip insert
         BLS2 A     2;
-        BLS2 LMNOP 1; // Right buttfly lower
+        // Right buttfly lower, left buttfly raise
+        BLS2 A 1 DoSelectOffset ((  0,  0), forceNoInterpolate: true);
+        BLS2 A 1 DoSelectOffset (( 20, 10));
+        BLS2 A 1 DoSelectOffset (( 39, 20));
+        BLS2 A 1 DoSelectOffset (( 64, 35));
+        BLS2 A 1 DoSelectOffset (( 84, 52));
+        BLS2 A 1 DoSelectOffset ((103, 67));
+        // Start left clip insert
         TNT1 A     2;
         TNT1 A     2;
         TNT1 AAAAA 2;
         TNT1 AAA   2; // Finish left clip insert
-        BLS2 PONML 1;
-        BLS2 A     3;
+        // Right buttfly raise
+        BLS2 A 1 DoSelectOffset ((103, 67), forceNoInterpolate: true);
+        BLS2 A 1 DoSelectOffset (( 84, 52));
+        BLS2 A 1 DoSelectOffset (( 64, 35));
+        BLS2 A 1 DoSelectOffset (( 39, 20));
+        BLS2 A 1 DoSelectOffset (( 20, 10));
+        BLS2 A 3 DoSelectOffset ((  0,  0));
         goto AkimboRight.Ready;
 
     AkimboLeft.ReloadAnim:
-        BLS2 D     3 A_PlaySound ("Weapons/LaserPewPew/Out", CHAN_5);
-        BLS2 GHIJK 1; // Left buttfly lower
-        TNT1 A     2; // Start right clip insert
+        BLS2 A 3 A_PlaySound ("Weapons/LaserPewPew/Out", CHAN_5);
+        // Left buttfly lower
+        BLS2 A 1 DoSelectOffset ((  0,  0), 2, forceNoInterpolate: true);
+        BLS2 A 1 DoSelectOffset (( 20, 10), 2);
+        BLS2 A 1 DoSelectOffset (( 39, 20), 2);
+        BLS2 A 1 DoSelectOffset (( 64, 35), 2);
+        BLS2 A 1 DoSelectOffset (( 84, 52), 2);
+        BLS2 A 1 DoSelectOffset ((103, 67), 2);
+        // Start right clip insert
+        TNT1 A     2;
         TNT1 A     2;
         TNT1 AAAAA 2;
         TNT1 AAA   2; // Finish right clip insert
         TNT1 A     2;
-        BLS2 KJIHG 1; // Right buttfly lower
-        BLS2 D     2; // Start left clip insert
-        BLS2 Q     2 A_PlaySound ("Weapons/LaserPewPew/In", CHAN_7);
-        BLS2 RSSTT 2;
-        BLS2 SRQ   2; // Finish left clip insert
-        BLS2 DDDDD 1;
-        BLS2 D     3;
-        TNT1 A     0 A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
+        // Left buttfly raise, right buttfly lower
+        BLS2 A 1 DoSelectOffset ((103, 67), 2, forceNoInterpolate: true);
+        BLS2 A 1 DoSelectOffset (( 84, 52), 2);
+        BLS2 A 1 DoSelectOffset (( 64, 35), 2);
+        BLS2 A 1 DoSelectOffset (( 39, 20), 2);
+        BLS2 A 1 DoSelectOffset (( 20, 10), 2);
+        BLS2 A 1 DoSelectOffset ((  0,  0), 2);
+        // Start left clip insert
+        BLS2 A     2;
+        BLSG G     2 A_PlaySound ("Weapons/LaserPewPew/In", CHAN_7);
+        BLSG HIIJJ 2;
+        BLSG IHG   2; // Finish right clip insert
+        // Right buttfly raise
+        BLS2 A 5;
+        BLS2 A 3;
+        TNT1 A 0 {
+            A_OverlayFlags (2, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
+            A_OverlayOffset (2, 0, 0);
+        }
         goto AkimboLeft.Ready;
 
     AkimboRight.Derped:
