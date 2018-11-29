@@ -55,12 +55,15 @@ class S7_BaseWeapon : Weapon {
 
     String weapIcon;
     String shortTag;
+    String ammoBuyShopItem;
+    int ammoBuyAmount;
     S7_WeaponSlots bindSlot;
     bool usesMag;
     bool reloadWhileSprinting;
 
     property Icon: weapIcon;
     property ShortTag: shortTag;
+    property AmmoBuyData: ammoBuyShopItem, ammoBuyAmount;
     property BindSlot: bindSlot;
     property UsesMag: usesMag;
     property CanReloadWhileSprinting: reloadWhileSprinting;
@@ -74,6 +77,7 @@ class S7_BaseWeapon : Weapon {
         Weapon.Kickback 100;
 
         S7_BaseWeapon.Icon "";
+        S7_BaseWeapon.AmmoBuyData "", 1;
         S7_BaseWeapon.BindSlot -1;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.CanReloadWhileSprinting false;

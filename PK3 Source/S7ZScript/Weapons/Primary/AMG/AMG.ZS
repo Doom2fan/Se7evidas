@@ -42,6 +42,7 @@ class S7_AMG : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "AMGGZ0";
         S7_BaseWeapon.ShortTag "$SHORTAMG";
+        S7_BaseWeapon.AmmoBuyData "A762", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
     }

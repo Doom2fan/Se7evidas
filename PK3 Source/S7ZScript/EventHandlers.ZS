@@ -118,17 +118,50 @@ class S7_PlayerEventHandler : EventHandler {
         Array<String> strings;
         e.Name.Split (strings, ":");
 
-        if (strings.Size () < 2) // Return if the array has less than two strings
+        if (strings.Size () != 2)
             return;
 
-        if (strings [0] == "S7_Keys") {
+        if (strings [0] ~== "S7_Keys" && strings [1] ~== "QuickBuyAmmo") {
+            if (!playeringame [e.Player])
+                return;
+            if (!players [e.Player].ReadyWeapon || !(players [e.Player].ReadyWeapon is "S7_BaseWeapon"))
+                return;
+            if (players [e.Player].PendingWeapon != WP_NOCHANGE)
+                return;
+
+            let serverData = S7_ServerData.Get ();
+            if (!serverData || !serverData.S7Data || !serverData.S7Data.shopData)
+                return;
+
+            let weap = S7_BaseWeapon (players [e.Player].ReadyWeapon);
+            if (weap) {
+                int itemID = S7_Utils.MakeUIDStr (weap.ammoBuyShopItem);
+
+                let shopData = serverData.S7Data.shopData;
+                S7_SSItem item = NULL;
+
+                for (int i = 0; i < shopData.allItems.Size (); i++) {
+                    if (shopData.allItems [i].id == itemID) {
+                        item = shopData.allItems [i];
+                        break;
+                    }
+                }
+                if (!item)
+                    return;
+
+                item.BuyItem (S7_BasePlayer (players [e.Player].mo), weap.ammoBuyAmount, 0.0);
+            }
+        } else if (strings [0] ~== "S7_Keys") {
+            if (!playeringame [e.Player])
+                return;
+
             let pPawn = players [e.Player].mo;
 
-            if (pPawn && strings [1] == "Melee")
+            if (pPawn && strings [1] ~== "Melee")
                 pPawn.SetInventory ('S7_DoMelee', 1);
-            else if (pPawn && strings [1] == "FiringMode")
+            else if (pPawn && strings [1] ~== "FiringMode")
                 pPawn.SetInventory ('S7_ChangeFireMode', 1);
-        } else if (strings [0] == "S7_WeapBindsSystem")
+        } else if (strings [0] ~== "S7_WeapBindsSystem")
             WeapBindsSystem (e);
     }
 

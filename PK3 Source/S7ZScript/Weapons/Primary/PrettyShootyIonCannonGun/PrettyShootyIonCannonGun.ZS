@@ -43,6 +43,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "PIC1Z0";
         S7_BaseWeapon.ShortTag "$SHORTIONCANNON";
+        S7_BaseWeapon.AmmoBuyData "ACEL", 1;
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag true;
     }

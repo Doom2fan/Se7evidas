@@ -2,6 +2,7 @@
 addKeySection "Se7evidas (Weapon)" "Se7evidas_Weapon"
 addMenuKey    "Firing mode"                 "S7_FiringMode"
 addMenuKey    "Quick Melee"                 "S7_QuickMelee"
+addMenuKey    "Quick buy ammo"              "S7_QuickBuyAmmo"
 
 addKeySection "Se7evidas (Movement)" "Se7evidas_Movement"
 addMenuKey    "Sprint (Hold)"               "+user1"
@@ -16,6 +17,7 @@ addMenuKey    "Inventory list"              "S7_ShowPop1"
 // Keys
 alias S7_FiringMode "netevent \"S7_Keys:FiringMode\""
 alias S7_QuickMelee "netevent \"S7_Keys:Melee\""
+alias S7_QuickBuyAmmo "netevent \"S7_Keys:QuickBuyAmmo\""
 alias S7_ToggleFlashlight "Use S7_Flashlight"
 alias S7_PlayerMenu "event \"S7_Keys:OpenPlayerMenu\""
 alias S7_LuciusShop "event \"S7_Keys:OpenLuciusShop\""

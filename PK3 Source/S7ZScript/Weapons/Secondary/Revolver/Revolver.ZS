@@ -42,6 +42,7 @@ class S7_Revolver : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "RVLPA0";
         S7_BaseWeapon.ShortTag "$SHORTREVOLVER";
+        S7_BaseWeapon.AmmoBuyData "A44M", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
     }

@@ -42,6 +42,7 @@ class S7_Fauchard : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "LRFPA0";
         S7_BaseWeapon.ShortTag "$SHORTFAUCHARD";
+        S7_BaseWeapon.AmmoBuyData "AFBC", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
     }

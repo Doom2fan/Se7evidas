@@ -42,6 +42,7 @@ class S7_AK47 : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "AK4PA0";
         S7_BaseWeapon.ShortTag "$SHORTAK47";
+        S7_BaseWeapon.AmmoBuyData "A762", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
     }

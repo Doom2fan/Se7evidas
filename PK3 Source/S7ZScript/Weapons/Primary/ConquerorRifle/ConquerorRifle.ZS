@@ -42,6 +42,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "CQRPA0";
         S7_BaseWeapon.ShortTag "$SHORTCONQUERORSRIFLE";
+        S7_BaseWeapon.AmmoBuyData "A45W", 1;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
     }

@@ -42,6 +42,7 @@ class S7_HitterSMG : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "SR20Z0";
         S7_BaseWeapon.ShortTag "$SHORTHITTERSMG";
+        S7_BaseWeapon.AmmoBuyData "AACP", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
     }

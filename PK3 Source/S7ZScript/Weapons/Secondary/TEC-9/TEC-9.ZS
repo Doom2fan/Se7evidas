@@ -42,6 +42,7 @@ class S7_TEC9 : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "TEC9Z0";
         S7_BaseWeapon.ShortTag "$SHORTTEC9";
+        S7_BaseWeapon.AmmoBuyData "A9MM", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
     }

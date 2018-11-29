@@ -42,6 +42,7 @@ class S7_Shotgun : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "DTUPA0";
         S7_BaseWeapon.ShortTag "$SHORTSHOTGUN";
+        S7_BaseWeapon.AmmoBuyData "A20g", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
     }

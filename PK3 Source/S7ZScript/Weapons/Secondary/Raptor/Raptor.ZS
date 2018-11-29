@@ -42,6 +42,7 @@ class S7_Raptor : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "RPTPA0";
         S7_BaseWeapon.ShortTag "$SHORTRAPTOR";
+        S7_BaseWeapon.AmmoBuyData "A9MM", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
     }

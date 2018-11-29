@@ -42,6 +42,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "MNXPA0";
         S7_BaseWeapon.ShortTag "$SHORTMANXCARBINE";
+        S7_BaseWeapon.AmmoBuyData "A9MM", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
     }

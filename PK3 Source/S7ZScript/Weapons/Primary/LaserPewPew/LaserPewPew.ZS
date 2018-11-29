@@ -52,6 +52,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "BLSPA0";
         S7_BaseWeapon.ShortTag "$SHORTBUTTFLY";
+        S7_BaseWeapon.AmmoBuyData "AFBC", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
     }
 

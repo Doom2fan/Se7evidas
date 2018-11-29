@@ -42,6 +42,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "CESRZ0";
         S7_BaseWeapon.ShortTag "$SHORTCAESARCHAINGUN";
+        S7_BaseWeapon.AmmoBuyData "A45W", 6;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
     }
