@@ -118,7 +118,7 @@ class S7_PlayerEventHandler : EventHandler {
         Array<String> strings;
         e.Name.Split (strings, ":");
 
-        if (strings.Size () != 2)
+        if (strings.Size () < 2)
             return;
 
         if (strings [0] ~== "S7_Keys" && strings [1] ~== "QuickBuyAmmo") {
