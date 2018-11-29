@@ -338,23 +338,36 @@ class S7_WeapBindsSystem : Inventory {
         if (slot < (!draco ? 0 : 1) || pos < 0 || (!weap && pos >= (!draco ? (Binds [slot].Size ()) : (DracoBinds [slot-1].Size ()))))
             return;
 
-        if (!weap) {
+        S7_BaseWeapon oldWeap = null;
+
+        Array<S7_BaseWeapon> weaps; weaps.Clear ();
+        if (!weap && pos < Binds [slot].Size ()) {
+            weaps.Copy (Binds [slot]);
+            oldWeap = weaps [pos];
             if (!draco) Binds [slot  ].Delete (pos, 1);
             else   DracoBinds [slot-1].Delete (pos, 1);
-            return;
-        }
-
-        if (pos >= Binds [slot].Size ()) {
+        } else if (weap && pos >= Binds [slot].Size ()) {
             if (!draco) Binds [slot  ].Push (weap);
             else   DracoBinds [slot-1].Push (weap);
-        } else {
+        } else if (weap) {
             if (!draco) {
+                weaps.Copy (Binds [slot]);
+                oldWeap = weaps [pos];
                 Binds [slot].Delete (pos, 1);
                 Binds [slot].Insert (pos, weap);
             } else {
+                weaps.Copy (DracoBinds [slot]);
+                oldWeap = weaps [pos];
                 DracoBinds [slot-1].Delete (pos, 1);
                 DracoBinds [slot-1].Insert (pos, weap);
             }
+        }
+
+        if (oldWeap && Owner.player.ReadyWeapon == oldWeap && Owner.player.PendingWeapon == WP_NOCHANGE) {
+            if (weap)
+                Owner.player.PendingWeapon = weap;
+            else
+                Owner.player.PendingWeapon = S7_BaseWeapon (Owner.FindInventory ('S7_UnarmedWeap'));
         }
     }
 }

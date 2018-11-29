@@ -20,7 +20,8 @@ extend class S7_BasePlayer {
     static const string PermanentItems [] = {
         "S7_GrenadeWeap:S7_GrenadeCount",
         "S7_BerserkWeap:S7_Berserk",
-        "S7_Thumper_PUnified"
+        "S7_Thumper_PUnified",
+        "S7_UnarmedWeap"
     };
 
     void Misc_PermanentItems () {

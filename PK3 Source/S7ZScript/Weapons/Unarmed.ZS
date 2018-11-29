@@ -21,6 +21,33 @@
 // Null weapons
 //
 //-------------------------------------------------------------------------------------------
+
+class S7_UnarmedWeap : S7_BaseWeapon {
+    default {
+        Tag "Unarmed";
+
+        +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE
+    }
+
+    states {
+    Ready:
+    Ready2:
+        TNT1 A 1 S7_WeaponReady (null, null);
+        loop;
+
+    Deselect:
+        goto TrueDeselect;
+
+    Fire:
+        goto QuickMelee;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Null weapons
+//
+//-------------------------------------------------------------------------------------------
 class S7_NullWeapon : Weapon {
     default {
         Tag "Unarmed";
