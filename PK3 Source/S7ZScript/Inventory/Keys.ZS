@@ -23,7 +23,7 @@
 
 class S7_KeycardReplacerBase : Key {
     default {
-        Scale 0.3;
+        Scale 0.5;
     }
 
     override bool TryPickup (in out Actor toucher) {
