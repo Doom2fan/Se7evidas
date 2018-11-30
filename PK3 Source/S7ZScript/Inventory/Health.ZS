@@ -336,7 +336,7 @@ class S7_Canteen : Inventory {
     override bool Use (bool pickup) {
         let pPawn = S7_BasePlayer (Owner);
 
-        if (!pPawn || pPawn.health <= 0)
+        if (!pPawn || pPawn.health <= 0 || pPawn.bKilled)
             return false;
 
         if (pPawn.health >= pPawn.maxHealth || Amount < pPawn.playerData.milkUseRate)

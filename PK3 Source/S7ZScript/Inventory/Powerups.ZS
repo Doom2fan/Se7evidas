@@ -58,7 +58,7 @@ class S7_HeartSphere : Inventory { // I am not good at naming things
 
     override bool Use (bool pickup) {
         let pPawn = PlayerPawn (Owner);
-        if (!pPawn)
+        if (!pPawn || pPawn.health <= 0 || pPawn.bKilled)
             return true;
 
         int maxHealth = pPawn.GetMaxHealth ();

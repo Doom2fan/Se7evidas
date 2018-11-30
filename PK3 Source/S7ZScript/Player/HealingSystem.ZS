@@ -37,6 +37,12 @@ class S7_HealingSystem : Inventory {
         if (!pPawn || !pPawn.xpSys)
             return;
 
+        if (health <= 0 || pPawn.bKilled) {
+            regenTimer = 0;
+            regenPoints = 0;
+            return;
+        }
+
         if (regenTimer > 0 && regenPoints > 0)
             regenTimer--;
 
