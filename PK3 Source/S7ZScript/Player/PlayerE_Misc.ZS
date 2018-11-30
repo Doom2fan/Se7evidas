@@ -29,7 +29,7 @@ extend class S7_BasePlayer {
             return;
 
         for (int i = 0; i < PermanentItems.Size (); i++) {
-            Array<String> parts;
+            Array<String> parts; parts.Clear ();
             PermanentItems [i].Split (parts, ":");
 
             // If this happens someone's a fucking idiot.

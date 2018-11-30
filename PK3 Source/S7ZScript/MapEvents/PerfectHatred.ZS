@@ -33,7 +33,7 @@ extend class S7_MapEventThinker {
         SetAllLight (16, ((level.time % 5) == 0));
 
         if (level.mapTime == 0) {
-            Array<S7_MapData_SpawnPos> spawnSpots;
+            Array<S7_MapData_SpawnPos> spawnSpots; spawnSpots.Clear ();
             spawnSpots.Copy (mapData.monsterSpawnPos);
 
             for (int i = 0; i < spawnSpots.Size (); i++) {

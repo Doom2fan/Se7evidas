@@ -267,7 +267,7 @@ class S7_SSItem_Upgrade : S7_SSItem {
     Array<string> requiredUpgrades;
 
     override void PostProcess () {
-        Array<string> strings;
+        Array<string> strings; strings.Clear ();
         inventoryName.Split (strings, ";");
 
         if (strings.Size () > 1)

@@ -121,7 +121,7 @@ class S7_EmpressPentagramCorner : S7_Empress_FXBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            Array<Actor> lines;
+            Array<Actor> lines; lines.Clear ();
             lines.Push (A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0, -198, CMF_AimDirection));
             lines.Push (A_SpawnProjectile ('S7_EmpressPentagramLine', 0.0, 0,  198, CMF_AimDirection));
 

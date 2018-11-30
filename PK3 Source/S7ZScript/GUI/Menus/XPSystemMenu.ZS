@@ -26,7 +26,7 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
             else if (command == "ResetButton")
                 ResetStatAdds ();
         } else {
-            Array<String> commandStrings;
+            Array<String> commandStrings; commandStrings.Clear ();
             command.Split (commandStrings, ":");
 
             if (commandStrings.Size () == 2) {
@@ -226,7 +226,7 @@ class S7_XPSysMenuEventHandler : EventHandler {
             return;
 
         let xpSys = S7_PlayerXPSystem (players [e.Player].mo.FindInventory ('S7_PlayerXPSystem'));
-        Array<String> strings;
+        Array<String> strings; strings.Clear ();
         e.Name.Split (strings, ":");
         if (strings.Size () != 2 || strings [0] != "S7_XPSysMenuConfirm") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_XPSysMenuConfirm"
             return;

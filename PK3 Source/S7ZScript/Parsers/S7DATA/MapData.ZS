@@ -52,7 +52,7 @@ extend class S7_S7DataParser {
     protected void ParseMapData_Map () {
         TZK_Token t;
         let mData = new ('S7_S7Data_MapData');
-        Array<string> hashes;
+        Array<string> hashes; hashes.Clear ();
 
         do {
             string tmpHash;

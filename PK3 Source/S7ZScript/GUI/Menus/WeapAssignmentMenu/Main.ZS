@@ -20,11 +20,11 @@ class S7_WeapAssignMenuHandler : S7_ZF_Handler {
     S7_WeapAssignMenu link;
 
     override void buttonClickCommand (S7_ZF_Button caller, string command) {
-        Array<String> strings;
+        Array<String> strings; strings.Clear ();
         command.Split (strings, ":");
 
         if (strings [0] ~== "SetSlot" && strings.Size () == 2) {
-            Array<String> coords;
+            Array<String> coords; coords.Clear ();
             strings [1].Split (coords, ",");
 
             if (coords.Size () == 2) {
@@ -259,7 +259,7 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
 
         let pPawn = players [e.Player].mo;
 
-        Array<String> strings;
+        Array<String> strings; strings.Clear ();
         e.Name.Split (strings, ":");
         if (strings.Size () < 2 || strings [0] != "S7_WeapBindsSystem") // Return if the array doesn't contain exactly two strings or the first string isn't "S7_WeapBindsSystem"
             return;

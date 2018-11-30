@@ -153,7 +153,7 @@ class S7_WeapBindsSystem : Inventory {
         if (draco && (slot > NUM_WEAPON_SLOTS_DRACO || pos >= DracoBinds [slot-1].Size ()))
             return NULL;
 
-        Array<S7_BaseWeapon> weapons;
+        Array<S7_BaseWeapon> weapons; weapons.Clear ();
 
         if (!draco) weapons.Copy (     Binds [slot]);
         else        weapons.Copy (DracoBinds [slot-1]);
@@ -172,7 +172,7 @@ class S7_WeapBindsSystem : Inventory {
         if (draco && (slot > NUM_WEAPON_SLOTS_DRACO || pos >= DracoBinds [slot-1].Size ()))
             return false;
 
-        Array<S7_BaseWeapon> weapons;
+        Array<S7_BaseWeapon> weapons; weapons.Clear ();
 
         if (!draco) weapons.Copy (     Binds [slot]);
         else        weapons.Copy (DracoBinds [slot-1]);
@@ -243,7 +243,7 @@ class S7_WeapBindsSystem : Inventory {
             return NULL;
 
         PlayerInfo player = PlayerPawn (Owner).player;
-        Array<S7_BaseWeapon> weapons;
+        Array<S7_BaseWeapon> weapons; weapons.Clear ();
 
         if (slot < (!draco ? 0 : 1) || slot > 9) // Return if the slot number is out of bounds.
             return S7_BaseWeapon (player.ReadyWeapon);
@@ -290,7 +290,7 @@ class S7_WeapBindsSystem : Inventory {
 
             slot = startSlot;
             index = startIndex;
-            Array<S7_BaseWeapon> weapons;
+            Array<S7_BaseWeapon> weapons; weapons.Clear ();
             if (!draco) weapons.Copy (     Binds [slot]);
             else        weapons.Copy (DracoBinds [slot]);
             do {

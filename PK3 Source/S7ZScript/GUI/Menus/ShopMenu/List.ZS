@@ -22,7 +22,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
-            Array<String> commandStrings;
+            Array<String> commandStrings; commandStrings.Clear ();
             command.Split (commandStrings, ":");
 
             if (commandStrings.Size () >= 2) {
@@ -71,7 +71,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     override void elementHoverChanged (S7_ZF_Element caller, string command, bool lostFocus) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
-            Array<String> commandStrings;
+            Array<String> commandStrings; commandStrings.Clear ();
             command.Split (commandStrings, ":");
 
             if (commandStrings.Size () >= 2) {
@@ -285,7 +285,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     }
 
     void Select (S7_ShopMenu_ListItem item) {
-        Array<S7_ZF_Label> labels;
+        Array<S7_ZF_Label> labels; labels.Clear ();
         for (int i = 0; i < items.Size (); i++) {
             if (!items [i])
                 return;

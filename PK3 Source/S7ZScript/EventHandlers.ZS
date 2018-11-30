@@ -115,7 +115,7 @@ class S7_PlayerEventHandler : EventHandler {
         if (!playeringame [e.Player] || !players [e.Player].mo) // Don't execute if the player isn't ingame, the player is null or the player's PlayerPawn is null
             return;
 
-        Array<String> strings;
+        Array<String> strings; strings.Clear ();
         e.Name.Split (strings, ":");
 
         if (strings.Size () < 2)
@@ -198,7 +198,7 @@ class S7_PlayerEventHandler : EventHandler {
             } else if (e.name ~== "S7_GetMapHash")
                 Console.Printf ("\ck%s", level.GetChecksum ());
         } else {
-            Array<String> strings;
+            Array<String> strings; strings.Clear ();
             e.Name.Split (strings, ":");
 
             if (strings [0] == "S7_Keys") {
@@ -225,7 +225,7 @@ class S7_PlayerEventHandler : EventHandler {
 
         bool isDraco = (player.mo is 'S7_DracoPlayer');
 
-        Array<String> commandStrings;
+        Array<String> commandStrings; commandStrings.Clear ();
         e.Name.Split (commandStrings, ":");
         if (commandStrings.Size () < 2) // Return if the array contains less than two strings
             return;

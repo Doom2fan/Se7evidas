@@ -406,7 +406,7 @@ class S7_ShopMenu_EventHandler : EventHandler {
         if (!player)
             return;
 
-        Array<String> strings;
+        Array<String> strings; strings.Clear ();
         e.Name.Split (strings, ":");
         if (strings.Size () < 2 || strings [0] != "S7_ShopMenu") // Return if the array has less than two strings or the first string isn't "S7_ShopMenu"
             return;

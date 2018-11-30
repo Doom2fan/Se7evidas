@@ -37,6 +37,7 @@ class S7_FScreenSBarAmmoBar {
         double curX = initialX;
         int curY = 0;
         Array<double> yPos; // This is dumb, but whatever.
+        yPos.Clear ();
 
         yPos.Push (yPos1);
 
