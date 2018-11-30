@@ -1,3 +1,14 @@
+// Firing
+sprite "AMGGB0", 119, 104 {
+    offset -145, -84
+    patch "AMGGA0", 0, 0
+}
+
+sprite "AMGGC0", 119, 104 {
+    offset -143, -82
+    patch "AMGGA0", 0, 0
+}
+
 // Reloading
 sprite "AMGRA0", 119, 104 {
     offset -145, -76
