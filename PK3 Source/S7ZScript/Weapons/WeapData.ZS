@@ -84,8 +84,8 @@ class S7_WeapData {
     static const String AmmoTypesData [] = {
         "S7_9mmCartridges:75",
         "S7_45ACPCartridges:62",
-        "S7_44MCartridges:6",
-        "S7_762x39Cartridges:35",
+        "S7_44MCartridges:6:8",
+        "S7_762x39Cartridges:35:8",
         "S7_45WWCartridges:75",
         "S7_20gaShells:10",
         "S7_12gaShells:12",

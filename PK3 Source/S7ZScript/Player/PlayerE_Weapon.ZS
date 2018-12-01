@@ -22,36 +22,37 @@ extend class S7_BasePlayer {
         if (player.cheats & CF_PREDICTING)
             return;
 
-        double ammoMax = BaseAmmoMax;
+        for (int i = 0; i < S7_WeapData.AmmoTypesData.Size (); i++) {
+            Array<String> res;
+            res.Clear ();
 
-        if (CheckInventory ('S7_BackpackToken', 1))
-            ammoMax += 2.0;
+            S7_WeapData.AmmoTypesData [i].Split (res, ":");
+            int resSize = res.Size ();
+            if (resSize != 2 && resSize != 3) // Uhhh... Should always equal two or three exactly...
+                continue;
 
-        if (ammoMax != playerData.ammoMaxMult) { // Only update if it changed...
-            for (int i = 0; i < S7_WeapData.AmmoTypesData.Size (); i++) {
-                Array<String> res;
-                res.Clear ();
+            double ammoMax = BaseAmmoMax;
 
-                S7_WeapData.AmmoTypesData [i].Split (res, ":");
-                if (res.Size () != 2) // Uhhh... Should always equal two exactly...
-                    continue;
+            /** Calculate the maximum amount for the pool **/
+            if (resSize == 3)
+                ammoMax = res [2].ToDouble ();
 
-                Ammo ammoInv = Ammo (FindInventory (res [0]));
-                int maxAmount = int (floor (res [1].ToInt () * ammoMax));
+            if (CheckInventory ('S7_BackpackToken', 1))
+                ammoMax *= 1.33334;
 
-                if (ammoInv)
+            Ammo ammoInv = Ammo (FindInventory (res [0]));
+            int maxAmount = int (floor (res [1].ToInt () * ammoMax));
+
+            if (ammoInv)
+                ammoInv.maxAmount = maxAmount;
+            else {
+                ammoInv = Ammo (GiveInventoryType (res [0]));
+                if (ammoInv) {
                     ammoInv.maxAmount = maxAmount;
-                else {
-                    ammoInv = Ammo (GiveInventoryType (res [0]));
-                    if (ammoInv) {
-                        ammoInv.maxAmount = maxAmount;
-                        ammoInv.amount = 0;
-                    }
+                    ammoInv.amount = 0;
                 }
             }
         }
-
-        playerData.ammoMaxMult = ammoMax;
     }
 
     S7_BaseWeapon GiveBasics_GiveStartingWeapon (class<S7_BaseWeapon> weapon) {

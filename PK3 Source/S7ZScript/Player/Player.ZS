@@ -39,8 +39,6 @@ class S7_PlayerData : Inventory {
     // Ledge grabbing
     bool  lGrabGrabbed;
     Actor lGrabMarker;
-    /** Weapons **/
-    double ammoMaxMult;
     /** Misc **/
     // Shop menu
     bool transactDone, transactSell;
