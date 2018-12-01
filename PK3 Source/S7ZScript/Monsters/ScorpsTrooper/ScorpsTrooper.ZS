@@ -40,8 +40,6 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         Species 'ScorpsTrooper';
         Tag "$SCRPSTROOTAG";
 
-        DropItem 'S7_9mmCartridges', 96;
-
         +MISSILEMORE
     }
 
@@ -135,6 +133,19 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',    35.0, 9, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
 
         ammo--;
+    }
+
+    action void A_UnblockAndDrop () {
+        A_NoBlocking ();
+
+        if (invoker.ammo < 1)
+            return;
+
+        let droppedMag = S7_9mmCartridges (S7_ActorExtensions.DropItem (self, 'S7_9mmCartridges'));
+        if (droppedMag) {
+            droppedMag.Amount = invoker.ammo;
+            invoker.ammo = 0;
+        }
     }
 
     states {
@@ -334,7 +345,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 H 5;
         SCR1 I 5 A_Scream;
         TNT1 A 0 {
-            A_NoBlocking ();
+            A_UnblockAndDrop ();
             bThruActors = true;
         }
     Death_AirLoop:
@@ -353,7 +364,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
     RealDeath.Fire:
         BURN ABC        5 bright A_Pain;
         BURN D          5 bright A_Pain;
-        TNT1 A          0 A_NoBlocking;
+        TNT1 A          0 A_UnblockAndDrop ();
         BURN EFGHIJKLMN 5 bright;
         BURN O          5 bright;
         BURN PQRSTU     5 bright;
@@ -364,7 +375,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 H 1 { bDontGib = true; }
         SCR1 H 2 {
             A_XScream ();
-            A_NoBlocking ();
+            A_UnblockAndDrop ();
         }
         TNT1 A 0 S7_SpawnGibs ();
         CRSH A 1 { translation = bloodTranslation; }
@@ -372,7 +383,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
     /*XDeath:
         SPOS M     5 { monsDeathType = 1; }
         SPOS N     5 A_XScream;
-        SPOS O     5 A_NoBlocking;
+        SPOS O     5 A_UnblockAndDrop ();
         SPOS PQRST 5;
         SPOS U    -1;
         stop;*/

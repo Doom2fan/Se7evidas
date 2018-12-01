@@ -219,7 +219,7 @@ class S7_ActorExtensions : Actor {
     }
 
     // Fucking GZDoom...
-    static Inventory DropItem (Actor source, class<Actor> type, int dropAmount, int chance) {
+    static Actor DropItem (Actor source, class<Actor> type, int dropAmount = -1, int chance = 256) {
         if (type != NULL && random [DropItem] () <= chance) {
             Actor mo;
             double spawnz = 0;
@@ -248,7 +248,7 @@ class S7_ActorExtensions : Actor {
                 if (mo is 'Inventory') {
                     let inv = Inventory (mo);
 
-                    inv.ModifyDropAmount (dropamount);
+                    inv.ModifyDropAmount (dropAmount);
                     inv.bTossed = true;
 
                     if (inv.SpecialDropAction (source)) {
@@ -258,7 +258,8 @@ class S7_ActorExtensions : Actor {
                     
                     return inv;
                 }
-                // We can't really return an AInventory pointer to a non-inventory item here, can we?
+                
+                return mo;
             }
         }
 
