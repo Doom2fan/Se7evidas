@@ -29,7 +29,7 @@ class S7_HealingItem : Inventory {
 }
 
 /* Base "weapon" for healing items */
-class S7_HealWeap : S7_NullWeapon {
+class S7_HealWeap : S7_BaseWeapon {
     meta int maxUses;
     property MaxUses: maxUses;
 
