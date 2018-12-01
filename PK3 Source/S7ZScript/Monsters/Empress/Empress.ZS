@@ -156,6 +156,11 @@ class S7_Empress : S7_DemonBase {
                 invulnDelay--;
             } else if (health <= InvulnLimit && !shieldUp && invulnDelay < 1)
                 canCastInvuln = true;
+
+            if (ballsCount < 1 && shieldUp)
+                shieldUp = false;
+            if (ballsCount < 0)
+                ballsCount = 0;
         }
 
         Super.Tick ();

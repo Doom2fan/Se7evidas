@@ -110,6 +110,8 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
         if (!owner.ballsCount)
             owner.shieldUp = false;
+
+        owner = null;
     }
 
     states {
@@ -124,6 +126,8 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
             if (countdown < 1) {
                 A_Die ('NonKilledDeath');
+                WasDestroyed ();
+
                 return ResolveState ("Death.NonKilledDeath");
             }
 
