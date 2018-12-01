@@ -8,7 +8,7 @@ listMenu "S7HelpTopicsMenu" {
     textItem "2. Controls",                         "2", "S7HelpTopic-Controls"
     textItem "3. The leveling system",              "3", "S7HelpTopic-LevelSys"
     textItem "C. Main credits and special thanks",  "T", "S7Credits1"
-    textItem "Font Test",                           " ", "S7FontTest"
+    //textItem "Font Test",                           " ", "S7FontTest"
 }
 
 listMenu "S7HelpTopic-Introduction" {
