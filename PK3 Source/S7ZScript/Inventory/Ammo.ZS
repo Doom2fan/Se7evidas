@@ -96,8 +96,8 @@ class S7_Backpack : Inventory replaces Backpack {
     }
 
     states {
-    Spawn:
-        BPAK A -1;
+    Spawn: // Credits to Id Software, BloodyAcid, Chronos "phantombeta" Ouroboros (edit)
+        BKPK A -1;
         stop;
     }
 }
@@ -112,6 +112,13 @@ class S7_BackpackNoAmmo : Inventory {
         Inventory.MaxAmount 0;
     }
 
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        bXFlip = !!(random [invMisc] (0, 1));
+        bYFlip = bXFlip;
+    }
+
     override bool TryPickup (in out Actor toucher) {
         if (!toucher.CheckInventory ('S7_BackpackToken', 1) && Super.CanPickup (toucher)) {
             toucher.GiveInventory ('S7_BackpackToken', 1);
@@ -124,8 +131,8 @@ class S7_BackpackNoAmmo : Inventory {
     }
 
     states {
-    Spawn:
-        BPAK A -1;
+    Spawn: // Credits to Id Software, BloodyAcid, Chronos "phantombeta" Ouroboros (edit)
+        BKPK B -1;
         stop;
     }
 }
