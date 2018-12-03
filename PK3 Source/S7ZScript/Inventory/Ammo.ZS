@@ -34,6 +34,7 @@ class S7_Backpack : Inventory replaces Backpack {
         Height 26;
 
         Tag "$BACKPACK";
+        Inventory.PickupSound "Inventory/BackpackPickup";
         Inventory.PickupMessage "$BACKPACK";
         Inventory.Amount 1;
         Inventory.MaxAmount 0;
@@ -107,6 +108,7 @@ class S7_BackpackNoAmmo : Inventory {
         Height 26;
 
         Tag "$EMPTBACKPACK";
+        Inventory.PickupSound "Inventory/BackpackPickup";
         Inventory.PickupMessage "$EMPTBACKPACK";
         Inventory.Amount 1;
         Inventory.MaxAmount 0;

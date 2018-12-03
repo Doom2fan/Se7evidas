@@ -9,3 +9,7 @@ Berserk/Inject                  "sounds/Inventory/S7Berserk.ogg"  // Dunno where
 // Flashlight
 Inventory/Flashlight/On         "sounds/Inventory/FlashlightOn.ogg"  // From Doom 3.
 Inventory/Flashlight/Off        "sounds/Inventory/FlashlightOff.ogg" // Ditto.
+
+// Misc pickups
+Inventory/ArmorPickup           "sounds/Inventory/Pickup/Armor.ogg"    // From Killing Floor. Ripper by marrub.
+Inventory/BackpackPickup        "sounds/Inventory/Pickup/Backpack.ogg" // From Doom 3.

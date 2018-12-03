@@ -149,6 +149,7 @@ class S7_CCCombatArmor : S7_BasicArmorPickup {
         Radius 20;
         Height 16;
         Armor.SaveAmount 200;
+        Inventory.PickupSound "Inventory/ArmorPickup";
         Inventory.PickupMessage "$CBTARMR_CC";
         Inventory.Icon "ARCAA0";
         Tag "$CBTARMR_CC";
@@ -244,6 +245,7 @@ class S7_SBTKCombatArmor : S7_BasicArmorPickup {
         Radius 20;
         Height 16;
         Armor.SaveAmount 200;
+        Inventory.PickupSound "Inventory/ArmorPickup";
         Inventory.PickupMessage "$CBTARMR_SBTK";
         Inventory.Icon "ARCAB0";
         Tag "$CBTARMR_SBTK";

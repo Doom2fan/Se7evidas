@@ -106,6 +106,7 @@ class S7_CCSecVest : S7_BasicArmorPickup {
         Radius 20;
         Height 16;
         Armor.SaveAmount 100;
+        Inventory.PickupSound "Inventory/ArmorPickup";
         Inventory.PickupMessage "$SECVEST_CC";
         Inventory.Icon "ARSVA0";
         Tag "$SECVEST_CC";
@@ -214,6 +215,7 @@ class S7_SBTKSecVest : S7_BasicArmorPickup {
         Radius 20;
         Height 16;
         Armor.SaveAmount 100;
+        Inventory.PickupSound "Inventory/ArmorPickup";
         Inventory.PickupMessage "$SECVEST_SBTK";
         Inventory.Icon "ARSVB0";
         Tag "$SECVEST_SBTK";
