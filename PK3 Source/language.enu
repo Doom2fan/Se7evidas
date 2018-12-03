@@ -67,6 +67,7 @@
 
     // Ammo
         GOTBACKPACK                 = "Backpack";
+        EMPTBACKPACK                = "Empty backpack";
         9MMMAG                      = "9x19mm magazine";
         45ACP_DRUMMAG               = ".45 ACP drum magazine";
         44M_SPEEDLOADER             = ".44 Magnum speedloader";
