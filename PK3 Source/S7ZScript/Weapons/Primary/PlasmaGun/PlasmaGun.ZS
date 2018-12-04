@@ -184,14 +184,25 @@ class S7_PlasmaGun : S7_BaseWeapon {
             return ResolveState ("ReloadFinish");
         }
     ReloadFinish:
-        PLSG A     2;
-        PLSG ZYXWV 1;
-        TNT1 A     6;
-        TNT1 A    25 A_PlaySound ("Weapons/PlasmaGun/Out", CHAN_Weapon);
-        TNT1 A    25 A_PlaySound ("Weapons/PlasmaGun/In", CHAN_Weapon);
-        TNT1 A     8;
-        PLSG VWXYZ 1;
-        PLSG A     4 A_PlaySound ("Weapons/PlasmaGun/Beep", CHAN_Weapon);
+        PLSG A  2 DoSelectOffset (( 0,  0), forceNoInterpolate: true);
+        PLSG A  1 DoSelectOffset ((24, 24));
+        PLSG A  1 DoSelectOffset ((38, 37));
+        PLSG A  1 DoSelectOffset ((48, 48));
+        PLSG A  1 DoSelectOffset ((60, 58));
+        PLSG A  1 DoSelectOffset ((72, 72));
+        TNT1 A  6;
+        TNT1 A 25 A_PlaySound ("Weapons/PlasmaGun/Out", CHAN_Weapon);
+        TNT1 A 25 A_PlaySound ("Weapons/PlasmaGun/In", CHAN_Weapon);
+        TNT1 A  8;
+        PLSG A  1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
+        PLSG A  1 DoSelectOffset ((60, 58));
+        PLSG A  1 DoSelectOffset ((48, 48));
+        PLSG A  1 DoSelectOffset ((38, 37));
+        PLSG A  1 DoSelectOffset ((24, 24));
+        PLSG A  4 {
+            DoSelectOffset (( 0,  0));
+            A_PlaySound ("Weapons/PlasmaGun/Beep", CHAN_Weapon);
+        }
         goto Ready2;
 
     Decharge:

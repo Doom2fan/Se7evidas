@@ -249,11 +249,21 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         goto Ready2;
 
     ReloadAnim:
-        PIC1 AXWVUT 1;
-        TNT1 A      5;
-        TNT1 A      105 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Reload", CHAN_Weapon);
-        TNT1 A      5;
-        PIC1 TUVWXA 1;
+        PIC1 A   1 DoSelectOffset (( 0,  0), forceNoInterpolate: true);
+        PIC1 A   1 DoSelectOffset (( 8,  8));
+        PIC1 A   1 DoSelectOffset ((24, 24));
+        PIC1 A   1 DoSelectOffset ((40, 40));
+        PIC1 A   1 DoSelectOffset ((64, 64));
+        PIC1 A   1 DoSelectOffset ((88, 88));
+        TNT1 A   5;
+        TNT1 A 105 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Reload", CHAN_Weapon);
+        TNT1 A   5;
+        PIC1 A   1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
+        PIC1 A   1 DoSelectOffset ((64, 64));
+        PIC1 A   1 DoSelectOffset ((40, 40));
+        PIC1 A   1 DoSelectOffset ((24, 24));
+        PIC1 A   1 DoSelectOffset (( 8,  8));
+        PIC1 A   1 DoSelectOffset (( 0,  0));
         goto Ready2;
     }
 }
