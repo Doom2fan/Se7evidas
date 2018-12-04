@@ -340,13 +340,14 @@ class S7_WeapBindsSystem : Inventory {
 
         S7_BaseWeapon oldWeap = null;
 
+        int slotSize = !draco ? (Binds [slot].Size ()) : (DracoBinds [slot].Size ());
         Array<S7_BaseWeapon> weaps; weaps.Clear ();
-        if (!weap && pos < Binds [slot].Size ()) {
+        if (!weap && pos < slotSize) {
             weaps.Copy (Binds [slot]);
             oldWeap = weaps [pos];
             if (!draco) Binds [slot  ].Delete (pos, 1);
             else   DracoBinds [slot-1].Delete (pos, 1);
-        } else if (weap && pos >= Binds [slot].Size ()) {
+        } else if (weap && pos >= slotSize) {
             if (!draco) Binds [slot  ].Push (weap);
             else   DracoBinds [slot-1].Push (weap);
         } else if (weap) {
