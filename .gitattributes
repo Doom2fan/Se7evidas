@@ -1,1 +1,3 @@
 *.sh text eol=lf
+*.zs linguist-language=C#
+*.zsc linguist-language=C#
