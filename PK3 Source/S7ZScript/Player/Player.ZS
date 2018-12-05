@@ -45,6 +45,10 @@ class S7_PlayerData : Inventory {
     int transactResult;
     // Stamina regen
     int staminaTics;
+    // Berserk side-effects
+    int bsrkMaxAddiction;
+    int bsrkAddiction;
+    int bsrkWithdrawalTics;
     // Canteen
     int milkUseRate, milkRegenRate;
     // Heartbeats thing.
@@ -251,6 +255,7 @@ class S7_BasePlayer : PlayerPawn {
         // Misc
         Misc_PermanentItems ();
         Misc_StaminaRegen ();
+        Misc_BerserkSideEffects ();
         Misc_Heartbeats ();
         Misc_HellhunterBlade ();
     }

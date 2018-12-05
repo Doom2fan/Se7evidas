@@ -14,6 +14,8 @@ SS_MEDIKIT_DESC = "A medical aid kit containing sutures, syringes, hypodermic ne
 SS_MEDIKIT_INFO = "Manufacturer: Lucius\nBase healing amount: 46\nUses: 2";
 SS_STIMPACK_DESC = "A kit containing stimulants. Heals wounds and increases healing speed.";
 SS_STIMPACK_INFO = "Manufacturer: Lucius\nBase healing amount: 20\nUses: 1";
+SS_XS22ESC_DESC = "    \"Exhausted from punching demons day and night nonstop until your knuckles are bloody? Try some XS-22 and feel like a brand new you! This patent-pending formula will have you fighting harder, faster, and stronger -- its probiotic additives are even proven to aid in natural healing processes*!\"\n\nThat's what the TV said, anyway. Unfortunately, possession has become restricted because troops started shooting up with the stuff every time they got their hands on it. You can still buy it of course, for a small administrative fee on top. Or find some stashed away somewhere, if you're lucky. Good stuff though - everyone who's tried it says they can't live without it!\n\n    \"* Statements have not been evaluated by any regulatory organizations. More than three doses not recommended within a 24-hour period. Not to be taken by those who are pregnant, breastfeeding, or incubating parasitic alien life.\"";
+SS_XS22ESC_INFO = "Manufacturer: UNKNOWN\nHealing amount: 25% of maximum health\nUses: 1";
 
 /** Weapons **/
 // Pistols

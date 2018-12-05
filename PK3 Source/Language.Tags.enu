@@ -73,8 +73,8 @@ LOOT_BLOODCHALICE               = "Blood chalice";
 LOOT_GOLDCHEST                  = "Chest of gold";
 
 // Misc
-BERSERKWEAP                     = "Syringe (Berserk)";
-BERSERK                         = "Berserk";
+XS22ESCWEAP                     = "XS-22 Emergency Stimulant Cocktail (Applicator)";
+XS22ESC                         = "XS-22 Emergency Stimulant Cocktail";
 AUTOGUN                         = "M-400 Autogun";
 FLASHLIGHT_BATTERY              = "Flashlight battery";
 

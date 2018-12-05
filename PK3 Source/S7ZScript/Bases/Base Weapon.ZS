@@ -199,8 +199,8 @@ class S7_BaseWeapon : Weapon {
         return int (ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus)));
     }
 
-    double ConvWeapRecoil (double amount, double strengthStat) const {
-        return amount * (1 - clamp ((log10 (strengthStat) / 5) + (.000035 * (strengthStat**2)), 0., .75));
+    double ConvWeapRecoil (double amount, double strengthStat, double berserkMod) const {
+        return amount * (1 - clamp ((log10 (strengthStat) / 5.) + (.000035 * (strengthStat**2)), 0., .75)) * (1. - berserkMod);
     }
 
     bool CanReload () {
@@ -289,9 +289,15 @@ class S7_BaseWeapon : Weapon {
             return;
 
         let xpSys = GetOwnerXPSystem ();
+        double strengthStat = (xpSys ? xpSys.GetStat (S7Stat_Strength) / 3. : 0);
 
-        if (xpSys)
-            amount = ConvWeapRecoil (amount, xpSys.GetStat (S7Stat_Strength / 3));
+        double berserkMod = clamp (Owner.CountInv ("S7_BerserkToken") * .15, 0., 1.);
+
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.playerData && !Owner.CheckInventory ("S7_BerserkToken", 1))
+            berserkMod = clamp (-(.2 * pPawn.playerData.bsrkAddiction), -1., 0.);
+
+        amount = ConvWeapRecoil (amount, strengthStat, berserkMod);
 
         Owner.A_SetPitch (Owner.pitch + amount, SPF_Interpolate);
     }

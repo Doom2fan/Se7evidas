@@ -28,9 +28,9 @@
 
 class S7_Berserk : Inventory {
     default {
-        Tag "$BERSERK";
+        Tag "$XS22ESC";
         Inventory.Icon "BSRKA0";
-        Inventory.PickupMessage "$BERSERK";
+        Inventory.PickupMessage "$XS22ESC";
         Inventory.Amount 1;
         Inventory.MaxAmount 5;
         Inventory.InterHubAmount 5;
@@ -60,18 +60,93 @@ class S7_Berserk : Inventory {
     }
 }
 
-class S7_BerserkToken : Powerup { default { Powerup.Duration -60; Powerup.Color "FF 20 20", 0.25; } }
-class S7_BerserkPower : PowerWeaponLevel2 { default { Powerup.Duration -60; Powerup.Color "00 00 00", 0.0; } }
+class S7_BerserkToken : Powerup {
+    default {
+        Inventory.MaxAmount 3;
+
+        Powerup.Duration -120;
+        Powerup.Color "FF 20 20", 0.25;
+    }
+
+    override void AttachToOwner (Actor other) {
+        Super.AttachToOwner (other);
+
+        let pPawn = S7_BasePlayer (other);
+        if (pPawn && pPawn.playerData)
+            pPawn.playerData.bsrkAddiction++;
+    }
+
+    override bool HandlePickup (Inventory item) {
+        if (item.GetClass () == GetClass ()) {
+            let power = Powerup (item);
+            if (power.EffectTics == 0) {
+                power.bPickupGood = true;
+                return true;
+            }
+
+            let pPawn = S7_BasePlayer (Owner);
+
+            // Handle addiction
+            if (pPawn && pPawn.playerData) {
+                if (pPawn.playerData.bsrkAddiction) {
+                    int maxAddiction = max (pPawn.playerData.bsrkMaxAddiction, pPawn.playerData.bsrkAddiction);
+                    pPawn.playerData.bsrkMaxAddiction = maxAddiction + 1;
+                }
+
+                pPawn.playerData.bsrkAddiction++;
+            }
+
+            // Increase the effect's duration.
+            if ((Amount + power.Amount) > 1)
+                power.EffectTics = 60;
+
+            EffectTics += power.EffectTics / max (Amount, 1);
+            Amount += power.Amount;
+            
+            power.bPickupGood = true;
+            return true;
+        }
+        return false;
+    }
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        // Shouldn't happen, but hey!
+        if (!self || Owner.health <= 0 || owner.bKilled)
+            return;
+
+        double timeMod = 1. - (.25 * (Amount / 3.));
+        double regenTime = clamp (15 * timeMod, 1, 15);
+
+        if (Amount > 3 && (random [berserkEffects] (0, 255) < 26 || (EffectTics % regenTime) ~== floor (regenTime / 2.)))
+            Owner.DamageMobj (Owner, Owner, 1, 'S7_BerserkDamage', DMG_No_Armor | DMG_Thrustless);
+
+        if (EffectTics % regenTime == 0) {
+            double regenAmount = 5 * (regenTime / 15.);
+            Owner.GiveBody (int (clamp (regenAmount, 1, 5)));
+        }
+    }
+}
 
 class S7_BerserkWeap : S7_BaseWeapon {
     default {
-        Tag "$BERSERKWEAP";
+        Tag "$XS22ESCWEAP";
 
         +INVENTORY.UNDROPPABLE +INVENTORY.UNTOSSABLE +WEAPON.CHEATNOTWEAPON
     }
 
     override bool Use (bool pickup) {
         return !pickup ? Weapon.Use (false) : false;
+    }
+
+    action void S7_A_InjectBerserk () {
+        TakeInventory ('S7_Berserk', 1);
+        GiveInventory ('S7_BerserkToken', 1);
+
+        let pPawn = S7_BasePlayer (self);
+        if (pPawn)
+            pPawn.GiveBody (int (ceil (pPawn.GetMaxHealth () * .25)));
     }
 
     states {
@@ -81,14 +156,18 @@ class S7_BerserkWeap : S7_BaseWeapon {
 
     Ready:
         SYR1 A 1 {
-            A_WeaponOffset (-12.8 * 5, 32 + (12.8 * 5));
-            return CountInv ('S7_Berserk') <= 0 ? ResolveState ("Ready2.NoBerserk") : ResolveState (null);
+            if (CountInv ('S7_Berserk') <= 0)
+                return ResolveState ("Ready2.NoBerserk");
+
+            DoSelectOffset ((-12.8 * 5, 12.8 * 5), forceNoInterpolate: true);
+
+            return ResolveState (null);
         }
-        SYR1 A 1 A_WeaponOffset (-12.8 * 4, 32 + (12.8 * 4));
-        SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
-        SYR1 A 1 A_WeaponOffset (-12.8 * 2, 32 + (12.8 * 2));
-        SYR1 A 1 A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
-        TNT1 A 0 A_WeaponOffset (0, 32);
+        SYR1 A 1 DoSelectOffset ((-12.8 * 4, 12.8 * 4));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 3, 12.8 * 3));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 2, 12.8 * 2));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 1, 12.8 * 1));
+        TNT1 A 0 DoSelectOffset ((0, 0));
         goto Ready2;
     Ready2:
         SYR1 A 0 A_JumpIf (CountInv ('S7_Berserk') <= 0, "Ready2.NoBerserk");
@@ -97,36 +176,21 @@ class S7_BerserkWeap : S7_BaseWeapon {
         TNT1 A 0;
         goto Ready2.DoThings;
     Ready2.DoThings:
-        #### # 1 {
-            if (CheckInventory ('S7_DoMelee', 1))
-                return ResolveState ("QuickMelee");
-            TakeInventory ('S7_Reloading', 0x7FFFFFFF);
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-
-            A_WeaponReady (!CheckInventory ('S7_Berserk', 1) ? WRF_NoPrimary : 0);
-
-            return ResolveState (null);
-        }
+        #### # 1 S7_WeaponReady (null, null);
         goto Ready2;
 
     Deselect:
-        SYR1 A 1 {
-            if (CountInv ('S7_Berserk') <= 0)
-                return ResolveState ("TrueDeselect");
-
-            A_WeaponOffset (-12.8 * 1, 32 + (12.8 * 1));
-
-            return ResolveState (null);
-        }
-        SYR1 A 1 A_WeaponOffset (-12.8 * 2, 32 + (12.8 * 2));
-        SYR1 A 1 A_WeaponOffset (-12.8 * 3, 32 + (12.8 * 3));
-        SYR1 A 1 A_WeaponOffset (-12.8 * 4, 32 + (12.8 * 4));
-        SYR1 A 1 A_WeaponOffset (-12.8 * 5, 32 + (12.8 * 5));
-        TNT1 A 0 A_WeaponOffset (0, 32);
+        SYR1 A 1 A_JumpIf (CountInv ('S7_Berserk') <= 0, "TrueDeselect");
+        SYR1 A 1 DoSelectOffset ((-12.8 * 1, 12.8 * 1));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 2, 12.8 * 2));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 3, 12.8 * 3));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 4, 12.8 * 4));
+        SYR1 A 1 DoSelectOffset ((-12.8 * 5, 12.8 * 5));
+        TNT1 A 0 DoSelectOffset ((0, 0));
         goto TrueDeselect;
 
     Fire:
-        SYR1 A          3 A_JumpIf (!CheckInventory ('S7_Berserk', 1) || CheckInventory ('S7_BerserkToken', 1), "Ready2");
+        SYR1 A          3 A_JumpIf (!CheckInventory ('S7_Berserk', 1), "Ready2");
         SYR1 CDD        3;
         SYR1 EFGHI      1;
         SYR1 J          5;
@@ -138,11 +202,7 @@ class S7_BerserkWeap : S7_BaseWeapon {
             A_PlaySound ("*pain", CHAN_Voice);
         }
         SYR1 P          2;
-        SYR1 Q          2 {
-            TakeInventory ('S7_Berserk', 1);
-            GiveInventory ('S7_BerserkPower', 1);
-            GiveInventory ('S7_BerserkToken', 1);
-        }
+        SYR1 Q          2 S7_A_InjectBerserk ();
         SYR1 QRSTUVWWWX 2;
         SYR1 Y          8;
         SYR1 Z          2;

@@ -70,6 +70,40 @@ extend class S7_BasePlayer {
             playerData.staminaTics++;
     }
 
+    void Misc_BerserkSideEffects () {
+        int bsrkCount = CountInv ('S7_BerserkToken');
+
+        if (!playerData.bsrkAddiction)
+            playerData.bsrkMaxAddiction = 0;
+        else
+            playerData.bsrkMaxAddiction = max (playerData.bsrkMaxAddiction, playerData.bsrkAddiction);
+
+        if (bsrkCount > 0 || !playerData.bsrkAddiction)
+            playerData.bsrkWithdrawalTics = 0;
+        else if (!bsrkCount && playerData.bsrkAddiction > 0) {
+            playerData.bsrkWithdrawalTics++;
+
+            double shiverTime = floor ((35 * 5) * (1.0 - (0.2 * (playerData.bsrkMaxAddiction - 1))));
+            if (playerData.bsrkWithdrawalTics >= shiverTime) {
+                double shiverMod = max (playerData.bsrkWithdrawalTics / (shiverTime * 0.35), 1.);
+
+                A_SetAngle (angle + clamp (fRandom [berserkEffects] (-0.01, 0.01) * shiverMod, -1, 1));
+                A_SetPitch (pitch + clamp (fRandom [berserkEffects] (-0.01, 0.01) * shiverMod, -1, 1));
+            }
+
+            double baseDetoxTime = ((playerData.bsrkMaxAddiction < 2) ? (35 * 20) : (35 * 40));
+            double detoxTime = floor (baseDetoxTime * (1 + 0.2 * (playerData.bsrkMaxAddiction - 1)));
+            if (playerData.bsrkWithdrawalTics >= detoxTime) {
+                bool doDetox = ((playerData.bsrkWithdrawalTics % detoxTime) == 0);
+
+                if (doDetox) {
+                    playerData.bsrkAddiction--;
+                    Console.Printf ("Detoxed! %d", playerData.bsrkAddiction);
+                }
+            }
+        }
+    }
+
     void Misc_Heartbeats () {
         if (health <= 0)
             return;
