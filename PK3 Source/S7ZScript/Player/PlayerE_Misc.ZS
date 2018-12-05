@@ -71,6 +71,11 @@ extend class S7_BasePlayer {
     }
 
     void Misc_BerserkSideEffects () {
+        if (player.cheats & CF_PREDICTING)
+            return;
+        if (health <= 0 || bKilled)
+            return;
+
         int bsrkCount = CountInv ('S7_BerserkToken');
 
         if (!playerData.bsrkAddiction)
@@ -83,19 +88,19 @@ extend class S7_BasePlayer {
         else if (!bsrkCount && playerData.bsrkAddiction > 0) {
             playerData.bsrkWithdrawalTics++;
 
-            double shiverTime = floor ((35. * 5.) * (1. - (.2 * (playerData.bsrkMaxAddiction - 1.))));
+            double shiverTime = floor ((35. * 5.) * clamp (1. - (.2 * (playerData.bsrkMaxAddiction - 1.)), 0., 1.));
             if (playerData.bsrkWithdrawalTics >= shiverTime) {
-                double shiverMod = max (playerData.bsrkWithdrawalTics / (shiverTime * .35), 1.);
+                double shiverMod = max (playerData.bsrkWithdrawalTics / max (shiverTime * .35, 5), 1.);
 
-                A_SetAngle (angle + clamp (fRandom [berserkEffects] (-.01, .01) * shiverMod, -1., 1.));
-                A_SetPitch (pitch + clamp (fRandom [berserkEffects] (-.01, .01) * shiverMod, -1., 1.));
+                A_SetAngle (angle + clamp (fRandom [berserkEffects] (-.01, .01) * shiverMod, -.5, .5));
+                A_SetPitch (pitch + clamp (fRandom [berserkEffects] (-.01, .01) * shiverMod, -.5, .5));
             }
 
             double baseDetoxTime = ((playerData.bsrkMaxAddiction < 2) ? (35. * 20.) : (35. * 40.)) * clamp (1. - (.01 * (xpSys.GetStat (S7Stat_Will) / 3.)), .45, 1.);
             double detoxTime = floor (baseDetoxTime * (1. + .2 * (playerData.bsrkMaxAddiction - 1.)));
             if (playerData.bsrkWithdrawalTics >= detoxTime) {
                 double additionalDetoxTime = detoxTime * clamp (1. - (.035 * (xpSys.GetStat (S7Stat_Will) / 3.)), .35, 1.);
-                bool doDetox = ((playerData.bsrkWithdrawalTics % additionalDetoxTime) == 0);
+                bool doDetox = ((playerData.bsrkWithdrawalTics % max (additionalDetoxTime, 5)) == 0);
 
                 if (doDetox) {
                     playerData.bsrkAddiction--;
