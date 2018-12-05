@@ -83,18 +83,19 @@ extend class S7_BasePlayer {
         else if (!bsrkCount && playerData.bsrkAddiction > 0) {
             playerData.bsrkWithdrawalTics++;
 
-            double shiverTime = floor ((35 * 5) * (1.0 - (0.2 * (playerData.bsrkMaxAddiction - 1))));
+            double shiverTime = floor ((35. * 5.) * (1. - (.2 * (playerData.bsrkMaxAddiction - 1.))));
             if (playerData.bsrkWithdrawalTics >= shiverTime) {
-                double shiverMod = max (playerData.bsrkWithdrawalTics / (shiverTime * 0.35), 1.);
+                double shiverMod = max (playerData.bsrkWithdrawalTics / (shiverTime * .35), 1.);
 
-                A_SetAngle (angle + clamp (fRandom [berserkEffects] (-0.01, 0.01) * shiverMod, -1, 1));
-                A_SetPitch (pitch + clamp (fRandom [berserkEffects] (-0.01, 0.01) * shiverMod, -1, 1));
+                A_SetAngle (angle + clamp (fRandom [berserkEffects] (-.01, .01) * shiverMod, -1., 1.));
+                A_SetPitch (pitch + clamp (fRandom [berserkEffects] (-.01, .01) * shiverMod, -1., 1.));
             }
 
-            double baseDetoxTime = ((playerData.bsrkMaxAddiction < 2) ? (35 * 20) : (35 * 40));
-            double detoxTime = floor (baseDetoxTime * (1 + 0.2 * (playerData.bsrkMaxAddiction - 1)));
+            double baseDetoxTime = ((playerData.bsrkMaxAddiction < 2) ? (35. * 20.) : (35. * 40.)) * clamp (1. - (.01 * (xpSys.GetStat (S7Stat_Will) / 3.)), .45, 1.);
+            double detoxTime = floor (baseDetoxTime * (1. + .2 * (playerData.bsrkMaxAddiction - 1.)));
             if (playerData.bsrkWithdrawalTics >= detoxTime) {
-                bool doDetox = ((playerData.bsrkWithdrawalTics % detoxTime) == 0);
+                double additionalDetoxTime = detoxTime * clamp (1. - (.035 * (xpSys.GetStat (S7Stat_Will) / 3.)), .35, 1.);
+                bool doDetox = ((playerData.bsrkWithdrawalTics % additionalDetoxTime) == 0);
 
                 if (doDetox) {
                     playerData.bsrkAddiction--;
