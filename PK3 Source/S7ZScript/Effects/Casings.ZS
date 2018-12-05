@@ -61,12 +61,15 @@ class S7_CasingBase : S7_EffectsBase {
         -DROPOFF -NOGRAVITY
     }
 
+    transient CVar stayTimeCVar, fadeSpeedCVar;
     int timer;
 
     states {
     Delaying:
         #### # 1 {
-            let stayTimeCVar = CVar.GetCVar ("S7_CasingsStayTime", players [consolePlayer]);
+            if (!stayTimeCVar)
+                stayTimeCVar = CVar.GetCVar ("S7_CasingsStayTime", players [consolePlayer]);
+
             int stayTime = stayTimeCVar.GetInt ();
 
             if (stayTime > -1) {
@@ -83,7 +86,9 @@ class S7_CasingBase : S7_EffectsBase {
     Fade:
     Fade.Looper:
         #### # 1 {
-            let fadeSpeedCVar = CVar.GetCVar ("S7_CasingsFadeSpeed", players [consolePlayer]);
+            if (!fadeSpeedCVar)
+                fadeSpeedCVar = CVar.GetCVar ("S7_CasingsFadeSpeed", players [consolePlayer]);
+
             A_FadeOut (fadeSpeedCVar.GetFloat ());
         }
         wait;

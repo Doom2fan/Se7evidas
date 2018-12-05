@@ -118,6 +118,7 @@ class S7_BloodSpot : S7_EffectsBase {
         +NOINTERACTION +MOVEWITHSECTOR +CLIENTSIDEONLY
     }
 
+    transient CVar stayTimeCVar, fadeSpeedCVar;
     int timer;
 
     states {
@@ -125,7 +126,9 @@ class S7_BloodSpot : S7_EffectsBase {
         BLD2 ABCDEF 2;
     Waiting:
         BLD2 G 1 {
-            let stayTimeCVar = CVar.GetCVar ("S7_BloodSpotsStayTime", players [consolePlayer]);
+            if (!stayTimeCVar)
+                stayTimeCVar = CVar.GetCVar ("S7_BloodSpotsStayTime", players [consolePlayer]);
+
             int stayTime = stayTimeCVar.GetInt ();
 
             if (stayTime > -1) {
@@ -141,7 +144,9 @@ class S7_BloodSpot : S7_EffectsBase {
 
     Fade:
         BLD2 G 1 {
-            let fadeSpeedCVar = CVar.GetCVar ("S7_BloodSpotsFadeSpeed", players [consolePlayer]);
+            if (!fadeSpeedCVar)
+                fadeSpeedCVar = CVar.GetCVar ("S7_BloodSpotsFadeSpeed", players [consolePlayer]);
+
             A_FadeOut (fadeSpeedCVar.GetFloat ());
         }
         wait;

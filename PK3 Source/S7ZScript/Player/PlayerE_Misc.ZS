@@ -109,13 +109,14 @@ extend class S7_BasePlayer {
             }
         }
     }
-
+    transient CVar heartbeatsSoundCVar;
     void Misc_Heartbeats () {
         if (health <= 0)
             return;
 
-        CVar heartbeats = CVar.GetCVar ("S7_HeartbeatsOn", players [consoleplayer]);
-        if (heartbeats && heartbeats.GetInt ()) {
+        if (!heartbeatsSoundCVar)
+            heartbeatsSoundCVar = CVar.GetCVar ("S7_HeartbeatsOn", players [consoleplayer]);
+        if (heartbeatsSoundCVar && heartbeatsSoundCVar.GetInt ()) {
             if ((health <= 25 && health > 15 && playerData.heartbeatTics >= 89) || // I couldn't find a better way to do this... >.>
                 (health <= 15 && health > 10 && playerData.heartbeatTics >= 71) ||
                 (health <= 10 && health > 5  && playerData.heartbeatTics >= 53) ||

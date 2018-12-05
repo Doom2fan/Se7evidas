@@ -22,6 +22,7 @@ class FleshSpawnGib1 : S7_GoreBase {
         -SOLID
     }
 
+    transient CVar stayTimeCVar, fadeSpeedCVar;
     int timer;
 
     states {
@@ -38,7 +39,9 @@ class FleshSpawnGib1 : S7_GoreBase {
             A_Stop ();
             bNoInteraction = true;
 
-            let stayTimeCVar = CVar.GetCVar ("S7_GibsStayTime", players [consolePlayer]);
+            if (!stayTimeCVar)
+                stayTimeCVar = CVar.GetCVar ("S7_GibsStayTime", players [consolePlayer]);
+
             int stayTime = stayTimeCVar.GetInt ();
 
             if (stayTime > -1) {
@@ -53,7 +56,9 @@ class FleshSpawnGib1 : S7_GoreBase {
         wait;
     Fade:
         #### # 1 {
-            let fadeSpeedCVar = CVar.GetCVar ("S7_GibsFadeSpeed", players [consolePlayer]);
+            if (!fadeSpeedCVar)
+                fadeSpeedCVar = CVar.GetCVar ("S7_GibsFadeSpeed", players [consolePlayer]);
+
             A_FadeOut (fadeSpeedCVar.GetFloat ());
         }
         wait;

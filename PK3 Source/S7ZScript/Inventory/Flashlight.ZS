@@ -66,6 +66,7 @@ class S7_FlashlightBattery : Inventory {
 class S7_Flashlight : Inventory {
     const MaxBatteryCharge = 35 * 60 * 30;
 
+    transient CVar lightColorCVar, mountCVar;
     S7_Flashlight_Spotlight selfLight1, selfLight2;
 
     bool active;
@@ -104,15 +105,18 @@ class S7_Flashlight : Inventory {
 
         battery--;
 
-        Color colorCVar = S7_PlayerCVar.GetInt (Owner.player, "S7_FlashlightColor");
+        if (!lightColorCVar)
+            lightColorCVar = CVar.GetCVar ("S7_FlashlightColor", Owner.player);
+
+        Color lightColor = lightColorCVar ? lightColorCVar.GetInt () : 0xFFFFFFFF;
         double intensityMod = clamp (1. - ((max (battery - (MaxBatteryCharge/4.), 0.) / MaxBatteryCharge) / 4), 0., 1.);
 
         if (battery <= 0) // We shouldn't get here in the first place, but whatever.
             intensityMod = 0.;
 
-        int r = int (colorCVar.R * intensityMod),
-            g = int (colorCVar.G * intensityMod),
-            b = int (colorCVar.B * intensityMod);
+        int r = int (lightColor.R * intensityMod),
+            g = int (lightColor.G * intensityMod),
+            b = int (lightColor.B * intensityMod);
         
         int beamInner = 10;
         int beamOuter = 15;
@@ -121,7 +125,10 @@ class S7_Flashlight : Inventory {
         int spillOuter = 75;
         int spillRadius = 256;
 
-        int mount = S7_PlayerCVar.GetInt (Owner.player, "S7_FlashlightMount");
+        if (!mountCVar)
+            mountCVar = CVar.GetCVar ("S7_FlashlightMount", Owner.player);
+
+        int mount = mountCVar ? mountCVar.GetInt () : 0;
         double pViewZ = (owner.player.viewZ - owner.pos.Z);
 
         double offsetAngle, offsetZ;

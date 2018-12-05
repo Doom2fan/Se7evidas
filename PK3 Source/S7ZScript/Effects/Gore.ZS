@@ -99,6 +99,7 @@ class S7_GenericGoreBits : S7_GoreBase {
         -SOLID
     }
 
+    transient CVar stayTimeCVar, fadeSpeedCVar;
     int timer, rollDir, trailSpawnDuration;
     Vector3 oldCoords;
 
@@ -176,7 +177,9 @@ class S7_GenericGoreBits : S7_GoreBase {
             vel = (0, 0, 0);
             A_Stop ();
 
-            let stayTimeCVar = CVar.GetCVar ("S7_GibsStayTime", players [consolePlayer]);
+            if (!stayTimeCVar)
+                stayTimeCVar = CVar.GetCVar ("S7_GibsStayTime", players [consolePlayer]);
+
             int stayTime = stayTimeCVar.GetInt ();
 
             if (stayTime > -1) {
@@ -191,7 +194,9 @@ class S7_GenericGoreBits : S7_GoreBase {
         wait;
     Fade:
         #### # 1 {
-            let fadeSpeedCVar = CVar.GetCVar ("S7_GibsFadeSpeed", players [consolePlayer]);
+            if (!fadeSpeedCVar)
+                fadeSpeedCVar = CVar.GetCVar ("S7_GibsFadeSpeed", players [consolePlayer]);
+
             A_FadeOut (fadeSpeedCVar.GetFloat ());
         }
         wait;

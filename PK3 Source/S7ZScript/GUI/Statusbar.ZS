@@ -134,6 +134,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         HUDType_Helmet = 2,
     }
 
+    transient CVar selectedHUDCvar;
     override void Draw (int state, double TicFrac) {
         Super.Draw (state, TicFrac);
 
@@ -144,7 +145,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
         DoBlurEffect (pPawn, TicFrac);
 
-        CVar selectedHUDCvar = CVar.GetCvar ("S7_HUDType", CPlayer);
+        if (!selectedHUDCvar)
+            selectedHUDCvar = CVar.GetCvar ("S7_HUDType", CPlayer);
 
         if (!selectedHUDCvar)
             return;
@@ -243,6 +245,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         }
     }
 
+    transient CVar enHPBar_HPDisp, enHPBar_Nametag;
     protected void DrawMinimalHUD (double TicFrac, S7_BasePlayer pPawn) {
         // Icons
         DrawImage ("graphics/HUD/Fullscreen/S7HLTH.png", (11,  -7), DI_ITEM_LEFT_BOTTOM);
@@ -297,7 +300,9 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 if (drawHPBar) {
                     DrawBar ("ENHPBFG1", "ENHPBBG1", enemy.health, enemy.SpawnHealth (), (0, 4), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
 
-                    CVar enHPBar_HPDisp = CVar.GetCvar ("S7_EnemyHPBar_HPDisp", CPlayer);
+                    if (!enHPBar_HPDisp)
+                        enHPBar_HPDisp = CVar.GetCvar ("S7_EnemyHPBar_HPDisp", CPlayer);
+
                     if (enHPBar_HPDisp) {
                         if (enHPBar_HPDisp.GetInt () >= 2)
                             DrawString (mSmallFont, String.Format ("%d%%", (double (health) / maxHealth) * 100), (0, 8.0), DI_SCREEN_HCENTER | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_DARKGRAY);
@@ -308,7 +313,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                         }
                     }
 
-                    CVar enHPBar_Nametag = CVar.GetCvar ("S7_EnemyHPBar_NametagOn", CPlayer);
+                    if (!enHPBar_Nametag)
+                        enHPBar_Nametag = CVar.GetCvar ("S7_EnemyHPBar_NametagOn", CPlayer);
                     if (enHPBar_Nametag && enHPBar_Nametag.GetInt ())
                         DrawString (mSmallFont, nameTag, (0, 20.0), DI_SCREEN_HCENTER | DI_ITEM_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_DARKGRAY);
                 }
