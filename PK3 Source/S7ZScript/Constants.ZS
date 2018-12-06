@@ -47,6 +47,12 @@ enum S7_WeaponSlots {
     WpSlot_Special,
 };
 
+// Debugging constants
+enum S7_DebuggingConstants {
+    // Monster AI bitfield
+    S7_Dbg_MAI_Searching = 1 << 0,
+};
+
 // Player data
 const S7C_DodgeStamina = 30;
 const S7C_SprintStamina = 5;

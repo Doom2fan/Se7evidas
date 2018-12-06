@@ -70,15 +70,15 @@ extend class S7_MonsterBase {
         // Turn towards movement direction if not there yet
         if (strafecount)
             A_FaceTarget ();
-        else if (!(flags & CHF_NoDirectionTurn) && movedir < 8) {
-            angle = floor (angle / 45) * 45.;
+        else if (!(flags & CHF_NoDirectionTurn) && movedir < S7_MOVEDIR_COUNT) {
+            angle = floor (angle / S7_MOVEDIR_INTERVAL) * S7_MOVEDIR_INTERVAL;
 
-            double delta = deltaangle (angle, (movedir * 45));
+            double delta = DeltaAngle (angle, (movedir * S7_MOVEDIR_INTERVAL));
 
             if (delta < 0)
-                angle -= 45;
+                angle -= S7_MOVEDIR_INTERVAL;
             else if (delta > 0)
-                angle += 45;
+                angle += S7_MOVEDIR_INTERVAL;
         }
 
         // [RH] If the target is dead or a friend (and not a goal), stop chasing it.
@@ -98,8 +98,8 @@ extend class S7_MonsterBase {
                 if (!multiplayer)
                     i = 0;
                 else {
-                    // for (i = pr_newchasedir() & (MAXPLAYERS-1); !playeringame[i]; i = (i+1) & (MAXPLAYERS-1))
-                    i = random [NewChaseDir] (0, 255) & (MAXPLAYERS - 1);
+                    // for (i = pr_S7_NewChaseDir() & (MAXPLAYERS-1); !playeringame[i]; i = (i+1) & (MAXPLAYERS-1))
+                    i = random [S7_NewChaseDir] (0, 255) & (MAXPLAYERS - 1);
                     while (!playeringame [i]) {
                         i = (i + 1) & (MAXPLAYERS - 1);
                     }
@@ -108,7 +108,7 @@ extend class S7_MonsterBase {
                 player = players [i];
             }
 
-            if (player.attacker && player.attacker.health > 0 && player.attacker.bShootable && random [NewChaseDir] (0, 255) < 80) {
+            if (player.attacker && player.attacker.health > 0 && player.attacker.bShootable && random [S7_NewChaseDir] (0, 255) < 80) {
                 if (!player.attacker.bFriendly || (deathmatch && FriendPlayer != 0 && player.attacker.FriendPlayer != 0 && FriendPlayer != player.attacker.FriendPlayer))
                     target = player.attacker;
             }
@@ -153,7 +153,7 @@ extend class S7_MonsterBase {
             bJustAttacked = false;
 
             if (!S7_ActorExtensions.IsFast (self) && !dontMove && !(flags & CHF_NoPostAttackTurn) && !(flags & CHF_StopIfBlocked))
-                NewChaseDir ();
+                S7_NewChaseDir ();
 
             // Because P_TryWalk would never be reached if the actor is stopped by a blocking object,
             // need to make sure the movecount is reset, otherwise they will just keep attacking
@@ -327,8 +327,8 @@ extend class S7_MonsterBase {
             TextureID oldFloor = floorpic;
 
             // chase towards player
-            if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!MonsterMove () && !(flags & CHF_StopIfBlocked)))
-                NewChaseDir ();
+            if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoMove () && !(flags & CHF_StopIfBlocked)))
+                S7_NewChaseDir ();
 
             // If the move was illegal, reset it 
             // (copied from A_SerpentChase - it applies to everything with CANTLEAVEFLOORPIC!)
@@ -342,7 +342,7 @@ extend class S7_MonsterBase {
                 }
 
                 if (!(flags & CHF_StopIfBlocked))
-                    NewChaseDir ();
+                    S7_NewChaseDir ();
             }
         }
         else if (dontMove && movecount > 0)
@@ -353,6 +353,8 @@ extend class S7_MonsterBase {
             PlayActiveSound ();
 
         bInChase = false;
+
+        A_FaceMovementDirection ();
     }
 
     //-------------------------------------------------------------------------------------------
@@ -361,7 +363,7 @@ extend class S7_MonsterBase {
     //
     //-------------------------------------------------------------------------------------------
     action void A_S7ChaseDef () {
-        invoker.S7_DoChase (false, MeleeState, MissileState, true, false /*gameinfo.nightmarefast*/, false, 0);
+        invoker.S7_DoChase (false, null, null, true, false /*gameinfo.nightmarefast*/, false, 0);
     }
 
     action void A_S7Chase (StateLabel melee = null, StateLabel missile = null, int flags = 0) {
@@ -369,7 +371,7 @@ extend class S7_MonsterBase {
         /*if ((flags & CHF_Resurrect) && P_CheckForResurrection (self, false))
             return;*/
 
-        invoker.S7_DoChase ((flags & CHF_FastChase), ResolveState (melee), ResolveState (missile), !(flags & CHF_NoPlayActive),
+        invoker.S7_DoChase ((flags & CHF_FastChase), null, null, !(flags & CHF_NoPlayActive),
             (flags & CHF_NightmareFast), (flags & CHF_DontMove), flags
         );
     }

@@ -45,3 +45,81 @@ struct S7_Utils {
         return (val.CharCodeAt (0) << 24 | val.CharCodeAt (1) << 16 | val.CharCodeAt (2) << 8 | val.CharCodeAt (3));
     }
 }
+
+class S7_BoundingBox {
+    enum BoxSides {
+        BOXTOP,
+        BOXBOTTOM,
+        BOXLEFT,
+        BOXRIGHT
+    };
+
+    protected double m_Box [4];
+
+    static S7_BoundingBox Create (Vector2 pos, double radius) {
+        let ret = new ("S7_BoundingBox");
+
+        ret.SetBox (pos, radius);
+
+        return ret;
+    }
+
+    void SetBox (Vector2 pos, double radius) {
+        m_Box [BOXTOP   ] = pos.Y + radius;
+        m_Box [BOXLEFT  ] = pos.X - radius;
+        m_Box [BOXRIGHT ] = pos.X + radius;
+        m_Box [BOXBOTTOM] = pos.Y - radius;
+    }
+
+    void ClearBox () {
+        m_Box [BOXTOP   ] = m_Box [BOXRIGHT] = -float.Max;
+        m_Box [BOXBOTTOM] = m_Box [BOXLEFT ] = float.Max;
+    }
+
+    bool inRange (in Line ld) const {
+        return (
+            m_Box [BOXLEFT  ] < ld.bbox[BOXRIGHT ] &&
+            m_Box [BOXRIGHT ] > ld.bbox[BOXLEFT  ] &&
+            m_Box [BOXTOP   ] > ld.bbox[BOXBOTTOM] &&
+            m_Box [BOXBOTTOM] < ld.bbox[BOXTOP   ]
+        );
+    }
+
+    const EQUAL_EPSILON = (1 / 65536.);
+    static int PointOnLineSidePrecise (double x, double y, in Line ld) {
+        return (y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y > EQUAL_EPSILON;
+    }
+
+    int BoxOnLineSide (in Line ld) const {
+        int p1, p2;
+            
+        if (ld.delta.X ~== 0) {
+            // ST_VERTICAL
+            p1 = m_Box [BOXRIGHT] < ld.v1.p.X;
+            p2 = m_Box [BOXLEFT ] < ld.v1.p.X;
+            if (ld.delta.Y < 0) {
+                p1 ^= 1;
+                p2 ^= 1;
+            }
+        } else if (ld.delta.Y ~== 0) {
+            // ST_HORIZONTAL:
+            p1 = m_Box [BOXTOP   ] > ld.v1.p.X;
+            p2 = m_Box [BOXBOTTOM] > ld.v1.p.Y;
+
+            if (ld.delta.X < 0) {
+                p1 ^= 1;
+                p2 ^= 1;
+            }
+        } else if ((ld.delta.X * ld.delta.Y) >= 0) {
+            // ST_POSITIVE:
+            p1 = PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXTOP   ], ld);
+            p2 = PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXBOTTOM], ld);
+        } else {
+            // ST_NEGATIVE:
+            p1 = PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXTOP   ], ld);
+            p2 = PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXBOTTOM], ld);
+        }
+
+        return (p1 == p2) ? p1 : -1;
+    }
+}
