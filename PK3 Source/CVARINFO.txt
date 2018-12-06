@@ -7,7 +7,8 @@ server int   S7_InitialCashAmount       = 650;
 server bool  S7_GrenadeTeleport         = FALSE;
 // Debugging
 server int   S7_DebugMode               = 0;
-server noarchive bool S7_Debug_NoRecoil = FALSE;
+server noarchive bool S7_Debug_NoRecoil  = FALSE;
+server noarchive int  S7_Debug_MonsterAI = 0;
 
 /** User CVars **/
 user bool S7_MsgsOn                     = TRUE;
