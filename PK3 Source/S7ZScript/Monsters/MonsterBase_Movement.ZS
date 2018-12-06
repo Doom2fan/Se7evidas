@@ -8,17 +8,20 @@ extend class S7_MonsterBase {
     const S7_MOVEDIR_COUNT = 66;
     const S7_MOVEDIR_INTERVAL = 5.625;
 
-    bool S7_TryWalk () {
-        if (!S7_DoMove ())
-            return false;
+    bool, Vector2 S7_TryWalk (bool checkOnly = false) {
+        bool success; Vector2 newPos;
+        [success, newPos] = S7_DoMove (checkOnly);
+        if (!success)
+            return false, newPos;
 
-        movecount = random [TryWalk] (0, 255) & 15;
-        return true;
+        if (!checkOnly)
+            movecount = random [TryWalk] (0, 255) & 15;
+
+        return true, newPos;
     }
 
     void S7_DoNewChaseDir (double deltaX, double deltaY) {
         int d [2];
-        int tDir;
         int oldDir, turnaround = S7_MOVEDIR_NODIR;
         bool attempts [S7_MOVEDIR_COUNT - 1]; // We don't need to attempt S7_MOVEDIR_NODIR.
 
@@ -89,20 +92,41 @@ extend class S7_MonsterBase {
             }
         }
 
-        {
-            bool reverse = random [NewChaseDir] (0, 255) & 1;
-            int start = !reverse ?  S7_MOVEDIR_EAST       :  S7_MOVEDIR_MAXDIR    ;
-            int end   = !reverse ?  S7_MOVEDIR_MAXDIR     : (S7_MOVEDIR_EAST  - 1);
-            int incr = !reverse ? 1 : -1;
+        // Sweep to the left and to the right. We alternate from clockwise to
+        // counter-clockwise to make the actor less likely to get stuck.
+        // We also try to move in the direction that gets us the closest to
+        // our target.
+        int sweepClosest = int.min;
+        double sweepClosestDist = double.infinity;
 
-            for (tDir = start; !reverse ? (tDir <= end) : (tDir != end); tDir += incr) {
-                if (tDir != turnaround && attempts [tdir] == false) {
-                    movedir = tDir;
-                    attempts [tDir] = true;
-                    if (S7_TryWalk ())
-                        return;
+        int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
+        for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
+            int tDir = movedir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)) * sweepSwap);
+            tDir %= S7_MOVEDIR_MAXDIR;
+            if (tDir < 0)
+                tDir = S7_MOVEDIR_MAXDIR + tDir;
+
+            if (tDir != turnaround && attempts [tDir] == false) {
+                bool success; Vector2 newPos;
+
+                movedir = tDir;
+                attempts [tDir] = true;
+                [success, newPos] = S7_TryWalk (true);
+
+                let diff = level.Vec2Diff (newPos, target.pos.XY);
+                double dist = diff dot diff;
+                if (success && dist < sweepClosestDist) {
+                    sweepClosest = tDir;
+                    sweepClosestDist = dist;
                 }
             }
+        }
+
+        if (sweepClosest != int.min && sweepClosestDist != double.infinity) {
+            // We don't need to do checks or mark as attempted here.
+            movedir = sweepClosest;
+            if (S7_TryWalk ())
+                return;
         }
 
         if (turnaround != S7_MOVEDIR_NODIR && attempts [turnaround] == false) {
@@ -222,19 +246,21 @@ extend class S7_MonsterBase {
             movecount = strafecount;
     }
 
-    bool S7_DoMove () {
+    bool, Vector2 S7_DoMove (bool checkOnly = false) {
         if (bBlasted)
-            return true;
+            return true, (double.NaN, double.NaN);
 
         if (movedir >= S7_MOVEDIR_NODIR) {
             movedir = S7_MOVEDIR_NODIR; // make sure it's valid.
-            return false;
+            return false, (double.NaN, double.NaN);
         }
 
         if (!(bNoGravity || bCanJump) && (pos.Z > floorZ && !bOnMobj))
-            return false;
+            return false, (double.NaN, double.NaN);
 
+        Vector2 possibleNewPos = (0, 0);
         Vector3 oldPos = pos;
+        double oldAngle = angle, oldPitch = pitch;
         int dropoff = 0;
         bool tryOK;
 
@@ -269,23 +295,28 @@ extend class S7_MonsterBase {
 
         Vector2 startPos = pos.XY;
         Vector2 tryMoveVec = moveVec.XY;
-        double oldAngle = angle;
+        double tryMoveOldAngle = angle;
 
         tryOK = true;
         for (int i = 1; i <= stepCount; i++) {
             let ptry = startPos + tryMoveVec * i / stepCount;
 
             // killough 3/15/98: don't jump over dropoffs
-            tryOK = TryMove (ptry, dropoff, NULL, tm);
+            if (!checkOnly)
+                tryOK = TryMove (ptry, dropoff, NULL, tm);
+            else
+                tryOK = CheckMove (ptry, 0, tm: tm);
             if (!tryOK) break;
+
+            possibleNewPos = pTry;
 
             // Handle portal transitions just like P_XYMovement.
             if (stepCount > 1 && pos.XY != ptry) {
-                double angleDiff = DeltaAngle (oldAngle, angle);
+                double angleDiff = DeltaAngle (tryMoveOldAngle, angle);
 
                 if (!(anglediff ~== 0)) {
                     tryMoveVec = RotateVector (tryMoveVec, angleDiff);
-                    oldAngle = angle;
+                    tryMoveOldAngle = angle;
                 }
 
                 startPos = pos.XY - tryMoveVec * i / stepCount;
@@ -308,7 +339,7 @@ extend class S7_MonsterBase {
                 // the floor we could get stuck in. The old code did not do this.
                 if (!TestMobjZ ())
                     SetZ (savedZ);
-                else {
+                else if (!checkOnly) {
                     let relPos = PosRelative (floorsector);
 
                     // The monster just hit the floor, so trigger any actions.
@@ -334,11 +365,17 @@ extend class S7_MonsterBase {
                 if (TestMobjZ ()) {
                     bInFloat = true;
 
-                    Vector3 newPos = pos;
-                    SetOrigin (oldPos, false);
-                    SetOrigin (newPos, true);
+                    if (!checkOnly) {
+                        Vector3 newPos = pos;
+                        SetOrigin (oldPos, false);
+                        SetOrigin (newPos, true);
+                    } else {
+                        SetOrigin (oldPos, false);
+                        angle = oldAngle;
+                        pitch = oldPitch;
+                    }
 
-                    return true;
+                    return true, possibleNewPos;
                 }
 
                 SetZ (savedZ);
@@ -388,10 +425,16 @@ extend class S7_MonsterBase {
         } else
             bInFloat = false;
 
-        Vector3 newPos = pos;
-        SetOrigin (oldPos, false);
-        SetOrigin (newPos, true);
+        if (!checkOnly) {
+            Vector3 newPos = pos;
+            SetOrigin (oldPos, false);
+            SetOrigin (newPos, true);
+        } else {
+            SetOrigin (oldPos, false);
+            angle = oldAngle;
+            pitch = oldPitch;
+        }
 
-        return tryOK;
+        return tryOK, possibleNewPos;
     }
 }

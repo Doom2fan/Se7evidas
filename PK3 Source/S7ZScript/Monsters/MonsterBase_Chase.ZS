@@ -363,7 +363,7 @@ extend class S7_MonsterBase {
     //
     //-------------------------------------------------------------------------------------------
     action void A_S7ChaseDef () {
-        invoker.S7_DoChase (false, null, null, true, false /*gameinfo.nightmarefast*/, false, 0);
+        invoker.S7_DoChase (false, MeleeState, MissileState, true, false /*gameinfo.nightmarefast*/, false, 0);
     }
 
     action void A_S7Chase (StateLabel melee = null, StateLabel missile = null, int flags = 0) {
@@ -371,7 +371,7 @@ extend class S7_MonsterBase {
         /*if ((flags & CHF_Resurrect) && P_CheckForResurrection (self, false))
             return;*/
 
-        invoker.S7_DoChase ((flags & CHF_FastChase), null, null, !(flags & CHF_NoPlayActive),
+        invoker.S7_DoChase ((flags & CHF_FastChase), ResolveState (melee), ResolveState (missile), !(flags & CHF_NoPlayActive),
             (flags & CHF_NightmareFast), (flags & CHF_DontMove), flags
         );
     }
