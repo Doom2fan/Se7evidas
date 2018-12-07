@@ -101,8 +101,11 @@ extend class S7_MonsterBase {
 
         int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
         for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
-            int tDir = movedir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)) * sweepSwap);
-            tDir %= S7_MOVEDIR_MAXDIR;
+            int tDir = movedir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
+            if (tDir > S7_MOVEDIR_MAXDIR)
+                tDir = tDir - S7_MOVEDIR_MAXDIR;
+            if (tDir < -S7_MOVEDIR_MAXDIR)
+                tDir = tDir + S7_MOVEDIR_MAXDIR;
             if (tDir < 0)
                 tDir = S7_MOVEDIR_MAXDIR + tDir;
 
@@ -162,7 +165,7 @@ extend class S7_MonsterBase {
         if (floorZ - dropoffZ > MaxDropOffHeight && pos.Z <= floorZ &&
             !bDropOff && !bOnMobj && !bFloat
         ) {
-            let box = S7_BoundingBox.Create (pos.XY, radius);
+            let box = BoundingBox.Create (pos.XY, radius);
             let it = BlockLinesIterator.Create (self);
             Line line;
 
@@ -248,15 +251,15 @@ extend class S7_MonsterBase {
 
     bool, Vector2 S7_DoMove (bool checkOnly = false) {
         if (bBlasted)
-            return true, (double.NaN, double.NaN);
+            return true, pos.XY;
 
         if (movedir >= S7_MOVEDIR_NODIR) {
             movedir = S7_MOVEDIR_NODIR; // make sure it's valid.
-            return false, (double.NaN, double.NaN);
+            return false, pos.XY;
         }
 
         if (!(bNoGravity || bCanJump) && (pos.Z > floorZ && !bOnMobj))
-            return false, (double.NaN, double.NaN);
+            return false, pos.XY;
 
         Vector2 possibleNewPos = (0, 0);
         Vector3 oldPos = pos;
@@ -274,7 +277,7 @@ extend class S7_MonsterBase {
         [angle, pitch] = S7_Math.GetAnglesTo (pos, pos + moveVec);
 
         double maxmove = radius - 1.;
-        int stepCount = 1;
+        double stepCount = 1;
 
         if (maxmove > 0) {
             double xSpeed = abs (moveVec.X);
@@ -283,8 +286,7 @@ extend class S7_MonsterBase {
             if (xSpeed > ySpeed) {
                 if (xSpeed > maxmove)
                     stepCount = 1 + int (xSpeed / maxmove);
-            }
-            else {
+            } else {
                 if (ySpeed > maxmove)
                     stepCount = 1 + int (ySpeed / maxmove);
             }
@@ -381,47 +383,54 @@ extend class S7_MonsterBase {
                 SetZ (savedZ);
             }
 
-            /*if (!spechit.Size ())
-            {
-                return false;
-            }
+            if (SpechitsList.Size () > 0 && !checkOnly) {
+                // Open any specials
+                movedir = S7_MOVEDIR_NODIR;
 
-            // open any specials
-            movedir = DI_NODIR;
+                // If the special is not a door that can be opened, return false
+                //
+                // killough 8/9/98: This is what caused monsters to get stuck in
+                // doortracks, because it thought that the monster freed itself
+                // by opening a door, even if it was moving towards the doortrack,
+                // and not the door itself.
+                //
+                // killough 9/9/98: If a line blocking the monster is activated,
+                // return true 90% of the time. If a line blocking the monster is
+                // not activated, but some other line is, return false 90% of the
+                // time. A bit of randomness is needed to ensure it's free from
+                // lockups, but for most cases, it returns the correct result.
+                //
+                // Do NOT simply return false 1/4th of the time (causes monsters to
+                // back out when they shouldn't, and creates secondary stickiness).
+                int good = 0;
+                
+                if (!bNoTrigger) {
+                    SpecHit spec;
 
-            // if the special is not a door that can be opened, return false
-            //
-            // killough 8/9/98: this is what caused monsters to get stuck in
-            // doortracks, because it thought that the monster freed itself
-            // by opening a door, even if it was moving towards the doortrack,
-            // and not the door itself.
-            //
-            // killough 9/9/98: If a line blocking the monster is activated,
-            // return true 90% of the time. If a line blocking the monster is
-            // not activated, but some other line is, return false 90% of the
-            // time. A bit of randomness is needed to ensure it's free from
-            // lockups, but for most cases, it returns the correct result.
-            //
-            // Do NOT simply return false 1/4th of the time (causes monsters to
-            // back out when they shouldn't, and creates secondary stickiness).
-
-            spechit_t spec;
-            int good = 0;
-            
-            if (!(flags6 & MF6_NOTRIGGER))
-            {
-                while (spechit.Pop (spec))
-                {
-                    // [RH] let monsters push lines, as well as use them
-                    if (((flags4 & MF4_CANUSEWALLS) && P_ActivateLine (spec.line, actor, 0, SPAC_Use)) ||
-                        ((flags2 & MF2_PUSHWALL) && P_ActivateLine (spec.line, actor, 0, SPAC_Push)))
-                    {
-                        good |= spec.line == BlockingLine ? 1 : 2;
+                    while (SpechitsList.Pop (spec)) {
+                        // [RH] let monsters push lines, as well as use them
+                        if ((bCanUseWalls  && spec.line.Activate (self, 0, SPAC_Use)) ||
+                            (bCanPushWalls && spec.line.Activate (self, 0, SPAC_Push))
+                        ) {
+                            good |= spec.line == BlockingLine ? 1 : 2;
+                        }
                     }
                 }
+
+                SpechitsList.Clear ();
+
+                if (!checkOnly) {
+                    Vector3 newPos = pos;
+                    SetOrigin (oldPos, false);
+                    SetOrigin (newPos, true);
+                } else {
+                    SetOrigin (oldPos, false);
+                    angle = oldAngle;
+                    pitch = oldPitch;
+                }
+
+                return good && ((random [OpenDoor] (0, 255) >= 203) ^ (good & 1)), possibleNewPos;
             }
-            else spechit.Clear();
-            return good && ((pr_opendoor() >= 203) ^ (good & 1));*/
         } else
             bInFloat = false;
 
