@@ -32,6 +32,7 @@ extend class S7_MonsterBase {
     const S7_MOVEDIR_INTERVAL = 5.625;
 
     int movementDir;
+    int movecount;
 
     bool, Vector2 S7_TryWalk (bool checkOnly = false) {
         bool success; Vector2 newPos;
@@ -40,7 +41,7 @@ extend class S7_MonsterBase {
             return false, newPos;
 
         if (!checkOnly)
-            movecount = random [TryWalk] (0, 255) & 15;
+            movecount = (random [TryWalk] (0, 255) & 15);
 
         return true, newPos;
     }
@@ -147,7 +148,7 @@ extend class S7_MonsterBase {
         if (turnaround != S7_MOVEDIR_NODIR) {
             movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
             if (S7_TryWalk ()) {
-                movecount = random [NewChaseDir] (0, 255) & 15;
+                movecount = (random [NewChaseDir] (0, 255) & 15);
                 return;
             }
         }
@@ -208,7 +209,8 @@ extend class S7_MonsterBase {
         // counter-clockwise to make the actor less likely to get stuck.
         // We also try to move in the direction that gets us the closest to
         // our target.
-        int sweepClosest = int.min;
+        Array<int> sweepClosestDirs; sweepClosestDirs.Clear ();
+        Array<int> sweepIgnoredDirs; sweepIgnoredDirs.Clear (); // We keep this so we can try those in the next pass.
         double sweepClosestDist = double.infinity;
 
         int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
@@ -225,48 +227,41 @@ extend class S7_MonsterBase {
                 bool success; Vector2 newPos;
 
                 movementDir = (tDir & S7_MOVEDIR_MAXDIR);
-                attempts [tDir] = true;
                 [success, newPos] = S7_TryWalk (true);
 
                 let diff = level.Vec2Diff (newPos, target.pos.XY);
                 double dist = diff dot diff;
-                if (success && dist < sweepClosestDist) {
-                    sweepClosest = tDir;
+                if (success && dist <= sweepClosestDist) {
+                    sweepClosestDirs.Push (tDir);
                     sweepClosestDist = dist;
-                }
+                } else if (success)
+                    sweepIgnoredDirs.Push (tDir);
             }
         }
 
-        if (sweepClosest != int.min && sweepClosestDist != double.infinity) {
-            // We don't need to do checks or mark as attempted here.
-            movementDir = sweepClosest;
-            if (S7_TryWalk ())
-                return;
-        }
-
-        if (!bAvoidingDropoff) {
-            if (random [NewChaseDir] (0, 255) > 200 || abs (deltaY) > abs (deltaX)) {
-                d [0] = (d [0] ^ d [1]);
-                d [1] = (d [1] ^ d [0]);
-                d [0] = (d [0] ^ d [1]);
-            }
-
-            if (d [0] == turnaround)
-                d [0] = S7_MOVEDIR_NODIR;
-            if (d [1] == turnaround)
-                d [1] = S7_MOVEDIR_NODIR;
-        }
-
-        for (int i = 0; i < 2; i++) {
-            if (d [1] != S7_MOVEDIR_NODIR && attempts [d [1]] == false) {
-                movementDir = d [1];
-                attempts [d [1]] = true;
-                // Either moved forward or attacked
+        // Try the directions that'll get us closer to our target.
+        if (sweepClosestDirs.Size () > 0) {
+            for (int i = sweepClosestDirs.Size () - 1; i >= 0; i--) {
+                // We don't need to do checks or mark as attempted here.
+                movementDir = sweepClosestDirs [i];
+                attempts [movementDir] = true;
                 if (S7_TryWalk ())
                     return;
             }
         }
 
+        // Try the other directions.
+        if (sweepIgnoredDirs.Size () > 0) {
+            for (int i = sweepIgnoredDirs.Size () - 1; i >= 0; i--) {
+                // We don't need to do checks or mark as attempted here.
+                movementDir = sweepIgnoredDirs [i];
+                attempts [movementDir] = true;
+                if (S7_TryWalk ())
+                    return;
+            }
+        }
+
+        // If all else fails, try to turn around.
         if (turnaround != S7_MOVEDIR_NODIR && attempts [turnaround] == false) {
             movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
             if (S7_TryWalk ())
@@ -466,8 +461,8 @@ extend class S7_MonsterBase {
         // [RH] If a walking monster is no longer on the floor, move it down
         // to the floor if it is within MaxStepHeight, presuming that it is
         // actually walking down a step.
-        if (tryOK && !(bNoGravity || bCanJump) && pos.Z > floorZ && !bOnMobj) {
-            if (pos.Z - floorZ <= MaxStepHeight) {
+        if (tryOK && !(bNoGravity || bCanJump) && (pos.Z > floorZ) && !bOnMobj) {
+            if (pos.Z <= floorZ + MaxStepHeight) {
                 double savedZ = pos.Z;
 
                 SetZ (floorZ);
@@ -484,8 +479,7 @@ extend class S7_MonsterBase {
                         floorsector.TriggerSectorActions (self, SectorAction.SECSPAC_HitFloor);
                     CheckFor3DFloorHit (pos.Z, true);
                 }
-            } else if (pos.Z < floorZ)
-                SetZ (floorZ);
+            }
         }
 
         if (!tryOK) {
@@ -522,10 +516,19 @@ extend class S7_MonsterBase {
                 // Open any specials
                 movementDir = S7_MOVEDIR_NODIR;
 
-                int usesCount;
-                if (usesCount = CheckMonsterUseSpecials ()) {
-                    return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
+                int usesCount = CheckMonsterUseSpecials ();
+
+                if (!checkOnly) {
+                    Vector3 newPos = pos;
+                    SetOrigin (oldPos, false);
+                    SetOrigin (newPos, true);
+                } else {
+                    SetOrigin (oldPos, false);
+                    angle = oldAngle;
+                    pitch = oldPitch;
                 }
+                
+                return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
             }
         } else
             bInFloat = false;
