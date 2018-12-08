@@ -49,7 +49,7 @@ extend class S7_MonsterBase {
             return;
 
         // Normal following behavior plus visibility checks
-        if (target && target is "S7_BasePlayer") {
+        if (target && !(target is 'S7_LastKnownPositionMarker')) {
             if (aiLastKnown)
                 aiLastKnown.Destroy ();
 
@@ -148,11 +148,5 @@ extend class S7_MonsterBase {
         for (int i = 0; i < Level.Sectors.Size (); i++) {
             level.Sectors [i].SoundTarget = null;
         }
-
-        // Reset to idle/spawn for HD monsters
-        if (which.FindState ("Idle"))
-            which.SetStateLabel ("Idle");
-        else
-            which.SetStateLabel ("Spawn");
     }
 }

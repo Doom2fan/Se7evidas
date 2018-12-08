@@ -184,7 +184,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         loop;
     Idle.Wander: // Wander around looking for enemies
         SCR2 ABCD 5 {
-            A_Wander ();
+            S7_Wander ();
             A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
         }
         TNT1 A 0 A_Jump (random [monsterSpc] () < 18, "Idle");

@@ -1,12 +1,37 @@
+/*
+ *  Se7evidas - A GZDoom mod
+ *  Copyright (C) 1993-1996 id Software
+ *  Copyright (C) 1994-1996 Raven Software
+ *  Copyright (C) 1998-1998 Chi Hoang, Lee Killough, Jim Flynn, Rand Phares, Ty Halderman
+ *  Copyright (C) 1999-2016 Randy Heit
+ *  Copyright (C) 2002-2016 Christoph Oelckers
+ *  Copyright (C) 2018      Chronos "phantombeta" Ouroboros
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 extend class S7_MonsterBase {
     const S7_MOVEDIR_EAST = 0;
     const S7_MOVEDIR_WEST = 32;
     const S7_MOVEDIR_NORTH = 16;
     const S7_MOVEDIR_SOUTH = 48;
-    const S7_MOVEDIR_MAXDIR = 64;
-    const S7_MOVEDIR_NODIR = 65;
+    const S7_MOVEDIR_MAXDIR = 64 - 1; // MUST BE A POWER OF TWO
+    const S7_MOVEDIR_NODIR = 64;
     const S7_MOVEDIR_COUNT = 66;
     const S7_MOVEDIR_INTERVAL = 5.625;
+
+    int movementDir;
 
     bool, Vector2 S7_TryWalk (bool checkOnly = false) {
         bool success; Vector2 newPos;
@@ -20,6 +45,116 @@ extend class S7_MonsterBase {
         return true, newPos;
     }
 
+    void S7_RandomChaseDir () {
+        int oldDir, turnaround = S7_MOVEDIR_NODIR;
+
+        oldDir = movementDir;
+
+        if (movementDir != S7_MOVEDIR_NODIR)
+            turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
+
+        if (bFriendly) {
+            Actor player;
+            int i = 0;
+            Vector2 delta;
+            int d [2];
+
+            if (FriendPlayer != 0)
+                player = players [i = (FriendPlayer - 1)].mo;
+            else {
+                if (!multiplayer)
+                    i = 0;
+                else for (i = (random [NewChaseDir] (0, 255) & (MAXPLAYERS-1)); !playeringame [i]; i = ((i+1) & (MAXPLAYERS-1)))
+                    ; // Do nothing
+
+                player = players [i].mo;
+            }
+
+            if (player && playeringame [i]) {
+                if ((random [NewChaseDir] (0, 255) & 1) || !CheckSight (player)) {
+                    delta = Vec2To (player);
+
+                    if (delta.X > 128)
+                        d [0] = S7_MOVEDIR_EAST;
+                    else if (delta.X < -128)
+                        d [0] = S7_MOVEDIR_WEST;
+                    else
+                        d [0] = S7_MOVEDIR_NODIR;
+
+                    if (delta.Y < -128)
+                        d [1] = S7_MOVEDIR_SOUTH;
+                    else if (delta.Y > 128)
+                        d [1] = S7_MOVEDIR_NORTH;
+                    else
+                        d [1] = S7_MOVEDIR_NODIR;
+
+                    // Try direct route
+                    if (d [0] != S7_MOVEDIR_NODIR && d [1] != S7_MOVEDIR_NODIR) {
+                        double ang = VectorAngle (delta.X, delta.Y);
+                        movementDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
+
+                        if (movementDir != turnaround) {
+                            if (S7_TryWalk ())
+                                return;
+                        }
+                    }
+
+                    // Try other directions
+                    if (random [NewChaseDir] (0, 255) > 200 || abs (delta.Y) > abs (delta.X)) {
+                        d [0] = (d [0] ^ d [1]);
+                        d [1] = (d [1] ^ d [0]);
+                        d [0] = (d [0] ^ d [1]);
+                    }
+
+                    if (d [0] == turnaround)
+                        d [0] = S7_MOVEDIR_NODIR;
+                    if (d [1] == turnaround)
+                        d [1] = S7_MOVEDIR_NODIR;
+
+                    for (int i = 0; i < 2; i++) {
+                        if (d [i] != S7_MOVEDIR_NODIR) {
+                            movementDir = d [i];
+                            if (S7_TryWalk ())
+                                return;
+                        }
+                    }
+                }
+            }
+        }
+
+        // If the actor elects to continue in its current direction, let it do
+        // so unless the way is blocked. Then it must turn.
+        if (random [NewChaseDir] (0, 255) < 150) {
+            if (S7_TryWalk ())
+                return;
+        }
+
+        int turndir = (random [NewChaseDir] (0, 255) & 1) ? -1 : 1;
+
+        if (oldDir == S7_MOVEDIR_NODIR)
+            oldDir = random [NewChaseDir] (0, 255);
+
+        int tDir;
+        int oldDirMasked = (oldDir & S7_MOVEDIR_MAXDIR);
+        for (tDir = ((oldDir + turndir) & S7_MOVEDIR_MAXDIR); tDir != oldDirMasked; tDir = ((tDir + turndir) & S7_MOVEDIR_MAXDIR)) {
+            if (tDir != turnaround) {
+                movementDir = (tDir & S7_MOVEDIR_MAXDIR);
+                if (S7_TryWalk ())
+                    return;
+            }
+        }
+
+        if (turnaround != S7_MOVEDIR_NODIR) {
+            movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
+            if (S7_TryWalk ()) {
+                movecount = random [NewChaseDir] (0, 255) & 15;
+                return;
+            }
+        }
+
+        movementDir = S7_MOVEDIR_NODIR;
+    }
+
     void S7_DoNewChaseDir (double deltaX, double deltaY) {
         int d [2];
         int oldDir, turnaround = S7_MOVEDIR_NODIR;
@@ -27,10 +162,10 @@ extend class S7_MonsterBase {
 
         for (int i = 0; i < S7_MOVEDIR_COUNT - 1; i++)
             attempts [i] = false;
-        oldDir = movedir;
+        oldDir = movementDir;
 
-        if (movedir != S7_MOVEDIR_NODIR)
-            turnaround = int ((((movedir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL);
+        if (movementDir != S7_MOVEDIR_NODIR)
+            turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
 
         if (deltaX > 10)
             d [0] = S7_MOVEDIR_EAST;
@@ -49,10 +184,10 @@ extend class S7_MonsterBase {
         // Try direct route
         if (d [0] != S7_MOVEDIR_NODIR && d [1] != S7_MOVEDIR_NODIR) {
             double ang = VectorAngle (deltaX, deltaY);
-            movedir = int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL);
+            movementDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
 
-            if (movedir != turnaround) {
-                attempts [movedir] = true;
+            if (movementDir != turnaround) {
+                attempts [movementDir] = true;
                 if (S7_TryWalk ())
                     return;
             }
@@ -60,32 +195,9 @@ extend class S7_MonsterBase {
 
         // Try other directions
         if (!bAvoidingDropoff) {
-            if (random [NewChaseDir] (0, 255) > 200 || abs (deltaY) > abs (deltaX)) {
-                d [0] = (d [0] ^ d [1]);
-                d [1] = (d [1] ^ d [0]);
-                d [0] = (d [0] ^ d [1]);
-            }
-
-            if (d [0] == turnaround)
-                d [0] = S7_MOVEDIR_NODIR;
-            if (d [1] == turnaround)
-                d [1] = S7_MOVEDIR_NODIR;
-        }
-
-        for (int i = 0; i < 2; i++) {
-            if (d [1] != S7_MOVEDIR_NODIR && attempts [d [1]] == false) {
-                movedir = d [1];
-                attempts [d [1]] = true;
-                // Either moved forward or attacked
-                if (S7_TryWalk ())
-                    return;
-            }
-        }
-
-        if (!bAvoidingDropoff) {
             // There is no direct path to the enemy, so pick another direction.
             if (oldDir != S7_MOVEDIR_NODIR && attempts [oldDir] == false) {
-                movedir = oldDir;
+                movementDir = (oldDir & S7_MOVEDIR_MAXDIR);
                 attempts [oldDir] = true;
                 if (S7_TryWalk ())
                     return;
@@ -101,7 +213,7 @@ extend class S7_MonsterBase {
 
         int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
         for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
-            int tDir = movedir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
+            int tDir = movementDir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
             if (tDir > S7_MOVEDIR_MAXDIR)
                 tDir = tDir - S7_MOVEDIR_MAXDIR;
             if (tDir < -S7_MOVEDIR_MAXDIR)
@@ -112,7 +224,7 @@ extend class S7_MonsterBase {
             if (tDir != turnaround && attempts [tDir] == false) {
                 bool success; Vector2 newPos;
 
-                movedir = tDir;
+                movementDir = (tDir & S7_MOVEDIR_MAXDIR);
                 attempts [tDir] = true;
                 [success, newPos] = S7_TryWalk (true);
 
@@ -127,19 +239,42 @@ extend class S7_MonsterBase {
 
         if (sweepClosest != int.min && sweepClosestDist != double.infinity) {
             // We don't need to do checks or mark as attempted here.
-            movedir = sweepClosest;
+            movementDir = sweepClosest;
             if (S7_TryWalk ())
                 return;
         }
 
+        if (!bAvoidingDropoff) {
+            if (random [NewChaseDir] (0, 255) > 200 || abs (deltaY) > abs (deltaX)) {
+                d [0] = (d [0] ^ d [1]);
+                d [1] = (d [1] ^ d [0]);
+                d [0] = (d [0] ^ d [1]);
+            }
+
+            if (d [0] == turnaround)
+                d [0] = S7_MOVEDIR_NODIR;
+            if (d [1] == turnaround)
+                d [1] = S7_MOVEDIR_NODIR;
+        }
+
+        for (int i = 0; i < 2; i++) {
+            if (d [1] != S7_MOVEDIR_NODIR && attempts [d [1]] == false) {
+                movementDir = d [1];
+                attempts [d [1]] = true;
+                // Either moved forward or attacked
+                if (S7_TryWalk ())
+                    return;
+            }
+        }
+
         if (turnaround != S7_MOVEDIR_NODIR && attempts [turnaround] == false) {
-            movedir = turnaround;
+            movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
             if (S7_TryWalk ())
                 return;
         }
 
         // Cannot move
-        movedir = S7_MOVEDIR_NODIR;
+        movementDir = S7_MOVEDIR_NODIR;
     }
 
     void S7_NewChaseDir () {
@@ -253,8 +388,8 @@ extend class S7_MonsterBase {
         if (bBlasted)
             return true, pos.XY;
 
-        if (movedir >= S7_MOVEDIR_NODIR) {
-            movedir = S7_MOVEDIR_NODIR; // make sure it's valid.
+        if (movementDir >= S7_MOVEDIR_NODIR) {
+            movementDir = S7_MOVEDIR_NODIR; // make sure it's valid.
             return false, pos.XY;
         }
 
@@ -273,7 +408,7 @@ extend class S7_MonsterBase {
         if (bJumpDown && target && !target.IsFriend (self) && Distance2D (target) < 144 && random [Dropoff] (0, 255) < 235)
             dropoff = 2;
 
-        Vector3 moveVec = (AngleToVector (movedir * S7_MOVEDIR_INTERVAL, Speed), 0);
+        Vector3 moveVec = (AngleToVector (movementDir * S7_MOVEDIR_INTERVAL, Speed), 0);
         [angle, pitch] = S7_Math.GetAnglesTo (pos, pos + moveVec);
 
         double maxmove = radius - 1.;
@@ -332,7 +467,7 @@ extend class S7_MonsterBase {
         // to the floor if it is within MaxStepHeight, presuming that it is
         // actually walking down a step.
         if (tryOK && !(bNoGravity || bCanJump) && pos.Z > floorZ && !bOnMobj) {
-            if (pos.Z <= floorZ + MaxStepHeight) {
+            if (pos.Z - floorZ <= MaxStepHeight) {
                 double savedZ = pos.Z;
 
                 SetZ (floorZ);
@@ -347,7 +482,7 @@ extend class S7_MonsterBase {
                     // The monster just hit the floor, so trigger any actions.
                     if (floorsector.SecActTarget && floorZ ~== floorsector.floorplane.ZAtPoint (relPos.XY))
                         floorsector.TriggerSectorActions (self, SectorAction.SECSPAC_HitFloor);
-                    //P_CheckFor3DFloorHit (self, pos.Z, true);
+                    CheckFor3DFloorHit (pos.Z, true);
                 }
             } else if (pos.Z < floorZ)
                 SetZ (floorZ);
@@ -383,53 +518,14 @@ extend class S7_MonsterBase {
                 SetZ (savedZ);
             }
 
-            if (SpechitsList.Size () > 0 && !checkOnly) {
+            if (!checkOnly) {
                 // Open any specials
-                movedir = S7_MOVEDIR_NODIR;
+                movementDir = S7_MOVEDIR_NODIR;
 
-                // If the special is not a door that can be opened, return false
-                //
-                // killough 8/9/98: This is what caused monsters to get stuck in
-                // doortracks, because it thought that the monster freed itself
-                // by opening a door, even if it was moving towards the doortrack,
-                // and not the door itself.
-                //
-                // killough 9/9/98: If a line blocking the monster is activated,
-                // return true 90% of the time. If a line blocking the monster is
-                // not activated, but some other line is, return false 90% of the
-                // time. A bit of randomness is needed to ensure it's free from
-                // lockups, but for most cases, it returns the correct result.
-                //
-                // Do NOT simply return false 1/4th of the time (causes monsters to
-                // back out when they shouldn't, and creates secondary stickiness).
-                int good = 0;
-                
-                if (!bNoTrigger) {
-                    SpecHit spec;
-
-                    while (SpechitsList.Pop (spec)) {
-                        // [RH] let monsters push lines, as well as use them
-                        if ((bCanUseWalls  && spec.line.Activate (self, 0, SPAC_Use)) ||
-                            (bCanPushWalls && spec.line.Activate (self, 0, SPAC_Push))
-                        ) {
-                            good |= spec.line == BlockingLine ? 1 : 2;
-                        }
-                    }
+                int usesCount;
+                if (usesCount = CheckMonsterUseSpecials ()) {
+                    return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
                 }
-
-                SpechitsList.Clear ();
-
-                if (!checkOnly) {
-                    Vector3 newPos = pos;
-                    SetOrigin (oldPos, false);
-                    SetOrigin (newPos, true);
-                } else {
-                    SetOrigin (oldPos, false);
-                    angle = oldAngle;
-                    pitch = oldPitch;
-                }
-
-                return good && ((random [OpenDoor] (0, 255) >= 203) ^ (good & 1)), possibleNewPos;
             }
         } else
             bInFloat = false;

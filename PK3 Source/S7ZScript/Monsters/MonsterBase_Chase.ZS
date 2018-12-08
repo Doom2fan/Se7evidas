@@ -24,6 +24,50 @@
 extend class S7_MonsterBase {
     //-------------------------------------------------------------------------------------------
     //
+    // A_Wander
+    //
+    //-------------------------------------------------------------------------------------------
+    void S7_DoWander (int flags = 0) {
+        // [RH] Strife probably clears this flag somewhere, but I couldn't find where.
+        // This seems as good a place as any.
+        bInCombat = false;
+
+        if (bInConversation)
+            return;
+
+        if (bStandStill)
+            return;
+
+        if (reactiontime != 0) {
+            reactiontime--;
+            return;
+        }
+
+        // turn towards movement direction if not there yet
+        if (!(flags & CHF_NODIRECTIONTURN) && (movementDir < S7_MOVEDIR_NODIR)) {
+            angle = floor (angle / S7_MOVEDIR_INTERVAL) * S7_MOVEDIR_INTERVAL;
+
+            double delta = deltaangle (angle, (movementDir * S7_MOVEDIR_INTERVAL));
+            if (delta < 0)
+                angle -= S7_MOVEDIR_INTERVAL;
+            else if (delta > 0)
+                angle += S7_MOVEDIR_INTERVAL;
+        }
+
+        if ((--movecount < 0 && !(flags & CHF_NORANDOMTURN)) || (!S7_DoMove () && !(flags & CHF_STOPIFBLOCKED))) {
+            S7_RandomChaseDir ();
+            movecount += 5;
+        }
+
+        return;
+    }
+
+    action void S7_Wander (int flags = 0) {
+        invoker.S7_DoWander (flags);
+    }
+
+    //-------------------------------------------------------------------------------------------
+    //
     // DoChase / A_DoChase
     //
     //-------------------------------------------------------------------------------------------
@@ -70,10 +114,10 @@ extend class S7_MonsterBase {
         // Turn towards movement direction if not there yet
         if (strafecount)
             A_FaceTarget ();
-        else if (!(flags & CHF_NoDirectionTurn) && movedir < S7_MOVEDIR_COUNT) {
+        else if (!(flags & CHF_NoDirectionTurn) && movementDir < S7_MOVEDIR_COUNT) {
             angle = floor (angle / S7_MOVEDIR_INTERVAL) * S7_MOVEDIR_INTERVAL;
 
-            double delta = DeltaAngle (angle, (movedir * S7_MOVEDIR_INTERVAL));
+            double delta = DeltaAngle (angle, (movementDir * S7_MOVEDIR_INTERVAL));
 
             if (delta < 0)
                 angle -= S7_MOVEDIR_INTERVAL;
@@ -135,7 +179,7 @@ extend class S7_MonsterBase {
                     //A_Look(actor);
                     if (!target) {
                         if (!dontMove)
-                            A_Wander ();
+                            S7_Wander ();
 
                         bInChase = false;
                         return;

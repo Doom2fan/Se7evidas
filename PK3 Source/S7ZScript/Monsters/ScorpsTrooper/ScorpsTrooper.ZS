@@ -207,7 +207,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         loop;
     Idle.Wander: // Wander around looking for enemies
         SCR1 ABCD 5 {
-            A_Wander ();
+            S7_Wander ();
             A_S7LookEx (0, 0.0, 0.0, 0.0, 0.0, "EnemySighted");
         }
         TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 18, "Idle");
@@ -312,7 +312,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 192, "Reload");
     DryFire.FindCover:
         TNT1 A        0 { bFrightened = true; }
-        SCR1 AABBCCDD 4 A_Wander;
+        SCR1 AABBCCDD 4 S7_Wander;
         TNT1 A        0 {
             bFrightened = false;
             return A_JumpIfInTargetLOS ("Reload", 225.0, JLOSF_NoSight);

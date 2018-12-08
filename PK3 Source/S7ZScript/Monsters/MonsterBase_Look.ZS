@@ -221,7 +221,7 @@ extend class S7_MonsterBase {
                 if (SeeState && !invoker.S7_IsInvisible (targ))
                     SetState (SeeState);
                 else
-                    A_Wander ();
+                    S7_Wander ();
             } else if (!invoker.S7_IsInvisible (targ)) {
                 target = targ;
 
@@ -345,7 +345,7 @@ extend class S7_MonsterBase {
                         else if (SeeState && !invoker.S7_IsInvisible (targ))
                             SetState (SeeState);
                         else
-                            A_Wander ();
+                            S7_Wander ();
                     }
                 }
             } else if (!invoker.S7_IsInvisible (targ)) {
