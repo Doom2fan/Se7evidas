@@ -232,7 +232,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             if (!sellMode && (info.maxAmount - (totalAmt + heldAmt)) <= 0)
                 amount = int (floor (double (info.maxAmount - heldAmt) / itemInfo.buyAmount));
             else if (sellMode && totalAmt > heldAmt)
-                amount = heldAmt;
+                amount = int (floor (double (heldAmt) / itemInfo.sellAmount));
         }
         if (amount < 1)
             amount = 1;
