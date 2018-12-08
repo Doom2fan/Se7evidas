@@ -323,9 +323,9 @@ shop "mainShop" {
 
                     inventoryName = "S7_FBSysCells";
                     buyPrice = 850;
-                    buyAmount = 23;
+                    buyAmount = 32;
                     sellPrice = 500;
-                    sellAmount = 23;
+                    sellAmount = 32;
                 }
             }
         },
