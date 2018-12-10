@@ -32,7 +32,6 @@ extend class S7_MonsterBase {
     const S7_MOVEDIR_INTERVAL = 5.625;
 
     int movementDir;
-    int movecount;
 
     bool, Vector2 S7_TryWalk (bool checkOnly = false) {
         bool success; Vector2 newPos;
@@ -403,7 +402,7 @@ extend class S7_MonsterBase {
         if (bJumpDown && target && !target.IsFriend (self) && Distance2D (target) < 144 && random [Dropoff] (0, 255) < 235)
             dropoff = 2;
 
-        Vector3 moveVec = (AngleToVector (movementDir * S7_MOVEDIR_INTERVAL, Speed), 0);
+        Vector3 moveVec = (AngleToVector (double (movementDir) * S7_MOVEDIR_INTERVAL, Speed), 0);
         [angle, pitch] = S7_Math.GetAnglesTo (pos, pos + moveVec);
 
         double maxmove = radius - 1.;
