@@ -397,8 +397,6 @@ extend class S7_MonsterBase {
             PlayActiveSound ();
 
         bInChase = false;
-
-        A_FaceMovementDirection ();
     }
 
     //-------------------------------------------------------------------------------------------
