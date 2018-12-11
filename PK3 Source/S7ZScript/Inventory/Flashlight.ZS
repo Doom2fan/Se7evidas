@@ -136,6 +136,7 @@ class S7_Flashlight : Inventory {
         double spring, damping;
 
         switch (mount) {
+        default:
         case 0: // Left Shoulder
             spring = 0.35;
             damping = 0.75;
@@ -162,10 +163,14 @@ class S7_Flashlight : Inventory {
         if (!selfLight1) {
             selfLight1 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, false));
             selfLight1.followTarget = Owner;
+            selfLight1.angle = Owner.angle;
+            selfLight1.pitch = Owner.pitch;
         }
         if (!selfLight2) {
             selfLight2 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, false));
             selfLight2.followTarget = Owner;
+            selfLight2.angle = Owner.angle;
+            selfLight2.pitch = Owner.pitch;
         }
 
         if (selfLight1) {
@@ -175,8 +180,6 @@ class S7_Flashlight : Inventory {
             selfLight1.args [3] = beamRadius; // Radius
             selfLight1.SpotInnerAngle = beamInner;
             selfLight1.SpotOuterAngle = beamOuter;
-            selfLight1.angle = Owner.angle;
-            selfLight1.pitch = Owner.pitch;
             selfLight1.spring = spring;
             selfLight1.damping = damping;
             selfLight1.inertia = inertia;
@@ -190,8 +193,6 @@ class S7_Flashlight : Inventory {
             selfLight2.args [3] = spillRadius; // Radius
             selfLight2.SpotInnerAngle = spillInner;
             selfLight2.SpotOuterAngle = spillOuter;
-            selfLight2.angle = Owner.angle;
-            selfLight2.pitch = Owner.pitch;
             selfLight2.spring = spring;
             selfLight2.damping = damping;
             selfLight2.inertia = inertia;
