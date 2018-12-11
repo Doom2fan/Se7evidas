@@ -244,6 +244,7 @@ class S7_BasePlayer : PlayerPawn {
         }
 
         // Movement
+        Misc_Stealth ();
         Misc_BlurCamera ();
         Movement_Dodging ();
         Movement_LedgeGrabbing ();
