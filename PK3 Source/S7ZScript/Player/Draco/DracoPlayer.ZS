@@ -36,9 +36,9 @@ class S7_DracoThing : Inventory {
             pPawn.weapBinds.LastWeapon = NULL;
 
         if (!(pPawn is 'S7_DracoPlayer'))
-            pPawn.player.MorphPlayer (pPawn.player, 'S7_DracoPlayer', 0x7FFFFFFF, morphFlags, NULL, NULL);
+            pPawn.MorphPlayer (pPawn.player, 'S7_DracoPlayer', 0x7FFFFFFF, morphFlags, NULL, NULL);
         else
-            pPawn.player.UndoPlayerMorph (pPawn.player, MRF_UndoAlways, false);
+            pPawn.UndoPlayerMorph (pPawn.player, MRF_UndoAlways, false);
 
         return false;
     }
@@ -89,7 +89,7 @@ class S7_DracoPlayer : S7_BasePlayer {
         // Put the weapon away if the player has a pending weapon or has died, and
         // we're at a place in the state sequence where dropping the weapon is okay.
         if ((player.PendingWeapon != WP_NOCHANGE || player.health <= 0) && player.WeaponState & WF_WEAPONSWITCHOK)
-            player.DropWeapon ();
+            DropWeapon ();
     }
 
     override void GiveBasics_ClassSpecific () {
