@@ -166,7 +166,7 @@ extend class S7_BasePlayer {
             if (currentLight.bDormant)
                 avgIntensity = 0;
 
-            trueLightLevel = max (trueLightLevel, avgIntensity);
+            trueLightLevel = int (max (trueLightLevel, avgIntensity));
         }
 
         return trueLightLevel;
