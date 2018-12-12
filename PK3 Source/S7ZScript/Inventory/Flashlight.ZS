@@ -120,7 +120,7 @@ class S7_Flashlight : Inventory {
         
         int beamInner = 10;
         int beamOuter = 15;
-        int beamRadius = 640;
+        int beamRadius = 640 * 5;
         int spillInner = 15;
         int spillOuter = 75;
         int spillRadius = 256;
