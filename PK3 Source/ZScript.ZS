@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-version "3.3"
+version "3.7"
 
 /* Info
 ** You can use anything from here. Just make sure to credit the author(s).
