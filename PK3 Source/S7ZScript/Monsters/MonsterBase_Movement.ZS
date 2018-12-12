@@ -23,13 +23,13 @@
 
 extend class S7_MonsterBase {
     const S7_MOVEDIR_EAST = 0;
-    const S7_MOVEDIR_WEST = 32;
-    const S7_MOVEDIR_NORTH = 16;
-    const S7_MOVEDIR_SOUTH = 48;
+    const S7_MOVEDIR_WEST = S7_MOVEDIR_MAXDIR / 2;
+    const S7_MOVEDIR_NORTH = S7_MOVEDIR_MAXDIR / 4;
+    const S7_MOVEDIR_SOUTH = int (floor (S7_MOVEDIR_MAXDIR * .75));
     const S7_MOVEDIR_MAXDIR = 64 - 1; // MUST BE A POWER OF TWO
-    const S7_MOVEDIR_NODIR = 64;
-    const S7_MOVEDIR_COUNT = 66;
-    const S7_MOVEDIR_INTERVAL = 5.625;
+    const S7_MOVEDIR_NODIR = S7_MOVEDIR_MAXDIR + 1;
+    const S7_MOVEDIR_COUNT = S7_MOVEDIR_MAXDIR + 2;
+    const S7_MOVEDIR_INTERVAL = 360. / (S7_MOVEDIR_MAXDIR + 1);
 
     int movementDir;
 
