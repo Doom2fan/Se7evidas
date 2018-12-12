@@ -91,7 +91,7 @@ extend class S7_MonsterBase {
             reactiontime--;
 
         // [RH] Don't chase invisible targets
-        if (target && target.bInvisible && target != goal)
+        if (target && S7_IsInvisible (target) && target != goal)
             target = NULL;
 
         // Modify target threshold

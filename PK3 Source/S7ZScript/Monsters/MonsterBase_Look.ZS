@@ -39,7 +39,7 @@ extend class S7_MonsterBase {
 
     bool S7_IsInvisible (Actor other) {
         if (bSeeInvisible)
-            return true;
+            return false;
 
         return (other.bInvisible);
     }
