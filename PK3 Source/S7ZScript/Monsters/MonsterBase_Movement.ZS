@@ -454,8 +454,7 @@ extend class S7_MonsterBase {
             }
         }
 
-        if (NoMonsterInterpolation)
-            ClearInterpolation ();
+        ClearInterpolation ();
 
         // [RH] If a walking monster is no longer on the floor, move it down
         // to the floor if it is within MaxStepHeight, presuming that it is
@@ -495,14 +494,14 @@ extend class S7_MonsterBase {
                 if (TestMobjZ ()) {
                     bInFloat = true;
 
-                    if (!checkOnly) {
-                        Vector3 newPos = pos;
-                        SetOrigin (oldPos, false);
-                        SetOrigin (newPos, true);
-                    } else {
+                    if (checkOnly) {
                         SetOrigin (oldPos, false);
                         angle = oldAngle;
                         pitch = oldPitch;
+                    } else if (!NoMonsterInterpolation && Prev != pos) {
+                        Vector3 newPos = pos;
+                        SetOrigin (oldPos, false);
+                        SetOrigin (newPos, true);
                     }
 
                     return true, possibleNewPos;
@@ -517,14 +516,10 @@ extend class S7_MonsterBase {
 
                 int usesCount = CheckMonsterUseSpecials ();
 
-                if (!checkOnly) {
+                if (!NoMonsterInterpolation && Prev != pos) {
                     Vector3 newPos = pos;
                     SetOrigin (oldPos, false);
                     SetOrigin (newPos, true);
-                } else {
-                    SetOrigin (oldPos, false);
-                    angle = oldAngle;
-                    pitch = oldPitch;
                 }
                 
                 return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
@@ -532,14 +527,14 @@ extend class S7_MonsterBase {
         } else
             bInFloat = false;
 
-        if (!checkOnly) {
-            Vector3 newPos = pos;
-            SetOrigin (oldPos, false);
-            SetOrigin (newPos, true);
-        } else {
+        if (checkOnly) {
             SetOrigin (oldPos, false);
             angle = oldAngle;
             pitch = oldPitch;
+        } else if (!NoMonsterInterpolation && Prev != pos) {
+            Vector3 newPos = pos;
+            SetOrigin (oldPos, false);
+            SetOrigin (newPos, true);
         }
 
         return tryOK, possibleNewPos;
