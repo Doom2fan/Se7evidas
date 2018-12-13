@@ -214,8 +214,19 @@ class S7_ScorpBase : S7_MonsterBase {
         bool canPlayActive = (
             target &&
             CheckSight (target, SF_SeePastBlockEverything | SF_SeePastShootableLines) &&
-            (random [monsterSpc] (0, 255) < 96)
+            (random [SCorpsSeeSound] (0, 255) < 96)
         );
+
+        if (canPlayActive) {
+            int speciesCount = CountProximity (self.GetClassName (), radius * 6, CPXF_Ancestor);
+
+            if (speciesCount > 0) {
+                int randomNumber = random [SCorpsSeeSound] (0, 255);
+                int chance = int (floor ((255. / speciesCount)));
+
+                canPlayActive &= (randomNumber < chance);
+            }
+        }
 
         A_S7Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NOPLAYACTIVE : 0);
     }
