@@ -245,7 +245,6 @@ class S7_BasePlayer : PlayerPawn {
 
         // Movement
         Misc_Stealth ();
-        Misc_BlurCamera ();
         Movement_Dodging ();
         Movement_LedgeGrabbing ();
         Movement_Sprinting ();
@@ -259,6 +258,7 @@ class S7_BasePlayer : PlayerPawn {
         Misc_BerserkSideEffects ();
         Misc_Heartbeats ();
         Misc_HellhunterBlade ();
+        Misc_BlurCamera ();
     }
 
     override void OnRespawn () {
@@ -681,28 +681,14 @@ class S7_PowerDodgeEffects : PowerInvulnerable {
 //
 //-------------------------------------------------------------------------------------------
 class S7_BlurCamera : Actor {
+    Vector3 realPos;
+
     default {
         Radius 0;
         Height 0;
 
         +NOINTERACTION +NOBLOCKMAP +NOCLIP +INVISIBLE
         +NOGRAVITY
-    }
-
-    override void Tick () {
-        Super.Tick ();
-
-        if (!target) {
-            Destroy ();
-            return;
-        }
-
-        Vector2 fwd = AngleToVector (angle, 2);
-
-        if (abs (pitch) > 89)
-            SetXYZ (target.pos + (fwd * max (0.5, cos (pitch)) * 2, sin (-pitch) * 6 + target.height - 4));
-        else
-            SetXYZ (target.pos + (fwd * cos (pitch) * 6, sin (-pitch) * 6 + target.height - 4));
     }
 
     states {
