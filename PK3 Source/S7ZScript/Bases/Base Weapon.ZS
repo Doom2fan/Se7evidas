@@ -650,15 +650,9 @@ class S7_MeleePuffStrong : S7_MeleePuff {
 class S7_DaggerPuff : S7_MeleePuff {
     default {
         DamageType 'Blade';
+        ActiveSound "";
         AttackSound "Weapons/Tridagger/HitWall";
         SeeSound "Weapons/Tridagger/HitFlesh";
-    }
-}
-class S7_DaggerPuffSilent : S7_DaggerPuff {
-    default {
-        ActiveSound "";
-        AttackSound "";
-        SeeSound "";
     }
 }
 
