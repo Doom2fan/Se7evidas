@@ -328,6 +328,97 @@ class S7_BaseWeapon : Weapon {
         A_WeaponReady (wrFlags);
     }
 
+    action Actor S7_CustomPunch (
+        int damage, int flags = CPF_UseAmmo, class<Actor> puffType = "BulletPuff", double range = 0,
+        double lifesteal = 0, int lifestealmax = 0, class<BasicArmorBonus> armorBonusType = "ArmorBonus",
+        sound MeleeSound = 0, sound MissSound = ""
+    ) {
+        if (!player)
+            return null;
+
+        let weapon = player.ReadyWeapon;
+        double angle, pitch;
+        FTranslatedLineTarget t;
+        int actualdamage;
+
+        if (range == 0)
+            range = DEFMELEERANGE;
+
+        angle = self.Angle + random2 [cwpunch] () * (5.625 / 256);
+        pitch = AimLineAttack (angle, range, t, 0., ALF_Check3D);
+
+        // only use ammo when actually hitting something!
+        if ((flags & CPF_UseAmmo) && t.linetarget && weapon && stateinfo != null && stateinfo.mStateType == STATE_PSprite) {
+            if (!weapon.DepleteAmmo (weapon.bAltFire, true))
+                return null; // out of ammo
+        }
+
+        if (puffType == NULL)
+            puffType = 'BulletPuff';
+        int puffFlags = LAF_IsMeleeAttack | ((flags & CPF_NoRandomPuffZ) ? LAF_NoRandomPuffZ : 0);
+
+        Actor puff;
+        [puff, actualdamage] = LineAttack (angle, range, pitch, damage, 'Melee', puffType, puffFlags, t);
+
+        if (!t.linetarget) {
+            if (MissSound)
+                A_PlaySound (MissSound, CHAN_WEAPON);
+        } else {
+            if (lifesteal > 0 && !(t.linetarget.bDontDrain)) {
+                if (flags & CPF_StealArmor) {
+                    if (armorBonusType == NULL)
+                        armorBonusType = 'ArmorBonus';
+
+                    if (armorBonusType != NULL) {
+                        let armorbonus = ArmorBonus (Spawn (armorBonusType));
+                        armorbonus.SaveAmount *= int (actualdamage * lifesteal);
+                        if (lifestealmax > 0) armorbonus.MaxSaveAmount = lifestealmax;
+                        armorbonus.bDropped = true;
+                        armorbonus.ClearCounters ();
+
+                        if (!armorbonus.CallTryPickup (self))
+                            armorbonus.Destroy ();
+                    }
+                } else
+                    GiveBody (int (actualdamage * lifesteal), lifestealmax);
+            }
+            if (weapon != NULL) {
+                if (MeleeSound) A_PlaySound ( MeleeSound, CHAN_WEAPON);
+                else            A_PlaySound (AttackSound, CHAN_WEAPON);
+            }
+
+            // turn to face target
+            if (!(flags & CPF_NoTurn))
+                self.Angle = t.angleFromSource;
+
+            if (flags & CPF_PullIn)
+                self.bJustAttacked = true;
+            if (flags & CPF_Dagger)
+                t.linetarget.DaggerAlert (self);
+        }
+
+        return puff;
+    }
+
+    bool meleeAttackSoundPlayed;
+    action void S7_QuickMeleeCustomPunch (int damage, class<Actor> puffType) {
+        let puff = S7_CustomPunch (damage, 0, puffType);
+
+        if (!puff)
+            return;
+
+        if (invoker.meleeAttackSoundPlayed) {
+            for (int i = CHAN_Auto; i < CHAN_7; i++)
+                puff.A_StopSound (i);
+        }
+
+        let crashState = puff.FindState ("Crash"),
+            xdeathState = puff.FindState ("XDeath");
+        if (puff.InStateSequence (puff.CurState, crashState) ||
+            puff.InStateSequence (puff.CurState, xdeathState))
+            invoker.meleeAttackSoundPlayed = true;
+    }
+
     states {
     DryFire:
         TNT1 A 0 {
@@ -389,21 +480,28 @@ class S7_BaseWeapon : Weapon {
         wait;
     DaggerMelee1:
         DAG1 ABCD 1;
-        DAG1 E    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
-        DAG1 F    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
-        DAG1 G    1 A_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
-        DAG1 H    1;
+        DAG1 E    1 {
+            A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
+            S7_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        }
+        DAG1 F    1 S7_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        DAG1 G    1 S7_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        DAG1 H    1 { invoker.meleeAttackSoundPlayed = false; }
         TNT1 A    5;
         TNT1 A    0 A_Jump (256, "MeleeDone");
         wait;
     DaggerMelee2:
-        DAG2 AB  1;
-        DAG2 C   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuff');
-        DAG2 D   1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
-        DAG2 EF  1 A_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_DaggerPuffSilent');
-        DAG2 GH  1;
-        TNT1 A   5;
-        TNT1 A   0 A_Jump (256, "MeleeDone");
+        DAG2 AB 1;
+        DAG2 C  1 {
+            A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
+            S7_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        }
+        DAG2 D  1 S7_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        DAG2 E  1 S7_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        DAG2 F  1 { invoker.meleeAttackSoundPlayed = false; }
+        DAG2 GH 1;
+        TNT1 A  5;
+        TNT1 A  0 A_Jump (256, "MeleeDone");
         wait;
 
     PunchMelee:
@@ -412,7 +510,10 @@ class S7_BaseWeapon : Weapon {
 
     KickMelee:
         KICK BCD   1;
-        KICK H     1 A_CustomPunch (S7_GetMeleeDamage (13, fRandom [weaponDamage] (1.0, 5.0)), 1, 0, 'S7_MeleePuff');
+        KICK H     1 {
+            S7_CustomPunch (S7_GetMeleeDamage (10, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_MeleePuff');
+            invoker.meleeAttackSoundPlayed = false;
+        }
         KICK HHHIG 1;
         KICK FEDCB 1;
         KICK A     1;
@@ -520,6 +621,12 @@ class S7_MeleePuff : S7_EffectsBase {
     Spawn:
         TNT1 A 1;
         stop;
+    Crash:
+        TNT1 A 1;
+        stop;
+    XDeath:
+        TNT1 A 1;
+        stop;
     }
 }
 
@@ -543,7 +650,6 @@ class S7_MeleePuffStrong : S7_MeleePuff {
 class S7_DaggerPuff : S7_MeleePuff {
     default {
         DamageType 'Blade';
-        ActiveSound "Weapons/Tridagger/Swing";
         AttackSound "Weapons/Tridagger/HitWall";
         SeeSound "Weapons/Tridagger/HitFlesh";
     }
