@@ -162,7 +162,7 @@ class S7_EnforcerPlayer : S7_InfantryPlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ('S7_KickMelee', 1);
+        GiveInventory ('S7_MacheteMelee', 1);
         // Equipment
         GiveInventory ('S7_GrenadeCount', 4);
         GiveInventory ('S7_Stimpack', 3);

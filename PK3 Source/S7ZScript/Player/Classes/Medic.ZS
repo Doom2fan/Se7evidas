@@ -31,7 +31,7 @@ class S7_EMTPlayer : S7_ScoutPlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ('S7_KickMelee', 1);
+        GiveInventory ('S7_MacheteMelee', 1);
         GiveInventory ('S7_MultiJump_Max', 1); // Scouts can do double jumps from the start
         // Equipment
         GiveInventory ('S7_Flashlight', 1); // Starts with a flashlight
@@ -74,7 +74,7 @@ class S7_MedicPlayer : S7_BasePlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ('S7_KickMelee', 1);
+        GiveInventory ('S7_MacheteMelee', 1);
         // Equipment
         GiveInventory ('S7_GrenadeCount', 2);
         GiveInventory ('S7_Stimpack', 6);
