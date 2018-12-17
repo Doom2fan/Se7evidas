@@ -10,6 +10,7 @@ Weapons/Kick/Strong3            "sounds/Weapons/Kick/S7Strong3.ogg"
 Weapons/Kick/Swing              "sounds/Weapons/Kick/S7Swing.ogg"     // from Diaz: Last Hours of Purity
 Weapons/Kick/HitWall            "sounds/Weapons/Kick/S7Wall.ogg"      // from Diaz: Last Hours of Purity
 
+// Dagger
 $RANDOM Weapons/Tridagger/Swing {
     Weapons/Tridagger/Swing1
     Weapons/Tridagger/Swing2
@@ -42,3 +43,43 @@ Weapons/Tridagger/HitFlesh1        "sounds/Weapons/Quick Melee/Tridagger/HitFles
 Weapons/Tridagger/HitFlesh2        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh2.ogg" // Ditto.
 Weapons/Tridagger/HitFlesh3        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh3.ogg" // Ditto.
 Weapons/Tridagger/HitFlesh4        "sounds/Weapons/Quick Melee/Tridagger/HitFlesh4.ogg" // Ditto.
+
+// Machete
+$RANDOM Weapons/Machete/Swing {
+    Weapons/Machete/Swing1
+    Weapons/Machete/Swing2
+    Weapons/Machete/Swing3
+    Weapons/Machete/Swing4
+}
+Weapons/Machete/Swing1        "sounds/Weapons/Quick Melee/Machete/Swing1.ogg" // From Killing Floor. Ripped by marrub.
+Weapons/Machete/Swing2        "sounds/Weapons/Quick Melee/Machete/Swing2.ogg" // Ditto.
+Weapons/Machete/Swing3        "sounds/Weapons/Quick Melee/Machete/Swing3.ogg" // Ditto.
+Weapons/Machete/Swing4        "sounds/Weapons/Quick Melee/Machete/Swing4.ogg" // Ditto.
+
+$RANDOM Weapons/Machete/HitWall {
+    Weapons/Machete/HitWall1
+    Weapons/Machete/HitWall2
+    Weapons/Machete/HitWall3
+    Weapons/Machete/HitWall4
+    Weapons/Machete/HitWall5
+    Weapons/Machete/HitWall6
+}
+Weapons/Machete/HitWall1        "sounds/Weapons/Quick Melee/Machete/HitWall1.ogg" // From Killing Floor. Ripped by marrub. Edited by Chronos "phantombeta" Ouroboros.
+Weapons/Machete/HitWall2        "sounds/Weapons/Quick Melee/Machete/HitWall2.ogg" // Ditto.
+Weapons/Machete/HitWall3        "sounds/Weapons/Quick Melee/Machete/HitWall3.ogg" // Ditto.
+Weapons/Machete/HitWall4        "sounds/Weapons/Quick Melee/Machete/HitWall4.ogg" // Ditto.
+Weapons/Machete/HitWall5        "sounds/Weapons/Quick Melee/Machete/HitWall5.ogg" // Ditto.
+Weapons/Machete/HitWall6        "sounds/Weapons/Quick Melee/Machete/HitWall6.ogg" // Ditto.
+
+$RANDOM Weapons/Machete/HitFlesh {
+    Weapons/Machete/HitFlesh1
+    Weapons/Machete/HitFlesh2
+    Weapons/Machete/HitFlesh3
+    Weapons/Machete/HitFlesh4
+    Weapons/Machete/HitFlesh5
+}
+Weapons/Machete/HitFlesh1        "sounds/Weapons/Quick Melee/Machete/HitFlesh1.ogg" // From Killing Floor. Ripped by marrub.
+Weapons/Machete/HitFlesh2        "sounds/Weapons/Quick Melee/Machete/HitFlesh2.ogg" // Ditto.
+Weapons/Machete/HitFlesh3        "sounds/Weapons/Quick Melee/Machete/HitFlesh3.ogg" // Ditto.
+Weapons/Machete/HitFlesh4        "sounds/Weapons/Quick Melee/Machete/HitFlesh4.ogg" // Ditto.
+Weapons/Machete/HitFlesh5        "sounds/Weapons/Quick Melee/Machete/HitFlesh5.ogg" // Ditto.

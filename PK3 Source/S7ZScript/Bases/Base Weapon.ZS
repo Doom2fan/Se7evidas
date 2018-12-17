@@ -29,11 +29,11 @@
 class S7_DaggerMelee : S7_Boolean { }
 
 /* Credits:
-** Sprites: Id Software, ???, Chronos "phantombeta" Ouroboros
+** Sprites: Captain J, Chronos "phantombeta" Ouroboros
 ** Animation: Chronos "phantombeta" Ouroboros
 ** Sounds: Credits in the SNDINFO file
 */
-class S7_PunchMelee : S7_Boolean { }
+class S7_MacheteMelee : S7_Boolean { }
 
 /* Credits:
 ** Sprites: ???, Chronos "phantombeta" Ouroboros
@@ -467,8 +467,8 @@ class S7_BaseWeapon : Weapon {
             TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
             if (CheckInventory ('S7_DaggerMelee', 1))
                 return ResolveState ("DaggerMelee");
-            if (CheckInventory ('S7_PunchMelee', 1))
-                return ResolveState ("PunchMelee");
+            if (CheckInventory ('S7_MacheteMelee', 1))
+                return ResolveState ("MacheteMelee");
             if (CheckInventory ('S7_KickMelee', 1))
                 return ResolveState ("KickMelee");
 
@@ -504,7 +504,17 @@ class S7_BaseWeapon : Weapon {
         TNT1 A  0 A_Jump (256, "MeleeDone");
         wait;
 
-    PunchMelee:
+    MacheteMelee:
+        TNT1 A  4;
+        KNF1 AB 1;
+        KNF1 C  1 {
+            A_PlaySound ("Weapons/Machete/Swing", CHAN_Weapon);
+            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (5, fRandom [weaponDamage] (1.0, 4.3334)), 'S7_MachetePuff');
+        }
+        KNF1 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (5, fRandom [weaponDamage] (1.0, 4.3334)), 'S7_MachetePuff');
+        KNF1 E  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (5, fRandom [weaponDamage] (1.0, 4.3334)), 'S7_MachetePuff');
+        KNF1 F  1 { invoker.meleeAttackSoundPlayed = false; }
+        TNT1 A 12;
         TNT1 A 0 A_Jump (256, "MeleeDone");
         wait;
 
@@ -650,6 +660,15 @@ class S7_DaggerPuff : S7_MeleePuff {
         ActiveSound "";
         AttackSound "Weapons/Tridagger/HitWall";
         SeeSound "Weapons/Tridagger/HitFlesh";
+    }
+}
+
+class S7_MachetePuff : S7_MeleePuff {
+    default {
+        DamageType 'Blade';
+        ActiveSound "";
+        AttackSound "Weapons/Machete/HitWall";
+        SeeSound "Weapons/Machete/HitFlesh";
     }
 }
 

@@ -1,0 +1,35 @@
+Sprite "KNF1A0", 162, 376
+{
+    Offset -341, 138
+    Patch "graphics/Weapons/Quick Melee/Machete/Frame1.png", 0, 0
+}
+
+Sprite "KNF1B0", 162, 376
+{
+    Offset -228, 96
+    Patch "graphics/Weapons/Quick Melee/Machete/Frame1.png", 0, 0
+}
+
+Sprite "KNF1C0", 162, 376
+{
+    Offset -121, 47
+    Patch "graphics/Weapons/Quick Melee/Machete/Frame1.png", 0, 0
+}
+
+Sprite "KNF1D0", 162, 376
+{
+    Offset -27, -2
+    Patch "graphics/Weapons/Quick Melee/Machete/Frame1.png", 0, 0
+}
+
+Sprite "KNF1E0", 162, 376
+{
+    Offset 33, -60
+    Patch "graphics/Weapons/Quick Melee/Machete/Frame1.png", 0, 0
+}
+
+Sprite "KNF1F0", 162, 376
+{
+    Offset 81, -139
+    Patch "graphics/Weapons/Quick Melee/Machete/Frame1.png", 0, 0
+}
