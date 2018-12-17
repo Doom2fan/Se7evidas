@@ -482,10 +482,10 @@ class S7_BaseWeapon : Weapon {
         DAG1 ABCD 1;
         DAG1 E    1 {
             A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
-            S7_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
         }
-        DAG1 F    1 S7_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
-        DAG1 G    1 S7_CustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        DAG1 F    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
+        DAG1 G    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
         DAG1 H    1 { invoker.meleeAttackSoundPlayed = false; }
         TNT1 A    5;
         TNT1 A    0 A_Jump (256, "MeleeDone");
@@ -494,10 +494,10 @@ class S7_BaseWeapon : Weapon {
         DAG2 AB 1;
         DAG2 C  1 {
             A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
-            S7_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
         }
-        DAG2 D  1 S7_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
-        DAG2 E  1 S7_CustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_DaggerPuff');
+        DAG2 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
+        DAG2 E  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
         DAG2 F  1 { invoker.meleeAttackSoundPlayed = false; }
         DAG2 GH 1;
         TNT1 A  5;
@@ -510,10 +510,7 @@ class S7_BaseWeapon : Weapon {
 
     KickMelee:
         KICK BCD   1;
-        KICK H     1 {
-            S7_CustomPunch (S7_GetMeleeDamage (10, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_MeleePuff');
-            invoker.meleeAttackSoundPlayed = false;
-        }
+        KICK H     1 S7_CustomPunch (S7_GetMeleeDamage (10, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_MeleePuff');
         KICK HHHIG 1;
         KICK FEDCB 1;
         KICK A     1;
