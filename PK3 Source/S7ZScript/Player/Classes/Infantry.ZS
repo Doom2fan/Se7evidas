@@ -39,7 +39,6 @@ class S7_InfantryPlayer : S7_BasePlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ('S7_KickMelee', 1);
         // Equipment
         GiveInventory ('S7_GrenadeCount', 4);
         GiveInventory ('S7_Stimpack', 3);
@@ -129,7 +128,6 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
     }
 
     override void GiveBasics_ClassSpecific () {
-        GiveInventory ('S7_KickMelee', 1);
         // Equipment
         GiveInventory ('S7_GrenadeCount', 4);
         GiveInventory ('S7_Stimpack', 3);

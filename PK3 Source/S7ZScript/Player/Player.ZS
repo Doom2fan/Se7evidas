@@ -184,9 +184,7 @@ class S7_BasePlayer : PlayerPawn {
         }
     }
 
-    virtual void GiveBasics_ClassSpecific () {
-        GiveInventory ('S7_KickMelee', 1); // Default to kick melee
-    }
+    virtual void GiveBasics_ClassSpecific () { }
 
     override void BeginPlay () {
         Super.BeginPlay ();

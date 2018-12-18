@@ -40,7 +40,7 @@ class S7_MacheteMelee : S7_Boolean { }
 ** Animation: Chronos "phantombeta" Ouroboros
 ** Sounds: Credits in the SNDINFO file
 */
-class S7_KickMelee : S7_Boolean { }
+//class S7_KickMelee : S7_Boolean { }
 
 //-------------------------------------------------------------------------------------------
 //
@@ -469,8 +469,6 @@ class S7_BaseWeapon : Weapon {
                 return ResolveState ("DaggerMelee");
             if (CheckInventory ('S7_MacheteMelee', 1))
                 return ResolveState ("MacheteMelee");
-            if (CheckInventory ('S7_KickMelee', 1))
-                return ResolveState ("KickMelee");
 
             return ResolveState ("KickMelee");
         }
