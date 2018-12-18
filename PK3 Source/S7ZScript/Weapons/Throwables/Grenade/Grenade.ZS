@@ -119,7 +119,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         }
         TGRN WXY    1;
         TGRN ABCDEF 1;
-        TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
+        TGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
         TGRN HIJKLM 1;
         TNT1 A      1;
         goto Hold;
@@ -133,7 +133,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         }
         TGRN WXY    1;
         TGRN ABCDEF 1;
-        TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
+        TGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
         TGRN HIJKLM 1;
         TNT1 A      1 {
             TakeInventory ('S7_GrenadeCount', 1, TIF_NoTakeInfinite);
@@ -156,7 +156,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
             return ResolveState (null);
         }
         TGRN MLKJIH 1;
-        TGRN G      1 A_PlaySound ("Weapons/GrenadePinPull", CHAN_Weapon);
+        TGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
         TGRN FEDCBA 1;
         TGRN YXW    1;
         goto Ready2;
@@ -179,6 +179,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         DamageFunction (0);
         PushFactor 3;
         BounceType "Hexen";
+        BounceSound "Weapons/Grenade/Bounce";
         /*WallBounceFactor 0.25;
         BounceFactor 0.1;*/
         Scale 0.3;

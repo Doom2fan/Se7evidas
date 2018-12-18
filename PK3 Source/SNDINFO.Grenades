@@ -1,0 +1,13 @@
+Weapons/Grenade/PinPull                         "sounds/Weapons/Grenades/PinPull.ogg" // From Counter-Strike
+
+$volume Weapons/Grenade/Bounce 0.5
+$RANDOM Weapons/Grenade/Bounce {
+    Weapons/Grenade/Bounce1
+    Weapons/Grenade/Bounce2
+    Weapons/Grenade/Bounce3
+    Weapons/Grenade/Bounce4
+}
+Weapons/Grenade/Bounce1                         "sounds/Weapons/Grenades/Bounce1.ogg" // From Killing Floor. Ripped by marrub.
+Weapons/Grenade/Bounce2                         "sounds/Weapons/Grenades/Bounce2.ogg" // Ditto.
+Weapons/Grenade/Bounce3                         "sounds/Weapons/Grenades/Bounce3.ogg" // Ditto.
+Weapons/Grenade/Bounce4                         "sounds/Weapons/Grenades/Bounce4.ogg" // Ditto.
