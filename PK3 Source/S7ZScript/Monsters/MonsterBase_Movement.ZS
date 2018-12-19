@@ -294,7 +294,7 @@ extend class S7_MonsterBase {
         if (floorZ - dropoffZ > MaxDropOffHeight && pos.Z <= floorZ &&
             !bDropOff && !bOnMobj && !bFloat
         ) {
-            let box = BoundingBox.Create (pos.XY, radius);
+            let box = S7_BoundingBox.Create (pos.XY, radius);
             let it = BlockLinesIterator.Create (self);
             Line line;
 
