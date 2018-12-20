@@ -46,6 +46,7 @@ class S7_KeycardReplacerBase : Key {
 //-------------------------------------------------------------------------------------------
 class S7_RedKeycard : S7_KeycardReplacerBase replaces RedCard {
     default {
+        Inventory.Icon "graphics/Inventory/Keys/STKEYS2.png";
         Inventory.PickupMessage "$REDKEY";
         Species 'RedCard';
     }
@@ -64,6 +65,7 @@ class S7_RedKeycard : S7_KeycardReplacerBase replaces RedCard {
 //-------------------------------------------------------------------------------------------
 class S7_BlueKeycard : S7_KeycardReplacerBase replaces BlueCard {
     default {
+        Inventory.Icon "graphics/Inventory/Keys/STKEYS0.png";
         Inventory.PickupMessage "$BLUEKEY";
         Species 'BlueCard';
     }
@@ -82,6 +84,7 @@ class S7_BlueKeycard : S7_KeycardReplacerBase replaces BlueCard {
 //-------------------------------------------------------------------------------------------
 class S7_YellowKeycard : S7_KeycardReplacerBase replaces YellowCard {
     default {
+        Inventory.Icon "graphics/Inventory/Keys/STKEYS1.png";
         Inventory.PickupMessage "$YELLOWKEY";
         Species 'YellowCard';
     }
