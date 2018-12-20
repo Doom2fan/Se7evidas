@@ -130,7 +130,14 @@ class S7_CasingBase : S7_EffectsBase {
 class S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (80, 100), 2, fRandom [casingStuff] (40, 60));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (40, 50), 2, fRandom [casingStuff] (60, 80));
+        stop;
+    }
+}
+class S7_ShellCasingSpawn2 : S7_CasingSpawnerBase {
+    states {
+    Spawn:
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (-50, -40), 2, fRandom [casingStuff] (60, 80));
         stop;
     }
 }

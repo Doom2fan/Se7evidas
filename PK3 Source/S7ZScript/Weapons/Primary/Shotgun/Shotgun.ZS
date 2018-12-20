@@ -135,7 +135,7 @@ class S7_Shotgun : S7_BaseWeapon {
         SSGF E 1 S7_Recoil (-1.45);
         SSGF E 1;
         SSGF F 1 S7_Recoil (0.725);
-        SSGR A 2 S7_Recoil (0.725);
+        SSGR A 1 S7_Recoil (0.725);
         goto Ready2;
 
     FireRight:
@@ -153,7 +153,7 @@ class S7_Shotgun : S7_BaseWeapon {
         SSGF E 1 S7_Recoil (-1.45);
         SSGF E 1;
         SSGF F 1 S7_Recoil (0.725);
-        SSGR A 2 S7_Recoil (0.725);
+        SSGR A 1 S7_Recoil (0.725);
         goto Ready2;
 
     AltFire:
@@ -198,7 +198,7 @@ class S7_Shotgun : S7_BaseWeapon {
         SSGF DD 1 S7_Recoil (-1.45);
         SSGF E  1;
         SSGF F  1 S7_Recoil (1.45);
-        SSGR A  2 S7_Recoil (1.45);
+        SSGR A  1 S7_Recoil (1.45);
         goto Ready2;
 
     FlashLeft:
@@ -212,7 +212,7 @@ class S7_Shotgun : S7_BaseWeapon {
         stop;
 
     Pump:
-        SSGF G    2 {
+        SSGR A 1 {
             int ammoCount = CountInv (invoker.ammoType1);
 
             if (ammoCount >= 10) {  // If the mag ammo is completely full, (i.e. two in chamber and 8 in mag) then this makes no sense.
@@ -227,14 +227,18 @@ class S7_Shotgun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        SSGF H    2 {
+        SSGR A 1 {
             A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
-            A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
+            A_FireProjectile ('S7_ShellCasingSpawn2', 0, false, 6, -3);
             A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
+            A_WeaponOffset (4, 32 + 4);
         }
-        SSGF IK   2;
-        SSGF JIHG 2;
-        SSGR A    2;
+        SSGR A 1 A_WeaponOffset ( 8, 32 +  8);
+        SSGR A 4 A_WeaponOffset (12, 32 + 12);
+        SSGR A 1 A_WeaponOffset ( 9, 32 +  9);
+        SSGR A 1 A_WeaponOffset ( 6, 32 +  6);
+        SSGR A 1 A_WeaponOffset ( 3, 32 +  3);
+        SSGR A 1 A_WeaponOffset (0, 32);
         goto Ready2;
 
     DryFire:
@@ -273,31 +277,37 @@ class S7_Shotgun : S7_BaseWeapon {
         goto InsertShells;
 
     InsertShells.Pump:
-        SSGF G    2 {
+        SSGR A 1;
+        SSGR A 1 {
             if (invoker.loaded >= 2) {
                 invoker.loaded = 2;
                 return ResolveState ("InsertShells");
             } else if (invoker.loaded == 1) {
                 TakeInventory (invoker.ammoType1, 1); // Remove the extra shell
                 GiveInventory (invoker.ammoType2, 1);
-                A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
+                A_FireProjectile ('S7_ShellCasingSpawn2', 0, false, 6, -3);
                 if (CheckInventory (invoker.ammoType1, 2))
                     invoker.loaded = 2; // Load 2 shells into the chamber
                 else
                     invoker.loaded = 0;
             } else if (invoker.loaded <= 0 && CheckInventory (invoker.ammoType1, 2)) {
                 A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
-                A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
+                A_FireProjectile ('S7_ShellCasingSpawn2', 0, false, 6, -3);
                 invoker.loaded = 2;
             } else
                 return ResolveState ("InsertShells");
 
+            A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
+            A_WeaponOffset (4, 32 + 4);
+
             return ResolveState (null);
         }
-        SSGF H    2 A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
-        SSGF IK   2;
-        SSGF JIHG 2;
-        SSGR A    2;
+        SSGR A 1 A_WeaponOffset ( 8, 32 +  8);
+        SSGR A 4 A_WeaponOffset (12, 32 + 12);
+        SSGR A 1 A_WeaponOffset ( 9, 32 +  9);
+        SSGR A 1 A_WeaponOffset ( 6, 32 +  6);
+        SSGR A 1 A_WeaponOffset ( 3, 32 +  3);
+        SSGR A 1 A_WeaponOffset (0, 32);
         goto InsertShells;
 
     ReloadFinish:
