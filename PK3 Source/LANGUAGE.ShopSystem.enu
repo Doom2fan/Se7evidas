@@ -20,6 +20,7 @@ SS_MAINSHOP                     = "Lucius armoury";
 SS_CONSUMABLES                  = "Consumables";
 SS_ARMOR                        = "Armor";
 SS_HEALTH                       = "Health";
+SS_MISCCONSUMABLES              = "Miscellaneous consumables";
 
 SS_WEAPONS                      = "Weapons";
 SS_PG_PISTOLS                   = "Pistols";
@@ -37,6 +38,8 @@ SS_BULLETS                      = "Cartridges";
 SS_BATTERIES                    = "Energy cells";
 SS_THGRENADES                   = "50mm grenades";
 
+SS_EQUIPMENT                    = "Equipment";
+
 SS_WEAP_MODS                    = "Weapon mods";
 
 SS_LOOT                         = "Loot";
@@ -49,9 +52,10 @@ SS_UPGRADES_COMBAT              = "Combat upgrades";
 SS_UPGRADES_INFO                = "Informational upgrades";
 
 // Page descriptions
-SS_CONSUMABLES_DESC             = "Buy consumable items";
+SS_CONSUMABLES_DESC             = "Buy or sell consumable items";
 SS_ARMOR_DESC                   = "Buy armor";
-SS_HEALTH_DESC                  = "Buy medical supplies"; // I have no idea what to put here currently
+SS_HEALTH_DESC                  = "Buy or sell medical supplies"; // I have no idea what to put here currently
+SS_MISCCONSUMABLES_DESC         = "Buy or sell miscellaneous consumable items";
 
 SS_WEAPONS_DESC                 = "Buy or sell weapons";
 
@@ -59,6 +63,8 @@ SS_AMMO_DESC                    = "Buy ammunition for your weapons or sell your 
 SS_BULLETS_DESC                 = "Cartridges and shells";
 SS_BATTERIES_DESC               = "Batteries and energy cells";
 SS_THGRENADES_DESC              = "50mm grenades for the XPL-50 \"Thumper\" Grenade Launcher";
+
+SS_EQUIPMENT_DESC               = "Buy or sell gear";
 
 SS_WEAP_MODS_DESC               = "Modifications and accessories for your weapons.";
 

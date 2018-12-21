@@ -34,6 +34,13 @@ shop "mainShop" {
                     link = "weaponsPage";
                 },
 
+                pageLink "EQUP" {
+                    name = "$SS_EQUIPMENT";
+                    desc = "$SS_EQUIPMENT_DESC";
+                    icon = ""; // No icon yet
+                    link = "equipmentPage";
+                },
+
                 pageLink "LOOT" {
                     name = "$SS_LOOT";
                     desc = "$SS_LOOT_DESC";
@@ -80,7 +87,37 @@ shop "mainShop" {
                     desc = "$SS_ARMOR_DESC";
                     icon = "sprites/Inventory/Armor/ARCAA0.png";
                     link = "armorPage";
+                },
+                pageLink "MISC" {
+                    name = "$SS_MISCCONSUMABLES";
+                    desc = "$SS_MISCCONSUMABLES_DESC";
+                    //icon = "sprites/Inventory/Armor/ARCAA0.png";
+                    link = "miscConsumablesPage";
                 }
+            }
+        },
+
+        page "miscConsumablesPage" {
+            name = "$SS_MISCCONSUMABLES";
+            backPage = "consumablesPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "consumablesPage";
+                },
+                buySellItem "FLBT" {
+                    name = "$FLASHLIGHT_BATTERY";
+                    desc = "$SS_FLASHLIGHTBATTDESC";
+                    info = "$SS_FLASHLIGHTBATTINFO";
+                    icon = "sprites/Inventory/FLBTA0.png";
+
+                    inventoryName = "S7_FlashlightBattery";
+                    buyPrice = 750;
+                    sellPrice = 525;
+                },
             }
         },
 
@@ -706,7 +743,32 @@ shop "mainShop" {
             }
         },
 
-        // Loot
+        /** Equipment section **/
+        page "equipmentPage" {
+            name = "$SS_EQUIPMENT";
+            backPage = "mainPage";
+
+            items {
+                pageLink "BACK" {
+                    name = "$SS_BACK";
+                    desc = "$SS_BACK_DESC";
+                    icon = "M_BACK_D";
+                    link = "mainPage";
+                },
+                buySellItem "FLSH" {
+                    name = "$S7_FLASHLIGHT";
+                    desc = "$SS_FLASHLIGHTDESC";
+                    info = "$SS_FLASHLIGHTINFO";
+                    icon = ""; // No icon yet
+
+                    inventoryName = "S7_Flashlight";
+                    buyPrice = 1500;
+                    sellPrice = 1125;
+                },
+            }
+        },
+
+        /** Loot section **/
         page "lootPage" {
             name = "$SS_LOOT";
             backPage = "mainPage";
@@ -846,7 +908,7 @@ shop "mainShop" {
             }
         },
 
-        // Upgrades section
+        /** Upgrades section **/
         page "upgradesPage" {
             name = "$SS_UPGRADES";
             backPage = "mainPage";
@@ -944,6 +1006,7 @@ shop "mainShop" {
             }
         },
 
+        /** Weapon mods section **/
         page "WeapModsPage" {
             name = "$SS_WEAP_MODS";
             backPage = "mainPage";

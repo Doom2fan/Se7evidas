@@ -66,6 +66,11 @@ class S7_FlashlightBattery : Inventory {
 class S7_Flashlight : Inventory {
     const MaxBatteryCharge = 35 * 60 * 30;
 
+    default {
+        Inventory.MaxAmount 1;
+        Tag "$S7_FLASHLIGHT";
+    }
+
     transient CVar lightColorCVar, mountCVar;
     S7_Flashlight_Spotlight selfLight1, selfLight2;
 

@@ -17,6 +17,10 @@ SS_STIMPACK_INFO = "Manufacturer: Lucius\nBase healing amount: 20\nUses: 1";
 SS_XS22ESC_DESC = "    \"Exhausted from punching demons day and night nonstop until your knuckles are bloody? Try some XS-22 and feel like a brand new you! This patent-pending formula will have you fighting harder, faster, and stronger -- its probiotic additives are even proven to aid in natural healing processes*!\"\n\nThat's what the TV said, anyway. Unfortunately, possession has become restricted because troops started shooting up with the stuff every time they got their hands on it. You can still buy it of course, for a small administrative fee on top. Or find some stashed away somewhere, if you're lucky. Good stuff though - everyone who's tried it says they can't live without it!\n\n    \"* Statements have not been evaluated by any regulatory organizations. More than three doses not recommended within a 24-hour period. Not to be taken by those who are pregnant, breastfeeding, or incubating parasitic alien life.\"";
 SS_XS22ESC_INFO = "Manufacturer: UNKNOWN\nHealing amount: 25% of maximum health\nUses: 1";
 
+/** Misc consumables **/
+SS_FLASHLIGHTBATTDESC = "A replacement battery for the XM-600U Portable Illumination and Irradiation Device.";
+SS_FLASHLIGHTBATTINFO = "";
+
 /** Weapons **/
 // Pistols
 SS_RAPTORDESC = "Most commonly found chambered in a conservative 9x19mm, Cronus Corps' R16 \"Raptor\" Pistol takes an exotic approach to additional firepower by having two barrels that fire simultaneously. Rarely, soldiers attempt to take advantage of the odd configuration by alternating armor-piercing brass slugs and hollow-point rounds in the magazine.\nIt has a pair of sharp blades on either side of the barrel, which can be extended by pressing a button in the grip.";
@@ -76,6 +80,10 @@ SS_MANXSUPPRESSOR_INFO = "";
 
 SS_TEC9SUPPRESSOR_DESC = "A suppressor for Cronus Corps' S18 \"Kronos\" SMG.";
 SS_TEC9SUPPRESSOR_INFO = "";
+
+/** Equipment **/
+SS_FLASHLIGHTDESC = "The XM-600U Portable Illumination and Irradiation Device is a state-of-the-art LED torch. The color of the light can be easily customized, and can even be set to infrared or ultraviolet.";
+SS_FLASHLIGHTINFO = "Battery life: 30 minutes";
 
 /** Loot **/
 SS_SCORPS_SG_DESC = "Shadow Corps' standard-issue semi-automatic shotgun, chambered in 12 gauge.\nAs with most Shadow Corps equipment, it's a pretty flimsy weapon. They can easily be damaged to the point of uselessness.";
