@@ -2,3 +2,12 @@ cameratexture "S7_CAMTEX1" 640 360
 cameratexture "S7_CAMTEX2" 640 360
 cameratexture "S7_CAMTEX3" 640 360
 cameratexture "S7_CAMTEX4" 640 360
+
+// The default animation speed is waaaaaaaay too fast
+texture optional INVGEML1
+    pic INVGEML1 tics 6
+    pic INVGEML2 tics 6
+    
+texture optional INVGEMR1
+    pic INVGEMR1 tics 6
+    pic INVGEMR2 tics 6

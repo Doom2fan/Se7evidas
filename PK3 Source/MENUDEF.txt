@@ -14,13 +14,45 @@ listMenu "MainMenu" {
     linespacing 13
     position 75, 100
 
-    textItem "New",           "n", "PlayerclassMenu"
+    textItem "New",           "n", "S7_PlayerclassMenu"
     textItem "Options",       "o", "OptionsMenu"
     textItem "Se7evidas",     "7", "S7Settings"
     textItem "Load",          "l", "LoadGameMenu"
     textItem "Save",          "s", "SaveGameMenu"
     textItem "Help",          "h", "S7HelpTopicsMenu"
     textItem "Quit",          "q", "QuitMenu"
+}
+
+optionMenu "S7_PlayerclassMenu" {
+    /*ifGame (Doom, Heretic, Hexen, Strife) {
+        netgameMessage "$NEWGAME"
+    }
+    ifGame(Chex) {
+        netgameMessage "$CNEWGAME"
+    }
+
+    ifGame(Doom, Strife, Chex) {
+        staticTextCentered 160, 15, "$MNU_CHOOSECLASS"
+        position 48, 63
+        playerDisplay 220, 63, "20 00 00", "80 00 40"
+        mouseWindow 0, 220
+    }
+    ifGame (Heretic) {
+        staticTextCentered 160, 15, "$MNU_CHOOSECLASS"
+        position 80, 50
+        playerDisplay 220, 50, "20 00 00", "80 00 40"
+        mouseWindow 0, 220
+    }
+    ifGame (Hexen) {
+        staticText 34, 24, "$MNU_CHOOSECLASS"
+        position 66, 58
+        playerDisplay 174, 8, "00 07 00", "40 53 40"
+        mouseWindow 0, 174
+    }*/
+
+    // The rest of this menu will be set up based on the actual player definitions.
+
+    class "S7_PlayerclassMenu"
 }
 
 //-------------------------------------------------------------------------------------------

@@ -72,7 +72,13 @@ class S7_PlayerData : Inventory {
 //-------------------------------------------------------------------------------------------
 class S7_BasePlayer : PlayerPawn {
     // This class is split across this file and the PlayerE_*.ZS files for readability reasons
+
+    string classDesc;
+    property ClassDescription: classDesc;
+
     default {
+        S7_BasePlayer.ClassDescription "";
+
         // Damage
         GibHealth -50;
         PainChance 255;

@@ -23,6 +23,8 @@
 //-------------------------------------------------------------------------------------------
 class S7_InfiltratorPlayer : S7_ScoutPlayer {
     default {
+        S7_BasePlayer.ClassDescription "$S7_CLASSDESC_INFILTRATOR";
+        
         // Movement
         Player.JumpZ 9.55; // Not quite as good at jumping as scouts
 
