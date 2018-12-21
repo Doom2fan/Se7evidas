@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class FleshSpawnGib1 : S7_GoreBase {
+class S7_FleshSpawnGib1 : S7_GoreBase {
     default {
         +MOVEWITHSECTOR +THRUACTORS
         -SOLID
@@ -65,7 +65,7 @@ class FleshSpawnGib1 : S7_GoreBase {
    }
 }
 
-class FleshSpawnGib2 : FleshSpawnGib1 {
+class S7_FleshSpawnGib2 : S7_FleshSpawnGib1 {
     states {
     Spawn:
         FSGB FGHI 4 A_CheckFloor ("HitGround");
@@ -76,13 +76,13 @@ class FleshSpawnGib2 : FleshSpawnGib1 {
     }
 }
 
-class FleshSpawnGib2B : FleshSpawnGib2 {
+class S7_FleshSpawnGib2B : S7_FleshSpawnGib2 {
     default {
         XScale -1;
     }
 }
 
-class FleshSpawnGib3 : FleshSpawnGib1 {
+class S7_FleshSpawnGib3 : S7_FleshSpawnGib1 {
     states {
     Spawn:
         FSGB KLMN 4 A_CheckFloor ("HitGround");
@@ -93,7 +93,7 @@ class FleshSpawnGib3 : FleshSpawnGib1 {
     }
 }
 
-class FleshSpawnGib4 : FleshSpawnGib1 {
+class S7_FleshSpawnGib4 : S7_FleshSpawnGib1 {
     states {
     Spawn:
         FSGB PQRS 4 A_CheckFloor ("HitGround");
@@ -104,13 +104,13 @@ class FleshSpawnGib4 : FleshSpawnGib1 {
    }
 }
 
-class FleshSpawnGib4B : FleshSpawnGib4 {
+class S7_FleshSpawnGib4B : S7_FleshSpawnGib4 {
     default {
         XScale -1;
     }
 }
 
-class FleshSpawnGib5 : FleshSpawnGib1 {
+class S7_FleshSpawnGib5 : S7_FleshSpawnGib1 {
     states {
     Spawn:
         FSGB UVWX 4 A_CheckFloor ("HitGround");
@@ -121,7 +121,7 @@ class FleshSpawnGib5 : FleshSpawnGib1 {
     }
 }
 
-class FleshSpawnGib6 : FleshSpawnGib1 {
+class S7_FleshSpawnGib6 : S7_FleshSpawnGib1 {
     states {
     Spawn:
         FLSP V 4 A_CheckFloor ("HitGround");

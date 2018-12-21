@@ -57,7 +57,7 @@ class S7_BoundingBox {
     protected double m_Box [4];
 
     static S7_BoundingBox Create (Vector2 pos, double radius) {
-        let ret = new ("S7_BoundingBox");
+        let ret = new ('S7_BoundingBox');
 
         ret.SetBox (pos, radius);
 

@@ -425,9 +425,9 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
 
                         // Draw ammo pool count
                         int poolAmount = -1;
-                        if (bar.poolType == "Inventory" && CPlayer.ReadyWeapon.AmmoType2)
+                        if (bar.poolType == 'Inventory' && CPlayer.ReadyWeapon.AmmoType2)
                             poolAmount = GetAmount (CPlayer.ReadyWeapon.AmmoType2);
-                        else if (bar.poolType != "Inventory" && bar.poolType)
+                        else if (bar.poolType != 'Inventory' && bar.poolType)
                             poolAmount = GetAmount (bar.poolType);
 
                         if (poolAmount >= 0) {
@@ -496,7 +496,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             double rowWidth = 0;
 
             for (let i = CPlayer.mo.Inv; i != null; i = i.Inv) {
-                if (i is "Key" && i.Icon.IsValid ()) {
+                if (i is 'Key' && i.Icon.IsValid ()) {
                     DrawTexture (i.Icon, keyPos, DI_SCREEN_LEFT_BOTTOM | DI_ITEM_LEFT_TOP);
 
                     Vector2 size = TexMan.GetScaledSize (i.Icon);

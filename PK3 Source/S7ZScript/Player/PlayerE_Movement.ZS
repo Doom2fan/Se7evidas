@@ -220,7 +220,7 @@ extend class S7_BasePlayer {
     bool Movement_LGrab_CheckWeap () {
         int weapFlags = WF_WeaponReady | WF_WeaponSwitchOK;
 
-        if (player.ReadyWeapon is "S7_SSG")
+        if (player.ReadyWeapon is 'S7_SSG')
             weapFlags = WF_WeaponSwitchOK;
 
         return (

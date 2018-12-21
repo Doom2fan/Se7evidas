@@ -16,10 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class byteArray {
-    Array<uint8> bytes;
-}
-
 class S7_MD5 {
     static S7_MD5 Create () {
         S7_MD5 ret = new ('S7_MD5');

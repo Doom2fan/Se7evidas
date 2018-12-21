@@ -124,7 +124,7 @@ class S7_PlayerEventHandler : EventHandler {
         if (strings [0] ~== "S7_Keys" && strings [1] ~== "QuickBuyAmmo") {
             if (!playeringame [e.Player])
                 return;
-            if (!players [e.Player].ReadyWeapon || !(players [e.Player].ReadyWeapon is "S7_BaseWeapon"))
+            if (!players [e.Player].ReadyWeapon || !(players [e.Player].ReadyWeapon is 'S7_BaseWeapon'))
                 return;
             if (players [e.Player].PendingWeapon != WP_NOCHANGE)
                 return;

@@ -253,15 +253,15 @@ class S7_FleshSpawn : S7_MonsterBase {
         FLSP Q 3 {
             A_XScream ();
 
-            A_SpawnItemEx ('FleshSpawnGib6', zVel: fRandom [sfx] (-3., 0.), flags: SXF_NoCheckPosition);
-            FS_SpawnGib ('FleshSpawnGib1',  14,  0, fRandom [sfx] (-40, -10));
-            FS_SpawnGib ('FleshSpawnGib2',   6,  2, fRandom [sfx] (-25,   0));
-            FS_SpawnGib ('FleshSpawnGib2B', 10, -2, fRandom [sfx] (-25,   0));
-            FS_SpawnGib ('FleshSpawnGib3',   8,  0, fRandom [sfx] (-35,   0));
-            FS_SpawnGib ('FleshSpawnGib4',  12,  5, fRandom [sfx] (-40,   5));
-            FS_SpawnGib ('FleshSpawnGib4B',  5, -5, fRandom [sfx] (-30,   0));
-            FS_SpawnGib ('FleshSpawnGib5',   6,  3, fRandom [sfx] (-60, -10));
-            FS_SpawnGib ('FleshSpawnGib5',   8,  0, fRandom [sfx] (-55,  10));
+            A_SpawnItemEx ('S7_FleshSpawnGib6', zVel: fRandom [sfx] (-3., 0.), flags: SXF_NoCheckPosition);
+            FS_SpawnGib ('S7_FleshSpawnGib1',  14,  0, fRandom [sfx] (-40, -10));
+            FS_SpawnGib ('S7_FleshSpawnGib2',   6,  2, fRandom [sfx] (-25,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib2B', 10, -2, fRandom [sfx] (-25,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib3',   8,  0, fRandom [sfx] (-35,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib4',  12,  5, fRandom [sfx] (-40,   5));
+            FS_SpawnGib ('S7_FleshSpawnGib4B',  5, -5, fRandom [sfx] (-30,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib5',   6,  3, fRandom [sfx] (-60, -10));
+            FS_SpawnGib ('S7_FleshSpawnGib5',   8,  0, fRandom [sfx] (-55,  10));
         }
         FLSP RSTU 3;
         stop;
