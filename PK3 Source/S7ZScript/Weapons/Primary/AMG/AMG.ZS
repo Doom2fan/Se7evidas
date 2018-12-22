@@ -48,7 +48,7 @@ class S7_AMG : S7_BaseWeapon {
         S7_BaseWeapon.UsesMag true;
     }
 
-    const BASEZOOMFACTOR = 3.5;
+    const BASEZOOMFACTOR = 5.5;
     const BURSTLENGTH = 4;
     bool burstFire;
     int  burstCount;
@@ -174,10 +174,10 @@ class S7_AMG : S7_BaseWeapon {
                 return ResolveState ("Ready2");
 
             if (player.cmd.buttons & BT_ATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.25, 0, 2.5);
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.25, 0, BASEZOOMFACTOR * 1.5);
                 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             } else if (player.cmd.buttons & BT_ALTATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.25, 0, 2.5);
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.25, 0, BASEZOOMFACTOR * 1.5);
                 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             }
 

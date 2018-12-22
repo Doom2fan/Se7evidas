@@ -55,7 +55,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     bool semiAuto;
 
-    const BASEZOOMFACTOR = 2.0;
+    const BASEZOOMFACTOR = 3.0;
     bool   zoomed;
     double zoomLevel;
 
@@ -326,10 +326,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
                 return ResolveState ("Ready2");
 
             if (player.cmd.buttons & BT_ATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.2, 0, 2.0);
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.2, 0, BASEZOOMFACTOR);
                 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             } else if (player.cmd.buttons & BT_ALTATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.2, 0, 2.0);
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.2, 0, BASEZOOMFACTOR);
                 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             }
 

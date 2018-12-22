@@ -48,7 +48,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         S7_BaseWeapon.UsesMag true;
     }
 
-    const BASEZOOMFACTOR = 4.5;
+    const BASEZOOMFACTOR = 6.5;
     bool jammed, loaded, noPump, noEject; // noEject is just for telling the reloading anim not to spawn casings
     bool zoomed;
     double zoomLevel;
@@ -142,10 +142,10 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 return ResolveState ("Ready2");
 
             if (player.cmd.buttons & BT_ATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.75, 0, 16);
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.75, 0, 15);
                 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             } else if (player.cmd.buttons & BT_ALTATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.75, 0, 16);
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.75, 0, 15);
                 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             }
 
