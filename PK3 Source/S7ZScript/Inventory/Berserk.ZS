@@ -113,7 +113,7 @@ class S7_BerserkToken : Powerup {
         Super.DoEffect ();
 
         // Shouldn't happen, but hey!
-        if (!self || Owner.health <= 0 || owner.bKilled)
+        if (!self || !Owner || Owner.health <= 0 || owner.bKilled)
             return;
 
         double timeMod = 1. - (.25 * (Amount / 3.));
@@ -122,9 +122,18 @@ class S7_BerserkToken : Powerup {
         if (Amount > 3 && (random [berserkEffects] (0, 255) < 26 || (EffectTics % regenTime) ~== floor (regenTime / 2.)))
             Owner.DamageMobj (Owner, Owner, 1, 'S7_BerserkDamage', DMG_No_Armor | DMG_Thrustless);
 
-        if (EffectTics % regenTime == 0) {
-            double regenAmount = 5 * (regenTime / 15.);
-            Owner.GiveBody (int (clamp (regenAmount, 1, 5)));
+        // Can actually happen now if the owner dies
+        if (!self || !Owner || Owner.health <= 0 || owner.bKilled)
+            return;
+
+        double regenRateAmount = 0, regenRateTime = 1;
+        let xpSys = S7_XPSystem (Owner.FindInventory ("S7_XPSystem"));
+        if (xpSys)
+            [regenRateTime, regenRateAmount] = xpSys.GetStatMod (S7Stat_Special, specialName: "regenRate");
+
+        if (EffectTics % max (regenTime * regenRateTime, 2) == 0) {
+            double regenAmount = 5 * clamp (regenTime / 15., 0., 1.);
+            Owner.GiveBody (int (clamp (regenAmount, 1, 5) + regenRateAmount));
         }
     }
 }
@@ -145,8 +154,14 @@ class S7_BerserkWeap : S7_BaseWeapon {
         GiveInventory ('S7_BerserkToken', 1);
 
         let pPawn = S7_BasePlayer (self);
-        if (pPawn)
-            pPawn.GiveBody (int (ceil (pPawn.GetMaxHealth () * .25)));
+        if (pPawn) {
+            double maxMul = .25;
+
+            for (int i = 0; i < (CountInv ('S7_BerserkToken') - 1); i++)
+                maxMul *= .8;
+
+            pPawn.GiveBody (int (ceil (pPawn.GetMaxHealth () * maxMul)));
+        }
     }
 
     states {
