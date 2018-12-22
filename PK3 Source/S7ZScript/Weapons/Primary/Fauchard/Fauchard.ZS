@@ -34,6 +34,7 @@ class S7_Fauchard : S7_BaseWeapon {
     default {
         Tag "$FAUCHARD";
         Inventory.PickupMessage "$FAUCHARD";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_FauchardMag';
         Weapon.AmmoType2 'S7_FBSysCells';

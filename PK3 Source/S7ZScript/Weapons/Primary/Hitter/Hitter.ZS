@@ -34,6 +34,7 @@ class S7_HitterSMG : S7_BaseWeapon {
     default {
         Tag "$HITTERSMG";
         Inventory.PickupMessage "HITTERSMG";
+        Inventory.PickupSound "Weapons/Pickup/Small";
 
         Weapon.AmmoType1 'S7_HitterSMGClip';
         Weapon.AmmoType2 'S7_45ACPCartridges';

@@ -34,6 +34,7 @@ class S7_AMG : S7_BaseWeapon {
     default {
         Tag "$AMG";
         Inventory.PickupMessage "$AMG";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_AMGMag';
         Weapon.AmmoType2 'S7_762x39Cartridges';

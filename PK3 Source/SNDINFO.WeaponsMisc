@@ -5,3 +5,27 @@ Weapons/DryFireSMG                                    "sounds/Weapons/Misc/DryFi
 Weapons/DryFireShotgun                                "sounds/Weapons/Misc/DryFireShotgun.ogg" // Ditto
 Weapons/DryFirePlasma                                 "sounds/Weapons/Misc/DryFirePlasma.ogg"  // Ditto
 Weapons/DryFireLaser                                  "sounds/Weapons/Misc/DryFireLaser.ogg"   // By revo794
+
+$RANDOM Weapons/Pickup/Small {
+    Weapons/Pickup/Small1
+    Weapons/Pickup/Small2
+    Weapons/Pickup/Small3
+    Weapons/Pickup/Small4
+}
+
+Weapons/Pickup/Small1 "sounds/Inventory/Pickup/Weapons/Small1.ogg" // By revo794. Edited by Chronos "phantombeta" Ouroboros.
+Weapons/Pickup/Small2 "sounds/Inventory/Pickup/Weapons/Small2.ogg" // Ditto.
+Weapons/Pickup/Small3 "sounds/Inventory/Pickup/Weapons/Small3.ogg" // Ditto.
+Weapons/Pickup/Small4 "sounds/Inventory/Pickup/Weapons/Small4.ogg" // Ditto.
+
+$RANDOM Weapons/Pickup/Medium {
+    Weapons/Pickup/Medium1
+    Weapons/Pickup/Medium2
+    Weapons/Pickup/Medium3
+    Weapons/Pickup/Medium4
+}
+
+Weapons/Pickup/Medium1 "sounds/Inventory/Pickup/Weapons/Medium1.ogg" // By revo794. Edited by Chronos "phantombeta" Ouroboros.
+Weapons/Pickup/Medium2 "sounds/Inventory/Pickup/Weapons/Medium2.ogg" // Ditto.
+Weapons/Pickup/Medium3 "sounds/Inventory/Pickup/Weapons/Medium3.ogg" // Ditto.
+Weapons/Pickup/Medium4 "sounds/Inventory/Pickup/Weapons/Medium4.ogg" // Ditto.

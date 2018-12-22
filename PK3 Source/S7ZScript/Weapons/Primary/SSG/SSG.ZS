@@ -36,6 +36,7 @@ class S7_SSG : S7_BaseWeapon {
     default {
         Tag "$SSG";
         Inventory.PickupMessage "$SSG";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_SSGFauxClip';
         Weapon.AmmoType2 'S7_12gaShells';

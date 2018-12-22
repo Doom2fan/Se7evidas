@@ -43,8 +43,11 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
     default {
         Tag "$BUTTFLY";
+
         Inventory.PickupMessage "$BUTTFLY";
+        Inventory.PickupSound "Weapons/Pickup/Small";
         Inventory.MaxAmount 2;
+
         Weapon.AmmoType1 'S7_LaserPewPewClip';
         Weapon.AmmoType2 'S7_FBSysCells';
         Weapon.AmmoUse 1;

@@ -34,6 +34,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
     default {
         Tag "$CAESARCHAINGUN";
         Inventory.PickupMessage "$CAESARCHAINGUN";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_CaesarChaingunMag';
         Weapon.AmmoType2 'S7_45WWCartridges';

@@ -55,6 +55,7 @@ class S7_Thumper : S7_BaseWeapon {
     default {
         Tag "$THUMPER";
         Inventory.PickupMessage "$THUMPER";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_ThumperMag';
         Weapon.AmmoUse 0;

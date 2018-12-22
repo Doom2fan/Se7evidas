@@ -34,6 +34,7 @@ class S7_Revolver : S7_BaseWeapon {
     default {
         Tag "$REVOLVER";
         Inventory.PickupMessage "$REVOLVER";
+        Inventory.PickupSound "Weapons/Pickup/Small";
 
         Weapon.AmmoType1 'S7_RevolverClip';
         Weapon.AmmoType2 'S7_44MCartridges';

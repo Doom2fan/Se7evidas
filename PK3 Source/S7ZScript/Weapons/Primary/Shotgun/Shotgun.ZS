@@ -34,6 +34,7 @@ class S7_Shotgun : S7_BaseWeapon {
     default {
         Tag "$SHOTGUN";
         Inventory.PickupMessage "$SHOTGUN";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_ShotgunMag';
         Weapon.AmmoType2 'S7_20gaShells';

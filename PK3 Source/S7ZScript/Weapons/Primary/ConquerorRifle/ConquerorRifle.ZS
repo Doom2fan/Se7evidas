@@ -34,6 +34,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     default {
         Tag "$CONQUERORSRIFLE";
         Inventory.PickupMessage "$CONQUERORSRIFLE";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_ConquerorRifleClip';
         Weapon.AmmoType2 'S7_45WWCartridges';

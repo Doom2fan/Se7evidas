@@ -25,6 +25,8 @@
 class S7_GrenadeCount : Ammo {
     default {
         Inventory.PickupMessage "$GRENADE_PICKUP";
+        Inventory.PickupSound "Weapons/Grenade/Pickup";
+
         Inventory.Amount 1;
         Inventory.MaxAmount 15;
         Ammo.BackpackMaxAmount 15;
@@ -42,6 +44,8 @@ class S7_GrenadeCount : Ammo {
 class S7_GrenadeBox : S7_GrenadeCount {
     default {
         Inventory.PickupMessage "$GRENADEBOX_PICKUP";
+        Inventory.PickupSound "";
+
         Inventory.Amount 4;
         Scale 1.;
     }
@@ -56,9 +60,12 @@ class S7_GrenadeBox : S7_GrenadeCount {
 class S7_GrenadeWeap : S7_ThrowWeapon {
     default {
         Tag "$GRENADEWEAP";
+        Inventory.PickupSound "Weapons/Grenade/Pickup";
+
         Weapon.AmmoType 'S7_GrenadeCount';
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
+
         S7_BaseWeapon.Icon "TGRNZ0";
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
         S7_BaseWeapon.BindSlot WpSlot_Special;

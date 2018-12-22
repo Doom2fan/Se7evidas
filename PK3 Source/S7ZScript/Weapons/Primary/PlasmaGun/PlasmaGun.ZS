@@ -34,6 +34,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
     default {
         Tag "$PLASMAGUN";
         Inventory.PickupMessage "$PLASMAGUN";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_PlasmaGunMag';
         Weapon.AmmoType2 'S7_Cells';

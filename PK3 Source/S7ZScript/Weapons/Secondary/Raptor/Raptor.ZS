@@ -34,6 +34,7 @@ class S7_Raptor : S7_BaseWeapon {
     default {
         Tag "$RAPTOR";
         Inventory.PickupMessage "$RAPTOR";
+        Inventory.PickupSound "Weapons/Pickup/Small";
 
         Weapon.AmmoType1 'S7_RaptorClip';
         Weapon.AmmoType2 'S7_9mmCartridges';

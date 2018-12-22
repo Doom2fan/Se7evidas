@@ -34,6 +34,7 @@ class S7_AK47 : S7_BaseWeapon {
     default {
         Tag "$AK47";
         Inventory.PickupMessage "$AK47";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_AK47Clip';
         Weapon.AmmoType2 'S7_762x39Cartridges';

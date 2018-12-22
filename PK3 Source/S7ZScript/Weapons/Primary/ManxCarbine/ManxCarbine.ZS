@@ -34,6 +34,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
     default {
         Tag "$MANXCARBINE";
         Inventory.PickupMessage "$MANXCARBINE";
+        Inventory.PickupSound "Weapons/Pickup/Small";
 
         Weapon.AmmoType1 'S7_ManxCarbineClip';
         Weapon.AmmoType2 'S7_9mmCartridges';

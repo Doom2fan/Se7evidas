@@ -34,6 +34,7 @@ class S7_TEC9 : S7_BaseWeapon {
     default {
         Tag "$TEC9";
         Inventory.PickupMessage "$TEC9";
+        Inventory.PickupSound "Weapons/Pickup/Small";
 
         Weapon.AmmoType1 'S7_TEC9Clip';
         Weapon.AmmoType2 'S7_9mmCartridges';

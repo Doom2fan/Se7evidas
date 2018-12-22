@@ -1,4 +1,5 @@
 Weapons/Grenade/PinPull                         "sounds/Weapons/Grenades/PinPull.ogg" // From Counter-Strike
+Weapons/Grenade/Pickup                          "sounds/Weapons/Grenades/Pickup.ogg"  // From Killing Floor. Ripped by marrub.
 
 $volume Weapons/Grenade/Bounce 0.5
 $RANDOM Weapons/Grenade/Bounce {

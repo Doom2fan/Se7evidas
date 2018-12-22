@@ -34,6 +34,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     default {
         Tag "$IONCANNON";
         Inventory.PickupMessage "$IONCANNON";
+        Inventory.PickupSound "Weapons/Pickup/Medium";
 
         Weapon.AmmoType1 'S7_PrettyShootyIonCannonGunMag';
         Weapon.AmmoType2 'S7_Cells';
