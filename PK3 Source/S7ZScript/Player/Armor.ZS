@@ -132,7 +132,7 @@ class S7_BasicArmor : BasicArmor {
                 bonusFactorAmount = armorData.armorBonuses;
             }
 
-            newDamage = int (newDamage * bonusFactor);
+            newDamage = int (max (newDamage * bonusFactor, newDamage * 0.125));
         }
 
         // Once the armor has absorbed its part of the damage, then apply its damage factor, if any, to the player
