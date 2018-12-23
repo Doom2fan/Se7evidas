@@ -61,6 +61,15 @@ class S7_CasingBase : S7_EffectsBase {
         -DROPOFF -NOGRAVITY
     }
 
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        if (!target)
+            return;
+
+        vel = target.vel + vel;
+    }
+
     transient CVar stayTimeCVar, fadeSpeedCVar;
     int timer;
 
@@ -130,14 +139,14 @@ class S7_CasingBase : S7_EffectsBase {
 class S7_ShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (40, 50), 2, fRandom [casingStuff] (60, 80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (40, 50), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (60, 80));
         stop;
     }
 }
 class S7_ShellCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (-50, -40), 2, fRandom [casingStuff] (60, 80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (-50, -40), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (60, 80));
         stop;
     }
 }
@@ -163,7 +172,7 @@ class S7_ShellCasing : S7_CasingBase {
 class S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', 0, 0, -110, 2, -50);
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', 0, 0, -110, CMF_AimDirection | CMF_TrackOwner, -50);
         stop;
     }
 }
@@ -171,7 +180,7 @@ class S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
 class S7_12gaShellCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -199,7 +208,7 @@ class S7_12gaShellCasing : S7_CasingBase {
 class S7_9mmCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_9mmCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_9mmCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -225,7 +234,7 @@ class S7_9mmCasing : S7_CasingBase {
 class S7_45ACPCasingSpawn : S7_9mmCasingSpawn {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45ACPCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45ACPCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -240,7 +249,7 @@ class S7_45ACPCasing : S7_9mmCasing { default { Scale .3; } }
 class S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RevolverCasing', -5, 0, 0, 2, 90);
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RevolverCasing', -5, 0, 0, CMF_AimDirection | CMF_TrackOwner, 90);
         stop;
     }
 }
@@ -266,14 +275,14 @@ class S7_RevolverCasing : S7_CasingBase {
 class S7_RifleCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RifleCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RifleCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
 class S7_RifleCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RifleCasing', -5, 0, fRandom [casingStuff] (80, 100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RifleCasing', -5, 0, fRandom [casingStuff] (80, 100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
@@ -299,14 +308,14 @@ class S7_RifleCasing : S7_CasingBase {
 class S7_45WWCasingSpawn : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -80));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
         stop;
     }
 }
 class S7_45WWCasingSpawnRifle : S7_CasingSpawnerBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), 2, fRandom [casingStuff] (-45, -55));
+        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -55));
         stop;
     }
 }
