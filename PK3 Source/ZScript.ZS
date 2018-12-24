@@ -129,7 +129,6 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Monsters/BlackPanther/BlackPanther.ZS"
 #include "S7ZScript/Monsters/Empress/Empress.ZS"
 #include "S7ZScript/Monsters/Empress/Effects.ZS"
-#include "S7ZScript/Monsters/Empress/Spawner.ZS"
 #include "S7ZScript/Monsters/Empress/Invuln.ZS"
 #include "S7ZScript/Monsters/FatFuck/FatFuck.ZS"
 #include "S7ZScript/Monsters/Terminator/Terminator.ZS"

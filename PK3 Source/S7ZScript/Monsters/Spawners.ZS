@@ -196,6 +196,6 @@ class S7_BaronOfHellSpawner : S7_ReplacementSpawner replaces BaronOfHell {
 //-------------------------------------------------------------------------------------------
 class S7_CyberdemonSpawner : S7_ReplacementSpawner replaces Cyberdemon {
     default {
-        DropItem 'S7_EmpressPreSpawn', 256, 1;
+        DropItem 'S7_Empress', 256, 1;
     }
 }

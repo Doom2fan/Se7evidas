@@ -166,8 +166,50 @@ class S7_Empress : S7_DemonBase {
         Super.Tick ();
     }
 
+    int spawnLoopCount;
+
     states {
     Spawn:
+        TNT1 A 0 noDelay {
+            A_ChangeLinkFlags (blockmap: false);
+            A_SetSize (0, 0, false);
+            spawnLoopCount = random [monsterSpc] (4, 7);
+        }
+        TNT1 A 1 {
+            if (spawnLoopCount < 1)
+                return ResolveState ("PreSpawnIdle");
+
+            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            spawnLoopCount--;
+
+            return ResolveState (null);
+        }
+        wait;
+    PreSpawnIdle:
+        TNT1 A 1 {
+            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            A_S7LookEx (flags: LOF_NoSeeSound, fov: 360., seeStateLabel: "Spawn.Spawned");
+        }
+        loop;
+    Spawn.Spawned:
+        TNT1 A            0 {
+            for (int i = 0; i < (5*2); i++)
+                A_SpawnItemEx ('S7_EmpressPentagramCorner', 180.0, 0.0, 0.0, 0.0, 0.0, 0.0, (72/2.) * i, SXF_Clientside | SXF_NoCheckPosition);
+        }
+        TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23.0, 23.0), fRandom [sfx] (-23.0, 23.0), 15.0 + fRandom [sfx] (-0.0, 32.0), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 A            5;
+        TNT1 A            0 {
+            A_SetSize (default.Radius, default.Height, false);
+            TeleportMove (pos, true);
+
+            for (int i = 0; i < 48; i++) {
+                A_SpawnItemEx ('S7_EmpressSparkle', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50.0 + fRandom [sfx] (0.0, 2.5),
+                    fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), fRandom [sfx] (-8.0, 8.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+            }
+        }
+
     Idle:
         HRFR A   1 {
             TakeInventory ('S7_IsDead', 0x7FFFFFFF);

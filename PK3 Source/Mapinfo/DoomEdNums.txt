@@ -39,7 +39,7 @@ doomEdNums {
     //32005 = S7_BerserkPickup
 
     // Monsters
-    32500 = S7_EmpressPreSpawn
+    32500 = S7_Empress
     32501 = S7_BlackPanther
     32502 = S7_FatFuck
     //32503 =
