@@ -44,6 +44,8 @@ class S7_CheatThingy : CustomInventory {
             GiveInventory ('S7_Canteen',  0x7FFFFFFF);
             // Upgrades
             GiveInventory ('S7_UpgradeRadar', 1);
+            GiveInventory ('S7_UpgradeRadarKeys', 1);
+            GiveInventory ('S7_UpgradeRadar_Minimap', 1);
             GiveInventory ('S7_UpgradeSlot1', 1);
             GiveInventory ('S7_UpgradeSlot2', 1);
             GiveInventory ('S7_UpgradeSlot3', 1);

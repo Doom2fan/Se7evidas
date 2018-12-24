@@ -1,6 +1,7 @@
 /*
  *  Se7evidas - A GZDoom mod
  *  Copyright (C) 2018 Chronos "phantombeta" Ouroboros
+ *  Copyright (C) 2018 Gutawer (Circle-Line intersection code)
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -169,49 +170,179 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         }
     }
 
+    protected void DrawLine (Vector2 origin, Vector2 p1, Vector2 p2, Color lineColor, double thickness = -1, Vector2 scale = (1, 1), double alpha = 1., int flags = 0) {
+        if (alpha <= 0)
+            return;
+
+        Vector2 box = (abs (p2.X - p1.X) * scale.X, abs (p2.Y - p1.Y) * scale.Y);
+
+        // resolve auto-alignment before making any adjustments to the position values.
+        if (!(flags & DI_SCREEN_MANUAL_ALIGN)) {
+            if (origin.X < 0) flags |= DI_SCREEN_RIGHT;
+            else flags |= DI_SCREEN_LEFT;
+            if (origin.Y < 0) flags |= DI_SCREEN_BOTTOM;
+            else flags |= DI_SCREEN_TOP;
+        }
+
+        alpha *= self.Alpha;
+        if (Alpha <= 0)
+            return;
+
+        origin += drawOffset;
+
+        switch (flags & DI_ITEM_HMASK) {
+        case DI_ITEM_HCENTER:   origin.X -= box.X / 2; p1.X += box.X / 2; p2.X += box.X / 2; break;
+        case DI_ITEM_RIGHT:     origin.X -= box.X    ; p1.X += box.X; p2.X += box.X; break;
+        }
+
+        switch (flags & DI_ITEM_VMASK)
+        {
+        case DI_ITEM_VCENTER: origin.Y -= box.Y / 2; p1.Y += box.Y / 2; p2.Y += box.Y / 2; break;
+        case DI_ITEM_BOTTOM:  origin.Y -= box.Y    ; p1.Y += box.Y    ; p2.Y += box.Y; break;
+        }
+
+        if (!fullscreenOffsets) {
+            [origin.X, origin.Y, box.X, box.Y] = StatusbarToRealCoords (origin.X, origin.Y, box.X, box.Y);
+        } else {
+            Vector2 org;
+
+            switch (flags & DI_SCREEN_HMASK)
+            {
+            default: org.X = 0; break;
+            case DI_SCREEN_HCENTER: org.X = Screen.GetWidth () / 2; break;
+            case DI_SCREEN_RIGHT:   org.X = Screen.GetWidth (); break;
+            }
+
+            switch (flags & DI_SCREEN_VMASK)
+            {
+            default: org.Y = 0; break;
+            case DI_SCREEN_VCENTER: org.Y = screen.GetHeight () / 2; break;
+            case DI_SCREEN_BOTTOM: org.Y = screen.GetHeight (); break;
+            }
+
+            // move stuff in the top right corner a bit down if the fps counter is on.
+            if ((flags & (DI_SCREEN_HMASK|DI_SCREEN_VMASK)) == DI_SCREEN_RIGHT_TOP && vid_fps) {
+                origin.Y += 10;
+            }
+
+            Vector2 hudScale = GetHUDScale ();
+
+            origin = (origin.X * hudScale.X, origin.Y * hudScale.Y);
+            box = (box.X * hudScale.X, box.Y * hudScale.Y);
+            origin += org;
+        }
+
+        if (thickness != -1)
+            Screen.DrawThickLine (int (origin.X + p1.X), int (origin.Y + p1.Y), int (origin.X + p2.X), int (origin.Y + p2.Y), thickness, lineColor, int (alpha * 255));
+        else
+            Screen.DrawLine (int (origin.X + p1.X), int (origin.Y + p1.Y), int (origin.X + p2.X), int (origin.Y + p2.Y), lineColor, int (alpha * 255));
+    }
+
     protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos, double TicFrac) {
-        if (CheckInventory ('S7_UpgradeRadar', 1)) {
-            DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
+        if (!CheckInventory ('S7_UpgradeRadar', 1))
+            return;
+        
+        DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
 
-            double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
-            Vector3 pPawnXYPos = (pPawn.prev + (TicFrac * (pPawn.pos - pPawn.prev)));
-            Vector2 radarOffs = (radarPos.x - RADAR_RADIUS, radarPos.y + RADAR_RADIUS);
+        double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
+        Vector3 pPawnXYPos = (pPawn.prev + (TicFrac * (pPawn.pos - pPawn.prev)));
+        Vector2 radarOffs = (radarPos.x - RADAR_RADIUS, radarPos.y + RADAR_RADIUS);
+        let mapData = S7_MapData.GetSpecial ();
 
-            double markerYOffs = mRadarMarkers.mFont.GetHeight () / 2.0;
+        if (CheckInventory ('S7_UpgradeRadar_Minimap')) {
+            let lineIterator = BlockLinesIterator.Create (pPawn, RADAR_MAXDIST);
+            while (lineIterator.Next ()) {
+                let curLine = lineIterator.CurLine;
 
-            bool showKeys = CheckInventory ('S7_UpgradeRadarKeys', 1);
-
-            let actorFinder = BlockThingsIterator.Create (pPawn, RADAR_MAXDIST);
-            Actor curActor;
-            while (actorFinder.Next ()) {
-                curActor = actorFinder.thing;
-
-                int colour;
-                if (curActor.bIsMonster) {
-                    if (curActor.health > 0)
-                        colour = (curActor.isFriend (pPawn)) ? Font.CR_GREEN : Font.CR_RED;
-                    else
-                        colour = Font.CR_DARKGRAY;
-                } else if (showKeys && curActor.bSpecial && curActor is 'Key')
-                    colour = Font.CR_GOLD;
-                else
+                // Skip self-referencing sectors and intra-sector lines
+                if (curLine.frontsector == curLine.backsector)
                     continue;
+                // Skip double-sided lines without height differences
+                if (curLine.frontsector && curLine.backsector && 
+                    curLine.frontsector.floorPlane.isEqual   (curLine.backsector.floorPlane) &&
+                    curLine.frontsector.ceilingPlane.isEqual (curLine.backsector.ceilingPlane)
+                ) {
+                    continue;
+                }
 
                 // Coords
-                Vector3 actorPos = (curActor.prev + (TicFrac * (curActor.pos - curActor.prev)));
-                Vector2 worldPos = pPawnXYPos.xy - actorPos.xy, screenPos;
-                worldPos /= RADAR_SCALE;
-                screenPos.x = (worldPos.x * angleSin + worldPos.y * angleCos);
-                screenPos.y = (worldPos.x * angleCos - worldPos.y * angleSin);
+                Vector2 v1WorldPos = (pPawnXYPos.XY - curLine.v1.p), v2WorldPos = pPawnXYPos.XY - curLine.v2.p;
 
-                if (screenPos.Length () >= RADAR_RADIUS)
+                Vector2 pos = v1WorldPos;
+                Vector2 dir = v2WorldPos - v1WorldPos;
+                Vector2 circleCentre = (0, 0);
+                Vector2 adjustedPos = pos - circleCentre;
+                double a = dir dot dir;
+                double b = 2 * (adjustedPos dot dir);
+                double c = adjustedPos dot adjustedPos - (RADAR_RADIUS * RADAR_SCALE) ** 2;
+
+                double discriminant = b*b - 4 * a * c;
+                if (discriminant >= 0) {
+                    discriminant = sqrt (discriminant);
+                    double t0 = (-b + discriminant) / (2 * a);
+                    double t1 = (-b - discriminant) / (2 * a);
+
+                    if ((t0 > 1 && t1 > 1) || (t0 < 0 && t1 < 0))
+                        continue;
+                    else if ((t0 < 0 && t1 > 1) || (t1 < 0 && t0 > 1))
+                        ;
+                    else {
+                        double t0 = clamp (t0, 0., 1.);
+                        double t1 = clamp (t1, 0., 1.);
+                        Vector2 intersectionPos0 = pos + t0 * dir;
+                        Vector2 intersectionPos1 = pos + t1 * dir;
+                        // New line segment is intersectionPos0 + t * newDir
+                        Vector2 newDir = intersectionPos1 - intersectionPos0;
+
+                        v1WorldPos = intersectionPos0;
+                        v2WorldPos = intersectionPos1;
+                    }
+                } else
                     continue;
 
-                // Draw
-                DrawString (mRadarMarkers, "B", radarOffs + screenPos - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, colour);
-            }//level.time
-            DrawString (mRadarMarkers, "A", radarOffs - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_BLUE);
+                Vector2 v1ScreenPos, v2ScreenPos;
+                v1ScreenPos.x = (v1WorldPos.x * angleSin + v1WorldPos.y * angleCos); v1ScreenPos.y = (v1WorldPos.x * angleCos - v1WorldPos.y * angleSin);
+                v2ScreenPos.x = (v2WorldPos.x * angleSin + v2WorldPos.y * angleCos); v2ScreenPos.y = (v2WorldPos.x * angleCos - v2WorldPos.y * angleSin);
+                v1ScreenPos /= RADAR_SCALE; v2ScreenPos /= RADAR_SCALE;
+
+                DrawLine (radarOffs, v1ScreenPos, v2ScreenPos, "Black", thickness: 2);
+            }
         }
+
+        double markerYOffs = mRadarMarkers.mFont.GetHeight () / 2.0;
+
+        bool showKeys = CheckInventory ('S7_UpgradeRadarKeys', 1);
+
+        let actorFinder = BlockThingsIterator.Create (pPawn, RADAR_MAXDIST);
+        Actor curActor;
+        while (actorFinder.Next ()) {
+            curActor = actorFinder.thing;
+
+            int colour;
+            if (curActor.bIsMonster) {
+                if (curActor.health > 0)
+                    colour = (curActor.isFriend (pPawn)) ? Font.CR_GREEN : Font.CR_RED;
+                else
+                    colour = Font.CR_DARKGRAY;
+            } else if (showKeys && curActor.bSpecial && curActor is 'Key')
+                colour = Font.CR_GOLD;
+            else
+                continue;
+
+            // Coords
+            Vector3 actorPos = (curActor.prev + (TicFrac * (curActor.pos - curActor.prev)));
+            Vector2 worldPos = pPawnXYPos.xy - actorPos.xy, screenPos;
+            worldPos /= RADAR_SCALE;
+            screenPos.x = (worldPos.x * angleSin + worldPos.y * angleCos);
+            screenPos.y = (worldPos.x * angleCos - worldPos.y * angleSin);
+
+            if (screenPos.Length () >= RADAR_RADIUS)
+                continue;
+
+            // Draw
+            DrawString (mRadarMarkers, "B", radarOffs + screenPos - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, colour);
+        }//level.time
+        DrawString (mRadarMarkers, "A", radarOffs - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_BLUE);
     }
 
     protected void DrawHelmetHUD (double TicFrac, S7_BasePlayer pPawn) {
