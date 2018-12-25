@@ -53,7 +53,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 5) * max (1.0, double (serverData.avgLevel) / 10));
+        xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 5) + fRandom [monsterStats] (-1.5, 2.5)));
         int attrPts = int (floor (xpSys.level * 2.5));
 
         while (attrPts > 0) {
@@ -63,13 +63,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
             case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
             case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
             case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
-            case 3:
-                int rnd2 = random [monsterStats] (0, 1);
-                if (rnd)
-                    xpSys.SetStat (S7Stat_Agility, 1);
-                else
-                    xpSys.SetStat (S7Stat_Will, 1);
-                break;
+            case 3: xpSys.SetStat (S7Stat_Agility, 1); break;
             }
 
             attrPts--;
@@ -93,6 +87,8 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         damageMultiply = 1.0 + (0.025 * xpSys.GetStat (S7Stat_Strength));
         // Defense
         damageFactor = clamp (1.0 - (0.015 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+        // Agility
+        speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.1, -default.Speed * .75, default.Speed);
 
         Super.Tick ();
     }

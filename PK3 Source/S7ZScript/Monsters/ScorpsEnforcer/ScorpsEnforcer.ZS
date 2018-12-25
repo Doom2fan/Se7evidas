@@ -54,7 +54,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 5.));
+        xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 2.5) + random [monsterStats] (-2, 2)));
         int attrPts = int (floor (xpSys.level * 1.5));
 
         while (attrPts > 0) {
@@ -64,12 +64,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
             case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
             case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
-            case 3:
-                if (random [monsterStats] (0, 3) > 0)
-                    xpSys.SetStat (S7Stat_Agility, 1);
-                else
-                    xpSys.SetStat (S7Stat_Will, 1);
-                break;
+            case 3: xpSys.SetStat (S7Stat_Agility, 1); break;
             }
 
             attrPts--;
@@ -93,6 +88,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         damageMultiply = 1.0 + (0.0385 * xpSys.GetStat (S7Stat_Strength / 3));
         // Defense
         damageFactor = clamp (1.0 - (0.02 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+        // Agility
+        speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.05, -default.Speed * .75, default.Speed);
 
         Super.Tick ();
     }

@@ -50,7 +50,7 @@ class S7_Hellion : S7_DemonBase {
         }
 
         let serverData = S7_ServerData.Get ();
-        xpSys.level = int (random [monsterStats] (1, 3) * max (1.0, double (serverData.avgLevel) / 5.));
+        xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 2.5) + random [monsterStats] (-2, 2)));
         int attrPts = xpSys.level * 2;
 
         while (attrPts > 0) {
@@ -60,13 +60,7 @@ class S7_Hellion : S7_DemonBase {
             case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
             case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
             case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
-            case 3:
-                int rnd2 = random [monsterStats] (0, 1);
-                if (rnd)
-                    xpSys.SetStat (S7Stat_Agility, 1);
-                else
-                    xpSys.SetStat (S7Stat_Will, 1);
-                break;
+            case 3: xpSys.SetStat (S7Stat_Agility, 1); break;
             }
 
             attrPts--;
@@ -90,6 +84,8 @@ class S7_Hellion : S7_DemonBase {
         damageMultiply = 1.0 + (0.02 * xpSys.GetStat (S7Stat_Strength));
         // Defense
         damageFactor = clamp (1.0 - (0.01 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+        // Agility
+        speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.075, -default.Speed * .75, default.Speed);
 
         Super.Tick ();
     }
