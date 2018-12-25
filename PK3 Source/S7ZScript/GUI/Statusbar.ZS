@@ -249,7 +249,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
         Vector2 radarOffs = (radarPos.x - RADAR_RADIUS, radarPos.y + RADAR_RADIUS);
         let mapData = S7_MapData.GetSpecial ();
 
-        if (CheckInventory ('S7_UpgradeRadar_Minimap')) {
+        if (CheckInventory ('S7_UpgradeRadarMinimap')) {
             let lineIterator = BlockLinesIterator.Create (pPawn, RADAR_MAXDIST);
             while (lineIterator.Next ()) {
                 let curLine = lineIterator.CurLine;

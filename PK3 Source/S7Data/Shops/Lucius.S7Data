@@ -1002,6 +1002,15 @@ shop "mainShop" {
 
                     inventoryName = "S7_UpgradeRadarKeys;S7_UpgradeRadar";
                     buyPrice = 1500;
+                },
+
+                buyItem "RDRM" : "S7_SSItem_Upgrade" {
+                    name = "$SS_UPGR_RADAR_MAP";
+                    desc = "$SS_UPGR_RADAR_MAP_DESC";
+                    //"icon = "sprites/Inventory/Loot/LOT1E0.png";
+
+                    inventoryName = "S7_UpgradeRadarMinimap;S7_UpgradeRadar";
+                    buyPrice = 6500;
                 }
             }
         },

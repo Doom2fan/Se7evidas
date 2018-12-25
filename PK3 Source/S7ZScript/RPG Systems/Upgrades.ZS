@@ -22,9 +22,9 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_UpgradeEnemyHPBar : S7_Boolean { } // Enemy health
-class S7_UpgradeRadar         : S7_Boolean { } // Enemy radar
-class S7_UpgradeRadarKeys     : S7_Boolean { } // Show keys on the radar
-class S7_UpgradeRadar_Minimap : S7_Boolean { } // Show map geometry on radar
+class S7_UpgradeRadar        : S7_Boolean { } // Enemy radar
+class S7_UpgradeRadarKeys    : S7_Boolean { } // Show keys on the radar
+class S7_UpgradeRadarMinimap : S7_Boolean { } // Show map geometry on radar
 class S7_UpgradeRegen : S7_Boolean { }
 class S7_UpgradeRegenPower : S7_Counter { default { Inventory.MaxAmount 2; } }
 class S7_UpgradeSlot1 : S7_SlotMaxUpgrade { default { S7_SlotMaxUpgrade.Slot 1; } }
