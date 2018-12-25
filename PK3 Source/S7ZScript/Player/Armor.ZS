@@ -126,13 +126,13 @@ class S7_BasicArmor : BasicArmor {
                 bonusFactor = 1.;
 
             if (bonusFactorAmount != armorData.armorBonuses) {
-                double bonuses = clamp (armorData.armorBonuses, 0, 350); // This is clamped to [0-350] because at >~350 the result starts to increase
+                double bonuses = clamp (armorData.armorBonuses, 0, 300); // This is clamped to [0-300] because at >~350 the result starts to increase
 
                 bonusFactor = clamp (S7_Math.Lerp (1. / ((bonuses + 28) / 30.) * 1.15,  1.7 * log10 ((bonuses + 1) / 50.), .1) + .15, .5, 1.);
                 bonusFactorAmount = armorData.armorBonuses;
             }
 
-            newDamage = int (max (newDamage * bonusFactor, newDamage * 0.125));
+            newDamage = int (max (newDamage * bonusFactor, newDamage * 0.25));
         }
 
         // Once the armor has absorbed its part of the damage, then apply its damage factor, if any, to the player
