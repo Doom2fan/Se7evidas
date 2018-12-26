@@ -59,7 +59,7 @@ class S7_FleshSpawn : S7_MonsterBase {
 
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, double (serverData.avgLevel) / 2.5));
-        int attrPts = int (floor (xpSys.level * 1.5));
+        int attrPts = xpSys.level * 4;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 4);

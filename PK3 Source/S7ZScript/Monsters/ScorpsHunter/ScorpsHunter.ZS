@@ -54,7 +54,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
 
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, double (serverData.avgLevel) + random [monsterStats] (-3, 3)));
-        int attrPts = int (floor (xpSys.level * 1.5));
+        int attrPts = xpSys.level * 2;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);

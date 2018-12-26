@@ -51,7 +51,7 @@ class S7_DemonDog : S7_DemonBase {
 
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 3.25) + random [monsterStats] (-2, 2)));
-        int attrPts = xpSys.level * 2;
+        int attrPts = xpSys.level * 4;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);

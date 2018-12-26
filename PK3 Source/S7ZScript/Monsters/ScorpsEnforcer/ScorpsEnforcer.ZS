@@ -55,7 +55,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
 
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 2.5) + random [monsterStats] (-2, 2)));
-        int attrPts = int (floor (xpSys.level * 1.5));
+        int attrPts = xpSys.level * 4;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);

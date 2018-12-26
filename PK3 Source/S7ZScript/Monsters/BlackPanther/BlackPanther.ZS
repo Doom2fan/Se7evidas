@@ -50,7 +50,7 @@ class S7_BlackPanther : S7_HellNobleBase {
 
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 4.) + fRandom [monsterStats] (-1.5, 2.5)));
-        int attrPts = int (floor (xpSys.level * 2.25));
+        int attrPts = xpSys.level * 4;
 
         while (attrPts > 0) {
             int rnd = random [monsterStats] (0, 3);
