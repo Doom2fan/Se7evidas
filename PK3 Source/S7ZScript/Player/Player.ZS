@@ -365,7 +365,7 @@ class S7_BasePlayer : PlayerPawn {
         }
         else {
             bobAngle = level.time / (20 * TICRATE / 35.) * 360.;
-            bob = playerData.bob * sin (bobAngle) * (player.mo.waterlevel > 1 ? 0.25f : 0.5f);
+            bob = playerData.bob * sin (bobAngle) * (player.mo.waterlevel > 1 ? 0.25 : 0.5);
         }
 
         // move viewheight

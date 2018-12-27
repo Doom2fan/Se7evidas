@@ -43,7 +43,7 @@ extend class S7_MonsterBase {
     int aiCountdown;
     Actor aiLastKnown;
 
-    void SearchBehavior() {
+    void SearchBehavior () {
         // Return conditions
         if (health <= 0 || bKilled)
             return;
