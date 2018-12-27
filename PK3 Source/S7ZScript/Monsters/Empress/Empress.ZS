@@ -539,7 +539,8 @@ class S7_EmpressMissile1 : S7_Projectile {
             invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
             invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
 
-            A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, rotAngle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
+            if (self && target)
+                Warp (target, 25.0, 0.0, 105.0, rotAngle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
             rotAngle += 24;
             loopCount--;
 
@@ -548,7 +549,10 @@ class S7_EmpressMissile1 : S7_Projectile {
         loop;
 
     Flight:
-        TNT1 A 1 bright A_Warp (AAPTR_Target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
+        TNT1 A 1 bright {
+            if (self && target)
+                Warp (target, 25.0, 0.0, 105.0, 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
+        }
         TNT1 A 0 {
             bMissile = true; // Make it a projectile again
             vel = savedVel; // Restore the projectile's velocity

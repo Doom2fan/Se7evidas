@@ -236,8 +236,12 @@ class S7_EmpressShieldSparkle : S7_EmpressSparkle {
         }
     ReallyFadeOutNow:
         "----" A 1 bright {
+            if (!self)
+                return;
+
             offs += vel;
-            Warp (target, xofs: 64 + offs.X, yofs: offs.Y, zofs: zOffs + offs.Z, angle: rotAngle, flags: WARPF_NoCheckPosition | WARPF_Interpolate);
+            if (target)
+                Warp (target, xofs: 64 + offs.X, yofs: offs.Y, zofs: zOffs + offs.Z, angle: rotAngle, flags: WARPF_NoCheckPosition | WARPF_Interpolate);
             A_FadeOut (0.15);
         }
         wait;
@@ -255,7 +259,7 @@ class S7_EmpressShieldFlare : S7_Empress_FXBase {
     double zOffs;
 
     override void Tick () {
-        if (self)
+        if (self && target)
             Warp (target, xofs: 64, zofs: zOffs, angle: rotAngle, flags: WARPF_NoCheckPosition | WARPF_Interpolate);
 
         Super.Tick ();

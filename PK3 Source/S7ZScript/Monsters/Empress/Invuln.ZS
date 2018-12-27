@@ -51,6 +51,9 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     S7_Empress owner;
 
     void OrbitMaster (bool initWarp = false) {
+        if (!self)
+            return;
+
         double zOffs = 50.0 + 40 * (useCos ? cos (40 + rotAngle) : sin (40 + rotAngle));
 
         if (!initWarp) {
@@ -80,7 +83,8 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         if (!initWarp)
             flags |= WARPF_Interpolate;
 
-        Warp (master, xofs: 64.0, zofs: zOffs, angle: rotAngle, flags: flags);
+        if (owner)
+            Warp (owner, xofs: 64.0, zofs: zOffs, angle: rotAngle, flags: flags);
     }
 
     override void PostBeginPlay () {
@@ -101,7 +105,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     }
 
     void WasDestroyed () {
-        if (!owner)
+        if (!owner || !self)
             return;
 
         owner.ballsCount--; // Ouch.
