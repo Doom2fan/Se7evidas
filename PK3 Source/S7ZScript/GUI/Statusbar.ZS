@@ -173,6 +173,8 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
     protected void DrawLine (Vector2 origin, Vector2 p1, Vector2 p2, Color lineColor, double thickness = -1, Vector2 scale = (1, 1), double alpha = 1., int flags = 0) {
         if (alpha <= 0)
             return;
+        if (thickness == 0)
+            return;
 
         Vector2 box = (abs (p2.X - p1.X) * scale.X, abs (p2.Y - p1.Y) * scale.Y);
 
@@ -308,7 +310,7 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
                 v2ScreenPos.x = (v2WorldPos.x * angleSin + v2WorldPos.y * angleCos); v2ScreenPos.y = (v2WorldPos.x * angleCos - v2WorldPos.y * angleSin);
                 v1ScreenPos /= RADAR_SCALE; v2ScreenPos /= RADAR_SCALE;
 
-                DrawLine (radarOffs, v1ScreenPos, v2ScreenPos, "Black", thickness: 2);
+                DrawLine (radarOffs, v1ScreenPos, v2ScreenPos, "Black");
             }
         }
 
