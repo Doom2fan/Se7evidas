@@ -25,7 +25,7 @@
  **   Code: Chronos "phantombeta" Ouroboros
  **   Graphics: Chronos "phantombeta" Ouroboros, Captain J (Cartridges sprites)
 **/
-class Se7evidasStatusBar : S7_BaseS7HUD {
+class Se7evidasStatusBar : S7_BaseStatusbar {
     // Constants
     const RADAR_SCALE = 10.0;
     const RADAR_MAXDIST = 750.0;
@@ -168,79 +168,6 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             BeginHUD (1.0, true, 320, 200);
             DrawHelmetHUD (TicFrac, pPawn);
         }
-    }
-
-    protected void DrawLine (Vector2 origin, Vector2 p1, Vector2 p2, Color lineColor, double thickness = -1, Vector2 scale = (1, 1), double alpha = 1., int flags = 0) {
-        if (alpha <= 0)
-            return;
-        if (thickness == 0)
-            return;
-
-        Vector2 box = (abs (p2.X - p1.X) * scale.X, abs (p2.Y - p1.Y) * scale.Y);
-
-        // resolve auto-alignment before making any adjustments to the position values.
-        if (!(flags & DI_SCREEN_MANUAL_ALIGN)) {
-            if (origin.X < 0) flags |= DI_SCREEN_RIGHT;
-            else flags |= DI_SCREEN_LEFT;
-            if (origin.Y < 0) flags |= DI_SCREEN_BOTTOM;
-            else flags |= DI_SCREEN_TOP;
-        }
-
-        alpha *= self.Alpha;
-        if (Alpha <= 0)
-            return;
-
-        origin += drawOffset;
-
-        switch (flags & DI_ITEM_HMASK) {
-        case DI_ITEM_HCENTER:   origin.X -= box.X / 2; p1.X += box.X / 2; p2.X += box.X / 2; break;
-        case DI_ITEM_RIGHT:     origin.X -= box.X    ; p1.X += box.X; p2.X += box.X; break;
-        }
-
-        switch (flags & DI_ITEM_VMASK)
-        {
-        case DI_ITEM_VCENTER: origin.Y -= box.Y / 2; p1.Y += box.Y / 2; p2.Y += box.Y / 2; break;
-        case DI_ITEM_BOTTOM:  origin.Y -= box.Y    ; p1.Y += box.Y    ; p2.Y += box.Y; break;
-        }
-
-        if (!fullscreenOffsets) {
-            [origin.X, origin.Y, box.X, box.Y] = StatusbarToRealCoords (origin.X, origin.Y, box.X, box.Y);
-        } else {
-            Vector2 org;
-
-            switch (flags & DI_SCREEN_HMASK)
-            {
-            default: org.X = 0; break;
-            case DI_SCREEN_HCENTER: org.X = Screen.GetWidth () / 2; break;
-            case DI_SCREEN_RIGHT:   org.X = Screen.GetWidth (); break;
-            }
-
-            switch (flags & DI_SCREEN_VMASK)
-            {
-            default: org.Y = 0; break;
-            case DI_SCREEN_VCENTER: org.Y = screen.GetHeight () / 2; break;
-            case DI_SCREEN_BOTTOM: org.Y = screen.GetHeight (); break;
-            }
-
-            // move stuff in the top right corner a bit down if the fps counter is on.
-            if ((flags & (DI_SCREEN_HMASK|DI_SCREEN_VMASK)) == DI_SCREEN_RIGHT_TOP && vid_fps) {
-                origin.Y += 10;
-            }
-
-            Vector2 hudScale = GetHUDScale ();
-
-            origin = (origin.X * hudScale.X, origin.Y * hudScale.Y);
-            p1 = (p1.X * hudScale.X, p1.Y * hudScale.Y);
-            p2 = (p2.X * hudScale.X, p2.Y * hudScale.Y);
-            thickness *= hudScale.Y;
-            box = (box.X * hudScale.X, box.Y * hudScale.Y);
-            origin += org;
-        }
-
-        if (thickness != -1)
-            Screen.DrawThickLine (int (origin.X + p1.X), int (origin.Y + p1.Y), int (origin.X + p2.X), int (origin.Y + p2.Y), thickness, lineColor, int (alpha * 255));
-        else
-            Screen.DrawLine (int (origin.X + p1.X), int (origin.Y + p1.Y), int (origin.X + p2.X), int (origin.Y + p2.Y), lineColor, int (alpha * 255));
     }
 
     protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos, double TicFrac) {
