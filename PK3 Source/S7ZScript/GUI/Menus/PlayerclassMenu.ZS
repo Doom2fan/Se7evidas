@@ -58,7 +58,6 @@ class S7_PlayerclassMenu : OptionMenu {
 
         desc.mMenuName = "S7_PlayerclassMenu";
         desc.mTitle = "$MNU_CHOOSECLASS";
-        desc.mSelectedItem = 0;
         desc.mScrollPos = 0;
         desc.mClass = GetClass ();
         desc.mPosition = -15;
@@ -81,6 +80,8 @@ class S7_PlayerclassMenu : OptionMenu {
                         desc.mItems.Push (it);
                     }
                 }
+
+                desc.mSelectedItem = 0;
             }
 
             let it = CreateOptionMenuItemSubmenu ("Random", "Episodemenu", -1);
