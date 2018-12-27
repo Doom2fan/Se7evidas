@@ -166,6 +166,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Player/PlayerE_Weapon.ZS"
 #include "S7ZScript/Player/PlayerE_Cheats.ZS"
 #include "S7ZScript/Player/PlayerE_Misc.ZS"
+#include "S7ZScript/Player/PlayerE_Stealth.ZS"
 #include "S7ZScript/Player/PlayerXPSystem.ZS"
 #include "S7ZScript/Player/WeapBindsSystem.ZS"
 #include "S7ZScript/Player/HealingSystem.ZS"
