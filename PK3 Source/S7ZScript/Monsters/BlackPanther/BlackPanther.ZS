@@ -94,7 +94,7 @@ class S7_BlackPanther : S7_HellNobleBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, int (1000 * max (1, level / 2.5)));
-            GiveCash (source, int (1000 * max (1, level / 2.5)));
+            GiveCash (source, int (1000 * max (1, level / 10.)));
         }
     }
 

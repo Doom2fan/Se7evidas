@@ -104,7 +104,7 @@ class S7_Mechdemon : S7_DemonBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, int (150 * max (1, level / 2.5)));
-            GiveCash (source, int (140 * max (1, level / 2.5)));
+            GiveCash (source, int (140 * max (1, level / 15.)));
         }
     }
 

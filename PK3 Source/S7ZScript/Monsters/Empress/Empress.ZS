@@ -142,8 +142,8 @@ class S7_Empress : S7_DemonBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (2250 * max (1, level / 2)));
-            GiveCash (source, int (2340 * max (1, level / 2)));
+            GiveXP (source, int (2250 * max (1, level / 2.)));
+            GiveCash (source, int (2340 * max (1, level / 5.)));
         }
     }
 

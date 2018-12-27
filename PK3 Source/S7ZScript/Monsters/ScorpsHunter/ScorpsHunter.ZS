@@ -99,8 +99,8 @@ class S7_ScorpsHunter : S7_ScorpBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (100 * max (1, level / 3)));
-            GiveCash (source, int (85 * max (1, level / 4)));
+            GiveXP (source, int (100 * max (1, level / 3.)));
+            GiveCash (source, int (85 * max (1, level / 20.)));
         }
     }
 

@@ -94,8 +94,8 @@ class S7_DemonDog : S7_DemonBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (140 * max (1, level / 3)));
-            GiveCash (source, int (120 * max (1, level / 3)));
+            GiveXP (source, int (140 * max (1, level / 3.)));
+            GiveCash (source, int (120 * max (1, level / 15.)));
         }
     }
 
