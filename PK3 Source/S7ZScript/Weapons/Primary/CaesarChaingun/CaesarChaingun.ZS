@@ -54,6 +54,28 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         fireMode = 1;
     }
 
+    override double S7_WeightSpeedModifier (double strengthStat, double berserkCount) {
+        return clamp (0.65 + clamp (0.15 * log (strengthStat / 2.), 0., 1.) + (0.05 * berserkCount), 0., 1.);
+    }
+
+    override void V_S7_Recoil (double amount) {
+        if (S7_Debug_NoRecoil)
+            return;
+
+        let xpSys = GetOwnerXPSystem ();
+        double strengthStat = (xpSys ? xpSys.GetStat (S7Stat_Strength) / 8. : 0);
+
+        double berserkMod = clamp (Owner.CountInv ("S7_BerserkToken") * .1, 0., 1.);
+
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.playerData && !Owner.CheckInventory ("S7_BerserkToken", 1))
+            berserkMod = clamp (-(.2 * pPawn.playerData.bsrkAddiction), -1., 0.);
+
+        amount = ConvWeapRecoil (amount, strengthStat, berserkMod);
+
+        Owner.A_SetPitch (Owner.pitch + amount, SPF_Interpolate);
+    }
+
     int fireMode;
     bool firedDud;
 

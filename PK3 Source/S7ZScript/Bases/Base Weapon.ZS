@@ -306,6 +306,28 @@ class S7_BaseWeapon : Weapon {
         invoker.V_S7_Recoil (amount);
     }
 
+    virtual double S7_WeightSpeedModifier (double strengthStat, double berserkCount) {
+        return 1.;
+    }
+
+    override double GetSpeedFactor () {
+        if (!Owner || Owner.player.ReadyWeapon != self)
+            return 1.;
+
+        let xpSys = GetOwnerXPSystem ();
+
+        double strengthStat = (xpSys ? xpSys.GetStat (S7Stat_Strength) : 0.);
+        double berserkCount = Owner.CountInv ("S7_BerserkToken");
+
+        if (berserkCount < 1) {
+            let pPawn = S7_BasePlayer (Owner);
+            if (pPawn && pPawn.playerData)
+                berserkCount = clamp (-(.2 * pPawn.playerData.bsrkAddiction), -1., 0.);
+        }
+
+        return S7_WeightSpeedModifier (strengthStat, berserkCount);
+    }
+
     action void S7_WeaponReady (StateLabel reloadState, StateLabel fireModeState, StateLabel quickMeleeState = "QuickMelee", int flags = 0, int wrFlags = 0) {
         let pPawn = S7_BasePlayer (self);
         bool sprinting = pPawn ? pPawn.sprint_Sprinting : false;
