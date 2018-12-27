@@ -250,7 +250,6 @@ class S7_Loot_CreditsBriefcase10K : Inventory {
         }
 
         if (!Super.TryPickup (toucher)) {
-            Console.printf ("aaa");
             bAlwaysPickup = false;
             return false;
         }

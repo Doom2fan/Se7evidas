@@ -61,7 +61,6 @@ class OptionMenuItemCustomNumberField : OptionMenuFieldBase {
             float value = mCVar.GetFloat ();
 
             value = mEnter.GetText ().ToDouble ();
-            Console.PrintF ("%f", value);
 
             if (value > mMaximum)
                 value = mMaximum;

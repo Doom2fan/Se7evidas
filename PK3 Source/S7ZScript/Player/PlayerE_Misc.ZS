@@ -102,10 +102,8 @@ extend class S7_BasePlayer {
                 double additionalDetoxTime = detoxTime * clamp (1. - (.035 * (xpSys.GetStat (S7Stat_Will) / 3.)), .35, 1.);
                 bool doDetox = ((playerData.bsrkWithdrawalTics % max (additionalDetoxTime, 5)) == 0);
 
-                if (doDetox) {
+                if (doDetox)
                     playerData.bsrkAddiction--;
-                    Console.Printf ("Detoxed! %d", playerData.bsrkAddiction);
-                }
             }
         }
     }

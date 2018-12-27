@@ -80,14 +80,6 @@ class S7_ServerData : Thinker {
         }
 
         S7Data = data;
-
-        if (data) {
-            for (int i = 0; i < data.mapData.Size (); i++) {
-                let map = data.mapData [i];
-                Console.PrintF ("map [%s]", map.hash);
-                Console.PrintF ("  corruption: %f", map.data.corruption);
-            }
-        }
     }
 
     override void Tick () {
