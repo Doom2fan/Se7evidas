@@ -228,6 +228,9 @@ class Se7evidasStatusBar : S7_BaseS7HUD {
             Vector2 hudScale = GetHUDScale ();
 
             origin = (origin.X * hudScale.X, origin.Y * hudScale.Y);
+            p1 = (p1.X * hudScale.X, p1.Y * hudScale.Y);
+            p2 = (p2.X * hudScale.X, p2.Y * hudScale.Y);
+            thickness *= hudScale.Y;
             box = (box.X * hudScale.X, box.Y * hudScale.Y);
             origin += org;
         }
