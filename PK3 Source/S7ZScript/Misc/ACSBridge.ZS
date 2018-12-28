@@ -18,7 +18,7 @@
 
 class S7_ACSBridge {
     static string GetVersion () {
-        return String.Format ("%d.%d", S7C_MajorVersion, S7C_MinorVersion);
+        return String.Format ("%d.%d.%d", S7C_MajorVersion, S7C_MinorVersion, S7C_PointVersion);
     }
 
     static int GetMapEvent () {

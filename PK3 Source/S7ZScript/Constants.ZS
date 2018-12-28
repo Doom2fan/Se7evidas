@@ -18,7 +18,8 @@
 
 // Version
 const S7C_MajorVersion = 0;
-const S7C_MinorVersion = 1;
+const S7C_MinorVersion = 3;
+const S7C_PointVersion = 0;
 
 // Map events
 enum MapEventTypes {
