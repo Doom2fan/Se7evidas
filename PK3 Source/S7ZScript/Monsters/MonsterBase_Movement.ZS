@@ -266,7 +266,7 @@ extend class S7_MonsterBase {
 
         // Try the other directions.
         if (sweepIgnoredDirs.Size () > 0) {
-            for (int i = sweepIgnoredDirs.Size () - 1; i >= 0; i--) {
+            for (int i = 0; i < sweepIgnoredDirs.Size (); i++) {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepIgnoredDirs [i];
                 attempts [movementDir] = true;
@@ -366,7 +366,7 @@ extend class S7_MonsterBase {
             }
         }
 
-        if (target.health > 0 && !isFriend (target) && target != goal && !aiNextNode) {
+        if (target && target.health > 0 && !isFriend (target) && target != goal && !aiNextNode) {
             // Live enemy target
             if (bAvoidMelee) {
                 bool isMeleeAttacker = false;
