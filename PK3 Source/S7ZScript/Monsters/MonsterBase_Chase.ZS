@@ -22,6 +22,29 @@
 */
 
 extend class S7_MonsterBase {
+    // The maximum range at which a monster will attack a stealthy player.
+    double maxStealthAttackRange;
+    property MaxStealthAttackRange: maxStealthAttackRange;
+    double maxStealthSightRange;
+    property MaxStealthSightRange: maxStealthSightRange;
+
+    default {
+        S7_MonsterBase.MaxStealthSightRange 384.;
+        S7_MonsterBase.MaxStealthAttackRange 256.;
+    }
+
+    bool CheckReachedGoal (Actor other) {
+        if (!other || (CurSector.Flags & Sector.SECF_NOATTACK))
+            return false;
+
+        double dist = Distance2D (other);
+
+        if (dist >= MeleeRange + radius + other.radius)
+            return false;
+
+        return true;
+    }
+
     //-------------------------------------------------------------------------------------------
     //
     // A_Wander
@@ -90,10 +113,6 @@ extend class S7_MonsterBase {
         if (reactiontime)
             reactiontime--;
 
-        // [RH] Don't chase invisible targets
-        if (target && S7_IsInvisible (target) && target != goal)
-            target = NULL;
-
         // Modify target threshold
         if (threshold) {
             if (!target || target.health <= 0)
@@ -159,7 +178,7 @@ extend class S7_MonsterBase {
         }
 
         // Look for a new target
-        if (!target || !target.bShootable) {
+        if ((!target || !target.bShootable)) {
             if (target && target.bNonShootable) {
                 // Target is only temporarily unshootable, so remember it.
                 lastenemy = target;
@@ -169,12 +188,12 @@ extend class S7_MonsterBase {
             }
 
             // Got a new target
-            if (S7_LookForPlayers (true, NULL) && target != goal) {
+            if (S7_LookForPlayers (true, NULL, fromChase: true) && target != goal) {
                 bInChase = false;
                 return;
             }
 
-            if (!target) {
+            if (!target && !aiNextNode) {
                 if (bFriendly) {
                     //A_Look(actor);
                     if (!target) {
@@ -210,13 +229,20 @@ extend class S7_MonsterBase {
         }
         
         // [RH] Don't attack if just moving toward goal
-        if (target == goal || (bChaseGoal && goal)) {
-            Actor savedTarget = target;
-            target = goal;
-            bool result = CheckMeleeRange ();
-            target = savedTarget;
+        if (((target == goal || (bChaseGoal && goal)) && goal) || aiNextNode) {
+            Actor actualGoal = ((target == goal || (bChaseGoal && goal)) && goal) ? goal : aiNextNode;
 
-            if (result) {
+            bool result = CheckReachedGoal (actualGoal);
+
+            if (result && actualGoal == aiNextNode) {
+                if (aiCountdown > 0)
+                    SearchBehavior_MakeNewNode ();
+
+                bJustAttacked = true;
+                bInChase = false;
+
+                return;
+            } else if (result && actualGoal == goal) {
                 // Reached the goal
                 ActorIterator iterator = ActorIterator.Create (goal.args [0], 'PatrolPoint');
                 ActorIterator specit = ActorIterator.Create (goal.tid, 'PatrolSpecial');
@@ -255,9 +281,11 @@ extend class S7_MonsterBase {
 
                 bInChase = false;
                 goal = newGoal;
+
                 return;
             }
-            if (goal == target) {
+
+            if (goal == target && actualGoal != aiNextNode) {
                 S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                 return;
             }
@@ -268,7 +296,7 @@ extend class S7_MonsterBase {
         // it can be just as easily handled by a simple flag so the monsters
         // can take advantage of all the other enhancements of A_Chase.
 
-        if (fastChase && !dontMove) {
+        if (fastChase && !dontMove && !aiNextNode) {
             if (FastChaseStrafeCount > 0)
                 FastChaseStrafeCount--;
             else {
@@ -287,11 +315,11 @@ extend class S7_MonsterBase {
                     }
                 }
             }
-
         }
 
         // [RH] Scared monsters attack less frequently
-        if (((target.player == NULL ||
+        if (target &&
+            ((target.player == NULL ||
             !((target.player.cheats & CF_Frightening) || target.bFrightening)) &&
             !bFrightened) ||
             random [Anubis] (0, 255) < 43
@@ -312,11 +340,17 @@ extend class S7_MonsterBase {
                 if (!S7_ActorExtensions.IsFast (self) && movecount) {
                     S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                     return;
-                }
-                
-                if (!CheckMissileRange ()) {
+                } else if (!CheckMissileRange ()) {
                     S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                     return;
+                } else if (aiNextNode) {
+                    double dist = Distance2D (target);
+                    double stealthFactor = S7_GetTargetStealthFactor (target);
+
+                    if (dist > (maxStealthAttackRange * (clamp (1. - stealthFactor, .25, 1.)))) {
+                        S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
+                        return;
+                    }
                 }
                 
                 SetState (missilestate);
@@ -344,7 +378,7 @@ extend class S7_MonsterBase {
             }
 
             Actor oldTarget = target;
-            gotNew = S7_LookForPlayers (true, NULL);
+            gotNew = S7_LookForPlayers (true, NULL, fromChase: true);
 
             if (lookForBetter)
                 bNoSightCheck = true;

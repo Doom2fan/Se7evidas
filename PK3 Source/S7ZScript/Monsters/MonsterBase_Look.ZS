@@ -37,11 +37,67 @@ extend class S7_MonsterBase {
         return myTeam;
     }
 
-    bool S7_IsInvisible (Actor other) {
+    double S7_GetTargetStealthFactor (Actor other) {
+        let pPawn = S7_BasePlayer (other);
+
+        if (pPawn)
+            return pPawn.stealthFactor;
+
+        return 0.;
+    }
+
+    enum S7_IsInvisible_Values {
+        S7_IsInvisible_InvisibleFlag = 1,
+        S7_IsInvisible_Stealthy      = 2,
+    };
+    int S7_IsInvisible (Actor other, bool touchChecks = true, bool stealthChecks = true) {
         if (bSeeInvisible)
             return false;
 
-        return (other.bInvisible);
+        bool isTouching = false;
+
+        /*if (touchChecks) {
+            double dist = Distance2D (other);
+
+            if (dist <= radius + other.radius && (
+                    (pos.Z >= other.pos.Z && pos.Z <= (other.pos.Z + other.Height)) ||
+                    (other.pos.Z >= pos.Z && other.pos.Z <= (pos.Z + Height))
+                )
+            ) {
+                isTouching = true;
+            }
+        }*/
+
+        if (stealthChecks && other is 'S7_BasePlayer') {
+            double stealthFactor = S7_GetTargetStealthFactor (other);
+
+            if (stealthFactor >= .6)
+                return S7_IsInvisible_Stealthy;
+        }
+
+        return (other.bInvisible ? S7_IsInvisible_InvisibleFlag : 0);
+    }
+
+    bool S7_CanSeeEnemy (Actor other, bool touchChecks = false, bool noRand = true) {
+        S7_IsInvisible_Values invisVal = S7_IsInvisible (other, touchChecks, true);
+
+        if (!invisVal)
+            return true;
+        if (invisVal && invisVal != S7_IsInvisible_Stealthy)
+            return false;
+        else {
+            double dist = max (Distance2D (other) - (radius + other.radius), 0.);
+            double stealthFactor = S7_GetTargetStealthFactor (other);
+
+            if (invisVal == S7_IsInvisible_Stealthy &&
+                (dist <= (maxStealthSightRange * clamp (1. - stealthFactor, .5, 1.))) &&
+                (noRand || random [monsterAI] (0, 255) < 160)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     //-------------------------------------------------------------------------------------------
@@ -49,7 +105,7 @@ extend class S7_MonsterBase {
     // LookForPlayers
     //
     //-------------------------------------------------------------------------------------------
-    bool S7_LookForPlayers (int allAround, LookExParams params) {
+    bool S7_LookForPlayers (int allAround, LookExParams params, bool fromChase = false) {
         int        c;
         int        pnum;
         PlayerInfo player;
@@ -147,7 +203,7 @@ extend class S7_MonsterBase {
                         continue; // Player isn't sneaking, but still didn't detect
                 }
 
-                if (S7_IsInvisible (player.mo))
+                if (!fromChase ? !S7_CanSeeEnemy (player.mo) : S7_IsInvisible (player.mo, touchChecks: false))
                     continue;
             }
             
@@ -171,6 +227,7 @@ extend class S7_MonsterBase {
     //-------------------------------------------------------------------------------------------
     action void A_S7Look () {
         Actor targ;
+        bool targFromSound = false;
 
         if (bInConversation)
             return;
@@ -195,10 +252,13 @@ extend class S7_MonsterBase {
             targ = target;
         else {
             targ = bNoSector ? CurSector.SoundTarget : LastHeard;
+            targFromSound = true;
 
             // [RH] If the soundtarget is dead, don't chase it
-            if (targ && targ.health <= 0)
+            if (targ && targ.health <= 0) {
                 targ = NULL;
+                targFromSound = false;
+            }
 
             if (targ && targ.player && ((targ.player.cheats & CF_NoTarget) || !targ.bFriendly))
                 return;
@@ -208,21 +268,21 @@ extend class S7_MonsterBase {
         if (bStealth)
             visdir = -1;
 
-        if (targ && targ.bShootable && !invoker.S7_IsInvisible (targ)) {
+        if (targ && targ.bShootable) {
             if (IsFriend (targ)) { // Be a little more precise!
                 // If we find a valid target here, the wandering logic should *not*
                 // be activated! It would cause the seestate to be set twice.
-                if (invoker.S7_LookForPlayers (bLookAllAround, NULL) && !invoker.S7_IsInvisible (target)) {
+                if (invoker.S7_LookForPlayers (bLookAllAround, NULL)) {
                     A_S7Look_SeeYou ();
                     return;
                 }
 
                 // Let the self wander around aimlessly looking for a fight
-                if (SeeState && !invoker.S7_IsInvisible (targ))
+                if (SeeState)
                     SetState (SeeState);
                 else
                     S7_Wander ();
-            } else if (!invoker.S7_IsInvisible (targ)) {
+            } else if (targFromSound || invoker.S7_CanSeeEnemy (targ)) {
                 target = targ;
 
                 if (bAmbush) {
@@ -237,7 +297,7 @@ extend class S7_MonsterBase {
             }
         }
         
-        if (!invoker.S7_LookForPlayers (bLookAllAround, NULL) || invoker.S7_IsInvisible (target))
+        if (!invoker.S7_LookForPlayers (bLookAllAround, NULL))
             return;
 
         // Go into chase state
@@ -263,6 +323,7 @@ extend class S7_MonsterBase {
     //-------------------------------------------------------------------------------------------
     action void A_S7LookEx (int flags = 0, double minSeeDist = 0, double maxSeeDist = 0, double maxHearDist = 0, double fov = 0, StateLabel seeStateLabel = null) {
         Actor targ = NULL;
+        bool targFromSound = false;
         double dist;
         State customSeeState = FindState (seeStateLabel);
 
@@ -301,18 +362,21 @@ extend class S7_MonsterBase {
         else {
             if (!(flags & LOF_NoSoundCheck)) {
                 targ = bNoSector ? CurSector.SoundTarget : LastHeard;
+                targFromSound = true;
 
                 if (targ) {
                     // [RH] If the soundtarget is dead, don't chase it
-                    if (targ.health <= 0)
+                    if (targ.health <= 0) {
                         targ = NULL;
-                    else {
+                        targFromSound = false;
+                    } else {
                         dist = Distance2D (targ);
 
                         // [KS] If the target is too far away, don't respond to the sound.
                         if (maxHearDist && dist > maxHearDist) {
                             targ = NULL;
                             LastHeard = NULL;
+                            targFromSound = false;
                         }
                     }
                 }
@@ -326,13 +390,13 @@ extend class S7_MonsterBase {
         if (bStealth)
             visdir = -1;
 
-        if (targ && targ.bShootable && !invoker.S7_IsInvisible (targ)) {
+        if (targ && targ.bShootable) {
             if (IsFriend (targ)) { // Be a little more precise!
                 if (!bStandStill) {
                     if (!(flags & LOF_NoSightCheck)) {
                         // If we find a valid target here, the wandering logic should *not*
                         // be activated! If would cause the seestate to be set twice.
-                        if (invoker.S7_LookForPlayers (true, params) && !invoker.S7_IsInvisible (target)) {
+                        if (invoker.S7_LookForPlayers (true, params)) {
                             A_S7LookEx_SeeYou (flags, customSeeState);
                             return;
                         }
@@ -340,15 +404,15 @@ extend class S7_MonsterBase {
 
                     // Let the self wander around aimlessly looking for a fight
                     if (!bInChase) {
-                        if (customSeeState && !invoker.S7_IsInvisible (targ))
+                        if (customSeeState)
                             SetState (customSeeState);
-                        else if (SeeState && !invoker.S7_IsInvisible (targ))
+                        else if (SeeState)
                             SetState (SeeState);
                         else
                             S7_Wander ();
                     }
                 }
-            } else if (!invoker.S7_IsInvisible (targ)) {
+            } else if (targFromSound || invoker.S7_CanSeeEnemy (targ)) {
                 target = targ; // We already have a target?
                 
                 // [KS] The target can become ourselves in rare circumstances (like
@@ -376,7 +440,7 @@ extend class S7_MonsterBase {
         }
 
         if (!(flags & LOF_NoSightCheck)) {
-            if (!invoker.S7_LookForPlayers (true, params) || invoker.S7_IsInvisible (target))
+            if (!invoker.S7_LookForPlayers (true, params))
                 return;
         } else
             return;

@@ -1,85 +1,111 @@
 /*
-** zlib License
-**
-** (C) 2018 Sterling Parker (aka "Caligari87")
-**
-** This software is provided 'as-is', without any express or implied
-** warranty.  In no event will the authors be held liable for any damages
-** arising from the use of this software.
-**
-** Permission is granted to anyone to use this software for any purpose,
-** including commercial applications, and to alter it and redistribute it
-** freely, subject to the following restrictions:
-**
-** 1. The origin of this software must not be misrepresented; you must not
-**    claim that you wrote the original software. If you use this software
-**    in a product, an acknowledgment in the product documentation would be
-**    appreciated but is not required.
-** 2. Altered source versions must be plainly marked as such, and must not be
-**    misrepresented as being the original software.
-** 3. This notice may not be removed or altered from any source distribution.
+ *  Se7evidas - A GZDoom mod
+ *  Copyright (C) 2002-2016 Christoph Oelckers
+ *  Copyright (C) 2018      Chronos "phantombeta" Ouroboros
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 extend class S7_BasePlayer {
-    int stealthFactor;
+    double stealthFactor, shaderStealthFactor;
     void Misc_Stealth () {
         if (!player || (player.cheats & CF_PREDICTING))
             return;
 
-        int threshold = int (floor ((24. / max (player.crouchfactor, 0.0001)) - vel.Length ()));
+        double lightLevel = Misc_Stealth_GetLightLevel (), origll = lightlevel;
+        lightlevel = clamp (clamp (.6 - lightlevel, 0., 1.) / .4, 0., 1.);
 
-        stealthFactor -= clamp (Misc_Stealth_GetLightLevel () - threshold, -5, 5);
-        stealthFactor = clamp (stealthFactor, 0, 100);
+        double crouchFactor = clamp (1. + .25 * (1-player.crouchFactor), 1., 1.25);
+
+        stealthFactor = clamp (lightLevel * crouchFactor, 0., 1.);
+
+        shaderStealthFactor = S7_Math.Lerp (shaderStealthFactor, max ((stealthFactor - .6), 0.) / .4, .1);
+        Shader.SetUniform1f (player, "S7_StealthShader", "stealthFactor", shaderStealthFactor);
     }
 
-    int Misc_Stealth_GetLightLevel () {
+    double Misc_Stealth_GetLightLevel () {
+        // Initial "base" lightlevel
+        double trueLightLevel = CurSector.lightlevel / 255.;
+
+        // Check if the player is using their flashlight
+        let flashlight = S7_Flashlight (FindInventory ("S7_Flashlight"));
+        if (flashlight && flashlight.active && flashlight.battery > 0)
+            return 1.;
+
         // Set up light iterator
         let LightFinder = ThinkerIterator.Create ("DynamicLight", Thinker.STAT_DLIGHT);
-
-        // Initial "base" lightlevel
-        int trueLightLevel = CurSector.lightlevel;
 
         // Iterate lights
         DynamicLight currentLight = null;
         while (currentLight = DynamicLight (LightFinder.Next ())) {
-            // Skip if the light isn't in LoS
+            // Skip deactivated lights, lights that don't light actors and lights that don't light the owner
+            if (currentLight.bDormant || currentLight.bDontLightActors || (currentLight.bDontLightSelf && currentLight.target == self))
+                continue;
+
+            double r = 0., g = 0., b = 0.;
+
+            Vector3 posDiff = currentLight.Vec3To (self);
+            double dist = posDiff dot posDiff;
+            double lightRadius = currentLight.Radius;
+            if (dist < lightRadius * lightRadius) {
+                dist = posDiff.Length (); // Only calculate the square root if we really need it.
+
+                double frac = 1.0 - (dist / lightRadius);
+
+                if (currentLight.bSpot) {
+                    Vector3 L = posDiff * (-1.0 / dist);
+
+                    double xyLen = cos (currentLight.pitch);
+
+                    Vector3 spotDir = (
+                        -cos (currentLight.angle) * xyLen,
+                        -sin (currentLight.angle) * xyLen,
+                         sin (currentLight.pitch)
+                    );
+
+                    double cosDir = L.X * spotDir.X + L.Y * spotDir.Y + L.Z * spotDir.Z;
+                    frac *= S7_Math.Smoothstep (cos (currentLight.SpotOuterAngle), cos (currentLight.SpotInnerAngle), cosDir);
+                }
+
+                if (frac > 0) {
+                    double lR = currentLight.Args [DynamicLight.LIGHT_RED  ] / 255.;
+                    double lG = currentLight.Args [DynamicLight.LIGHT_GREEN] / 255.;
+                    double lB = currentLight.Args [DynamicLight.LIGHT_BLUE ] / 255.;
+
+                    if (currentLight.bSubtractive) {
+                        double bright = (lR, lG, lB).Length ();
+                        lR = (bright - lR) * -1.;
+                        lG = (bright - lG) * -1.;
+                        lB = (bright - lB) * -1.;
+                    }
+
+                    r += lR * frac;
+                    g += lG * frac;
+                    b += lB * frac;
+                } else
+                    continue;
+            } else
+                continue;
+
             if (!currentLight.CheckSight (self))
                 continue;
 
-            Vector3 posdiff = level.Vec3Diff ((pos.x, pos.y, pos.z + (height / 2.)), currentLight.pos);
-            double currentDistance = posdiff.Length ();
+            double avgIntensity = clamp (.299 * r + .587 * g + .114 * b, 0., 1.);
 
-            double distanceFactor = currentDistance / (double (currentLight.args [DynamicLight.LIGHT_INTENSITY] + 1) * 2);
-
-            double r = currentLight.args [DynamicLight.LIGHT_RED  ],
-                   g = currentLight.args [DynamicLight.LIGHT_GREEN],
-                   b = currentLight.args [DynamicLight.LIGHT_BLUE ];
-
-            double avgIntensity = (0.299 * r + 0.587 * g + 0.114 * b);
-
-            // Invert cuz math
-            avgIntensity *= 1.0 - distanceFactor;
-
-            // Handle spotlights
-            if (currentLight.bSpot) {
-                double offangle = abs (deltaangle (currentLight.AngleTo (self), currentLight.angle));
-                if (offangle > currentLight.SpotInnerAngle)
-                    avgIntensity *= 0.5;
-                if (offangle > currentLight.SpotOuterAngle)
-                    avgIntensity *= 0.1;
-            }
-
-            // Intensify lights close to player
-            if (currentDistance < radius)
-                avgIntensity *= 10;
-
-            // Handle dormant lights
-            if (currentLight.bDormant)
-                avgIntensity = 0;
-
-            trueLightLevel = int (max (trueLightLevel, avgIntensity));
+            trueLightLevel = trueLightLevel + avgIntensity;
         }
 
-        return trueLightLevel;
+        return clamp (trueLightLevel, 0., 1.);
     }
 }

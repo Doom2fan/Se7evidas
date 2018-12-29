@@ -211,30 +211,45 @@ extend class S7_MonsterBase {
         Array<int> sweepClosestDirs; sweepClosestDirs.Clear ();
         Array<int> sweepIgnoredDirs; sweepIgnoredDirs.Clear (); // We keep this so we can try those in the next pass.
         double sweepClosestDist = double.infinity;
+        bool hasTarget = false;
+        Vector2 targPos;
 
-        int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
-        for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
-            int tDir = movementDir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
-            if (tDir > S7_MOVEDIR_MAXDIR)
-                tDir = tDir - S7_MOVEDIR_MAXDIR;
-            if (tDir < -S7_MOVEDIR_MAXDIR)
-                tDir = tDir + S7_MOVEDIR_MAXDIR;
-            if (tDir < 0)
-                tDir = S7_MOVEDIR_MAXDIR + tDir;
+        if ((bChaseGoal || goal == target) && goal) {
+            targPos = goal.pos.XY;
+            hasTarget = true;
+        } else if (aiNextNode) {
+            targPos = aiNextNode.pos.XY;
+            hasTarget = true;
+        } else if (target) {
+            targPos = target.pos.XY;
+            hasTarget = true;
+        }
 
-            if (tDir != turnaround && attempts [tDir] == false) {
-                bool success; Vector2 newPos;
+        if (hasTarget) {
+            int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
+            for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
+                int tDir = movementDir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
+                if (tDir > S7_MOVEDIR_MAXDIR)
+                    tDir = tDir - S7_MOVEDIR_MAXDIR;
+                if (tDir < -S7_MOVEDIR_MAXDIR)
+                    tDir = tDir + S7_MOVEDIR_MAXDIR;
+                if (tDir < 0)
+                    tDir = S7_MOVEDIR_MAXDIR + tDir;
 
-                movementDir = (tDir & S7_MOVEDIR_MAXDIR);
-                [success, newPos] = S7_TryWalk (true);
+                if (tDir != turnaround && attempts [tDir] == false) {
+                    bool success; Vector2 newPos;
 
-                let diff = level.Vec2Diff (newPos, target.pos.XY);
-                double dist = diff dot diff;
-                if (success && dist <= sweepClosestDist) {
-                    sweepClosestDirs.Push (tDir);
-                    sweepClosestDist = dist;
-                } else if (success)
-                    sweepIgnoredDirs.Push (tDir);
+                    movementDir = (tDir & S7_MOVEDIR_MAXDIR);
+                    [success, newPos] = S7_TryWalk (true);
+
+                    let diff = level.Vec2Diff (newPos, targPos);
+                    double dist = diff dot diff;
+                    if (success && dist <= sweepClosestDist) {
+                        sweepClosestDirs.Push (tDir);
+                        sweepClosestDist = dist;
+                    } else if (success)
+                        sweepIgnoredDirs.Push (tDir);
+                }
             }
         }
 
@@ -276,6 +291,8 @@ extend class S7_MonsterBase {
 
         if ((bChaseGoal || goal == target) && goal) {
             delta = Vec2To (goal);
+        } else if (aiNextNode) {
+            delta = Vec2To (aiNextNode);
         } else if (target) {
             delta = Vec2To (target);
 
@@ -349,7 +366,7 @@ extend class S7_MonsterBase {
             }
         }
 
-        if (target.health > 0 && !isFriend (target) && target != goal) {
+        if (target.health > 0 && !isFriend (target) && target != goal && !aiNextNode) {
             // Live enemy target
             if (bAvoidMelee) {
                 bool isMeleeAttacker = false;
@@ -498,7 +515,7 @@ extend class S7_MonsterBase {
                         SetOrigin (oldPos, false);
                         angle = oldAngle;
                         pitch = oldPitch;
-                    } else if (!NoMonsterInterpolation && Prev != pos) {
+                    } else if (!NoMonsterInterpolation && !(Prev ~== pos)) {
                         Vector3 newPos = pos;
                         SetOrigin (oldPos, false);
                         SetOrigin (newPos, true);
@@ -516,7 +533,7 @@ extend class S7_MonsterBase {
 
                 int usesCount = CheckMonsterUseSpecials ();
 
-                if (!NoMonsterInterpolation && Prev != pos) {
+                if (!NoMonsterInterpolation && !(Prev ~== pos)) {
                     Vector3 newPos = pos;
                     SetOrigin (oldPos, false);
                     SetOrigin (newPos, true);
@@ -531,7 +548,7 @@ extend class S7_MonsterBase {
             SetOrigin (oldPos, false);
             angle = oldAngle;
             pitch = oldPitch;
-        } else if (!NoMonsterInterpolation && Prev != pos) {
+        } else if (!NoMonsterInterpolation && !(Prev ~== pos)) {
             Vector3 newPos = pos;
             SetOrigin (oldPos, false);
             SetOrigin (newPos, true);

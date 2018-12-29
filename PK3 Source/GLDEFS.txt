@@ -20,3 +20,11 @@ hardwareShader postProcess scene {
     name "S7_DemonEyes"
     shader "S7Shaders/GLSL/DemonEyes.frag" 330
 }
+
+hardwareShader postProcess scene {
+    name "S7_StealthShader"
+    shader "S7Shaders/GLSL/StealthShader.frag" 330
+    Enabled
+
+    uniform float "stealthFactor"
+}

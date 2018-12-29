@@ -41,7 +41,45 @@ class S7_LastKnownPositionMarker : S7_PositionMarkerPersistent {
 
 extend class S7_MonsterBase {
     int aiCountdown;
+    Vector3 aiLastTargetPos;
+    Actor aiNextNode;
     Actor aiLastKnown;
+
+    void SearchBehavior_MakeNewNode () {
+        double lastAngle, lastDist, nextAngle;
+        Vector3 nextNode = pos;
+        FLineTraceData testNode;
+
+        // Base angle off last node or self
+        if (aiLastKnown) {
+            lastAngle = aiLastKnown.angle;
+            aiLastKnown.Destroy ();
+        } else
+            lastAngle = angle;
+
+        // Check 5 random angle offsets for longest path
+        for (int i = 0; i < 10; i++) {
+            double testOffset = fRandom [monsterAI] (-45., 45.);
+
+            LineTrace (lastAngle + testOffset, 256, 0, TRF_ThruActors | TRF_ThruHitscan, height / 2., data: testNode);
+
+            if (testnode.Distance > lastDist) {
+                nextNode = testNode.HitLocation;
+                nextAngle = lastAngle + testOffset;
+            }
+
+            lastDist = testnode.Distance;
+        }
+
+        // Spawn and set the node
+        aiLastKnown = Spawn ("S7_LastKnownPositionMarker", nextNode, ALLOW_REPLACE);
+        aiLastKnown.angle = nextAngle;
+
+        aiNextNode = aiLastKnown;
+
+        if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
+            Console.Printf ("%s %p picked a new pathnode", GetClassName (), self);
+    }
 
     void SearchBehavior () {
         // Return conditions
@@ -49,80 +87,58 @@ extend class S7_MonsterBase {
             return;
 
         // Normal following behavior plus visibility checks
-        if (target && !(target is 'S7_LastKnownPositionMarker')) {
+        if (target && !aiNextNode) {
             if (aiLastKnown)
                 aiLastKnown.Destroy ();
 
             // Clear ambush flag if needed
-            if (CheckIfTargetInLOS () && bAmbush) {
+            if (bAmbush && CheckIfTargetInLOS ()) {
                 bAmbush = false;
 
                 if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
                     Console.Printf ("%s %p ambush flag cleared", GetClassName (), self);
             }
 
-            // Forget player and set a search node if out of LoS, shadow, and not ambushing
-            if (!CheckIfTargetInLOS () || (target.bShadow && random [monsterAI] (0, 35) == 0)) {
-                if (!bAmbush) {
+            // Store the position we last saw our target
+            bool inLOS = CheckIfTargetInLOS ();
+            if (inLOS)
+                aiLastTargetPos = target.pos;
+
+            // Forget player and set a search node if they can't be seen, are out of LoS or shadow
+            if (!inLOS || !S7_CanSeeEnemy (target, noRand: true) || (target.bShadow && random [monsterAI] (0, 35) == 0)) {
+                if (aiLastTargetPos != aiLastTargetPos)
+                    ForgetTarget (self);
+                else if (!bAmbush) {
                     aiCountdown = random [monsterAI] (30 * 35, 60 * 35);
 
-                    aiLastKnown = Spawn ("S7_LastKnownPositionMarker", target.pos, ALLOW_REPLACE);
+                    aiLastKnown = Spawn ("S7_LastKnownPositionMarker", aiLastTargetPos, ALLOW_REPLACE);
                     aiLastKnown.angle = angle;
 
-                    ForgetTarget (self);
-
-                    goal = aiLastKnown;
-                    target = aiLastKnown;
+                    aiNextNode = aiLastKnown;
 
                     if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
                         Console.Printf ("%s %p lost target!", GetClassName (), self);
-                } else
-                    ForgetTarget (self);
+                }
+            }
+        } else if (aiNextNode && target) {
+            if (CheckIfTargetInLOS () && S7_CanSeeEnemy (target, noRand: true)) {
+                aiCountdown = -1;
+                if (aiNextNode)
+                    aiNextNode.Destroy ();
+                aiNextNode = null;
             }
         }
 
         // Spawn new path nodes as reached
-        if (aiCountdown > 0 && !target) {
-            double lastAngle, lastDist, nextAngle;
-            Vector3 nextNode;
-            FLineTraceData testNode;
-
-            // Base angle off last node or self
-            if (aiLastKnown) {
-                lastAngle = aiLastKnown.angle;
-                aiLastKnown.Destroy ();
-            } else
-                lastAngle = angle;
-
-            // Check 5 random angle offsets for longest path
-            for (int i = 0; i < 10; i++) {
-                double testOffset = fRandom [monsterAI] (-90., 90.);
-
-                LineTrace (lastAngle + testOffset, 256, 0, TRF_ThruActors | TRF_ThruHitscan, height / 2., data: testNode);
-
-                if (testnode.Distance > lastDist) {
-                    nextNode = testNode.HitLocation;
-                    nextAngle = lastAngle + testOffset;
-                }
-
-                lastDist = testnode.Distance;
-            }
-
-            // Spawn and set the node
-            aiLastKnown = Spawn ("S7_LastKnownPositionMarker", nextNode, ALLOW_REPLACE);
-            aiLastKnown.angle = nextAngle;
-
-            goal = aiLastKnown;
-            target = aiLastKnown;
-
-            if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-                Console.Printf ("%s %p picked a new pathnode", GetClassName (), self);
-        }
+        if (aiCountdown > 0 && !aiNextNode)
+            SearchBehavior_MakeNewNode ();
 
         // Give up the search when the countdown runs out
         if (aiCountdown == 0) {
             if (aiLastKnown)
                 aiLastKnown.Destroy ();
+
+            ForgetTarget (self);
 
             if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
                 Console.Printf ("%s %p gave up the search", GetClassName (), self);
@@ -136,9 +152,10 @@ extend class S7_MonsterBase {
     }
 
     void ForgetTarget (Actor which) {
+        aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
+
         // Built-in target-clearing functions
         which.A_ClearTarget ();
-        which.A_ClearSoundTarget ();
         which.A_ClearLastHeard ();
 
         // No idea if this does anything

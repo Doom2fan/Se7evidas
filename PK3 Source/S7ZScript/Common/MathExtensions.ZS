@@ -271,6 +271,14 @@ class S7_Math : Actor {
     static double Lerp (double x, double y, double a) {
         return x * (1-a) + y * a;
     }
+
+    // Based on C/C++ example implementation by AMD, taken from Wikipedia.
+    static double Smoothstep (double edge0, double edge1, double x) {
+        // Scale, bias and saturate x to [0, 1] range
+        x = clamp ((x - edge0) / (edge1 - edge0), 0., 1.);
+        // Evaluate polynomial
+        return x * x * (3. - 2. * x);
+    }
 }
 
 class S7_Polygon {
