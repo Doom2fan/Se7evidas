@@ -211,7 +211,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
 
     // Found enemy
     EnemySighted:
-        TNT1 A 0  A_AlertMonsters (512.);
+        TNT1 A 0  A_AlertMonsters (256.);
         goto See;
     // Chasing
     See:
