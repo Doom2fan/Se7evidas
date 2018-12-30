@@ -75,9 +75,10 @@ class S7_Flashlight : Inventory {
     S7_Flashlight_Spotlight selfLight1, selfLight2;
 
     bool active;
+    bool infraredMode;
     int battery;
 
-    override void BeginPlay () {
+    override void PostBeginPlay () {
         battery = MaxBatteryCharge;
     }
 
@@ -88,16 +89,56 @@ class S7_Flashlight : Inventory {
         return false;
     }
 
+    const Toggle_InfraredHoldTime = 10;
+    transient int toggle_TimePressed;
+    void TogglePressed () {
+        if (!active)
+            toggle_TimePressed = level.time;
+        else {
+            toggle_TimePressed = 0;
+            ToggleLight ();
+        }
+    }
+
+    void ToggleReleased () {
+        if (toggle_TimePressed == 0)
+            return;
+
+        int timeHeld = level.time - toggle_TimePressed;
+        toggle_TimePressed = 0;
+
+        if (battery <= 0)
+            return;
+
+        ToggleLight ();
+    }
+
     void ToggleLight () {
-        Owner.A_PlaySound (active ? "Inventory/Flashlight/Off" : "Inventory/Flashlight/On", CHAN_ITEM, volume: 0.25);
+        Owner.A_PlaySound (active ? "Inventory/Flashlight/Off" : "Inventory/Flashlight/On", CHAN_ITEM, volume: 0.5);
         active = !active;
+        infraredMode = false;
     }
 
     override void DoEffect () {
         Super.DoEffect ();
 
-        if (active && battery <= 0)
+        if (toggle_TimePressed != 0) {
+            int toggleTimeHeld = level.time - toggle_TimePressed;
+
+            if (toggleTimeHeld >= Toggle_InfraredHoldTime) {
+                toggle_TimePressed = 0;
+
+                if (battery > 0) {
+                    ToggleLight ();
+                    infraredMode = (toggleTimeHeld >= Toggle_InfraredHoldTime);
+                }
+            }
+        }
+
+        if (active && (battery <= 0 || (infraredMode && battery <= (MaxBatteryCharge / 4. / 2.))))
             ToggleLight ();
+
+        Shader.SetEnabled (Owner.player, "S7_Nightvision", active && infraredMode);
 
         if (!active) {
             if (selfLight1)
@@ -114,7 +155,7 @@ class S7_Flashlight : Inventory {
             lightColorCVar = CVar.GetCVar ("S7_FlashlightColor", Owner.player);
 
         Color lightColor = lightColorCVar ? lightColorCVar.GetInt () : 0xFFFFFFFF;
-        double intensityMod = clamp (1. - ((max (battery - (MaxBatteryCharge/4.), 0.) / MaxBatteryCharge) / 4), 0., 1.);
+        double intensityMod = clamp (double (battery) / (MaxBatteryCharge / 4.), 0., 1.);
 
         if (battery <= 0) // We shouldn't get here in the first place, but whatever.
             intensityMod = 0.;
@@ -122,6 +163,11 @@ class S7_Flashlight : Inventory {
         int r = int (lightColor.R * intensityMod),
             g = int (lightColor.G * intensityMod),
             b = int (lightColor.B * intensityMod);
+
+        if (infraredMode) {
+            r = g = b = int (128 * intensityMod);
+            Shader.SetUniform1f (Owner.player, "S7_Nightvision", "flashlightIntensity", intensityMod);
+        }
         
         int beamInner = 10;
         int beamOuter = 15;
@@ -179,6 +225,8 @@ class S7_Flashlight : Inventory {
         }
 
         if (selfLight1) {
+            selfLight1.bDormant = (infraredMode && (players [consoleplayer] != Owner.player));
+            selfLight1.infrared = infraredMode;
             selfLight1.args [0] = r; // R
             selfLight1.args [1] = g; // G
             selfLight1.args [2] = b; // B
@@ -192,6 +240,8 @@ class S7_Flashlight : Inventory {
             selfLight1.offsetZ = offsetZ;
         }
         if (selfLight2) {
+            selfLight2.bDormant = (infraredMode && (players [consoleplayer] != Owner.player));
+            selfLight2.infrared = infraredMode;
             selfLight2.args [0] = int (r * .75); // R
             selfLight2.args [1] = int (g * .75); // G
             selfLight2.args [2] = int (b * .75); // B
@@ -209,6 +259,7 @@ class S7_Flashlight : Inventory {
 
 class S7_Flashlight_Spotlight : DynamicLight {
     Actor followTarget;
+    bool infrared;
     double vela, velp;
     double spring, damping;
     double offsetAngle, offsetZ;

@@ -12,6 +12,21 @@ pointLight MJMPMARKER {
 }
 
 hardwareShader postProcess scene {
+    name "S7_Nightvision"
+    shader "S7Shaders/GLSL/Nightvision.frag" 330
+
+    uniform float "flashlightIntensity"
+
+    // Random values sampled on the CPU, which we'll use as offsets into our 2-D
+    // pseudo-random sampler here.
+    uniform vec3 "offsets"
+    // Mean of the Gaussian distribution that we want to sample from.
+    uniform float "mean"
+    // Standard deviation of the Gaussian distribution that we want to sample from.
+    uniform float "stddev"
+}
+
+hardwareShader postProcess scene {
     name "S7_Invuln"
     shader "S7Shaders/GLSL/Invuln.frag" 330
 }

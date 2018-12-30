@@ -27,8 +27,9 @@ class S7_StaticEventHandler : StaticEventHandler {
             if (!playeringame [i])
                 continue;
 
-            Shader.SetEnabled (players [i], "S7_DemonEyes", false);
-            Shader.SetEnabled (players [i], "S7_Invuln"   , false);
+            Shader.SetEnabled (players [i], "S7_DemonEyes"  , false);
+            Shader.SetEnabled (players [i], "S7_Invuln"     , false);
+            Shader.SetEnabled (players [i], "S7_Nightvision", false);
         }
     }
 }
@@ -72,6 +73,16 @@ class S7_ServerEventHandler : EventHandler {
         let meThinker = S7_MapEventThinker.Get ();
         if (meThinker)
             meThinker.TickMapEvents (serverData, mapData);
+    }
+
+    override void RenderOverlay (RenderEvent e) {
+        Shader.SetUniform3f (players [consoleplayer], "S7_Nightvision", "offsets", (
+            fRandom [S7_Nightvision_uOffsets] (0., 1.),
+            fRandom [S7_Nightvision_uOffsets] (0., 1.),
+            fRandom [S7_Nightvision_uOffsets] (0., 1.))
+        );
+        Shader.SetUniform1f (players [consoleplayer], "S7_Nightvision", "mean", -0.75);
+        Shader.SetUniform1f (players [consoleplayer], "S7_Nightvision", "stddev", 0.5);
     }
 }
 
@@ -161,6 +172,15 @@ class S7_PlayerEventHandler : EventHandler {
                 pPawn.SetInventory ('S7_DoMelee', 1);
             else if (pPawn && strings [1] ~== "FiringMode")
                 pPawn.SetInventory ('S7_ChangeFireMode', 1);
+            else if (pPawn && strings [1] ~== "FlashlightPress") {
+                let flashlight = S7_Flashlight (pPawn.FindInventory ("S7_Flashlight"));
+                if (flashlight)
+                    flashlight.TogglePressed ();
+            } else if (pPawn && strings [1] ~== "FlashlightRelease"){
+                let flashlight = S7_Flashlight (pPawn.FindInventory ("S7_Flashlight"));
+                if (flashlight)
+                    flashlight.ToggleReleased ();
+            }
         } else if (strings [0] ~== "S7_WeapBindsSystem")
             WeapBindsSystem (e);
     }

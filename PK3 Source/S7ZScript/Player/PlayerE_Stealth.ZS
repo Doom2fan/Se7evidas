@@ -40,7 +40,7 @@ extend class S7_BasePlayer {
 
         // Check if the player is using their flashlight
         let flashlight = S7_Flashlight (FindInventory ("S7_Flashlight"));
-        if (flashlight && flashlight.active && flashlight.battery > 0)
+        if (flashlight && flashlight.active && flashlight.battery > 0 && !flashlight.infraredMode)
             return 1.;
 
         // Set up light iterator
@@ -52,6 +52,13 @@ extend class S7_BasePlayer {
             // Skip deactivated lights, lights that don't light actors and lights that don't light the owner
             if (currentLight.bDormant || currentLight.bDontLightActors || (currentLight.bDontLightSelf && currentLight.target == self))
                 continue;
+
+            if (currentLight is 'S7_Flashlight_Spotlight') {
+                let curFlashlight = S7_Flashlight_Spotlight (currentLight);
+                // Skip infrared lights
+                if (curFlashlight && curFlashlight.infrared)
+                    continue;
+            }
 
             double r = 0., g = 0., b = 0.;
 
