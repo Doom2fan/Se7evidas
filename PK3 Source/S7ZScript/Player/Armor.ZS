@@ -132,7 +132,13 @@ class S7_BasicArmor : BasicArmor {
                 bonusFactorAmount = armorData.armorBonuses;
             }
 
-            newDamage = int (max (newDamage * bonusFactor, newDamage * 0.25));
+            double curBonusFactor = bonusFactor;
+
+            // Hurtfloors don't get affected by armor bonuses as much as enemy attacks.
+            if (!pPawn.damageInflictor && !pPawn.damageSource)
+                curBonusFactor = clamp (curBonusFactor * 1.5, .5, 1.);
+
+            newDamage = int (max (newDamage * curBonusFactor, newDamage * 0.25));
         }
 
         // Once the armor has absorbed its part of the damage, then apply its damage factor, if any, to the player
