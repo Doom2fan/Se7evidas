@@ -194,7 +194,7 @@ class S7_HealWeapItem : Inventory {
 /* Credits:
 ** Sprites: BloodyAcid
 */
-class S7_Medikit : S7_HealWeapItem replaces Medikit {
+class S7_Medikit : S7_HealWeapItem {
     default {
         Tag "$MEDIKIT";
 
@@ -243,7 +243,7 @@ class S7_MedikitApplicator : S7_HealWeap {
 /* Credits:
 ** Sprites: zrrion the insect, Chronos "phantombeta" Ouroboros
 */
-class S7_Stimpack : S7_HealWeapItem replaces Stimpack {
+class S7_Stimpack : S7_HealWeapItem {
     default {
         Tag "$STIMPACK";
 
@@ -363,7 +363,7 @@ class S7_Canteen : Inventory {
 /* Credits:
 ** Sprites: Raven Software, amv2k9, Chronos "phantombeta" Ouroboros
 */
-class S7_CanteenRefill : Inventory replaces HealthBonus {
+class S7_CanteenRefill : Inventory {
     default {
         Inventory.Amount 5;
         Inventory.MaxAmount 0;

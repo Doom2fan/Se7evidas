@@ -18,6 +18,32 @@
 
 //-------------------------------------------------------------------------------------------
 //
+// Health item spawners
+//
+//-------------------------------------------------------------------------------------------
+class S7_HealthBonusSpawner : RandomSpawner replaces HealthBonus {
+    default {
+        DropItem 'S7_Nothing',       256, 2;
+        DropItem 'S7_CanteenRefill', 256, 8;
+    }
+}
+
+class S7_MedikitSpawner : RandomSpawner replaces Medikit {
+    default {
+        DropItem 'S7_Nothing', 256, 4;
+        DropItem 'S7_Medikit', 256, 2;
+    }
+}
+
+class S7_StimpackSpawner : RandomSpawner replaces Stimpack {
+    default {
+        DropItem 'S7_Nothing',  256, 4;
+        DropItem 'S7_Stimpack', 256, 2;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
 // Green Armor spawner
 //
 //-------------------------------------------------------------------------------------------
