@@ -119,7 +119,7 @@ class S7_CCCombatArmorData : S7_ArmorData {
             case 'Fire':
                 pltDMG = max (damage - 15, 0) * 0.25;
                 wevDMG = damage * (fRandom [S7_Armor] (0.75, 1.2) * pltInt);
-                ret = int (damage * pltInt);
+                ret = int (damage * clamp (pltInt, .25, 1.));
                 break;
             default:
                 pltDMG = damage * (0.15 * (1-pltInt));
@@ -215,7 +215,7 @@ class S7_SBTKCombatArmorData : S7_CCCombatArmorData {
             case 'Fire':
                 pltDMG = max (damage - 12, 0) * 0.26;
                 wevDMG = damage * (fRandom [S7_Armor] (0.25, 0.65) * pltInt);
-                ret = int (damage * pltInt);
+                ret = int (damage * clamp (pltInt, .25, 1.));
                 break;
             default:
                 pltDMG = damage * (0.15 * (1-pltInt));

@@ -62,20 +62,21 @@ class S7_FleshSpawn : S7_MonsterBase {
         int attrPts = xpSys.level * 4;
 
         while (attrPts > 0) {
-            int rnd = random [monsterStats] (0, 4);
+            int rnd = random [monsterStats] (0, 5);
 
             switch (rnd) {
-            case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
-            case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
-            case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
-            case 3:
-            case 4: xpSys.SetStat (S7Stat_Agility, 1); break;
+            case 0:
+            case 1: xpSys.SetStat (S7Stat_Strength, 1); break;
+            case 2: xpSys.SetStat (S7Stat_Defense, 1); break;
+            case 3: xpSys.SetStat (S7Stat_Vitality, 1); break;
+            case 4:
+            case 5: xpSys.SetStat (S7Stat_Agility, 1); break;
             }
 
             attrPts--;
         }
 
-        hasProjAttack = ((serverData.avgLevel >= 25) && (random [monsterSpc] (0, 255) < 64));
+        hasProjAttack = ((serverData.avgLevel >= 10) && (random [monsterSpc] (0, 255) < 64));
 
         // Vitality
         startHealth = int (health * (1.0 + (.075 * xpSys.GetStat (S7Stat_Vitality))));
@@ -163,7 +164,7 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     Melee:
         FLSP FFAA 1 A_FaceTarget (45, 22.5);
-        FLSP B    2 A_CustomMeleeAttack (damage: int (floor (random [monsterDMG] (1, 4) * (1 + GetDamageBonus ()))), damagetype: 'Melee');
+        FLSP B    2 A_CustomMeleeAttack (damage: int (max (ceil (random [monsterDMG] (1, 4) * (1 + GetDamageBonus ())), 2)), damagetype: 'Bite');
         FLSP AFE  2;
         goto See;
 

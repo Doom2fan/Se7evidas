@@ -181,7 +181,7 @@ class S7_Mechdemon : S7_DemonBase {
         MDMN EEEFF  2 Fast A_FaceTarget ();
         MDMN G      4 Fast {
             A_FaceTarget ();
-            A_CustomMeleeAttack (int (fRandom (2, 10) * 4 * GetDamageBonus ()), "", "", 'Bite');
+            A_CustomMeleeAttack (int (fRandom (2, 10) * 4 * (1 + GetDamageBonus ())), "", "", 'Bite');
         }
         goto See;
 
