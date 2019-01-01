@@ -1,22 +1,28 @@
-version "3.1.0"
+version "3.7.0"
 
-class S7_AntimatterGunClip : ammo {
+class S7_AntimatterGunClip : Ammo {
     default {
-        inventory.maxAmount 5;
-        ammo.backpackMaxAmount 5;
+        Inventory.MaxAmount 5;
+        Ammo.BackpackMaxAmount 5;
 
-        +inventory.ignoreSkill
+        +INVENTORY.IGNORESKILL
     }
 }
 
 class S7_AntimatterGun : S7_BaseWeapon {
     default {
-        tag "$ANTIMATTERGUN";
-        inventory.pickupMessage "$ANTIMATTERGUN";
-        weapon.ammoType1 "S7_AntimatterGunClip";
-        weapon.ammoType2 "S7_AntimatterShells";
-        weapon.ammoUse 1;
-        weapon.ammoGive 0;
+        Tag "$ANTIMATTERGUN";
+        Inventory.PickupMessage "$ANTIMATTERGUN";
+        Weapon.AmmoType1 "S7_AntimatterGunClip";
+        Weapon.AmmoType2 "S7_AntimatterShells";
+        Weapon.AmmoUse 1;
+        Weapon.AmmoGive 0;
+
+        S7_BaseWeapon.Icon "GT5PA0";
+        S7_BaseWeapon.ShortTag "$SHORTANTIMATTERGUN";
+        //S7_BaseWeapon.AmmoBuyData "ACEL", 1;
+        S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
+        S7_BaseWeapon.UsesMag true;
     }
 
     int zoomLevel;
@@ -83,10 +89,11 @@ class S7_AntimatterGun : S7_BaseWeapon {
             A_GunFlash ("Flash");
             A_AlertMonsters ();
 
+            A_PlaySound ("Weapons/AntimatterGun/Fire", CHAN_Weapon);
+
             if (invoker.zoomLevel >= 1)
                 return ResolveState ("Fire.Zoom");
 
-            A_PlaySound ("Weapons/AntimatterGun/Fire", CHAN_Weapon);
             A_FireProjectile ("S7_AntimatterGun_Tracer_Strongest", 0.0, 1, 6, -2, 0, 0.0);
 
             A_SetPitch (pitch - 1.5, SPF_Interpolate);
@@ -101,7 +108,20 @@ class S7_AntimatterGun : S7_BaseWeapon {
         GTX5 A  5;
         goto Ready2;
 
-    Fire.Zoomed:
+    Fire.Zoom:
+        SCP1 C 1 {
+            A_FireProjectile ("S7_AntimatterGun_Tracer_Strongest", 0, true, 0, -3);
+
+            A_SetPitch (pitch - 1.5, SPF_Interpolate);
+
+            return ResolveState (null);
+        }
+        SCP1 C  1 A_SetPitch (pitch - 1.5, SPF_Interpolate);
+        SCP1 C 12;
+        SCP1 C  1;
+        SCP1 C  1;
+        SCP1 C  1;
+        SCP1 C  5;
         goto Ready2.Zoom;
 
     DryFire:
@@ -113,11 +133,11 @@ class S7_AntimatterGun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
     DryFire.Zoom:
         SCP1 C 3;
-        TNT1 A 0 A_JumpIfInventory ("S7_AutoReloading", 1, "Reload");
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     Zoom:
@@ -225,7 +245,7 @@ class S7_AntimatterGun : S7_BaseWeapon {
 //-------------------------------------------------------------------------------------------
 class S7_AntimatterGun_Tracer_Trail : S7_TracerEffectsBase {
     default {
-        scale 0.125;
+        Scale 0.125;
     }
 
     states {
@@ -239,22 +259,58 @@ class S7_AntimatterGun_Tracer_Trail : S7_TracerEffectsBase {
 
 class S7_AntimatterGun_Tracer : S7_BaseTracer {
     int dmgMultiplier;
-    property dmgMultiplier: dmgMultiplier;
+    property DMGMultiplier: dmgMultiplier;
 
     default {
-        S7_BaseTracer.trueSpeed 150;
-        S7_AntimatterGun_Tracer.dmgMultiplier 1;
-        damageFunction (fRandom [weaponDamage] (1, 5) * 100 * (1 + dmgMultiplier / 4.0));
-        damageType "AntimatterTracer";
-        deathType "Antimatter";
-        scale 0.125;
-        missileType "S7_AntimatterGun_Tracer_Trail";
-        decal "S7_AntimatterGun_Tracer_Decal";
+        S7_BaseTracer.TrueSpeed 150;
+        S7_AntimatterGun_Tracer.DMGMultiplier 1;
 
-        -bloodSplatter -noExtremeDeath -noDamageThrust
+        DamageFunction (fRandom [weaponDamage] (1, 5) * 100 * (1 + dmgMultiplier / 4.0));
+        DamageType "AntimatterTracer";
+        DeathType "Antimatter";
+
+        Scale 0.125;
+        MissileType "S7_AntimatterGun_Tracer_Trail";
+        Decal "S7_AntimatterGun_Tracer_Decal";
+
+        -BLOODSPLATTER -NOEXTREMEDEATH -NODAMAGETHRUST
     }
 
-    int dmg;
+    action void S7_Detonate (int dmg, double maxDist) {
+        let sectorList = new ("S7_SectorList");
+        sectorList.Sectors.Clear ();
+
+        S7_ActorExtensions.S7_RecurseSectors (CurSector, sectorList, 1);
+
+        Array<Actor> actorsDamaged; actorsDamaged.Clear ();
+        int secCount = sectorList.Sectors.Size (), actorsDamagedCount = 0;
+        for (int i = 0; i < secCount; i++) {
+            Sector sec = sectorList.Sectors [i];
+
+            for (Actor mo = sec.thinglist; mo; mo = mo.snext) {
+                if (actorsDamaged.Find (mo) != actorsDamagedCount)
+                    continue;
+
+                // Vulnerable actors can be damaged by radius attacks even if not shootable
+                // Used to emulate MBF's vulnerability of non-missile bouncers to explosions.
+                if (!(mo.bShootable || mo.bVulnerable))
+                    continue;
+
+                double dist = mo.Distance3D (self);
+                if (dist > maxDist)
+                    continue;
+
+                double dmgFract = dist / maxDist;
+                double moDMG = dmg * dmgFract;
+                if (moDMG <= 0)
+                    continue;
+
+                mo.DamageMobj (self, target, moDMG, damageType, DMG_Explosion);
+                actorsDamaged.Push (mo);
+                actorsDamagedCount++;
+            }
+        }
+    }
 
     states {
     Spawn:
@@ -268,20 +324,21 @@ class S7_AntimatterGun_Tracer : S7_BaseTracer {
     Crash:
     XDeath:
         TNT1 A 3 {
-            dmg = ceil (350 * dmgMultiplier + fRandom [weaponDamage] (-1.5, 5.0) * (5 * dmgMultiplier));
-            A_Explode (dmg, dmg, XF_HurtSource); // Replace with special explosion
+            double dmg = 350 * dmgMultiplier + fRandom [weaponDamage] (-1.5, 5.0) * (5 * dmgMultiplier);
+            S7_Detonate (int (ceil (dmg)), dmg);
         }
         stop;
     }
 }
 
-class S7_AntimatterGun_Tracer_Strongest_Trail : S7_AntimatterGun_Tracer_Trail { default { scale 0.125; } }
+class S7_AntimatterGun_Tracer_Strongest_Trail : S7_AntimatterGun_Tracer_Trail { default { Scale 0.125; } }
 class S7_AntimatterGun_Tracer_Strongest : S7_AntimatterGun_Tracer {
     default {
-        S7_BaseTracer.trueSpeed 175;
-        S7_AntimatterGun_Tracer.dmgMultiplier 12;
-        scale 0.125;
-        missileType "S7_AntimatterGun_Tracer_Strongest_Trail";
-        decal "S7_AntimatterGun_Tracer_Strongest_Decal";
+        S7_BaseTracer.TrueSpeed 175;
+        S7_AntimatterGun_Tracer.DMGMultiplier 12;
+
+        Scale 0.125;
+        MissileType "S7_AntimatterGun_Tracer_Strongest_Trail";
+        Decal "S7_AntimatterGun_Tracer_Strongest_Decal";
     }
 }

@@ -76,6 +76,11 @@ class S7_CanHitPointLineTracer : LineTracer {
     }
 }
 
+class S7_SectorList {
+    Array<Sector> Sectors;
+    Array<int> SectorsDoorCount;
+}
+
 class S7_ActorExtensions : Actor {
     const CHP_BlockFlags = Line.ML_BLOCKMONSTERS | Line.ML_BLOCK_PLAYERS | Line.ML_BLOCK_FLOATERS | Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKUSE | Line.ML_BLOCKSIGHT | Line.ML_BLOCKHITSCAN;
     static bool CanHitPoint (Vector3 p1, Vector3 p2, S7_CanHitPointData data) {
@@ -121,7 +126,6 @@ class S7_ActorExtensions : Actor {
         return act.FindState ('Raise');
     }
 
-
     /* Summary:
     **  Checks if an actor is "fast".
     **
@@ -138,6 +142,84 @@ class S7_ActorExtensions : Actor {
             return false;
 
         return G_SkillPropertyInt (SKILLP_FastMonsters);
+    }
+
+    /* Summary:
+    **  Recurses through sectors like SoundAlert.
+    **
+    ** Arguments:
+    **  sec: The sector to recurse.
+    **  sectors: The array of sectors to push the sectors to.
+    **  maxDoors: Maximum number of doors that can be ignored. Set to -1 to never check doors.
+    */
+    static void S7_RecurseSectors (Sector sec, S7_SectorList sectorList, int maxDoors = 0, int doorsCount = 0, bool doorSector = false) {
+        if (sectorList.Sectors.Find (sec) != sectorList.Sectors.Size ())
+            return;
+
+        sectorList.Sectors.Push (sec);
+        sectorList.SectorsDoorCount.Push (doorsCount);
+
+        bool checkAbove = !sec.PortalBlocksSound (Sector.Ceiling);
+        bool checkBelow = !sec.PortalBlocksSound (Sector.Floor);
+
+        int lineCount = sec.Lines.Size ();
+        for (int i = 0; i < lineCount; i++) {
+            let check = sec.Lines [i];
+
+            // Check sector portals
+            if (checkAbove) {
+                Sector upper = Sector.PointInSector (check.v1.p + check.delta / 2 + sec.GetPortalDisplacement (Sector.Ceiling));
+                S7_RecurseSectors (upper, sectorList, maxDoors, doorsCount);
+            }
+            if (checkBelow) {
+                Sector lower = Sector.PointInSector (check.v1.p + check.delta / 2 + sec.GetPortalDisplacement (Sector.Floor));
+                S7_RecurseSectors (lower, sectorList, maxDoors, doorsCount);
+            }
+
+            /*
+             * Can't support line portals currently :(
+            */
+
+            if (!check.Sidedef [Line.Back] || !(check.flags & Line.ML_TWOSIDED))
+                continue;
+
+            // Early out for intra-sector lines
+            if (check.Sidedef [Line.Front].sector == check.Sidedef [Line.Back].sector)
+                continue;
+
+            Sector other;
+            if (check.Sidedef [Line.Front].sector == sec)
+                other = check.Sidedef [Line.Back].Sector;
+            else
+                other = check.Sidedef [Line.Front].Sector;
+
+            // Check for closed door
+            bool isDoorSector = false;
+            int curDoorsCount = doorsCount;
+            if (maxDoors > -1) {
+                if ((sec.floorplane.ZatPoint (check.v1.p) >=
+                    other.ceilingplane.ZatPoint (check.v1.p) &&
+                    sec.floorplane.ZatPoint (check.v2.p) >=
+                    other.ceilingplane.ZatPoint (check.v2.p))
+                    || (other.floorplane.ZatPoint (check.v1.p) >=
+                        sec.ceilingplane.ZatPoint (check.v1.p) &&
+                        other.floorplane.ZatPoint (check.v2.p) >=
+                        sec.ceilingplane.ZatPoint (check.v2.p))
+                    || (other.floorplane.ZatPoint (check.v1.p) >=
+                        other.ceilingplane.ZatPoint (check.v1.p) &&
+                        other.floorplane.ZatPoint (check.v2.p) >=
+                        other.ceilingplane.ZatPoint (check.v2.p))
+                ) {
+                    isDoorSector = !doorSector;
+                    if (!doorSector && isDoorSector) {
+                        if (++curDoorsCount > maxDoors)
+                            continue;
+                    }
+                }
+            }
+
+            S7_RecurseSectors (other, sectorList, maxDoors, curDoorsCount, isDoorSector);
+        }
     }
 
     /* Summary:
