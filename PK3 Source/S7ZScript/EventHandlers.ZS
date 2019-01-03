@@ -30,6 +30,7 @@ class S7_StaticEventHandler : StaticEventHandler {
             Shader.SetEnabled (players [i], "S7_DemonEyes"  , false);
             Shader.SetEnabled (players [i], "S7_Invuln"     , false);
             Shader.SetEnabled (players [i], "S7_Nightvision", false);
+            Shader.SetEnabled (players [i], "S7_StealthShader", !(gamestate == GS_TITLELEVEL));
         }
     }
 }
