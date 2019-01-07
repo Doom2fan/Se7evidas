@@ -213,6 +213,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                         itemsList.SetPage (backPage);
                         SetPage (backPage);
 
+                        Menu.MenuSound ("S7Menu/PrevMenu");
+
                         selectedItem = NULL;
                         hoveredItem = NULL;
                         return true;

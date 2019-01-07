@@ -31,6 +31,8 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
         if (link.shiftHeld)
             mul *= 10;
 
+        Menu.MenuSound ("S7Menu/SliderMove");
+
         link.SetAmount (1 * mul);
     }
 
@@ -215,6 +217,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         self.sellMode = sellMode;
         amount = 1;
         UpdateData ();
+
+        Menu.MenuSound ("S7Menu/Open");
     }
 
     void SetAmount (int addAmount) {
@@ -339,5 +343,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         modeLabel.text = "";
         itemName.text = "";
         itemIcon.image = "";
+
+        Menu.MenuSound ("S7Menu/Close");
     }
 }

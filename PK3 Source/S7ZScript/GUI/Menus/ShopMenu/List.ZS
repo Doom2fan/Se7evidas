@@ -57,14 +57,18 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
             list.SetPage (page);
             link.SetPage (page);
 
+            Menu.MenuSound ("S7Menu/Choose");
+
             link.selectedItem = NULL;
             link.hoveredItem = NULL;
         } else if (link.selectedItem != item) { // If the item isn't already selected
             list.Select (item);
             link.selectedItem = item;
+            Menu.MenuSound ("S7Menu/SelectionMove");
         } else {
             list.Select (NULL);
             link.selectedItem = NULL;
+            Menu.MenuSound ("S7Menu/SelectionMove");
         }
     }
 

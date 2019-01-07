@@ -225,10 +225,13 @@ class S7_PlayerEventHandler : EventHandler {
             if (strings [0] == "S7_Keys") {
                 let pPawn = players [consoleplayer].mo;
 
-                if (pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu")
+                if (pPawn && pPawn.health > 0 && strings [1] == "OpenPlayerMenu") {
                     Menu.SetMenu ('S7_PlayerMenu');
-                else if (pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop")
+                    Menu.MenuSound ("S7Menu/Open");
+                } else if (pPawn && pPawn.health > 0 && strings [1] == "OpenLuciusShop") {
                     Menu.SetMenu ('S7_LuciusShopMenu');
+                    Menu.MenuSound ("S7Menu/Open");
+                }
             }
         }
     }

@@ -12,7 +12,6 @@ S7Menu/PrevMenu "sounds/S7Menu/PrevMenu.ogg"
 
 // Selection
 S7Menu/Choose "sounds/S7Menu/Choose.ogg"
-$volume S7Menu/Choose 0.5
 
 // Movement
 $random S7Menu/SelectionMove {
@@ -23,7 +22,7 @@ $random S7Menu/SelectionMove {
 S7Menu/SelectionMove1 "sounds/S7Menu/SelectionMove1.ogg"
 S7Menu/SelectionMove2 "sounds/S7Menu/SelectionMove2.ogg"
 S7Menu/SelectionMove3 "sounds/S7Menu/SelectionMove3.ogg"
-$volume S7Menu/Choose 0.5
+$volume S7Menu/SelectionMove 0.5
 S7Menu/SliderMove "sounds/S7Menu/SliderMove.ogg"
 
 // Misc
@@ -35,7 +34,6 @@ S7Menu/Error "sounds/S7Menu/Error.ogg"
 // Ok
 $alias menu/activate S7Menu/Open
 $alias menu/choose S7Menu/Choose
-$volume menu/choose 0.5
 
 // Movement
 $alias menu/cursor S7Menu/SelectionMove

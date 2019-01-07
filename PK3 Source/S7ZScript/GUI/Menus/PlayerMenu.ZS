@@ -19,17 +19,22 @@
 class S7_PlayerMenuHandler : S7_ZF_Handler {
     S7_PlayerMenu link;
 
+    static void ChangeMenu (name menuName) {
+        Menu.SetMenu (menuName);
+        Menu.MenuSound ("S7Menu/Choose");
+    }
+
     override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "openXPSysMenu")
-            Menu.SetMenu ('S7_XPSystemMenu');
+            ChangeMenu ('S7_XPSystemMenu');
         else if (command == "openLuciusShop")
-            Menu.SetMenu ('S7_LuciusShopMenu');
+            ChangeMenu ('S7_LuciusShopMenu');
         else if (command == "openWeapAssignMenu")
-            Menu.SetMenu ('S7_WeapAssignMenu');
+            ChangeMenu ('S7_WeapAssignMenu');
         else if (command == "openDracoWeapMenu")
-            Menu.SetMenu ('S7_DracoWeapAssignMenu');
+            ChangeMenu ('S7_DracoWeapAssignMenu');
         else if (command == "openAutogunMenu")
-            Menu.SetMenu ('S7_AutogunMenu');
+            ChangeMenu ('S7_AutogunMenu');
     }
 }
 

@@ -23,8 +23,10 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
         if (command.IndexOf (":") < 0) {
             if (command == "AcceptButton")
                 AcceptStats ();
-            else if (command == "ResetButton")
+            else if (command == "ResetButton") {
                 ResetStatAdds ();
+                Menu.MenuSound ("S7Menu/Choose");
+            }
         } else {
             Array<String> commandStrings; commandStrings.Clear ();
             command.Split (commandStrings, ":");
@@ -48,8 +50,11 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
             string xpData = String.Format ("S7_XPSysMenuConfirm:%d,%d,%d,%d,%d,%d,%d", link.strengthAdd, link.agilityAdd, link.vitalityAdd, link.defenseAdd, link.willAdd, link.magicAdd, link.techAdd);
             EventHandler.SendNetworkEvent (xpData);
             ResetStatAdds ();
-        } else
+            Menu.MenuSound ("S7Menu/Choose");
+        } else {
             link.Close ();
+            Menu.MenuSound ("S7Menu/PrevMenu");
+        }
     }
 
     void GiveStat (string stat, bool take) {
@@ -67,6 +72,8 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
             if (statsTotal >= xpSys.attrPoints)
                 return;
         }
+
+        Menu.MenuSound ("S7Menu/SliderMove");
 
         if (stat == "Strength" && (!take || link.strengthAdd > 0))
             link.strengthAdd += amount;
@@ -155,10 +162,20 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statAddLabels [i].Pack (statsFrame);
 
             statButtons [i] [0] = new ('S7_ZF_Button').Init ((140, yCoords), (13, 11), text: "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
-            statButtons [i] [0].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
+            statButtons [i] [0].SetTexture (
+                "graphics/Menu/Generic/SmallButton.png",
+                "graphics/Menu/Generic/SmallButtonHover.png",
+                "graphics/Menu/Generic/SmallButtonPressed.png",
+                "graphics/Menu/Generic/SmallButton.png"
+            );
             statButtons [i] [0].Pack (statsFrame);
             statButtons [i] [1] = new ('S7_ZF_Button').Init ((160, yCoords), (13, 11), text: "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
-            statButtons [i] [1].SetTexture ("graphics/Menu/Generic/SmallButton.png", "graphics/Menu/Generic/SmallButtonHover.png", "graphics/Menu/Generic/SmallButtonPressed.png", "");
+            statButtons [i] [1].SetTexture (
+                "graphics/Menu/Generic/SmallButton.png",
+                "graphics/Menu/Generic/SmallButtonHover.png",
+                "graphics/Menu/Generic/SmallButtonPressed.png",
+                "graphics/Menu/Generic/SmallButton.png"
+            );
             statButtons [i] [1].Pack (statsFrame);
         }
         acceptButton = new ('S7_ZF_Button').Init ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
@@ -198,6 +215,17 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         statBaseLabels [4].text = String.Format ("%d", xpSys.willStat);     statAddLabels [4].text = String.Format ("+%d", willAdd);
         statBaseLabels [5].text = String.Format ("%d", xpSys.magicStat);    statAddLabels [5].text = String.Format ("+%d", magicAdd);
         statBaseLabels [6].text = String.Format ("%d", xpSys.techStat);     statAddLabels [6].text = String.Format ("+%d", techAdd);
+
+        for (int i = 0; i < statButtons.Size (); i++)
+            statButtons [i] [0].disabled = (statsTotal >= xpSys.attrPoints);
+
+        statButtons [0] [1].disabled = (strengthAdd <= 0);
+        statButtons [1] [1].disabled = (agilityAdd  <= 0);
+        statButtons [2] [1].disabled = (vitalityAdd <= 0);
+        statButtons [3] [1].disabled = (defenseAdd  <= 0);
+        statButtons [4] [1].disabled = (willAdd     <= 0);
+        statButtons [5] [1].disabled = (magicAdd    <= 0);
+        statButtons [6] [1].disabled = (techAdd     <= 0);
 
         for (int i = 0; i < statLabels.Size () + 1; i++) {
             if (i == statLabels.Size ()) {

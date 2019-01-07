@@ -19,14 +19,19 @@
 class S7_AutogunMenuHandler : S7_ZF_Handler {
     S7_AutogunMenu link;
 
+    void ChangeScanAngle (int amount) {
+        EventHandler.SendNetworkEvent ("S7_AutogunMenu:ScanAngleChange", amount);
+        Menu.MenuSound ("S7Menu/SliderMove");
+    }
+
     override void buttonClickCommand (S7_ZF_Button caller, string command) {
         if (!link || !link.CPlayer || !link.CPlayer.mo)
             return;
 
         if (command == "scanAngleIncButton")
-            EventHandler.SendNetworkEvent ("S7_AutogunMenu:ScanAngleChange", 1);
+            ChangeScanAngle (1);
         else if (command == "scanAngleDecButton")
-            EventHandler.SendNetworkEvent ("S7_AutogunMenu:ScanAngleChange", -1);
+            ChangeScanAngle (-1);
         else if (command == "repairHealthButton")
             link.popup.Activate (link.GetRepairHealthText (), "RepairHealth");
         else if (command == "buyAmmoButton")
@@ -45,9 +50,9 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
             return;
 
         if (command == "scanAngleIncButton")
-            EventHandler.SendNetworkEvent ("S7_AutogunMenu:ScanAngleChange", 1);
+            ChangeScanAngle (1);
         else if (command == "scanAngleDecButton")
-            EventHandler.SendNetworkEvent ("S7_AutogunMenu:ScanAngleChange", -1);
+            ChangeScanAngle (-1);
     }
 }
 
@@ -69,9 +74,9 @@ class S7_AutogunMenu_EventHandler : EventHandler {
         if (strings.Size () < 2 || strings [0] != "S7_AutogunMenu") // Return if the array has less than two strings or the first string isn't "S7_AutogunMenu"
             return;
 
-        if (strings [1] == "ScanAngleChange")
+        if (strings [1] == "ScanAngleChange") {
             inv.scanAngle = clamp (inv.scanAngle + e.Args [0], 10, 180);
-        else if (strings [1] == "RepairHealth") {
+        } else if (strings [1] == "RepairHealth") {
             int price, healAmount;
 
             [price, healAmount] = S7_AutogunMenu.GetHealthRepairInfo (pPawn);
@@ -363,6 +368,8 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
             repairHealthButton.disabled = (repairHealthButton.hidden = (inv.integrity >= 500));
             buyAmmoButton.disabled = (buyAmmoButton.hidden = (inv.ammo >= 1000));
             repairCorruptionButton.disabled = (repairCorruptionButton.hidden = (inv.corruption <= 0));
+            scanAngleInc.disabled = (inv.scanAngle >= 180.);
+            scanAngleDec.disabled = (inv.scanAngle <= 10.);
         }
 
         int cash = CPlayer.mo.CountInv ('S7_Cash');
@@ -453,6 +460,8 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
 
         textLabel.text = text;
         popupCommand = command;
+
+        Menu.MenuSound ("S7Menu/Open");
     }
 
     void SetText (string text) {
@@ -466,5 +475,6 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
 
         textLabel.text = "";
         popupCommand = "";
+        Menu.MenuSound ("S7Menu/Close");
     }
 }

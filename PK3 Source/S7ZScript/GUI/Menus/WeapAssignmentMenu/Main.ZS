@@ -40,6 +40,8 @@ class S7_WeapAssignMenuHandler : S7_ZF_Handler {
                 link.selectedY = selectedY;
 
                 link.ActivateSelFrame (selectedX + 1);
+
+                Menu.MenuSound ("S7Menu/SelectionMove");
             }
         }
     }
@@ -221,6 +223,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             EventHandler.SendNetworkEvent ("S7_WeapBindsSystem:UnsetSlot", selectedX + 1, selectedY, (isDraco ? 1 : 0));
         else
             EventHandler.SendNetworkEvent (String.Format ("S7_WeapBindsSystem:SetSlot:%s", weap), selectedX + 1, selectedY, (isDraco ? 1 : 0));
+
+        MenuSound ("S7Menu/Choose");
 
         selectedX = selectedY = -1;
         hoveredWeap = NULL;
