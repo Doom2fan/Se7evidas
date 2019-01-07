@@ -55,6 +55,18 @@ class S7_HealWeap : S7_BaseWeapon {
         +INVENTORY.UNDROPPABLE
     }
 
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (healItem) {
+            bInvBar = (!Owner.CheckInventory (healItem, 1) && usesLeft > 0);
+
+            let healItemDef = GetDefaultByType (healItem);
+            if (healItemDef)
+                icon = GetDefaultByType (healItem).Icon;
+        }
+    }
+
     override bool Use (bool pickup) {
         return !pickup ? Weapon.Use (false) : false;
     }
