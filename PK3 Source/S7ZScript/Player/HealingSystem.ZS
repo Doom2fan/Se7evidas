@@ -29,6 +29,21 @@ class S7_HealingSystem : Inventory {
         regenPoints = 0;
     }
 
+    virtual double GetBaseRegenTime (S7_BasePlayer pPawn) {
+        if (!pPawn || !pPawn.xpSys)
+            return baseRegenTime;
+
+        return double (baseRegenTime) * max (1. - log (pPawn.xpSys.GetStat (S7Stat_Vitality) / 10.), .25);
+    }
+
+
+    virtual double GetBaseRegenAmount (S7_BasePlayer pPawn) {
+        if (!pPawn || !pPawn.xpSys)
+            return baseRegenTime;
+
+        return double (baseRegenAmount) * (1. + log (pPawn.xpSys.GetStat (S7Stat_Vitality) / 10.));
+    }
+
     override void DoEffect () {
         if (!Owner || !(Owner is 'S7_BasePlayer'))
             return;
@@ -50,14 +65,14 @@ class S7_HealingSystem : Inventory {
             double regenRateAmount, regenRateTime;
 
             [regenRateTime, regenRateAmount] = pPawn.xpSys.GetStatMod (S7Stat_Special, specialName: "regenRate");
-            regenRateAmount += baseRegenAmount;
+            regenRateAmount += GetBaseRegenAmount (pPawn);
 
             int giveCount = int (min (regenRateAmount, regenPoints));
 
             pPawn.GiveBody (giveCount);
             regenPoints -= giveCount;
 
-            regenTimer = int (baseRegenTime * regenRateTime);
+            regenTimer = int (GetBaseRegenTime (pPawn) * regenRateTime);
         } else if (regenPoints < 0) {
             Console.PrintF ("S7 Error: What the hell? S7_HealingSystem.regenPoints became negative!");
             regenPoints = 0;
