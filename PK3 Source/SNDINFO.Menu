@@ -1,17 +1,54 @@
-// Back, Selection Move, Ok and Error are from God of War 2. Ripped by Chronos "phantombeta" Ouroboros
-// Ok
-menu/activate               "sounds/Menu/Ok.ogg"
-menu/prompt                 "sounds/Menu/Ok.ogg"
-menu/choose                 "sounds/Menu/Ok.ogg"
+// All sounds here are from Saints Row IV. Ripped by Chronos "phantombeta" Ouroboros.
 
-// Selection Move
-menu/cursor                 "sounds/Menu/Selection Move.ogg"
-menu/change                 "sounds/Menu/Selection Move.ogg"
+// Activation
+$random S7Menu/Open {
+    S7Menu/Open1
+    S7Menu/Open2
+}
+S7Menu/Open1 "sounds/S7Menu/Open1.ogg"
+S7Menu/Open2 "sounds/S7Menu/Open2.ogg"
+S7Menu/Close "sounds/S7Menu/Close.ogg"
+S7Menu/PrevMenu "sounds/S7Menu/PrevMenu.ogg"
+
+// Selection
+S7Menu/Choose "sounds/S7Menu/Choose.ogg"
+$volume S7Menu/Choose 0.5
+
+// Movement
+$random S7Menu/SelectionMove {
+    S7Menu/SelectionMove1
+    S7Menu/SelectionMove2
+    S7Menu/SelectionMove3
+}
+S7Menu/SelectionMove1 "sounds/S7Menu/SelectionMove1.ogg"
+S7Menu/SelectionMove2 "sounds/S7Menu/SelectionMove2.ogg"
+S7Menu/SelectionMove3 "sounds/S7Menu/SelectionMove3.ogg"
+$volume S7Menu/Choose 0.5
+S7Menu/SliderMove "sounds/S7Menu/SliderMove.ogg"
+
+// Misc
+S7Menu/Prompt "sounds/S7Menu/Prompt.ogg"
+S7Menu/Error "sounds/S7Menu/Error.ogg"
+
+
+/// GZDoom sound remapping
+// Ok
+$alias menu/activate S7Menu/Open
+$alias menu/choose S7Menu/Choose
+$volume menu/choose 0.5
+
+// Movement
+$alias menu/cursor S7Menu/SelectionMove
+$volume menu/cursor 0.5
+$alias menu/change S7Menu/SliderMove
 
 // Back
-menu/dismiss                "sounds/Menu/Back.ogg"
-menu/clear                  "sounds/Menu/Back.ogg"
-menu/backup                 "sounds/Menu/Back.ogg"
+$alias menu/clear S7Menu/Close
+$alias menu/backup S7Menu/PrevMenu
+
+// Message box
+$alias menu/prompt S7Menu/Prompt
+$alias menu/dismiss S7Menu/Close
 
 // Errors
-menu/invalid                "sounds/Menu/Error.ogg"
+$alias menu/invalid S7Menu/Error
