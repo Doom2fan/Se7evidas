@@ -401,9 +401,9 @@ class S7_BasePlayer : PlayerPawn {
             player.viewz = player.mo.floorz + 4;
     }
 
-    clearscope int S7_GetMaxHealth () { return ((xpSys) ? int (SpawnHealth () * (1.0 + 0.06 * xpSys.GetStat (S7Stat_Vitality))) : 0); }
-    clearscope int GetMaxStamina   () { return ((xpSys) ? int (150 + 10 * xpSys.GetStat (S7Stat_Agility)) : 0); }
-    clearscope int GetMaxMana      () { return ((xpSys) ? int (250 + 15 * xpSys.GetStat (S7Stat_Magic))   : 0); }
+    clearscope int S7_GetMaxHealth () { return ((xpSys) ? int (SpawnHealth () * (1. + (.06 * xpSys.GetStat (S7Stat_Vitality)))) : 0); }
+    clearscope int GetMaxStamina   () { return ((xpSys) ? int (150 + (10 * xpSys.GetStat (S7Stat_Agility))) : 0); }
+    clearscope int GetMaxMana      () { return ((xpSys) ? int (250 + (15 * xpSys.GetStat (S7Stat_Magic)))   : 0); }
 
     bool CanGiveHealing (bool checkMax = true) {
         if (!self || !healSys || !xpSys)
@@ -420,7 +420,7 @@ class S7_BasePlayer : PlayerPawn {
         else if (health <= 0 || health >= GetMaxHealth ())
             return false; // Return false if the player is dead or at max health
 
-        healSys.regenPoints += int (healAmount * (1 + (xpSys.GetStat (S7Stat_Vitality) / 5)));
+        healSys.regenPoints += int (healAmount * (1. + (.045 * xpSys.GetStat (S7Stat_Vitality))));
 
         return true;
     }
