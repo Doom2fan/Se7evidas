@@ -56,6 +56,71 @@ class S7_FatFuck : S7_DemonBase {
 
     int attackRepeatCount;
 
+    S7_XPSystem xpSys;
+
+    override void PostBeginPlay () {
+        if (!xpSys) {
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+        }
+
+        let serverData = S7_ServerData.Get ();
+        xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 4.) + fRandom [monsterStats] (-1.5, 2.5)));
+        int attrPts = xpSys.level * 4;
+
+        while (attrPts > 0) {
+            int rnd = random [monsterStats] (0, 3);
+
+            switch (rnd) {
+            case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
+            case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
+            case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
+            case 3: xpSys.SetStat (S7Stat_Agility, 1); break;
+            }
+
+            attrPts--;
+        }
+
+        // Vitality
+        startHealth = int (health * (1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
+    }
+
+    override void Tick () {
+        if (!xpSys) {
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+            if (!xpSys) {
+                GiveInventory ('S7_XPSystem', 1);
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+            }
+        }
+
+        // Strength
+        //damageMultiply = 1.0 + (0.0225 * xpSys.GetStat (S7Stat_Strength));
+        // Defense
+        damageFactor = clamp (1.0 - (0.0125 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+        // Agility
+        speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.1, -default.Speed * .75, default.Speed);
+
+        Super.Tick ();
+    }
+
+    override void OnDeath (Actor source, Actor inflictor, int dmgflags) {
+        if (source) {
+            let xpSys = GetXPSystem ();
+            double level = xpSys ? xpSys.level : 1;
+            GiveXP (source, int (850 * max (1, level / 2.5)));
+            GiveCash (source, int (650 * max (1, level / 10.)));
+        }
+    }
+
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.065;
+    }
+
     states {
     Spawn:
         FAT1 A 15 A_S7Look;
@@ -80,35 +145,24 @@ class S7_FatFuck : S7_DemonBase {
         goto FireballAttack;
     
     FlamethrowerAttack:
-        FAT1 G 6 {
-            A_FaceTarget (0, 0);
-
-            if (attackRepeatCount >= 3)
-                return ResolveState ("See");
-            else if (attackRepeatCount >= 0)
-                A_SetTics (2);
-            
-            return ResolveState (null);
-        }
-        FAT1 HHHHHH 2 {
-            A_FaceTarget (0, 0);
+        FAT1 GGG 2 A_FaceTarget (90, 45);
+        FAT1 HGHGHGHGH 2 {
             A_SpawnProjectile ('S7_FatFuckFlame', 25.0, -25, -2.5 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckFlame', 25.0,  25,  2.5 + fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 I 5 { attackRepeatCount++; }
-        goto FlamethrowerAttack;
+        goto See;
 
     FireballAttack:
         TNT1 A 0 A_PlaySound ("fatso/raiseguns", CHAN_Voice);
         FAT1 GGGGGGGGGG 1 A_FaceTarget (36, 18);
 
         FAT1 H     10 bright {
-            A_FaceTarget (0, 0);
             A_PlaySound ("fatso/attack", CHAN_Weapon);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
-        FAT1 IIIGGG 2 A_FaceTarget (60, 30);
+        FAT1 IIIGGG 2;
 
         FAT1 H     10 bright {
             A_FaceTarget (0, 0);
@@ -116,19 +170,15 @@ class S7_FatFuck : S7_DemonBase {
             A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
-        FAT1 IIIGGG 2 A_FaceTarget (60, 30);
+        FAT1 IIIGGG 2;
 
         FAT1 H 10 bright {
-            A_FaceTarget (0, 0);
             A_PlaySound ("fatso/attack", CHAN_Weapon);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 IG 6;
         goto See;
-
-    /*Melee:
-        goto See;*/
 
     Pain:
         FAT1 J 5;
@@ -202,16 +252,16 @@ class S7_FatFuckFlame : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
         S7_Projectile.FastProjCollision ColMode_EdgeCenters | ColMode_Corners | ColMode_Center;
-        S7_Projectile.EffectStepMul 0.45;
+        S7_Projectile.EffectStepMul 0.3;
 
         Radius 8;
         Height 8;
-        Speed 60;
+        Speed 50;
 
         MissileType 'S7_FatFuckFlame_Trail';
         MissileHeight 8;
 
-        DamageFunction (random (3, 6));
+        DamageFunction (random (1, 2));
         DamageType 'Fire';
 
         Obituary "$OBFATSOFLAMETHROWER";
@@ -219,7 +269,7 @@ class S7_FatFuckFlame : S7_Projectile {
 
     states {
     Spawn:
-        TNT1 A 4 A_SpawnItemEx ('S7_FatFuckFlame_Trail', flags: SXF_NoCheckPosition | SXF_Clientside);
+        TNT1 A 3;
         stop;
     
     Death:
