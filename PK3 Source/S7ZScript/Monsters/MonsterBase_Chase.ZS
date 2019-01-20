@@ -198,7 +198,7 @@ extend class S7_MonsterBase {
                     //A_Look(actor);
                     if (!target) {
                         if (!dontMove)
-                            S7_Wander ();
+                            S7_DoWander ();
 
                         bInChase = false;
                         return;
@@ -412,7 +412,7 @@ extend class S7_MonsterBase {
             // (copied from A_SerpentChase - it applies to everything with CANTLEAVEFLOORPIC!)
             if (bCantLeaveFloorPic && floorpic != oldFloor) {
                 if (TryMove (old, false)) {
-                    if (nomonsterinterpolation) {
+                    if (!nomonsterinterpolation) {
                         Prev.X = old.X;
                         Prev.Y = old.Y;
                         //PrevPortalGroup = oldgroup;

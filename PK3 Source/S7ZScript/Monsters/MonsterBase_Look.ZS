@@ -281,7 +281,7 @@ extend class S7_MonsterBase {
                 if (SeeState)
                     SetState (SeeState);
                 else
-                    S7_Wander ();
+                    invoker.S7_DoWander ();
             } else if (targFromSound || invoker.S7_CanSeeEnemy (targ)) {
                 target = targ;
 
@@ -409,7 +409,7 @@ extend class S7_MonsterBase {
                         else if (SeeState)
                             SetState (SeeState);
                         else
-                            S7_Wander ();
+                            invoker.S7_DoWander ();
                     }
                 }
             } else if (targFromSound || invoker.S7_CanSeeEnemy (targ)) {

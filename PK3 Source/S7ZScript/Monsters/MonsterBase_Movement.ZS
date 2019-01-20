@@ -515,7 +515,7 @@ extend class S7_MonsterBase {
                         SetOrigin (oldPos, false);
                         angle = oldAngle;
                         pitch = oldPitch;
-                    } else if (!NoMonsterInterpolation && !(Prev ~== pos)) {
+                    } else if (!NoMonsterInterpolation) {
                         Vector3 newPos = pos;
                         SetOrigin (oldPos, false);
                         SetOrigin (newPos, true);
@@ -533,7 +533,7 @@ extend class S7_MonsterBase {
 
                 int usesCount = CheckMonsterUseSpecials ();
 
-                if (!NoMonsterInterpolation && !(Prev ~== pos)) {
+                if (!NoMonsterInterpolation) {
                     Vector3 newPos = pos;
                     SetOrigin (oldPos, false);
                     SetOrigin (newPos, true);
@@ -548,7 +548,7 @@ extend class S7_MonsterBase {
             SetOrigin (oldPos, false);
             angle = oldAngle;
             pitch = oldPitch;
-        } else if (!NoMonsterInterpolation && !(Prev ~== pos)) {
+        } else if (!NoMonsterInterpolation) {
             Vector3 newPos = pos;
             SetOrigin (oldPos, false);
             SetOrigin (newPos, true);
