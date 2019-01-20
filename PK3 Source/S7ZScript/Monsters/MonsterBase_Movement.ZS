@@ -56,8 +56,6 @@ extend class S7_MonsterBase {
         if (bFriendly) {
             Actor player;
             int i = 0;
-            Vector2 delta;
-            int d [2];
 
             if (FriendPlayer != 0)
                 player = players [i = (FriendPlayer - 1)].mo;
@@ -71,57 +69,30 @@ extend class S7_MonsterBase {
             }
 
             if (player && playeringame [i]) {
-                if ((random [NewChaseDir] (0, 255) & 1) || !CheckSight (player)) {
-                    delta = Vec2To (player);
+                if (true || (random [NewChaseDir] (0, 255) & 1) || !CheckSight (player)) {
+                    let delta = Vec2To (player);
+                    int d [2];
 
-                    if (delta.X > 128)
+                    if (delta.X > 10)
                         d [0] = S7_MOVEDIR_EAST;
-                    else if (delta.X < -128)
+                    else if (delta.X < -10)
                         d [0] = S7_MOVEDIR_WEST;
                     else
                         d [0] = S7_MOVEDIR_NODIR;
 
-                    if (delta.Y < -128)
+                    if (delta.Y < -10)
                         d [1] = S7_MOVEDIR_SOUTH;
-                    else if (delta.Y > 128)
+                    else if (delta.Y > 10)
                         d [1] = S7_MOVEDIR_NORTH;
                     else
                         d [1] = S7_MOVEDIR_NODIR;
 
-                    // Try direct route
-                    if (d [0] != S7_MOVEDIR_NODIR && d [1] != S7_MOVEDIR_NODIR) {
-                        double ang = VectorAngle (delta.X, delta.Y);
-                        movementDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
-
-                        if (movementDir != turnaround) {
-                            if (S7_TryWalk ())
-                                return;
-                        }
-                    }
-
-                    // Try other directions
-                    if (random [NewChaseDir] (0, 255) > 200 || abs (delta.Y) > abs (delta.X)) {
-                        d [0] = (d [0] ^ d [1]);
-                        d [1] = (d [1] ^ d [0]);
-                        d [0] = (d [0] ^ d [1]);
-                    }
-
-                    if (d [0] == turnaround)
-                        d [0] = S7_MOVEDIR_NODIR;
-                    if (d [1] == turnaround)
-                        d [1] = S7_MOVEDIR_NODIR;
-
-                    for (int i = 0; i < 2; i++) {
-                        if (d [i] != S7_MOVEDIR_NODIR) {
-                            movementDir = d [i];
-                            if (S7_TryWalk ())
-                                return;
-                        }
-                    }
+                    S7_DoNewChaseDir (d [0], d [1], player);
+                    if (movementDir != S7_MOVEDIR_NODIR)
+                        return;
                 }
             }
         }
-
         // If the actor elects to continue in its current direction, let it do
         // so unless the way is blocked. Then it must turn.
         if (random [NewChaseDir] (0, 255) < 150) {
@@ -155,7 +126,7 @@ extend class S7_MonsterBase {
         movementDir = S7_MOVEDIR_NODIR;
     }
 
-    void S7_DoNewChaseDir (double deltaX, double deltaY) {
+    void S7_DoNewChaseDir (double deltaX, double deltaY, Actor targ = null) {
         int d [2];
         int oldDir, turnaround = S7_MOVEDIR_NODIR;
         bool attempts [S7_MOVEDIR_COUNT - 1]; // We don't need to attempt S7_MOVEDIR_NODIR.
@@ -214,7 +185,10 @@ extend class S7_MonsterBase {
         bool hasTarget = false;
         Vector2 targPos;
 
-        if ((bChaseGoal || goal == target) && goal) {
+        if (targ) {
+            targPos = targ.pos.XY;
+            hasTarget = true;
+        } if ((bChaseGoal || goal == target) && goal) {
             targPos = goal.pos.XY;
             hasTarget = true;
         } else if (aiNextNode) {
@@ -229,6 +203,7 @@ extend class S7_MonsterBase {
             int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
             for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
                 int tDir = movementDir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
+
                 if (tDir > S7_MOVEDIR_MAXDIR)
                     tDir = tDir - S7_MOVEDIR_MAXDIR;
                 if (tDir < -S7_MOVEDIR_MAXDIR)
