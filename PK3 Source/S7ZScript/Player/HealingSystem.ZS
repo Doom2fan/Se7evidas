@@ -33,7 +33,10 @@ class S7_HealingSystem : Inventory {
         if (!pPawn || !pPawn.xpSys)
             return baseRegenTime;
 
-        return double (baseRegenTime) * max (1. - log (pPawn.xpSys.GetStat (S7Stat_Vitality) / 10.), .25);
+        double vitality = pPawn.xpSys.GetStat (S7Stat_Vitality);
+        double logVit = (vitality >= 1) ? log (pPawn.xpSys.GetStat (S7Stat_Vitality) / 10.) : 0;
+
+        return double (baseRegenTime) * clamp (1. - logVit, .25, 1.);
     }
 
 
@@ -41,7 +44,10 @@ class S7_HealingSystem : Inventory {
         if (!pPawn || !pPawn.xpSys)
             return baseRegenTime;
 
-        return double (baseRegenAmount) * (1. + log (pPawn.xpSys.GetStat (S7Stat_Vitality) / 10.));
+        double vitality = pPawn.xpSys.GetStat (S7Stat_Vitality);
+        double logVit = (vitality >= 1) ? log (pPawn.xpSys.GetStat (S7Stat_Vitality) / 10.) : 0;
+
+        return double (baseRegenAmount) * max (1. + logVit, 1.);
     }
 
     override void DoEffect () {
@@ -67,7 +73,7 @@ class S7_HealingSystem : Inventory {
             [regenRateTime, regenRateAmount] = pPawn.xpSys.GetStatMod (S7Stat_Special, specialName: "regenRate");
             regenRateAmount += GetBaseRegenAmount (pPawn);
 
-            int giveCount = int (min (regenRateAmount, regenPoints));
+            int giveCount = int (floor (clamp (regenRateAmount, 1, regenPoints)));
 
             pPawn.GiveBody (giveCount);
             regenPoints -= giveCount;
