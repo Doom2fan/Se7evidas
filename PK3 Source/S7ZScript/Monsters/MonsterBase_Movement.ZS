@@ -420,7 +420,7 @@ extend class S7_MonsterBase {
             dropoff = 2;
 
         Vector3 moveVec = (AngleToVector (double (movementDir) * S7_MOVEDIR_INTERVAL, Speed), 0);
-        [angle, pitch] = S7_Math.GetAnglesTo (pos, pos + moveVec);
+        [angle, pitch] = S7_Math.GetAnglesTo (level, pos, pos + moveVec);
 
         double maxmove = radius - 1.;
         double stepCount = 1;

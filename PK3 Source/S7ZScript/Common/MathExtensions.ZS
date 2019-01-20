@@ -35,10 +35,10 @@ class S7_Math : Actor {
     **  The position that the intercept will occur at. The function will return null if a solution cannot be found.
     **  Consider the case of a target moving away from the shooter faster than the speed of the projectile and you will see at least one case where this calculation may fail.
     */
-    static bool, Vector3 CalculateInterceptShotPosition (Vector3 projPos, Vector3 targetPos, Vector3 targetVel, double projSpeed) {
+    static bool, Vector3 CalculateInterceptShotPosition (LevelLocals lvl, Vector3 projPos, Vector3 targetPos, Vector3 targetVel, double projSpeed) {
     // This formulation uses the quadratic equation to solve
     // the intercept position.
-        Vector3 R = targetPos - projPos;
+        Vector3 R = lvl.Vec3Diff (projPos, targetPos);
         double a = (targetVel dot targetVel) - (projSpeed ** 2);
         double b = 2. * (R dot targetVel);
         double c = R dot R;
@@ -90,7 +90,7 @@ class S7_Math : Actor {
             return false, (double.NaN, double.NaN, double.NaN);
 
         // Calculate the intercept position.
-        return true, (targetPos + tBullet*targetVel);
+        return true, lvl.Vec3Offset (targetPos, tBullet * targetVel);
     }
 
     /** Ballistic trajectory correction **/
@@ -107,8 +107,8 @@ class S7_Math : Actor {
     ** Returns:
     **  The pitch that the projectile will need to be fired at. Actually returns two doubles.
     */
-    static double, double InterceptShotPitch (Vector3 shooterPos, Vector3 targetPos, double v, double g) {
-        Vector3 vecDiff = level.vec3Diff (shooterPos, targetPos);
+    static double, double InterceptShotPitch (LevelLocals lvl, Vector3 shooterPos, Vector3 targetPos, double v, double g) {
+        Vector3 vecDiff = lvl.vec3Diff (shooterPos, targetPos);
         double x = vecDiff.XY.Length (),
                y = vecDiff.Z;
 
@@ -156,8 +156,8 @@ class S7_Math : Actor {
     }
 
     /** Misc **/
-    static double, double GetAnglesTo (Vector3 p1, Vector3 p2) {
-        let diffVec = level.Vec3Diff (p1, p2);
+    static double, double GetAnglesTo (LevelLocals lvl, Vector3 p1, Vector3 p2) {
+        let diffVec = lvl.Vec3Diff (p1, p2);
 
         double angle = VectorAngle (diffVec.X, diffVec.Y);
         double pitch = -VectorAngle (diffVec.Length (), diffVec.Z);

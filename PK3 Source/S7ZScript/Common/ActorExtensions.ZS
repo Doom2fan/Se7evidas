@@ -83,14 +83,14 @@ class S7_SectorList {
 
 class S7_ActorExtensions : Actor {
     const CHP_BlockFlags = Line.ML_BLOCKMONSTERS | Line.ML_BLOCK_PLAYERS | Line.ML_BLOCK_FLOATERS | Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKUSE | Line.ML_BLOCKSIGHT | Line.ML_BLOCKHITSCAN;
-    static bool CanHitPoint (Vector3 p1, Vector3 p2, S7_CanHitPointData data) {
+    static bool CanHitPoint (LevelLocals lvl, Vector3 p1, Vector3 p2, S7_CanHitPointData data) {
         if (!data)
             data = new ('S7_CanHitPointData');
 
-        let diffVec = level.Vec3Diff (p1, p2);
+        let diffVec = lvl.Vec3Diff (p1, p2);
         double dist = diffVec.Length ();
 
-        [data.AngleTo, data.PitchTo] = S7_Math.GetAnglesTo (p1, p2);
+        [data.AngleTo, data.PitchTo] = S7_Math.GetAnglesTo (lvl, p1, p2);
         data.lineBlockFlags &= CHP_BlockFlags;
 
         let tracer = new ('S7_CanHitPointLineTracer');

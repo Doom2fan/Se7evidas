@@ -40,20 +40,20 @@ extend class S7_MonsterBase {
         else
             targPos = targ.Vec3Offset (0, 0, (targ.height / 2.) + S7_LTF_TargHeightMul);
 
-        [angle, pitch] = S7_Math.GetAnglesTo (projPos, targPos);
+        [angle, pitch] = S7_Math.GetAnglesTo (level, projPos, targPos);
 
         if (targ.vel.X ~== 0 && targ.vel.Y ~== 0 && targ.vel.Z ~== 0) // Don't bother leading if the target isn't moving.
             return targPos;
 
         bool canIntercept;
         Vector3 interceptPos;
-        [canIntercept, interceptPos] = S7_Math.CalculateInterceptShotPosition (projPos, targPos, targ.vel, projSpeed);
+        [canIntercept, interceptPos] = S7_Math.CalculateInterceptShotPosition (level, projPos, targPos, targ.vel, projSpeed);
 
         // Couldn't intercept.
         if (!canIntercept)
             return targPos;
 
-        [angle, pitch] = S7_Math.GetAnglesTo (projPos, interceptPos);
+        [angle, pitch] = S7_Math.GetAnglesTo (level, projPos, interceptPos);
 
         return interceptPos;
     }
@@ -61,7 +61,7 @@ extend class S7_MonsterBase {
     /** Pitch correction for gravity-affected projectiles **/
     virtual double PitchCorrection (Vector3 targPos, double xyOffs, double zOffs, double projSpeed, double grav, bool retX1 = false) {
         double x1, x2;
-        [x1, x2] = S7_Math.InterceptShotPitch (Vec3Offset (cos (angle) * xyOffs, sin (angle) * xyOffs, zOffs), targPos, projSpeed, grav);
+        [x1, x2] = S7_Math.InterceptShotPitch (level, Vec3Offset (cos (angle) * xyOffs, sin (angle) * xyOffs, zOffs), targPos, projSpeed, grav);
 
         if ((retX1 && x1 != x1) || (!retX1 && x2 != x2)) // If these are NaN, well fuck. Probably means we can't hit.
             return double.NaN;

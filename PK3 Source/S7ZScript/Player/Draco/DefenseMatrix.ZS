@@ -79,7 +79,7 @@ extend class S7_DracoPlayer {
 
         bool canIntercept;
         Vector3 aimPos;
-        [canIntercept, aimPos] = S7_Math.CalculateInterceptShotPosition (laserStartPos, misPos, mo.vel, 350);
+        [canIntercept, aimPos] = S7_Math.CalculateInterceptShotPosition (level, laserStartPos, misPos, mo.vel, 350);
 
         if (!canIntercept)
             return false;
@@ -88,8 +88,8 @@ extend class S7_DracoPlayer {
         chpData.ignoredActors.Push (self);
         chpData.ignoredActors.Push (mo);
         chpData.lineBlockFlags = Line.ML_BLOCKPROJECTILE;
-        if (!S7_ActorExtensions.CanHitPoint (laserStartPos, misPos, chpData)) {
-            if (S7_ActorExtensions.CanHitPoint (laserStartPos, mo.pos, chpData))
+        if (!S7_ActorExtensions.CanHitPoint (level, laserStartPos, misPos, chpData)) {
+            if (S7_ActorExtensions.CanHitPoint (level, laserStartPos, mo.pos, chpData))
                 aimPos = mo.pos;
             else
                 return false;
