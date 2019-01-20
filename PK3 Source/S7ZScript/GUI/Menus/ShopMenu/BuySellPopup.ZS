@@ -328,7 +328,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         int heldAmt = selectedItem.GetAmount (pPawn);
         let baseItemInfo = selectedItem.GetInfo (pPawn, 1);
         uint baseAmount = (sellMode ? baseItemInfo.sellAmount : baseItemInfo.buyAmount);
-        Console.Printf ("%d, %d", info.maxAmount - (total + heldAmt), baseAmount);
+
         if ((!sellMode && (info.maxAmount - (total + heldAmt)) < baseAmount) ||
             ( sellMode && total >= heldAmt))
             addButton.disabled = true;
