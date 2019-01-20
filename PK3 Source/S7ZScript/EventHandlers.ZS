@@ -93,34 +93,6 @@ class S7_ServerEventHandler : EventHandler {
 //
 //-------------------------------------------------------------------------------------------
 class S7_PlayerEventHandler : EventHandler {
-    static const String KeyBindsCCMDs [] = {
-        "slot 1", "slot 2", "slot 3", "slot 4", "slot 5",
-        "slot 6", "slot 7", "slot 8", "slot 9", "slot 0",
-        "weapnext", "weapprev"
-    };
-    static const String KeyBindsNetEvents [] = {
-        "slot:1", "slot:2", "slot:3", "slot:4", "slot:5",
-        "slot:6", "slot:7", "slot:8", "slot:9", "slot:0",
-        "next", "prev"
-    };
-
-    override bool InputProcess (InputEvent e) {
-        if (e.Type != InputEvent.Type_KeyDown)
-            return false;
-
-        int bind1, bind2;
-        for (int i = 0; i < 12; i++) {
-            [bind1, bind2] = Bindings.GetKeysForCommand (KeyBindsCCMDs [i]);
-
-            if (e.KeyScan == bind1 || e.KeyScan == bind2) {
-                EventHandler.SendNetworkEvent (String.Format ("S7_WeapBindsSystem:%s", KeyBindsNetEvents [i]));
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     override void NetworkProcess (ConsoleEvent e) {
         if (e.Player < 0) // Don't execute this if the player isn't given/valid
             return;
@@ -182,8 +154,7 @@ class S7_PlayerEventHandler : EventHandler {
                 if (flashlight)
                     flashlight.ToggleReleased ();
             }
-        } else if (strings [0] ~== "S7_WeapBindsSystem")
-            WeapBindsSystem (e);
+        }
     }
 
     static const string serverCVars [] = {
@@ -234,103 +205,5 @@ class S7_PlayerEventHandler : EventHandler {
                 }
             }
         }
-    }
-
-    void WeapBindsSystem (ConsoleEvent e) {
-        PlayerInfo player = players [e.Player];
-
-        if (!player) // Return if the player is null
-            return;
-
-        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ('S7_WeapBindsSystem'));
-
-        if (!weapBinds) // Return if weapBinds is null
-            return;
-
-        bool isDraco = (player.mo is 'S7_DracoPlayer');
-
-        Array<String> commandStrings; commandStrings.Clear ();
-        e.Name.Split (commandStrings, ":");
-        if (commandStrings.Size () < 2) // Return if the array contains less than two strings
-            return;
-
-        if (commandStrings [1] == "slot") {
-            if (commandStrings.Size () < 3) // Return if the array contains less than 3 strings
-                return;
-
-            int slot = commandStrings [2].ToInt ();
-            if (slot < 0 || slot > 9)
-                return;
-
-            S7_BaseWeapon weapon = weapBinds.PickWeapon (slot, false, isDraco);
-
-            if (player.ReadyWeapon != weapon && weapon != null) {
-                player.PendingWeapon = weapon;
-                weapBinds.LastWeapon = weapon;
-            }
-        } else if (commandStrings [1] == "next") {
-            S7_BaseWeapon weapon = weapBinds.CycleWeapons (false, false, isDraco);
-
-            if (player.ReadyWeapon != weapon && weapon != null) {
-                player.PendingWeapon = weapon;
-                weapBinds.LastWeapon = weapon;
-            }
-
-            CVar dispTags = CVar.GetCVar ("displaynametags", players [consoleplayer]);
-            CVar tagColor = CVar.GetCVar ("nametagcolor", players [consoleplayer]);
-            if (dispTags && weapon && (dispTags.GetInt () & 2))
-                S7_HudMessageFade.Show (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
-                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: 'SmallFont');
-        } else if (commandStrings [1] == "prev") {
-            S7_BaseWeapon weapon = weapBinds.CycleWeapons (true, false, isDraco);
-
-            if (player.ReadyWeapon != weapon && weapon != null) {
-                player.PendingWeapon = weapon;
-                weapBinds.LastWeapon = weapon;
-            }
-
-            CVar dispTags = CVar.GetCVar ("displaynametags", players [consoleplayer]);
-            CVar tagColor = CVar.GetCVar ("nametagcolor", players [consoleplayer]);
-            if (dispTags && weapon && (dispTags.GetInt () & 2))
-                S7_HudMessageFade.Show (e.Player, weapon.GetTag (), S7_Utils.MakeUID ("W", "E", "P", "N"), (0.5, 0.90), 35 * 2, 0, ceil (35 * 0.35), alignment: S7_HudMessage.AlignCenter,
-                    color: tagColor ? tagColor.GetInt () : Font.CR_GOLD, fnt: 'SmallFont');
-        } else if (commandStrings [1] == "test") {
-            for (int i = 1; i <= 5; i++)
-                weapBinds.SlotMaximum [i] = 3;
-
-            // Medium
-            WeapBindsSystem_Derp (player, 1, 'S7_AK47');
-            WeapBindsSystem_Derp (player, 1, 'S7_Fauchard');
-            WeapBindsSystem_Derp (player, 1, 'S7_SSG');
-            // Light
-            weapBinds.Binds [2].Clear ();
-            WeapBindsSystem_Derp (player, 2, 'S7_Revolver');
-            WeapBindsSystem_Derp (player, 2, 'S7_HitterSMG');
-            WeapBindsSystem_Derp (player, 2, 'S7_LaserPewPew');
-            // Heavy
-            WeapBindsSystem_Derp (player, 3, 'S7_ConquerorRifle');
-            WeapBindsSystem_Derp (player, 3, 'S7_Thumper');
-            // Area-damage
-            WeapBindsSystem_Derp (player, 4, 'S7_PrettyShootyIonCannonGun');
-            // Special
-            WeapBindsSystem_Derp (player, 5, 'S7_GrenadeWeap');
-            WeapBindsSystem_Derp (player, 5, 'S7_SoulLance');
-        }
-    }
-    void WeapBindsSystem_Derp (PlayerInfo player, int slot, string weapon) {
-        if (!player) return;
-        let weapBinds = S7_WeapBindsSystem (player.mo.FindInventory ('S7_WeapBindsSystem'));
-        if (!weapBinds) return;
-        let weapInv = S7_BaseWeapon (player.mo.FindInventory (weapon));
-
-        if (!weapInv || weapInv.Amount <= 0) {
-            if (!player.mo.GiveInventory (weapon, 1))
-                return;
-
-            weapInv = S7_BaseWeapon (player.mo.FindInventory (weapon));
-        }
-
-        if (weapBinds.Binds [slot].Find (weapInv) == weapBinds.Binds [slot].Size ())
-            weapBinds.Binds [slot].Push (weapInv);
     }
 }

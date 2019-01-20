@@ -17,6 +17,30 @@
 */
 
 extend class S7_BasePlayer {
+    /** Weapon selection **/
+    bool selectedWeapon;
+    override Weapon PickWeapon (int slot, bool checkammo) {
+        selectedWeapon = true;
+
+        bool isDraco = (player.mo is 'S7_DracoPlayer');
+        return Weapon (weapBinds.PickWeapon (slot, false, isDraco));
+    }
+
+    override Weapon PickNextWeapon () {
+        selectedWeapon = true;
+
+        bool isDraco = (player.mo is 'S7_DracoPlayer');
+        return Weapon (weapBinds.CycleWeapons (false, false, isDraco));
+    }
+
+    override Weapon PickPrevWeapon () {
+        selectedWeapon = true;
+
+        bool isDraco = (player.mo is 'S7_DracoPlayer');
+        return Weapon (weapBinds.CycleWeapons (true, false, isDraco));
+    }
+
+    /** Ammo max **/
     const BaseAmmoMax = 6.0;
     void Weapon_SetAmmoMax () {
         if (player.cheats & CF_PREDICTING)
@@ -55,6 +79,7 @@ extend class S7_BasePlayer {
         }
     }
 
+    /** Misc **/
     S7_BaseWeapon GiveBasics_GiveStartingWeapon (class<S7_BaseWeapon> weapon) {
         if (!CheckInventory (weapon, 1))
             GiveInventory (weapon, 1);

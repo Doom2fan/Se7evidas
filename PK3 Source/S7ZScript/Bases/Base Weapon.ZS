@@ -118,7 +118,19 @@ class S7_BaseWeapon : Weapon {
     }
 
     override bool Use (bool pickup) { // Override Use so it can't be used to bypass the weapon limits
-        return false;
+        if (!(Owner is 'S7_BasePlayer'))
+            return false;
+
+        let pPawn = S7_BasePlayer (Owner);
+        if (!pPawn)
+            return false;
+
+        if (!pPawn.selectedWeapon)
+            return false;
+
+        bool ret = Super.Use (pickup);
+        pPawn.selectedWeapon = false;
+        return ret;
     }
 
     override Inventory CreateTossable (int amt) {
