@@ -12,7 +12,7 @@ addKeySection "Se7evidas (Misc)" "Se7evidas_Misc"
 addMenuKey    "Toggle flashlight"           "+S7_ToggleFlashlight"
 addMenuKey    "Player menu"                 "S7_PlayerMenu"
 addMenuKey    "Buy Menu"                    "S7_LuciusShop"
-addMenuKey    "Inventory list"              "S7_ShowPop1"
+//addMenuKey    "Inventory list"              "S7_ShowPop1"
 
 // Keys
 alias S7_FiringMode "netevent \"S7_Keys:FiringMode\""
