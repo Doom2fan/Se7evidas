@@ -111,6 +111,10 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         return xpSys.GetStat (S7Stat_Strength, false) * .05;
     }
 
+    override bool S7_Chase_CanMissileTarget () {
+        return CheckLOF (CLOFF_NoAim | CLOFF_FromBase, 3200.0, 0.0, 0, 0, 35.0, 9.0);
+    }
+
     void DoFireGun () {
         A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
 

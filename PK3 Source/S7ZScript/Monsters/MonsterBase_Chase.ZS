@@ -89,6 +89,9 @@ extend class S7_MonsterBase {
         invoker.S7_DoWander (flags);
     }
 
+    virtual bool S7_Chase_CanMissileTarget () { return true; }
+    virtual bool S7_Chase_CanMeleeTarget () { return true; }
+
     //-------------------------------------------------------------------------------------------
     //
     // DoChase / A_DoChase
@@ -325,7 +328,7 @@ extend class S7_MonsterBase {
             random [Anubis] (0, 255) < 43
         ) {
             // Check for melee attack
-            if (meleestate && CheckMeleeRange ()) {
+            if (meleestate && CheckMeleeRange () && S7_Chase_CanMeleeTarget ()) {
                 if (AttackSound)
                     A_PlaySound (AttackSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NORM);
 
@@ -351,6 +354,9 @@ extend class S7_MonsterBase {
                         S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                         return;
                     }
+                } else if (!S7_Chase_CanMissileTarget ()) {
+                    S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
+                    return;
                 }
                 
                 SetState (missilestate);

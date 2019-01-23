@@ -111,6 +111,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
         return xpSys.GetStat (S7Stat_Strength, false) * .045;
     }
 
+    override bool S7_Chase_CanMissileTarget () {
+        return CheckLOF (CLOFF_FromBase, 3200.0, offsetHeight: 35.0, offsetWidth: 9.0);
+    }
+
     void DoFireGun () {
         A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_Weapon);
 
