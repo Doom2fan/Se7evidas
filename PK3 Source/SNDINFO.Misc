@@ -27,7 +27,9 @@ Misc/Body9                      "sounds/Misc/BODY09.ogg"
 
 // Common
 Misc/Common/Fireball            "sounds/Misc/Common/Fireball.ogg"
+Misc/Common/Fireball            "sounds/Misc/Common/Fireball.ogg"
 Misc/Common/FireballHit         "sounds/Misc/Common/FireballHit.ogg"
+Misc/Common/Fireball2           "sounds/Misc/Common/Fireball2.ogg"
 
 // Fire
 Fire/Small                      "sounds/Effects/Fire/Fire_Small.ogg" // From Quake 4

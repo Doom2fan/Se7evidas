@@ -4,6 +4,7 @@
 #include "GLDefs/Brightmaps/ArmorBonus.TXT"
 #include "GLDefs/Brightmaps/Powerups.TXT"
 #include "GLDefs/Brightmaps/FleshSpawn.TXT"
+#include "GLDefs/Brightmaps/Empress.TXT"
 #include "GLDefs/Skyboxes.TXT"
 
 pointLight MJMPMARKER {

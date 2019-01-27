@@ -1,0 +1,4 @@
+Monsters/Empress/DanmakuFireballsStart "sounds/Monsters/Empress/DanmakuFireballsStart.ogg" // Credits: Id Software, Per Kristian.
+Monsters/Empress/DanmakuFireballsEnd   "sounds/Monsters/Empress/DanmakuFireballsEnd.ogg"   // Ditto.
+Monsters/Empress/DanmakuFireballsLoop  "sounds/Monsters/Empress/DanmakuFireballsLoop.ogg"  // Ditto.
+                                                                                           // Edited by Chronos "phantombeta" Ouroboros to loop slightly better.

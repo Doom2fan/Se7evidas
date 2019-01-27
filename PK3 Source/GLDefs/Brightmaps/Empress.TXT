@@ -1,0 +1,172 @@
+// Attack 1, purple
+brightmap sprite HRFRG1 {
+    map "Brightmaps/Empress/Attack1_1.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG2 {
+    map "Brightmaps/Empress/Attack1_2.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG3 {
+    map "Brightmaps/Empress/Attack1_3.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG4 {
+    map "Brightmaps/Empress/Attack1_4.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG5 {
+    map "Brightmaps/Empress/Attack1_5.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG6 {
+    map "Brightmaps/Empress/Attack1_6.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG7 {
+    map "Brightmaps/Empress/Attack1_7.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRG8 {
+    map "Brightmaps/Empress/Attack1_8.png"
+    disablefullbright
+}
+
+
+
+// Attack 2, purple
+brightmap sprite HRFRE1 {
+    Map "Brightmaps/Empress/Attack2_1.png"
+    disableFullBright
+}
+
+brightmap sprite HRFRE2E8 {
+    Map "Brightmaps/Empress/Attack2_2_8.png"
+    disableFullBright
+}
+
+brightmap sprite HRFRE4E6 {
+    Map "Brightmaps/Empress/Attack2_4_6.png"
+    disableFullBright
+}
+
+brightmap sprite HRFRE5 {
+    Map "Brightmaps/Empress/Attack2_5.png"
+    disableFullBright
+}
+
+
+
+// Attack 1, red
+brightmap sprite HRFRH1 {
+    map "Brightmaps/Empress/Attack1_1.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH2 {
+    map "Brightmaps/Empress/Attack1_2.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH3 {
+    map "Brightmaps/Empress/Attack1_3.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH4 {
+    map "Brightmaps/Empress/Attack1_4.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH5 {
+    map "Brightmaps/Empress/Attack1_5.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH6 {
+    map "Brightmaps/Empress/Attack1_6.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH7 {
+    map "Brightmaps/Empress/Attack1_7.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRH8 {
+    map "Brightmaps/Empress/Attack1_8.png"
+    disablefullbright
+}
+
+
+
+// Attack 1, yellow
+brightmap sprite HRFRI1 {
+    map "Brightmaps/Empress/Attack1_1.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI2 {
+    map "Brightmaps/Empress/Attack1_2.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI3 {
+    map "Brightmaps/Empress/Attack1_3.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI4 {
+    map "Brightmaps/Empress/Attack1_4.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI5 {
+    map "Brightmaps/Empress/Attack1_5.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI6 {
+    map "Brightmaps/Empress/Attack1_6.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI7 {
+    map "Brightmaps/Empress/Attack1_7.png"
+    disablefullbright
+}
+
+brightmap sprite HRFRI8 {
+    map "Brightmaps/Empress/Attack1_8.png"
+    disablefullbright
+}
+
+
+
+// Attack 2, yellow
+brightmap sprite HRFRJ1 {
+    Map "Brightmaps/Empress/Attack2_1.png"
+    disableFullBright
+}
+
+brightmap sprite HRFRJ2J8 {
+    Map "Brightmaps/Empress/Attack2_2_8.png"
+    disableFullBright
+}
+
+brightmap sprite HRFRJ4J6 {
+    Map "Brightmaps/Empress/Attack2_4_6.png"
+    disableFullBright
+}
+
+brightmap sprite HRFRJ5 {
+    Map "Brightmaps/Empress/Attack2_5.png"
+    disableFullBright
+}
