@@ -148,9 +148,14 @@ class S7_ScorpsHunter : S7_ScorpBase {
         let shotty = S7_Loot_ScorpsHunterSG (S7_ActorExtensions.DropItem (self, 'S7_Loot_ScorpsHunterSG', 1, 128));
         if (shotty) {
             if (random [monsterSpc] () <= 128) { // Don't always drop with ammo, either!
-                shotty.isBroken = (random [monsterSpc] () <= 96);
+                double level = invoker.xpSys ? invoker.xpSys.level : 1;
+
+                shotty.isBroken = (random [monsterSpc] () <= clamp (96 * (1. + level * 0.01), 96, 256));
                 shotty.shellsCount = invoker.ammo;
                 invoker.ammo = 0;
+
+                if (random [monsterSpc] () <= clamp (64 * (level * 0.025), 96, 256))
+                    shotty.shellsCount /= 2;
             } else
                 shotty.shellsCount = -1;
         }

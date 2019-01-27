@@ -23,9 +23,8 @@
 //-------------------------------------------------------------------------------------------
 class S7_ClipSpawner : RandomSpawner replaces Clip {
     default {
-        DropItem 'S7_Nothing'      , 256, 3;
+        DropItem 'S7_Nothing'      , 256, 4;
         DropItem 'S7_9mmCartridges', 256, 4;
-        DropItem 'S7_45ACPCartridges', 256, 1;
     }
 }
 
@@ -36,8 +35,9 @@ class S7_ClipSpawner : RandomSpawner replaces Clip {
 //-------------------------------------------------------------------------------------------
 class S7_ClipBoxSpawner : RandomSpawner replaces ClipBox {
     default {
-        DropItem 'S7_9mmCartridges', 256, 5;
-        DropItem 'S7_45ACPCartridges', 256, 2;
+        DropItem 'S7_Nothing'      , 256, 2;
+        DropItem 'S7_9mmCartridges', 256, 4;
+        DropItem 'S7_45ACPCartridges', 256, 1;
         DropItem 'S7_Loot_BloodChalice', 256, 1;
     }
 }
@@ -63,7 +63,7 @@ class S7_ShellSpawner : RandomSpawner replaces Shell {
 class S7_ShellBoxSpawner : RandomSpawner replaces ShellBox {
     default {
         DropItem 'S7_Nothing'   , 256, 2;
-        DropItem 'S7_12gaShells', 256, 2;
+        DropItem 'S7_12gaShells', 256, 1;
         DropItem 'S7_20gaShells', 256, 1;
     }
 }
@@ -99,8 +99,8 @@ class S7_RocketBoxSpawner : RandomSpawner replaces RocketBox {
 //-------------------------------------------------------------------------------------------
 class S7_CellSpawner : RandomSpawner replaces Cell {
     default {
-        DropItem 'S7_Nothing'   , 256, 2;
-        DropItem 'S7_Cells'     , 256, 3;
+        DropItem 'S7_Nothing'   , 256, 3;
+        DropItem 'S7_Cells'     , 256, 2;
         DropItem 'S7_FBSysCells', 256, 1;
     }
 }
@@ -112,8 +112,8 @@ class S7_CellSpawner : RandomSpawner replaces Cell {
 //-------------------------------------------------------------------------------------------
 class S7_CellPackSpawner : RandomSpawner replaces CellPack {
     default {
-        DropItem 'S7_Nothing'      , 256, 5;
-        DropItem 'S7_Cells'        , 256, 5;
+        DropItem 'S7_Nothing'      , 256, 6;
+        DropItem 'S7_Cells'        , 256, 3;
         DropItem 'S7_FBSysCellPack', 256, 2;
     }
 }
