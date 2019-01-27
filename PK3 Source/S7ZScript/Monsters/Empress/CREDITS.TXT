@@ -5,4 +5,4 @@ Sprites:
     EPTF* sprites: Raven Software and Chronos "phantombeta" Ouroboros.
     HRSF* and HRSS* sprites: Chronos "phantombeta" Ouroboros.
 
-Sounds: None yet :P
+Sounds: Credits in the SNDINFO file
