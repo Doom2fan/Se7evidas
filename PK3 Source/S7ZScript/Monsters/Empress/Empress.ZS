@@ -482,54 +482,6 @@ class S7_Empress : S7_DemonBase {
         }
         goto See;
 
-    Pain.S7_SoulLance_Beam:
-        HRFR G 3 {
-            if ((target && target.CheckInventory ('S7_SoulLance_BeamGrabbed', 1)) || random [monsterSpc] () < 4)
-                return ResolveState ("Pain");
-
-            return CheckIfInTargetLOS (360., JLOSF_AllyNoJump) ? ResolveState ("SLance_BeamGrab") : ResolveState (null);
-        }
-        goto See;
-    SLance_BeamGrab:
-        HRFR E 1 {
-            if (!target)
-                return ResolveState ("SLance_BeamLost");
-
-            ACS_NamedExecuteAlways ('S7_SLanceBeamGrab', 0); // Execute the ACS script. (this will get changed to ZScript later)
-
-            bNoPain = true;
-            A_SetMass (0x7FFFFFFF);
-            target.GiveInventory ('S7_SoulLance_BeamGrabbed', 1);
-            GiveInventory ('S7_SoulLance_BeamGrabbed', 1);
-
-            return ResolveState (null);
-        }
-    SLance_BeamHold:
-        HRFR E 1 {
-            A_FaceTarget ();
-
-            if (!CheckInventory ('S7_SoulLance_BeamGrabbed', 1) || !CheckIfInTargetLOS (360., JLOSF_AllyNoJump))
-                return ResolveState ("SLance_BeamLost");
-
-            return ResolveState (null);
-        }
-        loop;
-    SLance_BeamLost:
-        HRFR E 3 {
-            A_SetMass (S7_EmpressMass);
-
-            if (!shieldUp)
-                bNoPain = false;
-
-            if (target)
-                target.TakeInventory ('S7_SoulLance_BeamGrabbed', 0x7FFFFFFF);
-
-            TakeInventory ('S7_SoulLance_BeamGrabbed', 0x7FFFFFFF);
-            A_FaceTarget ();
-        }
-        TNT1 A 0 A_JumpIf (health < 1, "RunAway");
-        goto See;
-
     /** Death stuff **/
     RunAway:
         TNT1 A 0 {
