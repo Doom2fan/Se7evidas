@@ -31,6 +31,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         Health 75;
         Radius 25;
         Height 25;
+        Mass LARGE_MASS;
         RenderStyle "add";
         DamageFactor "EmpressDeath", 1.0;
         DamageFactor "NerveGas", 0.0;
@@ -43,7 +44,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
         +NOGRAVITY +NOTELEPORT +NOTARGETSWITCH +FORCEXYBILLBOARD
         +SHOOTABLE +FORCEPAIN  +THRUSPECIES    +FOILINVUL
-        +NOBLOOD
+        +NOBLOOD   +DONTTHRUST
     }
 
     double rotAngle;
