@@ -565,6 +565,7 @@ class S7_TerminatorPlasma : S7_Projectile {
         FLR1 A 1 bright;
         loop;
     Death:
+        TNT1 A 1;
         stop;
     }
 }
