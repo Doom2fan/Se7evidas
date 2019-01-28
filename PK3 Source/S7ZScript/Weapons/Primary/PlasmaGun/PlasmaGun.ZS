@@ -367,9 +367,9 @@ class S7_PlasmaGunRail : S7_BaseTracer {
     double damageBonus;
 
     default {
+        DamageFunction ((34.125 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 270;
         Scale 0.015;
-        DamageFunction ((fRandom [weaponDamage] (1.0, 2.0) * 22.75) * (1+damageBonus));
         MissileType 'S7_PlasmaGunRailTrail';
         Decal 'S7_PlasmaGunRail';
 

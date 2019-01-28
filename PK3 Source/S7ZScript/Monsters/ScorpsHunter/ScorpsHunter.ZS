@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 5.0) * (1 + bonusDMGFactor));
+        DamageFunction (fRandom [weaponDamage] (1., 5.) * (1. + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 200;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';

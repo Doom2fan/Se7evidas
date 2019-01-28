@@ -120,7 +120,7 @@ class S7_BlackPanther : S7_HellNobleBase {
             A_FaceTarget (0, 0);
 
             if (CheckMeleeRange ())
-                A_CustomMeleeAttack (int (fRandom [monsterDMG] (1.0, 4.0) * 8 * (1 + GetDamageBonus ())), "BlackPanther/Melee");
+                A_CustomMeleeAttack (int (20. + fRandom [monsterDMG] (-2., 2.) * (1. + GetDamageBonus ())), "BlackPanther/Melee");
             else {
                 let proj = S7_BlackPantherBall (A_SpawnProjectile ('S7_BlackPantherBall', 32.));
 
@@ -175,7 +175,7 @@ class S7_BlackPantherBall : S7_FireballBase {
     double bonusDMGFactor;
 
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 8 * (1+bonusDMGFactor));
+        DamageFunction (20. + fRandom [monsterDMG] (-2., 2.) * (1. + bonusDMGFactor));
         Speed 18;
         Obituary "$OBBPANTHER";
     }
@@ -186,7 +186,7 @@ class S7_BlackPantherBall : S7_FireballBase {
         loop;
     Death:
         TNT1 A      0 {
-            A_Explode (int (floor (16 * (1 + bonusDMGFactor / 2.))), 16, 0);
+            A_Explode (int (floor (16. * (1. + bonusDMGFactor / 2.))), 16, 0);
             A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
         }
         PNTB CDEFGH 2 bright;

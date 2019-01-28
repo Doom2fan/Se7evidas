@@ -139,14 +139,14 @@ class S7_Mechdemon : S7_DemonBase {
 
         if (!TryMove (pos.XY + AngleToVector (angle, S7_ChargeSpeed), true, false)) {
             if (BlockingMobj) {
-                BlockingMobj.DamageMobj (self, self, int (random [monsterDMG] (5, 15) * (1 + invoker.GetDamageBonus ())), "Melee");
-                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
+                BlockingMobj.DamageMobj (self, self, int (fRandom [monsterDMG] (5., 15.) * (1. + invoker.GetDamageBonus ())), "Melee");
+                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5., 15.) * 35.));
 
                 return ResolveState ("See");
             }
 
             if (BlockingLine) {
-                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
+                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5., 15.) * 35.));
                 return ResolveState ("See");
             }
         }
@@ -181,7 +181,7 @@ class S7_Mechdemon : S7_DemonBase {
         MDMN EEEFF  2 Fast A_FaceTarget ();
         MDMN G      4 Fast {
             A_FaceTarget ();
-            A_CustomMeleeAttack (int (fRandom (2, 10) * 4 * (1 + GetDamageBonus ())), "", "", 'Bite');
+            A_CustomMeleeAttack (int (24. + fRandom [monsterDMG] (-2., 2.) * (1. + GetDamageBonus ())), "", "", 'Bite');
         }
         goto See;
 

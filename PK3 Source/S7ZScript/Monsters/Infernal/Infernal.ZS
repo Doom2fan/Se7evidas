@@ -163,7 +163,7 @@ class S7_InfernalBall : S7_FireballBase {
     default {
         Radius 16;
         Height 25;
-        DamageFunction (fRandom [monsterDMG] (1.0, 6.0) * 5 * (1+bonusDMGFactor));
+        DamageFunction (18. + fRandom [monsterDMG] (-2., 2.) * (1. + bonusDMGFactor));
         Speed 15;
         Obituary "$OBINFERNAL";
         Decal 'Scorch';

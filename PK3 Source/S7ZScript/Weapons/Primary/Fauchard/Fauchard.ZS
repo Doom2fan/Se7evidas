@@ -189,7 +189,7 @@ class S7_Fauchard : S7_BaseWeapon {
 //-------------------------------------------------------------------------------------------
 class S7_FauchardTracer : S7_BaseTracer {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 4.0) * 12 * (1+bonusDMGFactor));
+        DamageFunction ((30. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 300;
         DamageType 'LaserTracer';
         Scale 0.015;

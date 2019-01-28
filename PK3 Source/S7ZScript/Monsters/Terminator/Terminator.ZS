@@ -70,7 +70,7 @@ class S7_Terminator : S7_DemonBase {
         loop;
 
     Missile:
-        TNT1 A 0 A_Jump (171, "Missile.Plasma");//, "Missile.Grenade");
+        TNT1 A 0 A_Jump (171, "Missile.Plasma", "Missile.Grenade");
         goto Missile.Machinegun;
     Missile.NoGrenade:
         TNT1 A 0 A_Jump (128, "Missile.Plasma");
@@ -268,10 +268,10 @@ class S7_Terminator : S7_DemonBase {
         goto Missile.End;
 
     /** Launcher **/
-    Missile.Grenade: // Well, right now pitch calculation is broken. And probably always was. We'll fix that later.
+    Missile.Grenade:
         TERM J 1 {
-            //if (!CheckIfCloser (target, 875.0))
-                //return ResolveState ("Missile.NoGrenade");
+            if (!CheckIfCloser (target, 875.0))
+                return ResolveState ("Missile.NoGrenade");
 
             A_PlaySound ("Terminator/LauncherStart", CHAN_Weapon); // Play the launcher attack begin sound
             A_FaceTarget (90, 45); // Spin to face target
@@ -437,7 +437,7 @@ class S7_Terminator_Arm : S7_GoreBase {
 //-------------------------------------------------------------------------------------------
 class S7_TerminatorTracer : S7_BulletTracer {
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 8.5);
+        DamageFunction (17 + random [monsterDMG] (-3, 2));
         S7_BaseTracer.TrueSpeed 200;
         DamageType 'RifleTracer';
         Obituary "$OBTERMMGUN";
@@ -447,7 +447,7 @@ class S7_TerminatorTracer : S7_BulletTracer {
 class S7_TerminatorGrenade : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.8) * 10);
+        DamageFunction (24 + random [monsterDMG] (-2, 2));
         //Speed 1;
         Speed 75;
         DeathSound "Explosions/Explosion1";
@@ -475,7 +475,7 @@ class S7_TerminatorGrenade : S7_Projectile {
 
 class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
     default {
-        DamageFunction (fRandom [monsterDMG] (1.0, 6.0) * 14.166666666666666666666666666667);
+        DamageFunction (50 + random [monsterDMG] (-2, 2));
         Speed 110;
         DeathSound "Explosions/Explosion2";
         Obituary "$OBTERMSGREN";
@@ -517,7 +517,7 @@ class S7_TerminatorNail : S7_Projectile {
         S7_Projectile.MovementMode FastProjectile;
         /*Radius 2;
         Height 2;*/
-        DamageFunction (fRandom [monsterDMG] (1.0, 4.0) * 15);
+        DamageFunction (38 + random [monsterDMG] (-2, 2));
         Speed 130;
         Gravity 0.35;
         Obituary "$OBTERMNAIL";
@@ -551,7 +551,7 @@ class S7_TerminatorNail : S7_Projectile {
 class S7_TerminatorPlasma : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        DamageFunction (fRandom [monsterDMG] (1.0, 8.0) * 22);
+        DamageFunction (45 + random [monsterDMG] (-2, 2));
         Speed 75;
         RenderStyle "add";
         Scale 0.08;

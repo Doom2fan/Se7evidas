@@ -334,7 +334,7 @@ class S7_IonCannonProjectile : S7_BaseTracer {
         Height 16;
         Speed 20;
         Scale 0.235;
-        DamageFunction int (ceil (realDamage * (1 + bonusDMGFactor)));
+        DamageFunction int (ceil (realDamage * (1. + bonusDMGFactor)));
         DamageType 'IonCannonMain';
         MissileType 'S7_IonCannonProjectileTrail';
         Decal 'S7_IonCannon';
@@ -409,7 +409,7 @@ class S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
 //-------------------------------------------------------------------------------------------
 class S7_IonCannonRail : S7_BaseTracer {
     double realDamage;
-    int realDistTrav;
+    double realDistTrav;
 
     default {
         S7_BaseTracer.TrueSpeed 125;
@@ -419,7 +419,7 @@ class S7_IonCannonRail : S7_BaseTracer {
         Alpha 1.0;
         Scale 0.08;
         Decal 'S7_IonCannonRail';
-        DamageFunction int (ceil (realDamage * (1 + bonusDMGFactor)));
+        DamageFunction int (ceil (realDamage * (1. + bonusDMGFactor)));
         DamageType 'IonCannonRail';
         MissileType 'S7_IonCannonRailEffectSpawner';
 
@@ -437,8 +437,8 @@ class S7_IonCannonRail : S7_BaseTracer {
     Idle:
         TNT1 A 0 A_JumpIf (realDistTrav > 4000, "DieOut");
         PICF A 1 bright {
-            realDamage = fRandom [weaponDamage] (4.0, 12.0);
-            realDistTrav += 125;
+            realDamage = 8. + fRandom [weaponDamage] (-1.0, 1.0);
+            realDistTrav += vel.Length ();
         }
         loop;
 
@@ -486,8 +486,8 @@ class S7_IonCannonRailAlt : S7_IonCannonRail {
     Idle:
         TNT1 A 0 A_JumpIf (realDistTrav > 4500, "DieOut");
         PICF A 1 bright {
-            realDamage = fRandom [weaponDamage] (8.0, 16.0);
-            realDistTrav += 138;
+            realDamage = 12. + fRandom [weaponDamage] (-1.0, 1.0);
+            realDistTrav += vel.Length ();
         }
         loop;
     }

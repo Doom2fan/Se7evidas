@@ -326,7 +326,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
                 zOff: 2.0, flags: SXF_TransferPointers
             );
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (random [weaponDamage] (192.0, 256.0), random [weaponSpread] (192.0, 256.0));
+            A_Explode (224, 256);
         }
         XPL1 BCDE 3 bright;
         stop;

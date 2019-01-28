@@ -34,7 +34,7 @@ class S7_ThumperGrenade : S7_Projectile {
         Radius 10;
         Height 10;
         Speed 75;
-        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 18);
+        DamageFunction (65 + random [weaponDamage] (-1, 1));
         Scale 0.8;
         Gravity 0.25;
         Translation "112:127=216:223";
@@ -60,7 +60,7 @@ class S7_ThumperGrenade : S7_Projectile {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (128, 128);
+            A_Explode (128, 192, fulldamagedistance: 64);
 
             A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
@@ -88,10 +88,6 @@ class S7_ThumperExplosion : Actor {
 //
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
-    default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 12);
-    }
-
     states {
     Loople:
         TNT1 A  15 {
@@ -107,7 +103,7 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
             );
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (100, 100);
+            A_Explode (128, 192, fulldamagedistance: 64);
 
             A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
@@ -122,7 +118,6 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 12);
         Translation "112:127=184:191";
     }
 
@@ -133,12 +128,34 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (80, 48);
+            A_Explode (96, 144, fulldamagedistance: 48);
+
+            bool hitCeiling = (pos.Z + height >= ceilingZ);
 
             int count = 20 + random [weaponSpc] (0, 5);
             for (; count > 0; count--) {
-                A_SpawnItemEx ('S7_ThumperGrenadeTherm_Fire', fRandom [weaponSpc] (-.025, .025), fRandom [weaponSpc] (-.025, .025), .25,
-                    fRandom [weaponSpc] (0., 3.), 0., fRandom [weaponSpc] (2.5, 4.), fRandom [weaponSpc] (0., 360.), SXF_TransferPointers | SXF_NoCheckPosition);
+                Vector3 firePos = (
+                    fRandom [weaponSpc] (-.025, .025),
+                    fRandom [weaponSpc] (-.025, .025),
+                    .25
+                );
+                Vector3 fireVel = (
+                    fRandom [weaponSpc] (1.75, 6.),
+                    0.,
+                    fRandom [weaponSpc] (2.5 , 5.)
+                );
+
+                if (hitCeiling) {
+                    firePos.Z = -firePos.Z;
+                    fireVel.X = fRandom [weaponSpc] (0., 6.);
+                    fireVel.Z = -fireVel.Z;
+                }
+
+                A_SpawnItemEx ('S7_ThumperGrenadeTherm_Fire',
+                    firePos.X, firePos.Y, firePos.Z,
+                    fireVel.X, fireVel.Y, fireVel.Z,
+                    fRandom [weaponSpc] (0., 360.), SXF_TransferPointers | SXF_NoCheckPosition
+                );
             }
 
             A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
@@ -164,7 +181,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 
     states {
     Spawn:
-        THGR F 1;
+        THGR F 1 bright;
         wait;
     Death:
         TNT1 A 0 {
@@ -196,7 +213,6 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 5);
         DamageType 'TH_GrenadeImpact';
         Translation "112:127=80:95";
 
@@ -298,7 +314,6 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 3.0) * 18);
         Translation "112:127=200:207";
     }
 
@@ -308,7 +323,7 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (32, 48);
+            A_Explode (64, 96, fulldamagedistance: 32);
 
             double spawnZ = 0;
             double zMul = 1;
@@ -393,7 +408,6 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeNail : S7_ThumperGrenade {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 13);
         Translation "112:127=[255,255,0]:[0,0,0]";
     }
 
@@ -404,7 +418,7 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (96, 80);
+            A_Explode (64, 96, fulldamagedistance: 32);
 
             double spawnZ = 0;
             double zMul = 1;
@@ -478,9 +492,58 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
     default {
-        DamageFunction (fRandom [weaponDamage] (1.0, 6.0) * 6);
         DamageType 'TH_GrenadeImpact';
         Translation "112:127=104:111";
+    }
+
+    action void S7_DoDamage (int dmgMin, int dmgMax, double maxDist, double fullDmgDist, bool zeroMinDmg) {
+        let sectorList = new ("S7_SectorList");
+        sectorList.Sectors.Clear ();
+
+        S7_ActorExtensions.S7_RecurseSectors (CurSector, sectorList, 0);
+
+        bool randDMG = (dmgMin != dmgMax);
+
+        Array<Actor> actorsDamaged; actorsDamaged.Clear ();
+        int secCount = sectorList.Sectors.Size (), actorsDamagedCount = 0;
+        for (int i = 0; i < secCount; i++) {
+            Sector sec = sectorList.Sectors [i];
+
+            for (Actor mo = sec.thinglist; mo; mo = mo.snext) {
+                // Shouldn't happen.
+                if (!mo)
+                    continue;
+
+                // Don't hurt non-monsters.
+                if (!mo.bIsMonster && (!mo.player || mo.player.mo != mo))
+                    continue;
+
+                // Don't damage the same actor twice.
+                if (actorsDamaged.Find (mo) != actorsDamagedCount)
+                    continue;
+
+                // Vulnerable actors can be damaged by radius attacks even if not shootable
+                // Used to emulate MBF's vulnerability of non-missile bouncers to explosions.
+                if (!(mo.bShootable || mo.bVulnerable))
+                    continue;
+
+                double dist = mo.Distance3D (self);
+                if (dist > maxDist)
+                    continue;
+
+                double dmgFract = (1. - clamp (dist - fullDmgDist, 0., dist) * (1. / (maxDist - fullDmgDist)));
+                int moDMG = int (max (
+                    (randDMG ? fRandom [weaponDamage] (dmgMin, dmgMax) : dmgMin) * dmgFract,
+                    !zeroMinDmg ? !!(random [weaponDamage] (0, 5)) : 0)
+                );
+                if (moDMG <= 0)
+                    continue;
+
+                mo.DamageMobj (self, target, moDMG, damageType, DMG_Explosion);
+                actorsDamaged.Push (mo);
+                actorsDamagedCount++;
+            }
+        }
     }
 
     int time;
@@ -497,7 +560,8 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             bForceRadiusDMG = true;
 
             A_SetDamageType ('NerveGas');
-            A_Explode (random [weaponDamage] (25, 30), 192, XF_HurtSource, FALSE, 80);
+            S7_DoDamage (25, 30, 192., 80., false);
+
 
             for (int i = 0; i < 360; i += 25) {
                 A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  6.0, 0.0, 0.5, i, SXF_NoCheckPosition);
@@ -511,7 +575,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             if (time <= 0)
                 return ResolveState ("Die");
 
-            A_Explode (3, 128, XF_HurtSource, FALSE, 32);
+            S7_DoDamage (3, 3, 1024., 512., false);
             A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 0.25, 0.0, 0.0, 3.5, 0, SXF_NoCheckPosition);
             time--;
 
