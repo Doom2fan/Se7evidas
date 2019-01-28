@@ -88,6 +88,32 @@ class S7_Empress : S7_DemonBase {
         TakeInventory ('S7_IsDead', 0x7FFFFFFF);
 
         initialized = true;
+
+        if (!xpSys) {
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+        }
+
+        let serverData = S7_ServerData.Get ();
+        xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 7.5) + fRandom [monsterStats] (-1.5, 2.5)));
+        int attrPts = xpSys.level * 4;
+
+        while (attrPts > 0) {
+            int rnd = random [monsterStats] (0, 3);
+
+            switch (rnd) {
+            case 0: xpSys.SetStat (S7Stat_Strength, 1); break;
+            case 1: xpSys.SetStat (S7Stat_Defense, 1); break;
+            case 2: xpSys.SetStat (S7Stat_Vitality, 1); break;
+            case 3: xpSys.SetStat (S7Stat_Agility, 1); break;
+            }
+
+            attrPts--;
+        }
+
+        // Vitality
+        startHealth = int (health * (1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality))));
+        health = startHealth;
     }
 
     override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {
@@ -158,9 +184,31 @@ class S7_Empress : S7_DemonBase {
                 shieldUp = false;
             if (ballsCount < 0)
                 ballsCount = 0;
+
+            if (!xpSys) {
+                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+                if (!xpSys) {
+                    GiveInventory ('S7_XPSystem', 1);
+                    xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+                }
+            }
+
+            // Strength
+            damageMultiply = 1.0 + (0.025 * xpSys.GetStat (S7Stat_Strength));
+            // Defense
+            damageFactor = clamp (1.0 - (0.015 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+            // Agility
+            speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.1, -default.Speed * .75, default.Speed);
         }
 
         Super.Tick ();
+    }
+
+    double GetDamageBonus () {
+        if (!xpSys)
+            return 0.;
+
+        return xpSys.GetStat (S7Stat_Strength, false) * 0.075;
     }
 
     int spawnLoopCount;
@@ -533,7 +581,7 @@ class S7_EmpressMissile1 : S7_Projectile {
         S7_Projectile.InterpMove false;
 
         Speed 45;
-        DamageFunction (21 + random [monsterDMG] (-4, 4));
+        DamageFunction (4. + fRandom [monsterDMG] (-2., 2.) * (1. + bonusDMGFactor) * (1. + bonusDMGFactor));
 
         MissileType 'S7_EmpressMissile1Trail';
         MissileHeight 8;
@@ -639,7 +687,7 @@ class S7_EmpressMissile2 : S7_Projectile {
         Height 20;
         Speed 40;
 
-        DamageFunction (12 + random [monsterDMG] (-2, 2) * 8));
+        DamageFunction (12 + random [monsterDMG] (-2, 2) * 8) * (1. + bonusDMGFactor));
         MissileType 'S7_EmpressMissile2Trail';
         MissileHeight 8;
 
@@ -709,7 +757,7 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
         S7_Projectile.InterpMove false;
 
         Speed 25;
-        DamageFunction ((35 / S7_Empress.DanmakuFireballs_FireballCount) + random [monsterDMG] (-2, 2));
+        DamageFunction ((35 / S7_Empress.DanmakuFireballs_FireballCount) + random [monsterDMG] (-2, 2) * (1. + bonusDMGFactor));
 
         MissileType 'S7_EmpressMissile1Trail';
         MissileHeight 8;
