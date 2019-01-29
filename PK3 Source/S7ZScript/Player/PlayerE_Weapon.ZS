@@ -23,21 +23,27 @@ extend class S7_BasePlayer {
         selectedWeapon = true;
 
         bool isDraco = (player.mo is 'S7_DracoPlayer');
-        return Weapon (weapBinds.PickWeapon (slot, false, isDraco));
+        let selWeap = weapBinds.PickWeapon (slot, false, isDraco);
+        weapBinds.LastWeapon = selWeap;
+        return selWeap;
     }
 
     override Weapon PickNextWeapon () {
         selectedWeapon = true;
 
         bool isDraco = (player.mo is 'S7_DracoPlayer');
-        return Weapon (weapBinds.CycleWeapons (false, false, isDraco));
+        let selWeap = weapBinds.CycleWeapons (false, false, isDraco);
+        weapBinds.LastWeapon = selWeap;
+        return selWeap;
     }
 
     override Weapon PickPrevWeapon () {
         selectedWeapon = true;
 
         bool isDraco = (player.mo is 'S7_DracoPlayer');
-        return Weapon (weapBinds.CycleWeapons (true, false, isDraco));
+        let selWeap = weapBinds.CycleWeapons (true, false, isDraco);
+        weapBinds.LastWeapon = selWeap;
+        return selWeap;
     }
 
     /** Ammo max **/
