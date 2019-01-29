@@ -112,7 +112,13 @@ class S7_ScorpsHunter : S7_ScorpBase {
     }
 
     override bool S7_Chase_CanMissileTarget () {
-        return CheckLOF (CLOFF_FromBase, 3200.0, offsetHeight: 35.0, offsetWidth: 9.0);
+        double curAngle = angle, curPitch = pitch;
+
+        A_Face (target, 0., 0.);
+        bool ret = CheckLOF (CLOFF_NoAim | CLOFF_FromBase, 65535.0, offsetHeight: 35.0, offsetWidth: 9.0);
+        angle = curAngle; pitch = curPitch;
+
+        return ret;
     }
 
     void DoFireGun () {

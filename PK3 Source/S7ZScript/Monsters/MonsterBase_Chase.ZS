@@ -350,7 +350,7 @@ extend class S7_MonsterBase {
                     double dist = Distance2D (target);
                     double stealthFactor = S7_GetTargetStealthFactor (target);
 
-                    if (dist > (maxStealthAttackRange * (clamp (1. - stealthFactor, .25, 1.)))) {
+                    if (stealthFactor >= .6 && dist > (maxStealthAttackRange * (clamp (1. - stealthFactor, .25, 1.)))) {
                         S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                         return;
                     }
