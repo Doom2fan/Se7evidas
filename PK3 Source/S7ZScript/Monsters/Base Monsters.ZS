@@ -53,6 +53,7 @@ class S7_MonsterBase : Actor {
         Super.BeginPlay ();
 
         aiCountdown = -1;
+        aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
     }
 
     override void Tick () {

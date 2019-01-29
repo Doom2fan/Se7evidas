@@ -106,7 +106,7 @@ extend class S7_MonsterBase {
 
             // Forget player and set a search node if they can't be seen, are out of LoS or shadow
             if (!inLOS || !S7_CanSeeEnemy (target, noRand: true) || (target.bShadow && random [monsterAI] (0, 35) == 0)) {
-                if (aiLastTargetPos != aiLastTargetPos)
+                if (aiLastTargetPos == aiLastTargetPos)
                     ForgetTarget (self);
                 else if (!bAmbush) {
                     aiCountdown = random [monsterAI] (30 * 35, 60 * 35);
