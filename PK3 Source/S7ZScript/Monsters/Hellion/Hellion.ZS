@@ -192,7 +192,7 @@ class S7_HellionBall : S7_FireballBase {
     double bonusDMGFactor;
 
     default {
-        DamageFunction (15. + fRandom [monsterDMG] (-2., 2.) * (1. + bonusDMGFactor));
+        DamageFunction ((15. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         DamageType 'Fire';
         Speed 12;
         FastSpeed 24;

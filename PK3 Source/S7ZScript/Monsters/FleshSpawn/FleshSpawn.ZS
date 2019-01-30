@@ -164,7 +164,7 @@ class S7_FleshSpawn : S7_MonsterBase {
 
     Melee:
         FLSP FFAA 1 A_FaceTarget (45, 22.5);
-        FLSP B    2 A_CustomMeleeAttack (damage: int (max (ceil (2.5 + fRandom [monsterDMG] (-0.5, 0.5) * (1. + GetDamageBonus ())), 2)), damagetype: 'Bite');
+        FLSP B    2 A_CustomMeleeAttack (damage: int (max (ceil ((2.5 + fRandom [monsterDMG] (-.5, .5)) * (1. + GetDamageBonus ())), 2)), damagetype: 'Bite');
         FLSP AFE  2;
         goto See;
 
@@ -287,7 +287,7 @@ class S7_FleshSpawnBall : S7_FireballBase {
         S7_Projectile.FastProjCollision ColMode_EdgeCenters;
         Speed 15;
 
-        DamageFunction int (14. + fRandom [monsterDMG] (-6., 2.) * (1. + bonusDMGFactor));
+        DamageFunction int ((14. + fRandom [monsterDMG] (-6., 2.)) * (1. + bonusDMGFactor));
         Obituary "$OBFLESHSPAWNBALL";
         RenderStyle "Add";
         Decal 'Scorch';

@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
     default {
-        DamageFunction (4. + fRandom [monsterDMG] (-2., 2.) * (1. + bonusDMGFactor));
+        DamageFunction ((4. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         DamageType 'PistolTracer';
     }
 }

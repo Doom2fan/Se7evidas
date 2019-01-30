@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
-        DamageFunction (8. + fRandom [monsterDMG] (-2., 3.) * (1. + bonusDMGFactor));
+        DamageFunction ((8. + fRandom [monsterDMG] (-2., 3.)) * (1. + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 250;
         DamageType 'RifleTracer';
     }

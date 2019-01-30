@@ -67,7 +67,7 @@ class S7_EmpressMissile1 : S7_Projectile {
         S7_Projectile.InterpMove false;
 
         Speed 45;
-        DamageFunction (21. + fRandom [monsterDMG] (-3., 3.) * (1. + bonusDMGFactor) * (1. + bonusDMGFactor));
+        DamageFunction ((21. + fRandom [monsterDMG] (-3., 3.)) * (1. + bonusDMGFactor));
 
         MissileType 'S7_EmpressMissile1Trail';
         MissileHeight 8;

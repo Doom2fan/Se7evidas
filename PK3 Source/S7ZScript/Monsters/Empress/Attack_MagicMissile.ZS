@@ -67,7 +67,7 @@ class S7_EmpressMissile2 : S7_Projectile {
         Height 20;
         Speed 40;
 
-        DamageFunction (12 + random [monsterDMG] (-2, 2) * (1. + bonusDMGFactor));
+        DamageFunction ((12. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         MissileType 'S7_EmpressMissile2Trail';
         MissileHeight 8;
 

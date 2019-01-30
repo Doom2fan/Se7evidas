@@ -110,7 +110,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
     }
 
     action void DoMeleeAttack () {
-        A_CustomMeleeAttack (int (25. + fRandom [monsterDMG] (-2., 2.) * (1. + invoker.GetDamageBonus ())), "Monsters/InfernalGuardian/MeleeHit", "Monsters/InfernalGuardian/MeleeMiss", "Melee");
+        A_CustomMeleeAttack (int ((25. + fRandom [monsterDMG] (-2., 2.)) * (1. + invoker.GetDamageBonus ())), "Monsters/InfernalGuardian/MeleeHit", "Monsters/InfernalGuardian/MeleeMiss", "Melee");
     }
 
     action void DoShieldAttack () {
@@ -224,7 +224,7 @@ class S7_InfernalGuardianBall : S7_FireballBase {
     double bonusDMGFactor;
 
     default {
-        DamageFunction (40. + fRandom [monsterDMG] (-4., 4.) * (1. + bonusDMGFactor));
+        DamageFunction ((40. + fRandom [monsterDMG] (-4., 4.)) * (1. + bonusDMGFactor));
         Speed 15;
         Obituary "$OBINFERNALGUARDIAN";
 
@@ -254,7 +254,7 @@ class S7_InfernalGuardianShieldShot : S7_FireballBase {
     double bonusDMGFactor;
 
     default {
-        DamageFunction (10. + fRandom [monsterDMG] (-2., 2.) * (1. + bonusDMGFactor));
+        DamageFunction ((10. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         Speed 18;
         Obituary "$OBINFERNALGUARDIAN";
 

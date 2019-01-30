@@ -54,7 +54,7 @@ class S7_BaseTracer : S7_Projectile {
         Height 2;
         Speed 25;
         S7_BaseTracer.TrueSpeed 150;
-        DamageFunction (fRandom [weaponDamage] (1.0, 3.0) * 4);
+        DamageFunction (8 + random [weaponDamage] (-2, 2));
         MissileHeight 8;
 
         +BLOODSPLATTER    +NOEXTREMEDEATH +NODAMAGETHRUST +PUFFGETSOWNER
@@ -247,7 +247,6 @@ class S7_12gaTracer : S7_BulletTracer {
 class S7_ManxCarbineTracer : S7_BulletTracer {
     default {
         DamageFunction (14 + random [weaponDamage] (-1, 1));
-        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 10.5);
         S7_BaseTracer.TrueSpeed 190;
         DamageType 'PistolTracer';
     }
@@ -295,7 +294,6 @@ class S7_RevolverTracer : S7_BulletTracer {
 class S7_TEC9Tracer : S7_BulletTracer {
     default {
         DamageFunction (11 + random [weaponDamage] (-3, 3));
-        DamageFunction (fRandom [weaponDamage] (1.0, 2.0) * 7.5);
         DamageType 'PistolTracer';
     }
 }

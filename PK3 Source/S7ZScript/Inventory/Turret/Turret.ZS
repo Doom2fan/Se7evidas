@@ -24,7 +24,7 @@
 class S7_M400AutogunTracer : S7_BulletTracer {
     default {
         S7_BaseTracer.TrueSpeed 240;
-        DamageFunction (fRandom [monsterDMG] (1.0, 3.0) * 3.875);
+        DamageFunction (8 + random [monsterDMG] (-1, 2));
         DamageType 'RifleTracer';
     }
 }

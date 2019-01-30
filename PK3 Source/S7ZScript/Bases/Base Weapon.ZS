@@ -195,20 +195,17 @@ class S7_BaseWeapon : Weapon {
         return drop;
     }
 
-    action int S7_GetMeleeDamage (double baseDamage, double mul) {
-        double baseMul  = 1.0;
-        double mulBonus = 0.0;
+    action int S7_GetMeleeDamage (double baseDamage) {
+        double dmgMul = 1.0;
 
         let pPawn = S7_BasePlayer (invoker.Owner);
         if (pPawn && pPawn.xpSys)
-            baseMul += pPawn.xpSys.GetStat (S7Stat_Strength, false) * 0.025;
+            dmgMul += pPawn.xpSys.GetStat (S7Stat_Strength, false) * .025;
 
-        if (CheckInventory ('S7_BerserkToken', 1)) {
-            baseMul *= 3.0;
-            mulBonus = fRandom [weaponDamage] (0.0, 2.0);
-        }
+        if (CheckInventory ('S7_BerserkToken', 1))
+            dmgMul *= 3.0;
 
-        return int (ceil ((baseDamage * baseMul + 0.5) * (mul + mulBonus)));
+        return int (ceil (baseDamage * dmgMul + .5));
     }
 
     double ConvWeapRecoil (double amount, double strengthStat, double berserkMod) const {
@@ -514,10 +511,10 @@ class S7_BaseWeapon : Weapon {
         DAG1 ABCD 1;
         DAG1 E    1 {
             A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
-            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
+            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
         }
-        DAG1 F    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
-        DAG1 G    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (3, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
+        DAG1 F    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
+        DAG1 G    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
         DAG1 H    1 { invoker.meleeAttackSoundPlayed = false; }
         TNT1 A    5;
         TNT1 A    0 A_Jump (256, "MeleeDone");
@@ -526,10 +523,10 @@ class S7_BaseWeapon : Weapon {
         DAG2 AB 1;
         DAG2 C  1 {
             A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
-            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
+            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
         }
-        DAG2 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
-        DAG2 E  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (2, fRandom [weaponDamage] (1.0, 5.0)), 'S7_DaggerPuff');
+        DAG2 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
+        DAG2 E  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
         DAG2 F  1 { invoker.meleeAttackSoundPlayed = false; }
         DAG2 GH 1;
         TNT1 A  5;
@@ -541,10 +538,10 @@ class S7_BaseWeapon : Weapon {
         KNF1 AB 1;
         KNF1 C  1 {
             A_PlaySound ("Weapons/Machete/Swing", CHAN_Weapon);
-            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (5, fRandom [weaponDamage] (1.0, 4.3334)), 'S7_MachetePuff');
+            S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (15.35 + fRandom [weaponDamage] (-2, 5)), 'S7_MachetePuff');
         }
-        KNF1 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (5, fRandom [weaponDamage] (1.0, 4.3334)), 'S7_MachetePuff');
-        KNF1 E  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (5, fRandom [weaponDamage] (1.0, 4.3334)), 'S7_MachetePuff');
+        KNF1 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (15.35 + fRandom [weaponDamage] (-2, 5)), 'S7_MachetePuff');
+        KNF1 E  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (15.35 + fRandom [weaponDamage] (-2, 5)), 'S7_MachetePuff');
         KNF1 F  1 { invoker.meleeAttackSoundPlayed = false; }
         TNT1 A 12;
         TNT1 A 0 A_Jump (256, "MeleeDone");
@@ -552,7 +549,7 @@ class S7_BaseWeapon : Weapon {
 
     KickMelee:
         KICK BCD   1;
-        KICK H     1 S7_CustomPunch (S7_GetMeleeDamage (10, fRandom [weaponDamage] (1.0, 5.0)), 0, 'S7_MeleePuff');
+        KICK H     1 S7_CustomPunch (S7_GetMeleeDamage (30. + fRandom [weaponDamage] (-2.5, 5)), 0, 'S7_MeleePuff');
         KICK HHHIG 1;
         KICK FEDCB 1;
         KICK A     1;

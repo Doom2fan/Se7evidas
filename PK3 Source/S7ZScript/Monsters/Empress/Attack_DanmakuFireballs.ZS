@@ -158,7 +158,7 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
         S7_Projectile.InterpMove false;
 
         Speed 25;
-        DamageFunction ((35 / S7_Empress.DanmakuFireballs_FireballCount) + random [monsterDMG] (-2, 2) * (1. + bonusDMGFactor));
+        DamageFunction (((35. / S7_Empress.DanmakuFireballs_FireballCount) + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
 
         MissileType 'S7_EmpressMissile1Trail';
         MissileHeight 8;
