@@ -412,8 +412,7 @@ class S7_Projectile : FastProjectile {
             }
 
             if (!collisionHandled)
-                SetOrigin (pos + vel, true);
-            //TryMove (pos.xy, true, false);
+                SetOrigin (pos + vel, interpFastProj);
 
             SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
