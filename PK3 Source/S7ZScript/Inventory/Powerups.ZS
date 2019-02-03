@@ -232,22 +232,6 @@ class S7_Invisibility_Power : PowerInvisibility {
 
         -SHADOW
     }
-
-    override void InitEffect () {
-        if (Owner != NULL) {
-            bInvisible = Owner.bInvisible;
-            Owner.bInvisible = true;
-        }
-
-        Super.InitEffect ();
-    }
-
-    override void EndEffect () {
-        Super.EndEffect ();
-
-        if (Owner != NULL)
-            Owner.bInvisible = bInvisible;
-    }
 }
 
 class S7_Invisibility : PowerupGiver {

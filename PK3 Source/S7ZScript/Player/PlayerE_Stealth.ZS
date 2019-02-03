@@ -24,6 +24,7 @@ extend class S7_BasePlayer {
             return;
 
         double lightLevel = Misc_Stealth_GetLightLevel (), origll = lightlevel;
+        lightLevel *= (CheckInventory ('S7_Invisibility_Power', 1) ? .5 : 1.);
         lightlevel = clamp (clamp (.6 - lightlevel, 0., 1.) / .4, 0., 1.);
 
         double crouchFactor = clamp (1. + .25 * (1-player.crouchFactor), 1., 1.25);
