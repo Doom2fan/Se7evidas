@@ -30,15 +30,16 @@ class S7_HealthBonusSpawner : RandomSpawner replaces HealthBonus {
 
 class S7_MedikitSpawner : RandomSpawner replaces Medikit {
     default {
-        DropItem 'S7_Nothing', 256, 4;
-        DropItem 'S7_Medikit', 256, 2;
+        DropItem 'S7_Nothing' , 256, 8;
+        DropItem 'S7_Stimpack', 256, 1;
+        DropItem 'S7_Medikit' , 256, 1;
     }
 }
 
 class S7_StimpackSpawner : RandomSpawner replaces Stimpack {
     default {
-        DropItem 'S7_Nothing',  256, 4;
-        DropItem 'S7_Stimpack', 256, 2;
+        DropItem 'S7_Nothing',  256, 5;
+        DropItem 'S7_Stimpack', 256, 1;
     }
 }
 
