@@ -71,7 +71,7 @@ class S7_Backpack : Inventory replaces Backpack {
             }
 
             int num = random [invSpc] (0, options.Size () - 1);
-            if (random [invSpc] (0, 255) < 16)
+            if (random [invSpc] (0, 255) < 192)
                 continue;
             items.Push (options [num]);
             itemAmounts.Push (amounts [num]);

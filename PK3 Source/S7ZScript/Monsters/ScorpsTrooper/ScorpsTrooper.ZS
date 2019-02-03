@@ -147,8 +147,12 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         if (invoker.ammo < 1)
             return;
 
-        let droppedMag = S7_9mmCartridges (S7_ActorExtensions.DropItem (self, 'S7_9mmCartridges'));
+        double level = invoker.xpSys ? invoker.xpSys.level : 1;
+
+        int dropChance = (256 - random [monsterSpc] (0, min (int (level * 2.5), 128)));
+        let droppedMag = S7_9mmCartridges (S7_ActorExtensions.DropItem (self, 'S7_9mmCartridges', chance: dropChance));
         if (droppedMag) {
+            invoker.ammo -= int (invoker.ammo * fRandom [monsterSpc] (0., min (level * .005, .5)));
             droppedMag.Amount = invoker.ammo;
             invoker.ammo = 0;
         }

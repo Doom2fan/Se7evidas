@@ -156,9 +156,11 @@ class S7_ScorpsHunter : S7_ScorpBase {
             if (random [monsterSpc] () <= 128) { // Don't always drop with ammo, either!
                 double level = invoker.xpSys ? invoker.xpSys.level : 1;
 
-                shotty.isBroken = (random [monsterSpc] () <= clamp (96 * (1. + level * 0.01), 96, 256));
+                shotty.isBroken = (random [monsterSpc] () <= clamp (96 * (1. + level * 0.04), 96, 256));
                 shotty.shellsCount = invoker.ammo;
                 invoker.ammo = 0;
+
+                shotty.shellsCount -= int (shotty.shellsCount * fRandom [monsterSpc] (0., min (level * .005, .5)));
 
                 if (random [monsterSpc] () <= clamp (64 * (level * 0.025), 96, 256))
                     shotty.shellsCount /= 2;

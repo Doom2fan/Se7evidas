@@ -384,8 +384,8 @@ class S7_CanteenRefill : Inventory {
     }
 
     override void PostBeginPlay () {
-        Amount = random [S7_Inventory] (1, 8) * 15;
-        scale.x = scale.y = (.35 + (double (Amount) / (8.*15.)) * .15);
+        Amount = random [S7_Inventory] (1, 4) * 15;
+        scale.x = scale.y = (.35 + (double (Amount) / (4.*15.)) * .15);
     }
 
     override bool TryPickup (in out Actor toucher) {
