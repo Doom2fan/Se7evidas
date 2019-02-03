@@ -150,14 +150,13 @@ shop "mainShop" {
                     buyPrice = 400;
                     sellPrice = 200;
                 },
-                buySellItem "BSRK" {
+                buyItem "BSRK" {
                     name = "$XS22ESC";
                     desc = "$SS_XS22ESC_DESC";
                     info = "$SS_XS22ESC_INFO";
                     icon = "sprites/Inventory/Berserk/BSRKA0.png";
                     inventoryName = "S7_Berserk";
-                    buyPrice = 800;
-                    sellPrice = 350;
+                    buyPrice = 2500;
                 }
             }
         },
