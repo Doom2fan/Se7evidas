@@ -108,7 +108,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
     S7_ZF_Label statLabels [7];
     S7_ZF_Label statBaseLabels [7];
     S7_ZF_Label statAddLabels [7];
-    S7_ZF_Button statButtons [2] [7];
+    S7_ZF_Button statButtons [7] [2];
 
     S7_ZF_Button resetButton, acceptButton;
 
