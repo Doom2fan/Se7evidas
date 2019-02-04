@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-version "3.7.1"
+version "3.7.2"
 
 /* Info
 ** You can use anything from here. Just make sure to credit the author(s).
@@ -201,6 +201,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Misc/NamesList.ZS"
 #include "S7ZScript/Misc/ACSBridge.ZS"
 #include "S7ZScript/Misc/CheatThingy.ZS"
+#include "S7ZScript/Misc/GameOfLife.ZS"
 
 // Weapons
 #include "S7ZScript/Weapons/Unarmed.ZS"
