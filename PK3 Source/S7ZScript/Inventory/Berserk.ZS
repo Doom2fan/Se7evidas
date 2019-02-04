@@ -66,6 +66,8 @@ class S7_BerserkToken : Powerup {
 
         Powerup.Duration -120;
         Powerup.Color "FF 20 20", 0.25;
+
+        +INVENTORY.PERSISTENTPOWER
     }
 
     override void AttachToOwner (Actor other) {
