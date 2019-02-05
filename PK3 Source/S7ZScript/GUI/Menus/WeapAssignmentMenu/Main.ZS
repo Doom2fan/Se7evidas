@@ -68,8 +68,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     S7_WeapAssignMenu_List itemsList;
     S7_ZF_Image infoBG;
     S7_ZF_Label infoLabel;
-    S7_ZF_Button slotButtons [3] [5];
-    S7_ZF_Image  slotImages  [3] [5];
+    S7_ZF_Button slotButtons [5] [3];
+    S7_ZF_Image  slotImages  [5] [3];
 
     int selectedX, selectedY;
     S7_BaseWeapon hoveredWeap;
