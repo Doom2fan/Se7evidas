@@ -619,7 +619,7 @@ class S7_MultiJump_Max : S7_Counter { default { Inventory.MaxAmount 200; } }
 
 // Dodging
 class S7_DodgeTrail : PlayerSpeedTrail { default { RenderStyle "Shadow"; } }
-class S7_PowerDodgeEffects : PowerInvulnerable {
+class S7_PowerDodgeEffects : Powerup {
     default {
         inventory.interHubAmount 0; // I dunno, just in case...
         Inventory.Icon "";
@@ -639,8 +639,6 @@ class S7_PowerDodgeEffects : PowerInvulnerable {
     }
 
     override void DoEffect () {
-        Super.DoEffect ();
-
         if (!Owner || !Owner.player) // Return if it doesn't have an owner
             return;
 
