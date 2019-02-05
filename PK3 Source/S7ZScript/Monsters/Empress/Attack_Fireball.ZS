@@ -59,8 +59,6 @@ extend class S7_Empress {
 }
 
 class S7_EmpressMissile1 : S7_Projectile {
-    double bonusDMGFactor;
-
     default {
         S7_Projectile.MovementMode FastProjectile;
         S7_Projectile.EffectStepMul .125 * 2;

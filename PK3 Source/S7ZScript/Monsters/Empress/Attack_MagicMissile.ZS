@@ -57,8 +57,6 @@ extend class S7_Empress {
 }
 
 class S7_EmpressMissile2 : S7_Projectile {
-    double bonusDMGFactor;
-
     default {
         S7_Projectile.MovementMode FastProjectile;
         S7_Projectile.FastProjCollision ColMode_Center | ColMode_Corners;

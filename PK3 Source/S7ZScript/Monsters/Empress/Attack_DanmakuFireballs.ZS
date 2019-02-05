@@ -147,8 +147,6 @@ class S7_Empress_DanmakuFireballsFire : S7_FireBase {
 }
 
 class S7_Empress_DanmakuFireball : S7_Projectile {
-    double bonusDMGFactor;
-
     default {
         Radius 20;
         Height 20;

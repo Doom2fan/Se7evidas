@@ -172,8 +172,6 @@ class S7_BlackPanther : S7_HellNobleBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_BlackPantherBall : S7_FireballBase {
-    double bonusDMGFactor;
-
     default {
         DamageFunction ((20. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         Speed 18;

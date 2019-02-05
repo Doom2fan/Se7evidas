@@ -218,6 +218,7 @@ class S7_Projectile : FastProjectile {
     int fpCollisionMode;
     bool interpFastProj;
     double effectStepMul;
+    double bonusDMGFactor;
 
     /// Which movement code to use.
     property MovementMode: moveMode;

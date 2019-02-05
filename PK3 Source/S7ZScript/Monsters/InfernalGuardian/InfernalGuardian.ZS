@@ -221,8 +221,6 @@ class S7_InfernalGuardian : S7_HellNobleBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_InfernalGuardianBall : S7_FireballBase {
-    double bonusDMGFactor;
-
     default {
         DamageFunction ((40. + fRandom [monsterDMG] (-4., 4.)) * (1. + bonusDMGFactor));
         Speed 15;
@@ -251,8 +249,6 @@ class S7_InfernalGuardianBall : S7_FireballBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_InfernalGuardianShieldShot : S7_FireballBase {
-    double bonusDMGFactor;
-
     default {
         DamageFunction ((10. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         Speed 18;

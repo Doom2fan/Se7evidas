@@ -158,8 +158,6 @@ class S7_Infernal : S7_MonsterBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_InfernalBall : S7_FireballBase {
-    double bonusDMGFactor;
-
     default {
         Radius 16;
         Height 25;

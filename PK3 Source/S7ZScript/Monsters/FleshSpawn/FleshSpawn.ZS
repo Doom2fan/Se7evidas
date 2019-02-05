@@ -277,8 +277,6 @@ class S7_FleshSpawn : S7_MonsterBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_FleshSpawnBall : S7_FireballBase {
-    double bonusDMGFactor;
-
     default {
         Radius 3;
         Height 5;
