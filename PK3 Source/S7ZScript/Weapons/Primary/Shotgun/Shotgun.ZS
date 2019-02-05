@@ -71,15 +71,11 @@ class S7_Shotgun : S7_BaseWeapon {
 
     action void S7_FireShotgun (bool right) {
         if (!right) {
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1, 2);
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1, 2);
-            for (int i = 0; i < 18; i++)
-                A_FireProjectile ('S7_SSGTracer', fRandom [weaponSpread] (-0.25, 0.25), false, 2, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 1.5), amount: 2);
+            S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 2, 6), amount: 18);
         } else {
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3, 2);
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3, 2);
-            for (int i = 0; i < 18; i++)
-                A_FireProjectile ('S7_SSGTracer', fRandom [weaponSpread] (-0.25, 0.25), false, 6, -4, 0, fRandom [weaponSpread] (-0.25, 0.25));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4, 1.5), amount: 2);
+            S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 6, 8), amount: 18);
         }
     }
 
@@ -229,8 +225,8 @@ class S7_Shotgun : S7_BaseWeapon {
             return ResolveState (null);
         }
         SSGR A 1 {
-            A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
-            A_FireProjectile ('S7_ShellCasingSpawn2', 0, false, 6, -3);
+            S7_A_SpawnSFX ('S7_ShellCasingSpawn', offs: (0, 4, 10));
+            S7_A_SpawnSFX ('S7_ShellCasingSpawn2', offs: (0, 4.5, 10));
             A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
             A_WeaponOffset (4, 32 + 4);
         }
@@ -286,14 +282,14 @@ class S7_Shotgun : S7_BaseWeapon {
             } else if (invoker.loaded == 1) {
                 TakeInventory (invoker.ammoType1, 1); // Remove the extra shell
                 GiveInventory (invoker.ammoType2, 1);
-                A_FireProjectile ('S7_ShellCasingSpawn2', 0, false, 6, -3);
+                S7_A_SpawnSFX ('S7_ShellCasingSpawn2', offs: (0, 4.5, 10));
                 if (CheckInventory (invoker.ammoType1, 2))
                     invoker.loaded = 2; // Load 2 shells into the chamber
                 else
                     invoker.loaded = 0;
             } else if (invoker.loaded <= 0 && CheckInventory (invoker.ammoType1, 2)) {
-                A_FireProjectile ('S7_ShellCasingSpawn', 0, false, 6, -3);
-                A_FireProjectile ('S7_ShellCasingSpawn2', 0, false, 6, -3);
+                S7_A_SpawnSFX ('S7_ShellCasingSpawn', offs: (0, 4, 10));
+                S7_A_SpawnSFX ('S7_ShellCasingSpawn2', offs: (0, 4.5, 10));
                 invoker.loaded = 2;
             } else
                 return ResolveState ("InsertShells");

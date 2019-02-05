@@ -119,11 +119,9 @@ class S7_Fauchard : S7_BaseWeapon {
             A_PlaySound ("Weapons/Fauchard/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             A_AlertMonsters ();
             A_GunFlash ();
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 4);
-            let proj = S7_FauchardTracer (A_FireProjectile ('S7_FauchardTracer', fRandom [weaponSpread] (-0.14, 0.14), true, 6, -3, 0, fRandom [weaponSpread] (-0.14, 0.14)));
 
-            if (proj)
-                proj.bonusDMGFactor = invoker.GetDamageBonus ();
+            S7_A_FireBullets ('S7_FauchardTracer', spread: (.14, .14), offs: (10, 4, 5), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 0.5));
 
             S7_Recoil (-0.3);
 
@@ -190,7 +188,7 @@ class S7_Fauchard : S7_BaseWeapon {
 class S7_FauchardTracer : S7_BaseTracer {
     default {
         DamageFunction ((30. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        S7_BaseTracer.TrueSpeed 300;
+        Speed 300;
         DamageType 'LaserTracer';
         Scale 0.015;
         MissileType 'S7_LaserTracerTrail';

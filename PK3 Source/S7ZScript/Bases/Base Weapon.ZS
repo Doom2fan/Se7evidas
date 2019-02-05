@@ -450,6 +450,110 @@ class S7_BaseWeapon : Weapon {
             invoker.meleeAttackSoundPlayed = true;
     }
 
+    enum S7_A_FireBullets_Flags {
+        S7_FB_SpeedOffs = 1 << 0,
+        S7_FB_UseAmmo   = 1 << 1,
+    }
+
+    action Actor, S7_TZK_ArrayObj S7_A_SpawnSFX (class<Actor> sfxType, Vector3 offs = (0, 0, 0), int amount = 1, int flags = 0) {
+        return S7_A_FireBullets (sfxType, offs: offs, amount: amount, flags: flags | S7_FB_SpeedOffs);
+    }
+
+    action Actor, S7_TZK_ArrayObj S7_A_FireBullets (
+        class<Actor> projType,
+        Vector2 spread = (0, 0), Vector3 offs = (0, 0, 0),
+        int amount = 1,
+        double bonusDMGFactor = 0.,
+        int flags = 0
+    ) {
+        if (!projType)
+            ThrowAbortException ("S7_A_FireBullets: Projectile class \"%s\" does not exist.", projType);
+        if (amount < 1)
+            ThrowAbortException ("S7_A_FireBullets: Amount must be greater than 0.");
+
+        if (flags & S7_FB_UseAmmo) {
+            let weapon = player.ReadyWeapon;
+
+            // Only use ammo if called from a weapon
+            if (weapon && stateinfo != null && stateinfo.mStateType == STATE_Psprite) {
+                if (!weapon.DepleteAmmo (weapon.bAltFire, true))
+                    return null, null; // Out of ammo
+            }
+        }
+
+        Vector3 origin; {
+            Vector3 xVec = (1, 0, 0),
+                    yVec = (0, 1, 0),
+                    zVec = (0, 0, 1);
+
+            let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
+
+            xVec = qRot.RotateVector3 (xVec);
+            yVec = qRot.RotateVector3 (yVec);
+            zVec = qRot.RotateVector3 (zVec);
+
+            origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
+                xVec * offs.X -
+                yVec * offs.Y -
+                zVec * offs.Z
+            );
+        }
+
+        Vector3 forwards, sideways, vertical; {
+            forwards = (1, 0, 0);
+            sideways = (0, 1, 0);
+            vertical = (0, 0, 1);
+
+            let qRot = S7_GM_Quaternion.CreateFromAngles (
+                angle          + fRandom [weaponSpread] (-spread.X, spread.X),
+                BulletSlope () + fRandom [weaponSpread] (-spread.Y, spread.Y),
+                roll
+            );
+
+            forwards = qRot.RotateVector3 (forwards);
+            sideways = qRot.RotateVector3 (sideways);
+            vertical = qRot.RotateVector3 (vertical);
+        }
+
+        let arr = new ('S7_TZK_ArrayObj');
+        arr.Clear ();
+
+        for (int i = 0; i < amount; i++) {
+            let proj = Spawn (projType, origin);
+
+            proj.target = self;
+            let dir = forwards.Unit ();
+            proj.vel = (dir * proj.Speed);
+            proj.angle = atan2 (dir.Y, dir.X);
+            proj.pitch = -asin (dir.Z);
+
+            if ((projType is 'S7_Projectile'))
+                S7_Projectile (proj).bonusDMGFactor = bonusDMGFactor;
+
+            if ((flags & S7_FB_SpeedOffs) && radius > 0) {
+                // Move a little forward so an angle can be computed if it immediately explodes
+                Vector3 newPos = (0, 0, 0);
+
+                Vector3 advance = proj.vel;
+                double maxsquared = radius * radius;
+
+                // Keep halving the advance vector until we get something less than maxdist
+                // units away, since we still want to spawn the missile inside the shooter.
+                do {
+                    advance *= .5;
+                } while ((advance.XY dot advance.XY) >= maxsquared);
+                newpos += advance;
+
+                newPos = level.Vec3Offset (proj.pos, newPos);
+                proj.SetOrigin (newPos, false);
+            }
+
+            arr.Values.Push (proj);
+        }
+
+        return Actor (arr.Values [0]), arr;
+    }
+
     states {
     DryFire:
         TNT1 A 0 {

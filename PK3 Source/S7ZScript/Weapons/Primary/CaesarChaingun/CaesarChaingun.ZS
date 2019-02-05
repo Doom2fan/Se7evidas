@@ -126,8 +126,8 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 A_AlertMonsters ();
                 A_GunFlash ("Flash");
 
-                A_FireProjectile ('S7_CaesarChaingun_Tracer', fRandom [weaponSpread] (-0.16, 0.16), true, 9, -2, 0, fRandom [weaponSpread] (-0.16, 0.16));
-                A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4.5, 2.85);
+                S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), flags: S7_FB_UseAmmo);
+                S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4.5, 1));
 
                 A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);
 
@@ -136,7 +136,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
             } else
                 invoker.DepleteAmmo (false);
 
-            A_FireProjectile ('S7_45WWCasingSpawnRifle', 0, false, 11.5, -9);
+            S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 15, 11));
 
             return ResolveState (null);
         }

@@ -24,7 +24,7 @@
 class S7_PlasmaGunRailCharge1 : S7_PlasmaGunRail {
     default {
         S7_Projectile.FastProjCollision ColMode_Center | ColMode_Corners | ColMode_EdgeCenters;
-        S7_BaseTracer.TrueSpeed 337;
+        Speed 337;
 
         Radius 4;
         Height 4;
@@ -42,7 +42,7 @@ class S7_PlasmaGunRailCharge2 : S7_PlasmaGunRailCharge1 {
         Radius 5;
         Height 5;
 
-        S7_BaseTracer.TrueSpeed 382;
+        Speed 382;
         Scale 0.035;
         DamageFunction ((60. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         MissileType 'S7_PlasmaGunRailTrail_Charge2';
@@ -55,7 +55,7 @@ class S7_PlasmaGunRailCharge3 : S7_PlasmaGunRailCharge1 {
         Radius 6;
         Height 6;
 
-        S7_BaseTracer.TrueSpeed 427;
+        Speed 427;
         Scale 0.045;
         DamageFunction ((71.25 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         MissileType 'S7_PlasmaGunRailTrail_Charge3';
@@ -67,7 +67,7 @@ class S7_PlasmaGunRailCharge4 : S7_PlasmaGunRailCharge1 {
         Radius 7;
         Height 7;
 
-        S7_BaseTracer.TrueSpeed 472;
+        Speed 472;
         Scale 0.055;
         DamageFunction ((78.75 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         MissileType 'S7_PlasmaGunRailTrail_Charge4';

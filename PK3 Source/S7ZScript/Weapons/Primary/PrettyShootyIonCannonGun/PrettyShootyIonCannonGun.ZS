@@ -55,7 +55,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     action bool FireMainProjectile (class<S7_IonCannonProjectile> proj, bool useAmmo = true) {
         bool canFire = true;
 
-        let act = A_FireProjectile ('S7_IonCannonSpaceTester', 0.0, false, 6, -3.3);
+        let act = S7_A_FireBullets ('S7_IonCannonSpaceTester', offs: (10, 8, 8));
         if (act) {
             Vector3 startPos = act.pos;
             Vector3 stepSize = act.vel;
@@ -90,12 +90,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         if (act)
             act.Destroy ();
 
-        if (canFire) {
-            let proj = S7_IonCannonProjectile (A_FireProjectile (proj, 0.0, useAmmo, 6, -3.3));
-
-            if (proj)
-                proj.bonusDMGFactor = invoker.GetDamageBonus ();
-        }
+        if (canFire)
+            S7_A_FireBullets (proj, offs: (10, 8, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: useAmmo ? S7_FB_UseAmmo : 0);
 
         return canFire;
     }
@@ -176,14 +172,10 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             if (!FireMainProjectile ('S7_IonCannonProjectile', true))
                 return ResolveState ("CantFire");
 
-            for (int i = 0; i < 5; i++) {
-                let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRail', fRandom [weaponSpread] (-1.5, 1.5), false, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
+            for (int i = 0; i < 5; i++)
+                S7_A_FireBullets ('S7_IonCannonRail', spread: (1.5, 1.5), offs: (10, 8, 8), bonusDMGFactor: invoker.GetDamageBonus ());
 
-                if (proj)
-                    proj.bonusDMGFactor = invoker.GetDamageBonus ();
-            }
-
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4, 0);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3, 3));
             A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 
@@ -199,8 +191,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 D        1 A_WeaponOffset (2, 34, WOF_Interpolate);
         TNT1 A        0 A_WeaponReady (WRF_DisableSwitch | WRF_DisableSwitch | WRF_NoFire);
         PIC1 EFG      1;
-        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, false, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
-        PIC1 GGGGGGGG 2 A_FireProjectile ('S7_HeatSmokeSpawner', 0, false, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [sfx] (4, 10), fRandom [sfx] (9., 10.)));
+        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [sfx] (4, 10), fRandom [sfx] (9., 10.)));
         PIC1 G        4;
         PIC1 FEDCBA   2;
         PIC1 A        5;
@@ -214,18 +206,14 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             invoker.DepleteAmmo (false, true);
 
             if (!invoker.altFireType2) {
-                for (int i = 0; i < 7; i++) {
-                    let proj = S7_IonCannonRail (A_FireProjectile ('S7_IonCannonRailAlt', fRandom [weaponSpread] (-1.5, 1.5), false, 6, -3.3, 0, fRandom [weaponSpread] (-1.5, 1.5)));
-
-                    if (proj)
-                        proj.bonusDMGFactor = invoker.GetDamageBonus ();
-                }
+                for (int i = 0; i < 7; i++)
+                    S7_A_FireBullets ('S7_IonCannonRailAlt', spread: (1.5, 1.5), offs: (10, 8, 8), bonusDMGFactor: invoker.GetDamageBonus ());
             } else {
                 if (!FireMainProjectile ('S7_IonCannonProjectileAlt', false))
                     return ResolveState ("CantFire");
             }
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4, 0);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3, 3));
             A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 
@@ -272,12 +260,11 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 class S7_IonCannonSpaceTester : S7_BaseTracer {
     default {
         S7_Projectile.fastProjCollision 0;
-        S7_BaseTracer.TrueSpeed 35;
 
         Damage 0;
         Radius 20;
         Height 16;
-        Speed 20;
+        Speed 35;
 
         +PAINLESS   +NOPAIN +NOTRIGGER +BLOODLESSIMPACT 
         +CANNOTPUSH
@@ -328,11 +315,10 @@ class S7_IonCannonProjectile : S7_BaseTracer {
 
     default {
         S7_Projectile.fastProjCollision ColMode_Center | ColMode_Corners | ColMode_EdgeCenters;
-        S7_BaseTracer.TrueSpeed 35;
 
         Radius 20;
         Height 16;
-        Speed 20;
+        Speed 35;
         Scale 0.235;
         DamageFunction int (ceil (realDamage * (1. + bonusDMGFactor)));
         DamageType 'IonCannonMain';
@@ -388,14 +374,13 @@ class S7_IonCannonProjectileTrail : S7_TracerEffectsBase {
 }
 
 class S7_IonCannonProjectileAlt : S7_IonCannonProjectile {
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        realDamage = 350 + (fRandom [weaponDamage] (3.0, 6.0) * 95) + (fRandom [weaponDamage] (-2.0, 5.0) * 53);
+    }
+
     states {
-    Spawn:
-        PICF A 0 noDelay {
-            A_ScaleVelocity (1.0 / 20);
-            A_ScaleVelocity (35);
-            realDamage = 350 + (fRandom [weaponDamage] (3.0, 6.0) * 95) + (fRandom [weaponDamage] (-2.0, 5.0) * 53);
-        }
-        goto Idle;
     Death:
         TNT1 A 3 A_Explode (300, 256);
         stop;
@@ -412,10 +397,9 @@ class S7_IonCannonRail : S7_BaseTracer {
     double realDistTrav;
 
     default {
-        S7_BaseTracer.TrueSpeed 125;
-
         Radius 4;
         Height 4;
+        Speed 125;
         Alpha 1.0;
         Scale 0.08;
         Decal 'S7_IonCannonRail';
@@ -479,7 +463,7 @@ class S7_IonCannonRailEffect : S7_TracerEffectsBase {
 
 class S7_IonCannonRailAlt : S7_IonCannonRail {
     default {
-        S7_BaseTracer.TrueSpeed 138;
+        Speed 138;
     }
 
     states {

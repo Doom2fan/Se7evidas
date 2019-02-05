@@ -20,7 +20,7 @@
 // Credits:
 // Coding: WildWeasel, Chronos "phantombeta" Ouroboros
 // Sprites: Chronos "phantombeta" Ouroboros
-// Weapons: A_FireProjectile (tracerName, fRandom [weaponSpread] (-, horizontalSpread), true, horizontalOffset, verticalOffset, 0, fRandom [weaponSpread] (-, verticalSpread))
+// Weapons: S7_A_FireBullets (tracerName, spread: (horizontalSpread, .verticalSpread), offs: (10, verticalOffset, horizontalOffset), flags: S7_FB_UseAmmo);
 // Monsters: A_SpawnProjectile (tracerName, verticalOffset, horizontalOffset, fRandom [monsterSpread] (-, horizontalSpread), 0, fRandom [monsterSpread] (-, verticalSpread))
 
 //-------------------------------------------------------------------------------------------
@@ -48,12 +48,13 @@ class S7_BaseTracer : S7_Projectile {
         S7_Projectile.FastProjCollision ColMode_Center;
         S7_Projectile.InterpMove false;
 
+        S7_BaseTracer.TrueSpeed -1;
+
         Alpha 1.0;
         RenderStyle "add";
         Radius 2;
         Height 2;
-        Speed 25;
-        S7_BaseTracer.TrueSpeed 150;
+        Speed 150;
         DamageFunction (8 + random [weaponDamage] (-2, 2));
         MissileHeight 8;
 
@@ -61,12 +62,10 @@ class S7_BaseTracer : S7_Projectile {
         +FORCEXYBILLBOARD
     }
 
-    double bonusDMGFactor;
-
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        if (!(vel.Length () ~== 0))
+        if (trueSpeed > -1 && !(vel.Length () ~== 0))
             vel = vel.Unit () * trueSpeed;
     }
 
@@ -197,7 +196,7 @@ class S7_BulletPuffSparks : S7_TracerEffectsBase {
 class S7_AMGTracer : S7_BulletTracer {
     default {
         DamageFunction (18 + random [weaponDamage] (-1, 3));
-        S7_BaseTracer.TrueSpeed 260;
+        Speed 260;
         DamageType 'RifleTracer';
     }
 }
@@ -205,7 +204,7 @@ class S7_AMGTracer : S7_BulletTracer {
 class S7_AK47_Tracer : S7_BulletTracer {
     default {
         DamageFunction (16 + random [weaponDamage] (-1, 2));
-        S7_BaseTracer.TrueSpeed 220;
+        Speed 220;
         DamageType 'RifleTracer';
     }
 }
@@ -213,7 +212,7 @@ class S7_AK47_Tracer : S7_BulletTracer {
 class S7_SSGTracer : S7_BulletTracer { // 259 max DMG
     default {
         DamageFunction (6 + random [weaponDamage] (-2, 1));
-        S7_BaseTracer.TrueSpeed 250;
+        Speed 250;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
     }
@@ -239,7 +238,7 @@ class S7_SSGTracerTrail : S7_TracerTrail {
 class S7_12gaTracer : S7_BulletTracer {
     default {
         DamageFunction (14 + random [weaponDamage] (-2, 2));
-        S7_BaseTracer.TrueSpeed 250;
+        Speed 250;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
     }
@@ -247,21 +246,21 @@ class S7_12gaTracer : S7_BulletTracer {
 class S7_ManxCarbineTracer : S7_BulletTracer {
     default {
         DamageFunction (14 + random [weaponDamage] (-1, 1));
-        S7_BaseTracer.TrueSpeed 190;
+        Speed 190;
         DamageType 'PistolTracer';
     }
 }
 class S7_HitterSMGTracer : S7_BulletTracer {
     default {
         DamageFunction (13 + random [weaponDamage] (-2, 1));
-        S7_BaseTracer.TrueSpeed 170;
+        Speed 170;
         DamageType 'PistolTracer';
     }
 }
 class S7_ConquerorRifle_Tracer : S7_BulletTracer {
     default {
         DamageFunction (120 + random [weaponDamage] (-5, 5));
-        S7_BaseTracer.TrueSpeed 550; // So you need to compensate less when firing at long range
+        Speed 550; // So you need to compensate less when firing at long range
         DamageType 'SniperRifleTracer';
         S7_Projectile.EffectStepMul 0.036;
     }
@@ -270,7 +269,7 @@ class S7_ConquerorRifle_Tracer : S7_BulletTracer {
 class S7_CaesarChaingun_Tracer : S7_BulletTracer {
     default {
         DamageFunction (35 + random [weaponDamage] (-2, 2));
-        S7_BaseTracer.TrueSpeed 500;
+        Speed 500;
         DamageType 'SniperRifleTracer';
         S7_Projectile.EffectStepMul 0.036;
     }
@@ -280,14 +279,14 @@ class S7_CaesarChaingun_Tracer : S7_BulletTracer {
 class S7_RaptorTracer : S7_BulletTracer {
     default {
         DamageFunction (11 + random [weaponDamage] (-2, 2));
-        S7_BaseTracer.TrueSpeed 175;
+        Speed 175;
         DamageType 'PistolTracer';
     }
 }
 class S7_RevolverTracer : S7_BulletTracer {
     default {
         DamageFunction (85 + random [weaponDamage] (-5, 5));
-        S7_BaseTracer.TrueSpeed 210;
+        Speed 210;
         DamageType 'RevolverTracer';
     }
 }

@@ -185,14 +185,14 @@ class S7_TEC9 : S7_BaseWeapon {
                 A_AlertMonsters (384.0);
             }
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1.8, 4.5);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1.8, 0));
 
             if (!invoker.hasSuppressor) {
-                A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 9, -2);
-                A_FireProjectile ('S7_TEC9Tracer', fRandom [weaponSpread] (-0.45, 0.45), true, 2, 2, 0, fRandom [weaponSpread] (-0.45, 0.45));
+                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 10, 6));
+                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 2, 2), flags: S7_FB_UseAmmo);
             } else {
-                A_FireProjectile ('S7_9mmCasingSpawn', 0, false, 11, -4);
-                A_FireProjectile ('S7_TEC9Tracer', fRandom [weaponSpread] (-0.45, 0.45), true, 3, 1, 0, fRandom [weaponSpread] (-0.45, 0.45));
+                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 13, 8));
+                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4, 3), flags: S7_FB_UseAmmo);
             }
 
             if (invoker.burstFire) {

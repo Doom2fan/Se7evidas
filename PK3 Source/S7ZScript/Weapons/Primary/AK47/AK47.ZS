@@ -131,9 +131,9 @@ class S7_AK47 : S7_BaseWeapon {
 
             A_AlertMonsters ();
             A_GunFlash ("Flash");
-            A_FireProjectile ('S7_AK47_Tracer', fRandom [weaponSpread] (-0.16, 0.16), true, 7, -0.5, 0, fRandom [weaponSpread] (-0.16, 0.16));
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 3.5, 4);
-            A_FireProjectile ('S7_RifleCasingSpawn', 0, false, 13, -12);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3.5, 0.5));
+            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 18, 10.5));
+            S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), flags: S7_FB_UseAmmo);
 
             A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             S7_Recoil (-0.7);

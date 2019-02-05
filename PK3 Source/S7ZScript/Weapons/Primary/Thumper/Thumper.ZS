@@ -244,8 +244,8 @@ class S7_Thumper : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            A_FireProjectile (projType, 0, 0, 8, -5, 0, -3.0);
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 4.25, 3.25);
+            S7_A_FireBullets (projType, offs: (10, 9, 6), flags: S7_FB_UseAmmo);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4.5, 1));
             invoker.chambered = false;
 
             S7_Recoil (-1.65);
@@ -296,7 +296,7 @@ class S7_Thumper : S7_BaseWeapon {
             A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
 
             if (invoker.casingType)
-                A_FireProjectile (invoker.casingType, 0, 0, 10, -9);
+                S7_A_SpawnSFX (invoker.casingType, offs: (0, 18, 14));
 
             invoker.casingType = NULL;
         }
@@ -362,7 +362,7 @@ class S7_Thumper : S7_BaseWeapon {
             A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
 
             if (invoker.casingType)
-                A_FireProjectile (invoker.casingType, 0, 0, 10, -9);
+                S7_A_SpawnSFX (invoker.casingType, offs: (0, 18, 14));
 
             invoker.casingType = NULL;
         }

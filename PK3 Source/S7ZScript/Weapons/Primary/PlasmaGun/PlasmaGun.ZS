@@ -125,11 +125,8 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 3);
-            let proj = S7_PlasmaGunRail (A_FireProjectile ('S7_PlasmaGunRail', fRandom [weaponSpread] (-0.275, 0.275), true, 6, -4, 0, fRandom [weaponSpread] (-0.275, 0.275)));
-
-            if (proj)
-                proj.damageBonus = invoker.GetDamageBonus ();
+            S7_A_FireBullets ('S7_PlasmaGunRail', spread: (.275, .275), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 1));
 
             A_WeaponOffset (4, 36);
             A_GunFlash ("Flash.Fire");
@@ -227,12 +224,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon, 1. - (.5 * vR));
             A_PlaySound ("Weapons/PlasmaGun/AltFire", CHAN_5, 0.5 + (.5 * vR));
 
-            let proj = S7_PlasmaGunRail (A_FireProjectile (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), 0.0, 0, 6, -4, 0, 0.0));
-            if (proj)
-                proj.damageBonus = invoker.GetDamageBonus ();
+            S7_A_FireBullets (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             for (int i = 0; i < (invoker.charge + 1); i++)
-                A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 2, 3);
+                S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 1));
 
             A_WeaponOffset (8, 40);
             A_GunFlash ("Flash.Charged");
@@ -368,7 +363,7 @@ class S7_PlasmaGunRail : S7_BaseTracer {
 
     default {
         DamageFunction ((34.125 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        S7_BaseTracer.TrueSpeed 270;
+        Speed 270;
         Scale 0.015;
         MissileType 'S7_PlasmaGunRailTrail';
         Decal 'S7_PlasmaGunRail';

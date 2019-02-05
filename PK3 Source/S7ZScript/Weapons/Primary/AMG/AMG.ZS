@@ -216,9 +216,9 @@ class S7_AMG : S7_BaseWeapon {
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 1, 3.5);
-            A_FireProjectile ('S7_RifleCasingSpawn', 0, false, 8, -6);
-            A_FireProjectile ('S7_AMGTracer', fRandom [weaponSpread] (-0.14, 0.14), true, 2, 0, 0, fRandom [weaponSpread] (-0.14, 0.14));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 0.5));
+            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 2.5, 5.5), flags: S7_FB_UseAmmo);
 
             S7_Recoil (-0.8);
 
@@ -244,9 +244,9 @@ class S7_AMG : S7_BaseWeapon {
 
     Fire.Zoom:
         SCP1 A 1 {
-            A_FireProjectile ('S7_ShotSmoke_2_Spawner', 0, false, 0, 0);
-            A_FireProjectile ('S7_RifleCasingSpawn', 0, false, 8, -8);
-            A_FireProjectile ('S7_AMGTracer', fRandom [weaponSpread] (-0.13, 0.13), true, 0, -3, 0, fRandom [weaponSpread] (-0.13, 0.13));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 2));
+            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), flags: S7_FB_UseAmmo);
 
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
             if (invoker.burstFire)
