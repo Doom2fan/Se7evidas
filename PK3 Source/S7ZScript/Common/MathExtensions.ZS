@@ -175,7 +175,7 @@ class S7_Math : Actor {
     ** Returns:
     **  The XY origin of the rectangle and the rectangle's size.
     */
-    static Vector2, Vector2 CalculateSmallestAABB (TZK_ArrayF64 points) {
+    static Vector2, Vector2 CalculateSmallestAABB (S7_TZK_ArrayF64 points) {
         Vector2 origin = (int.Max, int.Max);
         Vector2 size = (int.Min, int.Min);
 

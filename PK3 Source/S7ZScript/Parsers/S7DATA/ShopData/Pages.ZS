@@ -21,7 +21,7 @@ extend class S7_S7DataParser {
         string pageName;
         let pageData = new ('S7_SSPage');
 
-        TZK_Token t;
+        S7_TZK_Token t;
 
         // We expect the name and an opening brace '{' to immediately follow
         ParseValue (pageName, VT_String);
@@ -138,7 +138,7 @@ extend class S7_S7DataParser {
     }
 
     protected void ParseShop_Page_ItemsList (S7_SSShop shopData, S7_S7DP_TempShopData tmpShopData, S7_SSPage pageData) {
-        TZK_Token t;
+        S7_TZK_Token t;
 
         // We expect the name and an opening brace '{' to immediately follow
         if ((t = m_Tokenizer.Next ()).type != TOK_BraceO) {

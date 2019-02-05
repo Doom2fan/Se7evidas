@@ -2,11 +2,11 @@
 // This work is licensed under the terms of the MIT license.  
 // To obtain a copy, visit <https://opensource.org/licenses/MIT>.
 
-class TZK_BinaryReader
+class S7_TZK_BinaryReader
 {
-    private TZK_Stream m_BaseStream;
+    private S7_TZK_Stream m_BaseStream;
 
-    TZK_Stream GetBaseStream()
+    S7_TZK_Stream GetBaseStream()
     {
         return m_BaseStream;
     }
@@ -55,9 +55,9 @@ class TZK_BinaryReader
             (Read() << 56);
     }
 
-    TZK_ArrayI8 ReadBytes(int count)
+    S7_TZK_ArrayI8 ReadBytes(int count)
     {
-        let arr = new("TZK_ArrayI8");
+        let arr = new("S7_TZK_ArrayI8");
         for(int i = 0; i < count; i++)
             arr.Push(Read());
         return arr;
@@ -93,9 +93,9 @@ class TZK_BinaryReader
         return 0.0;
     }
 
-    static TZK_BinaryReader Create(TZK_Stream input)
+    static S7_TZK_BinaryReader Create(S7_TZK_Stream input)
     {
-        let br = new("TZK_BinaryReader");
+        let br = new("S7_TZK_BinaryReader");
         br.m_BaseStream = input;
         return br;
     }

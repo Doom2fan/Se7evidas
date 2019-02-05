@@ -1,5 +1,5 @@
 // Helper class to work with chars
-class TZK_Character
+class S7_TZK_Character
 {
     static bool IsWhitespace(int c)
     {

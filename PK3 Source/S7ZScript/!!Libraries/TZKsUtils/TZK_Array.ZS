@@ -2,13 +2,13 @@
 // This work is licensed under the terms of the MIT license.  
 // To obtain a copy, visit <https://opensource.org/licenses/MIT>.
 
-class TZK_ArrayI8
+class S7_TZK_ArrayI8
 {
 	Array<int8> Values;
 
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayI8 other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayI8 other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayI8 other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayI8 other) { Values.Move(other.Values); }
 	uint Find(int item) { return Values.Find(item); }
 	uint Push(int item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -22,13 +22,13 @@ class TZK_ArrayI8
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayI16
+class S7_TZK_ArrayI16
 {
 	Array<int16> Values;
 
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayI16 other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayI16 other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayI16 other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayI16 other) { Values.Move(other.Values); }
 	uint Find(int item) { return Values.Find(item); }
 	uint Push(int item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -42,13 +42,13 @@ class TZK_ArrayI16
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayI32
+class S7_TZK_ArrayI32
 {
 	Array<int> Values;
 
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayI32 other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayI32 other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayI32 other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayI32 other) { Values.Move(other.Values); }
 	uint Find(int item) { return Values.Find(item); }
 	uint Push(int item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -62,13 +62,13 @@ class TZK_ArrayI32
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayF32
+class S7_TZK_ArrayF32
 {
 	Array<float> Values;
 
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayF32 other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayF32 other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayF32 other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayF32 other) { Values.Move(other.Values); }
 	uint Find(float item) { return Values.Find(item); }
 	uint Push(float item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -82,13 +82,13 @@ class TZK_ArrayF32
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayF64
+class S7_TZK_ArrayF64
 {
 	Array<double> Values;
 
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayF64 other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayF64 other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayF64 other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayF64 other) { Values.Move(other.Values); }
 	uint Find(double item) { return Values.Find(item); }
 	uint Push(double item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -102,13 +102,13 @@ class TZK_ArrayF64
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayStr
+class S7_TZK_ArrayStr
 {
 	Array<string> Values;
 
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayStr other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayStr other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayStr other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayStr other) { Values.Move(other.Values); }
 	uint Find(string item) { return Values.Find(item); }
 	uint Push(string item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -122,13 +122,13 @@ class TZK_ArrayStr
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayPtr
+class S7_TZK_ArrayPtr
 {
 	Array<voidptr> Values;
 	
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayPtr other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayPtr other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayPtr other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayPtr other) { Values.Move(other.Values); }
 	uint Find(voidptr item) { return Values.Find(item); }
 	uint Push(voidptr item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
@@ -142,13 +142,13 @@ class TZK_ArrayPtr
 	void Clear() { Values.Clear(); }
 }
 
-class TZK_ArrayObj
+class S7_TZK_ArrayObj
 {
 	Array<Object> Values;
 	
 	uint Size() { return Values.Size(); }
-	void Copy(TZK_ArrayObj other) { Values.Copy(other.Values); }
-	void Move(TZK_ArrayObj other) { Values.Move(other.Values); }
+	void Copy(S7_TZK_ArrayObj other) { Values.Copy(other.Values); }
+	void Move(S7_TZK_ArrayObj other) { Values.Move(other.Values); }
 	uint Find(Object item) { return Values.Find(item); }
 	uint Push(Object item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }

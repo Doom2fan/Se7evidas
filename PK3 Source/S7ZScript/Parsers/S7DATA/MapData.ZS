@@ -18,7 +18,7 @@
 
 extend class S7_S7DataParser {
     protected void ParseMapData () {
-        TZK_Token t;
+        S7_TZK_Token t;
         // We expect an opening brace '{' to immediately follow
         if ((t = m_Tokenizer.Next ()).type != TOK_BraceO) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_S7DataParser.ParseMapData", TOK_BraceO, t);
@@ -50,7 +50,7 @@ extend class S7_S7DataParser {
     }
 
     protected void ParseMapData_Map () {
-        TZK_Token t;
+        S7_TZK_Token t;
         let mData = new ('S7_S7Data_MapData');
         Array<string> hashes; hashes.Clear ();
 

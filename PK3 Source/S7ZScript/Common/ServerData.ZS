@@ -68,7 +68,7 @@ class S7_ServerData : Thinker {
 
         int lumpNum = -1;
         while ((lumpNum = Wads.FindLump ("S7DATA", lumpNum + 1, Wads.GlobalNamespace)) >= 0) {
-            let lump   = TZK_LumpStream.Create (lumpNum);
+            let lump   = S7_TZK_LumpStream.Create (lumpNum);
             let parser = S7_S7DataParser.Create (lump);
 
             parser.SetInitialData (data);

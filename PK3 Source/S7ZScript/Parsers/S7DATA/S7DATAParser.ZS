@@ -17,10 +17,10 @@
 */
 
 class S7_S7DataParser : S7_BaseParser {
-    static S7_S7DataParser Create (TZK_Stream input) {
+    static S7_S7DataParser Create (S7_TZK_Stream input) {
         let parser = new ('S7_S7DataParser');
         parser.m_Stream = input;
-        parser.m_Tokenizer = TZK_Tokenizer.Create (input);
+        parser.m_Tokenizer = S7_TZK_Tokenizer.Create (input);
         return parser;
     }
 
@@ -35,7 +35,7 @@ class S7_S7DataParser : S7_BaseParser {
     override bool Parse () {
         m_ParsingException = NULL;
 
-        TZK_Token tk;
+        S7_TZK_Token tk;
 
         if (!parsedData)
             parsedData = new ('S7_S7Data');
@@ -82,7 +82,7 @@ class S7_S7DataParser : S7_BaseParser {
         string inclPath = "";
         ParseGenericType (inclPath, VT_String);
 
-        TZK_Token tk;
+        S7_TZK_Token tk;
         if ((tk = m_Tokenizer.Next ()).type != TOK_Semicolon) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_S7DataParser.ParseInclude", TOK_Semicolon, tk);
             return;
@@ -98,7 +98,7 @@ class S7_S7DataParser : S7_BaseParser {
             return;
         }
 
-        let lump   = TZK_LumpStream.Create (lmpNum);
+        let lump   = S7_TZK_LumpStream.Create (lmpNum);
         let parser = S7_S7DataParser.Create (lump);
 
         parser.SetInitialData (parsedData);

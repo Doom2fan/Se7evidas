@@ -3,7 +3,7 @@
 // To obtain a copy, visit <https://opensource.org/licenses/MIT>.
 
 // A stream that operates on strings
-class TZK_StringStream : TZK_Stream
+class S7_TZK_StringStream : S7_TZK_Stream
 {
     protected bool m_Writable;
     protected string m_Data;
@@ -46,9 +46,9 @@ class TZK_StringStream : TZK_Stream
         Seek (0, SEEK_End);
     }
 
-    static TZK_StringStream Create(string data, bool writable = false)
+    static S7_TZK_StringStream Create(string data, bool writable = false)
     {
-        let ss = new("TZK_StringStream");
+        let ss = new("S7_TZK_StringStream");
         ss.m_Data = data;
         ss.m_Writable = writable;
         ss.m_WriteBuffer = "";

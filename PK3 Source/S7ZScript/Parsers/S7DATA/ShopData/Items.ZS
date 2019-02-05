@@ -20,7 +20,7 @@ extend class S7_S7DataParser {
     protected S7_SSItem ParseShop_Item_ParseHeader (bool noClassType = false) {
         string itemID;
         string itemClass = "S7_SSItem";
-        TZK_Token t;
+        S7_TZK_Token t;
 
         // We expect the name and an opening brace '{' to immediately follow
         ParseValue (itemID, VT_String);
@@ -55,7 +55,7 @@ extend class S7_S7DataParser {
     }
 
     protected void ParseShop_Item_PageLink (S7_SSShop shopData, S7_S7DP_TempShopData tmpShopData, S7_SSPage pageData) {
-        TZK_Token t;
+        S7_TZK_Token t;
 
         let itemData = ParseShop_Item_ParseHeader (true);
 
@@ -154,7 +154,7 @@ extend class S7_S7DataParser {
     }
 
     protected void ParseShop_Item_BuySellItem (S7_SSShop shopData, S7_S7DP_TempShopData tmpShopData, S7_SSPage pageData, bool canBuy, bool canSell) {
-        TZK_Token t;
+        S7_TZK_Token t;
 
         let itemData = ParseShop_Item_ParseHeader (false);
 

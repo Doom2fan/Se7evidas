@@ -9,7 +9,7 @@ enum ESeekOrigin
     SEEK_End,
 }
 
-/*abstract*/ class TZK_Stream
+/*abstract*/ class S7_TZK_Stream
 {
     protected int m_Position;
 

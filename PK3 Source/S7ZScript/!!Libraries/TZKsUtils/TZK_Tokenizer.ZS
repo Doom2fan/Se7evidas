@@ -36,7 +36,7 @@ enum ETokenType
     TOK_Unknown,
 }
 
-class TZK_Token
+class S7_TZK_Token
 {
     ETokenType type;
     string value;
@@ -91,17 +91,17 @@ class TZK_Token
     }
 }
 
-class TZK_Tokenizer
+class S7_TZK_Tokenizer
 {
     protected int posLine, posChar;
-    private TZK_Stream m_Stream;
+    private S7_TZK_Stream m_Stream;
 
-    static TZK_Tokenizer Create(TZK_Stream input)
+    static S7_TZK_Tokenizer Create(S7_TZK_Stream input)
     {
         if(!input.CanRead() || !input.CanSeek())
             return null;
 
-        let tok = new("TZK_Tokenizer");
+        let tok = new("S7_TZK_Tokenizer");
 
         tok.posLine = 1;
         tok.posChar = 1;
@@ -112,11 +112,11 @@ class TZK_Tokenizer
 
     private void SkipWhitespace()
     {
-        while(TZK_Character.IsWhitespace(m_Stream.Peek()))
+        while(S7_TZK_Character.IsWhitespace(m_Stream.Peek()))
             ReadChar();
     }
 
-    virtual TZK_Token Peek()
+    virtual S7_TZK_Token Peek()
     {
         let curLine = posLine;
         let curChar = posChar;
@@ -145,10 +145,10 @@ class TZK_Tokenizer
         return ret;
     }
 
-    virtual TZK_Token Next()
+    virtual S7_TZK_Token Next()
     {
         SkipWhitespace();
-        let tk = new("TZK_Token");
+        let tk = new("S7_TZK_Token");
 
         // are we at the end of the stream?
         if(m_Stream.EOF())
@@ -160,7 +160,7 @@ class TZK_Tokenizer
         tk.line = posLine;
         tk.charPos = posChar;
         let c    = ReadChar();
-        tk.value = TZK_Character.ToString(c);
+        tk.value = S7_TZK_Character.ToString(c);
         switch(c)
         {
         case ASCII_DblQuote:
@@ -252,38 +252,38 @@ class TZK_Tokenizer
         {
             // identifiers are made up of alphanumeric characters
             // and underscores. However, they cannot begin with a digit.
-            if(TZK_Character.IsLetter(c) || c == ASCII_Underscore)
+            if(S7_TZK_Character.IsLetter(c) || c == ASCII_Underscore)
             {
                 tk.type  = TOK_Identifier;
                 tk.value = "";
 
                 let peek = m_Stream.Peek();
 
-                while(TZK_Character.IsLetterOrDigit(c) || c == ASCII_Underscore)
+                while(S7_TZK_Character.IsLetterOrDigit(c) || c == ASCII_Underscore)
                 {
                     tk.value.AppendFormat("%c", c);
 
                     // are we at the end of the identifier?
-                    if(!TZK_Character.IsLetterOrDigit(peek) && peek != ASCII_Underscore)
+                    if(!S7_TZK_Character.IsLetterOrDigit(peek) && peek != ASCII_Underscore)
                         break;
 
                     c = ReadChar();
                     peek = m_Stream.Peek();
                 }
             }
-            else if(TZK_Character.IsDigit(c))
+            else if(S7_TZK_Character.IsDigit(c))
             {
                 tk.type  = TOK_Number;
                 tk.value = "";
 
                 let peek = m_Stream.Peek();
 
-                while(TZK_Character.IsDigit(c))
+                while(S7_TZK_Character.IsDigit(c))
                 {
                     tk.value.AppendFormat("%c", c);
 
                     // are we at the end of the digit?
-                    if(!TZK_Character.IsDigit(peek))
+                    if(!S7_TZK_Character.IsDigit(peek))
                         break;
 
                     c = ReadChar();

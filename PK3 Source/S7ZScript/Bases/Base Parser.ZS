@@ -35,7 +35,7 @@ enum EValueType {
 class S7_ParsingException : S7_Exception {
     bool notException;
     EParserError error;
-    TZK_Token tkn;
+    S7_TZK_Token tkn;
 
     override string GetMessage () {
         if (tkn)
@@ -45,7 +45,7 @@ class S7_ParsingException : S7_Exception {
     }
 
     static S7_ParsingException Create (string msg = "", string src = "", S7_Exception inner = NULL,
-        EParserError err = ERR_None, TZK_Token tkn = NULL, bool notEx = false
+        EParserError err = ERR_None, S7_TZK_Token tkn = NULL, bool notEx = false
     ) {
         let ret = new ('S7_ParsingException');
         ret.message = msg; ret.source = src; ret.innerException = inner;
@@ -54,7 +54,7 @@ class S7_ParsingException : S7_Exception {
         ret.notException = notEx;
         return ret;
     }
-    static S7_ParsingException CreateParserError (string src, EParserError err, TZK_Token tkn) {
+    static S7_ParsingException CreateParserError (string src, EParserError err, S7_TZK_Token tkn) {
         return Create ("", src, NULL, err, tkn, false);
     }
 }
@@ -74,7 +74,7 @@ class S7_UnexpectedToken : S7_ParsingException {
     }
     override void SetMessage (string msg) { }
 
-    static S7_UnexpectedToken Create (string src, TZK_Token tkn, string value = "") {
+    static S7_UnexpectedToken Create (string src, S7_TZK_Token tkn, string value = "") {
         let ret = new ('S7_UnexpectedToken');
         ret.message = ""; ret.innerException = NULL; ret.notException = false;
         ret.source = src;
@@ -89,11 +89,11 @@ class S7_BadTokenPE : S7_ParsingException {
     ETokenType type;
 
     override string GetMessage () {
-        return String.Format ("Line %d, char %d: Expected %s, got \"%s\"", tkn.line, tkn.charPos, TZK_Token.AsString (type), tkn.value);
+        return String.Format ("Line %d, char %d: Expected %s, got \"%s\"", tkn.line, tkn.charPos, S7_TZK_Token.AsString (type), tkn.value);
     }
     override void SetMessage (string msg) { }
 
-    static S7_BadTokenPE Create (string src, ETokenType expectedType, TZK_Token tkn) {
+    static S7_BadTokenPE Create (string src, ETokenType expectedType, S7_TZK_Token tkn) {
         let ret = new ('S7_BadTokenPE');
         ret.message = ""; ret.innerException = NULL; ret.notException = false;
         ret.source = src;
@@ -105,8 +105,8 @@ class S7_BadTokenPE : S7_ParsingException {
 }
 
 class S7_BaseParser {
-    protected TZK_Stream    m_Stream;
-    protected TZK_Tokenizer m_Tokenizer;
+    protected S7_TZK_Stream    m_Stream;
+    protected S7_TZK_Tokenizer m_Tokenizer;
     protected S7_ParsingException m_ParsingException;
 
     S7_ParsingException GetError () { return m_ParsingException; }
@@ -134,7 +134,7 @@ class S7_BaseParser {
             default: return false;
         }
 
-        TZK_Token t = m_Tokenizer.Next ();
+        S7_TZK_Token t = m_Tokenizer.Next ();
         if (t.type != tType) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_BaseParser.ParseGenericType", tType, t);
             return false;
@@ -146,7 +146,7 @@ class S7_BaseParser {
 
     protected bool ParseFloat (out string value) {
         value = "";
-        TZK_Token t = m_Tokenizer.Next ();
+        S7_TZK_Token t = m_Tokenizer.Next ();
         string intPart = "0", fracPart = "0";
         bool parseDec;
 
@@ -179,7 +179,7 @@ class S7_BaseParser {
 
     protected bool ParseVector (out string value, bool vec3) {
         value = "";
-        TZK_Token t;
+        S7_TZK_Token t;
 
         if ((t = m_Tokenizer.Next ()).type != TOK_ParenO) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_BaseParser.ParseVector", TOK_ParenO, t);
@@ -249,7 +249,7 @@ class S7_BaseParser {
 
     protected bool ParseAssignment (out string value, EValueType valueType) {
         value = "";
-        TZK_Token t;
+        S7_TZK_Token t;
 
         if ((t = m_Tokenizer.Next ()).type != TOK_Equals) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_BaseParser.ParseAssignment", TOK_Equals, t);
@@ -271,8 +271,8 @@ class S7_BaseParser {
         return true;
     }
 
-    protected bool ParseArrayAssignment (out TZK_ArrayStr values, EValueType valueType) {
-        TZK_Token t;
+    protected bool ParseArrayAssignment (out S7_TZK_ArrayStr values, EValueType valueType) {
+        S7_TZK_Token t;
 
         if ((t = m_Tokenizer.Next ()).type != TOK_Equals) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_BaseParser.ParseArrayAssignment", TOK_Equals, t);
@@ -294,9 +294,9 @@ class S7_BaseParser {
         return true;
     }
 
-    protected bool ParseArray (out TZK_ArrayStr values, EValueType valueType) {
+    protected bool ParseArray (out S7_TZK_ArrayStr values, EValueType valueType) {
         values.Clear ();
-        TZK_Token t;
+        S7_TZK_Token t;
 
         if ((t = m_Tokenizer.Next ()).type != TOK_BrackO) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_BaseParser.ParseArray", TOK_BrackO, t);

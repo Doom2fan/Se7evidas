@@ -62,8 +62,9 @@ class S7_IsLoaded : Actor {
 }
 
 // Common stuff
-#include "S7ZScript/ZForms/ZF_Include.ZS"
-#include "S7ZScript/TZKsUtils/TZK_Include.ZS"
+#include "S7ZScript/!!Libraries/ZForms/ZF_Include.ZS"
+#include "S7ZScript/!!Libraries/Gutamatics/GM_Include.ZS"
+#include "S7ZScript/!!Libraries/TZKsUtils/TZK_Include.ZS"
 #include "S7ZScript/Constants.ZS"
 #include "S7ZScript/Defaults.ZS"
 #include "S7ZScript/Common/Hashmaps.ZS"

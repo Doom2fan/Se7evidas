@@ -3,9 +3,9 @@
 // To obtain a copy, visit <https://opensource.org/licenses/MIT>.
 
 // A stream that operates on byte arrays
-class TZK_ByteStream : TZK_Stream {
-    protected TZK_ArrayI32 m_Data;
-    protected TZK_ArrayI32 m_WriteBuffer;
+class S7_TZK_ByteStream : S7_TZK_Stream {
+    protected S7_TZK_ArrayI32 m_Data;
+    protected S7_TZK_ArrayI32 m_WriteBuffer;
 
     override bool CanRead () { return true; }
     override bool CanWrite () { return true; }
@@ -35,12 +35,12 @@ class TZK_ByteStream : TZK_Stream {
         Seek (0, SEEK_End);
     }
 
-    static TZK_ByteStream Create (TZK_ArrayI32 data) {
-        let bs = new ("TZK_ByteStream");
-        bs.m_Data = new ("TZK_ArrayI32");
+    static S7_TZK_ByteStream Create (S7_TZK_ArrayI32 data) {
+        let bs = new ("S7_TZK_ByteStream");
+        bs.m_Data = new ("S7_TZK_ArrayI32");
         bs.m_Data.Clear ();
         if (data) bs.m_Data.Copy (data);
-        bs.m_WriteBuffer = new ("TZK_ArrayI32");
+        bs.m_WriteBuffer = new ("S7_TZK_ArrayI32");
         return bs;
     }
 }

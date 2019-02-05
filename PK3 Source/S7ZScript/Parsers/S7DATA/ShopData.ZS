@@ -63,7 +63,7 @@ extend class S7_S7DataParser {
         let shopData = new ('S7_SSShop');
         let tmpShopData = S7_S7DP_TempShopData.Create ();
 
-        TZK_Token t;
+        S7_TZK_Token t;
 
         // We expect the name and an opening brace '{' to immediately follow
         ParseValue (shopName, VT_String);
@@ -192,7 +192,7 @@ extend class S7_S7DataParser {
     }
 
     protected void ParseShop_PagesList (S7_SSShop shopData, S7_S7DP_TempShopData tmpShopData) {
-        TZK_Token t;
+        S7_TZK_Token t;
 
         // We expect an opening brace '{' to immediately follow
         if ((t = m_Tokenizer.Next ()).type != TOK_BraceO) {
