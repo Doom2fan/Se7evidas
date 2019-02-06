@@ -112,7 +112,7 @@ class S7_AK47 : S7_BaseWeapon {
         HAN0 F 1 DoSelectOffset ((142, 159), -5);
         stop;
     Deselect:
-        AK47 A 1;
+        AK47 A 1 A_JumpIf (health <= 0, "Deselect.DEAD");
         AK47 S 1 {
             DoSelectOffset (( 0,  0));
             A_Overlay (-5, "Deselect.Hand");

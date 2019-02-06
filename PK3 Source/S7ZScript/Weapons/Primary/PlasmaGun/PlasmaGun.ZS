@@ -108,7 +108,13 @@ class S7_PlasmaGun : S7_BaseWeapon {
         loop;
 
     Deselect:
-        PLSG A 1 DoSelectOffset (( 0,  0));
+        PLSG A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset (( 0,  0));
+            return ResolveState (null);
+        }
         PLSG A 1 DoSelectOffset ((24, 24));
         PLSG A 1 DoSelectOffset ((38, 37));
         PLSG A 1 DoSelectOffset ((48, 48));

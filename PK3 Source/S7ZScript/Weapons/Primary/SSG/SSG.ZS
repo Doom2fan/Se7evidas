@@ -124,7 +124,13 @@ class S7_SSG : S7_BaseWeapon {
         loop;
 
     Deselect:
-        SSG0 A 1 DoSelectOffset ((  0,  0));
+        SSG0 A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset ((  0,  0));
+            return ResolveState (null);
+        }
         SSG0 A 1 DoSelectOffset ((-11,  4));
         SSG0 A 1 DoSelectOffset ((-34, 11));
         SSG0 A 1 DoSelectOffset ((-48, 21));

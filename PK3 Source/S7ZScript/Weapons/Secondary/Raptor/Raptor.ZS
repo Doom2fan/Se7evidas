@@ -65,7 +65,13 @@ class S7_Raptor : S7_BaseWeapon {
         loop;
 
     Deselect:
-        RPTN A 1 DoSelectOffset (( 0,  0));
+        RPTN A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset (( 0,  0));
+            return ResolveState (null);
+        }
         RPTN A 1 DoSelectOffset ((14, 14));
         RPTN A 1 DoSelectOffset ((32, 32));
         RPTN A 1 DoSelectOffset ((48, 48));

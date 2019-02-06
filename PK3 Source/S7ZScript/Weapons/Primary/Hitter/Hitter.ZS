@@ -67,7 +67,13 @@ class S7_HitterSMG : S7_BaseWeapon {
         loop;
 
     Deselect:
-        SR20 A 1 DoSelectOffset (( 0,  0));
+        SR20 A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset (( 0,  0));
+            return ResolveState (null);
+        }
         SR20 A 1 DoSelectOffset (( 8,  8));
         SR20 A 1 DoSelectOffset ((24, 24));
         SR20 A 1 DoSelectOffset ((48, 48));

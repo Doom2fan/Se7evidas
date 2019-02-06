@@ -132,7 +132,7 @@ class S7_TEC9 : S7_BaseWeapon {
                 let pspOverlay = player.FindPSprite (id);
 
                 if (!pspWeap || !pspOverlay)
-                    return;
+                    return ResolveState (null);
 
                 if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TEC9')) {
                     pspOverlay.sprite = GetSpriteIndex (sprite);
@@ -146,17 +146,28 @@ class S7_TEC9 : S7_BaseWeapon {
                 }
             }
 
+            if (health <= 0)
+                return ResolveState ("Overlay.DeselectDEAD");
+
             if (!invoker.selecting) {
                 if (invoker.hasSuppressor)
                     A_WeaponOffset (12, 32 + 12);
                 else
                     A_WeaponOffset (0, 32);
             }
+
+            return ResolveState (null);
         }
-        loop;
+        wait;
 
     Deselect:
-        TNT1 A 0 { invoker.selecting = true; }
+        TEC9 A 0 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            invoker.selecting = true;
+            return ResolveState (null);
+        }
         TEC9 A 1 DoSelectOffset (( 0,  0));
         TEC9 A 1 DoSelectOffset ((16, 16));
         TEC9 A 1 DoSelectOffset ((32, 32));

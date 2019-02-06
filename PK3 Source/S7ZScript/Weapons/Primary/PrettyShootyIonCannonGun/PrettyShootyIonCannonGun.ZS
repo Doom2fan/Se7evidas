@@ -152,7 +152,13 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         loop;
 
     Deselect:
-        PIC1 A 1 DoSelectOffset (( 0,  0));
+        PIC1 A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset (( 0,  0));
+            return ResolveState (null);
+        }
         PIC1 A 1 DoSelectOffset (( 8,  8));
         PIC1 A 1 DoSelectOffset ((24, 24));
         PIC1 A 1 DoSelectOffset ((40, 40));

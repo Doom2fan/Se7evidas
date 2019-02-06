@@ -103,12 +103,12 @@ class S7_ManxCarbine : S7_BaseWeapon {
         return true;
     }
 
-    action void Manx_RunOverlay (int id, name sprite, bool showOverlay) {
+    action state Manx_RunOverlay (int id, name sprite, bool showOverlay) {
         let pspWeap = player.FindPSprite (PSP_Weapon);
         let pspOverlay = player.FindPSprite (id);
 
         if (!pspWeap || !pspOverlay)
-            return;
+            return ResolveState (null);
 
         if (showOverlay && pspWeap.sprite == GetSpriteIndex ('MANX')) {
             pspOverlay.sprite = GetSpriteIndex (sprite);
@@ -117,6 +117,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
             pspOverlay.sprite = GetSpriteIndex ('TNT1');
             pspOverlay.frame = 0;
         }
+
+        if (health <= 0)
+            return ResolveState ("Overlay.DeselectDEAD");
+
+        return ResolveState (null);
     }
 
     states {
@@ -190,8 +195,13 @@ class S7_ManxCarbine : S7_BaseWeapon {
         loop;
 
     Deselect:
-        TNT1 A 0 {
+        MANX A 1 {
             A_SetCrosshair (0);
+
+            if (health <= 0) {
+                invoker.zoomed = false;
+                return ResolveState ("Deselect.DEAD");
+            }
 
             if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");

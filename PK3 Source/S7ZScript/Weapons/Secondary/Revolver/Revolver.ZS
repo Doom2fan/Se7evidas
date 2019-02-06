@@ -65,7 +65,13 @@ class S7_Revolver : S7_BaseWeapon {
         loop;
 
     Deselect:
-        RVLV A 1 DoSelectOffset (( 0,  0));
+        RVLV A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset (( 0,  0));
+            return ResolveState (null);
+        }
         RVLV A 1 DoSelectOffset (( 8,  8));
         RVLV A 1 DoSelectOffset ((24, 24));
         RVLV A 1 DoSelectOffset ((48, 48));

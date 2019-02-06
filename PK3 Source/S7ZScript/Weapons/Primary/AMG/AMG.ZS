@@ -102,6 +102,11 @@ class S7_AMG : S7_BaseWeapon {
             A_SetCrosshair (0);
             invoker.burstCount = 0;
 
+            if (health <= 0) {
+                invoker.zoomed = false;
+                return ResolveState ("Deselect.DEAD");
+            }
+
             if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");
 

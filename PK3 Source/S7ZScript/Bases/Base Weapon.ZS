@@ -580,7 +580,7 @@ class S7_BaseWeapon : Weapon {
         loop;
     Deselect:
     TrueDeselect:
-        TNT1 A 0 {
+        ---- A 0 {
             TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
             TakeInventory ('S7_Weap_ReadyFrame', 0x7FFFFFFF);
             A_ZoomFactor (1.0);
@@ -591,10 +591,24 @@ class S7_BaseWeapon : Weapon {
 
             return ResolveState (null);
         }
-        TNT1 A 0 A_Lower ();
+        ---- A 0 A_Lower ();
         wait;
     Deselect.DEAD:
-        TNT1 A 1 A_Lower;
+        ---- A 0 {
+            A_ZoomFactor (1.0, ZOOM_Instant);
+            A_WeaponOffset (0, 32);
+        }
+        ---- A 1 A_Lower;
+        wait;
+    Overlay.DeselectDEAD:
+        #### # 1 {
+            let psp = player.FindPSprite (PSP_WEAPON);
+
+            if (!psp)
+                return ResolveState ("Null");
+
+            return ResolveState (null);
+        }
         wait;
 
     QuickMelee:

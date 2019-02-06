@@ -181,6 +181,11 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         stop;
     Deselect:
         CQR1 A 1 {
+            if (health <= 0) {
+                invoker.zoomed = false;
+                return ResolveState ("Deselect.DEAD");
+            }
+
             if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");
 

@@ -107,7 +107,13 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         goto Ready2;
 
     Deselect:
-        CESR A 1 DoSelectOffset ((0, 0));
+        CESR A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset ((0, 0));
+            return ResolveState (null);
+        }
         CESR A 1 DoSelectOffset ((14.4 * 1, 14.4 * 1));
         CESR A 1 DoSelectOffset ((14.4 * 2, 14.4 * 2));
         CESR A 1 DoSelectOffset ((14.4 * 3, 14.4 * 3));

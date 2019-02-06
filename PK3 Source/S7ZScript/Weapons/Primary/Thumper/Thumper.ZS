@@ -185,7 +185,13 @@ class S7_Thumper : S7_BaseWeapon {
         HAN0 A 1 DoSelectOffset ((132, 151), -5);
         stop;
     Deselect:
-        THMP A 1 DoSelectOffset ((0, 0));
+        THMP A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset ((0, 0));
+            return ResolveState (null);
+        }
         THPR E 1 {
             DoSelectOffset ((-16, -13));
             A_Overlay (-5, "Deselect.Hand");

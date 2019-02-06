@@ -96,7 +96,13 @@ class S7_Shotgun : S7_BaseWeapon {
         loop;
 
     Deselect:
-        SSGR A 1 DoSelectOffset (( 0,  0));
+        SSGR A 1 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            DoSelectOffset (( 0,  0));
+            return ResolveState (null);
+        }
         SSGR A 1 DoSelectOffset (( 8,  8));
         SSGR A 1 DoSelectOffset ((16, 16));
         SSGR A 1 DoSelectOffset ((32, 32));

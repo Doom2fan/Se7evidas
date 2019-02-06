@@ -184,7 +184,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
         HAN0 A 1 DoSelectOffset ((128, 165), -5);
         stop;
     Deselect:
-        TNT1 A 0 {
+        BLSG A 0 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
             if (invoker.sights)
                 return ResolveState ("Deselect.Sights");
 
@@ -407,6 +410,9 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto AkimboRight.Ready;
     AkimboLeft.Ready:
         BLS2 A 1 {
+            if (health <= 0)
+                return ResolveState ("AkimboLeft.DeselectDEAD");
+
             if (invoker.amount <= 1)
                 return ResolveState ("AkimboLeft.NoSecLPP");
             if (!invoker.akimbo)
@@ -446,6 +452,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG F 1 DoSelectOffset (( 84, 52), 2);
         BLSG F 1 DoSelectOffset ((103, 67), 2);
         stop;
+
+    AkimboLeft.DeselectDEAD:
+        BLSG F 1;
+        goto Overlay.DeselectDEAD;
 
     AkimboRight.Fire:
         BLS2 A 1 {

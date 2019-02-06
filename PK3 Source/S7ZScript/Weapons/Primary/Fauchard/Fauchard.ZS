@@ -99,7 +99,7 @@ class S7_Fauchard : S7_BaseWeapon {
         HAN0 A 1 DoSelectOffset (( 98, 156), -5);
         stop;
     Deselect:
-        LSRF A 1;
+        LSRF A 1 A_JumpIf (health <= 0, "Deselect.DEAD");
         LSRF H 1 {
             DoSelectOffset ((-24, -23), forceNoInterpolate: true);
             A_Overlay (-5, "Deselect.Hand");
