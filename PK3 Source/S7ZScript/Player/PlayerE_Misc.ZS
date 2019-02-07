@@ -163,18 +163,17 @@ extend class S7_BasePlayer {
 
         if (dataActor is 'PlayerPawn' && dataActor.player)
             camPos = (camPos.XY, dataActor.player.viewZ);
-        if (dataActor is 'S7_BlurCamera')
-            camPos = S7_BlurCamera (dataActor).realPos;
 
         Vector2 fwd = AngleToVector (camAngle, 2);
 
-        /*if (abs (camPitch) > 89)
+        if (s7_debugmode) {
+        if (abs (camPitch) > 89)
             fwd = (fwd * max (0.5, cos (camPitch)) * 2);
         else
-            fwd = (fwd * cos (camPitch) * 6);*/
+            fwd = (fwd * cos (camPitch) * 6);
+        }
 
         cam.SetOrigin (camPos + fwd, true);
-        cam.realPos = camPos;
         //cam.vel = dataActor.vel;
         cam.angle = camAngle;
         cam.pitch = camPitch;
