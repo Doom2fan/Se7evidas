@@ -18,11 +18,11 @@
 
 //-------------------------------------------------------------------------------------------
 //
-// Static event handler
+// Server event handler
 //
 //-------------------------------------------------------------------------------------------
-class S7_StaticEventHandler : StaticEventHandler {
-    override void WorldLoaded (WorldEvent e) {
+class S7_ServerEventHandler : EventHandler {
+    void ResetShaders () {
         for (int i = 0; i < MAXPLAYERS; i++) {
             if (!playeringame [i])
                 continue;
@@ -33,14 +33,7 @@ class S7_StaticEventHandler : StaticEventHandler {
             Shader.SetEnabled (players [i], "S7_StealthShader", !(gamestate == GS_TITLELEVEL));
         }
     }
-}
 
-//-------------------------------------------------------------------------------------------
-//
-// Server event handler
-//
-//-------------------------------------------------------------------------------------------
-class S7_ServerEventHandler : EventHandler {
     override void WorldLoaded (WorldEvent e) {
         let serverData = S7_ServerData.Get ();
         let mapData = S7_MapData.Get ();
@@ -49,6 +42,8 @@ class S7_ServerEventHandler : EventHandler {
 
         if (mapData.mapEvent > 0)
             Console.PrintF ("%d", mapData.mapEvent);
+
+        ResetShaders ();
     }
 
     override void WorldUnloaded (WorldEvent e) {
@@ -60,6 +55,8 @@ class S7_ServerEventHandler : EventHandler {
             serverData.queuedMapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
         else*/
             serverData.queuedMapEvent = MEVNT_None;
+
+        ResetShaders ();
     }
 
     override void WorldTick () {
