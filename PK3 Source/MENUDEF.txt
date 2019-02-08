@@ -72,16 +72,27 @@ optionMenu "S7Settings" {
     safeCommand "Reset user CVars", "S7_ResetUserCVars"
 }
 
+optionValue "DelayedSpawns" {
+    0, "Off"
+    1, "Map start"
+    2, "All"
+}
+
 optionMenu "S7Settings_Server" {
     title "ARBITRATOR OPTIONS"
 
     staticText "Gameplay Options", 1
-    option "Force intro",                                                                           "S7_ForceIntro",        "OnOff"
-    slider "Dodge cooldown (In tics)",                                                              "S7_DodgeCooldown",     0, 525, 1
-    slider "Multijump Z speed multiplier",                                                          "S7_MultiJumpZMul",     0.5, 2.5, 0.1
-    CustomNumberField "Maximum player level",                                                       "S7_MaxLevel",          "0", ""
-    CustomNumberField "Starting cash amount",                                                       "S7_InitialCashAmount", "0", ""
-    option "Grenades can teleport",                                                                 "S7_GrenadeTeleport",   "YesNo"
+    option "Force intro",                                             "S7_ForceIntro",                 "OnOff"
+    slider "Dodge cooldown (In tics)",                                "S7_DodgeCooldown",              0, 525, 1
+    slider "Multijump Z speed multiplier",                            "S7_MultiJumpZMul",              0.5, 2.5, 0.1
+    CustomNumberField "Maximum player level",                         "S7_MaxLevel",                   "0", ""
+    CustomNumberField "Starting cash amount",                         "S7_InitialCashAmount",          "0", ""
+    option "Grenades can teleport",                                   "S7_GrenadeTeleport",            "YesNo"
+    //option "Delayed monster stats",                                   "S7_DelayedMonsterStats",        "DelayedSpawns"
+    option "Delayed monster spawns",                                  "S7_DelayedMonsterSpawns",       "DelayedSpawns"
+    option "Delayed item spawns",                                     "S7_DelayedItemSpawns",          "DelayedSpawns"
+    CustomNumberField "Delayed spawns: Maximum sound range",          "S7_DelayedSpawnsMaxSoundRange", "0", ""
+    CustomNumberField "Delayed spawns: Maximum sight range",          "S7_DelayedSpawnsMaxSightRange", "0", ""
 }
 
 optionValue "S7EnemyHPBar_HPDisp_Values" {

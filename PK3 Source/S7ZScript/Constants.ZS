@@ -48,6 +48,13 @@ enum S7_WeaponSlots {
     WpSlot_Special,
 };
 
+// Delayed spawns
+enum S7_DelayedSpawns {
+    DelaySpawns_Off = 0,
+    DelaySpawns_MapStart = 1,
+    DelaySpawns_All = 2,
+}
+
 // Debugging constants
 enum S7_DebuggingConstants {
     // Monster AI bitfield

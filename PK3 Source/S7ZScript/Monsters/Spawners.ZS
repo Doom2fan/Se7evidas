@@ -39,7 +39,22 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
     }
 
     bool spawnLater; // Gotta do this stupid hack...
+    bool delayedSpawn;
     override void BeginPlay () {
+        if (S7_DelayedMonsterSpawns != DelaySpawns_Off) {
+            switch (S7_DelayedMonsterSpawns) {
+            case DelaySpawns_MapStart:
+                delayedSpawn = (GetLevelSpawnTime () <= 1);
+                break;
+            case DelaySpawns_All:
+                delayedSpawn = true;
+                break;
+            }
+
+            if (delayedSpawn)
+                return;
+        }
+
         let serverData = S7_ServerData.GetSpecial ();
 
         if (!serverData)
@@ -49,10 +64,29 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
     }
 
     override void PostBeginPlay () {
+        if (delayedSpawn) {
+            A_ChangeLinkFlags (sector: false);
+            return;
+        }
+
         if (spawnLater)
             Super.BeginPlay ();
 
         Super.PostBeginPlay ();
+    }
+
+    override void Tick () {
+        if (!delayedSpawn)
+            Super.Tick ();
+        else {
+            Actor.Tick ();
+
+            if (S7_ActorExtensions.CheckDelayedSpawn (self)) {
+                Super.BeginPlay ();
+                Super.PostBeginPlay ();
+                delayedSpawn = false;
+            }
+        }
     }
 }
 

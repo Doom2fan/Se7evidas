@@ -5,8 +5,14 @@ server bool  S7_ForceIntro              = FALSE;
 server int   S7_MaxLevel                = 75;
 server int   S7_InitialCashAmount       = 650;
 server bool  S7_GrenadeTeleport         = FALSE;
+// Delaying options
+server int S7_DelayedMonsterSpawns       = 0;
+server int S7_DelayedMonsterStats        = 0;
+server int S7_DelayedItemSpawns          = 0;
+server int S7_DelayedSpawnsMaxSoundRange = 0;
+server int S7_DelayedSpawnsMaxSightRange = 0;
 // Debugging
-server int   S7_DebugMode               = 0;
+server int S7_DebugMode = 0;
 server noarchive bool S7_Debug_NoRecoil  = FALSE;
 server noarchive int  S7_Debug_MonsterAI = 0;
 

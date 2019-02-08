@@ -21,14 +21,14 @@
 // Health item spawners
 //
 //-------------------------------------------------------------------------------------------
-class S7_HealthBonusSpawner : RandomSpawner replaces HealthBonus {
+class S7_HealthBonusSpawner : S7_ItemSpawner replaces HealthBonus {
     default {
         DropItem 'S7_Nothing',       256, 2;
         DropItem 'S7_CanteenRefill', 256, 8;
     }
 }
 
-class S7_MedikitSpawner : RandomSpawner replaces Medikit {
+class S7_MedikitSpawner : S7_ItemSpawner replaces Medikit {
     default {
         DropItem 'S7_Nothing' , 256, 8;
         DropItem 'S7_Stimpack', 256, 1;
@@ -36,7 +36,7 @@ class S7_MedikitSpawner : RandomSpawner replaces Medikit {
     }
 }
 
-class S7_StimpackSpawner : RandomSpawner replaces Stimpack {
+class S7_StimpackSpawner : S7_ItemSpawner replaces Stimpack {
     default {
         DropItem 'S7_Nothing',  256, 5;
         DropItem 'S7_Stimpack', 256, 1;
@@ -48,13 +48,13 @@ class S7_StimpackSpawner : RandomSpawner replaces Stimpack {
 // Green Armor spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_SecVestSpawner : RandomSpawner {
+class S7_SecVestSpawner : S7_ItemSpawner {
     default {
         DropItem 'S7_CCSecVest',   256, 2;
         DropItem 'S7_SBTKSecVest', 256, 1;
     }
 }
-class S7_GreenArmorSpawner : RandomSpawner replaces GreenArmor {
+class S7_GreenArmorSpawner : S7_ItemSpawner replaces GreenArmor {
     default {
         DropItem 'S7_Nothing',        256, 2;
         DropItem 'S7_SecVestSpawner', 256, 1;
@@ -66,13 +66,13 @@ class S7_GreenArmorSpawner : RandomSpawner replaces GreenArmor {
 // Blue Armor spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_CombatArmorSpawner : RandomSpawner {
+class S7_CombatArmorSpawner : S7_ItemSpawner {
     default {
         DropItem 'S7_CCCombatArmor',   256, 2;
         DropItem 'S7_SBTKCombatArmor', 256, 1;
     }
 }
-class S7_BlueArmorSpawner : RandomSpawner replaces BlueArmor {
+class S7_BlueArmorSpawner : S7_ItemSpawner replaces BlueArmor {
     default {
         DropItem 'S7_Nothing',            256, 2;
         DropItem 'S7_SecVestSpawner',     256, 2;

@@ -21,7 +21,7 @@
 // Clip spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ClipSpawner : RandomSpawner replaces Clip {
+class S7_ClipSpawner : S7_ItemSpawner replaces Clip {
     default {
         DropItem 'S7_Nothing'      , 256, 4;
         DropItem 'S7_9mmCartridges', 256, 4;
@@ -33,7 +33,7 @@ class S7_ClipSpawner : RandomSpawner replaces Clip {
 // ClipBox spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ClipBoxSpawner : RandomSpawner replaces ClipBox {
+class S7_ClipBoxSpawner : S7_ItemSpawner replaces ClipBox {
     default {
         DropItem 'S7_Nothing'      , 256, 2;
         DropItem 'S7_9mmCartridges', 256, 4;
@@ -47,7 +47,7 @@ class S7_ClipBoxSpawner : RandomSpawner replaces ClipBox {
 // Shell spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShellSpawner : RandomSpawner replaces Shell {
+class S7_ShellSpawner : S7_ItemSpawner replaces Shell {
     default {
         DropItem 'S7_Nothing'        , 256, 3;
         DropItem 'S7_12gaShellsSmall', 256, 2;
@@ -60,7 +60,7 @@ class S7_ShellSpawner : RandomSpawner replaces Shell {
 // ShellBox spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShellBoxSpawner : RandomSpawner replaces ShellBox {
+class S7_ShellBoxSpawner : S7_ItemSpawner replaces ShellBox {
     default {
         DropItem 'S7_Nothing'   , 256, 2;
         DropItem 'S7_12gaShells', 256, 1;
@@ -73,7 +73,7 @@ class S7_ShellBoxSpawner : RandomSpawner replaces ShellBox {
 // RocketAmmo spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_RocketAmmoSpawner : RandomSpawner replaces RocketAmmo {
+class S7_RocketAmmoSpawner : S7_ItemSpawner replaces RocketAmmo {
     default {
         DropItem 'S7_Nothing'     , 256, 2;
         DropItem 'S7_GrenadeCount', 256, 2;
@@ -85,7 +85,7 @@ class S7_RocketAmmoSpawner : RandomSpawner replaces RocketAmmo {
 // RocketBox spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_RocketBoxSpawner : RandomSpawner replaces RocketBox {
+class S7_RocketBoxSpawner : S7_ItemSpawner replaces RocketBox {
     default {
         DropItem 'S7_Nothing'   , 256, 1;
         DropItem 'S7_GrenadeBox', 256, 3;
@@ -97,7 +97,7 @@ class S7_RocketBoxSpawner : RandomSpawner replaces RocketBox {
 // Cell spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_CellSpawner : RandomSpawner replaces Cell {
+class S7_CellSpawner : S7_ItemSpawner replaces Cell {
     default {
         DropItem 'S7_Nothing'   , 256, 3;
         DropItem 'S7_Cells'     , 256, 2;
@@ -110,7 +110,7 @@ class S7_CellSpawner : RandomSpawner replaces Cell {
 // Cell Pack spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_CellPackSpawner : RandomSpawner replaces CellPack {
+class S7_CellPackSpawner : S7_ItemSpawner replaces CellPack {
     default {
         DropItem 'S7_Nothing'      , 256, 6;
         DropItem 'S7_Cells'        , 256, 3;

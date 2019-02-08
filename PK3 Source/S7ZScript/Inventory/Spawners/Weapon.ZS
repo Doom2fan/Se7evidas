@@ -21,7 +21,7 @@
 // Chainsaw spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ChainsawSpawner : RandomSpawner replaces Chainsaw {
+class S7_ChainsawSpawner : S7_ItemSpawner replaces Chainsaw {
     default {
         DropItem 'S7_Nothing'               , 256, 2;
         DropItem 'S7_Loot_BloodChalice'     , 256, 3;
@@ -34,7 +34,7 @@ class S7_ChainsawSpawner : RandomSpawner replaces Chainsaw {
 // Pistol spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_PistolSpawner : RandomSpawner replaces Pistol {
+class S7_PistolSpawner : S7_ItemSpawner replaces Pistol {
     default {
         DropItem 'S7_9mmCartridges'         , 256, 3;
         DropItem 'S7_Loot_BloodChalice'     , 256, 2;
@@ -48,7 +48,7 @@ class S7_PistolSpawner : RandomSpawner replaces Pistol {
 // Shotgun spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShotgunSpawner : RandomSpawner replaces Shotgun {
+class S7_ShotgunSpawner : S7_ItemSpawner replaces Shotgun {
     default {
         DropItem 'S7_Loot_BloodChalice'     , 256, 6;
         DropItem 'S7_Loot_SacrificialDagger', 256, 2;
@@ -61,7 +61,7 @@ class S7_ShotgunSpawner : RandomSpawner replaces Shotgun {
 // Super shotgun spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_SuperShotgunSpawner : RandomSpawner replaces SuperShotgun {
+class S7_SuperShotgunSpawner : S7_ItemSpawner replaces SuperShotgun {
     default {
         DropItem 'S7_Loot_BloodChalice'     , 256, 7;
         DropItem 'S7_Loot_SacrificialDagger', 256, 6;
@@ -75,7 +75,7 @@ class S7_SuperShotgunSpawner : RandomSpawner replaces SuperShotgun {
 // Chaingun spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_ChaingunSpawner : RandomSpawner replaces Chaingun {
+class S7_ChaingunSpawner : S7_ItemSpawner replaces Chaingun {
     default {
         DropItem 'S7_Nothing'          , 256, 1;
         DropItem 'S7_Loot_SkullSceptre', 256, 2;
@@ -88,7 +88,7 @@ class S7_ChaingunSpawner : RandomSpawner replaces Chaingun {
 // Rocket Launcher spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_RocketLauncherSpawner : RandomSpawner replaces RocketLauncher {
+class S7_RocketLauncherSpawner : S7_ItemSpawner replaces RocketLauncher {
     default {
         DropItem 'S7_GrenadeBox'       , 256, 3;
         DropItem 'S7_Loot_SkullSceptre', 256, 1;
@@ -100,7 +100,7 @@ class S7_RocketLauncherSpawner : RandomSpawner replaces RocketLauncher {
 // Plasma Rifle spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_PlasmaRifleSpawner : RandomSpawner replaces PlasmaRifle {
+class S7_PlasmaRifleSpawner : S7_ItemSpawner replaces PlasmaRifle {
     default {
         DropItem 'S7_Loot_CreditsBriefcase5K', 256, 3;
         DropItem 'S7_Loot_GoldChest'         , 256, 1;
@@ -112,7 +112,7 @@ class S7_PlasmaRifleSpawner : RandomSpawner replaces PlasmaRifle {
 // BFG 9000 spawner
 //
 //-------------------------------------------------------------------------------------------
-class S7_BFG9000Spawner : RandomSpawner replaces BFG9000 {
+class S7_BFG9000Spawner : S7_ItemSpawner replaces BFG9000 {
     default {
         DropItem 'S7_Loot_GoldChest'          , 256, 3;
         DropItem 'S7_Loot_CreditsBriefcase10K', 256, 1;

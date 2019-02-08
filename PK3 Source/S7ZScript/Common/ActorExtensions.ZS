@@ -363,4 +363,29 @@ class S7_ActorExtensions : Actor {
             item.vel.Z = 5. + random [DropItem] () / 64.;
         }
     }
+
+    /** Delayed spawn checks **/
+    static bool CheckDelayedSpawn (Actor act) {
+        int maxSightRange = S7_DelayedSpawnsMaxSightRange;
+        int maxSoundRange = S7_DelayedSpawnsMaxSoundRange;
+        
+        for (int i = 0; i < MAXPLAYERS; i++) {
+            if (!playeringame [i])
+                continue;
+            if (!players [i].mo)
+                continue;
+
+            let pPawn = players [i].mo;
+            if (pPawn.CheckSight (act, SF_IgnoreVisibility | SF_SeePastShootableLines | SF_SeePastBlockEverything) &&
+                (!maxSightRange || pPawn.Distance3D (act) <= maxSightRange)
+            ) {
+                return true;
+            }
+        }
+
+        if (act.LastHeard && (!maxSoundRange || act.LastHeard.Distance3D (act) <= maxSoundRange))
+            return true;
+
+        return false;
+    }
 }
