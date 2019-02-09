@@ -68,6 +68,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
         S7_BaseWeapon.Icon "TGRNZ0";
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
+        S7_BaseWeapon.AmmoBuyData "HGRN", 1;
         S7_BaseWeapon.BindSlot WpSlot_Special;
         S7_ThrowWeapon.MaxForce 30;
         S7_ThrowWeapon.CanCancelThrow true;
