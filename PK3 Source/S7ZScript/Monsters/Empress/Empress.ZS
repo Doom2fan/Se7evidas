@@ -72,7 +72,7 @@ class S7_Empress : S7_DemonBase {
 
     bool initialized;
     bool shieldUp; // The shield is active
-    int ballsCount; // How much invulnerability thingies are left
+    Array<S7_EmpressInvulnOrbiterCW> ballsList; // Pointers to the invulnerability thingies
     int invulnDelay; // How much time left until we can raise the shield
     bool canCastInvuln; // Whether shields can be cast
     bool castingInvuln;
@@ -182,6 +182,12 @@ class S7_Empress : S7_DemonBase {
             } else if (health <= InvulnLimit && !shieldUp && invulnDelay < 1)
                 canCastInvuln = true;
 
+            for (int i = ballsList.Size ()-1; i >= 0; i--) {
+                if (ballsList [i] == null)
+                    ballsList.Delete (i, 1);
+            }
+
+            int ballsCount = ballsList.Size ();
             if (ballsCount < 1 && shieldUp)
                 shieldUp = false;
             if (ballsCount < 0)
@@ -322,12 +328,42 @@ class S7_Empress : S7_DemonBase {
             //bNoBlood = true;
             //bInvulnerable = true;
             //GiveInventory ('S7_EmpressProtection', 1);
-            castingInvuln = true;
-            A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
+            if (success && act) {
+                let ball = S7_EmpressInvulnOrbiterCW (act);
+                if (ball)
+                    invoker.ballsList.Push (ball);
+            }
+
         }
-        HRFR F  9 A_SpawnItemEx ('S7_EmpressInvulnOrbiterCCW', 64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
-        HRFR F  9 A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
-        HRFR F  9 A_SpawnItemEx ('S7_EmpressInvulnOrbiterCCW', 64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
+        HRFR F  9 {
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_EmpressInvulnOrbiterCCW', 64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
+            if (success && act) {
+                let ball = S7_EmpressInvulnOrbiterCW (act);
+                if (ball)
+                    invoker.ballsList.Push (ball);
+            }
+        }
+        HRFR F  9 {
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
+            if (success && act) {
+                let ball = S7_EmpressInvulnOrbiterCW (act);
+                if (ball)
+                    invoker.ballsList.Push (ball);
+            }
+        }
+        HRFR F  9 {
+            bool success; Actor act;
+            [success, act] = A_SpawnItemEx ('S7_EmpressInvulnOrbiterCCW', 64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
+            if (success && act) {
+                let ball = S7_EmpressInvulnOrbiterCW (act);
+                if (ball)
+                    invoker.ballsList.Push (ball);
+            }
+        }
         TNT1 A  0 { castingInvuln = false; }
         goto See;
     }

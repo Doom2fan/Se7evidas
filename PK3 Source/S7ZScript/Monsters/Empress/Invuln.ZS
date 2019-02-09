@@ -99,8 +99,6 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         rotAngle = 270;
         countdown = 35 * 12;
 
-        owner.ballsCount++;
-
         OrbitMaster (true);
         ClearInterpolation ();
     }
@@ -109,11 +107,11 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         if (!owner || !self)
             return;
 
-        owner.ballsCount--; // Ouch.
-        if (owner.ballsCount < 0)
-            owner.ballsCount = 0;
+        int idx = owner.ballsList.Find (self);
+        if (idx != owner.ballsList.Size ())
+            owner.ballsList.Delete (idx, 1);
 
-        if (!owner.ballsCount)
+        if (owner.ballsList.Size () <= 0)
             owner.shieldUp = false;
 
         owner = null;
