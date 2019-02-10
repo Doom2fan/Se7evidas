@@ -361,8 +361,8 @@ class S7_BaseWeapon : Weapon {
 
     action Actor S7_CustomPunch (
         int damage, int flags = CPF_UseAmmo, class<Actor> puffType = "BulletPuff", double range = 0,
-        double lifesteal = 0, int lifestealmax = 0, class<BasicArmorBonus> armorBonusType = "ArmorBonus",
-        sound MeleeSound = 0, sound MissSound = ""
+        name damageType = 'Melee', double lifesteal = 0, int lifestealmax = 0,
+        class<BasicArmorBonus> armorBonusType = "ArmorBonus", sound MeleeSound = 0, sound MissSound = ""
     ) {
         if (!player)
             return null;
@@ -389,7 +389,7 @@ class S7_BaseWeapon : Weapon {
         int puffFlags = LAF_IsMeleeAttack | ((flags & CPF_NoRandomPuffZ) ? LAF_NoRandomPuffZ : 0);
 
         Actor puff;
-        [puff, actualdamage] = LineAttack (angle, range, pitch, damage, 'Melee', puffType, puffFlags, t);
+        [puff, actualdamage] = LineAttack (angle, range, pitch, damage, damageType, puffType, puffFlags, t);
 
         if (!t.linetarget) {
             if (MissSound)
@@ -433,7 +433,7 @@ class S7_BaseWeapon : Weapon {
 
     bool meleeAttackSoundPlayed;
     action void S7_QuickMeleeCustomPunch (int damage, class<Actor> puffType) {
-        let puff = S7_CustomPunch (damage, 0, puffType);
+        let puff = S7_CustomPunch (damage, 0, puffType, damageType: 'QuickMelee');
 
         if (!puff)
             return;

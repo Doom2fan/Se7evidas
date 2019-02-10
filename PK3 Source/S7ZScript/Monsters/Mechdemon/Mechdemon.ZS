@@ -43,6 +43,9 @@ class S7_Mechdemon : S7_DemonBase {
         Species 'Mechdemon';
         Tag "$MECHDEMONTAG";
 
+        // Quick-melee weakness
+        DamageFactor "QuickMelee", 1.5;
+
         +MISSILEMORE +MISSILEEVENMORE
     }
 

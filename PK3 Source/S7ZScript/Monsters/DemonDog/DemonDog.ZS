@@ -39,6 +39,9 @@ class S7_DemonDog : S7_DemonBase {
         Obituary "$OBDEMONDOG";
         Species 'DemonDog';
         Tag "$DEMONDOGTAG";
+
+        // Quick-melee weakness
+        DamageFactor "QuickMelee", 1.5;
     }
 
     S7_XPSystem xpSys;

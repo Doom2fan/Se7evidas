@@ -44,6 +44,9 @@ class S7_FleshSpawn : S7_MonsterBase {
         Tag "$FLESHSPAWNTAG";
         Obituary "$OBFLESHSPAWN";
 
+        // Quick-melee weakness
+        DamageFactor "QuickMelee", 2.;
+
         +NOGRAVITY      +FLOAT +MISSILEMORE +MISSILEEVENMORE
         +NODAMAGETHRUST
     }
