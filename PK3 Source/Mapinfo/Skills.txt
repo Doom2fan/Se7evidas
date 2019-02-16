@@ -61,8 +61,6 @@ skill S7_HardSpeed {
 skill S7_Nightmare {
     ammoFactor = 2
 
-    respawnTime = 12
-
     fastMonsters
     damageFactor = 1.5
     aggressiveness = 0.5
@@ -74,9 +72,6 @@ skill S7_Nightmare {
 
 skill S7_Brutal {
     ammoFactor = 2.0
-
-    respawnTime = 5
-    respawnLimit = 0
 
     fastMonsters
     damageFactor = 1.8
