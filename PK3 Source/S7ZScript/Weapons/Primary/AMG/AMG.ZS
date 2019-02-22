@@ -49,7 +49,7 @@ class S7_AMG : S7_BaseWeapon {
     }
 
     const BASEZOOMFACTOR = 5.5;
-    const BURSTLENGTH = 4;
+    const BURSTLENGTH = 3;
     bool burstFire;
     int  burstCount;
     bool   zoomed;
@@ -59,6 +59,10 @@ class S7_AMG : S7_BaseWeapon {
         Super.DoEffect ();
 
         fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
+    }
+
+    action void HandleBurstRecoil (int burstCount, double mul = 1.) {
+        S7_Recoil ((-1.6 / 3.) * burstCount * mul);
     }
 
     states {
@@ -211,8 +215,12 @@ class S7_AMG : S7_BaseWeapon {
 
     Fire:
         AMGG B 1 {
-            if (!invoker.CheckAmmo (PrimaryFire, false, true))
-                return ResolveState ("DryFire");
+            if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
+                if (!invoker.burstCount)
+                    return ResolveState ("DryFire");
+                else
+                    return ResolveState ("DryFire.Burst");
+            }
 
             A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon);
             A_AlertMonsters ();
@@ -225,22 +233,37 @@ class S7_AMG : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
             S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 2.5, 5.5), flags: S7_FB_UseAmmo);
 
+            if (!invoker.burstFire)
+                S7_Recoil (-0.8);
+            else if (invoker.burstCount >= BURSTLENGTH)
+                HandleBurstRecoil (invoker.burstCount);
+            else
+                S7_Recoil (-0.05);
+
+            return ResolveState (null);
+        }
+        AMGG B 1 {
+            if (invoker.burstFire)
+                return ResolveState ("Fire.Burst");
+
             S7_Recoil (-0.8);
 
             return ResolveState (null);
         }
-        AMGG B 1 S7_Recoil (-0.8);
-        AMGG C 1 A_JumpIf (invoker.burstFire, "Fire.Burst");
+        AMGG C 1;
         AMGG C 1 A_Refire ();
         goto Ready2;
 
     Fire.Burst:
-        AMGG C 2 {
-            if (++invoker.burstCount >= BURSTLENGTH) // If a full burst has been shot, just reset burstCount - since the A_Refire is in the else, it won't be run.
-                invoker.burstCount = 0;
-            else
-                A_Refire ();
+        AMGG C 1 {
+            if (++invoker.burstCount < BURSTLENGTH)
+                return ResolveState ("Fire");
+
+            HandleBurstRecoil (invoker.burstCount);
+
+            return ResolveState (null);
         }
+        AMGG A 1 HandleBurstRecoil (invoker.burstCount);
         AMGG A 4 {
             invoker.burstCount = 0;
             A_ClearRefire (); // Gotta clear the refire manually.
@@ -253,64 +276,82 @@ class S7_AMG : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
             S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), flags: S7_FB_UseAmmo);
 
-            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
-            if (invoker.burstFire)
-                S7_Recoil (-1);
-            else
+            if (!invoker.burstFire) {
                 S7_Recoil (-0.5);
+                A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
+            } else if (invoker.burstCount >= BURSTLENGTH) {
+                HandleBurstRecoil (invoker.burstCount, 0.625);
+                A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
+            } else
+                S7_Recoil (-0.05);
         }
-        SCP1 A 1 {
-            if (invoker.burstFire)
-                S7_Recoil (+0.42);
-            else
-                S7_Recoil (-0.5);
-        }
-        SCP1 A 1 {
-            A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
-
+        SCP1 A 1{
             if (invoker.burstFire)
                 return ResolveState ("Fire.Zoom.Burst");
 
-            S7_Recoil (+0.42);
+            S7_Recoil (-0.5);
+
             return ResolveState (null);
         }
+        SCP1 A 1 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
         SCP1 A 1 A_Refire ("Fire");
         goto Ready2;
 
     Fire.Zoom.Burst:
-        SCP1 A 2 {
-            if (++invoker.burstCount >= BURSTLENGTH) { // If a full burst has been shot, just reset burstCount - since the A_Refire is in the else, it won't be run.
-                invoker.burstCount = 0;
-            } else
-                A_Refire ("Fire");
+        SCP1 A 1 {
+            if (++invoker.burstCount < BURSTLENGTH)
+                return ResolveState ("Fire");
+
+            HandleBurstRecoil (invoker.burstCount);
+
+            return ResolveState (null);
         }
+        SCP1 A 1 HandleBurstRecoil (invoker.burstCount);
         SCP1 A 4 {
+            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel));
             invoker.burstCount = 0;
             A_ClearRefire (); // Gotta clear the refire manually.
         }
         goto Ready2;
 
     Flash:
-        TNT1 A  0 A_JumpIf (invoker.zoomed, "Flash.Zoom");
+        TNT1 A 0 {
+            if (invoker.zoomed)
+                return ResolveState ("Flash.Zoom");
+            else if (invoker.burstFire)
+                return ResolveState ("Flash.Burst");
+
+            return ResolveState (null);
+        }
         AMGF AB 1 bright;
+        stop;
+    Flash.Burst:
+        AMGF A 1 bright {
+            let psp = player.FindPSprite (PSP_Flash);
+
+            if (psp)
+                psp.frame = ((invoker.burstCount & 1) ? 1 : 0);
+        }
         stop;
     Flash.Zoom:
         TNT1 A 2 bright;
         stop;
 
     DryFire.Burst:
-        AMGG C 2 {
-            invoker.burstCount = 0;
+        AMGG C  1 {
+            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+            HandleBurstRecoil (invoker.burstCount);
 
             if (invoker.zoomed)
-                return ResolveState ("Dryfire.Burst.Zoom");
+                return ResolveState ("DryFire.Burst.Zoom");
 
             return ResolveState (null);
         }
-        goto DryFire;
+        AMGG AA 1 HandleBurstRecoil (invoker.burstCount);
+        goto DryFire.Check;
     DryFire.Burst.Zoom:
-        SCP1 A 2;
-        goto DryFire;
+        SCP1 AAA 1 HandleBurstRecoil (invoker.burstCount);
+        goto DryFire.Check;
     DryFire:
         AMGG A 3 {
             A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
@@ -321,10 +362,11 @@ class S7_AMG : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "DryReload");
-        goto Ready2;
+        goto DryFire.Check;
     DryFire.Zoom:
         SCP1 A 3;
+        goto DryFire.Check;
+    DryFire.Check:
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "DryReload");
         goto Ready2;
 
