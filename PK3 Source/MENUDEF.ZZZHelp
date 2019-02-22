@@ -68,8 +68,8 @@ listMenu "S7HelpTopic-ControlsPart2" {
     staticText 4,  43, "lower your weapon while sprinting, and will run out of stamina after"
     staticText 4,  50, "sprinting for some time. Your stamina will start regenerating"
     staticText 4,  57, "automatically as soon as you stop sprinting."
-    staticText 4,  64, "You can dodge by tapping the dodge key while moving in a direction"
-    staticText 4,  71, "other than forward. This also requires stamina."
+    staticText 4,  64, "You can dodge by tapping the dodge key while moving in any direction"
+    staticText 4,  71, "This also requires stamina."
 }
 
 listMenu "S7HelpTopic-LevelSys" {
@@ -99,26 +99,21 @@ listMenu "S7Credits1" {
     staticText 17, 8, "Credits"
 
     font "FSHUDFNT", "Untranslated"
-    staticText 4,  29, "C/ACS coding:"
+    staticText 4,  29, "ZScript coding:"
     staticText 4,  36, "    Chronos \"phantombeta\" Ouroboros"
 
-    staticText 4,  50, "DECORATE coding:"
-    staticText 4,  57, "    Chronos \"phantombeta\" Ouroboros"
+    staticText 4,  50, "Coding help:"
+    staticText 4,  57, "    Edward850"
+    staticText 4,  64, "    marrub"
+    staticText 4,  71, "    DavidPH"
+    staticText 4,  78, "    TheZombieKiller"
+    staticText 4,  85, "    Revilution/Zanieon"
 
-    staticText 4,  64, "Coding help:"
-    staticText 4,  71, "    Edward850"
-    staticText 4,  78, "    marrub"
-    staticText 4,  85, "    DavidPH"
-    staticText 4,  92, "    A certain person"
-    staticText 4,  99, "    Revilution/Zanieon"
+    staticText 4,  99, "Weapon and item design and descriptions:"
+    staticText 4, 106, "    Chronos \"phantombeta\" Ouroboros"
 
-    staticText 4, 113, "Weapon and item design and descriptions:"
-    staticText 4, 120, "    A certain person"
-    staticText 4, 134, "    Chronos \"phantombeta\" Ouroboros"
-
-    staticText 4, 141, "Monster design and descriptions:"
-    staticText 4, 148, "    A certain person"
-    staticText 4, 155, "    Chronos \"phantombeta\" Ouroboros"
+    staticText 4, 120, "Monster design and descriptions:"
+    staticText 4, 127, "    Chronos \"phantombeta\" Ouroboros"
 }
 
 listMenu "S7FontTest" {
