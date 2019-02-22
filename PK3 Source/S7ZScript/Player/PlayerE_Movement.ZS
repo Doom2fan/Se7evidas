@@ -227,6 +227,7 @@ extend class S7_BasePlayer {
             ((player.WeaponState & weapFlags) == weapFlags)
         );
     }
+    const LGrabDropKeys = BT_USE | BT_JUMP;
     void Movement_LedgeGrabbing () {
         double spRadius = ceil (radius * sqrt (2.0));
 
@@ -234,8 +235,11 @@ extend class S7_BasePlayer {
             let marker = S7_LedgeMarker (playerData.lGrabMarker);
 
             bool crushFingers = ((marker.ceilingZ - marker.floorZ) < 1 || marker.floorZ >= self.ceilingZ);
-            if (!Movement_LGrab_CanHold (marker, spRadius) || crushFingers || player.cmd.forwardmove < 0 ||
-                S7_ActorExtensions.IsInVoid (marker)) {
+
+            if (crushFingers || !Movement_LGrab_CanHold (marker, spRadius) ||
+                ((player.cmd.buttons & LGrabDropKeys) == LGrabDropKeys) ||
+                S7_ActorExtensions.IsInVoid (marker)
+            ) {
                 if (player.cheats & CF_PREDICTING)
                     return;
 
