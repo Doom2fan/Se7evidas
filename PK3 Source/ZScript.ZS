@@ -163,6 +163,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Inventory/Spawners/Ammo.ZS"
 #include "S7ZScript/Inventory/Spawners/Powerups.ZS"
 #include "S7ZScript/Inventory/Spawners/Items.ZS"
+#include "S7ZScript/Inventory/ReinforcementsBeacon/Marines.ZS"
 #include "S7ZScript/Inventory/Turret/Turret.ZS"
 
 // Player stuff
