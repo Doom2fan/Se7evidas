@@ -231,7 +231,13 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             A_GunFlash ("Flash");
 
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, .5));
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: (.05, .06), offs: (10, 4.5, 4.5), flags: S7_FB_UseAmmo);
+
+            Vector2 spread = (.05, .06);
+
+            if (invoker.noPump)
+                spread *= 1.75;
+
+            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
                 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 12, 15));
@@ -286,7 +292,13 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         TNT1 A 0 {
             A_GunFlash ("Flash.Zoomed");
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 1));
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: (.005, .005), offs: (10, 0, 4.5), flags: S7_FB_UseAmmo);
+
+            Vector2 spread = (.005, .005);
+
+            if (invoker.noPump)
+                spread *= 2;
+
+            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
                 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 8, 8));
