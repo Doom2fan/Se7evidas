@@ -42,8 +42,8 @@ SS_LSR_PEW_PEWINFO = "Manufacturer: Firebrand Systems\nAmmo type: Firebrand Syst
 SS_MANXDESC = "The C23 \"Manx\" Carbine is another weapon in Cronus Corps' line of 9mm guns. This selective-fire carbine was created for the civilian market and primarily finds use with civilians and law enforcement, but is available here nonetheless.\nDue to its low caliber, using it with a silencer makes it almost completely silent, making it a good choice for infiltration operations.";
 SS_MANXINFO = "Manufacturer: Cronus Corps\nCaliber: 9x19mm\nCapacity: 23 cartridges\nFiring modes: Full-auto and semi-auto\nFiring speed: 525 RPM";
 
-SS_AMGDESC = "The A28 \"Mars\" Assault Rifle is a powerful, highly accurate weapon created by ShadowFyre, designed to provide a reliable weapon to fight the demon hordes with. The A28 can operate in the harshest of conditions, rivalling even the famous AK-47 assault rifle in reliability.\nThe burst-fire mode fires three shots in quick succession, almost doubling the firing speed but remaining controllable.";
-SS_AMGINFO = "Manufacturer: ShadowFyre\nCaliber: 7.62x39mm\nCapacity: 35 cartridges\nFiring modes: Full-auto and burst-fire\nFiring speed: 700/1050 RPM";
+SS_AMGDESC = "The A28 \"Mars\" Assault Rifle is a powerful, highly accurate weapon created by ShadowFyre, designed to provide a reliable weapon to fight the demon hordes with. The A28 can operate in the harshest of conditions, rivalling even the famous AK-47 assault rifle in reliability.\nThe burst-fire mode uses a special \"Hyperburst\" mechanism that fires three shots in quick succession before the weapon can recoil, allowing the shooter to land three accurate shots in a single trigger pull.";
+SS_AMGINFO = "Manufacturer: ShadowFyre\nCaliber: 7.62x39mm\nCapacity: 35 cartridges\nFiring modes: Full-auto and burst-fire (Hyperburst)\nFiring speed: 700/2100 RPM";
 
 SS_FAUCHARDDESC = "The FS/002A Mod 4 \"Fauchard\" Automatic Rifle is one of Firebrand Systems' earliest small arms, and still among the most popular. To this day, it's still one of Firebrand Systems' most power-efficient weapons. Weighing in at around 6 kilos, it's a bit bulkier than standard-issue infantry rifles, although the energy cells tend to be lighter.\nA couple variants are very common today: A4 \"Spike\" has a secondary charge-fire mode for sniping, and B1 \"Sickle\" is a heavy-barreled version with additional heat sinks and enhanced rate of fire.";
 SS_FAUCHARDINFO = "Manufacturer: Firebrand Systems\nAmmo type: Firebrand Systems energy cells\nCapacity: 23 shots\nFiring modes: Full-auto only\nFiring speed: 600 RPM";
@@ -91,7 +91,7 @@ SS_SCORPS_SG_INFO = "";
 SS_SSGDESC = "The double-barrelled shotgun is an ubiquitous weapon. Simple, yet capable of causing serious damage to unarmoured targets.";
 SS_SSGINFO = "Caliber: 12ga\nCapacity: 2 shells\nFiring modes: N/A\nFiring speed: N/A";
 SS_AK47DESC = "Blending power and accuracy in a reliable, inexpensive frame, the \"AK-47\" has found use across worlds, within militaries and militias alike. Even while battling the forces of Hell, encountering these weapons on both sides of the conflict is an absolute certainty.";
-SS_AK47INFO = "Caliber: 7.62x39mm\nCapacity: 30 cartridges\nFiring modes: Full-auto and semi-auto\nFiring speed: 600 RPM";
+SS_AK47INFO = "Caliber: 7.62x39mm\nCapacity: 30 cartridges\nFiring modes: Full-auto and semi-auto\nFiring speed: 472 RPM";
 SS_LOOT_SKULLSCEPTRE_DESC = "A ceremonial sceptre imbued with powerful magic. This must have been owned by a powerful demon.";
 SS_LOOT_SKULLSCEPTRE_INFO = "";
 SS_LOOT_SACRIFICEDAGGER_DESC = "A dagger imbued with powerful magic, used for sacrificial rituals.";
