@@ -6,6 +6,8 @@ Monsters/Infernal/Pain   "sounds/Monsters/Infernal/Pain.ogg" // Credits: Raven S
 
 Monsters/Infernal/Death  "sounds/Monsters/Infernal/Death.ogg" // Credits: Raven Software, Midway
 
+Monsters/Infernal/FlameAttack "sounds/Monsters/Infernal/FlameAttack.ogg" // Unknown author. Edited by Chronos "phantombeta" Ouroboros.
+
 $RANDOM Monsters/Infernal/Attack {
     Monsters/Infernal/Attack1
     Monsters/Infernal/Attack2

@@ -71,6 +71,13 @@ class S7_Infernal : S7_MonsterBase {
         // Vitality
         startHealth = int (health * (1.0 + (.075 * xpSys.GetStat (S7Stat_Vitality))));
         health = startHealth;
+
+        // Attack/aggressiveness stuff
+        painAttackThreshold = random [monsterSpc] (80, 160);
+        chainAttackThreshold = random [monsterSpc] (96, 144);
+
+        bMissileMore = (random [monsterSpc] (0, 255) < 72);
+        bMissileEvenMore = (random [monsterSpc] (0, 255) < 24);
     }
 
     override void Tick () {
@@ -108,6 +115,31 @@ class S7_Infernal : S7_MonsterBase {
         return xpSys.GetStat (S7Stat_Strength, false) * 0.075;
     }
 
+    action bool FlamethrowerDistCheck (double targDist) {
+        return (
+            targDist >= (MeleeRange + target.radius) &&
+            targDist < (radius + 75)
+        );
+    }
+
+    int painAttackThreshold;
+    int chainAttackThreshold;
+
+    bool doFlamethrower;
+    int flamethrowerCount;
+    bool flameChance;
+
+    action state DoChainAttack () {
+        if (random [monsterAtk] (0, 255) < invoker.chainAttackThreshold) {
+            if (FlamethrowerDistCheck (Distance3D (target)) && (random [monsterAtk] (0, 255) < 128))
+                return ResolveState ("Melee");
+            else
+                return ResolveState ("Missile");
+        }
+
+        return ResolveState (null);
+    }
+
     states {
     Spawn:
         INFR A 10 bright A_S7Look;
@@ -116,23 +148,78 @@ class S7_Infernal : S7_MonsterBase {
         INFR A 3 bright A_S7ChaseDef;
         loop;
 
+    Melee: // EFG
+        INFR EEEFFF 1 bright A_FaceTarget (90, 45);
+        goto FlameInit;
+    FlameInit:
+        TNT1 A 0 {
+            if (!target) // WTF??
+                return;
+
+            invoker.doFlamethrower = (
+                (random [monsterAtk] (0, 2) == 0) ||
+                FlamethrowerDistCheck (Distance3D (target))
+            );
+
+            invoker.flamethrowerCount = random [monsterAtk] (5, 15);
+
+            if (invoker.doFlamethrower)
+                A_PlaySound ("Monsters/Infernal/FlameAttack", CHAN_Body);
+        }
+        goto FlameStart;
+    FlameStart:
+        INFR G 4 bright {
+            if (invoker.doFlamethrower) {
+                A_FaceTarget (120, 60);
+                A_SpawnProjectile ("S7_InfernalFlame");
+            }
+        }
+        INFR F 2 bright A_JumpIf (invoker.doFlamethrower && invoker.flamethrowerCount--, "FlameStart");
+        INFR E 2 bright;
+        TNT1 A 0 DoChainAttack ();
+        goto See;
+
     Missile:
-        INFR HHHHIIII 1 A_FaceTarget (90, 45);
+        TNT1 A 0 { invoker.flameChance = (random [monsterAtk] (0, 255) < 80); }
+        INFR HHHH 1 {
+            if (invoker.flameChance && FlamethrowerDistCheck (Distance3D (target)))
+                return ResolveState ("Melee");
+
+            A_FaceTarget (90, 45);
+
+            return ResolveState (null);
+        }
+        INFR IIII 1 A_FaceTarget (90, 45);
 
         INFR J 6 {
+            if (FlamethrowerDistCheck (Distance3D (target)) && (random [monsterAtk] (0, 255) < 128))
+                return ResolveState ("FlameInit");
+
             A_FaceTarget (0, 0);
             
             let proj = S7_InfernalBall (A_SpawnProjectile ('S7_InfernalBall', 32));
 
             if (proj)
                 proj.bonusDMGFactor = GetDamageBonus ();
+
+            return ResolveState (null);
         }
+        TNT1 A 0 DoChainAttack ();
         goto See;
 
     Pain:
         INFR K 2 bright;
         INFR K 2 bright A_Pain;
-        goto See;
+        TNT1 A 0 {
+            if (random [monsterSpc] (0, 255) < invoker.painAttackThreshold) {
+                if (CheckMeleeRange ())
+                    return ResolveState ("Melee");
+                else if (CheckMissileRange ())
+                    return ResolveState ("Missile");
+            }
+
+            return ResolveState ("See");
+        }
 
     Death.Massacre: // No XDeath, since it already blows up anyway.
     Death:
@@ -177,6 +264,63 @@ class S7_InfernalBall : S7_FireballBase {
     Death:
         TNT1 A      0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
         INFP CDEFGH 2 bright;
+        stop;
+    }
+}
+
+//-------------------------------------------------------------------------------------------
+//
+// Infernal flame
+//
+//-------------------------------------------------------------------------------------------
+class S7_InfernalFlame : S7_FireballBase {
+    default {
+        Radius 16;
+        Height 25;
+
+        DamageType "Fire";
+        DamageFunction (CalcFlameDamage ());
+
+        Speed 15;
+        Obituary "$OBINFERNAL_FLAME";
+
+        SeeSound "";//"Monsters/Infernal/Attack";
+        DeathSound "";
+
+        +RIPPER +BLOODLESSIMPACT
+    }
+
+    Array<Actor> hitActors;
+
+    override int SpecialMissileHit (Actor victim) {
+        if (victim == target)
+            return 1;
+
+        if (hitActors.Find (victim) == hitActors.Size ()) {
+            hitActors.Push (victim);
+            return -1;
+        } else
+            return 1;
+
+        return -1;
+    }
+
+    int flameStage;
+    int CalcFlameDamage () {
+        if (flameStage >= 3)
+            return 0;
+
+        return (int (ceil (
+            (5. + fRandom [monsterDMG] (-.5, .5))
+            *
+            (1. + bonusDMGFactor) / min (flameStage + 1., 1.)
+        )));
+    }
+
+    states {
+    Spawn:
+        INFP CDE 2 bright;
+        INFP FGH 2 bright { invoker.flameStage++; }
         stop;
     }
 }
