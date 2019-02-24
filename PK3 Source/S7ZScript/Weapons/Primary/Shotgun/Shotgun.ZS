@@ -72,10 +72,10 @@ class S7_Shotgun : S7_BaseWeapon {
     action void S7_FireShotgun (bool right) {
         if (!right) {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 1.5), amount: 2);
-            S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 2, 6), amount: 18);
+            S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 2, 6), amount: 18, bonusDMGFactor: invoker.enchantment_DamageBonus);
         } else {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4, 1.5), amount: 2);
-            S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 6, 8), amount: 18);
+            S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 6, 8), amount: 18, bonusDMGFactor: invoker.enchantment_DamageBonus);
         }
     }
 

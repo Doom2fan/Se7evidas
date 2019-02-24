@@ -237,7 +237,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.noPump)
                 spread *= 1.75;
 
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
                 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 12, 15));
@@ -298,7 +298,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.noPump)
                 spread *= 2;
 
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
                 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 8, 8));

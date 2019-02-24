@@ -34,7 +34,7 @@ class S7_ThumperGrenade : S7_Projectile {
         Radius 10;
         Height 10;
         Speed 75;
-        DamageFunction (65 + random [weaponDamage] (-1, 1));
+        DamageFunction (65. + fRandom [weaponDamage] (-1., 1.) * (1. + bonusDMGFactor));
         Scale 0.8;
         Gravity 0.25;
         Translation "112:127=216:223";
@@ -60,7 +60,7 @@ class S7_ThumperGrenade : S7_Projectile {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (128, 192, fulldamagedistance: 64);
+            A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 192, fulldamagedistance: 64);
 
             A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
@@ -96,14 +96,15 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
                 self, random [weaponSpc] (100, 150),
-                minVel: 200, maxVel: 450,
+                minVel: int (200. * (1. + invoker.bonusDMGFactor)),
+                maxVel: int (450. * (1. + invoker.bonusDMGFactor)),
                 minMass: 10, maxMass: 25,
                 keScale: 125,
                 zOff: 2.0, flags: SXF_TransferPointers
             );
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (128, 192, fulldamagedistance: 64);
+            A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 192, fulldamagedistance: 64);
 
             A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
@@ -128,7 +129,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (96, 144, fulldamagedistance: 48);
+            A_Explode (int (96. * (1. + invoker.bonusDMGFactor)), 144, fulldamagedistance: 48);
 
             bool hitCeiling = (pos.Z + height >= ceilingZ);
 
@@ -151,11 +152,16 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
                     fireVel.Z = -fireVel.Z;
                 }
 
-                A_SpawnItemEx ('S7_ThumperGrenadeTherm_Fire',
+                bool success; Actor act;
+                [success, act] = A_SpawnItemEx ('S7_ThumperGrenadeTherm_Fire',
                     firePos.X, firePos.Y, firePos.Z,
                     fireVel.X, fireVel.Y, fireVel.Z,
                     fRandom [weaponSpc] (0., 360.), SXF_TransferPointers | SXF_NoCheckPosition
                 );
+
+                let fire = S7_Projectile (act);
+                if (success && fire)
+                    fire.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
             }
 
             A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
@@ -192,14 +198,14 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
     Loople:
         THGR C  2 bright {
             A_CountdownArg (0, "FadeOut");
-            A_Explode (1, 45, XF_HurtSource, fulldamagedistance: 45);
+            A_Explode (int (1. * (1. + invoker.bonusDMGFactor)), 45, XF_HurtSource, fulldamagedistance: 45);
         }
         THGR DE 2 bright;
         loop;
     FadeOut:
         THGR C  2 bright {
             A_SetScale (scale.X - 0.035);
-            A_Explode (1, int (45 * scale.X), XF_HurtSource, fulldamagedistance: int (45 * scale.X));
+            A_Explode (int (1. * (1. + invoker.bonusDMGFactor)), int (45 * scale.X), XF_HurtSource, fulldamagedistance: int (45 * scale.X));
         }
         THGR DE 2 bright A_FadeOut (0.08);
         loop;
@@ -323,7 +329,7 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
             A_PlaySound ("Explosions/Explosion1");
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (64, 96, fulldamagedistance: 32);
+            A_Explode (int (64. * (1. + invoker.bonusDMGFactor)), 96, fulldamagedistance: 32);
 
             double spawnZ = 0;
             double zMul = 1;
@@ -345,10 +351,15 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
             }
 
             for (int i = random [weaponSpc] (24, 32); i > 0; i--) {
-                A_SpawnProjectile ('S7_ThumperGrenadeCluster_Bomb', spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
-                    CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
-                    fRandom [weaponSpc] (pitchMin, pitchMax)
+                let bomb = S7_Projectile (
+                    A_SpawnProjectile ('S7_ThumperGrenadeCluster_Bomb', spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
+                        CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
+                        fRandom [weaponSpc] (pitchMin, pitchMax)
+                    )
                 );
+
+                if (bomb)
+                    bomb.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
             }
 
             A_SetScale (0.1875);
@@ -392,7 +403,7 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
             A_PlaySound ("Explosions/Explosion2", CHAN_Body, 0.25);
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (random [weaponSpc] (5, 6), 32, fulldamagedistance: 32);
+            A_Explode (int (fRandom [weaponSpc] (5., 6.) * (1. + invoker.bonusDMGFactor)), 32, fulldamagedistance: 32);
 
             A_SetScale (0.2);
         }
@@ -418,7 +429,7 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
         TNT1 A 15 {
             A_PlaySound ("Explosions/Explosion1");
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (64, 96, fulldamagedistance: 32);
+            A_Explode (int (64. * (1. + invoker.bonusDMGFactor)), 96, fulldamagedistance: 32);
 
             double spawnZ = 0;
             double zMul = 1;
@@ -440,10 +451,15 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
             }
 
             for (int i = random [weaponSpc] (64, 96); i > 0; i--) {
-                A_SpawnProjectile ('S7_ThumperGrenadeNail_Nail', spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
-                    CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
-                    fRandom [weaponSpc] (pitchMin, pitchMax)
+                let nail = S7_Projectile (
+                    A_SpawnProjectile ('S7_ThumperGrenadeNail_Nail', spawnZ, fRandom [weaponSpc] (-0.025, 0.025), fRandom [weaponSpc] (0, 359),
+                        CMF_AimDirection | CMF_TrackOwner | CMF_AbsolutePitch,
+                        fRandom [weaponSpc] (pitchMin, pitchMax)
+                    )
                 );
+
+                if (nail)
+                    nail.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
             }
 
             A_SetScale (0.3125);
@@ -458,7 +474,7 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
         S7_Projectile.MovementMode FastProjectile;
         Radius 2;
         Height 2;
-        DamageFunction (fRandom [weaponDamage] (5.0, 10.0));
+        DamageFunction (fRandom [weaponDamage] (5., 10.) * (1. + bonusDMGFactor));
         Speed 1;
         /*MissileType 'S7_HeatSmokeStatic';
         MissileHeight 8;*/
@@ -534,7 +550,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
                 double dmgFract = (1. - clamp (dist - fullDmgDist, 0., dist) * (1. / (maxDist - fullDmgDist)));
                 int moDMG = int (max (
                     (randDMG ? fRandom [weaponDamage] (dmgMin, dmgMax) : dmgMin) * dmgFract,
-                    !zeroMinDmg ? !!(random [weaponDamage] (0, 5)) : 0)
+                    !zeroMinDmg ? !!(random [weaponDamage] (0, 5)) : 0) * (1. + invoker.bonusDMGFactor)
                 );
                 if (moDMG <= 0)
                     continue;

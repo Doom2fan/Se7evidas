@@ -93,13 +93,13 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             if (!invoker.upperJammed) {
                 S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
-                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
             } else
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_6);
 
             if (!invoker.lowerJammed) {
                 S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
-                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
             } else
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
 

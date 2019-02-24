@@ -132,7 +132,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 A_AlertMonsters ();
                 A_GunFlash ("Flash");
 
-                S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
                 S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4.5, 1));
 
                 A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);

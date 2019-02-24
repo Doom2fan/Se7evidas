@@ -91,8 +91,8 @@ class S7_Raptor : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.75, 0.95));
             for (int i = 0; i < 2; i++)
                 S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 11, 6));
-            S7_A_FireBullets ('S7_RaptorTracer', spread: (.4, .4), offs: (10, 6.5, 5.5), flags: S7_FB_UseAmmo);
-            S7_A_FireBullets ('S7_RaptorTracer', spread: (.4, .4), offs: (10, 6.5, 7.5));
+            S7_A_FireBullets ('S7_RaptorTracer', spread: (.4, .4), offs: (10, 6.5, 5.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_RaptorTracer', spread: (.4, .4), offs: (10, 6.5, 7.5), bonusDMGFactor: invoker.enchantment_DamageBonus);
 
             S7_Recoil (-0.8);
 

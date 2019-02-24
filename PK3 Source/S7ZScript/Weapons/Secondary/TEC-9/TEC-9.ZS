@@ -200,10 +200,10 @@ class S7_TEC9 : S7_BaseWeapon {
 
             if (!invoker.hasSuppressor) {
                 S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 10, 6));
-                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 2, 2), flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 2, 2), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
             } else {
                 S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 13, 8));
-                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4, 3), flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4, 3), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
             }
 
             if (invoker.burstFire) {

@@ -87,6 +87,7 @@ class S7_BaseWeapon : Weapon {
     }
 
     int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
+    double enchantment_DamageBonus;
 
     override void AttachToOwner (Actor other) { // Override this so we can disable selection on pickup
         StateProvider.AttachToOwner (other);
