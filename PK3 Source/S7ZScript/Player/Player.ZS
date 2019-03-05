@@ -662,7 +662,7 @@ class S7_PowerDodgeEffects : Powerup {
             // [BC] Also get the scale from the owner.
             speedMo.Scale = Owner.Scale;
 
-            if (Owner == players[consoleplayer].camera &&
+            if (Owner == players [consoleplayer].camera &&
                 !(Owner.player.cheats & CF_CHASECAM)) {
                 speedMo.bInvisible = true;
             }
