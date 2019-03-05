@@ -126,14 +126,14 @@ class S7_DracoADMZap : S7_DebrisGeneral {
 
     Anim:
         #### # 2 bright {
-            int spawnCount = random [sfx] (4, 7);
+            int spawnCount = random [S7_HitsparksRNG] (4, 7);
 
             for (int i = 0; i < spawnCount; i++) {
-                double spd = fRandom [sfx] (-5.0, 5.0);
-                double ang = fRandom [sfx] (0, 360);
+                double spd = fRandom [S7_HitsparksRNG] (-5.0, 5.0);
+                double ang = fRandom [S7_HitsparksRNG] (0, 360);
 
-                A_SpawnItemEx ('S7_DracoADMZapSparks', fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (-2.0, 2.0),
-                    spd * cos (ang), spd * sin (ang), fRandom [sfx] (1.5, 3.0), flags: SXF_NoCheckPosition | SXF_Clientside | SXF_SetTarget);
+                A_SpawnItemEx ('S7_DracoADMZapSparks', fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0),
+                    spd * cos (ang), spd * sin (ang), fRandom [S7_HitsparksRNG] (1.5, 3.0), flags: SXF_NoCheckPosition | SXF_Clientside | SXF_SetTarget);
             }
         }
         stop;
@@ -159,7 +159,7 @@ class S7_DracoADMZapSparks : S7_DebrisGeneral {
     Frame3: PLSE D 0 { return ResolveState ("Anim"); }
 
     Anim:
-        #### # 2 bright A_SetScale (fRandom [sfx] (0.08, 0.25) * randomPick [sfx] (1, -1));
+        #### # 2 bright A_SetScale (fRandom [S7_HitsparksRNG] (0.08, 0.25) * randomPick [S7_HitsparksRNG] (1, -1));
         #### # 1 bright A_FadeOut (0.05);
         wait;
     }

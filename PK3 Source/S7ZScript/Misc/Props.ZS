@@ -43,7 +43,7 @@ class S7_RedTorchFireSpawner : Actor {
     states {
     Spawn:
         TNT1 A 0 noDelay A_CheckSight ("Nope");
-        TNT1 AA 0 A_SpawnItemEx ('S7_RedTorchFire', fRandom [sfx] (-4.0, 4.0), fRandom [sfx] (-4.0, 4.0), 0.0, 0.0, 0.0, 1.5);
+        TNT1 AA 0 A_SpawnItemEx ('S7_RedTorchFire', fRandom [S7_FireRNG] (-4.0, 4.0), fRandom [S7_FireRNG] (-4.0, 4.0), 0.0, 0.0, 0.0, 1.5);
         stop;
     Nope:
         TNT1 A 0;
@@ -78,7 +78,7 @@ class S7_GreenTorchFire : S7_RedTorchFire {
 class S7_GreenTorch : S7_RedTorch replaces GreenTorch {
     states {
     Spawn:
-        TGRE AAAABBBBCCCCDDDD 1 bright A_SpawnItemEx ('S7_GreenTorchFire', fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-1.5, 1.5), 65.0, 0.0, 0.0, 2.0, SXF_NoCheckPosition | SXF_Clientside);
+        TGRE AAAABBBBCCCCDDDD 1 bright A_SpawnItemEx ('S7_GreenTorchFire', fRandom [S7_FireRNG] (-1.0, 1.0), fRandom [S7_FireRNG] (-1.5, 1.5), 65.0, 0.0, 0.0, 2.0, SXF_NoCheckPosition | SXF_Clientside);
         loop;
     }
 }
@@ -95,7 +95,7 @@ class S7_BlueTorchFire : S7_RedTorchFire {
 class S7_BlueTorch : S7_RedTorch replaces BlueTorch {
     states {
     Spawn:
-        TBLU AAAABBBBCCCCDDDD 1 bright A_SpawnItemEx ('S7_BlueTorchFire', fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-1.0, 1.0), 54.0, 0.0, 0.0, 2.0, SXF_NoCheckPosition | SXF_Clientside);
+        TBLU AAAABBBBCCCCDDDD 1 bright A_SpawnItemEx ('S7_BlueTorchFire', fRandom [S7_FireRNG] (-1.0, 1.0), fRandom [S7_FireRNG] (-1.0, 1.0), 54.0, 0.0, 0.0, 2.0, SXF_NoCheckPosition | SXF_Clientside);
         loop;
     }
 }

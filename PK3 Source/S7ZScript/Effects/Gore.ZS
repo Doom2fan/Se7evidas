@@ -44,7 +44,7 @@ class S7_GibbingBlood : S7_Flying_Blood {
     Spawn:
         TNT1 A 0 noDelay {
             bMissile = true;
-            loopCount = random [sfx] (3, 5);
+            loopCount = random [S7_GoreRNG] (3, 5);
         }
     Flight:
         TNT1 A 0 {
@@ -110,14 +110,14 @@ class S7_GenericGoreBits : S7_GoreBase {
 
             bMissile = true;
             bKilled = false;
-            A_SetRoll (random [sfx] (0, 360));
-            A_SetScale (abs (scale.x) * randomPick [sfx] (-1, 1), abs (scale.y) * randomPick [sfx] (-1, 1));
+            A_SetRoll (random [S7_GoreRNG] (0, 360));
+            A_SetScale (abs (scale.x) * randomPick [S7_GoreRNG] (-1, 1), abs (scale.y) * randomPick [S7_GoreRNG] (-1, 1));
 
-            rollDir = random [sfx] (0, 1);
-            trailSpawnDuration = 25;
+            rollDir = random [S7_GoreRNG] (0, 1);
+            trailSpawnDurationS7_GoreRNG 25;
             oldCoords = pos;
 
-            return ResolveState (stateNames [random [sfx] (0, stateNames.Size () - 1)]);
+            return ResolveState (stateNames [random [S7_GoreRNG] (0, stateNames.Size () - 1)]);
         }
 
     Frame1: BLD3 B 0; goto Flight;
@@ -135,7 +135,7 @@ class S7_GenericGoreBits : S7_GoreBase {
             }
 
             if (rollDir != -1 && vel.Length () > 0.5) {
-                int rollAdd = random [sfx] (10, 20);
+                int rollAdd = random [S7_GoreRNG] (10, 20);
                 A_SetRoll (roll + (rollDir ? rollAdd : -rollAdd));
             }
 

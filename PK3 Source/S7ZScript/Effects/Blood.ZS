@@ -34,14 +34,14 @@ class S7_Blood : Blood replaces Blood {
         A_FaceTarget ();
         angle = -angle;
 
-        double xo = fRandom [sfx] (-2, 2),
-               yo = fRandom [sfx] (-2, 2),
-               zo = fRandom [sfx] (-2, 2);
+        double xo = fRandom [S7_BloodRNG] (-2, 2),
+               yo = fRandom [S7_BloodRNG] (-2, 2),
+               zo = fRandom [S7_BloodRNG] (-2, 2);
 
-        double xvel = fRandom [sfx] (0, 6),
-               zvel = fRandom [sfx] (4, 7);
+        double xvel = fRandom [S7_BloodRNG] (0, 6),
+               zvel = fRandom [S7_BloodRNG] (4, 7);
 
-        A_SpawnItemEx ('S7_Flying_Blood', xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [sfx] (0, 360), flags: S7_BloodSXFFlags);
+        A_SpawnItemEx ('S7_Flying_Blood', xofs: xo, yofs: yo, zofs: zo, xvel: xvel, zvel: zvel, angle: fRandom [S7_BloodRNG] (0, 360), flags: S7_BloodSXFFlags);
     }
 
     states {

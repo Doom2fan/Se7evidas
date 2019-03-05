@@ -263,6 +263,8 @@ class S7_BasePlayer : PlayerPawn {
         Misc_Heartbeats ();
         Misc_HellhunterBlade ();
         Misc_BlurCamera ();
+
+        Console.Printf ("%d %d %d %d", (int (sprite) >> 24) & 0x000000FF, (int (sprite) >> 16) & 0x000000FF, (int (sprite) >> 8) & 0x000000FF, int (sprite) & 0x000000FF);
     }
 
     override void OnRespawn () {
@@ -476,24 +478,24 @@ class S7_BasePlayer : PlayerPawn {
         TNT1 A 0 {
             double defHeight = default.height / 2;
 
-            for (int i = random [sfx] (8, 16); i >= 0; i--) {
-                double xo = fRandom [sfx] (-2, 2), yo = fRandom [sfx] (-2, 2), zo = fRandom [sfx] (-2, 2);
-                double xvel = fRandom [sfx] (0,  6),
-                       zvel = fRandom [sfx] (4, 12);
+            for (int i = random [S7_GoreRNG] (8, 16); i >= 0; i--) {
+                double xo = fRandom [S7_GoreRNG] (-2, 2), yo = fRandom [S7_GoreRNG] (-2, 2), zo = fRandom [S7_GoreRNG] (-2, 2);
+                double xvel = fRandom [S7_GoreRNG] (0,  6),
+                       zvel = fRandom [S7_GoreRNG] (4, 12);
 
                 bool success; Actor act;
                 [success, act] = A_SpawnItemEx ('S7_GibbingBlood',
                     xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel,
-                    angle: fRandom [sfx] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition
+                    angle: fRandom [S7_GoreRNG] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition
                 );
 
                 if (success && act)
                     act.vel = vel + act.vel;
             }
 
-            for (int i = random [sfx] (6, 8); i >= 0; i--) {
+            for (int i = random [S7_GoreRNG] (6, 8); i >= 0; i--) {
                 bool success; Actor act;
-                [success, act] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [sfx] (-14, 14), yofs: fRandom [sfx] (-14, 14), zofs: defHeight + fRandom [sfx] (-18, 24),
+                [success, act] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [S7_GoreRNG] (-14, 14), yofs: fRandom [S7_GoreRNG] (-14, 14), zofs: defHeight + fRandom [S7_GoreRNG] (-18, 24),
                     flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
 
@@ -501,10 +503,10 @@ class S7_BasePlayer : PlayerPawn {
                     act.vel = vel + act.vel;
             }
 
-            for (int i = random [sfx] (8, 15); i >= 0; i--) {
+            for (int i = random [S7_GoreRNG] (8, 15); i >= 0; i--) {
                 bool success; Actor act;
-                [success, act] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [sfx] (-7, 7),
-                    xvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), yvel: fRandom [sfx] (2.5, 4.5) * randomPick [sfx] (-1, 1), zvel: fRandom [sfx] (3.5, 12),
+                [success, act] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [S7_GoreRNG] (-7, 7),
+                    xvel: fRandom [S7_GoreRNG] (2.5, 4.5) * randomPick [S7_GoreRNG] (-1, 1), yvel: fRandom [S7_GoreRNG] (2.5, 4.5) * randomPick [S7_GoreRNG] (-1, 1), zvel: fRandom [S7_GoreRNG] (3.5, 12),
                     flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
                 );
 
@@ -534,17 +536,17 @@ class S7_BasePlayer : PlayerPawn {
 
     Death.Plasma:
         TNT1 A                  0 Thing_SetTranslation (0, 7);
-        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         PLAY H                 10 A_PlayerScream;
-        PLAY I                 10 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY I                 10 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         PLAY J                 10 A_NoBlocking;
-        PLAY K                 10 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY K                 10 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         PLAY L                 10 A_PlaySound ("Misc/Body", CHAN_Body);
-        PLAY M                 10 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
-        PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ('S7_BlackSmoke', random [sfx] (-16, 16), random [sfx] (-16, 16), random [sfx] (8, 16), 0, 0, 1);
+        PLAY M                 10 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
+        TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
+        PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         PLAY N                 -1;
         stop;
     }

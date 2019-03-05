@@ -94,9 +94,9 @@ class S7_BulletTracer : S7_BaseTracer {
     Crash:
         SPRK A 2 bright {
             for (int i = 0; i < 4; i++) {
-                A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-0.5, -2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (1.5, 4.0), 0, SXF_Clientside | SXF_NoCheckPosition);
                 if (i < 3)
-                    A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside | SXF_NoCheckPosition);
+                    A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-1.0, 1.0), fRandom [S7_HitsparksRNG] (-0.8, 0.8), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
         }
         SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
@@ -137,9 +137,9 @@ class S7_BulletPuff : S7_TracerEffectsBase { // replaces bulletPuff {
     NoSound:
         SPRK A 2 bright {
             for (int i = 0; i < 4; i++) {
-                A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside | SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-0.5, -2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (1.5, 4.0), 0, SXF_Clientside | SXF_NoCheckPosition);
                 if (i < 3)
-                    A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside | SXF_NoCheckPosition);
+                    A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-1.0, 1.0), fRandom [S7_HitsparksRNG] (-0.8, 0.8), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
         }
         SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
@@ -222,8 +222,8 @@ class S7_SSGTracer : S7_BulletTracer { // 259 max DMG
     states {
     Death:
     Crash:
-        TNT1 AAA 0 A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [sfx] (-0.5, -2.0), fRandom [sfx] (-2.0, 2.0), fRandom [sfx] (1.5, 4.0), 0, SXF_Clientside);
-        TNT1 AA  0 A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [sfx] (-1.0, 1.0), fRandom [sfx] (-0.8, 0.8), 0, SXF_Clientside);
+        TNT1 AAA 0 A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-0.5, -2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (1.5, 4.0), 0, SXF_Clientside);
+        TNT1 AA  0 A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-1.0, 1.0), fRandom [S7_HitsparksRNG] (-0.8, 0.8), 0, SXF_Clientside);
         SPRK A   2 bright;
         SPRK A   2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
         stop;

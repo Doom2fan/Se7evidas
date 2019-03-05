@@ -211,12 +211,12 @@ class S7_FatFuckFlame_Fire : S7_FireBase {
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        scale.x = scale.y = fRandom [sfx] (0.2, 0.3);
+        scale.x = scale.y = fRandom [S7_FireRNG] (0.2, 0.3);
     }
 
     states {
     Spawn:
-        FIR1 ABCDEFHIJKL 1 A_SetTics (random [sfx] (1, 2));
+        FIR1 ABCDEFHIJKL 1 A_SetTics (random [S7_FireRNG] (1, 2));
         stop;
     }
 }
@@ -229,10 +229,10 @@ class S7_FatFuckFlame_Trail : S7_EffectsBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            for (int i = random [sfx] (1, 3); i > 0; i--) {
+            for (int i = random [S7_ProjSFXRNG] (1, 3); i > 0; i--) {
                 A_SpawnItemEx ('S7_FatFuckFlame_Fire',
-                yOfs: fRandom [sfx] (-6, 6), zOfs: fRandom [sfx] (-6, 6),
-                xVel: fRandom [sfx] (-.25, .25), yVel: fRandom [sfx] (-.25, .25), zVel: fRandom [sfx] (-.25, .25),
+                yOfs: fRandom [S7_ProjSFXRNG] (-6, 6), zOfs: fRandom [S7_ProjSFXRNG] (-6, 6),
+                xVel: fRandom [S7_ProjSFXRNG] (-.25, .25), yVel: fRandom [S7_ProjSFXRNG] (-.25, .25), zVel: fRandom [S7_ProjSFXRNG] (-.25, .25),
                 flags: SXF_NoCheckPosition | SXF_Clientside);
             }
         }
@@ -244,7 +244,7 @@ class S7_FatFuckFlame_HitFire : S7_FatFuckFlame_Fire {
     override void PostBeginPlay () {
         S7_FireBase.PostBeginPlay ();
 
-        scale.x = scale.y = fRandom [sfx] (0.25, 0.3);
+        scale.x = scale.y = fRandom [S7_HitsparksRNG] (0.25, 0.3);
     }
 }
 
@@ -274,10 +274,10 @@ class S7_FatFuckFlame : S7_Projectile {
     
     Death:
         TNT1 AA 1 {
-            for (int i = random [sfx] (3, 5); i > 0; i--) {
+            for (int i = random [S7_HitsparksRNG] (3, 5); i > 0; i--) {
                 A_SpawnItemEx ('S7_FatFuckFlame_Fire',
-                yOfs: fRandom [sfx] (-3, 3), zOfs: fRandom [sfx] (-3, 3),
-                xVel: fRandom [sfx] (-3, 3), yVel: fRandom [sfx] (-3, 3), zVel: fRandom [sfx] (-3, 3),
+                yOfs: fRandom [S7_HitsparksRNG] (-3, 3), zOfs: fRandom [S7_HitsparksRNG] (-3, 3),
+                xVel: fRandom [S7_HitsparksRNG] (-3, 3), yVel: fRandom [S7_HitsparksRNG] (-3, 3), zVel: fRandom [S7_HitsparksRNG] (-3, 3),
                 flags: SXF_NoCheckPosition | SXF_Clientside);
             }
         }

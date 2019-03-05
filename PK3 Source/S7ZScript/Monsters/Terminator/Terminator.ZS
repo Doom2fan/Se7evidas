@@ -348,21 +348,21 @@ class S7_Terminator : S7_DemonBase {
             A_NoBlocking ();
 
             for (int i = 0; i < 64; i++) {
-                A_SpawnItemEx ('S7_Flying_Blood', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 35 + fRandom [sfx] (-2.5, 2.5),
-                    fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom [sfx] (0, 360), SXF_TransferTranslation | SXF_UseBloodColor);
+                A_SpawnItemEx ('S7_Flying_Blood', fRandom [S7_GoreRNG] (-2.5, 2.5), fRandom [S7_GoreRNG] (-2.5, 2.5), 35 + fRandom [S7_GoreRNG] (-2.5, 2.5),
+                    fRandom [S7_GoreRNG] (2.0, 4.0), 0.0, fRandom [S7_GoreRNG] (1.5, 8.0), fRandom [S7_GoreRNG] (0, 360), SXF_TransferTranslation | SXF_UseBloodColor);
             }
         }
         TERM Q    4;
         TERM R    4 {
             A_SpawnItemEx ('S7_Terminator_Arm',      5.0, 25.0, 30.0,   0.0, 10.0, 0.0);
-            A_SpawnItemEx ('S7_Terminator_Shoulder', 0.0, 25.0, 58.0,   0.0, 15.0, fRandom [sfx] (1.5, 3.5));
-            A_SpawnItemEx ('S7_Terminator_Head',     0.0,  0.0, 64.0, -15.0,  0.0, fRandom [sfx] (3.5, 5.5));
+            A_SpawnItemEx ('S7_Terminator_Shoulder', 0.0, 25.0, 58.0,   0.0, 15.0, fRandom [S7_GoreRNG] (1.5, 3.5));
+            A_SpawnItemEx ('S7_Terminator_Head',     0.0,  0.0, 64.0, -15.0,  0.0, fRandom [S7_GoreRNG] (3.5, 5.5));
         }
         TERM STUV 4;
         TERM W    4 {
             for (int i = 0; i < 32; i++) {
-                A_SpawnItemEx ('S7_Flying_Blood', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 35 + fRandom [sfx] (-2.5, 2.5),
-                    fRandom [sfx] (2.0, 4.0), 0.0, fRandom [sfx] (1.5, 8.0), fRandom [sfx] (0, 360), SXF_TransferTranslation | SXF_UseBloodColor);
+                A_SpawnItemEx ('S7_Flying_Blood', fRandom [S7_GoreRNG] (-2.5, 2.5), fRandom [S7_GoreRNG] (-2.5, 2.5), 35 + fRandom [S7_GoreRNG] (-2.5, 2.5),
+                    fRandom [S7_GoreRNG] (2.0, 4.0), 0.0, fRandom [S7_GoreRNG] (1.5, 8.0), fRandom [S7_GoreRNG] (0, 360), SXF_TransferTranslation | SXF_UseBloodColor);
             }
         }
         TERM XYZ  4;

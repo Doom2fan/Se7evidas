@@ -197,8 +197,8 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 D        1 A_WeaponOffset (2, 34, WOF_Interpolate);
         TNT1 A        0 A_WeaponReady (WRF_DisableSwitch | WRF_DisableSwitch | WRF_NoFire);
         PIC1 EFG      1;
-        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [sfx] (4, 10), fRandom [sfx] (9., 10.)));
-        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [sfx] (4, 10), fRandom [sfx] (9., 10.)));
+        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
+        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
         PIC1 G        4;
         PIC1 FEDCBA   2;
         PIC1 A        5;
@@ -368,7 +368,7 @@ class S7_IonCannonProjectileTrail : S7_TracerEffectsBase {
     states {
     Spawn:
         PICF A 1 bright;
-        TNT1 A 0 A_ChangeVelocity (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), CVF_Replace | CVF_Relative);
+        TNT1 A 0 A_ChangeVelocity (fRandom [S7_ProjSFXRNG] (-3.0, 3.0), fRandom [S7_ProjSFXRNG] (-3.0, 3.0), fRandom [S7_ProjSFXRNG] (-3.0, 3.0), CVF_Replace | CVF_Relative);
     Loople:
         PICF A 1 bright A_FadeOut (0.1);
         loop;
@@ -447,7 +447,13 @@ class S7_IonCannonRail : S7_BaseTracer {
 class S7_IonCannonRailEffectSpawner : S7_TracerEffectsBase {
     states {
     Spawn:
-        TNT1 A 0 noDelay A_SpawnItemEx ('S7_IonCannonRailEffect', 0.0 + fRandom [sfx] (-2.5, 2.5), 0.0 + fRandom [sfx] (-2.5, 2.5), 8.0 + fRandom [sfx] (-2.5, 2.5), 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 A 0 noDelay {
+            A_SpawnItemEx ('S7_IonCannonRailEffect',
+                      fRandom [S7_ProjSFXRNG] (-2.5, 2.5),
+                      fRandom [S7_ProjSFXRNG] (-2.5, 2.5),
+                8.0 + fRandom [S7_ProjSFXRNG] (-2.5, 2.5),
+                flags: SXF_Clientside | SXF_NoCheckPosition
+            );
         stop;
     }
 }
@@ -461,7 +467,7 @@ class S7_IonCannonRailEffect : S7_TracerEffectsBase {
     states {
     Spawn:
         PICF A 1 bright;
-        TNT1 A 0 A_ChangeVelocity (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), CVF_Replace | CVF_Relative);
+        TNT1 A 0 A_ChangeVelocity (fRandom [S7_ProjSFXRNG] (-3.0, 3.0), fRandom [S7_ProjSFXRNG] (-3.0, 3.0), fRandom [S7_ProjSFXRNG] (-3.0, 3.0), CVF_Replace | CVF_Relative);
         PICF A 1 bright A_FadeOut (0.1);
         wait;
     }

@@ -201,8 +201,15 @@ class S7_HellionBall : S7_FireballBase {
     states {
     Spawn:
         CP00 AABBCC 1 bright {
-            A_SpawnItemEx ('S7_FireballSmoke',  0.0, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
-            A_SpawnItemEx ('S7_FireballSmoke', -2.5, fRandom [sfx] (-3.0, 3.0), -1 + fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.8, -2.2), 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_Clientside);
+            for (int i = 0; i < 2; i++) {
+                A_SpawnItemEx ('S7_FireballSmoke',
+                    -2.5 * i,
+                    fRandom [S7_SmokeRNG] (-3.0, 3.0),
+                    -1 + fRandom [S7_SmokeRNG] (-3.0, 3.0),
+                    xVel: fRandom [S7_SmokeRNG] (-1.8, -2.2),
+                    flags: SXF_NoCheckPosition | SXF_Clientside
+                );
+            }
         }
         loop;
     Death:

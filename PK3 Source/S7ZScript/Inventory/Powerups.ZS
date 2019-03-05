@@ -273,7 +273,7 @@ class S7_Invisibility : PowerupGiver {
         let act = Spawn ('S7_InvulnerabilityEffect', pos);
         if (act) {
             act.A_SetRenderStyle (act.Alpha, STYLE_Translucent);
-            act.vel = vel + (frandom [sfx] (-1.5, 1.5), frandom [sfx] (-1.5, 1.5), frandom [sfx] (-1.5, 1.5));
+            act.vel = vel + (frandom [S7_MiscSFXRNG] (-1.5, 1.5), frandom [S7_MiscSFXRNG] (-1.5, 1.5), frandom [S7_MiscSFXRNG] (-1.5, 1.5));
             act.sprite = sprite;
             act.frame = frame;
         }

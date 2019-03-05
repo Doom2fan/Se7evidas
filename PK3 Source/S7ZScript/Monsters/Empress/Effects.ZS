@@ -90,8 +90,8 @@ class S7_EmpressSparkle : S7_Empress_FXBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            A_SetScale (fRandom [sfx] (0.25, 0.4));
-            loopCount = random [sfx] (8, 14);
+            A_SetScale (fRandom [S7_MiscSFXRNG] (0.25, 0.4));
+            loopCount = random [S7_MiscSFXRNG] (8, 14);
             return A_Jump (256, "SpawnA", "SpawnB", "SpawnC", "SpawnD", "SpawnE", "SpawnF", "SpawnG", "SpawnH");
         }
 
@@ -282,9 +282,9 @@ class S7_EmpressShieldHitspark : S7_Empress_FXBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            for (int i = random [sfx] (4, 6); i > 0; i--) {
+            for (int i = random [S7_HitsparksRNG] (4, 6); i > 0; i--) {
                 A_SpawnItemEx ('S7_EmpressShieldHitsparkSparkle',
-                    xvel: fRandom [sfx] (2, 8), zvel: fRandom [sfx] (-6, 6), angle: fRandom [sfx] (0, 360),
+                    xvel: fRandom [S7_HitsparksRNG] (2, 8), zvel: fRandom [S7_HitsparksRNG] (-6, 6), angle: fRandom [S7_HitsparksRNG] (0, 360),
                     flags: SXF_NoCheckPosition | SXF_Clientside
                 );
             }
@@ -301,7 +301,7 @@ class S7_EmpressShieldHitsparkSparkle : S7_EmpressSparkle {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            loopCount = random [sfx] (1, 2);
+            loopCount = random [S7_HitsparksRNG] (1, 2);
             return A_Jump (256, "SpawnA", "SpawnB", "SpawnC", "SpawnD", "SpawnE", "SpawnF", "SpawnG", "SpawnH");
         }
     ReallyFadeOutNow:

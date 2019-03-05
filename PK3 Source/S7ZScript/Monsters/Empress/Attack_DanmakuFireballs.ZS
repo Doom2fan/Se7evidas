@@ -65,7 +65,7 @@ extend class S7_Empress {
                         bool success; Actor act;
                         [success, act] = A_SpawnItemEx ("S7_Empress_DanmakuFireballsFire",
                             spawnPos.X, spawnPos.Y, 95.,
-                            0., 0., fRandom [sfx] (0., 5.),
+                            0., 0., fRandom [S7_ProjSFXRNG] (0., 5.),
                             flags: SXF_NoCheckPosition | SXF_Clientside | SXF_AbsoluteAngle | SXF_AbsolutePosition
                         );
 
@@ -184,8 +184,8 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
         Actor act = Super.StepEffects (initialPos, stepDiff, realVel);
 
         if (act) {
-            act.SetOrigin (act.Vec3Offset (fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-3, 3)), false);
-            act.vel = (0., 0, fRandom [sfx] (.5, 3.));
+            act.SetOrigin (act.Vec3Offset (fRandom [S7_ProjSFXRNG] (-2.5, 2.5), fRandom [S7_ProjSFXRNG] (-2.5, 2.5), fRandom [S7_ProjSFXRNG] (-3, 3)), false);
+            act.vel = (0., 0, fRandom [S7_ProjSFXRNG] (.5, 3.));
         }
 
         return act;

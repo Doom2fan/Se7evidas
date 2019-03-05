@@ -131,7 +131,7 @@ class S7_FleshSpawn : S7_MonsterBase {
         double horzSpeed = abs (gibSpeed * cos (gibPitch));
         vZ = (gibSpeed * sin (gibPitch)) * -1;
 
-        double ang = fRandom [sfx] (-360, 360);
+        double ang = fRandom [S7_GoreRNG] (-360, 360);
         vX = horzSpeed * cos (ang);
         vY = horzSpeed * sin (ang);
 
@@ -254,15 +254,15 @@ class S7_FleshSpawn : S7_MonsterBase {
         FLSP Q 3 {
             A_XScream ();
 
-            A_SpawnItemEx ('S7_FleshSpawnGib6', zVel: fRandom [sfx] (-3., 0.), flags: SXF_NoCheckPosition);
-            FS_SpawnGib ('S7_FleshSpawnGib1',  14,  0, fRandom [sfx] (-40, -10));
-            FS_SpawnGib ('S7_FleshSpawnGib2',   6,  2, fRandom [sfx] (-25,   0));
-            FS_SpawnGib ('S7_FleshSpawnGib2B', 10, -2, fRandom [sfx] (-25,   0));
-            FS_SpawnGib ('S7_FleshSpawnGib3',   8,  0, fRandom [sfx] (-35,   0));
-            FS_SpawnGib ('S7_FleshSpawnGib4',  12,  5, fRandom [sfx] (-40,   5));
-            FS_SpawnGib ('S7_FleshSpawnGib4B',  5, -5, fRandom [sfx] (-30,   0));
-            FS_SpawnGib ('S7_FleshSpawnGib5',   6,  3, fRandom [sfx] (-60, -10));
-            FS_SpawnGib ('S7_FleshSpawnGib5',   8,  0, fRandom [sfx] (-55,  10));
+            A_SpawnItemEx ('S7_FleshSpawnGib6', zVel: fRandom [S7_GoreRNG] (-3., 0.), flags: SXF_NoCheckPosition);
+            FS_SpawnGib ('S7_FleshSpawnGib1',  14,  0, fRandom [S7_GoreRNG] (-40, -10));
+            FS_SpawnGib ('S7_FleshSpawnGib2',   6,  2, fRandom [S7_GoreRNG] (-25,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib2B', 10, -2, fRandom [S7_GoreRNG] (-25,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib3',   8,  0, fRandom [S7_GoreRNG] (-35,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib4',  12,  5, fRandom [S7_GoreRNG] (-40,   5));
+            FS_SpawnGib ('S7_FleshSpawnGib4B',  5, -5, fRandom [S7_GoreRNG] (-30,   0));
+            FS_SpawnGib ('S7_FleshSpawnGib5',   6,  3, fRandom [S7_GoreRNG] (-60, -10));
+            FS_SpawnGib ('S7_FleshSpawnGib5',   8,  0, fRandom [S7_GoreRNG] (-55,  10));
         }
         FLSP RSTU 3;
         stop;

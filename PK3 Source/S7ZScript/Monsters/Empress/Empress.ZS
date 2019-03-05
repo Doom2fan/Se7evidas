@@ -221,6 +221,17 @@ class S7_Empress : S7_DemonBase {
 
     int spawnLoopCount;
 
+    action void S7_PreSpawnSmoke (int count) {
+        for (int i = 0; i < count; i++) {
+            A_SpawnItemEx ('S7_EmpressSmoke',
+                fRandom [S7_SmokeRNG] (-23., 23.),
+                fRandom [S7_SmokeRNG] (-23., 23.),
+                15. + fRandom [S7_SmokeRNG] (-0., 32.),
+                flags: SXF_Clientside | SXF_NoCheckPosition
+            );
+        }
+    }
+
     /** "Spawner" **/
     states {
     Spawn:
@@ -233,8 +244,7 @@ class S7_Empress : S7_DemonBase {
             if (spawnLoopCount < 1)
                 return ResolveState ("PreSpawnIdle");
 
-            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23., 23.), fRandom [sfx] (-23., 23.), 15. + fRandom [sfx] (-0., 32.), 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
-            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23., 23.), fRandom [sfx] (-23., 23.), 15. + fRandom [sfx] (-0., 32.), 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            S7_PreSpawnSmoke (2);
             spawnLoopCount--;
 
             return ResolveState (null);
@@ -242,8 +252,7 @@ class S7_Empress : S7_DemonBase {
         wait;
     PreSpawnIdle:
         TNT1 A 1 {
-            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23., 23.), fRandom [sfx] (-23., 23.), 15. + fRandom [sfx] (-0., 32.), 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
-            A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23., 23.), fRandom [sfx] (-23., 23.), 15. + fRandom [sfx] (-0., 32.), 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
+            S7_PreSpawnSmoke (2);
             A_S7LookEx (flags: LOF_NoSeeSound, fov: 360., seeStateLabel: "Spawn.Spawned");
         }
         loop;
@@ -252,15 +261,15 @@ class S7_Empress : S7_DemonBase {
             for (int i = 0; i < (5*2); i++)
                 A_SpawnItemEx ('S7_EmpressPentagramCorner', 180., 0, 0, 0, 0, 0, (72/2.) * i, SXF_Clientside | SXF_NoCheckPosition);
         }
-        TNT1 AAAAAAAAAAAA 1 A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23., 23.), fRandom [sfx] (-23., 23.), 15. + fRandom [sfx] (-0., 32.), 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAAAAAA 1 S7_PreSpawnSmoke (1);
         TNT1 A            5;
         TNT1 A            0 {
             A_SetSize (default.Radius, default.Height, false);
             TeleportMove (pos, true);
 
             for (int i = 0; i < 48; i++) {
-                A_SpawnItemEx ('S7_EmpressSparkle', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50. + fRandom [sfx] (0., 2.5),
-                    fRandom [sfx] (-8., 8.), fRandom [sfx] (-8., 8.), fRandom [sfx] (-8., 8.), 0, SXF_Clientside | SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_EmpressSparkle', fRandom [S7_MiscSFXRNG] (-2.5, 2.5), fRandom [S7_MiscSFXRNG] (-2.5, 2.5), 50. + fRandom [S7_MiscSFXRNG] (0., 2.5),
+                    fRandom [S7_MiscSFXRNG] (-8., 8.), fRandom [S7_MiscSFXRNG] (-8., 8.), fRandom [S7_MiscSFXRNG] (-8., 8.), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
         }
         goto Idle;
@@ -411,8 +420,8 @@ class S7_Empress : S7_DemonBase {
         HRFR F       2;
         TNT1 A      35 {
             for (int i = 0; i < 48; i++) {
-                A_SpawnItemEx ('S7_EmpressSparkle', fRandom [sfx] (-2.5, 2.5), fRandom [sfx] (-2.5, 2.5), 50. + fRandom [sfx] (0., 2.5),
-                    fRandom [sfx] (-8., 8.), fRandom [sfx] (-8., 8.), fRandom [sfx] (-8., 8.), 0, SXF_Clientside | SXF_NoCheckPosition);
+                A_SpawnItemEx ('S7_EmpressSparkle', fRandom [S7_MiscSFXRNG] (-2.5, 2.5), fRandom [S7_MiscSFXRNG] (-2.5, 2.5), 50. + fRandom [S7_MiscSFXRNG] (0., 2.5),
+                    fRandom [S7_MiscSFXRNG] (-8., 8.), fRandom [S7_MiscSFXRNG] (-8., 8.), fRandom [S7_MiscSFXRNG] (-8., 8.), 0, SXF_Clientside | SXF_NoCheckPosition);
             }
             A_NoBlocking ();
             A_DamageChildren (0x7FFFFFFF, 'EmpressDeath');
@@ -431,7 +440,14 @@ class S7_EmpressDeathSmokeSpawner : Actor {
 
     states {
     Spawn:
-        TNT1 AAAAAAAA 0 A_SpawnItemEx ('S7_EmpressSmoke', fRandom [sfx] (-23., 23.), fRandom [sfx] (-23., 23.), 15. + fRandom [sfx] (-0., 85.), 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAA 0 {
+            A_SpawnItemEx ('S7_EmpressSmoke',
+                fRandom [S7_SmokeRNG] (-23., 23.),
+                fRandom [S7_SmokeRNG] (-23., 23.),
+                15. + fRandom [S7_SmokeRNG] (-0., 85.),
+                flags: SXF_Clientside | SXF_NoCheckPosition
+            );
+        }
         stop;
     }
 }

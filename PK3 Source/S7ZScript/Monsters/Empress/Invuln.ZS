@@ -59,11 +59,11 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
         if (!initWarp) {
             for (int i = 0; i < 4; i++) {
-                let offs = (fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5), fRandom [sfx] (-0.5, 0.5));
+                let offs = (fRandom [S7_MiscSFXRNG] (-0.5, 0.5), fRandom [S7_MiscSFXRNG] (-0.5, 0.5), fRandom [S7_MiscSFXRNG] (-0.5, 0.5));
 
                 let act = S7_EmpressShieldSparkle (Spawn ('S7_EmpressShieldSparkle', Vec3Offset (offs.X, offs.Y, offs.Z)));
                 if (act) {
-                    act.vel = (fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-3.0, 3.0), fRandom [sfx] (-1.0, 1.0));
+                    act.vel = (fRandom [S7_MiscSFXRNG] (-3.0, 3.0), fRandom [S7_MiscSFXRNG] (-3.0, 3.0), fRandom [S7_MiscSFXRNG] (-1.0, 1.0));
                     act.target = owner;
                     act.rotAngle = rotAngle;
                     act.zOffs = zOffs;
