@@ -263,8 +263,6 @@ class S7_BasePlayer : PlayerPawn {
         Misc_Heartbeats ();
         Misc_HellhunterBlade ();
         Misc_BlurCamera ();
-
-        Console.Printf ("%d %d %d %d", (int (sprite) >> 24) & 0x000000FF, (int (sprite) >> 16) & 0x000000FF, (int (sprite) >> 8) & 0x000000FF, int (sprite) & 0x000000FF);
     }
 
     override void OnRespawn () {
