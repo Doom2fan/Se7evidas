@@ -114,7 +114,7 @@ class S7_GenericGoreBits : S7_GoreBase {
             A_SetScale (abs (scale.x) * randomPick [S7_GoreRNG] (-1, 1), abs (scale.y) * randomPick [S7_GoreRNG] (-1, 1));
 
             rollDir = random [S7_GoreRNG] (0, 1);
-            trailSpawnDurationS7_GoreRNG 25;
+            trailSpawnDuration = 25;
             oldCoords = pos;
 
             return ResolveState (stateNames [random [S7_GoreRNG] (0, stateNames.Size () - 1)]);

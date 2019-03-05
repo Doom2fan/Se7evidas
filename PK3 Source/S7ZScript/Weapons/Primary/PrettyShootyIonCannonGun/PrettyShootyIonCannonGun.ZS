@@ -454,6 +454,7 @@ class S7_IonCannonRailEffectSpawner : S7_TracerEffectsBase {
                 8.0 + fRandom [S7_ProjSFXRNG] (-2.5, 2.5),
                 flags: SXF_Clientside | SXF_NoCheckPosition
             );
+        }
         stop;
     }
 }
