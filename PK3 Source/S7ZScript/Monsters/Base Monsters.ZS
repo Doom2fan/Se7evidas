@@ -84,8 +84,10 @@ class S7_MonsterBase : Actor {
 
             bool success; Actor act;
             [success, act] = A_SpawnItemEx ('S7_GibbingBlood',
-                xofs: xo, yofs: yo, zofs: defHeight + zo, xvel: xvel, zvel: zvel,
-                angle: fRandom [S7_GoreRNG] (0, 360), flags: SXF_UseBloodColor | SXF_NoCheckPosition
+                xofs: xo, yofs: yo, zofs: defHeight + zo,
+                xvel: xvel, zvel: zvel,
+                angle: fRandom [S7_GoreRNG] (0, 360),
+                flags: SXF_UseBloodColor | SXF_NoCheckPosition
             );
 
             if (success && act)
@@ -94,18 +96,20 @@ class S7_MonsterBase : Actor {
 
         for (int i = random [S7_GoreRNG] (6, 8); i >= 0; i--) {
             bool success; Actor act;
-            [success, act] = A_SpawnItemEx ('S7_GoreBloodCloud', xofs: fRandom [S7_GoreRNG] (-14, 14), yofs: fRandom [S7_GoreRNG] (-14, 14), zofs: defHeight + fRandom [S7_GoreRNG] (-18, 24),
+            [success, act] = A_SpawnItemEx ('S7_GoreBloodCloud',
+                xofs: fRandom [S7_GoreRNG] (-14., 14.),
+                yofs: fRandom [S7_GoreRNG] (-14., 14.),
+                zofs: defHeight + fRandom [S7_GoreRNG] (-18., 24.),
                 flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
             );
-
-            if (success && act)
-                act.vel = vel + act.vel;
         }
 
         for (int i = random [S7_GoreRNG] (8, 15); i >= 0; i--) {
             bool success; Actor act;
             [success, act] = A_SpawnItemEx ('S7_GenericGoreBits', zofs: defHeight + fRandom [S7_GoreRNG] (-7, 7),
-                xvel: fRandom [S7_GoreRNG] (2.5, 4.5) * randomPick [S7_GoreRNG] (-1, 1), yvel: fRandom [S7_GoreRNG] (2.5, 4.5) * randomPick [S7_GoreRNG] (-1, 1), zvel: fRandom [S7_GoreRNG] (3.5, 12),
+                xvel: fRandom [S7_GoreRNG] (2.5, 4.5) * randomPick [S7_GoreRNG] (-1, 1),
+                yvel: fRandom [S7_GoreRNG] (2.5, 4.5) * randomPick [S7_GoreRNG] (-1, 1),
+                zvel: fRandom [S7_GoreRNG] (3.5, 12.),
                 flags: SXF_UseBloodColor | SXF_NoCheckPosition | SXF_Clientside
             );
 
