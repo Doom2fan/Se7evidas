@@ -1,7 +1,7 @@
 /*
  *  Se7evidas - A GZDoom mod
  *  Copyright (C) 2002-2016 Christoph Oelckers
- *  Copyright (C) 2018      Chronos "phantombeta" Ouroboros
+ *  Copyright (C) 2018-2019 Chronos "phantombeta" Ouroboros
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
