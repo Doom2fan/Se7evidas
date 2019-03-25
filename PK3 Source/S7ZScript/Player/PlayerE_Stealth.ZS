@@ -66,7 +66,7 @@ extend class S7_BasePlayer {
             Vector3 posDiff = currentLight.Vec3To (self);
             double dist = posDiff dot posDiff;
             double lightRadius = currentLight.Radius;
-            if (dist < lightRadius * lightRadius) {
+            if (dist < lightRadius * lightRadius && !(lightRadius ~== 0.)) {
                 dist = posDiff.Length (); // Only calculate the square root if we really need it.
 
                 double frac = 1.0 - (dist / lightRadius);
