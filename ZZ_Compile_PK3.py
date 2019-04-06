@@ -211,7 +211,6 @@ def compile_pk3 (outDir = None, compression = None):
 def compile_release (outDir = None, relComp = None):
     additionalFiles = [
         ("Se7evidas-README.txt",),
-        ("Se7evidas-TODO.txt",),
         ("LICENSE", "Se7evidas-License.txt"),
     ]
 
