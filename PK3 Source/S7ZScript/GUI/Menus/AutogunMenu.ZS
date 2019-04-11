@@ -352,6 +352,8 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
     }
 
     override void Ticker () {
+        menuactive = Menu.OnNoPause;
+
         if (!CPlayer || !CPlayer.mo) {
             Super.Ticker ();
             return;
