@@ -22,7 +22,7 @@ class S7_S7Data_Map {
 }
 
 class S7_S7Data_MapData {
-    float corruption;
+    double corruption;
 }
 
 class S7_ShopData {

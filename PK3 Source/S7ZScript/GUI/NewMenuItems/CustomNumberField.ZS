@@ -18,14 +18,14 @@
 
 class OptionMenuItemCustomNumberField : OptionMenuFieldBase {
     TextEnterMenu mEnter;
-    float mMinimum;
-    float mMaximum;
+    double mMinimum;
+    double mMaximum;
 
     OptionMenuItemCustomNumberField Init (string label, Name command, string minimum = "0", string maximum = "", CVar graycheck = null) {
         Super.Init (label, command, graycheck);
 
-        mMinimum = (minimum == "" ? -float.Infinity : minimum.ToDouble ());
-        mMaximum = (maximum == "" ?  float.Infinity : maximum.ToDouble ());
+        mMinimum = (minimum == "" ? -double.Infinity : minimum.ToDouble ());
+        mMaximum = (maximum == "" ?  double.Infinity : maximum.ToDouble ());
 
         return self;
     }
@@ -58,7 +58,7 @@ class OptionMenuItemCustomNumberField : OptionMenuFieldBase {
             mEnter = TextEnterMenu.Open (Menu.GetCurrentMenu (), GetCVarString (), -1, 2, fromcontroller);
             mEnter.ActivateMenu ();
         } if (mkey == Menu.MKEY_Input) {
-            float value = mCVar.GetFloat ();
+            double value = mCVar.GetFloat ();
 
             value = mEnter.GetText ().ToDouble ();
 
