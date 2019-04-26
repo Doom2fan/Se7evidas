@@ -72,10 +72,13 @@ class S7_CasingBase : S7_EffectsBase {
 
     transient CVar stayTimeCVar, fadeSpeedCVar;
     int timer;
+    int restFrame;
 
     states {
     Delaying:
-        #### # 1 {
+        ---- A 1 {
+            frame = restFrame;
+
             if (!stayTimeCVar)
                 stayTimeCVar = CVar.GetCVar ("S7_CasingsStayTime", players [consolePlayer]);
 
@@ -95,6 +98,8 @@ class S7_CasingBase : S7_EffectsBase {
     Fade:
     Fade.Looper:
         #### # 1 {
+            frame = restFrame;
+
             if (!fadeSpeedCVar)
                 fadeSpeedCVar = CVar.GetCVar ("S7_CasingsFadeSpeed", players [consolePlayer]);
 
@@ -102,32 +107,39 @@ class S7_CasingBase : S7_EffectsBase {
         }
         wait;
 
-    Rest1: #### A 0; goto RestDerp;
-    Rest2: #### B 0; goto RestDerp;
+    /*//Rest1: #### A 0; goto RestDerp;
+    //Rest2: #### B 0; goto RestDerp;
     Rest3: #### C 0; goto RestDerp;
-    Rest4: #### D 0; goto RestDerp;
-    Rest5: #### E 0; goto RestDerp;
-    Rest6: #### F 0; goto RestDerp;
+    //Rest4: #### D 0; goto RestDerp;
+    //Rest5: #### E 0; goto RestDerp;
+    //Rest6: #### F 0; goto RestDerp;
     Rest7: #### G 0; goto RestDerp;
-    Rest8: #### H 0; goto RestDerp;
+    //Rest8: #### H 0; goto RestDerp;
     RestDerp:
         #### # 0 { return ResolveState ("Delaying"); }
-        wait;
+        wait;*/
 
 
     Death:
         #### # 0 {
-            int rnd = random [casingJumps] (0, 3);
-            switch (rnd) {
-                case 0: return ResolveState ("Rest1"); break;
-                case 1: return ResolveState ("Rest3"); break;
-                case 2: return ResolveState ("Rest5"); break;
-                case 3: return ResolveState ("Rest7"); break;
+            switch (frame) {
+                case 0: // A
+                case 4: // E
+                    restFrame = ((random [casingJumps] (0, 1)) ? 2 : 6);
+                    break;
+                case 1: // B
+                case 2: // C
+                case 3: // D
+                    restFrame = 2;
+                    break;
+                case 5: // F
+                case 6: // G
+                case 7: // H
+                    restFrame = 6;
+                    break;
             }
-
-            return ResolveState (null);
         }
-        goto Rest1;
+        goto Delaying;
     }
 }
 
