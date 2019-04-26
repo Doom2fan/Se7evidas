@@ -46,6 +46,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A9MM", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 600, 0.1, 1.16;
     }
 
     const MANX_SCOPEOVERLAY_ID      = 20;
@@ -250,7 +252,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
                 S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.5, 0.75));
 
             S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 15, 13));
-            S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.25, .25), offs: (10, 10, 10), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.25, .25), offs: (10, 10, 10), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             S7_Recoil (-0.3);
 
@@ -273,7 +275,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 2));
 
             S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 8, 8));
-            S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.24, .24), offs: (10, 0, 10), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.24, .24), offs: (10, 0, 10), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
             S7_Recoil (-0.3);

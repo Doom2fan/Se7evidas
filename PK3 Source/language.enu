@@ -149,6 +149,16 @@
     AUTOGUNMENU_BUY                 = "Buy";
     // Weap assignment menu
     WPBNDMENU_UNSETWP               = "Unassign";
+    // Weapon enchantment menu
+    WEAPONENCHANTMENTMENUHEADER         = "Weapon enchantment";
+    WEAPONENCHANTMENTMENU_PRICE         = "Price: %1 credits";
+    WEAPONENCHANTMENTMENU_POWER         = "Enchantment power: %1 (x%2)";
+    WEAPONENCHANTMENTMENU_CURTOTALPOWER = "Current total power: %1 (x%2)";
+    WEAPONENCHANTMENTMENU_NEWTOTALPOWER = "New total power: %1 (x%2)";
+    WEAPONENCHANTMENTMENU_INC_POWER     = "Increase";
+    WEAPONENCHANTMENTMENU_DEC_POWER     = "Decrease";
+    WEAPONENCHANTMENTMENU_CURENCHANTS   = "Current enchantments";
+    WEAPONENCHANTMENTMENU_BUY           = "Buy";
 
 // Deaths
     OB_DEFAULT                      = "%o was eaten by a grue.";

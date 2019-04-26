@@ -46,6 +46,8 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A45W", 6;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 1250, 0.3, 1.178;
     }
 
     override void PostBeginPlay () {
@@ -132,7 +134,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 A_AlertMonsters ();
                 A_GunFlash ("Flash");
 
-                S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
                 S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4.5, 1));
 
                 A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);

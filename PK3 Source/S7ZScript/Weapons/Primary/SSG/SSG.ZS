@@ -48,6 +48,8 @@ class S7_SSG : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.CanReloadWhileSprinting true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 700, 0.2, 1.16;
     }
 
     bool leftLoaded, rightLoaded, firingBoth;
@@ -86,11 +88,11 @@ class S7_SSG : S7_BaseWeapon {
     action void S7_FireSSG (bool right) {
         if (!right) {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 2.5), amount: 2);
-            S7_A_FireBullets ('S7_12gaTracer', spread: (.35, .35), offs: (10, 2, 12), amount: 9, bonusDMGFactor: invoker.enchantment_DamageBonus);
+            S7_A_FireBullets ('S7_12gaTracer', spread: (.35, .35), offs: (10, 2, 12), amount: 9, bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
             invoker.leftLoaded = false;
         } else {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 2.5), amount: 2);
-            S7_A_FireBullets ('S7_12gaTracer', spread: (.35, .35), offs: (10, 6, 12), amount: 9, bonusDMGFactor: invoker.enchantment_DamageBonus);
+            S7_A_FireBullets ('S7_12gaTracer', spread: (.35, .35), offs: (10, 6, 12), amount: 9, bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
             invoker.rightLoaded = false;
         }
     }

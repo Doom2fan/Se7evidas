@@ -72,6 +72,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Special;
         S7_ThrowWeapon.MaxForce 30;
         S7_ThrowWeapon.CanCancelThrow true;
+        S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
 
     bool cooking;

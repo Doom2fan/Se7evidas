@@ -47,6 +47,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "ACEL", 1;
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
 
     int readyFrame;

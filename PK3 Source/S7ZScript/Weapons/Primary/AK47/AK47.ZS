@@ -46,6 +46,8 @@ class S7_AK47 : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A762", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 750, 0.2, 1.15;
     }
 
     bool halfTic, reloadChamber; // Temporary stuff
@@ -133,7 +135,7 @@ class S7_AK47 : S7_BaseWeapon {
             A_GunFlash ("Flash");
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3.5, 0.5));
             S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 18, 10.5));
-            S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             S7_Recoil (-0.7);

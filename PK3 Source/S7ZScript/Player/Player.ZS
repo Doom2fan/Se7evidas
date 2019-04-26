@@ -26,6 +26,10 @@ class S7_DisableHud            : S7_Boolean { }
 class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
 
+class S7_TransactionData {
+    bool done;
+    int result;
+}
 class S7_PlayerData : Inventory {
     /** Health **/
     bool dying;
@@ -41,8 +45,7 @@ class S7_PlayerData : Inventory {
     Actor lGrabMarker;
     /** Misc **/
     // Shop menu
-    bool transactDone, transactSell;
-    int transactResult;
+    S7_TransactionData transactData;
     // Stamina regen
     int staminaTics;
     // Berserk side-effects
@@ -62,6 +65,8 @@ class S7_PlayerData : Inventory {
         dodgeCooldown = mjumpCount = wjumpJustJumped = staminaTics = heartbeatTics = 0;
         milkRegenRate = 2;
         milkUseRate = 20;
+
+        transactData = new ("S7_TransactionData");
     }
 }
 

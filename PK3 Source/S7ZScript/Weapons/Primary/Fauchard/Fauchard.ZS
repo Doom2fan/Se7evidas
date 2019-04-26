@@ -46,6 +46,7 @@ class S7_Fauchard : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "AFBC", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
 
     double GetDamageBonus () {

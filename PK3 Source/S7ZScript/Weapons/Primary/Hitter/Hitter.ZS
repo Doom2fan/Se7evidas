@@ -46,6 +46,8 @@ class S7_HitterSMG : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "AACP", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 650, 0.1, 1.16;
     }
 
     bool upperJammed, lowerJammed;
@@ -93,13 +95,13 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             if (!invoker.upperJammed) {
                 S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
-                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_6);
 
             if (!invoker.lowerJammed) {
                 S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
-                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+                S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
 

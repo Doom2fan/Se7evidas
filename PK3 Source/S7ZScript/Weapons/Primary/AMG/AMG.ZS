@@ -46,6 +46,8 @@ class S7_AMG : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A762", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 750, 0.2, 1.15;
     }
 
     const BASEZOOMFACTOR = 5.5;
@@ -231,7 +233,7 @@ class S7_AMG : S7_BaseWeapon {
 
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 0.5));
             S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
-            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 2.5, 5.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 2.5, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (!invoker.burstFire)
                 S7_Recoil (-0.8);
@@ -274,7 +276,7 @@ class S7_AMG : S7_BaseWeapon {
         SCP1 A 1 {
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 2));
             S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
-            S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (!invoker.burstFire) {
                 S7_Recoil (-0.5);

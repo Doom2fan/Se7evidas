@@ -44,6 +44,31 @@ struct S7_Utils {
 
         return (val.CharCodeAt (0) << 24 | val.CharCodeAt (1) << 16 | val.CharCodeAt (2) << 8 | val.CharCodeAt (3));
     }
+
+    static string TrimZeroes (string inputStr) {
+        int inputSize = inputStr.Length ();
+
+        int lastLeadingZero = -1;
+        int firstTrailingZero = inputSize + 1;
+
+        bool foundFirstNonZero = false;
+        bool foundLastNonZero = false;
+
+        for (int i = 0; i < inputSize; i++) {
+            if (!foundFirstNonZero && inputStr.CharAt (i) != "0") {
+                lastLeadingZero = i;
+                foundFirstNonZero = true;
+            }
+
+            int j = (inputSize - 1) - i;
+            if (!foundLastNonZero && inputStr.CharAt (j) != "0") {
+                firstTrailingZero = j + 1;
+                foundLastNonZero = true;
+            }
+        }
+
+        return inputStr.Left (firstTrailingZero).Mid (lastLeadingZero);
+    }
 }
 
 class S7_BoundingBox {

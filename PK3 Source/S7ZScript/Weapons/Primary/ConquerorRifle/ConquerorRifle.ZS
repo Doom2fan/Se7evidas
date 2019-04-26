@@ -46,6 +46,8 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A45W", 1;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 1350, 0.3, 1.209;
     }
 
     const BASEZOOMFACTOR = 6.5;
@@ -237,7 +239,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.noPump)
                 spread *= 1.75;
 
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
                 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 12, 15));
@@ -298,7 +300,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.noPump)
                 spread *= 2;
 
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
                 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 8, 8));

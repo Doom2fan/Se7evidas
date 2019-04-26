@@ -46,6 +46,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "ACEL", 1;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
 
     override void DoEffect () {

@@ -262,9 +262,10 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         if (!pPawn)
             return;
 
-        if (pPawn.playerData && pPawn.playerData.transactDone) {
-            if (pPawn.playerData.transactResult == 0) {
-                EventHandler.SendNetworkEvent ("S7_ShopMenu:TransactStateHandled");
+        if (pPawn.playerData && pPawn.playerData.transactData.done) {
+            if (pPawn.playerData.transactData.result == 0) {
+                pPawn.playerData.transactData.done = false;
+                pPawn.playerData.transactData.result = 0;
                 Close ();
                 return;
             }

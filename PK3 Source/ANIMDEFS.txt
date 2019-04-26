@@ -11,3 +11,11 @@ texture optional INVGEML1
 texture optional INVGEMR1
     pic INVGEMR1 tics 6
     pic INVGEMR2 tics 6
+    
+texture optional INVGEMU1
+    pic INVGEMU1 tics 6
+    pic INVGEMU2 tics 6
+    
+texture optional INVGEMD1
+    pic INVGEMD1 tics 6
+    pic INVGEMD2 tics 6

@@ -115,6 +115,8 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/GUI/Menus/PlayerMenu.ZS"
 #include "S7ZScript/GUI/Menus/PlayerclassMenu.ZS"
 #include "S7ZScript/GUI/Menus/AutogunMenu.ZS"
+#include "S7ZScript/GUI/Menus/EnchantmentMenu/Main.ZS"
+#include "S7ZScript/GUI/Menus/EnchantmentMenu/List.ZS"
 
 // Monsters
 #include "S7ZScript/Monsters/Base Monsters.ZS"

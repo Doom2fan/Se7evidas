@@ -434,18 +434,12 @@ class S7_ShopMenu_EventHandler : EventHandler {
                 return;
 
             if (strings [1] == "Buy" && (item.itemType & IT_BuyItem)) {
-                player.playerData.transactResult = item.BuyItem (player, amount, mod);
-                player.playerData.transactSell = false;
-                player.playerData.transactDone = true;
+                player.playerData.transactData.result = item.BuyItem (player, amount, mod);
+                player.playerData.transactData.done = true;
             } else if (strings [1] == "Sell" && (item.itemType & IT_SellItem)) {
-                player.playerData.transactResult = item.SellItem (player, amount, mod);
-                player.playerData.transactSell = true;
-                player.playerData.transactDone = true;
+                player.playerData.transactData.result = item.SellItem (player, amount, mod);
+                player.playerData.transactData.done = true;
             }
-        } else if (strings [1] == "TransactStateHandled") {
-            player.playerData.transactResult = 0;
-            player.playerData.transactSell = false;
-            player.playerData.transactDone = false;
         }
     }
 }

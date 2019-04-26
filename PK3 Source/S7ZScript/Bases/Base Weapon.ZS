@@ -60,6 +60,10 @@ class S7_BaseWeapon : Weapon {
     S7_WeaponSlots bindSlot;
     bool usesMag;
     bool reloadWhileSprinting;
+    bool enchantment_canEnchant;
+    double enchantment_BasePower;
+    int enchantment_Price_Base;
+    double enchantment_Price_AmountD, enchantment_Price_PowerMul;
 
     property Icon: weapIcon;
     property ShortTag: shortTag;
@@ -67,6 +71,8 @@ class S7_BaseWeapon : Weapon {
     property BindSlot: bindSlot;
     property UsesMag: usesMag;
     property CanReloadWhileSprinting: reloadWhileSprinting;
+    property EnchantmentProperties: enchantment_canEnchant, enchantment_BasePower;
+    property EnchantmentPrice: enchantment_Price_Base, enchantment_Price_PowerMul, enchantment_Price_AmountD;
 
     default {
         Inventory.PickupSound "misc/gunpickup";
@@ -81,13 +87,43 @@ class S7_BaseWeapon : Weapon {
         S7_BaseWeapon.BindSlot -1;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.CanReloadWhileSprinting false;
+        S7_BaseWeapon.EnchantmentProperties false, 0.0;
+        S7_BaseWeapon.EnchantmentPrice 0, 0.0, 0.0;
 
         +WEAPON.AMMO_OPTIONAL +WEAPON.NOAUTOFIRE +WEAPON.NOALERT +INVENTORY.RESTRICTABSOLUTELY
         +INVENTORY.TRANSFER
     }
 
     int fireModeIcon; // 0: none, 1: semi-auto, 2: burst-fire, 3: full-auto.
-    double enchantment_DamageBonus;
+
+    // Price, power
+    int, double Enchantments_GetNewEnchantmentData (int powerLevel, int amount) const {
+        double finalPower = (enchantment_BasePower * powerLevel);
+
+        double finalPrice = enchantment_Price_Base;
+        finalPrice *= (1. + (enchantment_Price_PowerMul * (powerLevel - 1)));
+        finalPrice = finalPrice * (enchantment_Price_AmountD ** amount);
+
+        int finalPriceInt = int (finalPrice);
+        finalPriceInt = (
+            ((finalPriceInt % 10) == 5) ?
+            finalPriceInt :
+            (finalPriceInt + (finalPriceInt % 2))
+        );
+
+        return finalPriceInt, finalPower;
+    } 
+    
+    Array<int> enchantments_List;
+    double Enchantments_GetDamageBonus () {
+        int totalPowerLevel = 0;
+
+        int enchantmentsCount = enchantments_List.Size ();
+        for (int i = 0; i < enchantmentsCount; i++)
+            totalPowerLevel += enchantments_List [i];
+
+        return totalPowerLevel * enchantment_BasePower;
+    }
 
     override void AttachToOwner (Actor other) { // Override this so we can disable selection on pickup
         StateProvider.AttachToOwner (other);
@@ -701,7 +737,7 @@ class S7_DracoWeapon : S7_BaseWeapon {
 class S7_ThrowWeapon : S7_BaseWeapon {
     int throwForce;
     int maxForce;
-    int canCancelThrow;
+    bool canCancelThrow;
 
     property MaxForce: maxForce;
     property CanCancelThrow: canCancelThrow;

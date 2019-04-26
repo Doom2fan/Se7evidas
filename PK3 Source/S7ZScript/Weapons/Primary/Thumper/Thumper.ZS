@@ -65,6 +65,8 @@ class S7_Thumper : S7_BaseWeapon {
         S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag false;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 850, 0.25, 1.1612;
 
         +WEAPON.NOAUTOAIM
     }
@@ -250,7 +252,7 @@ class S7_Thumper : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            S7_A_FireBullets (projType, offs: (10, 9, 6), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets (projType, offs: (10, 9, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4.5, 1));
             invoker.chambered = false;
 

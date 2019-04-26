@@ -46,6 +46,8 @@ class S7_Revolver : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A44M", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
+        S7_BaseWeapon.EnchantmentProperties true, 0.075;
+        S7_BaseWeapon.EnchantmentPrice 650, 0.2, 1.182;
     }
 
     states {
@@ -90,7 +92,7 @@ class S7_Revolver : S7_BaseWeapon {
             A_GunFlash ();
 
             S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1.8, 0));
-            S7_A_FireBullets ('S7_RevolverTracer', spread: (.5, .5), offs: (10, 5, 2), bonusDMGFactor: invoker.enchantment_DamageBonus, flags: S7_FB_UseAmmo);
+            S7_A_FireBullets ('S7_RevolverTracer', spread: (.5, .5), offs: (10, 5, 2), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             S7_Recoil (-1.75);
 
