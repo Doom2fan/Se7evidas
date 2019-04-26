@@ -500,27 +500,27 @@ class S7_BaseWeapon : Weapon {
             );
         }
 
-        Vector3 forwards, sideways, vertical; {
-            forwards = (1, 0, 0);
-            sideways = (0, 1, 0);
-            vertical = (0, 0, 1);
-
-            let qRot = S7_GM_Quaternion.CreateFromAngles (
-                angle          + fRandom [weaponSpread] (-spread.X, spread.X),
-                BulletSlope () + fRandom [weaponSpread] (-spread.Y, spread.Y),
-                roll
-            );
-
-            forwards = qRot.RotateVector3 (forwards);
-            sideways = qRot.RotateVector3 (sideways);
-            vertical = qRot.RotateVector3 (vertical);
-        }
-
         let arr = new ('S7_TZK_ArrayObj');
         arr.Clear ();
 
         for (int i = 0; i < amount; i++) {
-            let proj = Spawn (projType, origin);
+            let proj = Spawn (projType, origin, ALLOW_REPLACE);
+
+            Vector3 forwards, sideways, vertical; {
+                forwards = (1, 0, 0);
+                /*sideways = (0, 1, 0);
+                vertical = (0, 0, 1);*/
+
+                let qRot = S7_GM_Quaternion.CreateFromAngles (
+                    angle          + fRandom [weaponSpread] (-spread.X, spread.X),
+                    BulletSlope () + fRandom [weaponSpread] (-spread.Y, spread.Y),
+                    roll
+                );
+
+                forwards = qRot.RotateVector3 (forwards);
+                /*sideways = qRot.RotateVector3 (sideways);
+                vertical = qRot.RotateVector3 (vertical);*/
+            }
 
             proj.target = self;
             let dir = forwards.Unit ();
