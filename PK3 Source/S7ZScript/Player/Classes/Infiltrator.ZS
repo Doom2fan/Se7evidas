@@ -44,8 +44,8 @@ class S7_InfiltratorPlayer : S7_ScoutPlayer {
         GiveInventory ('S7_Flashlight', 1);
         // Ammo
         GiveInventory ('S7_TEC9Clip', 32);
-        GiveInventory ('S7_ManxCarbineClip', 23);
-        GiveInventory ('S7_9mmCartridges', 6 * 23);
+        GiveInventory ('S7_ManxCarbineClip', 32);
+        GiveInventory ('S7_9mmCartridges', 5 * 32);
 
         // Weapons
         let tec9 = S7_TEC9 (GiveBasics_GiveStartingWeapon ('S7_TEC9'));
