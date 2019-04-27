@@ -218,11 +218,13 @@ class S7_M400Autogun : S7_PlayerSummon {
     void SpawnMarker (out Actor aimMarker, out FLineTraceData data, double pitchOffs = 0.) {
         bool markerHit = LineTrace (angle, (1 << 16), pitch + pitchOffs, flags: TRF_NoSky, offsetz: 38.5, data: data);
 
+        let aimMarkerPos = data.HitLocation - (data.HitDir * 2);
+
         if (aimMarker) {
-            aimMarker.SetOrigin (data.HitLocation, !(aimMarker.alpha ~== 0.));
+            aimMarker.SetOrigin (aimMarkerPos, !(aimMarker.alpha ~== 0.));
             aimMarker.alpha = (markerHit ? 1. : 0.);
         } else {
-            aimMarker = Spawn ('S7_TurretRedDot', data.HitLocation);
+            aimMarker = Spawn ('S7_TurretRedDot', aimMarkerPos);
             aimMarker.target = self;
             aimMarker.alpha = 0.;
         }
@@ -447,14 +449,14 @@ class S7_M400Autogun : S7_PlayerSummon {
 class S7_TurretRedDot : S7_EffectsBase {
     default {
         RenderStyle "Add";
-        Scale .25;
+        Scale .0175;
 
         +NOGRAVITY +NOINTERACTION
     }
 
     states {
     Spawn:
-        BAL1 A 1 bright {
+        PLGF A 1 bright {
             if (!target || target.health <= 0)
                 Destroy ();
         }
