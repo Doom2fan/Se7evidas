@@ -266,7 +266,7 @@ shop "mainShop" {
                     icon = "graphics/Menu/Shop/Icons/9mmCartridges.png";
 
                     inventoryName = "S7_9mmCartridges";
-                    buyPrice = 240;
+                    buyPrice = 120;
                     buyAmount = 30;
                     sellPrice = 4;
                 },
