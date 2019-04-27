@@ -197,7 +197,7 @@ class S7_BulletPuffSparks : S7_TracerEffectsBase {
 /*** Primary ***/
 class S7_AMGTracer : S7_BulletTracer {
     default {
-        DamageFunction int ((18. + fRandom [weaponDamage] (-1., 3.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((22. + fRandom [weaponDamage] (-1., 3.)) * (1. + bonusDMGFactor));
         Speed 260;
         DamageType 'RifleTracer';
     }
@@ -205,7 +205,7 @@ class S7_AMGTracer : S7_BulletTracer {
 
 class S7_AK47_Tracer : S7_BulletTracer {
     default {
-        DamageFunction int ((16. + fRandom [weaponDamage] (-1., 2.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((21. + fRandom [weaponDamage] (-1., 2.)) * (1. + bonusDMGFactor));
         Speed 220;
         DamageType 'RifleTracer';
     }
@@ -239,7 +239,7 @@ class S7_SSGTracerTrail : S7_TracerTrail {
 
 class S7_12gaTracer : S7_BulletTracer {
     default {
-        DamageFunction int ((14. + fRandom [weaponDamage] (-2., 2.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((16. + fRandom [weaponDamage] (-2., 2.)) * (1. + bonusDMGFactor));
         Speed 250;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
@@ -247,14 +247,14 @@ class S7_12gaTracer : S7_BulletTracer {
 }
 class S7_ManxCarbineTracer : S7_BulletTracer {
     default {
-        DamageFunction int ((14. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        Speed 190;
+        DamageFunction int ((17. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
+        Speed 200;
         DamageType 'PistolTracer';
     }
 }
 class S7_HitterSMGTracer : S7_BulletTracer {
     default {
-        DamageFunction int ((13. + fRandom [weaponDamage] (-2., 1.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((18. + fRandom [weaponDamage] (-2., 1.)) * (1. + bonusDMGFactor));
         Speed 170;
         DamageType 'PistolTracer';
     }
@@ -270,7 +270,7 @@ class S7_ConquerorRifle_Tracer : S7_BulletTracer {
 
 class S7_CaesarChaingun_Tracer : S7_BulletTracer {
     default {
-        DamageFunction int ((35. + fRandom [weaponDamage] (-2., 2.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((40. + fRandom [weaponDamage] (0, 5.)) * (1. + bonusDMGFactor));
         Speed 500;
         DamageType 'SniperRifleTracer';
         S7_Projectile.EffectStepMul 0.036;
@@ -280,21 +280,22 @@ class S7_CaesarChaingun_Tracer : S7_BulletTracer {
 /*** Secondary ***/
 class S7_RaptorTracer : S7_BulletTracer {
     default {
-        DamageFunction int ((11. + fRandom [weaponDamage] (-2., 2.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((15.5 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         Speed 175;
         DamageType 'PistolTracer';
     }
 }
 class S7_RevolverTracer : S7_BulletTracer {
     default {
-        DamageFunction int ((85. + fRandom [weaponDamage] (-5., 5.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((60. + fRandom [weaponDamage] (-5., 5.)) * (1. + bonusDMGFactor));
         Speed 210;
         DamageType 'RevolverTracer';
     }
 }
 class S7_TEC9Tracer : S7_BulletTracer {
     default {
-        DamageFunction int ((11. + fRandom [weaponDamage] (-3., 3.)) * (1. + bonusDMGFactor));
+        DamageFunction int ((15.5 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
+        Speed 175;
         DamageType 'PistolTracer';
     }
 }
