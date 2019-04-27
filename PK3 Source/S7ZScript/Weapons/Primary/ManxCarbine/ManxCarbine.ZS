@@ -23,8 +23,8 @@
 //-------------------------------------------------------------------------------------------
 class S7_ManxCarbineClip : Ammo {
     default {
-        Inventory.MaxAmount 23;
-        Ammo.BackpackMaxAmount 23;
+        Inventory.MaxAmount 32;
+        Ammo.BackpackMaxAmount 32;
 
         +INVENTORY.IGNORESKILL
     }
@@ -56,6 +56,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
     bool hasSuppressor;
 
     bool semiAuto;
+    bool fireSoundChannel;
 
     const BASEZOOMFACTOR = 3.0;
     bool   zoomed;
@@ -235,13 +236,15 @@ class S7_ManxCarbine : S7_BaseWeapon {
                 return ResolveState ("DryFire");
 
             if (!invoker.hasSuppressor) {
-                A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
+                A_PlaySound ("Weapons/ManxCarbine/Fire", invoker.fireSoundChannel ? CHAN_5 : CHAN_Weapon);
                 A_AlertMonsters ();
                 A_GunFlash ();
             } else {
-                A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon, volume: 0.4);
+                A_PlaySound ("Weapons/ManxCarbine/Fire", invoker.fireSoundChannel ? CHAN_5 : CHAN_Weapon, volume: 0.4);
                 A_AlertMonsters (512.0);
             }
+
+            invoker.fireSoundChannel = !invoker.fireSoundChannel;
 
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
@@ -260,7 +263,6 @@ class S7_ManxCarbine : S7_BaseWeapon {
         }
         MANX B 1 S7_Recoil (-0.3);
         MANX C 1 A_JumpIf (invoker.semiAuto, "Fire.Semi");
-        MANX A 1;
         MANX A 1 A_Refire;
         MANX A 3;
         goto Ready2;
@@ -288,7 +290,6 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
             return A_JumpIf (invoker.semiAuto, "Fire.Zoom.Semi");
         }
-        SCP1 D 1;
         SCP1 D 1 A_Refire;
         SCP1 D 3;
         goto Ready2;
