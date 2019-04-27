@@ -30,8 +30,14 @@ class S7_WhiteSmoke : S7_EffectsBase {
         Alpha 0.3;
         Scale 0.1;
 
-        +FORCEXYBILLBOARD +NOGRAVITY +NOBLOCKMAP +NOINTERACTION
-        +CLIENTSIDEONLY
+        +FORCEXYBILLBOARD +NOBLOCKMAP +NOGRAVITY +NOINTERACTION
+        +CLIENTSIDEONLY   +ROLLSPRITE
+    }
+
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        roll = fRandom [sfx] (-360, 360);
     }
 
     states {
