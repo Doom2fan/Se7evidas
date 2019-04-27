@@ -81,7 +81,7 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
         // Initialize the inventory bar
         diparms = InventoryBarState.Create ();
         // Populate the fullscreen statusbar ammo bars list
-        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Raptor', 'S7_RaptorClip', "Inventory", 16, "graphics/HUD/Cartridges/S7H9MM.png", -10, -5, -20, -18));
+        FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Raptor', 'S7_RaptorClip', "Inventory", 24, "graphics/HUD/Cartridges/S7H9MM.png", -10, -5, -20, -18));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_TEC9', 'S7_TEC9Clip', "Inventory", 32, "graphics/HUD/Cartridges/S7H9MM.png", -10, -4, -20, -18));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_Revolver', 'S7_RevolverClip', "Inventory", 6, "graphics/HUD/Cartridges/S7H44M.png", -11, -7, -23));
         FScreenAmmoBars.Push (S7_FScreenSBarAmmoBar.GenerateBar ('S7_AMG', 'S7_AMGMag', "Inventory", 35, "graphics/HUD/Cartridges/S7H762MM.png", -11, -4, -27, -26, -25));

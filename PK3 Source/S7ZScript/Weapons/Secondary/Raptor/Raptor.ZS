@@ -23,8 +23,8 @@
 //-------------------------------------------------------------------------------------------
 class S7_RaptorClip : Ammo {
     default {
-        Inventory.MaxAmount 16;
-        Ammo.BackpackMaxAmount 16;
+        Inventory.MaxAmount 24;
+        Ammo.BackpackMaxAmount 24;
 
         +INVENTORY.IGNORESKILL
     }

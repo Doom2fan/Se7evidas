@@ -46,8 +46,8 @@ class S7_InfantryPlayer : S7_BasePlayer {
         GiveInventory ('S7_Stimpack', 3);
         GiveInventory ('S7_Medikit', 2);
         // Ammo
-        GiveInventory ('S7_RaptorClip', 16);
-        GiveInventory ('S7_9mmCartridges', 70);
+        GiveInventory ('S7_RaptorClip', 24);
+        GiveInventory ('S7_9mmCartridges', 108);
 
         GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
         let raptor = GiveBasics_GiveStartingWeapon ('S7_Raptor');
@@ -130,8 +130,8 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
         GiveInventory ('S7_Medikit', 2);
         GiveInventory ('S7_Flashlight', 1);
         // Ammo
-        GiveInventory ('S7_RaptorClip', 16);
-        GiveInventory ('S7_9mmCartridges', 50);
+        GiveInventory ('S7_RaptorClip', 24);
+        GiveInventory ('S7_9mmCartridges', 84);
         GiveInventory ('S7_AMGMag', 35);
         GiveInventory ('S7_762x39Cartridges', 160);
 
