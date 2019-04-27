@@ -6,14 +6,14 @@ sprite "TEC9B0", 110, 112 {
 }
 
 sprite "TEC9C0", 110, 112 {
-    offset -176, -78
+    offset -174, -76
     patch "TEC9A0", 0, 0
     patch "graphics/Weapons/TEC-9/Part1.png", 32, 59
     patch "graphics/Weapons/TEC-9/Part2.png", 15, 17
 }
 
 sprite "TEC9D0", 110, 112 {
-    offset -176, -78
+    offset -174, -76
     patch "TEC9A0", 0, 0
     patch "graphics/Weapons/TEC-9/Part1.png", 32, 59
     patch "graphics/Weapons/TEC-9/Part3.png", 15, 17

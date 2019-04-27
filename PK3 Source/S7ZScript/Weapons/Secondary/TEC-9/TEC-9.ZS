@@ -55,9 +55,8 @@ class S7_TEC9 : S7_BaseWeapon {
     const TEC9_SUPPRESSOROVERLAY_ID = 20;
     bool hasSuppressor;
 
-    const BURSTLENGTH = 3;
-    bool burstFire;
-    int burstCount;
+    bool fireFrame2;
+    Vector3 spriteOffsets;
 
     override void Tick () {
         Super.Tick ();
@@ -69,12 +68,6 @@ class S7_TEC9 : S7_BaseWeapon {
             weapIcon = "TECSZ0";
         else
             weapIcon = "TEC9Z0";
-    }
-
-    override void DoEffect () {
-        Super.DoEffect ();
-
-        fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
     }
 
     override bool SS_PreSell (int amount) {
@@ -117,10 +110,7 @@ class S7_TEC9 : S7_BaseWeapon {
         TEC9 A 1 DoSelectOffset (( 0,  0));
         TNT1 A 0 { invoker.selecting = false; }
     Ready2:
-        TEC9 A 1 {
-            invoker.burstCount = 0;
-            S7_WeaponReady ("Reload", "ChangeMode");
-        }
+        TEC9 A 1 S7_WeaponReady ("Reload", null);
         loop;
 
     Overlay.Suppressor:
@@ -153,9 +143,9 @@ class S7_TEC9 : S7_BaseWeapon {
 
             if (!invoker.selecting) {
                 if (invoker.hasSuppressor)
-                    A_WeaponOffset (12, 32 + 12);
+                    A_WeaponOffset (12 + invoker.spriteOffsets.X, 32 + 12 + invoker.spriteOffsets.Y, int (invoker.spriteOffsets.Z));
                 else
-                    A_WeaponOffset (0, 32);
+                    A_WeaponOffset (0 + invoker.spriteOffsets.X, 32 + invoker.spriteOffsets.Y, int (invoker.spriteOffsets.Z));
             }
 
             return ResolveState (null);
@@ -183,11 +173,13 @@ class S7_TEC9 : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        TEC9 B 1;
+        TEC9 B 1 { invoker.fireFrame2 = false; }
     Hold:
-        TEC9 C 1 {
-            if (!invoker.CheckAmmo (PrimaryFire, false, true))
+        TEC9 D 1 {
+            if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
+                A_ClearRefire ();
                 return ResolveState ("DryFire");
+            }
 
             if (!invoker.hasSuppressor) {
                 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
@@ -208,59 +200,30 @@ class S7_TEC9 : S7_BaseWeapon {
                 S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4, 3), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             }
 
-            if (invoker.burstFire) {
-                S7_Recoil (-0.5);
+            S7_Recoil (-0.25);
 
-                if ((invoker.burstCount & 1)) // Show frame D on odd shots and frame C on even shots
-                    return ResolveState ("Fire.Burst2");
-                else
-                    return ResolveState ("Fire.Burst1");
-            } else
-                S7_Recoil (-0.25);
+            let psp = player.FindPSprite (PSP_Weapon);
+            if (psp && invoker.fireFrame2)
+                psp.frame = 2; // C
+            else if (psp)
+                psp.frame = 3; // D
+
+            invoker.spriteOffsets = (4, 4, 0);
+
+            invoker.fireFrame2 = !invoker.fireFrame2;
 
             return ResolveState (null);
         }
-        TEC9 D 1 S7_Recoil (-0.25);
-        goto Fire.End;
-    Fire.Burst1:
-        TEC9 C 1;
-        goto Fire.End;
-    Fire.Burst2:
-        TEC9 D 1;
-        goto Fire.End;
-    Fire.End:
         TEC9 B 1 {
-            if (invoker.burstFire)
-                invoker.burstCount++;
-
-            if (invoker.burstFire && invoker.burstCount >= BURSTLENGTH)
-                invoker.burstCount = 0;
-            else
-                A_Refire ();
-
-            A_ClearRefire ();
-            return ResolveState (null);
+            S7_Recoil (-0.25);
+            invoker.spriteOffsets = (0, 0, WOF_Interpolate);
         }
-        TEC9 A 7;
-        goto Ready2;
-
-    ChangeMode:
-        TEC9 A 5 {
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-            invoker.burstCount = 0;
-
-            if (invoker.burstFire)
-                invoker.burstFire = false;
-            else
-                invoker.burstFire = true;
-
-            A_PlaySound ("Weapons/ModeChange", CHAN_7);
-        }
+        TEC9 B 1 A_Refire ();
+        TEC9 A 5;
         goto Ready2;
 
     DryFire:
         TEC9 B 1 {
-            invoker.burstCount = 0;
             A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
             A_ClearRefire ();
         }
