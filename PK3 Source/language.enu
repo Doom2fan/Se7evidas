@@ -122,6 +122,7 @@
     PLAYERMENU_LUCIUSSHOP           = "Lucius Armory";
     PLAYERMENU_WEAPASSIGN           = "Weapon assignment";
     PLAYERMENU_DRACOWEAPASSIGN      = "Draco weapon assignment";
+    PLAYERMENU_WEAPENCHANTMENT      = "Weapon enchantment";
     PLAYERMENU_M400AUTOGUN          = "M-400 Autogun";
     // Stats menu
     STATSMENUHEADER                 = "STATS";

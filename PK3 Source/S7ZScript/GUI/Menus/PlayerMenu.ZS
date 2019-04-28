@@ -35,6 +35,8 @@ class S7_PlayerMenuHandler : S7_ZF_Handler {
             ChangeMenu ('S7_DracoWeapAssignMenu');
         else if (command == "openAutogunMenu")
             ChangeMenu ('S7_AutogunMenu');
+        else if (command == "openWeaponEnchantmentMenu")
+            ChangeMenu ('S7_WeaponEnchantmentMenu');
     }
 }
 
@@ -46,7 +48,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
     Font bigFont;
     Font smallFont;
     S7_ZF_Frame menusFrame;
-    S7_ZF_Button xpSysButton, luciusShopButton, weapAssignButton, dracoWeapAssignButton, m400AutogunButton;
+    S7_ZF_Button xpSysButton, luciusShopButton, weapAssignButton, dracoWeapAssignButton, weapEnchantButton, m400AutogunButton;
 
     override void Init (Menu parent) {
         Super.Init (parent);
@@ -78,8 +80,9 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         AddButton (xpSysButton, "$PLAYERMENU_XPMENU", 15 + ((fontHeight+4) * buttonCount++), handler, "openXPSysMenu");
         AddButton (luciusShopButton, "$PLAYERMENU_LUCIUSSHOP", 15 + ((fontHeight+4) * buttonCount++), handler, "openLuciusShop");
         AddButton (weapAssignButton, "$PLAYERMENU_WEAPASSIGN", 15 + ((fontHeight+4) * buttonCount++), handler, "openWeapAssignMenu");
-        if (true) //CheckInventory ('S7_DracoStored'))
+        if (false) //CheckInventory ('S7_DracoStored'))
             AddButton (dracoWeapAssignButton, "$PLAYERMENU_DRACOWEAPASSIGN", 15 + ((fontHeight+4) * buttonCount++), handler, "openDracoWeapMenu");
+        AddButton (weapEnchantButton, "$PLAYERMENU_WEAPENCHANTMENT", 15 + ((fontHeight+4) * buttonCount++), handler, "openWeaponEnchantmentMenu");
         if (CheckInventory ('S7_M400AutogunStored'))
             AddButton (m400AutogunButton, "$PLAYERMENU_M400AUTOGUN", 15 + ((fontHeight+4) * buttonCount++), handler, "openAutogunMenu");
 
@@ -113,9 +116,10 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
             return;
         }
 
-        xpSysButton.textColor           = (     xpSysButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
-        luciusShopButton.textColor      = (luciusShopButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
-        weapAssignButton.textColor      = (weapAssignButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        xpSysButton.textColor           = (      xpSysButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        luciusShopButton.textColor      = ( luciusShopButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        weapAssignButton.textColor      = ( weapAssignButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        weapEnchantButton.textColor     = (weapEnchantButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
         if (dracoWeapAssignButton)
             dracoWeapAssignButton.textColor = (dracoWeapAssignButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
         if (m400AutogunButton)
