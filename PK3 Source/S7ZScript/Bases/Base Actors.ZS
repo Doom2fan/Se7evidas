@@ -263,7 +263,6 @@ class S7_Projectile : FastProjectile {
             Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
 
             Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
-            act.SetOrigin (finalPos, false);
 
             double realFloorZ = GetZAt (finalPos.X, finalPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
 
@@ -273,7 +272,11 @@ class S7_Projectile : FastProjectile {
             // Do not clip this offset to the floor.
             hitz += missileHeight;
 
-            act.SetOrigin ((finalPos.xy, hitz), false);
+            LinkContext ctx;
+            act.UnlinkFromWorld (ctx);
+            act.SetXYZ ((finalPos.XY, hitz));
+            act.LinkToWorld (ctx);
+            act.FindFloorCeiling (FFCF_OnlySpawnPos);
 
             if (act != null) {
                 if (bGetOwner && target != null)

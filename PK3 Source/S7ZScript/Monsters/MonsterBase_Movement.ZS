@@ -490,11 +490,8 @@ extend class S7_MonsterBase {
                         SetOrigin (oldPos, false);
                         angle = oldAngle;
                         pitch = oldPitch;
-                    } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos) {
-                        Vector3 newPos = pos;
-                        SetOrigin (oldPos, false);
-                        SetOrigin (newPos, true);
-                    }
+                    } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
+                        Prev = oldPos;
 
                     return true, possibleNewPos;
                 }
@@ -508,11 +505,8 @@ extend class S7_MonsterBase {
 
                 int usesCount = CheckMonsterUseSpecials ();
 
-                if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos) {
-                    Vector3 newPos = pos;
-                    SetOrigin (oldPos, false);
-                    SetOrigin (newPos, true);
-                }
+                if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
+                    Prev = oldPos;
                 
                 return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
             }
@@ -523,11 +517,8 @@ extend class S7_MonsterBase {
             SetOrigin (oldPos, false);
             angle = oldAngle;
             pitch = oldPitch;
-        } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos) {
-            Vector3 newPos = pos;
-            SetOrigin (oldPos, false);
-            SetOrigin (newPos, true);
-        }
+        } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
+            Prev = oldPos;
 
         return tryOK, possibleNewPos;
     }

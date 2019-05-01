@@ -30,7 +30,7 @@ class S7_LastKnownPositionMarker : S7_PositionMarkerPersistent {
     Spawn:
         TNT1 A 0 noDelay {
             Super.PostBeginPlay ();
-            SetOrigin ((pos.XY, floorZ), false);
+            SetZ (floorZ);
 
             if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
                 sprite = GetSpriteIndex ('AMRK');

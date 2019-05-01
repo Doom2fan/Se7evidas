@@ -273,29 +273,31 @@ class S7_Flashlight_Spotlight : DynamicLight {
     }
 
     override void Tick () {
-        Super.Tick ();
+        if (!followTarget)
+            return;
+            
+        if (inertia == 0)
+            inertia = 1;
 
-        if (followTarget) {
-            if (inertia == 0)
-                inertia = 1;
+        targetPos = followTarget.Vec3Angle (
+            2 + (6 * abs (sin (offsetAngle))),
+            followTarget.angle + offsetAngle,
+            offsetZ * followTarget.player.crouchfactor,
+            false
+        );
 
-            targetPos = followTarget.Vec3Angle (
-                2 + (6 * abs (sin (offsetAngle))),
-                followTarget.angle + offsetAngle,
-                offsetZ * followTarget.player.crouchfactor,
-                false
-            );
+        vel.x += S7_Math.DampedSpring (pos.x, targetPos.x, vel.x, 1, 1);
+        vel.y += S7_Math.DampedSpring (pos.y, targetPos.y, vel.y, 1, 1);
+        vel.z += S7_Math.DampedSpring (pos.z, targetPos.z, vel.z, 1, 1);
+        vela  += S7_Math.DampedSpring (angle, followTarget.angle, vela, spring, damping);
+        velp  += S7_Math.DampedSpring (pitch, followTarget.pitch, velp, spring, damping);
 
-            vel.x += S7_Math.DampedSpring (pos.x, targetPos.x, vel.x, 1, 1);
-            vel.y += S7_Math.DampedSpring (pos.y, targetPos.y, vel.y, 1, 1);
-            vel.z += S7_Math.DampedSpring (pos.z, targetPos.z, vel.z, 1, 1);
-            vela  += S7_Math.DampedSpring (angle, followTarget.angle, vela, spring, damping);
-            velp  += S7_Math.DampedSpring (pitch, followTarget.pitch, velp, spring, damping);
+        LinkContext ctx;
+        UnlinkFromWorld (ctx);
+        SetXYZ (pos + vel);
+        LinkToWorld (ctx);
 
-            SetOrigin (pos + vel, true);
-
-            A_SetAngle (angle + (vela / inertia), true);
-            A_SetPitch (pitch + (velp / inertia), true);
-        }
+        A_SetAngle (angle + (vela / inertia), true);
+        A_SetPitch (pitch + (velp / inertia), true);
     }
 }
