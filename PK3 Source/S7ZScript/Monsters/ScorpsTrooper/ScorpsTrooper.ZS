@@ -43,15 +43,13 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         +MISSILEMORE
     }
 
-    S7_XPSystem xpSys;
-
     override void PostBeginPlay () {
-        SetTag (S7_Utils.GenName_Male_Eng ());
-        if (!xpSys) {
-            GiveInventory ('S7_XPSystem', 1);
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-        }
+        Super.PostBeginPlay ();
 
+        SetTag (S7_Utils.GenName_Male_Eng ());
+    }
+
+    override void InitializeXPSystem () {
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, double (serverData.avgLevel) + random [monsterStats] (-3, 3)));
         int attrPts = xpSys.level * 2;
@@ -76,23 +74,13 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         ammo = random [monsterAmmo] (12, 23);
     }
 
-    override void Tick () {
-        if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-            if (!xpSys) {
-                GiveInventory ('S7_XPSystem', 1);
-                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-            }
-        }
-
+    override void UpdateStats () {
         // Strength
         damageMultiply = 1.0 + (0.02 * xpSys.GetStat (S7Stat_Strength / 2));
         // Defense
         damageFactor = clamp (1.0 - (0.01 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
         // Agility
         speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.05, -default.Speed * .75, default.Speed);
-
-        Super.Tick ();
     }
 
     override void OnDeath (Actor source, Actor inflictor, int dmgflags) {

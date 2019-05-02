@@ -116,7 +116,6 @@ class S7_M400Autogun : S7_PlayerSummon {
         +NOBLOOD
     }
 
-    S7_XPSystem xpSys;
     int ammo;
     int corruption;
     int scanAngle;

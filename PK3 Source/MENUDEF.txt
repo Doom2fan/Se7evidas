@@ -88,7 +88,7 @@ optionMenu "S7Settings_Server" {
     CustomNumberField "Maximum player level",                         "S7_MaxLevel",                   "0", ""
     CustomNumberField "Starting cash amount",                         "S7_InitialCashAmount",          "0", ""
     option "Grenades can teleport",                                   "S7_GrenadeTeleport",            "YesNo"
-    //option "Delayed monster stats",                                   "S7_DelayedMonsterStats",        "DelayedSpawns"
+    option "Delayed monster stats",                                   "S7_DelayedMonsterStats",        "DelayedSpawns"
     option "Delayed monster spawns",                                  "S7_DelayedMonsterSpawns",       "DelayedSpawns"
     option "Delayed item spawns",                                     "S7_DelayedItemSpawns",          "DelayedSpawns"
     CustomNumberField "Delayed spawns: Maximum sound range",          "S7_DelayedSpawnsMaxSoundRange", "0", ""

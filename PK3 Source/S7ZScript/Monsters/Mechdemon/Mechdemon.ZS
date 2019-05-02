@@ -49,15 +49,15 @@ class S7_Mechdemon : S7_DemonBase {
         +MISSILEMORE +MISSILEEVENMORE
     }
 
-    S7_XPSystem xpSys;
     int chargeCooldown;
 
     override void PostBeginPlay () {
-        if (!xpSys) {
-            GiveInventory ('S7_XPSystem', 1);
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-        }
+        Super.PostBeginPlay ();
 
+        chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
+    }
+
+    override void InitializeXPSystem () {
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 3.25) + random [monsterStats] (-2, 2)));
         int attrPts = xpSys.level * 4;
@@ -78,28 +78,15 @@ class S7_Mechdemon : S7_DemonBase {
         // Vitality
         startHealth = int (health * (1.0 + (.065 * xpSys.GetStat (S7Stat_Vitality))));
         health = startHealth;
-
-        // Misc
-        chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
     }
 
-    override void Tick () {
-        if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-            if (!xpSys) {
-                GiveInventory ('S7_XPSystem', 1);
-                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-            }
-        }
-
+    override void UpdateStats () {
         // Strength
         damageMultiply = 1.0 + (0.0265 * xpSys.GetStat (S7Stat_Strength));
         // Defense
         damageFactor = clamp (1.0 - (0.0215 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
         // Agility
         speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.075, -default.Speed * .75, default.Speed);
-
-        Super.Tick ();
     }
 
     override void OnDeath (Actor source, Actor inflictor, int dmgflags) {

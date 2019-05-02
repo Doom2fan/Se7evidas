@@ -52,14 +52,8 @@ class S7_FleshSpawn : S7_MonsterBase {
     }
 
     bool hasProjAttack;
-    S7_XPSystem xpSys;
 
-    override void PostBeginPlay () {
-        if (!xpSys) {
-            GiveInventory ('S7_XPSystem', 1);
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-        }
-
+    override void InitializeXPSystem () {
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, double (serverData.avgLevel) / 2.5));
         int attrPts = xpSys.level * 4;
@@ -86,23 +80,13 @@ class S7_FleshSpawn : S7_MonsterBase {
         health = startHealth;
     }
 
-    override void Tick () {
-        if (!xpSys) {
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-            if (!xpSys) {
-                GiveInventory ('S7_XPSystem', 1);
-                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-            }
-        }
-
+    override void UpdateStats () {
         // Strength
         damageMultiply = 1.0 + (0.025 * xpSys.GetStat (S7Stat_Strength));
         // Defense
         damageFactor = clamp (1.0 - (0.02 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
         // Agility
         speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.075, -default.Speed * .75, default.Speed);
-
-        Super.Tick ();
     }
 
     override void OnDeath (Actor source, Actor inflictor, int dmgflags) {

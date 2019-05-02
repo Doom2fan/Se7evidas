@@ -81,21 +81,7 @@ class S7_Empress : S7_DemonBase {
     Actor deathSource, deathInflictor;
     int deathDMGFlags;
 
-    S7_XPSystem xpSys;
-
-    override void PostBeginPlay () {
-        Super.PostBeginPlay ();
-
-        GiveInventory ('S7_IsEmpress', 1);
-        TakeInventory ('S7_IsDead', 0x7FFFFFFF);
-
-        initialized = true;
-
-        if (!xpSys) {
-            GiveInventory ('S7_XPSystem', 1);
-            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-        }
-
+    override void InitializeXPSystem () {
         let serverData = S7_ServerData.Get ();
         xpSys.level = int (max (1.0, (double (serverData.avgLevel) / 7.5) + fRandom [monsterStats] (-1.5, 2.5)));
         int attrPts = xpSys.level * 4;
@@ -118,7 +104,26 @@ class S7_Empress : S7_DemonBase {
         health = startHealth;
     }
 
+    override void UpdateStats () {
+        // Strength
+        damageMultiply = 1.0 + (0.025 * xpSys.GetStat (S7Stat_Strength));
+        // Defense
+        damageFactor = clamp (1.0 - (0.015 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
+        // Agility
+        speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.1, -default.Speed * .75, default.Speed);
+    }
+
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        GiveInventory ('S7_IsEmpress', 1);
+        TakeInventory ('S7_IsDead', 0x7FFFFFFF);
+    }
+
     override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {
+        if (!setStats)
+            CallInitializeXPSystem ();
+
         bool hitShield = false;
 
         if (shieldUp) {
@@ -173,41 +178,29 @@ class S7_Empress : S7_DemonBase {
     }
 
     override void Tick () {
-        if (initialized) {
-            if (health > InvulnLimit || shieldUp)
-                canCastInvuln = false;
-            else if (invulnDelay >= 0 && !shieldUp) {
-                canCastInvuln = false;
-                invulnDelay--;
-            } else if (health <= InvulnLimit && !shieldUp && invulnDelay < 1)
-                canCastInvuln = true;
-
-            for (int i = ballsList.Size ()-1; i >= 0; i--) {
-                if (ballsList [i] == null)
-                    ballsList.Delete (i, 1);
-            }
-
-            int ballsCount = ballsList.Size ();
-            if (ballsCount < 1 && shieldUp)
-                shieldUp = false;
-            if (ballsCount < 0)
-                ballsCount = 0;
-
-            if (!xpSys) {
-                xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-                if (!xpSys) {
-                    GiveInventory ('S7_XPSystem', 1);
-                    xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
-                }
-            }
-
-            // Strength
-            damageMultiply = 1.0 + (0.025 * xpSys.GetStat (S7Stat_Strength));
-            // Defense
-            damageFactor = clamp (1.0 - (0.015 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
-            // Agility
-            speed = default.Speed + clamp (xpSys.GetStat (S7Stat_Agility) * 0.1, -default.Speed * .75, default.Speed);
+        if (!initialized) {
+            Super.Tick ();
+            return;
         }
+
+        if (health > InvulnLimit || shieldUp)
+            canCastInvuln = false;
+        else if (invulnDelay >= 0 && !shieldUp) {
+            canCastInvuln = false;
+            invulnDelay--;
+        } else if (health <= InvulnLimit && !shieldUp && invulnDelay < 1)
+            canCastInvuln = true;
+
+        for (int i = ballsList.Size ()-1; i >= 0; i--) {
+            if (ballsList [i] == null)
+                ballsList.Delete (i, 1);
+        }
+
+        int ballsCount = ballsList.Size ();
+        if (ballsCount < 1 && shieldUp)
+            shieldUp = false;
+        if (ballsCount < 0)
+            ballsCount = 0;
 
         Super.Tick ();
     }

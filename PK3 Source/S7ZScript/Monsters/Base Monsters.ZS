@@ -42,6 +42,9 @@ class S7_MonsterBase : Actor {
     int monsDeathType;
     Actor grabbedShooter;
 
+    S7_XPSystem xpSys;
+    bool setStats;
+
     override String GetObituary (Actor victim, Actor inflictor, Name mod, bool playerattack) {
         if (inflictor && inflictor.Obituary)
             return inflictor.Obituary;
@@ -56,10 +59,59 @@ class S7_MonsterBase : Actor {
         aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
     }
 
+    protected virtual void InitializeXPSystem () { }
+
+    virtual void UpdateStats () { }
+
+    void CallInitializeXPSystem () {
+        if (!xpSys && !(xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true)))) {
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+        }
+
+        if (!xpSys || setStats)
+            return;
+
+        InitializeXPSystem ();
+        UpdateStats ();
+
+        setStats = true;
+    }
+
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        if (S7_DelayedMonsterStats == DelaySpawns_Off ||
+            (S7_DelayedMonsterStats == DelaySpawns_MapStart && GetLevelSpawnTime () > 1)
+        ) {
+            CallInitializeXPSystem ();
+        }
+    }
+
     override void Tick () {
+        if (!xpSys && !(xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true)))) {
+            GiveInventory ('S7_XPSystem', 1);
+            xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
+        }
+
         Super.Tick ();
 
+        if (!self)
+            return;
+
+        if (target && !setStats)
+            CallInitializeXPSystem ();
+
+        UpdateStats ();
+
         SearchBehavior ();
+    }
+
+    override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {
+        if (!setStats)
+            CallInitializeXPSystem ();
+
+        return Super.DamageMobj (inflictor, source, damage, mod, flags, angle);
     }
 
     override void Die (Actor source, Actor inflictor, int dmgflags) {
