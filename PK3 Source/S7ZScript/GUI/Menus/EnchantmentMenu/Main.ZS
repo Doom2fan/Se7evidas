@@ -308,7 +308,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
             return "0";
 
         int lastChar = ret.Length () - 1;
-        if (ret.CharAt (lastChar) == ".")
+        if (ret.Mid (lastChar, 1) == ".")
             return ret.Left (lastChar);
 
         return ret;

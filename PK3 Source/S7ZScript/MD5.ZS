@@ -62,9 +62,9 @@ class S7_MD5 {
         if (hash.Length () != 32)
             return false;
 
-        hash.ToUpper ();
+        hash = hash.MakeUpper ();
         for (int i = 0; i < hash.Length (); i++) {
-            int c = hash.CharCodeAt (i);
+            int c = hash.ByteAt (i);
 
             if ((c >= 65 && c <= 70) || (c >= 48 && c <= 57)) // Continue if char matches [0-9A-Z]
                 continue;

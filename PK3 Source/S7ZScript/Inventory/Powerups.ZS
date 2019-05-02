@@ -267,7 +267,7 @@ class S7_Invisibility : PowerupGiver {
             }
         }
 
-        if (globalfreeze || level.frozen)
+        if (isFrozen ())
             return;
         
         let act = Spawn ('S7_InvulnerabilityEffect', pos);

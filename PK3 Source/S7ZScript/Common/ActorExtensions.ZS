@@ -96,7 +96,7 @@ class S7_ActorExtensions : Actor {
         let tracer = new ('S7_CanHitPointLineTracer');
         tracer.data = data;
 
-        if (tracer.Trace (p1, Sector.PointInSector (p1.XY), diffVec.Unit (), dist, TRACE_PortalRestrict)) {
+        if (tracer.Trace (p1, Level.PointInSector (p1.XY), diffVec.Unit (), dist, TRACE_PortalRestrict)) {
             tracer.Destroy ();
             return false;
         }
@@ -168,11 +168,11 @@ class S7_ActorExtensions : Actor {
 
             // Check sector portals
             if (checkAbove) {
-                Sector upper = Sector.PointInSector (check.v1.p + check.delta / 2 + sec.GetPortalDisplacement (Sector.Ceiling));
+                Sector upper = Level.PointInSector (check.v1.p + check.delta / 2 + sec.GetPortalDisplacement (Sector.Ceiling));
                 S7_RecurseSectors (upper, sectorList, maxDoors, doorsCount);
             }
             if (checkBelow) {
-                Sector lower = Sector.PointInSector (check.v1.p + check.delta / 2 + sec.GetPortalDisplacement (Sector.Floor));
+                Sector lower = Level.PointInSector (check.v1.p + check.delta / 2 + sec.GetPortalDisplacement (Sector.Floor));
                 S7_RecurseSectors (lower, sectorList, maxDoors, doorsCount);
             }
 

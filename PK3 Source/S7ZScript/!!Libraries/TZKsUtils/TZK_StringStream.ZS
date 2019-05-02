@@ -17,7 +17,7 @@ class S7_TZK_StringStream : S7_TZK_Stream
     override int Read()
     {
         if(EOF()) return -1;
-        int c = m_Data.CharCodeAt(Position()) & 255;
+        int c = m_Data.ByteAt(Position()) & 255;
         Seek(1, SEEK_Current);
         return c;
     }

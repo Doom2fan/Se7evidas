@@ -143,7 +143,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             double yCoords = (13 * i);
             string statName = statNames [i];
             string statText = statNames [i];
-            statText.ToUpper ();
+            statText = statText.MakeUpper ();
             statText = StringTable.Localize ("$STATSMENU_" .. statText, true);
 
             statLabels [i] = new ('S7_ZF_Label').Init ((0, yCoords + 1), (0, SmallFont.GetHeight ()), text: String.Format ("%s:", statText),

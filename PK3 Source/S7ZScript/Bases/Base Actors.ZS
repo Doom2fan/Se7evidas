@@ -348,7 +348,7 @@ class S7_Projectile : FastProjectile {
         let oldPos = pos;
         let oldVel = vel;
 
-        if (!bNoTimeFreeze && (globalfreeze || level.Frozen))
+        if (!bNoTimeFreeze && isFrozen ())
             return;
 
         if (vel != (0, 0, 0) || (pos.Z != floorz)) {

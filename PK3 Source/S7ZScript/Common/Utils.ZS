@@ -35,14 +35,14 @@ struct S7_Utils {
         if (a.Length () + b.Length () + c.Length () + d.Length () != 4)
             return 0;
 
-        return (a.CharCodeAt (0) << 24 | b.CharCodeAt (0) << 16 | c.CharCodeAt (0) << 8 | d.CharCodeAt (0));
+        return (a.ByteAt (0) << 24 | b.ByteAt (0) << 16 | c.ByteAt (0) << 8 | d.ByteAt (0));
     }
 
     static int MakeUIDStr (string val) {
         if (val.Length () != 4)
             return 0;
 
-        return (val.CharCodeAt (0) << 24 | val.CharCodeAt (1) << 16 | val.CharCodeAt (2) << 8 | val.CharCodeAt (3));
+        return (val.ByteAt (0) << 24 | val.ByteAt (1) << 16 | val.ByteAt (2) << 8 | val.ByteAt (3));
     }
 
     static string TrimZeroes (string inputStr) {
@@ -55,13 +55,13 @@ struct S7_Utils {
         bool foundLastNonZero = false;
 
         for (int i = 0; i < inputSize; i++) {
-            if (!foundFirstNonZero && inputStr.CharAt (i) != "0") {
+            if (!foundFirstNonZero && inputStr.Mid (i, 1) != "0") {
                 lastLeadingZero = i;
                 foundFirstNonZero = true;
             }
 
             int j = (inputSize - 1) - i;
-            if (!foundLastNonZero && inputStr.CharAt (j) != "0") {
+            if (!foundLastNonZero && inputStr.Mid (j, 1) != "0") {
                 firstTrailingZero = j + 1;
                 foundLastNonZero = true;
             }

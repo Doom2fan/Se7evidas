@@ -287,7 +287,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
             }
 
             sprite = GetSpriteIndex (curFrame.Left (4));
-            frame = curFrame.CharCodeAt (4) - 65; // 65 == 'A'
+            frame = curFrame.ByteAt (4) - 65; // 65 == 'A'
 
             fuse--;
 

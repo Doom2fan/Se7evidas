@@ -55,7 +55,7 @@ class OptionMenuItemCustomNumberField : OptionMenuFieldBase {
         if (mkey == Menu.MKEY_Enter) {
             Menu.MenuSound ("menu/choose");
 
-            mEnter = TextEnterMenu.Open (Menu.GetCurrentMenu (), GetCVarString (), -1, 2, fromcontroller);
+            mEnter = TextEnterMenu.OpenTextEnter (Menu.GetCurrentMenu (), Menu.OptionFont (), GetCVarString (), -1, fromcontroller);
             mEnter.ActivateMenu ();
         } if (mkey == Menu.MKEY_Input) {
             double value = mCVar.GetFloat ();
