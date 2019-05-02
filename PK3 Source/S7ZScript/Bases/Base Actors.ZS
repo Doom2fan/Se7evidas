@@ -277,6 +277,7 @@ class S7_Projectile : FastProjectile {
             act.SetXYZ ((finalPos.XY, hitz));
             act.LinkToWorld (ctx);
             act.FindFloorCeiling (FFCF_OnlySpawnPos);
+            act.ClearInterpolation ();
 
             if (act != null) {
                 if (bGetOwner && target != null)
