@@ -347,11 +347,15 @@ class S7_Thumper : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        THPR E 8 {
+        THPR E 1 {
             A_PlaySound ("Weapons/Thumper/ShellIn", CHAN_6);
             invoker.magazine.Insert (0, invoker.selectedPool);
             TakeInventory (S7_Thumper.PoolNames [invoker.selectedPool], 1);
+            A_WeaponOffset (-6.5, 29);
         }
+        THPR E 2 A_WeaponOffset (-10, 27);
+        THPR E 2 A_WeaponOffset (- 4, 29, WOF_Interpolate);
+        THPR E 3 A_WeaponOffset (  0, 32, WOF_Interpolate);
         TNT1 A 0 A_JumpIf (!invoker.chambered, "InsertShells.Pump");
         loop;
     InsertShells.Pump:

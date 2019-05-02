@@ -249,13 +249,23 @@ class S7_TEC9 : S7_BaseWeapon {
             return ResolveState ("ReloadFinish");
         }
     ReloadFinish:
-        TNT1 A         0 A_PlaySound ("Weapons/TEC-9/Out", CHAN_6);
-        TECR ABCDEEEEE 1;
-        TECR FGH       2;
-        TNT1 A         0 A_PlaySound ("Weapons/TEC-9/In", CHAN_7);
-        TECR IJKLMNO   2;
-        TNT1 A         0 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
-        TECR PQRRRSTU  2;
+        TNT1 A    0 A_PlaySound ("Weapons/TEC-9/Out", CHAN_6);
+        TECR ABCD 1;
+        TECR E    5;
+        TECR FGH  2;
+        TNT1 A    0 A_PlaySound ("Weapons/TEC-9/In", CHAN_7);
+        TECR I    2 { invoker.spriteOffsets = (0, -6, 0); }
+        TECR J    2;
+        TECR K    2 { invoker.spriteOffsets = (0, -3, 0); }
+        TECR L    2 { invoker.spriteOffsets = (0,  0, 0); }
+        TECR MNO  2;
+        TECR P    2 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
+        TECR Q    2 { invoker.spriteOffsets = (0, -8, 0); }
+        TECR R    2 { invoker.spriteOffsets = (0, -6, 0); }
+        TECR R    4 { invoker.spriteOffsets = (0, -3, 0); }
+        TECR S    2 { invoker.spriteOffsets = (0, -6, 0); }
+        TECR T    2 { invoker.spriteOffsets = (0, -3, 0); }
+        TECR U    2 { invoker.spriteOffsets = (0,  0, 0); }
         goto Ready2;
 
     // Muzzle flashes

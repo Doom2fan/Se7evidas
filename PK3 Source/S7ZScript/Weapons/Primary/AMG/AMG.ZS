@@ -57,8 +57,23 @@ class S7_AMG : S7_BaseWeapon {
     bool   zoomed;
     double zoomLevel;
 
+    bool selecting;
+
+    override Vector2 DoSelectOffset_InitialOffset () { return (2.5, 6); }
+
     override void DoEffect () {
         Super.DoEffect ();
+
+        if (Owner.player.ReadyWeapon == self) {
+            let psp = Owner.player.FindPSprite (PSP_Weapon);
+
+            if (psp && psp.sprite == GetSpriteIndex ('SCP1')) {
+                Owner.A_WeaponOffset (0, 32);
+            } else if (!selecting) {
+                let offs = DoSelectOffset_InitialOffset ();
+                Owner.A_WeaponOffset (offs.X, 32 + offs.Y);
+            }
+        }
 
         fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
     }
@@ -76,6 +91,7 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 A 0 {
             invoker.burstCount = 0;
             invoker.zoomed = false;
+            invoker.selecting = true;
         }
         AMGG A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
         AMGG A 1 DoSelectOffset ((56, 56));
@@ -83,6 +99,7 @@ class S7_AMG : S7_BaseWeapon {
         AMGG A 1 DoSelectOffset ((24, 24));
         AMGG A 1 DoSelectOffset (( 8,  8));
         AMGG A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 0 { invoker.selecting = false; }
     Ready2:
         AMGG A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
         goto Ready2.DoStuff;
@@ -105,6 +122,7 @@ class S7_AMG : S7_BaseWeapon {
 
     Deselect:
         AMGG A 0 {
+            invoker.selecting = true;
             A_SetCrosshair (0);
             invoker.burstCount = 0;
 
@@ -231,9 +249,9 @@ class S7_AMG : S7_BaseWeapon {
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 0.5));
-            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
-            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 2.5, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 1));
+            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 9, 12));
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 3, 8), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (!invoker.burstFire)
                 S7_Recoil (-0.8);

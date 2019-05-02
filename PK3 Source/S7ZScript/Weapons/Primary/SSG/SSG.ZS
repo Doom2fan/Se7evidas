@@ -320,8 +320,8 @@ class S7_SSG : S7_BaseWeapon {
             invoker.leftLoaded = true;
             TakeInventory (invoker.ammoType2, 1);
         }
-        SSG3 LM        1;
-        SSG1 DEFGHI    1;
+        SSG3 LMN       1;
+        SSG1 EFGHI     1;
         goto ReloadEnd;
 
     LoadRight:

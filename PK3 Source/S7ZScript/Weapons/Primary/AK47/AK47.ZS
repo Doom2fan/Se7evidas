@@ -195,16 +195,33 @@ class S7_AK47 : S7_BaseWeapon {
             return ResolveState ("ReloadFinish");
         }
     ReloadFinish:
-        AK47 ADEF  2;
-        AK47 GHI   1;
-        AK47 J     3;
-        AK47 K     1 A_PlaySound ("Weapons/AK47/Out", CHAN_6);
-        AK47 LM    1;
-        AK47 N    15;
-        AK47 O     1 A_PlaySound ("Weapons/AK47/In", CHAN_7);
-        AK47 PQRS  1;
-        AK47 J     4;
-        AK47 TUVWA 1;
+        AK47 A   1 A_WeaponOffset (0  , 32);
+        AK47 A   1 A_WeaponOffset (1.5, 33);
+        AK47 D   1 A_WeaponOffset (3  , 34);
+        AK47 D   1 A_WeaponOffset (4.5, 35);
+        AK47 E   1 A_WeaponOffset (6  , 36);
+        AK47 EFF 1;
+        AK47 GHI 1;
+        AK47 J   2;
+        AK47 J   1 A_WeaponOffset (6 + -2, 36 + 2);
+        AK47 K   1 {
+            A_WeaponOffset (6 + -3, 36 + 4);
+            A_PlaySound ("Weapons/AK47/Out", CHAN_6);
+        }
+        AK47 L   1 A_WeaponOffset (6 + -1, 36 + 1);
+        AK47 M   1 A_WeaponOffset (6     , 36    );
+        AK47 N  15;
+        AK47 O   1 A_PlaySound ("Weapons/AK47/In", CHAN_7);
+        AK47 PQ  1;
+        AK47 R   1 A_WeaponOffset (6 + 1, 36 + -2);
+        AK47 S   1 A_WeaponOffset (6 + 3, 36 + -4);
+        AK47 J   1 A_WeaponOffset (6 + 2, 36 + -1);
+        AK47 J   3 A_WeaponOffset (6    , 36     );
+        AK47 T   1 A_WeaponOffset (6  , 36);
+        AK47 U   1 A_WeaponOffset (4.5, 35);
+        AK47 V   1 A_WeaponOffset (3  , 34);
+        AK47 W   1 A_WeaponOffset (1.5, 33);
+        AK47 A   1 A_WeaponOffset (0  , 32);
 
         TNT1 A 0 A_JumpIf (invoker.reloadChamber, "ReloadFinish.Chamber");
         goto Reload.End;
