@@ -126,7 +126,6 @@ class S7_ThumperGrenade_Shockwave : S7_EffectsBase {
         TNT1 A 0 noDelay {
             effectScale = scale.X;
             scale.X = 12 * effectScale;
-            Console.Printf ("%f", scale.X);
         }
 
         SHCK AAAAA 1 bright { scale.X += 12 * effectScale; }
