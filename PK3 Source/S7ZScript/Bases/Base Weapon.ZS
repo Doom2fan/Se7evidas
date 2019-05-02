@@ -488,17 +488,20 @@ class S7_BaseWeapon : Weapon {
     }
 
     enum S7_A_FireBullets_Flags {
-        S7_FB_SpeedOffs = 1 << 0,
-        S7_FB_UseAmmo   = 1 << 1,
+        S7_FB_SpeedOffs     = 1 << 0,
+        S7_FB_UseAmmo       = 1 << 1,
+        S7_FB_AbsoluteAngle = 1 << 2,
+        S7_FB_AbsolutePitch = 1 << 3,
     }
 
-    action Actor, S7_TZK_ArrayObj S7_A_SpawnSFX (class<Actor> sfxType, Vector3 offs = (0, 0, 0), int amount = 1, int flags = 0) {
+    action Actor, S7_TZK_ArrayObj S7_A_SpawnSFX (class<Actor> sfxType, Vector3 offs = (0, 0, 0), double angleOffs = 0, double pitchOffs = 0, int amount = 1, int flags = 0) {
         return S7_A_FireBullets (sfxType, offs: offs, amount: amount, flags: flags | S7_FB_SpeedOffs);
     }
 
     action Actor, S7_TZK_ArrayObj S7_A_FireBullets (
         class<Actor> projType,
         Vector2 spread = (0, 0), Vector3 offs = (0, 0, 0),
+        double angleOffs = 0, double pitchOffs = 0,
         int amount = 1,
         double bonusDMGFactor = 0.,
         int flags = 0
@@ -539,6 +542,9 @@ class S7_BaseWeapon : Weapon {
         let arr = new ('S7_TZK_ArrayObj');
         arr.Clear ();
 
+        double projAngle = ((flags & S7_FB_AbsoluteAngle) ? angleOffs : angle + angleOffs);
+        double projPitch = ((flags & S7_FB_AbsolutePitch) ? pitchOffs : pitch + pitchOffs);
+
         for (int i = 0; i < amount; i++) {
             let proj = Spawn (projType, origin, ALLOW_REPLACE);
 
@@ -548,8 +554,8 @@ class S7_BaseWeapon : Weapon {
                 vertical = (0, 0, 1);*/
 
                 let qRot = S7_GM_Quaternion.CreateFromAngles (
-                    angle          + fRandom [weaponSpread] (-spread.X, spread.X),
-                    BulletSlope () + fRandom [weaponSpread] (-spread.Y, spread.Y),
+                    projAngle + fRandom [weaponSpread] (-spread.X, spread.X),
+                    projPitch + fRandom [weaponSpread] (-spread.Y, spread.Y),
                     roll
                 );
 
