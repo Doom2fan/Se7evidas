@@ -21,6 +21,19 @@ model S7_MultiJump_Marker {
     frameIndex MJMP A 0 0
 }
 
+model S7_ThumperGrenade_Shockwave {
+    path "models/FlatModel"
+    model 0 "FlatFloor.md3" // Model by ??? (Revilution/Zanieon?)
+    skin 0 "Circle.png"
+    model 1 "FlatCeil.md3"
+    skin 1 "Circle.png"
+    scale 1.0 1.0 1.0
+
+    useActorPitch
+
+    frameIndex SHCK A 0 0
+}
+
 /*model S7_SoulLance_Beam {
     path "models/Beam"
     model 0 "1mubeam.md3" // Model by kodi

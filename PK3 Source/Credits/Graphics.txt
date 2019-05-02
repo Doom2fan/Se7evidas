@@ -79,3 +79,8 @@ sprites/
 
     RequiredD2Sprites/
         I think the credits for these is kinda obvious :P (If you somehow don't know, these sprites are by Id Software)
+
+models/
+    FlatModel/
+        MultiJumpMarker.png: By Chronos "phantombeta" Ouroboros
+        Circle.png: By Kenney from OpenGameArt.org. Licensed CC0. Black background removed by Chronos "phantombeta" Ouroboros

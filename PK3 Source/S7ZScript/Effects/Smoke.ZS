@@ -268,3 +268,66 @@ class S7_FireballSmoke : S7_HeatSmoke {
         goto Idle;
     }
 }
+
+/** Smoke 3 **/
+/*
+* Code by Chronos "phantombeta" Ouroboros
+* Sprites by Kenney from OpenGameArt.org, licensed as CC0.
+*/
+class S7_Smoke3 : S7_WhiteSmoke {
+    default {
+        RenderStyle "Translucent";
+
+        Alpha 0.;
+        Scale 0;
+    }
+
+    int chosenFrame;
+
+    double targetAlpha;
+    int stayTime; // Time to stay between fade in and out
+    int fadeInTime; // Time it takes to fade in
+    int fadeOutTime; // Time it takes to fade out
+
+    double fadeInInc; // Amount to increment alpha by during fade in
+    double fadeOutDec; // Amount to decrement alpha by during fade out
+    double totalTime; // Total time the particle stays alive for
+    int particleTime; // Particle's current lifetime
+
+    override void PostBeginPlay () {
+        chosenFrame = random [sfx] (0, 24);
+
+        if (fadeInTime > 0)
+            fadeInInc = targetAlpha / double (fadeInTime);
+        if (fadeOutTime > 0)
+            fadeOutDec = targetAlpha / double (fadeOutTime);
+        totalTime = (fadeInTime + stayTime + fadeOutTime);
+    }
+
+    override void Tick () {
+        frame = chosenFrame;
+
+        if (isFrozen ())
+            return;
+
+        if (!((vel dot vel) ~== 0))
+            SetOrigin (pos + vel, true);
+
+        if (particleTime >= totalTime) {
+            Destroy ();
+            return;
+        } else if (particleTime < fadeInTime)
+            alpha = clamp (particleTime * fadeInInc, 0., targetAlpha);
+        else if (particleTime >= fadeInTime && particleTime <= (fadeInTime + stayTime))
+            alpha = targetAlpha;
+        else if (particleTime > (fadeInTime + stayTime))
+            alpha = clamp (targetAlpha - ((particleTime - (fadeInTime + stayTime)) * fadeOutDec), 0., targetAlpha);
+
+        particleTime++;
+    }
+
+    states {
+    Spawn:
+        SMK3 A 1;
+    }
+}

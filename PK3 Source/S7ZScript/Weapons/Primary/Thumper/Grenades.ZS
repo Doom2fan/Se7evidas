@@ -55,30 +55,77 @@ class S7_ThumperGrenade : S7_Projectile {
         }
         stop;
     Loople:
-        TNT1 A 15 {
-            A_SetScale (0.5);
-            A_PlaySound ("Explosions/Explosion1");
+        TNT1 A 0 {
+            A_SetScale (1.);
+            A_PlaySound ("Explosions/Explosion1", attenuation: 0.5);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 192, fulldamagedistance: 64);
-
-            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
+        goto Explosion;
+
+    Explosion:
+        TNT1 A 0 {
+            A_SetRenderstyle (1.0, STYLE_Add);
+            bForceXYBillboard = true;
+            for (int i = random [sfx] (2, 4); i > 0; i--) {
+                let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-15, 15), fRandom [sfx] (-15, 15), 0)));
+
+                act.scale = (0.25, 0.25);
+                act.vel = (
+                    fRandom [sfx] (-.15, .15),
+                    fRandom [sfx] (.1, .5) * fRandomPick [sfx] (-1, 1),
+                    fRandom [sfx] (-.5, .5)
+                );
+                act.fadeInTime = 0;
+                act.stayTime = 15;
+                act.fadeOutTime = 10;
+                act.targetAlpha = .5;
+            }
+
+            let prevInterp = Prev;
+            SetOrigin (pos, false);
+            Prev = prevInterp;
+
+            {
+                let vert = Spawn ("S7_ThumperGrenade_Shockwave", pos);
+                vert.angle = angle;
+                vert.pitch = 90;
+            }
+
+            for (int i = 0; i < 3; i++) {
+                let act = Spawn ("S7_ThumperGrenade_Shockwave", pos);
+                act.angle = fRandom [sfx] (-90, 90);
+                act.pitch = 45 + fRandom [sfx] (0, 45);
+            }
+        }
+        XPL1 A    3 bright;
+        XPL1 BCDE 2 bright;
         stop;
     }
 }
-class S7_ThumperExplosion : Actor {
+
+class S7_ThumperGrenade_Shockwave : S7_EffectsBase {
     default {
         Radius 10;
         Height 10;
+
+        RenderStyle "AddStencil";
+        StencilColor "CB5707";
+        Alpha .5;
+        XScale 12;
 
         +NOGRAVITY +FORCEXYBILLBOARD +NOINTERACTION +NOBLOCKMAP
     }
 
     states {
     Spawn:
-        XPL1 ABCDE 3 bright;
-        stop;
+        SHCK AAAAA 1 bright { scale.X += 12; }
+        SHCK A 1 bright {
+            scale.X += 12;
+            A_FadeOut (0.2);
+        }
+        wait;
     }
 }
 
@@ -90,9 +137,9 @@ class S7_ThumperExplosion : Actor {
 class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
     states {
     Loople:
-        TNT1 A  15 {
-            A_SetScale (0.39);
-            A_PlaySound ("Explosions/Explosion1");
+        TNT1 A 0 {
+            A_SetScale (.85);
+            A_PlaySound ("Explosions/Explosion1", attenuation: 0.5);
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
                 self, random [weaponSpc] (100, 150),
@@ -105,10 +152,8 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 192, fulldamagedistance: 64);
-
-            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
         }
-        stop;
+        goto Explosion;
     }
 }
 
@@ -124,9 +169,8 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
 
     states {
     Loople:
-        TNT1 A 15 {
-            A_SetScale (0.1875);
-            A_PlaySound ("Explosions/Explosion1");
+        TNT1 A 0 {
+            A_PlaySound ("Explosions/Explosion1", attenuation: 0.5);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (96. * (1. + invoker.bonusDMGFactor)), 144, fulldamagedistance: 48);
@@ -162,11 +206,11 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
                 let fire = S7_Projectile (act);
                 if (success && fire)
                     fire.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
-            }
 
-            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+                A_SetScale (0.6);
+            }
         }
-        stop;
+        goto Explosion;
     }
 }
 
@@ -325,8 +369,8 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
 
     states {
     Loople:
-        TNT1 A 15 {
-            A_PlaySound ("Explosions/Explosion1");
+        TNT1 A 0 {
+            A_PlaySound ("Explosions/Explosion1", attenuation: 0.5);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (64. * (1. + invoker.bonusDMGFactor)), 96, fulldamagedistance: 32);
@@ -362,10 +406,9 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
                     bomb.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
             }
 
-            A_SetScale (0.1875);
-            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SetScale (0.6);
         }
-        stop;
+        goto Explosion;
     }
 }
 
@@ -426,8 +469,8 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
 
     states {
     Loople:
-        TNT1 A 15 {
-            A_PlaySound ("Explosions/Explosion1");
+        TNT1 A 0 {
+            A_PlaySound ("Explosions/Explosion1", attenuation: 0.5);
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (64. * (1. + invoker.bonusDMGFactor)), 96, fulldamagedistance: 32);
 
@@ -462,10 +505,9 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
                     nail.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
             }
 
-            A_SetScale (0.3125);
-            A_SpawnItemEx ('S7_ThumperExplosion', 0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0, SXF_NoCheckPosition | SXF_TransferScale);
+            A_SetScale (0.8);
         }
-        stop;
+        goto Explosion;
     }
 }
 
