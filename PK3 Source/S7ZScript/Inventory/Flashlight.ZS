@@ -296,6 +296,7 @@ class S7_Flashlight_Spotlight : DynamicLight {
         UnlinkFromWorld (ctx);
         SetXYZ (pos + vel);
         LinkToWorld (ctx);
+        FindFloorCeiling (FFCF_OnlySpawnPos);
 
         A_SetAngle (angle + (vela / inertia), true);
         A_SetPitch (pitch + (velp / inertia), true);
