@@ -222,7 +222,7 @@ extend class S7_MonsterBase {
                     if (success && dist <= sweepClosestDist) {
                         sweepClosestDirs.Push (tDir);
                         sweepClosestDist = dist;
-                    } else if (success)
+                    } else
                         sweepIgnoredDirs.Push (tDir);
                 }
             }
@@ -421,16 +421,42 @@ extend class S7_MonsterBase {
         double tryMoveOldAngle = angle;
 
         tryOK = true;
+        let prevPrev = Prev;
+        let prevPos = pos;
+        bool savedDropOff = bDropOff;
+        double oldFloorZ = GetZAt (pos.X, pos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
         for (int i = 1; i <= stepCount; i++) {
             let ptry = startPos + tryMoveVec * i / stepCount;
 
             // killough 3/15/98: don't jump over dropoffs
-            if (!checkOnly)
-                tryOK = TryMove (ptry, dropoff, NULL, tm);
-            else
+            bDropOff = false;
+            if (!checkOnly) {
+                prevPos = pos;
+                Prev = prevPrev;
+                tryOK = TryMove (ptry, true, NULL, tm);
+            } else {
+                prevPos = (startPos + tryMoveVec * (i - 1) / stepCount, pos.Z);
                 tryOK = CheckMove (ptry, 0, tm: tm);
+            }
+            bDropOff = savedDropOff;
+
+            double newFloorZ = GetZAt (ptry.X, ptry.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+
+            if (!bDropOff &&abs (newFloorZ - oldFloorZ) > MaxStepHeight) {
+                tryOK = false;
+                if (!checkOnly) {
+                    SetOrigin (prevPos, true);
+
+                    if (!NoMonsterInterpolation)
+                        Prev = prevPrev;
+                    else
+                        Prev = prevPos;
+                }
+            }
+
             if (!tryOK) break;
 
+            oldFloorZ = newFloorZ;
             possibleNewPos = pTry;
 
             // Handle portal transitions just like P_XYMovement.
