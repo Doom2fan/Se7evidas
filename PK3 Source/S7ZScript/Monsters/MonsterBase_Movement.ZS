@@ -201,8 +201,9 @@ extend class S7_MonsterBase {
 
         if (hasTarget) {
             int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
-            for (int i = 1; i <= S7_MOVEDIR_MAXDIR * 2; i++) {
-                int tDir = movementDir + (((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
+            for (int i = 1; i <= S7_MOVEDIR_MAXDIR; i++) {
+                int tDir = movementDir + ((i >> 1) * sweepSwap);
+                sweepSwap = -sweepSwap;
 
                 if (tDir > S7_MOVEDIR_MAXDIR)
                     tDir = tDir - S7_MOVEDIR_MAXDIR;
