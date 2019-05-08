@@ -28,7 +28,7 @@ extend class S7_MonsterBase {
     const S7_MOVEDIR_SOUTH = int (floor (S7_MOVEDIR_MAXDIR * .75));
     // MUST BE A POWER OF TWO
     // IF YOU CHANGE THIS TO ANYTHING HIGHER THAN 32,
-    // REVERT COMMIT ("Optimized S7_DoNewChaseDir's attempts array into an int.")
+    // REVERT COMMIT 66f70402 ("Optimized S7_DoNewChaseDir's attempts array into an int.")
     const S7_MOVEDIR_MAXDIR = 32 - 1;
     const S7_MOVEDIR_NODIR = S7_MOVEDIR_MAXDIR + 1;
     const S7_MOVEDIR_COUNT = S7_MOVEDIR_MAXDIR + 2;
