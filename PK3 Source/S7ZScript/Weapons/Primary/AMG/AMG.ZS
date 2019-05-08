@@ -58,8 +58,9 @@ class S7_AMG : S7_BaseWeapon {
     double zoomLevel;
 
     bool selecting;
+    bool whichFlash;
 
-    override Vector2 DoSelectOffset_InitialOffset () { return (2.5, 6); }
+    override Vector2 DoSelectOffset_InitialOffset () { return (8, 6); }
 
     override void DoEffect () {
         Super.DoEffect ();
@@ -249,9 +250,9 @@ class S7_AMG : S7_BaseWeapon {
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 1));
-            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 9, 12));
-            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 3, 8), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 1));
+            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 10.5, 12));
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 5, 8), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (!invoker.burstFire)
                 S7_Recoil (-0.8);
@@ -343,7 +344,14 @@ class S7_AMG : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        AMGF AB 1 bright;
+        AMGF A 1 bright {
+            let psp = player.FindPSprite (PSP_Flash);
+
+            if (psp)
+                psp.frame = (invoker.whichFlash ? 1 : 0);
+
+            invoker.whichFlash = !invoker.whichFlash;
+        }
         stop;
     Flash.Burst:
         AMGF A 1 bright {
@@ -354,7 +362,7 @@ class S7_AMG : S7_BaseWeapon {
         }
         stop;
     Flash.Zoom:
-        TNT1 A 2 bright;
+        TNT1 A 1 bright;
         stop;
 
     DryFire.Burst:
