@@ -102,9 +102,6 @@ extend class S7_MonsterBase {
         /*
         ** Quirks: Doesn't support the NightmareFast Gameinfo flag.
         */
-        if (!doNewChaseDir_DoAll && !doNewChaseDir_NoOdds && !doNewChaseDir_NoEvens)
-            doNewChaseDir_DoAll = true;
-
         if (bInConversation)
             return;
 

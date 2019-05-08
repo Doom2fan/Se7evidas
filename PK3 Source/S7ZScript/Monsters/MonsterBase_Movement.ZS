@@ -26,7 +26,10 @@ extend class S7_MonsterBase {
     const S7_MOVEDIR_WEST = S7_MOVEDIR_MAXDIR / 2;
     const S7_MOVEDIR_NORTH = S7_MOVEDIR_MAXDIR / 4;
     const S7_MOVEDIR_SOUTH = int (floor (S7_MOVEDIR_MAXDIR * .75));
-    const S7_MOVEDIR_MAXDIR = 32 - 1; // MUST BE A POWER OF TWO
+    // MUST BE A POWER OF TWO
+    // IF YOU CHANGE THIS TO ANYTHING HIGHER THAN 32,
+    // REVERT COMMIT ("Optimized S7_DoNewChaseDir's attempts array into an int.")
+    const S7_MOVEDIR_MAXDIR = 32 - 1;
     const S7_MOVEDIR_NODIR = S7_MOVEDIR_MAXDIR + 1;
     const S7_MOVEDIR_COUNT = S7_MOVEDIR_MAXDIR + 2;
     const S7_MOVEDIR_INTERVAL = 360. / (S7_MOVEDIR_MAXDIR + 1);
@@ -126,26 +129,18 @@ extend class S7_MonsterBase {
         movementDir = S7_MOVEDIR_NODIR;
     }
 
-    bool doNewChaseDir_DoAll;
-    bool doNewChaseDir_NoOdds;
-    bool doNewChaseDir_NoEvens;
+    bool doNewChaseDir_WhatToIgnore;
     void S7_DoNewChaseDir (double deltaX, double deltaY, Actor targ = null) {
         int d [2];
         int oldDir, turnaround = S7_MOVEDIR_NODIR;
-        bool attempts [S7_MOVEDIR_COUNT - 1]; // We don't need to attempt S7_MOVEDIR_NODIR.
-
-        for (int i = 0; i < S7_MOVEDIR_COUNT - 1; i++) {
-            attempts [i] = (
-                ( (i & 1) & doNewChaseDir_NoOdds) |
-                (!(i & 1) & doNewChaseDir_NoEvens)
-            );
-        }
+        uint attempts = 0; // We don't need to attempt S7_MOVEDIR_NODIR.
+        if (doNewChaseDir_WhatToIgnore == 1)
+            attempts = 0x55555555; // Only odd bits
+        else if (doNewChaseDir_WhatToIgnore == 2)
+            attempts = 0xAAAAAAAA; // Only even bits
         oldDir = movementDir;
 
-        bool noEvensValue = doNewChaseDir_NoEvens;
-        doNewChaseDir_NoEvens = doNewChaseDir_NoOdds;
-        doNewChaseDir_NoOdds = doNewChaseDir_DoAll;
-        doNewChaseDir_DoAll = noEvensValue;
+        doNewChaseDir_WhatToIgnore = ((doNewChaseDir_WhatToIgnore+1) & 3);
 
         if (movementDir != S7_MOVEDIR_NODIR)
             turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
@@ -170,7 +165,7 @@ extend class S7_MonsterBase {
             movementDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
 
             if (movementDir != turnaround) {
-                attempts [movementDir] = true;
+                attempts |= (1 << movementDir);
                 if (S7_TryWalk ())
                     return;
             }
@@ -179,9 +174,9 @@ extend class S7_MonsterBase {
         // Try other directions
         if (!bAvoidingDropoff) {
             // There is no direct path to the enemy, so pick another direction.
-            if (oldDir != S7_MOVEDIR_NODIR && attempts [oldDir] == false) {
+            if (oldDir != S7_MOVEDIR_NODIR && !(attempts & (1 << oldDir))) {
                 movementDir = (oldDir & S7_MOVEDIR_MAXDIR);
-                attempts [oldDir] = true;
+                attempts |= (1 << oldDir);
                 if (S7_TryWalk ())
                     return;
             }
@@ -224,7 +219,7 @@ extend class S7_MonsterBase {
                 if (tDir < 0)
                     tDir = S7_MOVEDIR_MAXDIR + tDir;
 
-                if (tDir != turnaround && attempts [tDir] == false) {
+                if (tDir != turnaround && !(attempts & (1 << tDir))) {
                     bool success; Vector2 newPos;
 
                     movementDir = (tDir & S7_MOVEDIR_MAXDIR);
@@ -246,7 +241,7 @@ extend class S7_MonsterBase {
             for (int i = sweepClosestDirs.Size () - 1; i >= 0; i--) {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepClosestDirs [i];
-                attempts [movementDir] = true;
+                attempts |= (1 << movementDir);
                 if (S7_TryWalk ())
                     return;
             }
@@ -257,14 +252,14 @@ extend class S7_MonsterBase {
             for (int i = 0; i < sweepIgnoredDirs.Size (); i++) {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepIgnoredDirs [i];
-                attempts [movementDir] = true;
+                attempts |= (1 << movementDir);
                 if (S7_TryWalk ())
                     return;
             }
         }
 
         // If all else fails, try to turn around.
-        if (turnaround != S7_MOVEDIR_NODIR && attempts [turnaround] == false) {
+        if (turnaround != S7_MOVEDIR_NODIR && !(attempts & (1 << turnaround))) {
             movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
             if (S7_TryWalk ())
                 return;
