@@ -126,14 +126,26 @@ extend class S7_MonsterBase {
         movementDir = S7_MOVEDIR_NODIR;
     }
 
+    bool doNewChaseDir_DoAll;
+    bool doNewChaseDir_NoOdds;
+    bool doNewChaseDir_NoEvens;
     void S7_DoNewChaseDir (double deltaX, double deltaY, Actor targ = null) {
         int d [2];
         int oldDir, turnaround = S7_MOVEDIR_NODIR;
         bool attempts [S7_MOVEDIR_COUNT - 1]; // We don't need to attempt S7_MOVEDIR_NODIR.
 
-        for (int i = 0; i < S7_MOVEDIR_COUNT - 1; i++)
-            attempts [i] = false;
+        for (int i = 0; i < S7_MOVEDIR_COUNT - 1; i++) {
+            attempts [i] = (
+                ( (i & 1) & doNewChaseDir_NoOdds) |
+                (!(i & 1) & doNewChaseDir_NoEvens)
+            );
+        }
         oldDir = movementDir;
+
+        bool noEvensValue = doNewChaseDir_NoEvens;
+        doNewChaseDir_NoEvens = doNewChaseDir_NoOdds;
+        doNewChaseDir_NoOdds = doNewChaseDir_DoAll;
+        doNewChaseDir_DoAll = noEvensValue;
 
         if (movementDir != S7_MOVEDIR_NODIR)
             turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
