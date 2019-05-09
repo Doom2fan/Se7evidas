@@ -233,7 +233,7 @@ class S7_9mmCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS1 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS1 HABCDEFG 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -307,7 +307,7 @@ class S7_RifleCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS3 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS3 HABCDEFG 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
@@ -340,7 +340,7 @@ class S7_45WWCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS5 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS5 HABCDEFG 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
         loop;
     }
 }
