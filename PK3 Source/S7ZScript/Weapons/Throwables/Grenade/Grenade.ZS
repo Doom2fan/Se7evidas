@@ -189,8 +189,6 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         PushFactor 3;
         BounceType "Hexen";
         BounceSound "Weapons/Grenade/Bounce";
-        /*WallBounceFactor 0.25;
-        BounceFactor 0.1;*/
         Scale 0.3;
 
         +CANBOUNCEWATER +USEBOUNCESTATE   +BOUNCEONACTORS +NOBLOOD
@@ -204,6 +202,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         GS_Exploded = -1,
     }
 
+    Vector3 prevVel;
     GrenadeState grenState;
     Vector3 oldVel;
     int fuse;
@@ -214,6 +213,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         Super.BeginPlay ();
 
         fuse = FuseTime;
+        SetState (GS_Moving);
     }
 
     override void PostBeginPlay () {
@@ -224,6 +224,11 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         A_ChangeVelocity (cos (pitch) * throwForce, 0, -sin (pitch) * throwForce, CVF_Relative);
 
         SetState (GS_Moving);
+    }
+
+    override void Tick () {
+        prevVel = vel;
+        Super.Tick ();
     }
 
     protected void SetState (GrenadeState newState) {
@@ -256,6 +261,13 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
     static const string [] GrenSprites = {
         "TGRPA", "TGRPB", "TGRPC", "TGRPD", "TGRPE", "TGRPF", "TGRPG", "TGRPH"
     };
+
+    action void S7_HandleBounce (Vector3 prevVel, Vector3 surfaceNormal) {
+        if (surfaceNormal dot prevVel.Unit () > 0)
+            surfaceNormal = -surfaceNormal;
+
+        vel = (prevVel - 2 * surfaceNormal * (prevVel dot surfaceNormal)) * .75;
+    }
 
     states {
     Spawn:
@@ -298,9 +310,36 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         }
         goto Spawn;
 
+    Bounce.Ceiling:
+        #### # 0 {
+            if (!BlockingCeiling)
+                return;
+
+            S7_HandleBounce (prevVel, BlockingCeiling.ceilingPlane.Normal.Unit ());
+            bHitOwner = true;
+        }
+        goto Flight;
+    Bounce.Wall:
+        #### # 0 {
+            if (!BlockingLine)
+                return;
+
+            let wallNormal = (AngleToVector (VectorAngle (BlockingLine.delta.X, BlockingLine.delta.Y) - 90., 1.), 0).Unit ();
+            S7_HandleBounce (prevVel, wallNormal);
+            bHitOwner = true;
+        }
+        goto Flight;
     Bounce.Floor:
         #### # 0 {
             vel.Z = 0;
+            bHitOwner = true;
+        }
+        goto Flight;
+    Bounce.Actor:
+        #### # 0 {
+            vel = (vel * .035);
+            vel.Z = -abs (vel.Z);
+            bHitOwner = true;
         }
         goto Flight;
     Death:
