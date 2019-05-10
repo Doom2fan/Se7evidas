@@ -388,4 +388,22 @@ class S7_ActorExtensions : Actor {
 
         return false;
     }
+
+    /** Converts player movement input to a far better format **/
+    static Vector2 ConvertPlayerMovementInput (int forwardMove, int sideMove) {
+        Vector2 ret;
+
+        ret.X = (
+            (forwardMove > 6400.) ?
+            (forwardMove - 6400.) / 6400. :
+             forwardMove          / 6400.
+        );
+        ret.Y = (
+            (sideMove > 6144.) ?
+            (sideMove - 6144.) / 4096. :
+             sideMove          / 6144.
+        );
+
+        return ret;
+    }
 }

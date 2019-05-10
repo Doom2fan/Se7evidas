@@ -99,10 +99,9 @@ extend class S7_BasePlayer {
                     !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
                     !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !playerData.lGrabGrabbed
                 ) {
-                    double forwardMove = Clamp (player.cmd.forwardmove / 12800, -1.0, 1.0);
-                    double sideMove = Clamp (player.cmd.sidemove / 10240, -1.0, 1.0);
+                    Vector2 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
-                    if (forwardMove != 0 || sideMove != 0) { // If the player is trying to move
+                    if (!(movementInput dot movementInput ~== 0)) { // If the player is trying to move
                         if (!(player.cheats & CF_PREDICTING))
                             TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
 
@@ -111,7 +110,7 @@ extend class S7_BasePlayer {
                         if (!(player.cheats & CF_PREDICTING))
                             GiveInventory ('S7_PowerDodgeEffects', 1);
                         vel.X = vel.Y = 0.;
-                        Thrust (32, (angle - 90) + atan2 (forwardMove, sideMove));
+                        Thrust (32, angle + VectorAngle (movementInput.X, -movementInput.Y));
 
                         if (!(player.cheats & CF_PREDICTING))
                             playerData.dodgeCooldown = S7_DodgeCooldown;
