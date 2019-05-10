@@ -266,7 +266,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         if (surfaceNormal dot prevVel.Unit () > 0)
             surfaceNormal = -surfaceNormal;
 
-        vel = (prevVel - 2 * surfaceNormal * (prevVel dot surfaceNormal)) * .75;
+        vel = (prevVel - 2 * surfaceNormal * (prevVel dot surfaceNormal)) * .5;
     }
 
     states {
