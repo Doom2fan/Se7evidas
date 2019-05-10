@@ -389,20 +389,35 @@ class S7_ActorExtensions : Actor {
         return false;
     }
 
-    /** Converts player movement input to a far better format **/
-    static Vector2 ConvertPlayerMovementInput (int forwardMove, int sideMove) {
-        Vector2 ret;
+    /* Summary:
+    **  Converts player movement input to a far better format
+    **
+    ** Arguments:
+    **  forwardMove: The player's forward movement input.
+    **  sideMove: The player's sideways movement input.
+    **
+    ** Returns:
+    **  Returns a Vector3 containing the converted input as XY and a bool indicating
+    **  whether the player is running or not as Z.
+    */
+    static Vector3 ConvertPlayerMovementInput (int forwardMove, int sideMove) {
+        Vector3 ret;
+
+        bool xRunning = forwardMove > 6400.;
+        bool yRunning = sideMove > 6144.;
 
         ret.X = (
-            (forwardMove > 6400.) ?
+            xRunning ?
             (forwardMove - 6400.) / 6400. :
              forwardMove          / 6400.
         );
         ret.Y = (
-            (sideMove > 6144.) ?
+            yRunning ?
             (sideMove - 6144.) / 4096. :
              sideMove          / 6144.
         );
+
+        ret.Z = (xRunning || yRunning) ? 1. : 0.;
 
         return ret;
     }

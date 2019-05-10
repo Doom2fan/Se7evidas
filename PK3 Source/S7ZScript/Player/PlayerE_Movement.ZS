@@ -80,7 +80,7 @@ extend class S7_BasePlayer {
                 Thrust (sidemove, a);
             }
 
-            if (!(player.cheats & CF_PREDICTING) && (forwardmove != 0 || sidemove != 0))
+            if (!(player.cheats & CF_PREDICTING) && !(forwardmove ~== 0 && sidemove ~== 0))
                 PlayRunning ();
 
             if (player.cheats & CF_REVERTPLEASE) {
@@ -99,9 +99,9 @@ extend class S7_BasePlayer {
                     !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
                     !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !playerData.lGrabGrabbed
                 ) {
-                    Vector2 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
+                    Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
-                    if (!(movementInput dot movementInput ~== 0)) { // If the player is trying to move
+                    if (!(movementInput.XY dot movementInput.XY ~== 0)) { // If the player is trying to move
                         if (!(player.cheats & CF_PREDICTING))
                             TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
 
@@ -327,8 +327,7 @@ extend class S7_BasePlayer {
     }
 
     void Movement_Sprinting () {
-        double forwardMove = abs (player.cmd.forwardmove) / 12800.0;
-        double sideMove = abs (player.cmd.sidemove) / 10240.0;
+        Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
         if (health > 0) {
             if (!(player.cheats & CF_PREDICTING)) {
@@ -358,11 +357,13 @@ extend class S7_BasePlayer {
 
                 if (sprint_Sprinting) {
                     if (player.onground) {
-                        if (sprint_Tics++ >= 5 && (forwardMove != 0.0 || sideMove != 0.0)) {
+                        bool isMoving = !(movementInput.XY dot movementInput.XY ~== 0.);
+
+                        if (sprint_Tics++ >= 5 && isMoving) {
                             sprint_Tics = 0;
 
                             TakeInventory ('S7_Stamina', S7C_SprintStamina);
-                        } else if ((forwardMove != 0.0 || sideMove != 0.0) && (vel.X != 0.0 || vel.Y != 0.0))
+                        } else if (isMoving && !(vel.XY dot vel.XY ~== 0.))
                             sprint_Tics++;
                     }
                 }
@@ -377,7 +378,7 @@ extend class S7_BasePlayer {
                 }
             }
 
-            if ((forwardMove > 0.5 || sideMove > 0.5))
+            if (movementInput.Z ~== 1)
                 sprint_SpeedFactor = Clamp (0.5 + sprint_SpdFacPproc, 0.0, 2.5);
             else
                 sprint_SpeedFactor = Clamp (0.5 + (0.5 + sprint_SpdFacPproc) * 2, 0.0, 2.5);
