@@ -269,13 +269,15 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2;
     Fire.Pump:
         CQR1 A   1 {
-            invoker.loaded = true;
-            invoker.noEject = false; // Reset noEject
+            if (invoker.Ammo1.Amount > 0) {
+                invoker.loaded = true;
+                invoker.noEject = false; // Reset noEject
 
-            if (random [weaponSpc] () < 2)
-                invoker.jammed = true;
-            else
-                invoker.jammed = false;
+                if (random [weaponSpc] () < 2)
+                    invoker.jammed = true;
+                else
+                    invoker.jammed = false;
+            }
 
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoomed.Pump");
@@ -361,9 +363,15 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     AltFire:
         TNT1 A 0 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
-                return ResolveState ("DryFire2");
-            if (invoker.loaded)
+                return ResolveState ("Ready2");
+            if (invoker.loaded) {
                 TakeInventory ('S7_ConquerorRifleClip', 1);
+
+                if (invoker.Ammo1.Amount < 1) {
+                    invoker.loaded = false;
+                    invoker.noEject = true;
+                }
+            }
 
             return ResolveState ("Fire.Pump");
         }
