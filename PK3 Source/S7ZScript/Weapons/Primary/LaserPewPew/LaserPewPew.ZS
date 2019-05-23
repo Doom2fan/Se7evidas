@@ -320,26 +320,27 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
     Reload.Sights:
         BLSG K    1 {
-            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
-                return ResolveState ("Ready2");
-
             invoker.sights = false;
             A_SetCrosshair (0);
             A_ZoomFactor (1.0);
 
             return ResolveState (null);
         }
-        BLSG NMLA 1;
+        BLSG NM 1;
+        BLSG L 1 { return (!CheckInventory ('S7_Reloading', 1) ? ResolveState ("Reload.SwapGuns") : null); }
+        BLSG A 1;
         goto Reload;
     Reload:
         TNT1 A 0 {
-            TakeInventory ('S7_Reloading', 1);
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1)) {
+                TakeInventory ('S7_Reloading', 1);
+                return ResolveState ("Ready2");
+            }
 
             if (invoker.sights)
                 return ResolveState ("Reload.Sights");
 
-            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
-                return ResolveState ("Ready2");
+            TakeInventory ('S7_Reloading', 1);
 
             int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
             if (ammoAmount <= 0)
@@ -357,8 +358,10 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG I       2 A_PlaySound ("Weapons/LaserPewPew/In", CHAN_7);
         BLSG IIJEDAA 2;
         goto Ready2;
+
+    
     Reload.SwapGuns: // Gun swapping
-        BLSG A 1;
+        BLSG A 1 { return (invoker.sights ? ResolveState ("Reload.Sights") : null); }
         BLSG A 1 DoSelectOffset (( 20, 10));
         BLSG F 1 {
             DoSelectOffset (( 39, 20));
