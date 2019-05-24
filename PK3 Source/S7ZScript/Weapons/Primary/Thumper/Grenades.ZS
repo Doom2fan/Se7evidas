@@ -65,75 +65,12 @@ class S7_ThumperGrenade : S7_Projectile {
         goto Explosion;
 
     Explosion:
-        TNT1 A 0 {
-            A_SetRenderstyle (1.0, STYLE_Add);
-            bForceXYBillboard = true;
-            for (int i = random [sfx] (2, 4); i > 0; i--) {
-                let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-15, 15), fRandom [sfx] (-15, 15), 0)));
-
-                act.scale = (0.25 * scale.X, 0.25 * scale.Y);
-                act.vel = (
-                    fRandom [sfx] (-.15, .15),
-                    fRandom [sfx] (.1, .5) * fRandomPick [sfx] (-1, 1),
-                    fRandom [sfx] (-.5, .5)
-                );
-                act.fadeInTime = 0;
-                act.stayTime = 15;
-                act.fadeOutTime = 10;
-                act.targetAlpha = .5;
-            }
-
-            let prevInterp = Prev;
-            SetOrigin (pos, false);
-            Prev = prevInterp;
-
-            {
-                let vert = Spawn ("S7_ThumperGrenade_Shockwave", pos);
-                vert.scale.X = scale.X;
-                vert.angle = angle;
-                vert.pitch = 90;
-            }
-
-            for (int i = 0; i < 3; i++) {
-                let act = Spawn ("S7_ThumperGrenade_Shockwave", pos);
-                act.scale.X = scale.X;
-                act.angle = fRandom [sfx] (-90, 90);
-                act.pitch = 45 + fRandom [sfx] (0, 45);
-            }
+        TNT1 A 3 {
+            let expl = Spawn ('S7_GenericExplosion', pos);
+            if (expl)
+                expl.target = self;
         }
-        XPL1 A    3 bright;
-        XPL1 BCDE 2 bright;
         stop;
-    }
-}
-
-class S7_ThumperGrenade_Shockwave : S7_EffectsBase {
-    default {
-        Radius 10;
-        Height 10;
-
-        RenderStyle "AddStencil";
-        StencilColor "CB5707";
-        Alpha .5;
-
-        +NOGRAVITY +FORCEXYBILLBOARD +NOINTERACTION +NOBLOCKMAP
-    }
-
-    double effectScale;
-
-    states {
-    Spawn:
-        TNT1 A 0 noDelay {
-            effectScale = scale.X;
-            scale.X = 12 * effectScale;
-        }
-
-        SHCK AAAAA 1 bright { scale.X += 12 * effectScale; }
-        SHCK A     1 bright {
-            scale.X += 12 * effectScale;
-            A_FadeOut (0.2);
-        }
-        wait;
     }
 }
 

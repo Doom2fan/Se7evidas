@@ -462,13 +462,18 @@ class S7_TerminatorGrenade : S7_Projectile {
         GRN2 BA 1;
         loop;
     Death:
-        XPL1 A    3 {
+        TNT1 A 3 {
             bNoGravity = true;
             S7_ActorExtensions.A_S7SpawnShrapnel (self, 100);
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (96, 128);
+
+            let expl = Spawn ('S7_GenericExplosion', pos);
+            if (expl) {
+                expl.target = self;
+                expl.scale = (1., 1.);
+            }
         }
-        XPL1 BCDE 3;
         stop;
     }
 }

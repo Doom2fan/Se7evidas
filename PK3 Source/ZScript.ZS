@@ -95,6 +95,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Effects/Parkour.ZS"
 #include "S7ZScript/Effects/Gore.ZS"
 #include "S7ZScript/Effects/Fire.ZS"
+#include "S7ZScript/Effects/Explosions.ZS"
 
 // RPG Systems
 #include "S7ZScript/RPG Systems/Shop System.ZS"

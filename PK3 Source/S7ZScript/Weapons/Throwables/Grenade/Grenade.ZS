@@ -351,13 +351,17 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         goto Flight;
 
     KABOOM:
-        XPL1 A    3 bright {
+        TNT1 A 3 {
             SetState (GS_Exploded);
 
             A_Stop ();
 
-            scale = (1.0, 1.0);
             A_PlaySound ("Explosions/Explosion2");
+            let expl = Spawn ('S7_GenericExplosion', pos);
+            if (expl) {
+                expl.target = self;
+                expl.scale = (1., 1.);
+            }
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
                 self, 100,
@@ -369,7 +373,6 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (224, 256);
         }
-        XPL1 BCDE 3 bright;
         stop;
     }
 }
