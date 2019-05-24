@@ -120,14 +120,14 @@ class S7_SSItem {
 
     virtual void PostProcess () { }
 
-    virtual int GetAmount (S7_BasePlayer player) {
+    virtual int GetAmount (S7_BasePlayer player, bool sellMode) {
         return player.CountInv (inventoryName);
     }
 
     virtual bool CanBuy (S7_BasePlayer player, int amount) {
         S7_SSItemInfo info = GetInfo (player, amount);
 
-        return (GetAmount (player) + info.buyAmount) <= info.maxAmount &&
+        return (GetAmount (player, false) + info.buyAmount) <= info.maxAmount &&
                 player.CountInv (cashItem) >= info.buyPrice;
     }
 
@@ -146,7 +146,7 @@ class S7_SSItem {
             return false;
 
 
-        return GetAmount (player) >= info.sellAmount &&
+        return GetAmount (player, true) >= info.sellAmount &&
                 info.sellPrice <= maxCashAmount;
     }
 
@@ -324,10 +324,13 @@ class S7_SSItem_ThumperGrenade : S7_SSItem {
         return ret;
     }
 
-    override int GetAmount (S7_BasePlayer player) {
+    override int GetAmount (S7_BasePlayer player, bool sellMode) {
         if (!player)
             return 0;
 
-        return S7_Thumper_PUnified.CalculateUnifiedAmount (player);
+        if (!sellMode)
+            return S7_Thumper_PUnified.CalculateUnifiedAmount (player);
+        else
+            return Super.GetAmount (player, sellMode);
     }
 }

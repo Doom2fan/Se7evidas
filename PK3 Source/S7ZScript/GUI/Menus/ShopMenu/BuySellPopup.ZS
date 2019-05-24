@@ -231,7 +231,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             let itemInfo = selectedItem.GetInfo (pPawn, 1);
 
             int totalAmt = !sellMode ? (amount * itemInfo.buyAmount) : (amount * itemInfo.sellAmount);
-            int heldAmt = selectedItem.GetAmount (pPawn);
+            int heldAmt = selectedItem.GetAmount (pPawn, sellMode);
 
             if (!sellMode && (info.maxAmount - (totalAmt + heldAmt)) <= 0)
                 amount = int (floor (double (info.maxAmount - heldAmt) / itemInfo.buyAmount));
@@ -308,8 +308,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             acceptButton.disabled = true;
         }
         if (
-            (!sellMode && (selectedItem.GetAmount (pPawn) + total) > info.maxAmount) || // If buying, check if there's too much of the item
-            ( sellMode && total > selectedItem.GetAmount (pPawn)) // If selling, check if there's not enough of the item
+            (!sellMode && (selectedItem.GetAmount (pPawn, sellMode) + total) > info.maxAmount) || // If buying, check if there's too much of the item
+            ( sellMode && total > selectedItem.GetAmount (pPawn, sellMode)) // If selling, check if there's not enough of the item
         ) {
             selAmount.textColor = Font.CR_DARKRED;
             totalAmount.textColor = Font.CR_DARKRED;
@@ -326,7 +326,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         addButton.hidden = decButton.hidden = noShowQuant;
         totalAmount.hidden = selAmount.hidden = noShowQuant;
 
-        int heldAmt = selectedItem.GetAmount (pPawn);
+        int heldAmt = selectedItem.GetAmount (pPawn, sellMode);
         let baseItemInfo = selectedItem.GetInfo (pPawn, 1);
         uint baseAmount = (sellMode ? baseItemInfo.sellAmount : baseItemInfo.buyAmount);
 
