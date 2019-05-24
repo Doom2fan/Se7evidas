@@ -1,4 +1,15 @@
-Weapons/AMG/Fire            "sounds/Weapons/Primary/AMG/Fire.ogg"  // By NightmareMutant from GAMEBANANA
-Weapons/AMG/Out             "sounds/Weapons/Primary/AMG/Out.ogg"   // Ditto
-Weapons/AMG/In              "sounds/Weapons/Primary/AMG/In.ogg"    // Ditto
-Weapons/AMG/Tap             "sounds/Weapons/Primary/AMG/Tap.ogg"   // Ditto
+$random Weapons/AMG/Fire {
+    Weapons/AMG/Fire1
+    Weapons/AMG/Fire2
+    Weapons/AMG/Fire3
+    Weapons/AMG/Fire4
+}
+Weapons/AMG/Fire1           "sounds/Weapons/Primary/AMG/Fire1.ogg" // By Chronos "phantombeta" Ouroboros. Made from sounds by NightmareMutant
+                                                                   // from GAMEBANANA and sounds from Killing Floor.
+Weapons/AMG/Fire2           "sounds/Weapons/Primary/AMG/Fire2.ogg" // Ditto.
+Weapons/AMG/Fire3           "sounds/Weapons/Primary/AMG/Fire3.ogg" // Ditto.
+Weapons/AMG/Fire4           "sounds/Weapons/Primary/AMG/Fire4.ogg" // Ditto.
+
+Weapons/AMG/Out             "sounds/Weapons/Primary/AMG/Out.ogg"   // By NightmareMutant from GAMEBANANA.
+Weapons/AMG/In              "sounds/Weapons/Primary/AMG/In.ogg"    // Ditto.
+Weapons/AMG/Tap             "sounds/Weapons/Primary/AMG/Tap.ogg"   // Ditto.
