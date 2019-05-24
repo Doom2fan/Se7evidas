@@ -450,7 +450,7 @@ class S7_TerminatorGrenade : S7_Projectile {
         DamageFunction (24 + random [monsterDMG] (-2, 2));
         //Speed 1;
         Speed 75;
-        DeathSound "Explosions/Explosion1";
+        DeathSound "Explosions/Explosion2";
         Gravity 0.2;
         Obituary "$OBTERMGREN";
 

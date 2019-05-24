@@ -357,7 +357,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
             A_Stop ();
 
             scale = (1.0, 1.0);
-            A_PlaySound ("Explosions/Explosion1");
+            A_PlaySound ("Explosions/Explosion2");
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
                 self, 100,
