@@ -40,7 +40,7 @@ hardwareShader postProcess scene {
 hardwareShader postProcess scene {
     name "S7_StealthShader"
     shader "S7Shaders/GLSL/StealthShader.frag" 330
-    Enabled
+    //Enabled
 
     uniform float "stealthFactor"
 }

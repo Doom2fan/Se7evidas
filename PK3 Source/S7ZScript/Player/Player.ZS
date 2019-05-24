@@ -253,7 +253,7 @@ class S7_BasePlayer : PlayerPawn {
         }
 
         // Movement
-        Misc_Stealth ();
+        //Misc_Stealth (); // RIP stealth system, you will be missed
         Movement_Dodging ();
         Movement_LedgeGrabbing ();
         Movement_Sprinting ();
