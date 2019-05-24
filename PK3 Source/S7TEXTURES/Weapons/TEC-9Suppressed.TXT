@@ -1,19 +1,19 @@
 sprite "TECSA0", 34, 36 {
-    offset -158, -64
+    offset -166, -73
     patch "graphics/Weapons/TEC-9/Suppressor.png", 0, 0
 }
 
 sprite "TECSB0", 34, 36 {
-    offset -158, -64
+    offset -166, -73
     patch "graphics/Weapons/TEC-9/Suppressor.png", 0, 0
 }
 
 sprite "TECSC0", 34, 36 {
-    offset -160, -66
+    offset -168, -75
     patch "graphics/Weapons/TEC-9/Suppressor.png", 0, 0
 }
 
 sprite "TECSD0", 34, 36 {
-    offset -160, -66
+    offset -168, -75
     patch "graphics/Weapons/TEC-9/Suppressor.png", 0, 0
 }

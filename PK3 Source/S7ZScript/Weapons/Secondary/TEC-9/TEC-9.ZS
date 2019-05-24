@@ -190,14 +190,14 @@ class S7_TEC9 : S7_BaseWeapon {
                 A_AlertMonsters (384.0);
             }
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1.8, 0));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.5, .25));
 
             if (!invoker.hasSuppressor) {
-                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 10, 6));
-                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 2, 2), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 11, 7.5));
+                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4.25, 4), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else {
-                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 13, 8));
-                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4, 3), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 14, 9.5));
+                S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 5.25, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             }
 
             S7_Recoil (-0.25);
@@ -251,21 +251,21 @@ class S7_TEC9 : S7_BaseWeapon {
     ReloadFinish:
         TNT1 A    0 A_PlaySound ("Weapons/TEC-9/Out", CHAN_6);
         TECR ABCD 1;
-        TECR E    5;
-        TECR FGH  2;
+        TECR D    5;
+        TECR DEF  2;
         TNT1 A    0 A_PlaySound ("Weapons/TEC-9/In", CHAN_7);
-        TECR I    2 { invoker.spriteOffsets = (0, -6, 0); }
-        TECR J    2;
-        TECR K    2 { invoker.spriteOffsets = (0, -3, 0); }
-        TECR L    2 { invoker.spriteOffsets = (0,  0, 0); }
-        TECR MNO  2;
-        TECR P    2 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
-        TECR Q    2 { invoker.spriteOffsets = (0, -8, 0); }
-        TECR R    2 { invoker.spriteOffsets = (0, -6, 0); }
-        TECR R    4 { invoker.spriteOffsets = (0, -3, 0); }
-        TECR S    2 { invoker.spriteOffsets = (0, -6, 0); }
-        TECR T    2 { invoker.spriteOffsets = (0, -3, 0); }
-        TECR U    2 { invoker.spriteOffsets = (0,  0, 0); }
+        TECR G    2 { invoker.spriteOffsets = (0, -6, 0); }
+        TECR H    2;
+        TECR I    2 { invoker.spriteOffsets = (0, -3, 0); }
+        TECR J    2 { invoker.spriteOffsets = (0,  0, 0); }
+        TECR KLM  2;
+        TECR N    2 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
+        TECR O    2 { invoker.spriteOffsets = (0, -8, 0); }
+        TECR P    2 { invoker.spriteOffsets = (0, -6, 0); }
+        TECR P    4 { invoker.spriteOffsets = (0, -3, 0); }
+        TECR Q    2 { invoker.spriteOffsets = (0, -6, 0); }
+        TECR R    2 { invoker.spriteOffsets = (0, -3, 0); }
+        TECR S    2 { invoker.spriteOffsets = (0,  0, 0); }
         goto Ready2;
 
     // Muzzle flashes
