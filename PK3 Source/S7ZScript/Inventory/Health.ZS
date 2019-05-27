@@ -84,6 +84,10 @@ class S7_HealWeap : S7_BaseWeapon {
         return true;
     }
 
+    virtual void StartHealing () { }
+
+    virtual void DoingHealing () { }
+
     virtual bool DoHealing () {
         let pPawn = S7_BasePlayer (Owner);
 
@@ -94,6 +98,8 @@ class S7_HealWeap : S7_BaseWeapon {
 
         return false;
     }
+
+    virtual void CanceledHealing () { }
 
     int usesLeft;
     int healProgress;
@@ -138,8 +144,10 @@ class S7_HealWeap : S7_BaseWeapon {
         wait;
     Prepare:
         TNT1 A 1 {
-            if (invoker.IsPrepared ())
+            if (invoker.IsPrepared ()) {
+                invoker.StartHealing ();
                 return ResolveState ("Heal");
+            }
 
             return ResolveState (null);
         }
@@ -150,7 +158,8 @@ class S7_HealWeap : S7_BaseWeapon {
         TNT1 A 1 {
             let pPawn = S7_BasePlayer (self);
 
-            if (pPawn && invoker.IsPrepared ()) {
+            if (pPawn) {
+                invoker.DoingHealing ();
                 if (invoker.healProgress >= invoker.healTime) {
                     if (invoker.DoHealing ()) {
                         invoker.usesLeft--;
@@ -168,6 +177,7 @@ class S7_HealWeap : S7_BaseWeapon {
         }
         TNT1 A 0 { A_Refire ("Heal"); }
         TNT1 A 0 {
+            invoker.CanceledHealing ();
             invoker.healProgress = -1;
             return ResolveState ("Ready2");
         }
@@ -233,17 +243,49 @@ class S7_MedikitApplicator : S7_HealWeap {
         S7_HealWeap.HealItem 'S7_Medikit';
         S7_HealWeap.HealItemAmount 1;
 
-        S7_HealWeap.HealTime floor (1.5 * 35); // 1.5 seconds
+        S7_HealWeap.HealTime floor (.75 * 35); // .75 seconds
         S7_HealWeap.HealAmount 23;
     }
 
+    void DoLockView () {
+        lowerSpeed += S7_Math.DampedSpring (Owner.pitch, 65, lowerSpeed, .3, .85);
+        Owner.A_SetPitch (Owner.pitch + lowerSpeed, SPF_Interpolate);
+    }
+
+    double lowerSpeed;
     override bool IsPrepared () {
-        if (Owner.pitch >= 80)
+        if (Owner.pitch >= 60)
             return true;
         else {
-            Owner.A_SetPitch (Owner.pitch + 8, SPF_Interpolate);
+            DoLockView ();
             return false;
         }
+    }
+
+    override void StartHealing () {
+        Owner.A_PlaySound ("S7Inventory/Medikit/Bandage", CHAN_7);
+    }
+
+    override void DoingHealing () {
+        DoLockView ();
+    }
+
+    override bool DoHealing () {
+        lowerSpeed = 0;
+
+        let pPawn = S7_BasePlayer (Owner);
+
+        if (pPawn && pPawn.CanGiveHealing ()) {
+            pPawn.GiveHealing (healAmount);
+            return true;
+        }
+
+        return false;
+    }
+
+    override void CanceledHealing () {
+        A_StopSound (CHAN_7);
+        lowerSpeed = 0;
     }
 }
 
@@ -282,7 +324,7 @@ class S7_StimpackApplicator : S7_HealWeap {
         S7_HealWeap.HealItem 'S7_Stimpack';
         S7_HealWeap.HealItemAmount 1;
 
-        S7_HealWeap.HealTime 14;
+        S7_HealWeap.HealTime 5;
         S7_HealWeap.HealAmount 20;
     }
 
@@ -290,11 +332,14 @@ class S7_StimpackApplicator : S7_HealWeap {
         return (usesLeft > 0);
     }
 
+    double lowerSpeed;
     override bool IsPrepared () {
-        if (Owner.pitch >= 45)
+        if (Owner.pitch >= 48) {
+            lowerSpeed = 0;
             return true;
-        else {
-            Owner.A_SetPitch (Owner.pitch + 8, SPF_Interpolate);
+        } else {
+            lowerSpeed += S7_Math.DampedSpring (Owner.pitch, 50, lowerSpeed, .45, .9);
+            Owner.A_SetPitch (Owner.pitch + lowerSpeed, SPF_Interpolate);
             return false;
         }
     }
@@ -305,14 +350,22 @@ class S7_StimpackApplicator : S7_HealWeap {
         if (!pPawn || !pPawn.xpSys || !pPawn.CanGiveHealing (false))
             return false;
 
-        let regenMod = new ('S7_Stimpack_FasterRegen');
+        let regenMod = S7_Stimpack_FasterRegen (pPawn.xpSys.GetStatModInstance ('S7_Stimpack_FasterRegen'));
+        
+        if (regenMod) 
+            regenMod.ticsLeft += max (35 * 15, (35 * 50) - regenMod.ticsLeft);
+        else {
+            regenMod = new ('S7_Stimpack_FasterRegen');
 
-        if (!pPawn.xpSys.AddStatMod (regenMod)) {
-            regenMod.Destroy ();
-            return false;
+            if (!pPawn.xpSys.AddStatMod (regenMod)) {
+                regenMod.Destroy ();
+                return false;
+            }
         }
 
+        Owner.A_PlaySound ("S7Inventory/Stimpack/Apply", CHAN_7);
         pPawn.GiveHealing (healAmount);
+        lowerSpeed = 0;
 
         return true;
     }
@@ -320,7 +373,7 @@ class S7_StimpackApplicator : S7_HealWeap {
 
 class S7_Stimpack_FasterRegen : S7_StatModifier {
     override bool Init (actor act, S7_XPSystem xpSys) {
-        self.ticsLeft = 35 * 40;
+        self.ticsLeft = 35 * 50;
         self.stats = S7Stat_Special;
         self.specialStatName = "regenRate";
         self.factor = 0.75;

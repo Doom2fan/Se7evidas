@@ -6,6 +6,20 @@ Syringe/In                      "sounds/Inventory/SyringeIn.wav"  // Dunno where
 Syringe/Out                     "sounds/Inventory/SyringeOut.wav" // Dunno where this is from. Got it from Zen Dynamics (Originally "DSKNHIT3")
 Berserk/Inject                  "sounds/Inventory/S7Berserk.ogg"  // Dunno where this is from.
 
+// Health items
+$random S7Inventory/Medikit/Bandage {
+    S7Inventory/Medikit/Bandage1 S7Inventory/Medikit/Bandage2
+    S7Inventory/Medikit/Bandage3 S7Inventory/Medikit/Bandage4
+}
+S7Inventory/Medikit/Bandage1    "sounds/Inventory/HealthItems/Medikit1.ogg" // Made by Chronos "phantombeta" Ouroboros, licensed as CC-BY-SA 4.0 International.
+                                                                            // Credits: freesound.org id 18624, CC0, by Walter_Odington, freesound.org id 288924, CC0, by toefur
+S7Inventory/Medikit/Bandage2    "sounds/Inventory/HealthItems/Medikit2.ogg" // Ditto.
+S7Inventory/Medikit/Bandage3    "sounds/Inventory/HealthItems/Medikit3.ogg" // Ditto.
+S7Inventory/Medikit/Bandage4    "sounds/Inventory/HealthItems/Medikit4.ogg" // Ditto.
+
+S7Inventory/Stimpack/Apply      "sounds/Inventory/HealthItems/Stimpack.ogg" // Made by Chronos "phantombeta" Ouroboros.
+                                                                            // Credits: MatthewTheGlutton (sounds from Hideous Destructor), Id Software (sounds from Doom 3)
+
 // Flashlight
 Inventory/Flashlight/On         "sounds/Inventory/FlashlightOn.ogg"  // From Doom 3.
 Inventory/Flashlight/Off        "sounds/Inventory/FlashlightOff.ogg" // Ditto.
