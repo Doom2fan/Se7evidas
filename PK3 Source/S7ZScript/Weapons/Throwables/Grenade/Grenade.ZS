@@ -226,6 +226,13 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         SetState (GS_Moving);
     }
 
+    override bool CanCollideWith (Actor other, bool passive) {
+        if (other is 'S7_ThrownHandGrenade')
+            return false;
+
+        return Super.CanCollideWith (other, passive);
+    }
+
     override void Tick () {
         prevVel = vel;
         Super.Tick ();
@@ -337,7 +344,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
         goto Flight;
     Bounce.Actor:
         #### # 0 {
-            vel = (vel * .035);
+            vel *= .035;
             vel.Z = -abs (vel.Z);
             bHitOwner = true;
         }
