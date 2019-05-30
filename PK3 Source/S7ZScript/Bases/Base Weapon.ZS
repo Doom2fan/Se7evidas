@@ -555,7 +555,7 @@ class S7_BaseWeapon : Weapon {
 
                 let qRot = S7_GM_Quaternion.CreateFromAngles (
                     projAngle + fRandom [weaponSpread] (-spread.X, spread.X),
-                    projPitch + fRandom [weaponSpread] (-spread.Y, spread.Y),
+                    clamp (projPitch + fRandom [weaponSpread] (-spread.Y, spread.Y), -89.9, 89.9),
                     roll
                 );
 
