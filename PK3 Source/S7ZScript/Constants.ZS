@@ -67,3 +67,6 @@ const S7C_SprintStamina = 5;
 const S7C_BaseSprintFactor = 0.5;
 const S7C_MJumpMinDiff = 15;
 const S7C_WJumpDelay = 5;
+
+// Misc
+const EQUAL_EPSILON = (1 / 65536.);

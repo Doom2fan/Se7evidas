@@ -147,56 +147,83 @@ class S7_WallCheckPuff : S7_TraceTestPuff {
 //-------------------------------------------------------------------------------------------
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
+    Array<Line> activeLinesToIgnore;
     Array<Actor> actorsToIgnore;
     Array<Actor> actorsRipped;
+
+    ETraceStatus HandleActor () {
+        if (sourceActor.bThruActors)
+            return TRACE_Skip;
+
+        let mo = Results.HitActor;
+
+        if (actorsToIgnore.Find (mo) != actorsToIgnore.Size ()) // Skip if the actor should be ignored
+            return TRACE_Skip;
+        if (actorsRipped.Find (mo) != actorsRipped.Size ()) // Skip if the actor was already ripped through
+            return TRACE_Skip;
+
+        if (mo == sourceActor || (sourceActor.bMissile && mo == sourceActor.target))
+            return TRACE_Skip;
+
+        if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
+            return TRACE_Skip;
+
+        if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
+            return TRACE_Skip;
+
+        return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
+    }
+
+    ETraceStatus HandleWall () {
+        if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower)
+            return TRACE_Stop;
+
+        let hl = Results.HitLine;
+
+        if (activeLinesToIgnore.Find (hl) == activeLinesToIgnore.Size () &&
+            (
+                ((hl.activation & SPAC_MCross) && sourceActor.bActivateMCross) ||
+                ((hl.activation & SPAC_PCross) && sourceActor.bActivatePCross)
+            )
+        ) {
+            Console.Printf ('sd');
+            activeLinesToIgnore.Push (hl);
+            return TRACE_Stop;
+        }
+
+        if (sourceActor.bMissile && (hl.flags & (Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKEVERYTHING)))
+            return TRACE_Stop;
+        
+        if (sourceActor.bMissile && Results.Tier == TIER_Middle && (hl.flags & Line.ML_BLOCKING) && (hl.flags & Line.ML_TWOSIDED))
+            return TRACE_Skip;
+
+        if ((hl.flags & Line.ML_BLOCKING) || (hl.flags & Line.ML_BLOCKEVERYTHING) || (sourceActor.bIsMonster && (hl.flags & Line.ML_BLOCKMONSTERS)))
+            return TRACE_Stop;
+
+        return TRACE_Skip;
+    }
     
     override ETraceStatus TraceCallback () {
         /*if (!sourceActor)
             return TRACE_Skip;*/
 
+        ETraceStatus status = TRACE_Skip;
         switch (Results.HitType) {
             case TRACE_HitActor:
-                if (sourceActor.bThruActors)
-                    return TRACE_Skip;
-
-                let mo = Results.HitActor;
-
-                if (actorsToIgnore.Find (mo) != actorsToIgnore.Size ()) // Skip if the actor should be ignored
-                    return TRACE_Skip;
-                if (actorsRipped.Find (mo) != actorsRipped.Size ()) // Skip if the actor was already ripped through
-                    return TRACE_Skip;
-
-                if (mo != sourceActor && (sourceActor.bMissile && mo != sourceActor.target)) {
-                    if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
-                        return TRACE_Skip;
-                    if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
-                        return TRACE_Skip;
-
-                    return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
-                } else
-                    return TRACE_Skip;
+                status = HandleActor ();
             break;
 
             case TRACE_HitFloor:
             case TRACE_HitCeiling:
-                return TRACE_Stop;
+                status = TRACE_Stop;
             break;
 
             case TRACE_HitWall:
-                if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower) return TRACE_Stop;
-
-                let hl = Results.HitLine;
-                if (sourceActor.bMissile && (hl.flags & (Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKEVERYTHING)))
-                    return TRACE_Stop;
-                
-                if (sourceActor.bMissile && Results.Tier == TIER_Middle && (hl.flags & Line.ML_BLOCKING) && (hl.flags & Line.ML_TWOSIDED))
-                    return TRACE_Skip;
-                
-                if ((hl.flags & Line.ML_BLOCKING) || (hl.flags & Line.ML_BLOCKEVERYTHING) || (sourceActor.bIsMonster && (hl.flags & Line.ML_BLOCKMONSTERS)))
-                    return TRACE_Stop;
+                status = HandleWall ();
             break;
         }
-        return TRACE_Skip;
+
+        return status;
     }
 }
 
@@ -368,9 +395,10 @@ class S7_Projectile : FastProjectile {
             int colFlags = (fpCollisionMode & (ColMode_Center | ColMode_Corners | ColMode_EdgeCenters));
             int iMax = FPColOffs.Size () / 2;
 
-            int loopBreaker = 0;
             bool collisionHandled = false;
             for (int i = 0; i < iMax; i++) {
+                int loopBreaker = 0;
+
                 if (colFlags == 0 || bNoInteraction || bNoClip)
                     break;
 
@@ -381,8 +409,10 @@ class S7_Projectile : FastProjectile {
                 else if ((i == 8) && !(colFlags & ColMode_Center))
                     continue;
 
+                tr.activeLinesToIgnore.Clear ();
                 tr.actorsToIgnore.Clear ();
 
+                int handleColRet = 0;
                 do {
                     double yOffs = radius * FPColOffs [i * 2];
                     Vector3 startPos = Vec3Offset (s * yOffs, c * yOffs, height * FPColOffs [i * 2 + 1]);
@@ -391,7 +421,8 @@ class S7_Projectile : FastProjectile {
                         if (!self)
                             return;
 
-                        if (HandleCollision (oldPos, oldVel, startPos)) {
+                        handleColRet = HandleCollision (oldPos, oldVel, startPos);
+                        if (handleColRet == 1) {
                             if (!self)
                                 return;
 
@@ -399,8 +430,10 @@ class S7_Projectile : FastProjectile {
                             collisionHandled = true;
                             break;
                         }
-                    } else
+                    } else {
+                        handleColRet = 0;
                         tr.actorsToIgnore.Clear ();
+                    }
 
                     loopBreaker++;
                     if (loopBreaker >= 4096) { // Uh oh.
@@ -408,7 +441,7 @@ class S7_Projectile : FastProjectile {
                         Destroy ();
                         return;
                     }
-                } while (tr.actorsToIgnore.Size () > 0);
+                } while (tr.actorsToIgnore.Size () > 0 || handleColRet == -1);
 
                 if (collisionHandled)
                     break;
@@ -467,18 +500,18 @@ class S7_Projectile : FastProjectile {
         }
     }
 
-    bool HandleCollision (Vector3 oldPos, Vector3 oldVel, Vector3 startPos) {
+    int HandleCollision (Vector3 oldPos, Vector3 oldVel, Vector3 startPos) {
         double hitDist = level.Vec3Diff (startPos, tr.Results.hitPos).Length ();
         if (hitDist > abs (oldVel.Length ()) + radius) {
             if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor && tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
 
-            return false;
+            return 0;
         }
 
         double maxDist = abs (oldVel.Length ());
         let hitPos = level.Vec3Offset (oldPos, (oldVel.Unit () * hitDist));
-        //hitPos += -(oldVel.Unit () * abs (radius));
+        hitPos += -(oldVel.Unit () * abs (radius));
 
         SetOrigin (hitPos, interpFastProj);
 
@@ -494,7 +527,7 @@ class S7_Projectile : FastProjectile {
 
                         Destroy ();
 
-                        return true;
+                        return 1;
                     }
                 }
 
@@ -504,7 +537,7 @@ class S7_Projectile : FastProjectile {
 
                     Destroy ();
 
-                    return true;
+                    return 1;
                 }
             } else if ((tr.Results.HitType == TRACE_HitFloor && floorpic == skyflatnum) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingpic == skyflatnum)) {
@@ -512,7 +545,7 @@ class S7_Projectile : FastProjectile {
 
                 Destroy ();
 
-                return true;
+                return 1;
             }
         }
 
@@ -535,6 +568,7 @@ class S7_Projectile : FastProjectile {
         FCheckPosition tm;
         tm.DoRipping = bRipper;
 
+        SetZ (hitPos.Z);
         if (!TryMove (level.Vec2Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
@@ -544,13 +578,30 @@ class S7_Projectile : FastProjectile {
             A_Stop ();
             ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? hitSky : false);
 
-            return true;
+            return 1;
         } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor) {
             if (tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
 
             if (bRipper && tr.actorsRipped.Find (tr.Results.HitActor) == tr.actorsRipped.Size ())
                 tr.actorsRipped.Push (tr.Results.HitActor);
+        } else if (tr.Results.HitType == TRACE_HitWall && tr.Results.HitLine) {
+            let hl = tr.Results.HitLine;
+            int oldSide = S7_Math.PointOnLineSidePrecise (oldPos.X, oldPos.Y, hl);
+
+            int activationType = -1;
+
+            if ((hl.activation & SPAC_MCross) && bActivateMCross)
+                activationType = SPAC_MCross;
+            else if ((hl.activation & SPAC_PCross) && bActivatePCross)
+                activationType = SPAC_PCross;
+
+            if (activationType != -1) {
+                hl.Activate (self, oldSide, activationType);
+
+                SetOrigin (oldPos, false);
+                return -1;
+            }
         } else {
             if ((tr.Results.HitType == TRACE_HitFloor && floorHit) ||
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingHit)) {
@@ -569,12 +620,12 @@ class S7_Projectile : FastProjectile {
                     ExplodeMissile (NULL, NULL, hitSky);
                 }
 
-                return true;
+                return 1;
             } else if (S7_DebugMode >= 1)
                 Console.PrintF ("zzz %f ----- %f, %d", rHitPos.Z, GetZAt (rHitPos.X, rHitPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng), floorHit);
         }
 
         SetOrigin (oldPos, false);
-        return false;
+        return 0;
     }
 }

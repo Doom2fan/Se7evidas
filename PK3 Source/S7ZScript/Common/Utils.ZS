@@ -110,11 +110,6 @@ class S7_BoundingBox {
         );
     }
 
-    const EQUAL_EPSILON = (1 / 65536.);
-    static int PointOnLineSidePrecise (double x, double y, in Line ld) {
-        return (y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y > EQUAL_EPSILON;
-    }
-
     int BoxOnLineSide (in Line ld) const {
         int p1, p2;
             
@@ -137,12 +132,12 @@ class S7_BoundingBox {
             }
         } else if ((ld.delta.X * ld.delta.Y) >= 0) {
             // ST_POSITIVE:
-            p1 = PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXTOP   ], ld);
-            p2 = PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXBOTTOM], ld);
+            p1 = S7_Math.PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXTOP   ], ld);
+            p2 = S7_Math.PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXBOTTOM], ld);
         } else {
             // ST_NEGATIVE:
-            p1 = PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXTOP   ], ld);
-            p2 = PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXBOTTOM], ld);
+            p1 = S7_Math.PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXTOP   ], ld);
+            p2 = S7_Math.PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXBOTTOM], ld);
         }
 
         return (p1 == p2) ? p1 : -1;

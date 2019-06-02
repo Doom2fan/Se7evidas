@@ -165,6 +165,22 @@ class S7_Math : Actor {
         return angle, pitch;
     }
 
+    /** Trigonometry **/
+    /* Summary:
+    **  Checks which side of a line a point is on.
+    **
+    ** Arguments:
+    **  x: The X coordinates of the point to check.
+    **  y: The Y coordinates of the point to check.
+    **  ld: The line to check.
+    **
+    ** Returns:
+    **  Returns 0 on the line or in front of it or 1 if behind the line.
+    */
+    clearscope static int PointOnLineSidePrecise (double x, double y, in Line ld) {
+        return (y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y > EQUAL_EPSILON;
+    }
+
     /** Polygons **/
     /* Summary:
     **  Calculates the smallest AABB that can hold a set of points.
