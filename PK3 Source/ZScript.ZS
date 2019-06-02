@@ -86,8 +86,9 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Bases/Base Weapon.ZS"
 #include "S7ZScript/Bases/S7_Projectile/Linetracer.ZS"
 #include "S7ZScript/Bases/S7_Projectile/Projectile.ZS"
-#include "S7ZScript/Bases/S7_Projectile/Trail.ZS"
+#include "S7ZScript/Bases/S7_Projectile/Movement.ZS"
 #include "S7ZScript/Bases/S7_Projectile/CollisionHandling.ZS"
+#include "S7ZScript/Bases/S7_Projectile/Trail.ZS"
 #include "S7ZScript/Bases/Bullets.ZS"
 
 // Effects
