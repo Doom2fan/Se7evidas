@@ -495,7 +495,7 @@ class S7_BaseWeapon : Weapon {
     }
 
     action Actor, S7_TZK_ArrayObj S7_A_SpawnSFX (class<Actor> sfxType, Vector3 offs = (0, 0, 0), double angleOffs = 0, double pitchOffs = 0, int amount = 1, int flags = 0) {
-        return S7_A_FireBullets (sfxType, offs: offs, amount: amount, flags: flags | S7_FB_SpeedOffs);
+        return S7_A_FireBullets (sfxType, offs: offs, angleOffs: angleOffs, pitchOffs: pitchOffs, amount: amount, flags: flags | S7_FB_SpeedOffs);
     }
 
     action Actor, S7_TZK_ArrayObj S7_A_FireBullets (
