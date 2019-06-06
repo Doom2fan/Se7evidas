@@ -295,6 +295,8 @@ class S7_Smoke3 : S7_WhiteSmoke {
     int particleTime; // Particle's current lifetime
 
     override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
         chosenFrame = random [sfx] (0, 24);
 
         if (fadeInTime > 0)
