@@ -33,7 +33,7 @@ class S7_Projectile_Trace : LineTracer {
         if (actorsRipped.Find (mo) != actorsRipped.Size ()) // Skip if the actor was already ripped through
             return TRACE_Skip;
 
-        if (mo == sourceActor || (sourceActor.bMissile && mo == sourceActor.target))
+        if (mo == sourceActor || (sourceActor.bMissile && !sourceActor.bHitOwner && mo == sourceActor.target))
             return TRACE_Skip;
 
         if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
