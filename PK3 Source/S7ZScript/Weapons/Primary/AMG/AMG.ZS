@@ -250,8 +250,8 @@ class S7_AMG : S7_BaseWeapon {
             if (invoker.zoomed)
                 return ResolveState ("Fire.Zoom");
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 1));
-            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 10.5, 12));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
+            S7_A_SpawnCasing ('S7_RifleCasing', (30, 10.5, 12), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 5, 8), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (!invoker.burstFire)
@@ -293,8 +293,8 @@ class S7_AMG : S7_BaseWeapon {
 
     Fire.Zoom:
         SCP1 A 1 {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 2));
-            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 8, 10));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 4));
+            S7_A_SpawnCasing ('S7_RifleCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (!invoker.burstFire) {

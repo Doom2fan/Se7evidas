@@ -133,8 +133,8 @@ class S7_AK47 : S7_BaseWeapon {
 
             A_AlertMonsters ();
             A_GunFlash ("Flash");
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3.5, 0.5));
-            S7_A_SpawnSFX ('S7_RifleCasingSpawn', offs: (0, 18, 10.5));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3.5, 2.5));
+            S7_A_SpawnCasing ('S7_RifleCasing', (30, 18, 10.5), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));

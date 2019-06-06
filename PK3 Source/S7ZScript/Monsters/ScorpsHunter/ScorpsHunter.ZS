@@ -130,7 +130,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
                 tracer.bonusDMGFactor = GetDamageBonus ();
         }
 
-        A_SpawnProjectile ('S7_12gaShellCasingSpawn2', 35., 9, 0., CMF_AbsolutePitch | CMF_AimDirection, 0.);
+        A_SpawnProjectile ('S7_12gaShellCasingSpawn', 35., 9, 0., CMF_AbsolutePitch | CMF_AimDirection, 0.);
         A_SpawnProjectile ('S7_ShotSmoke_2_Spawner',   35., 9, 0., CMF_AbsolutePitch | CMF_AimDirection, 0.);
 
         ammo--;

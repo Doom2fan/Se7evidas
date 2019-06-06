@@ -52,6 +52,10 @@ class S7_HitterSMG : S7_BaseWeapon {
 
     bool upperJammed, lowerJammed;
 
+    action void S7_SpawnCasing () {
+        S7_A_SpawnCasing ('S7_45ACPCasing', (30, 10, 10), pitchOffs: -45, spread: (10, 15));
+    }
+
     states {
     Spawn:
         SR20 Z -1;
@@ -94,13 +98,13 @@ class S7_HitterSMG : S7_BaseWeapon {
                 return ResolveState ("DoubleJammed");
 
             if (!invoker.upperJammed) {
-                S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
+                S7_SpawnCasing ();
                 S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_6);
 
             if (!invoker.lowerJammed) {
-                S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
+                S7_SpawnCasing ();
                 S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
@@ -114,8 +118,8 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             A_PlaySound ("Weapons/HitterSMG/Fire", CHAN_Weapon);
             A_AlertMonsters ();
-            //S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, -0.5));
-            //S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 0.5));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 1.5));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
 
             if (random [weaponSpc] () < 3) {
                 int jamType = randomPick [weaponSpc] (0, 0, 1, 1, 2); // More likely to jam only one barrel
@@ -164,12 +168,12 @@ class S7_HitterSMG : S7_BaseWeapon {
         SR20 KLMNOP 1;
         SR20 Q      1 {
             if (invoker.upperJammed || CheckInventory (invoker.ammoType1, 1)) {
-                S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
+                S7_SpawnCasing ();
                 if (!invoker.upperJammed)
                     TakeInventory (invoker.ammoType1, 1);
             }
             if (invoker.lowerJammed || CheckInventory (invoker.ammoType1, 1)) {
-                S7_A_SpawnSFX ('S7_45ACPCasingSpawn', offs: (0, 10, 8));
+                S7_SpawnCasing ();
                 if (!invoker.lowerJammed)
                     TakeInventory (invoker.ammoType1, 1);
             }

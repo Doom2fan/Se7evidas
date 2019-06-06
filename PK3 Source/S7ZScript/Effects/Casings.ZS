@@ -74,6 +74,13 @@ class S7_CasingBase : S7_EffectsBase {
     int timer;
     int restFrame;
 
+    override bool CanCollideWith (Actor other, bool passive) {
+        if (other == target)
+            return false;
+
+        return Super.CanCollideWith (other, passive);
+    }
+
     states {
     Delaying:
         ---- A 1 {
@@ -148,21 +155,6 @@ class S7_CasingBase : S7_EffectsBase {
 // 20ga Shotgun Shell
 //
 //-------------------------------------------------------------------------------------------
-class S7_ShellCasingSpawn : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (40, 50), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (60, 80));
-        stop;
-    }
-}
-class S7_ShellCasingSpawn2 : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_ShellCasing', 0, 0, fRandom [casingStuff] (-50, -40), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (60, 80));
-        stop;
-    }
-}
-
 class S7_ShellCasing : S7_CasingBase {
     default {
         BounceSound "Weapons/Shell";
@@ -182,14 +174,6 @@ class S7_ShellCasing : S7_CasingBase {
 //
 //-------------------------------------------------------------------------------------------
 class S7_12gaShellCasingSpawn : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', 0, 0, -110, CMF_AimDirection | CMF_TrackOwner, -50);
-        stop;
-    }
-}
-
-class S7_12gaShellCasingSpawn2 : S7_CasingSpawnerBase {
     states {
     Spawn:
         TNT1 A 0 noDelay A_SpawnProjectile ('S7_12gaShellCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
@@ -243,14 +227,6 @@ class S7_9mmCasing : S7_CasingBase {
 // .45 ACP Casing
 //
 //-------------------------------------------------------------------------------------------
-class S7_45ACPCasingSpawn : S7_9mmCasingSpawn {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45ACPCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
-        stop;
-    }
-}
-
 class S7_45ACPCasing : S7_9mmCasing { default { Scale .3; } }
 
 //-------------------------------------------------------------------------------------------
@@ -258,14 +234,6 @@ class S7_45ACPCasing : S7_9mmCasing { default { Scale .3; } }
 // Revolver Casing
 //
 //-------------------------------------------------------------------------------------------
-class S7_RevolverCasingSpawn : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_RevolverCasing', -5, 0, 0, CMF_AimDirection | CMF_TrackOwner, 90);
-        stop;
-    }
-}
-
 class S7_RevolverCasing : S7_CasingBase {
     default {
         BounceSound "Weapons/Brass";
@@ -317,21 +285,6 @@ class S7_RifleCasing : S7_CasingBase {
 // .45 WW Casing
 //
 //-------------------------------------------------------------------------------------------
-class S7_45WWCasingSpawn : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -80));
-        stop;
-    }
-}
-class S7_45WWCasingSpawnRifle : S7_CasingSpawnerBase {
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_SpawnProjectile ('S7_45WWCasing', -5, 0, fRandom [casingStuff] (-80, -100), CMF_AimDirection | CMF_TrackOwner, fRandom [casingStuff] (-45, -55));
-        stop;
-    }
-}
-
 class S7_45WWCasing : S7_CasingBase {
     default {
         BounceSound "Weapons/Brass";

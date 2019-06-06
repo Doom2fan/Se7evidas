@@ -73,12 +73,19 @@ class S7_Shotgun : S7_BaseWeapon {
 
     action void S7_FireShotgun (bool right) {
         if (!right) {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 1.5), amount: 2);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 1, 3.5), amount: 2);
             S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 2, 6), amount: 18, bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
         } else {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4, 1.5), amount: 2);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4, 3.5), amount: 2);
             S7_A_FireBullets ('S7_SSGTracer', spread: (.25, .25), offs: (10, 6, 8), amount: 18, bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
         }
+    }
+
+    action void S7_SpawnCasing (bool right) {
+        if (!right)
+            S7_A_SpawnCasing ('S7_ShellCasing', (30, 4.0, 12), pitchOffs: 90, spread: (0, 0), horzMul: -.5);
+        else
+            S7_A_SpawnCasing ('S7_ShellCasing', (30, 4.5, 12), pitchOffs: 90, spread: (0, 0), horzMul:  .5);
     }
 
     states {
@@ -233,8 +240,8 @@ class S7_Shotgun : S7_BaseWeapon {
             return ResolveState (null);
         }
         SSGR A 1 {
-            S7_A_SpawnSFX ('S7_ShellCasingSpawn', offs: (0, 4, 10));
-            S7_A_SpawnSFX ('S7_ShellCasingSpawn2', offs: (0, 4.5, 10));
+            S7_SpawnCasing (false);
+            S7_SpawnCasing (true);
             A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
             A_WeaponOffset (4, 32 + 4);
         }
@@ -290,14 +297,14 @@ class S7_Shotgun : S7_BaseWeapon {
             } else if (invoker.loaded == 1) {
                 TakeInventory (invoker.ammoType1, 1); // Remove the extra shell
                 GiveInventory (invoker.ammoType2, 1);
-                S7_A_SpawnSFX ('S7_ShellCasingSpawn2', offs: (0, 4.5, 10));
+                S7_SpawnCasing (false);
                 if (CheckInventory (invoker.ammoType1, 2))
                     invoker.loaded = 2; // Load 2 shells into the chamber
                 else
                     invoker.loaded = 0;
             } else if (invoker.loaded <= 0 && CheckInventory (invoker.ammoType1, 2)) {
-                S7_A_SpawnSFX ('S7_ShellCasingSpawn', offs: (0, 4, 10));
-                S7_A_SpawnSFX ('S7_ShellCasingSpawn2', offs: (0, 4.5, 10));
+                S7_SpawnCasing (false);
+                S7_SpawnCasing (true);
                 invoker.loaded = 2;
             } else
                 return ResolveState ("InsertShells");

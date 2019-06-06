@@ -229,7 +229,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
             A_GunFlash ("Flash");
             S7_A_FireBullets ('S7_LaserPewPew_Tracer', spread: (.2, .2), offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.75, 0.75));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2.75, 2.75));
 
             S7_Recoil (-0.38);
 
@@ -244,7 +244,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG K 1 {
             A_GunFlash ("Flash.Sights");
             S7_A_FireBullets ('S7_LaserPewPew_Tracer', spread: (.2, .2), offs: (10, 0, 3), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 0));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 2));
 
             A_ZoomFactor (1.270);
             S7_Recoil (-0.38);
@@ -471,7 +471,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
 
             S7_A_FireBullets ('S7_LaserPewPew_Tracer', spread: (.2, .2), offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.75, 0.75));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2.75, 2.75));
 
             S7_Recoil (-0.38);
 
@@ -494,7 +494,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
 
             S7_A_FireBullets ('S7_LaserPewPew_Tracer', spread: (.2, .2), offs: (10, -4.5, 4.5), bonusDMGFactor: invoker.GetDamageBonus ());
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, -2.75, 0.75));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, -2.75, 2.75));
 
             TakeInventory ('S7_LaserPewPewClipSecond', 1);
 

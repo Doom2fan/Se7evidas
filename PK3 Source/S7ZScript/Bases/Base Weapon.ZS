@@ -487,6 +487,42 @@ class S7_BaseWeapon : Weapon {
             invoker.meleeAttackSoundPlayed = true;
     }
 
+    action void S7_A_SpawnCasing (class<S7_CasingBase> casingType, Vector3 offs, double angleOffs = 0, double pitchOffs = 0, Vector2 spread = (10, -35), double horzMul = 1., double vertMul = 1.) {
+        Vector3 origin; {
+            let viewPos = (pos.XY, player.viewZ);
+
+            Vector3 xVec, yVec, zVec;
+            [xVec, yVec, zVec] = S7_Math.GetRotatedAxisAngles (angle, pitch, roll);
+
+            origin = level.Vec3Offset (viewPos,
+                xVec * offs.X - yVec * offs.Y - zVec * offs.Z
+            );
+            let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
+            origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
+                qRot.RotateVector3 ((offs.X, -offs.Y, -offs.Z))
+            );
+        }
+
+        let casing = Spawn (casingType, origin, ALLOW_REPLACE);
+
+        double casingAngle = angle + angleOffs + fRandom [casingStuff] (-spread.X, spread.X);
+        double casingPitch = (pitchOffs + fRandom [casingStuff] (-spread.Y, spread.Y));
+
+        Vector3 forwards, sideways, vertical;
+        [forwards, sideways, vertical] = S7_Math.GetRotatedAxisAngles (casingAngle, pitch, roll);
+
+        casing.target = self;
+        casing.vel = ((-sideways.Unit () * horzMul * casing.Speed) + (sin (-casingPitch) * vertical.Unit () * vertMul * casing.Speed));
+        let dir = casing.vel.Unit ();
+        casing.angle = atan2 (dir.Y, dir.X);
+        casing.pitch = -asin (dir.Z);
+
+        if (casing.pos.Z >= casing.ceilingZ) {
+            let newPos = level.Vec3Offset ((casing.pos.XY, casing.ceilingZ), (0, 0, -casing.height));
+            casing.SetOrigin (newPos, false);
+        }
+    }
+
     enum S7_A_FireBullets_Flags {
         S7_FB_SpeedOffs     = 1 << 0,
         S7_FB_UseAmmo       = 1 << 1,
@@ -522,20 +558,16 @@ class S7_BaseWeapon : Weapon {
         }
 
         Vector3 origin; {
-            Vector3 xVec = (1, 0, 0),
-                    yVec = (0, 1, 0),
-                    zVec = (0, 0, 1);
-
-            let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
-
-            xVec = qRot.RotateVector3 (xVec);
-            yVec = qRot.RotateVector3 (yVec);
-            zVec = qRot.RotateVector3 (zVec);
+            Vector3 xVec, yVec, zVec;
+            [xVec, yVec, zVec] = S7_Math.GetRotatedAxisAngles (angle, pitch, roll);
 
             origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
-                xVec * offs.X -
-                yVec * offs.Y -
-                zVec * offs.Z
+                xVec * offs.X - yVec * offs.Y - zVec * offs.Z
+            );
+
+            let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
+            origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
+                qRot.RotateVector3 ((offs.X, -offs.Y, -offs.Z))
             );
         }
 
@@ -548,21 +580,12 @@ class S7_BaseWeapon : Weapon {
         for (int i = 0; i < amount; i++) {
             let proj = Spawn (projType, origin, ALLOW_REPLACE);
 
-            Vector3 forwards, sideways, vertical; {
-                forwards = (1, 0, 0);
-                /*sideways = (0, 1, 0);
-                vertical = (0, 0, 1);*/
-
-                let qRot = S7_GM_Quaternion.CreateFromAngles (
-                    projAngle + fRandom [weaponSpread] (-spread.X, spread.X),
-                    clamp (projPitch + fRandom [weaponSpread] (-spread.Y, spread.Y), -89.9, 89.9),
-                    roll
-                );
-
-                forwards = qRot.RotateVector3 (forwards);
-                /*sideways = qRot.RotateVector3 (sideways);
-                vertical = qRot.RotateVector3 (vertical);*/
-            }
+            Vector3 forwards, sideways, vertical;
+            [forwards, sideways, vertical] = S7_Math.GetRotatedAxisAngles (
+                projAngle + fRandom [weaponSpread] (-spread.X, spread.X),
+                clamp (projPitch + fRandom [weaponSpread] (-spread.Y, spread.Y), -89.9, 89.9),
+                roll
+            );
 
             proj.target = self;
             let dir = forwards.Unit ();

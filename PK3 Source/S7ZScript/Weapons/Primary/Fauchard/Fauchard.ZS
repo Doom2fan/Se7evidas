@@ -122,7 +122,7 @@ class S7_Fauchard : S7_BaseWeapon {
             A_GunFlash ();
 
             S7_A_FireBullets ('S7_FauchardTracer', spread: (.14, .14), offs: (10, 4, 5), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 0.5));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
 
             S7_Recoil (-0.3);
 

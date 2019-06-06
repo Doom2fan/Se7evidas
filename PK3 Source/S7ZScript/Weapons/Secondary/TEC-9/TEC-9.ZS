@@ -190,13 +190,13 @@ class S7_TEC9 : S7_BaseWeapon {
                 A_AlertMonsters (384.0);
             }
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.5, .25));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2.5, 2.25));
 
             if (!invoker.hasSuppressor) {
-                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 11, 7.5));
+                S7_A_SpawnCasing ('S7_9mmCasing', (30, 11, 9.5), pitchOffs: -45, spread: (10, 15));
                 S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4.25, 4), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else {
-                S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 14, 9.5));
+                S7_A_SpawnCasing ('S7_9mmCasing', (30, 14, 9.5), pitchOffs: -45, spread: (10, 15));
                 S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 5.25, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             }
 

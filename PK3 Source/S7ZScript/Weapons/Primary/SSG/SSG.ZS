@@ -87,11 +87,11 @@ class S7_SSG : S7_BaseWeapon {
 
     action void S7_FireSSG (bool right) {
         if (!right) {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 1, 2.5), amount: 2);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 1, 4.5), amount: 2);
             S7_A_FireBullets ('S7_12gaTracer', spread: (.35, .35), offs: (10, 2, 12), amount: 9, bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
             invoker.leftLoaded = false;
         } else {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 2.5), amount: 2);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 4.5), amount: 2);
             S7_A_FireBullets ('S7_12gaTracer', spread: (.35, .35), offs: (10, 6, 12), amount: 9, bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
             invoker.rightLoaded = false;
         }
@@ -288,11 +288,20 @@ class S7_SSG : S7_BaseWeapon {
 
             return ResolveState ("ReloadEnd"); // Shouldn't EVER get here. If it still somehow did, uh... Just close the shotgun without reloading.
         }
+    }
 
+    action void S7_SpawnShell (bool right) {
+        if (!right)
+            S7_A_SpawnCasing ('S7_12gaShellCasing', (30, 4, 20), pitchOffs: -50, spread: (0, 1.5));
+        else
+            S7_A_SpawnCasing ('S7_12gaShellCasing', (30, 8, 20), pitchOffs: -50, spread: (0, 1.5));
+    }
+
+    states {
     LoadBoth:
         SSG0 F         1 {
-            S7_A_SpawnSFX ('S7_12gaShellCasingSpawn', offs: (0, 4, 20));
-            S7_A_SpawnSFX ('S7_12gaShellCasingSpawn', offs: (0, 8, 20));
+            S7_SpawnShell (false);
+            S7_SpawnShell (true);
         }
         SSG0 GHIJKLMNO 1;
         SSG0 P         1 {
@@ -313,7 +322,7 @@ class S7_SSG : S7_BaseWeapon {
         goto ReloadEnd;
 
     LoadLeft:
-        SSG3 A         1 S7_A_SpawnSFX ('S7_12gaShellCasingSpawn', offs: (0, 4, 20));
+        SSG3 A         1 S7_SpawnShell (false);
         SSG3 BCDEFHIJK 1;
         SSG0 Q         4 {
             A_PlaySound ("Weapons/SSG/In", CHAN_6);
@@ -325,7 +334,7 @@ class S7_SSG : S7_BaseWeapon {
         goto ReloadEnd;
 
     LoadRight:
-        SSG2 A      1 S7_A_SpawnSFX ('S7_12gaShellCasingSpawn', offs: (0, 8, 20));
+        SSG2 A      1 S7_SpawnShell (true);
         SSG2 BCDE   1;
         SSG0 WXYZ   1;
         SSG1 A      1;

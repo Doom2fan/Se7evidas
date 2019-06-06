@@ -182,7 +182,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             for (int i = 0; i < 5; i++)
                 S7_A_FireBullets ('S7_IonCannonRail', spread: (1.5, 1.5), offs: (10, 8, 8), bonusDMGFactor: invoker.GetDamageBonus ());
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3, 3));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3, 5));
             A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 
@@ -220,7 +220,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                     return ResolveState ("CantFire");
             }
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 3, 3));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3, 5));
             A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
             A_AlertMonsters ();
 

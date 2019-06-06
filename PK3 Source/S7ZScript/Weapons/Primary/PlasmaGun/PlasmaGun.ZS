@@ -133,7 +133,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
 
             S7_A_FireBullets ('S7_PlasmaGunRail', spread: (.275, .275), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 1));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
 
             A_WeaponOffset (4, 36);
             A_GunFlash ("Flash.Fire");
@@ -234,7 +234,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             S7_A_FireBullets (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             for (int i = 0; i < (invoker.charge + 1); i++)
-                S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, 1));
+                S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
 
             A_WeaponOffset (8, 40);
             A_GunFlash ("Flash.Charged");

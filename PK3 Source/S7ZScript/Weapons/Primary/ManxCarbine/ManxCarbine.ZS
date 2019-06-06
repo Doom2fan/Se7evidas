@@ -250,11 +250,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
                 return ResolveState ("Fire.Zoom");
 
             if (!invoker.hasSuppressor)
-                S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4, 2.25));
+                S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4, 4.25));
             else
-                S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2.5, 0.75));
+                S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2.5, 2.75));
 
-            S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 15, 13));
+            S7_A_SpawnCasing ('S7_9mmCasing', (30, 15, 15), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.25, .25), offs: (10, 10, 10), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             S7_Recoil (-0.3);
@@ -274,9 +274,9 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     Fire.Zoom:
         SCP1 D 1 {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 2));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 4));
 
-            S7_A_SpawnSFX ('S7_9mmCasingSpawn', offs: (0, 8, 8));
+            S7_A_SpawnCasing ('S7_9mmCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.24, .24), offs: (10, 0, 10), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);

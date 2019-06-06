@@ -135,7 +135,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 A_GunFlash ("Flash");
 
                 S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-                S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 4.5, 1));
+                S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4.5, 3));
 
                 A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);
 
@@ -144,7 +144,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
             } else
                 invoker.DepleteAmmo (false);
 
-            S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 15, 11));
+            S7_A_SpawnCasing ('S7_45WWCasing', (30, 15, 13), pitchOffs: -45, spread: (10, 15));
 
             return ResolveState (null);
         }

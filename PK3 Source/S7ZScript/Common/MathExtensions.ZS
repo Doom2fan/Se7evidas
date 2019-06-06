@@ -181,6 +181,20 @@ class S7_Math : Actor {
         return (y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y > EQUAL_EPSILON;
     }
 
+    clearscope static Vector3, Vector3, Vector3 GetRotatedAxisAngles (double yaw, double pitch, double roll) {
+        Vector3 forwards = (1, 0, 0),
+                sideways = (0, 1, 0),
+                vertical = (0, 0, 1);
+
+        let qRot = S7_GM_Quaternion.CreateFromAngles (yaw, pitch, roll);
+
+        forwards = qRot.RotateVector3 (forwards);
+        sideways = qRot.RotateVector3 (sideways);
+        vertical = qRot.RotateVector3 (vertical);
+
+        return forwards, sideways, vertical;
+    }
+
     /** Polygons **/
     /* Summary:
     **  Calculates the smallest AABB that can hold a set of points.

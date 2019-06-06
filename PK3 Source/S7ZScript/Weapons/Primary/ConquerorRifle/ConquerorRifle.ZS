@@ -232,7 +232,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
             A_GunFlash ("Flash");
 
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 2, .5));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
 
             Vector2 spread = (.05, .06);
 
@@ -242,7 +242,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
-                S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 12, 15));
+                S7_A_SpawnCasing ('S7_45WWCasing', (30, 12, 17), pitchOffs: -45, spread: (10, 15));
 
             S7_Recoil (-1.5);
 
@@ -287,7 +287,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             return ResolveState (null);
         }
         CQR1 EFG 1;
-        CQR1 H   6 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 14, 18));
+        CQR1 H   6 S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
         CQR1 H   1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
         CQR1 GFE 1;
         goto Ready2;
@@ -295,7 +295,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     Fire.Zoomed:
         TNT1 A 0 {
             A_GunFlash ("Flash.Zoomed");
-            S7_A_SpawnSFX ('S7_ShotSmoke_2_Spawner', offs: (0, 0, 1));
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 3));
 
             Vector2 spread = (.005, .005);
 
@@ -305,7 +305,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             if (invoker.noPump)
-                S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 8, 8));
+                S7_A_SpawnCasing ('S7_45WWCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
 
             return ResolveState (null);
         }
@@ -342,7 +342,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2;
     Fire.Zoomed.Pump:
         SCP1 B 4 A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
-        SCP1 B 6 S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 8, 8));
+        SCP1 B 6 S7_A_SpawnCasing ('S7_45WWCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
         SCP1 B 3 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
         goto Ready2;
 
@@ -446,7 +446,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         CQR1 EFG 1;
         CQR1 H   6 {
             if (!invoker.noEject)
-                S7_A_SpawnSFX ('S7_45WWCasingSpawnRifle', offs: (0, 14, 18));
+                S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
 
             invoker.noEject = false; // Reset noEject
         }
