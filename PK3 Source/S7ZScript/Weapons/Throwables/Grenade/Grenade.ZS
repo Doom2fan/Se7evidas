@@ -87,7 +87,8 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
             throwForce = 0;
             A_ClearRefire ();
-            Owner.player.SetPSprite (PSP_Weapon, FindState ('Ready2'), false);
+            if (Owner.player.ReadyWeapon == self)
+                Owner.player.SetPSprite (PSP_Weapon, FindState ('Ready2'), false);
         }
     }
 
@@ -109,10 +110,14 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
     Ready:
     Ready2:
         TNT1 A 1 {
+            int wrFlags = 0;
+
             if (!invoker.cooking)
                 invoker.fuse = -1;
+            else
+                wrFlags |= WRF_DisableSwitch;
 
-            S7_WeaponReady (null, null);
+            S7_WeaponReady (null, null, wrFlags: wrFlags);
         }
         loop;
 
