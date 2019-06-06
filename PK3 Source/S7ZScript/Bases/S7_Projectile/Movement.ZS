@@ -121,7 +121,7 @@ extend class S7_Projectile {
             }
         }
 
-        vel.z += GetGravity ();
+        vel.Z -= GetGravity ();
 
         UpdateWaterLevel ();
         CheckPortalTransition ();
