@@ -488,31 +488,31 @@ class S7_BaseWeapon : Weapon {
     }
 
     action void S7_A_SpawnCasing (class<S7_CasingBase> casingType, Vector3 offs, double angleOffs = 0, double pitchOffs = 0, Vector2 spread = (10, -35), double horzMul = 1., double vertMul = 1.) {
-        Vector3 origin; {
-            let viewPos = (pos.XY, player.viewZ);
+        let shooterAngles = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
 
-            Vector3 xVec, yVec, zVec;
-            [xVec, yVec, zVec] = S7_Math.GetRotatedAxisAngles (angle, pitch, roll);
-
-            origin = level.Vec3Offset (viewPos,
-                xVec * offs.X - yVec * offs.Y - zVec * offs.Z
-            );
-            let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
-            origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
-                qRot.RotateVector3 ((offs.X, -offs.Y, -offs.Z))
-            );
-        }
+        Vector3 origin = level.Vec3Offset (
+            Vec2OffsetZ (0, 0, player.viewZ),
+            shooterAngles.RotateVector3 ((offs.X, -offs.Y, -offs.Z))
+        );
 
         let casing = Spawn (casingType, origin, ALLOW_REPLACE);
-
-        double casingAngle = angle + angleOffs + fRandom [casingStuff] (-spread.X, spread.X);
-        double casingPitch = (pitchOffs + fRandom [casingStuff] (-spread.Y, spread.Y));
-
-        Vector3 forwards, sideways, vertical;
-        [forwards, sideways, vertical] = S7_Math.GetRotatedAxisAngles (casingAngle, pitch, roll);
-
         casing.target = self;
-        casing.vel = ((-sideways.Unit () * horzMul * casing.Speed) + (sin (-casingPitch) * vertical.Unit () * vertMul * casing.Speed));
+
+        Vector3 forwards, sideways, vertical; {
+            let projRot = S7_GM_Quaternion.CreateFromAngles (angleOffs, 0, 0);
+
+            projRot = shooterAngles.MultiplyQuat (projRot);
+            projRot = shooterAngles.MultiplyQuat (S7_GM_Quaternion.CreateFromAngles (fRandom [casingStuff] (-spread.X, spread.X), 0, 0));
+
+            [forwards, sideways, vertical] = S7_Math.GetAxesFromQuat (projRot);
+        }
+
+        double casingPitch = pitchOffs + fRandom [casingStuff] (-spread.Y, spread.Y);
+        casing.vel = (
+            (-sideways.Unit () * horzMul * casing.Speed) +
+            (sin (-casingPitch) * vertical.Unit () * vertMul * casing.Speed)
+        );
+
         let dir = casing.vel.Unit ();
         casing.angle = atan2 (dir.Y, dir.X);
         casing.pitch = -asin (dir.Z);
@@ -556,15 +556,8 @@ class S7_BaseWeapon : Weapon {
                     return null, null; // Out of ammo
             }
         }
-
+        
         Vector3 origin; {
-            Vector3 xVec, yVec, zVec;
-            [xVec, yVec, zVec] = S7_Math.GetRotatedAxisAngles (angle, pitch, roll);
-
-            origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
-                xVec * offs.X - yVec * offs.Y - zVec * offs.Z
-            );
-
             let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
             origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),
                 qRot.RotateVector3 ((offs.X, -offs.Y, -offs.Z))
@@ -574,24 +567,33 @@ class S7_BaseWeapon : Weapon {
         let arr = new ('S7_TZK_ArrayObj');
         arr.Clear ();
 
-        double projAngle = ((flags & S7_FB_AbsoluteAngle) ? angleOffs : angle + angleOffs);
-        double projPitch = ((flags & S7_FB_AbsolutePitch) ? pitchOffs : pitch + pitchOffs);
+        /*double projAngle = ((flags & S7_FB_AbsoluteAngle) ? angleOffs : angle + angleOffs);
+        double projPitch = ((flags & S7_FB_AbsolutePitch) ? pitchOffs : pitch + pitchOffs);*/
+        let projBaseRot = S7_GM_Quaternion.CreateFromAngles (angleOffs, pitchOffs, 0);
+        if ((flags & (S7_FB_AbsoluteAngle | S7_FB_AbsolutePitch)) != (S7_FB_AbsoluteAngle | S7_FB_AbsolutePitch)) {
+            let shooterAngles = S7_GM_Quaternion.CreateFromAngles (
+                !(flags & S7_FB_AbsoluteAngle) ? angle : 0,
+                !(flags & S7_FB_AbsolutePitch) ? pitch : 0,
+                roll
+            );
+            projBaseRot = shooterAngles.MultiplyQuat (projBaseRot);
+        }
 
         for (int i = 0; i < amount; i++) {
             let proj = Spawn (projType, origin, ALLOW_REPLACE);
-
-            Vector3 forwards, sideways, vertical;
-            [forwards, sideways, vertical] = S7_Math.GetRotatedAxisAngles (
-                projAngle + fRandom [weaponSpread] (-spread.X, spread.X),
-                clamp (projPitch + fRandom [weaponSpread] (-spread.Y, spread.Y), -89.9, 89.9),
-                roll
-            );
-
             proj.target = self;
-            let dir = forwards.Unit ();
-            proj.vel = (dir * proj.Speed);
-            proj.angle = atan2 (dir.Y, dir.X);
-            proj.pitch = -asin (dir.Z);
+
+            let projRot = S7_GM_Quaternion.CreateFromAngles (
+                fRandom [weaponSpread] (-spread.X, spread.X),
+                fRandom [weaponSpread] (-spread.Y, spread.Y),
+                0
+            );
+            projRot = projBaseRot.MultiplyQuat (projRot);
+
+            Vector3 forwards = S7_Math.GetAxesFromQuat (projRot);
+
+            proj.vel = (forwards.Unit () * proj.Speed);
+            [proj.angle, proj.pitch, proj.roll] = projRot.ToAngles ();
 
             if ((projType is 'S7_Projectile'))
                 S7_Projectile (proj).bonusDMGFactor = bonusDMGFactor;

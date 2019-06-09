@@ -181,7 +181,18 @@ class S7_Math : Actor {
         return (y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y > EQUAL_EPSILON;
     }
 
-    clearscope static Vector3, Vector3, Vector3 GetRotatedAxisAngles (double yaw, double pitch, double roll) {
+    /* Summary:
+    **  Gets the axis angles from yaw, pitch and roll.
+    **
+    ** Arguments:
+    **  yaw
+    **  pitch
+    **  angle
+    **
+    ** Returns:
+    **  Returns three vectors, one for each of X, Y and Z.
+    */
+    clearscope static Vector3, Vector3, Vector3 GetAxisAngles (double yaw, double pitch, double roll) {
         Vector3 forwards = (1, 0, 0),
                 sideways = (0, 1, 0),
                 vertical = (0, 0, 1);
@@ -191,6 +202,27 @@ class S7_Math : Actor {
         forwards = qRot.RotateVector3 (forwards);
         sideways = qRot.RotateVector3 (sideways);
         vertical = qRot.RotateVector3 (vertical);
+
+        return forwards, sideways, vertical;
+    }
+
+    /* Summary:
+    **  Gets the axis angles from a quaternion.
+    **
+    ** Arguments:
+    **  quat: The quaternion to use.
+    **
+    ** Returns:
+    **  Returns three vectors, one for each of X, Y and Z.
+    */
+    clearscope static Vector3, Vector3, Vector3 GetAxesFromQuat (S7_GM_Quaternion quat) {
+        Vector3 forwards = (1, 0, 0),
+                sideways = (0, 1, 0),
+                vertical = (0, 0, 1);
+
+        forwards = quat.RotateVector3 (forwards);
+        sideways = quat.RotateVector3 (sideways);
+        vertical = quat.RotateVector3 (vertical);
 
         return forwards, sideways, vertical;
     }
