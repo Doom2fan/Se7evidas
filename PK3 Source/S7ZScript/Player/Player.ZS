@@ -225,7 +225,7 @@ class S7_BasePlayer : PlayerPawn {
 
         FLineTraceData traceData; // Do a trace to get the actor under the crosshair
         LineTrace (angle, 8192, pitch, flags: TRF_ThruBlock | TRF_ThruHitscan, offsetz: (height / 2) + (AttackZOffset * player.crouchfactor), data: traceData);
-        playerLineTarget = traceData.HitActor;
+        playerLineTarget = ((traceData.HitType == FLineTraceData.TRACE_HitActor) ? traceData.HitActor : null);
     }
 
     override void PlayerThink () {
