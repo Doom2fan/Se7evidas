@@ -59,17 +59,21 @@ class S7_MonsterBase : Actor {
         aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
     }
 
-    protected virtual void InitializeXPSystem () { }
-
-    virtual void UpdateStats () { }
-
-    void CallInitializeXPSystem () {
+    protected bool SetXPSys () {
         if (!xpSys && !(xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true)))) {
             GiveInventory ('S7_XPSystem', 1);
             xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
-        if (!xpSys || setStats)
+        return !!xpSys;
+    }
+
+    protected virtual void InitializeXPSystem () { }
+
+    virtual void UpdateStats () { }
+
+    void CallInitializeXPSystem () {
+        if (!SetXPSys () || setStats)
             return;
 
         InitializeXPSystem ();
@@ -80,6 +84,8 @@ class S7_MonsterBase : Actor {
 
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
+
+        SetXPSys ();
 
         if (S7_DelayedMonsterStats == DelaySpawns_Off ||
             (S7_DelayedMonsterStats == DelaySpawns_MapStart && GetLevelSpawnTime () > 1)
@@ -102,7 +108,8 @@ class S7_MonsterBase : Actor {
         if (target && !setStats)
             CallInitializeXPSystem ();
 
-        UpdateStats ();
+        if (xpSys)
+            UpdateStats ();
 
         SearchBehavior ();
     }
