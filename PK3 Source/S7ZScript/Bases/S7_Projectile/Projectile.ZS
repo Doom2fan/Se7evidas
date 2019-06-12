@@ -36,6 +36,8 @@ class S7_Projectile : FastProjectile {
     double effectStepMul;
     double bonusDMGFactor;
 
+    bool hitSky;
+
     /// Which movement code to use.
     property MovementMode: moveMode;
     /// How to detect collisions. Only used by EMovementMode.FastProjectile.

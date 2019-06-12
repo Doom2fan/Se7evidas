@@ -17,6 +17,50 @@
 */
 
 extend class S7_Projectile {
+    bool CheckSkyLine (Line l) {
+        if (!l)
+            return false;
+
+        if (l.backsector && l.backsector.GetTexture (sector.ceiling) == skyflatnum) {
+            let posr = PosRelative (l.backsector);
+            if (pos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
+                // Hack to prevent missiles exploding against the sky.
+                // Does not handle sky floors.
+                return true;
+            }
+        }
+
+        // [RH] Don't explode on horizon lines.
+        if (l.special == Line_Horizon)
+            return true;
+
+        return false;
+    }
+
+    bool CheckSkyHit (FCheckPosition tm) {
+        if (tr.Results.HitType == TRACE_HitWall && CheckSkyLine (tr.Results.HitLine))
+            return true;
+
+        if (tm) {
+            if (tm.ceilingLine && CheckSkyLine (tm.ceilingLine))
+                return true;
+
+            if (pos.Z < tm.floorZ && tm.floorpic == skyflatnum)
+                return true;
+            if ((pos.Z + height) >= tm.ceilingZ && tm.ceilingpic == skyflatnum)
+                return true;
+        }
+
+        bool hitFloor = tr.Results.HitType == TRACE_HitFloor || pos.Z < floorZ;
+        bool hitCeil = tr.Results.HitType == TRACE_HitCeiling || (pos.Z + height) >= ceilingZ;
+        if (hitFloor && floorpic == skyflatnum)
+            return true;
+        if (hitCeil && ceilingpic == skyflatnum)
+            return true;
+
+        return false;
+    }
+
     int HandleCollision (Vector3 oldPos, Vector3 oldVel, Vector3 startPos) {
         double hitDist = level.Vec3Diff (startPos, tr.Results.hitPos).Length ();
         if (hitDist > abs (oldVel.Length ()) + radius) {
@@ -32,38 +76,12 @@ extend class S7_Projectile {
 
         SetOrigin (hitPos, interpFastProj);
 
-        if (!bSkyExplode) {
-            if (tr.Results.HitType == TRACE_HitWall && tr.Results.HitLine) {
-                let l = tr.Results.HitLine;
-                if (l.backsector && l.backsector.GetTexture (sector.ceiling) == skyflatnum) {
-                    let posr = PosRelative (l.backsector);
-                    if (pos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
-                        // Hack to prevent missiles exploding against the sky.
-                        // Does not handle sky floors.
-                        SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+        if (!bSkyExplode && CheckSkyHit (null)) {
+            hitSky = true;
+            SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+            Destroy ();
 
-                        Destroy ();
-
-                        return 1;
-                    }
-                }
-
-                // [RH] Don't explode on horizon lines.
-                if (l && l.special == Line_Horizon) {
-                    SpawnEffects (oldPos, tr.Results.Distance, oldVel);
-
-                    Destroy ();
-
-                    return 1;
-                }
-            } else if ((tr.Results.HitType == TRACE_HitFloor && floorpic == skyflatnum) ||
-                (tr.Results.HitType == TRACE_HitCeiling && ceilingpic == skyflatnum)) {
-                SpawnEffects (oldPos, tr.Results.Distance, oldVel);
-
-                Destroy ();
-
-                return 1;
-            }
+            return 1;
         }
 
         if (tr.Results.HitType == TRACE_HitFloor)
@@ -89,8 +107,14 @@ extend class S7_Projectile {
         if (!TryMove (level.Vec2Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
-            bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
-                           (ceilingHit && ceilingpic == skyflatnum));
+            bool hitSky = CheckSkyHit (tm);
+            if (!bSkyExplode && hitSky) {
+                hitSky = true;
+                SpawnEffects (oldPos, tr.Results.Distance, oldVel);
+                Destroy ();
+
+                return 1;
+            }
 
             A_Stop ();
             ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? hitSky : false);

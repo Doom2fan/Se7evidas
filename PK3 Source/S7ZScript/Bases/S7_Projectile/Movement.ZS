@@ -104,10 +104,8 @@ extend class S7_Projectile {
             bool floorHit = pos.Z <= floorZ;
             bool ceilingHit = (pos.Z + height) > ceilingZ;
 
-            bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
-                           (ceilingHit && ceilingpic == skyflatnum));
-
-            if (hitSky && !bSkyExplode) {
+            if (!bSkyExplode && CheckSkyHit (null)) {
+                hitSky = true;
                 Destroy ();
                 return;
             } else if ((floorHit || ceilingHit) && !bNoInteraction && !bNoClip) {
