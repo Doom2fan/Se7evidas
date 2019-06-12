@@ -23,6 +23,7 @@ class S7_CanHitPointData {
     double PitchTo;
 
     int lineBlockFlags;
+    bool ignoreAllActors;
 
     // Stuff to be ignored when tracing.
     Array<Actor> IgnoredActors;
@@ -39,9 +40,11 @@ class S7_CanHitPointLineTracer : LineTracer {
 
         switch (Results.HitType) {
             case TRACE_HitActor:
-                if (Results.HitActor && data.IgnoredActors.Find (Results.HitActor) != data.IgnoredActors.Size ())
+                if (data.ignoreAllActors)
                     return TRACE_Skip;
                 if (Results.HitActor.bNoInteraction || Results.HitActor.bNoBlockmap || (!Results.HitActor.bSolid && !Results.HitActor.bShootable))
+                    return TRACE_Skip;
+                if (data.IgnoredActors.Find (Results.HitActor) != data.IgnoredActors.Size ())
                     return TRACE_Skip;
             break;
 
