@@ -62,7 +62,7 @@ extend class S7_Projectile {
     }
 
     int HandleCollision (Vector3 oldPos, Vector3 oldVel, Vector3 startPos) {
-        double hitDist = level.Vec3Diff (startPos, tr.Results.hitPos).Length ();
+        double hitDist = level.Vec3Diff (startPos, tr.Results.HitPos).Length ();
         if (hitDist > abs (oldVel.Length ()) + radius) {
             if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor && tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
@@ -72,7 +72,7 @@ extend class S7_Projectile {
 
         double maxDist = abs (oldVel.Length ());
         let hitPos = level.Vec3Offset (oldPos, (oldVel.Unit () * hitDist));
-        hitPos += -(oldVel.Unit () * abs (radius));
+        hitPos += -(oldVel.Unit () * abs (radius / 4.));
 
         SetOrigin (hitPos, interpFastProj);
 
@@ -87,7 +87,7 @@ extend class S7_Projectile {
         if (tr.Results.HitType == TRACE_HitFloor)
             hitPos = tr.Results.HitPos;
         else if (tr.Results.HitType == TRACE_HitCeiling)
-            hitPos = level.Vec3Offset (tr.Results.HitPos, (0, 0, -height));
+            hitPos = level.Vec3Offset (tr.Results.HitPos, (0, 0, -(height - 1)));
 
         Vector3 rHitPos = tr.Results.HitPos;
 
@@ -107,17 +107,10 @@ extend class S7_Projectile {
         if (!TryMove (level.Vec2Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
-            bool hitSky = CheckSkyHit (tm);
-            if (!bSkyExplode && hitSky) {
-                hitSky = true;
-                SpawnEffects (oldPos, tr.Results.Distance, oldVel);
-                Destroy ();
-
-                return 1;
-            }
+            SpawnEffects (oldPos, tr.Results.Distance, oldVel);
 
             A_Stop ();
-            ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? hitSky : false);
+            S7_ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? CheckSkyHit (tm) : false);
 
             return 1;
         } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor) {
@@ -148,17 +141,18 @@ extend class S7_Projectile {
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingHit)) {
                 SetOrigin (hitPos, interpFastProj);
 
-                bool hitSky = ((  floorHit &&   floorpic == skyflatnum) ||
-                               (ceilingHit && ceilingpic == skyflatnum));
+                bool didHitSky = CheckSkyHit (null);
 
                 if (tr.Results.HitType == TRACE_HitFloor) {
                     SetZ (floorZ);
                     HitFloor ();
-                }
+                    BlockingFloor = CurSector;
+                } else
+                    BlockingCeiling = CurSector;
 
                 if (bMissile) {
                     A_Stop ();
-                    ExplodeMissile (NULL, NULL, hitSky);
+                    S7_ExplodeMissile (NULL, NULL, didHitSky);
                 }
 
                 return 1;

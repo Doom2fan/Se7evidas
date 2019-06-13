@@ -58,15 +58,23 @@ extend class S7_Projectile {
             tr.activeLinesToIgnore.Clear ();
             tr.actorsToIgnore.Clear ();
 
+            double xOffs = radius * FPColOffs [i * 2];
+            double traceHeight = height * FPColOffs [i * 2 + 1];
+            Vector3 traceOffs = (s * xOffs, c * xOffs, traceHeight);
+
+            let curTracePos = pos;
+            let traceEndpoint = level.Vec3Offset (pos, traceOffs + vel);
+
             int handleColRet = 0;
             do {
-                double xOffs = radius * FPColOffs [i * 2];
-                Vector3 startPos = Vec3Offset (s * xOffs, c * xOffs, height * FPColOffs [i * 2 + 1]);
+                Vector3 startPos = level.Vec3Offset (curTracePos, traceOffs);
+                double traceMaxDist = level.Vec3Diff (startPos, traceEndpoint).Length ();
 
-                if (tr.Trace (startPos, curSector, velUnit, maxDist, 0)) {
+                if (tr.Trace (startPos, curSector, velUnit, traceMaxDist, 0)) {
                     if (!self)
                         return;
 
+                    curTracePos = level.Vec3Offset (tr.Results.HitPos, velUnit * EQUAL_EPSILON);
                     handleColRet = HandleCollision (oldPos, oldVel, startPos);
                     if (handleColRet == 1) {
                         if (!self)
@@ -96,7 +104,7 @@ extend class S7_Projectile {
         }
 
         if (!collisionHandled)
-            SetOrigin (pos + vel, interpFastProj);
+            SetOrigin (level.Vec3Offset (pos, vel), interpFastProj);
 
         SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
 
@@ -104,18 +112,17 @@ extend class S7_Projectile {
             bool floorHit = pos.Z <= floorZ;
             bool ceilingHit = (pos.Z + height) > ceilingZ;
 
-            if (!bSkyExplode && CheckSkyHit (null)) {
-                hitSky = true;
-                Destroy ();
-                return;
-            } else if ((floorHit || ceilingHit) && !bNoInteraction && !bNoClip) {
+            if ((floorHit || ceilingHit) && !bNoInteraction && !bNoClip) {
                 SetZ (floorHit ? GetZAt () : ceilingZ - height);
 
-                if (floorHit)
+                if (floorHit) {
                     HitFloor ();
+                    BlockingFloor = CurSector;
+                } else
+                    BlockingCeiling = CurSector;
 
                 A_Stop ();
-                ExplodeMissile (NULL, NULL, hitsky);
+                S7_ExplodeMissile (NULL, NULL, CheckSkyHit (null));
             }
         }
 
