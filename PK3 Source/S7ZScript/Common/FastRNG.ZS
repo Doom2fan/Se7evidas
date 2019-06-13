@@ -19,7 +19,7 @@
 /** Implements a fast RNG **/
 class S7_FastRNG {
     private bool initialized;
-    uint seed;
+    int seed;
 
     static S7_FastRNG CreateWithSeed (int seed) {
         let ret = new ('S7_FastRNG');
@@ -31,7 +31,7 @@ class S7_FastRNG {
     }
 
     static S7_FastRNG Create () {
-        uint seed = MSTime () ^ random [S7_FastRNGSeed] (1, int.max - 1);
+        int seed = MSTime () ^ random [S7_FastRNGSeed] (1, int.max - 1);
 
         // Hash function from https://stackoverflow.com/a/12996028
         seed = ((seed >>> 16) ^ seed) * 0x45d9f3b;
@@ -66,7 +66,7 @@ class S7_FastRNG {
             max = tmp;
         }
 
-        return (seed % (max - min + 1)) + min;
+        return ((seed & 0x7FFFFFFF) % (max - min + 1)) + min;
     }
 
     double GetFloat (double min, double max) {
