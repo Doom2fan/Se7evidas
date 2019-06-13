@@ -17,13 +17,13 @@
 */
 
 extend class S7_Projectile {
-    bool CheckSkyLine (Line l) {
+    bool CheckSkyLine (Vector3 curPos, Line l) {
         if (!l)
             return false;
 
         if (l.backsector && l.backsector.GetTexture (sector.ceiling) == skyflatnum) {
             let posr = PosRelative (l.backsector);
-            if (pos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
+            if (curPos.Z >= l.backsector.ceilingplane.ZatPoint (posr.XY)) {
                 // Hack to prevent missiles exploding against the sky.
                 // Does not handle sky floors.
                 return true;
@@ -37,22 +37,22 @@ extend class S7_Projectile {
         return false;
     }
 
-    bool CheckSkyHit (FCheckPosition tm) {
-        if (tr.Results.HitType == TRACE_HitWall && CheckSkyLine (tr.Results.HitLine))
+    bool CheckSkyHit (Vector3 curPos, FCheckPosition tm) {
+        if (tr.Results.HitType == TRACE_HitWall && CheckSkyLine (curPos, tr.Results.HitLine))
             return true;
 
         if (tm) {
-            if (tm.ceilingLine && CheckSkyLine (tm.ceilingLine))
+            if (tm.ceilingLine && CheckSkyLine (curPos, tm.ceilingLine))
                 return true;
 
-            if (pos.Z < tm.floorZ && tm.floorpic == skyflatnum)
+            if (curPos.Z < tm.floorZ && tm.floorpic == skyflatnum)
                 return true;
-            if ((pos.Z + height) >= tm.ceilingZ && tm.ceilingpic == skyflatnum)
+            if ((curPos.Z + height) >= tm.ceilingZ && tm.ceilingpic == skyflatnum)
                 return true;
         }
 
-        bool hitFloor = tr.Results.HitType == TRACE_HitFloor || pos.Z < floorZ;
-        bool hitCeil = tr.Results.HitType == TRACE_HitCeiling || (pos.Z + height) >= ceilingZ;
+        bool hitFloor = tr.Results.HitType == TRACE_HitFloor || curPos.Z < floorZ;
+        bool hitCeil = tr.Results.HitType == TRACE_HitCeiling || (curPos.Z + height) >= ceilingZ;
         if (hitFloor && floorpic == skyflatnum)
             return true;
         if (hitCeil && ceilingpic == skyflatnum)
@@ -76,7 +76,7 @@ extend class S7_Projectile {
 
         SetOrigin (hitPos, interpFastProj);
 
-        if (!bSkyExplode && CheckSkyHit (null)) {
+        if (!bSkyExplode && CheckSkyHit (pos, null)) {
             hitSky = true;
             SpawnEffects (oldPos, tr.Results.Distance, oldVel);
             Destroy ();
@@ -107,10 +107,12 @@ extend class S7_Projectile {
         if (!TryMove (level.Vec2Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
             SetOrigin (hitPos, interpFastProj);
 
+            bool didHitSky = CheckSkyHit (pos, tm);
+
             SpawnEffects (oldPos, tr.Results.Distance, oldVel);
 
             A_Stop ();
-            S7_ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? CheckSkyHit (tm) : false);
+            S7_ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? didHitSky : false);
 
             return 1;
         } else if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor) {
@@ -141,7 +143,11 @@ extend class S7_Projectile {
                 (tr.Results.HitType == TRACE_HitCeiling && ceilingHit)) {
                 SetOrigin (hitPos, interpFastProj);
 
-                bool didHitSky = CheckSkyHit (null);
+                bool didHitSky = (
+                    (  floorHit &&   floorpic == skyflatnum) ||
+                    (ceilingHit && ceilingpic == skyflatnum) ||
+                    CheckSkyHit (pos, null)
+                );
 
                 if (tr.Results.HitType == TRACE_HitFloor) {
                     SetZ (floorZ);

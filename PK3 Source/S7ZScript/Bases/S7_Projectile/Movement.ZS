@@ -112,6 +112,8 @@ extend class S7_Projectile {
             bool floorHit = pos.Z <= floorZ;
             bool ceilingHit = (pos.Z + height) > ceilingZ;
 
+            bool didHitSky = CheckSkyHit (pos, null);
+
             if ((floorHit || ceilingHit) && !bNoInteraction && !bNoClip) {
                 SetZ (floorHit ? GetZAt () : ceilingZ - height);
 
@@ -122,7 +124,7 @@ extend class S7_Projectile {
                     BlockingCeiling = CurSector;
 
                 A_Stop ();
-                S7_ExplodeMissile (NULL, NULL, CheckSkyHit (null));
+                S7_ExplodeMissile (NULL, NULL, didHitSky);
             }
         }
 

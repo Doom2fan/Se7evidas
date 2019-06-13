@@ -119,6 +119,10 @@ class S7_Projectile : FastProjectile {
 
     virtual void S7_ExplodeMissile (Line l, Actor targ, bool onSky) {
         hitSky = onSky;
+        if (onSky && !bSkyExplode) {
+            Destroy ();
+            return;
+        }
 
         ExplodeMissile (l, targ, onSky);
     }
