@@ -129,6 +129,18 @@ class S7_ActorExtensions : Actor {
         return act.FindState ('Raise');
     }
 
+    static bool CheckActorCollision (Actor a, Actor b, bool no_z = false) {
+        double blockDist = b.radius + a.radius;
+
+        if (abs (b.pos.x - a.pos.x) >= blockDist || abs (b.pos.y - a.pos.y) >= blockDist)
+            return false;
+
+        if (!no_z && (a.pos.z > (b.pos.z + b.height) || (a.pos.z + a.height) <= b.pos.z))
+            return false;
+       
+        return true;
+    }
+
     /* Summary:
     **  Checks if an actor is "fast".
     **

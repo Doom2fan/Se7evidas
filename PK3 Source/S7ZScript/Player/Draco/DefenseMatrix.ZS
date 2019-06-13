@@ -181,7 +181,7 @@ class S7_DracoADMLaser : S7_BaseTracer {
     override void Effect () {
         Super.Effect ();
 
-        if (tracer && S7_Math.CheckActorCollision (self, tracer)) {
+        if (tracer && S7_ActorExtensions.CheckActorCollision (self, tracer)) {
             tracer.ExplodeMissile (NULL, self, false);
             ExplodeMissile (NULL, tracer);
         }
