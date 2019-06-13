@@ -76,6 +76,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Common/ServerData.ZS"
 #include "S7ZScript/Common/CommonTokens.ZS"
 #include "S7ZScript/Common/S7Data.ZS"
+#include "S7ZScript/Common/FastRNG.ZS"
 #include "S7ZScript/EventHandlers.ZS"
 #include "S7ZScript/Weapons/WeapData.ZS"
 #include "S7ZScript/MD5.ZS"
