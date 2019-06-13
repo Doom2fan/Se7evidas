@@ -54,14 +54,14 @@ class S7_FastRNG {
         seed ^= seed << 5;*/
     }
 
-    int GetInt (double min, double max) {
+    int GetInt (int min, int max) {
         if (!initialized)
             ThrowAbortException ("S7_FastRNG: RNG must be created with S7_FastRNG.Create!");
 
         Hash ();
 
         if (max < min) {
-            double tmp = min;
+            int tmp = min;
             min = max;
             max = tmp;
         }
