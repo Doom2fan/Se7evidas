@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-/** Math extensions **/
 extend class S7_Math {
     /** Trigonometry **/
     /* Summary:

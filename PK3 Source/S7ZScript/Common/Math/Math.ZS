@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/** Math extensions **/
 class S7_Math {
     /** General math **/
     static double Lerp (double x, double y, double a) {
