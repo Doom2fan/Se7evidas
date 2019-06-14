@@ -74,6 +74,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Common/Math/Physics.ZS"
 #include "S7ZScript/Common/Math/Trigonometry.ZS"
 #include "S7ZScript/Common/Math/Ballistics.ZS"
+#include "S7ZScript/Common/Math/ColDet.ZS"
 #include "S7ZScript/Common/Math/GZDoomFuncs.ZS"
 #include "S7ZScript/Common/ActorExtensions.ZS"
 #include "S7ZScript/Common/Utils.ZS"
