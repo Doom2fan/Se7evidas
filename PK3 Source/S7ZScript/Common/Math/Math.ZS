@@ -30,4 +30,19 @@ class S7_Math {
         // Evaluate polynomial
         return x * x * (3. - 2. * x);
     }
+
+    static double, double GenerateGaussianNoise (S7_FastRNG rng, double mean, double stddev) {
+        double u, v, s;
+        do {
+            u = rng.GetFloat (-1., 1.);
+            v = rng.GetFloat (-1., 1.);
+            s = u * u + v * v;
+        } while (s == 0. || s >= 1.);
+
+        let fac = sqrt (-2. * log (s) / s);
+        let z0 = u * fac;
+        let z1 = v * fac;
+
+        return (z0 * stddev + mean), (z1 * stddev + mean);
+    }
 }
