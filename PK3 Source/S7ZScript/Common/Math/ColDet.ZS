@@ -57,4 +57,29 @@ extend class S7_Math {
         // less than the (squared) sphere radius.
         return sqDist <= sphereRadius * sphereRadius;
     }
+
+    /* Summary:
+    **  Checks if an AABB intersects another.
+    **
+    ** Arguments:
+    **  box1Coords: The coordinates of the first AABB.
+    **  box1Size: The radius and height of the first AABB.
+    **  box2Coords: The coordinates of the second AABB.
+    **  box2Size: The radius and height of the second AABB.
+    **  no_z: A boolean indicating whether to test the Z axis.
+    **
+    ** Returns:
+    **  Returns true if the sphere intersects the AABB, false otherwise.
+    */
+    static bool TestAABB (Vector3 box1Coords, Vector2 box1Size, Vector3 box2Coords, Vector2 box2Size, bool no_z = false) {
+        double blockDist = box2Size.X + box1Size.X;
+
+        if (abs (box2Coords.X - box1Coords.X) >= blockDist || abs (box2Coords.Y - box1Coords.Y) >= blockDist)
+            return false;
+
+        if (!no_z && (box1Coords.Z > (box2Coords.Z + box2Size.Y) || (box1Coords.Z + box1Size.Y) <= box2Coords.Z))
+            return false;
+       
+        return true;
+    }
 }
