@@ -18,6 +18,17 @@
 
 /** Math extensions **/
 class S7_Math {
+    /** Constants **/
+    const Pi  = 3.14159265358979323846264338328;
+    const Tau = Pi * 2.;
+    const PiOverTwo   = Pi / 2.;
+    const PiOverFour  = Pi / 4.;
+    const PiOverEight = Pi / 8.;
+
+    const SqrtTwo = 1.41421356237309504880168872421;
+    
+    const VM_EPSILON = (1. / 65536.);
+
     /** General math **/
     static double Lerp (double x, double y, double a) {
         return x * (1-a) + y * a;
