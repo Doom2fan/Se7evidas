@@ -256,7 +256,7 @@ class S7_Thumper : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            S7_A_FireBullets (projType, offs: (10, 9, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+            S7_A_FireBullets (projType, offs: (10, 9, 6), pitchOffs: -1.5, bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4.5, 3));
             invoker.chambered = false;
 
