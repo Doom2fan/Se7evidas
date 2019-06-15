@@ -57,8 +57,14 @@ extend class S7_Projectile {
     }
 
     void SpawnEffects (Vector3 initialPos, double dist, Vector3 stepSize) {
-        if (radius <= 0 || dist <= 0 || stepSize.XY.Length () <= 0 || stepSize.X != stepSize.X || stepSize.Y != stepSize.Y)
+        if (effectStepMul < 0 ||
+            radius <= 0 || dist <= 0 ||
+            stepSize.XY.Length () <= 0 ||
+            stepSize.X != stepSize.X ||
+            stepSize.Y != stepSize.Y
+        ) {
             return;
+        }
 
         double count = 8;
         while (abs (stepSize.X) > radius * count || abs (stepSize.Y) > radius * count) {
