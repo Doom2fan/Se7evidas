@@ -33,7 +33,7 @@ class S7_ThumperGrenade : S7_Projectile {
     default {
         Radius 10;
         Height 10;
-        Speed 75;
+        Speed 112;
         DamageFunction (65. + fRandom [weaponDamage] (-1., 1.) * (1. + bonusDMGFactor));
         Scale 0.8;
         Gravity 0.25;
