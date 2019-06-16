@@ -176,7 +176,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         bsPopup.Activate (sellMode);
     }
 
-    override bool OnUIEvent (UIEvent ev) {
+    override bool OnUIEvent (UiEvent ev) {
         if (!shopData)
             return Super.OnUIEvent (ev);
 

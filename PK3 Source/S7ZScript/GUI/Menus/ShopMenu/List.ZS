@@ -149,7 +149,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         UpdateScroll ();
     }
 
-    override void OnUIEvent (UIEvent ev) { // Type_WheelUp
+    override void OnUIEvent (S7_ZF_UiEvent ev) { // Type_WheelUp
         Super.OnUIEvent (ev);
 
         if (itemsFrame && itemsFrame.isEnabled ()) {
@@ -269,7 +269,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, item.icon, noOffsets: true);
+            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, item.icon);
             icon.Pack (itemsFrame);
             itemControls.icon = icon;
 

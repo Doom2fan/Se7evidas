@@ -110,7 +110,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         UpdateScroll ();
     }
 
-    override void OnUIEvent (UIEvent ev) {
+    override void OnUIEvent (S7_ZF_UiEvent ev) {
         Super.OnUIEvent (ev);
 
         if (ev.type == UIEvent.Type_MouseMove)
@@ -240,7 +240,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            /*let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon, noOffsets: true);
+            /*let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon);
             icon.Pack (itemsFrame);
             weapControls.icon = icon;*/
 
@@ -308,7 +308,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon, noOffsets: true);
+            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon);
             icon.Pack (itemsFrame);
             weapControls.icon = icon;
 

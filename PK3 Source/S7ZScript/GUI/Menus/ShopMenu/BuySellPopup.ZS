@@ -112,7 +112,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         modeLabel = new ('S7_ZF_Label').Init ((4, 4), (40, 10), text: "", fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         modeLabel.Pack (self);
 
-        itemIcon = new ('S7_ZF_Image').Init ((0, 0), (0, 0), "", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
+        itemIcon = new ('S7_ZF_Image').Init ((0, 0), (0, 0), "", S7_ZF_Image.AlignType_TopLeft);
         itemIcon.Pack (self);
         itemName = new ('S7_ZF_Label').Init ((0, 0), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         itemName.Pack (self);
@@ -150,7 +150,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         return self;
     }
 
-    override void OnUIEvent (UIEvent ev) {
+    override void OnUIEvent (S7_ZF_UiEvent ev) {
         if (addButton.curButtonState != S7_ZF_Button.ButtonState_Click && decButton.curButtonState != S7_ZF_Button.ButtonState_Click &&
             (ev.Type == UIEvent.Type_LButtonClick || ev.Type == UIEvent.Type_LButtonDown)) {
             shiftHeld = ev.IsShift;

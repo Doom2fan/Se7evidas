@@ -122,12 +122,12 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
                 );
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
-                slotImages [x] [y] = new ('S7_ZF_Image').Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center, noOffsets: true);
+                slotImages [x] [y] = new ('S7_ZF_Image').Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center);
                 slotImages [x] [y].Pack (slotsFrame);
             }
         }
 
-        infoBG = new ('S7_ZF_Image').Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft, noOffsets: true);
+        infoBG = new ('S7_ZF_Image').Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft);
         infoBG.Pack (weapSelFrame);
         infoLabel = new ('S7_ZF_Label').Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), text: "", fnt: smallFont, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
         infoLabel.Pack (weapSelFrame);

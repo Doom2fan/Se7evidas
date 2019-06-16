@@ -14,6 +14,7 @@ class S7_ZF_Frame : S7_ZF_Element {
 
 	S7_ZF_Frame init(Vector2 pos, Vector2 size) {
 		self.setBox(pos, size);
+		self.alpha = 1;
 
 		return self;
 	}
@@ -27,8 +28,9 @@ class S7_ZF_Frame : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (!isShown())
+		if (hidden) {
 			return;
+		}
 
 		// stuff in the frame shouldn't draw outside the frame
 		S7_ZF_AABB beforeClip = getClipAABB();
@@ -42,7 +44,7 @@ class S7_ZF_Frame : S7_ZF_Element {
 		}
 
 		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL) {
+			if (elements[i] != NULL && !elements[i].hidden) {
 				elements[i].drawer();
 			}
 		}
@@ -50,7 +52,7 @@ class S7_ZF_Frame : S7_ZF_Element {
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
 	}
 
-	override void onUIEvent(UIEvent ev) {
+	override void onUIEvent(S7_ZF_UiEvent ev) {
 		if (ev.type == UIEvent.Type_MouseMove) {
 			doHover((ev.mouseX, ev.mouseY));
 		}
@@ -83,11 +85,5 @@ class S7_ZF_Frame : S7_ZF_Element {
 			return !disabled;
 		}
 		return (master.isEnabled() ? !disabled : false);
-	}
-	override bool isShown() {
-		if (master == NULL) {
-			return !hidden;
-		}
-		return (master.isShown() ? !hidden : false);
 	}
 }

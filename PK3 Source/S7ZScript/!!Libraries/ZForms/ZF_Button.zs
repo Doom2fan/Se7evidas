@@ -33,7 +33,8 @@ class S7_ZF_Button : S7_ZF_Element {
 	void config(string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
 	            S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL,
 	            S7_ZF_BoxTextures click = NULL, S7_ZF_BoxTextures disabled = NULL,
-	            Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE, int holdInterval = -1) {
+	            Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+	            int holdInterval = -1) {
 		if (fnt == NULL) {
 			self.fnt = smallfont;
 		}
@@ -51,11 +52,13 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.textures[ButtonState_Disabled] = disabled;
 		self.singleTex = false;
 		self.textColor = textColor;
+		self.alpha = 1;
 	}
 
 	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
 	               S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
-	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE, int holdInterval = -1) {
+	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+	               int holdInterval = -1) {
 		self.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor, holdInterval);
 		self.setBox(pos, size);
 
@@ -83,17 +86,13 @@ class S7_ZF_Button : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (!isShown()) {
-			return;
-		}
-
 		if (singleTex) {
 			string texture = btnTextures[curButtonState];
-			drawTiledImage((0, 0), box.size, texture);
+			drawTiledImage((0, 0), box.size, texture, true);
 		}
 		else {
 			S7_ZF_BoxTextures textures = textures[curButtonState];
-			drawBox((0, 0), box.size, textures);
+			drawBox((0, 0), box.size, textures, true);
 		}
 
 		// draw the text in the middle of the button
@@ -102,7 +101,7 @@ class S7_ZF_Button : S7_ZF_Element {
 		drawText(textPos, fnt, text, textColor, textScale);
 	}
 
-	override void onUIEvent(UIEvent ev) {
+	override void onUIEvent(S7_ZF_UiEvent ev) {
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
 			if (isEnabled() && boxToScreen().pointCollides(mousePos)) {

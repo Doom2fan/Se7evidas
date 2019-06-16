@@ -21,6 +21,7 @@ class S7_ZF_Label : S7_ZF_Element {
 		self.autoSize = autoSize;
 		self.textScale = textScale;
 		self.textColor = textColor;
+		self.alpha = 1;
 	}
 
 	S7_ZF_Label init(Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft,
@@ -47,10 +48,6 @@ class S7_ZF_Label : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (!isShown()) {
-			return;
-		}
-
 		S7_ZF_AABB beforeClip = getClipAABB();
 		S7_ZF_AABB clipTest = boxToScreen();
 		S7_ZF_AABB clipRect = clipTest.rectOfIntersection(beforeClip);
@@ -78,7 +75,7 @@ class S7_ZF_Label : S7_ZF_Element {
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
 	}
 
-	override void onUIEvent(UIEvent ev) {
+	override void onUIEvent(S7_ZF_UiEvent ev) {
 		if (ev.type == UIEvent.Type_MouseMove) {
 			doHover((ev.mouseX, ev.mouseY));
 		}
