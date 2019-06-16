@@ -79,11 +79,4 @@ class S7_ZF_Frame : S7_ZF_Element {
 		}
 		return master.screenScaledToRel(screenPos - box.pos);
 	}
-
-	override bool isEnabled() {
-		if (master == NULL) {
-			return !disabled;
-		}
-		return (master.isEnabled() ? !disabled : false);
-	}
 }

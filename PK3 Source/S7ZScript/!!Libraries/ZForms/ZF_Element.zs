@@ -299,8 +299,17 @@ class S7_ZF_Element ui {
 	virtual void onUIEvent(S7_ZF_UiEvent ev) {}
 
 	// Added by Chronos "phantombeta" Ouroboros
-	virtual bool isEnabled() {
-		return (master.isEnabled() ? !disabled : false);
+	bool isEnabled() {
+		S7_ZF_Element elem = self;
+		while (elem) {
+			if (elem.disabled) {
+				return false;
+			}
+
+			elem = elem.master;
+		}
+
+		return true;
 	}
 
 	virtual void doHover (Vector2 mousePos) {

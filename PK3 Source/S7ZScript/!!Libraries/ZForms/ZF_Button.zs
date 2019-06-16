@@ -66,7 +66,12 @@ class S7_ZF_Button : S7_ZF_Element {
 	}
 
 	override void ticker() {
-		if (!isEnabled() || holdTicInterval == -1) {
+		if (!isEnabled()) {
+			curButtonState = ButtonState_Disabled;
+			currentHoldTicsRemaining = 0;
+			return;
+		}
+		if (holdTicInterval == -1) {
 			currentHoldTicsRemaining = 0;
 			return;
 		}
