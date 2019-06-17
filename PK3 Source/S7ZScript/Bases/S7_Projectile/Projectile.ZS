@@ -99,7 +99,7 @@ class S7_Projectile : FastProjectile {
 
         HandleMovement ();
 
-        // Nope the fuck out if self is null for some retarded reason
+        // Return if the actor got removed
         if (!self)
             return;
         // Freed itself
@@ -111,7 +111,7 @@ class S7_Projectile : FastProjectile {
                 tics--;
 
             while (!tics) {
-                if (!self || !CurState || !SetState (CurState.NextState)) // mobj was removed
+                if (!self || !CurState || !SetState (CurState.NextState)) // Actor was removed
                     return;
             }
         }
