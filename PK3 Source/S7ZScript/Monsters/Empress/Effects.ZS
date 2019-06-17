@@ -23,6 +23,10 @@ class S7_Empress_FXBase : S7_EffectsBase {
         +NOTELEPORT +NOINTERACTION  +NOBLOCKMAP +NOGRAVITY
         +THRUACTORS +CLIENTSIDEONLY
     }
+
+    override void Tick () {
+        CheaperTick ();
+    }
 }
 
 //-------------------------------------------------------------------------------------------

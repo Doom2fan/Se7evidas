@@ -209,6 +209,10 @@ class S7_FatFuckFlame_Trail : S7_EffectsBase {
         +NOGRAVITY
     }
 
+    override void Tick () {
+        CheaperTick ();
+    }
+
     states {
     Spawn:
         TNT1 A 0 noDelay {

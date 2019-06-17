@@ -114,6 +114,10 @@ class S7_FastProjTrailBase : S7_EffectsBase {
         +CANNOTPUSH +NOINTERACTION +CLIENTSIDEONLY
         -SOLID
     }
+
+    override void Tick () {
+        CheaperTick ();
+    }
 }
 
 /** Trace test puffs **/

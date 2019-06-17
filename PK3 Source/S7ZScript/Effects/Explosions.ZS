@@ -24,6 +24,8 @@ class S7_GenericExplosion : S7_EffectsBase {
         +NOBLOCKMAP +NOINTERACTION +FORCEXYBILLBOARD
     }
 
+    bool noSmoke;
+
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
@@ -35,22 +37,28 @@ class S7_GenericExplosion : S7_EffectsBase {
         A_SetSize (target.radius, target.height);
     }
 
+    override void Tick () {
+        CheaperTick ();
+    }
+
     states {
     Spawn:
         XPL1 A 3 noDelay bright {
-            for (int i = random [sfx] (2, 4); i > 0; i--) {
-                let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-15, 15), fRandom [sfx] (-15, 15), 0)));
+            if (!noSmoke) {
+                for (int i = random [sfx] (2, 4); i > 0; i--) {
+                    let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-15, 15), fRandom [sfx] (-15, 15), 0)));
 
-                act.scale = (0.25 * scale.X, 0.25 * scale.Y);
-                act.vel = (
-                    fRandom [sfx] (-.15, .15),
-                    fRandom [sfx] (.1, .5) * fRandomPick [sfx] (-1, 1),
-                    fRandom [sfx] (-.5, .5)
-                );
-                act.fadeInTime = 0;
-                act.stayTime = 15;
-                act.fadeOutTime = 10;
-                act.targetAlpha = .5;
+                    act.scale = (0.25 * scale.X, 0.25 * scale.Y);
+                    act.vel = (
+                        fRandom [sfx] (-.15, .15),
+                        fRandom [sfx] (.1, .5) * fRandomPick [sfx] (-1, 1),
+                        fRandom [sfx] (-.5, .5)
+                    );
+                    act.fadeInTime = 0;
+                    act.stayTime = 15;
+                    act.fadeOutTime = 10;
+                    act.targetAlpha = .5;
+                }
             }
 
             let prevInterp = Prev;
@@ -86,6 +94,10 @@ class S7_GenericExplosion_Shockwave : S7_EffectsBase {
         Alpha .5;
 
         +NOGRAVITY +FORCEXYBILLBOARD +NOINTERACTION +NOBLOCKMAP
+    }
+
+    override void Tick () {
+        CheaperTick ();
     }
 
     double effectScale;

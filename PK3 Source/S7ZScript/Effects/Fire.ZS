@@ -29,6 +29,10 @@ class S7_FireBase : S7_EffectsBase {
 
         +NOGRAVITY +NOTELEPORT +NOBLOCKMAP +FORCEXYBILLBOARD
     }
+    
+    override void Tick () {
+        CheaperTick ();
+    }
 
     states {
     Spawn:

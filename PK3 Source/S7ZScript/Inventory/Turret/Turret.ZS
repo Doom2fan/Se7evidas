@@ -453,6 +453,10 @@ class S7_TurretRedDot : S7_EffectsBase {
         +NOGRAVITY +NOINTERACTION
     }
 
+    override void Tick () {
+        CheaperTick ();
+    }
+
     states {
     Spawn:
         PLGF A 1 bright {
@@ -468,6 +472,10 @@ class S7_TurretExplosion : S7_EffectsBase {
         RenderStyle "Add";
 
         +NOGRAVITY +NOINTERACTION
+    }
+    
+    override void Tick () {
+        CheaperTick ();
     }
 
     states {

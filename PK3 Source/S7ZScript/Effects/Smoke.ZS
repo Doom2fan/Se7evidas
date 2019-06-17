@@ -39,6 +39,10 @@ class S7_WhiteSmoke : S7_EffectsBase {
 
         roll = fRandom [sfx] (-360, 360);
     }
+    
+    override void Tick () {
+        CheaperTick ();
+    }
 
     states {
     Spawn:
@@ -312,8 +316,16 @@ class S7_Smoke3 : S7_WhiteSmoke {
         if (isFrozen ())
             return;
 
-        if (!((vel dot vel) ~== 0))
-            SetOrigin (pos + vel, true);
+        if (!(vel ~== (0, 0, 0))) {
+            let newPos = level.Vec3Offset (pos, vel);
+            bool xyPosEqual = (newPos.XY ~== pos.XY);
+
+            if (xyPosEqual && !(vel.Z ~== 0)) {
+                Prev.Z = pos.Z;
+                SetZ (newPos.Z);
+            } else if (!xyPosEqual)
+                SetOrigin (pos + vel, true);
+        }
 
         if (particleTime >= totalTime) {
             Destroy ();
