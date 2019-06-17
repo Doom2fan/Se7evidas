@@ -55,7 +55,40 @@ class S7_DebrisGeneral : S7_EffectsBase {
 }
 
 // By Chronos "phantombeta" Ouroboros
-class S7_EffectsBase : Actor { }
+class S7_EffectsBase : Actor {
+    virtual void CheaperTick (bool noStates = false) {
+        if (!(vel ~== (0, 0, 0))) {
+            let newPos = level.Vec3Offset (pos, vel);
+            bool xyPosEqual = (newPos.XY ~== pos.XY);
+
+            if (xyPosEqual && !(vel.Z ~== 0)) {
+                Prev.Z = pos.Z;
+                SetZ (newPos.Z);
+            } else if (!xyPosEqual)
+                SetOrigin (pos + vel, true);
+        }
+
+        if (noStates)
+            return;
+
+        // Return if the actor got removed.
+        if (!self)
+            return;
+        // Freed itself
+        if (!CheckNoDelay ())
+            return;
+        // Advance the state
+        if (tics != -1) {
+            if (tics > 0)
+                tics--;
+
+            while (!tics) {
+                if (!self || !CurState || !SetState (CurState.NextState)) // Actor was removed
+                    return;
+            }
+        }
+    }
+}
 
 class S7_PositionMarker : Actor { // For when an actor needs to mark a position.
     default {
