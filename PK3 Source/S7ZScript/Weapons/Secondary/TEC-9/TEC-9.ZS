@@ -219,7 +219,7 @@ class S7_TEC9 : S7_BaseWeapon {
             invoker.spriteOffsets = (0, 0, WOF_Interpolate);
         }
         TEC9 B 1 A_Refire ();
-        TEC9 A 5;
+        TEC9 B 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 
     DryFire:
