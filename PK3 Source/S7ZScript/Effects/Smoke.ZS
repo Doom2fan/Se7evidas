@@ -39,7 +39,7 @@ class S7_WhiteSmoke : S7_EffectsBase {
 
         roll = fRandom [sfx] (-360, 360);
     }
-    
+
     override void Tick () {
         CheaperTick ();
     }

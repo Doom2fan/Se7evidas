@@ -135,7 +135,7 @@ class S7_HealWeap : S7_BaseWeapon {
             if (invoker.CanHeal ())
                 invoker.healProgress = -1;
             else
-                return ResolveState ("Ready2");            
+                return ResolveState ("Ready2");
 
             return ResolveState (null);
         }
@@ -351,8 +351,8 @@ class S7_StimpackApplicator : S7_HealWeap {
             return false;
 
         let regenMod = S7_Stimpack_FasterRegen (pPawn.xpSys.GetStatModInstance ('S7_Stimpack_FasterRegen'));
-        
-        if (regenMod) 
+
+        if (regenMod)
             regenMod.ticsLeft += max (35 * 15, (35 * 50) - regenMod.ticsLeft);
         else {
             regenMod = new ('S7_Stimpack_FasterRegen');

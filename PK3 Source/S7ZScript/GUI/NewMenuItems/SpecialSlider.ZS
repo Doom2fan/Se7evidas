@@ -21,7 +21,7 @@ class OptionMenuItemS7_SliderSpcVal : OptionMenuItemSlider {
     double SpecialVal;
     double mRetMin;
     int mClickVal;
-    
+
     OptionMenuItemS7_SliderSpcVal Init (String label, Name command, double min, double max, double step, double spcVal, double retMin, String spcText) {
         Super.Init (label, command, min, max, step, 0);
         mCVar = CVar.FindCVar (command);
@@ -65,7 +65,7 @@ class OptionMenuItemS7_SliderSpcVal : OptionMenuItemSlider {
 
         return Super.MenuEvent (mkey, fromcontroller);
     }
-    
+
     override bool MouseEvent (int type, int x, int y) {
         int value = int (GetSliderValue ());
 
@@ -74,11 +74,11 @@ class OptionMenuItemS7_SliderSpcVal : OptionMenuItemSlider {
                 mClickVal = value;
                 if (value <= 0) return false;
                 return Super.MouseEvent (type, x, y);
-                
+
             case Menu.MOUSE_Move:
                 if (mClickVal <= 0) return false;
                 return Super.MouseEvent (type, x, y);
-                
+
             case Menu.MOUSE_Release:
                 if (mClickVal <= 0) {
                     mClickVal = -10;

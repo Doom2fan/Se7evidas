@@ -135,7 +135,7 @@ extend class S7_MonsterBase {
             pnum = random [LookyLooky] (0, 255) & (MAXPLAYERS - 1);
         else
             pnum = LastLookPlayerNumber;
-            
+
         while (true) {
             // [ED850] Each and every player should only ever be checked once.
             if (c++ < MAXPLAYERS) {
@@ -206,7 +206,7 @@ extend class S7_MonsterBase {
                 if (!fromChase ? !S7_CanSeeEnemy (player.mo) : S7_IsInvisible (player.mo, touchChecks: false))
                     continue;
             }
-            
+
             // [RH] Need to be sure the reactiontime is 0 if the monster is
             // leaving its goal to go after a player.
             if (goal && target == goal)
@@ -296,7 +296,7 @@ extend class S7_MonsterBase {
                 }
             }
         }
-        
+
         if (!invoker.S7_LookForPlayers (bLookAllAround, NULL))
             return;
 
@@ -381,7 +381,7 @@ extend class S7_MonsterBase {
                     }
                 }
             }
-            
+
             if (targ && targ.player && (targ.player.cheats & CF_NoTarget))
                 return;
         }
@@ -414,7 +414,7 @@ extend class S7_MonsterBase {
                 }
             } else if (targFromSound || invoker.S7_CanSeeEnemy (targ)) {
                 target = targ; // We already have a target?
-                
+
                 // [KS] The target can become ourselves in rare circumstances (like
                 // if we committed suicide), so if that's the case, just ignore it.
                 if (target == self)
@@ -444,7 +444,7 @@ extend class S7_MonsterBase {
                 return;
         } else
             return;
-                    
+
         // Go into chase state
         A_S7LookEx_SeeYou (flags, customSeeState);
     }

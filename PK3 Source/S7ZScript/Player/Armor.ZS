@@ -30,7 +30,7 @@ class S7_ArmorData play {
     virtual int HandleDamage (S7_BasicArmor armor, Actor inflictor, Actor source, int damage, Name damageType) {
         int saved;
         int full = max (0, armor.MaxFullAbsorb - armor.AbsorbCount);
-            
+
         if (damage < full)
             saved = damage;
         else {
@@ -184,7 +184,7 @@ class S7_BasicArmorPickup : BasicArmorPickup {
 
         if (armor.armorData)
             armor.armorData.Destroy ();
-        
+
         armor.SavePercent = clamp (SavePercent, 0, 100) / 100;
         armor.Amount = SaveAmount + armor.BonusCount;
         armor.MaxAmount = SaveAmount;

@@ -63,7 +63,7 @@ class S7_Projectile_Trace : LineTracer {
 
         if (sourceActor.bMissile && (hl.flags & (Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKEVERYTHING)))
             return TRACE_Stop;
-        
+
         if (sourceActor.bMissile && Results.Tier == TIER_Middle && (hl.flags & Line.ML_BLOCKING) && (hl.flags & Line.ML_TWOSIDED))
             return TRACE_Skip;
 
@@ -72,7 +72,7 @@ class S7_Projectile_Trace : LineTracer {
 
         return TRACE_Skip;
     }
-    
+
     override ETraceStatus TraceCallback () {
         /*if (!sourceActor)
             return TRACE_Skip;*/

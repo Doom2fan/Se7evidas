@@ -165,7 +165,7 @@ extend class S7_BasePlayer {
             normal.y = xyLen * sin (angle);
             normal.z = sin (-pitch);
             normal = normal.Unit ();
-            
+
             FLineTraceData traceData;
             for (int i = 0; i < WallJumpHitCount + 1; i++) {
                 double hitAngle = angle + (WallJumpHitInterval * ((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));

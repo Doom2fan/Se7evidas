@@ -227,7 +227,7 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
                 );
                 if (canIntercept)
                     targPos = interceptPos;
-                
+
                 [launchAngle, launchPitch] = S7_Math.GetAnglesTo (level, pos, targPos);
             }
             if (GetAge () < 1) {
@@ -255,5 +255,5 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
     Death:
         CP00 DEFGH 2 bright;
         stop;
-    }   
+    }
 }

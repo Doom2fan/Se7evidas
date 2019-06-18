@@ -145,7 +145,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                 if (st != null)
                     return st;
             }
-            
+
             S7_WeaponReady (null, null);
 
             return ResolveState (null);
@@ -225,7 +225,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             A_AlertMonsters ();
 
             GiveInventory ('S7_IonCannonInverse', 3);
-            
+
             return ResolveState (null);
         }
         goto Fire.Anim;
@@ -273,7 +273,7 @@ class S7_IonCannonSpaceTester : S7_BaseTracer {
         Height 16;
         Speed 35;
 
-        +PAINLESS   +NOPAIN +NOTRIGGER +BLOODLESSIMPACT 
+        +PAINLESS   +NOPAIN +NOTRIGGER +BLOODLESSIMPACT
         +CANNOTPUSH
         -ACTIVATEIMPACT -ACTIVATEMCROSS -ACTIVATEPCROSS -CANPUSHWALLS
         -BLOODSPLATTER

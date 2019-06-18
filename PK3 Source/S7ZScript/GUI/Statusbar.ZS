@@ -173,7 +173,7 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
     protected void DrawRadar (S7_BasePlayer pPawn, Vector2 radarPos, double TicFrac) {
         if (!CheckInventory ('S7_UpgradeRadar', 1))
             return;
-        
+
         DrawImage ("graphics/HUD/Radar/S7RDR0.png", radarPos, DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP);
 
         double angleCos = Cos (-pPawn.angle), angleSin = Sin (-pPawn.angle);
@@ -190,7 +190,7 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
                 if (curLine.frontsector == curLine.backsector)
                     continue;
                 // Skip double-sided lines without height differences
-                if (curLine.frontsector && curLine.backsector && 
+                if (curLine.frontsector && curLine.backsector &&
                     curLine.frontsector.floorPlane.isEqual   (curLine.backsector.floorPlane) &&
                     curLine.frontsector.ceilingPlane.isEqual (curLine.backsector.ceilingPlane)
                 ) {

@@ -32,7 +32,7 @@ class S7_MultiJump_Marker : S7_EffectsBase {
         +CANNOTPUSH +CLIENTSIDEONLY
         -NOBLOCKMAP
     }
-    
+
     override void Tick () {
         CheaperTick ();
     }

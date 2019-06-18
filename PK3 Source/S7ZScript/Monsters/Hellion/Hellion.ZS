@@ -104,7 +104,7 @@ class S7_Hellion : S7_DemonBase {
 
         HELN L 6 {
             A_FaceTarget (0, 0);
-            
+
             let proj = S7_HellionBall (A_SpawnProjectile ('S7_HellionBall', 35.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch));
 
             if (proj)

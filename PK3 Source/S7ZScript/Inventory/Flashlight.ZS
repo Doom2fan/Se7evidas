@@ -168,7 +168,7 @@ class S7_Flashlight : Inventory {
             r = g = b = int (128 * intensityMod);
             Shader.SetUniform1f (Owner.player, "S7_Nightvision", "flashlightIntensity", intensityMod);
         }
-        
+
         int beamInner = 10;
         int beamOuter = 15;
         int beamRadius = 640 * 2.5;
@@ -275,7 +275,7 @@ class S7_Flashlight_Spotlight : DynamicLight {
     override void Tick () {
         if (!followTarget)
             return;
-            
+
         if (inertia == 0)
             inertia = 1;
 

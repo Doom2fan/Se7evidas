@@ -112,7 +112,7 @@ class S7_BoundingBox {
 
     int BoxOnLineSide (in Line ld) const {
         int p1, p2;
-            
+
         if (ld.delta.X ~== 0) {
             // ST_VERTICAL
             p1 = m_Box [BOXRIGHT] < ld.v1.p.X;

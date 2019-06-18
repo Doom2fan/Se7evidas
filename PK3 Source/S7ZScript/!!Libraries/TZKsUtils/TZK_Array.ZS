@@ -1,5 +1,5 @@
 // Copyright (c) 2017 Benjamin Moir. All rights reserved.
-// This work is licensed under the terms of the MIT license.  
+// This work is licensed under the terms of the MIT license.
 // To obtain a copy, visit <https://opensource.org/licenses/MIT>.
 
 class S7_TZK_ArrayI8
@@ -125,7 +125,7 @@ class S7_TZK_ArrayStr
 class S7_TZK_ArrayPtr
 {
 	Array<voidptr> Values;
-	
+
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayPtr other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayPtr other) { Values.Move(other.Values); }
@@ -145,7 +145,7 @@ class S7_TZK_ArrayPtr
 class S7_TZK_ArrayObj
 {
 	Array<Object> Values;
-	
+
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayObj other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayObj other) { Values.Move(other.Values); }

@@ -26,7 +26,7 @@ class S7_Math {
     const PiOverEight = Pi / 8.;
 
     const SqrtTwo = 1.41421356237309504880168872421;
-    
+
     const VM_EPSILON = (1. / 65536.);
 
     /** General math **/

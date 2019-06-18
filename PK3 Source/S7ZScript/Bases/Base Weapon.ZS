@@ -112,8 +112,8 @@ class S7_BaseWeapon : Weapon {
         );
 
         return finalPriceInt, finalPower;
-    } 
-    
+    }
+
     Array<int> enchantments_List;
     double Enchantments_GetDamageBonus () {
         int totalPowerLevel = 0;
@@ -556,7 +556,7 @@ class S7_BaseWeapon : Weapon {
                     return null, null; // Out of ammo
             }
         }
-        
+
         Vector3 origin; {
             let qRot = S7_GM_Quaternion.CreateFromAngles (angle, pitch, roll);
             origin = level.Vec3Offset (Vec2OffsetZ (0, 0, player.viewZ),

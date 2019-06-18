@@ -1,5 +1,5 @@
 // Copyright (c) 2017 Benjamin Moir. All rights reserved.
-// This work is licensed under the terms of the MIT license.  
+// This work is licensed under the terms of the MIT license.
 // To obtain a copy, visit <https://opensource.org/licenses/MIT>.
 
 enum ESeekOrigin

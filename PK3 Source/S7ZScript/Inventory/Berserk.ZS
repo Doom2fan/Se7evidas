@@ -104,7 +104,7 @@ class S7_BerserkToken : Powerup {
 
             EffectTics += power.EffectTics / max (Amount, 1);
             Amount += power.Amount;
-            
+
             power.bPickupGood = true;
             return true;
         }

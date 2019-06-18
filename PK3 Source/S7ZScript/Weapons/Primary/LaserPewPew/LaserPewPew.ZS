@@ -237,7 +237,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         }
         BLSG C 1 S7_Recoil (-0.07);
         BLSG B 1 S7_Recoil (-0.07);
-        BLSG A 1;   
+        BLSG A 1;
         BLSG A 1 A_Refire ("Fire");
         goto Ready2;
     Fire.Sights:
@@ -359,7 +359,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG IIJEDAA 2;
         goto Ready2;
 
-    
+
     Reload.SwapGuns: // Gun swapping
         BLSG A 1 { return (invoker.sights ? ResolveState ("Reload.Sights") : null); }
         BLSG A 1 DoSelectOffset (( 20, 10));

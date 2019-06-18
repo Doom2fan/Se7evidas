@@ -1,5 +1,5 @@
 class S7_ZF_UiEvent ui {
-	// 
+	//
 	int Type;
 	//
 	String KeyString;

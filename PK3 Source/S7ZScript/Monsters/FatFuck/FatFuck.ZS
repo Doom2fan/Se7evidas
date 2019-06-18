@@ -122,11 +122,11 @@ class S7_FatFuck : S7_DemonBase {
 
             if (target && Distance2D (target) <= (radius + 256) && abs (pos.z - target.pos.z) < 24)
                 return ResolveState ("FlamethrowerAttack");
-            
+
             return ResolveState ("FireballAttack");
         }
         goto FireballAttack;
-    
+
     FlamethrowerAttack:
         FAT1 GGG 2 A_FaceTarget (90, 45);
         FAT1 HGHGHGHGH 2 {
@@ -258,7 +258,7 @@ class S7_FatFuckFlame : S7_Projectile {
     Spawn:
         TNT1 A 3;
         stop;
-    
+
     Death:
         TNT1 AA 1 {
             for (int i = random [S7_HitsparksRNG] (3, 5); i > 0; i--) {

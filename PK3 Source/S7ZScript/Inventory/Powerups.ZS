@@ -63,7 +63,7 @@ class S7_HeartSphere : Inventory { // I am not good at naming things
 
         int maxHealth = pPawn.GetMaxHealth ();
         pPawn.GiveBody (maxHealth, int (maxHealth * maxHealFactor));
-        
+
         return true;
     }
 
@@ -96,7 +96,7 @@ class S7_SoulSphere : S7_HeartSphere {
         let armor = S7_BasicArmor (Owner.FindInventory ('S7_BasicArmor'));
         if (armor && armor.armorData)
             armor.armorData.FixArmor (armor, 0x7FFFFFFF);
-        
+
         return true;
     }
 
@@ -269,7 +269,7 @@ class S7_Invisibility : PowerupGiver {
 
         if (isFrozen ())
             return;
-        
+
         let act = Spawn ('S7_InvulnerabilityEffect', pos);
         if (act) {
             act.A_SetRenderStyle (act.Alpha, STYLE_Translucent);

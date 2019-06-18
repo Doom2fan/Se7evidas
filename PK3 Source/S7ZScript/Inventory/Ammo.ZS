@@ -347,7 +347,7 @@ class S7_12gaShells : Ammo {
     override String PickupMessage () {
         if (amount == 1)
             return "$12GA_SINGLE";
-        
+
         return PickupMsg;
     }
 

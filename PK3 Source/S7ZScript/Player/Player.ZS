@@ -185,7 +185,7 @@ class S7_BasePlayer : PlayerPawn {
             // Tokens
             GiveInventory ('S7_StaminaRegen', 1);
             GiveInventory ('S7_ManaRegen', 1);
-            
+
             GiveBasics_ClassSpecific ();
 
             if (self == player.mo)
@@ -383,7 +383,7 @@ class S7_BasePlayer : PlayerPawn {
                 if (player.deltaviewheight <= 0)
                     player.deltaviewheight = 1 / 65536.;
             }
-            
+
             if (player.deltaviewheight) {
                 player.deltaviewheight += 0.25;
 

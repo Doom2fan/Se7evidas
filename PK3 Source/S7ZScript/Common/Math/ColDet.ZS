@@ -79,7 +79,7 @@ extend class S7_Math {
 
         if (!no_z && (box1Coords.Z > (box2Coords.Z + box2Size.Y) || (box1Coords.Z + box1Size.Y) <= box2Coords.Z))
             return false;
-       
+
         return true;
     }
 }

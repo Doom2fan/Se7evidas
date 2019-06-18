@@ -43,7 +43,7 @@ class S7_MD5 {
 
     static string FromString (string input) {
         let stream = S7_TZK_StringStream.Create (input);
-        
+
         string ret = FromStream (stream);
         stream = NULL;
 
@@ -312,7 +312,7 @@ class S7_MD5 {
         string data = "";
         let padArr = new ('S7_TZK_ArrayI32'), bitsArr = new ('S7_TZK_ArrayI32');
         uint index, padLen;
-        
+
         // Save number of bits
         bitsArr.Clear ();
         bitsArr.Push ( _count          & 0xFF);

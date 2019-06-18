@@ -100,7 +100,7 @@ class S7_FireThinker_Group {
 
         if (stickPlaneCeil)
             return stickPlaneSector.CeilingPlane;
-        
+
         return stickPlaneSector.FloorPlane;
     }
 

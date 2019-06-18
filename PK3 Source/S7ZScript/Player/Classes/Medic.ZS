@@ -24,7 +24,7 @@
 class S7_EMTPlayer : S7_ScoutPlayer {
     default {
         S7_BasePlayer.ClassDescription "$S7_CLASSDESC_EMT";
-        
+
         // Movement
         Player.JumpZ 9.55; // Not quite as good at jumping as normal scouts
 
@@ -61,7 +61,7 @@ class S7_EMTPlayer : S7_ScoutPlayer {
 class S7_MedicPlayer : S7_BasePlayer {
     default {
         S7_BasePlayer.ClassDescription "$S7_CLASSDESC_MEDIC";
-        
+
         // Damage
         Health 80;
         Player.MaxHealth 80;

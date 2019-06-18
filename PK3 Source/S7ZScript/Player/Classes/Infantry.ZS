@@ -24,7 +24,7 @@
 class S7_InfantryPlayer : S7_BasePlayer {
     default {
         S7_BasePlayer.ClassDescription "$S7_CLASSDESC_INFANTRY";
-        
+
         // Damage
         Health 100;
         Player.MaxHealth 100;
@@ -118,7 +118,7 @@ class S7_InfantryPlayer : S7_BasePlayer {
 class S7_RiflemanPlayer : S7_InfantryPlayer {
     default {
         S7_BasePlayer.ClassDescription "$S7_CLASSDESC_RIFLEMAN";
-        
+
         // Class stuff
         Player.DisplayName "$S7_RIFLEMANPLAYER";
     }
@@ -152,7 +152,7 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
 class S7_EnforcerPlayer : S7_InfantryPlayer {
     default {
         S7_BasePlayer.ClassDescription "$S7_CLASSDESC_ENFORCER";
-        
+
         // Class stuff
         Player.DisplayName "$S7_ENFORCERPLAYER";
     }

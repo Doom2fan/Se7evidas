@@ -24,7 +24,7 @@
 class S7_ScoutPlayer : S7_BasePlayer {
     default {
         S7_BasePlayer.ClassDescription "$S7_CLASSDESC_SCOUT";
-        
+
         // Damage
         Health 75;
         Player.MaxHealth 75;

@@ -124,38 +124,38 @@ class S7_GM_Matrix {
 			}
 		}
 	}
-	
+
 	static S7_GM_Matrix createTRSEuler(Vector3 translate, double yaw, double pitch, double roll, Vector3 scale) {
 		S7_GM_Matrix translateMat = S7_GM_Matrix.identity(4);
 		translateMat.set(3, 0, translate.x);
 		translateMat.set(3, 1, translate.y);
 		translateMat.set(3, 2, translate.z);
-		
+
 		S7_GM_Matrix rotateMat = S7_GM_Matrix.fromEulerAngles(yaw, pitch, roll);
-		
+
 		S7_GM_Matrix scaleMat = S7_GM_Matrix.identity(4);
 		scaleMat.set(0, 0, scale.x);
 		scaleMat.set(1, 1, scale.y);
 		scaleMat.set(2, 2, scale.z);
-		
+
 		S7_GM_Matrix ret = translateMat.multiplyMatrix(rotateMat);
 		ret = ret.multiplyMatrix(scaleMat);
 		return ret;
 	}
-	
+
 	static S7_GM_Matrix createTRSAxisAngle(Vector3 translate, Vector3 axis, double angle, Vector3 scale) {
 		S7_GM_Matrix translateMat = S7_GM_Matrix.identity(4);
 		translateMat.set(3, 0, translate.x);
 		translateMat.set(3, 1, translate.y);
 		translateMat.set(3, 2, translate.z);
-		
+
 		S7_GM_Matrix rotateMat = S7_GM_Matrix.fromAxisAngle(axis, angle);
-		
+
 		S7_GM_Matrix scaleMat = S7_GM_Matrix.identity(4);
 		scaleMat.set(0, 0, scale.x);
 		scaleMat.set(1, 1, scale.y);
 		scaleMat.set(2, 2, scale.z);
-		
+
 		S7_GM_Matrix ret = translateMat.multiplyMatrix(rotateMat);
 		ret = ret.multiplyMatrix(scaleMat);
 		return ret;

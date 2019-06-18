@@ -74,9 +74,9 @@ class S7_GM_Quaternion {
 		double singularityTest = z * x - w * y;
 		double yawY = 2 * (w * z + x * y);
 		double yawX = (1 - 2 * (y * y + z * z));
-		
+
 		double singularityThreshold = 0.4999995;
-		
+
 		double yaw = 0;
 		double pitch = 0;
 		double roll = 0;

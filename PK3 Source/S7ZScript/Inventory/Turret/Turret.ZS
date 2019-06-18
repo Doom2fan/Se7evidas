@@ -355,7 +355,7 @@ class S7_M400Autogun : S7_PlayerSummon {
 
             double heightMod;
 
-            if (ammo <= 0 || target.health <= 0 || target.bInvulnerable || target.bDormant ||IsFriend (target) || 
+            if (ammo <= 0 || target.health <= 0 || target.bInvulnerable || target.bDormant ||IsFriend (target) ||
                 !CheckIfTargetInLOS (360, JLOSF_AllyNoJump | JLOSF_CombatantOnly) ||
                 (heightMod = FindShootingPos (target)) == double.infinity) {
                 target = null;
@@ -473,7 +473,7 @@ class S7_TurretExplosion : S7_EffectsBase {
 
         +NOGRAVITY +NOINTERACTION
     }
-    
+
     override void Tick () {
         CheaperTick ();
     }

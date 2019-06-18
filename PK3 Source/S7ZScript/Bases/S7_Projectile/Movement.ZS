@@ -20,10 +20,10 @@ extend class S7_Projectile {
     void HandleMovement () {
         let oldPos = pos;
         let oldVel = vel;
-        
+
         if (vel ~== (0, 0, 0) && pos.Z ~== floorz)
             return;
-            
+
         if (!tr) { tr = new ('S7_Projectile_Trace'); tr.sourceActor = self; }
 
         tr.actorsToIgnore.Clear ();

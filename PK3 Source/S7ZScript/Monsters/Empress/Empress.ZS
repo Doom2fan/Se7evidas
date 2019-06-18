@@ -130,7 +130,7 @@ class S7_Empress : S7_DemonBase {
             let angTo = inflictor ? AngleTo (inflictor) : double.NaN;
             if (flags & DMG_USEANGLE && !inflictor)
                 angTo = DeltaAngle (self.angle, angle);
-            
+
             if (abs (angTo) <= InvulnShieldAngle)
                 hitShield = true;
         }

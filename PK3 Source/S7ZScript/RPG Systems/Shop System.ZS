@@ -288,7 +288,7 @@ class S7_SSItem_Upgrade : S7_SSItem {
                 reqItemName = requiredUpgrades [i].Left (sepIndex);
                 reqItemAmount = requiredUpgrades [i].Mid (sepIndex + 1).ToInt ();
             }
-            
+
             if (player.CountInv (reqItemName) < reqItemAmount)
                 return false;
         }

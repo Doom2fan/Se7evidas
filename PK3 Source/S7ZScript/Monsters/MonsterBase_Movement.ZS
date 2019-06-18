@@ -541,7 +541,7 @@ extend class S7_MonsterBase {
 
                 if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
                     Prev = oldPos;
-                
+
                 return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
             }
         } else

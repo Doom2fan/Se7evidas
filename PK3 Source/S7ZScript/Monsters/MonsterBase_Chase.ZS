@@ -213,7 +213,7 @@ extend class S7_MonsterBase {
                 }
             }
         }
-        
+
         // do not attack twice in a row
         if (bJustAttacked) {
             bJustAttacked = false;
@@ -230,7 +230,7 @@ extend class S7_MonsterBase {
             bInChase = false;
             return;
         }
-        
+
         // [RH] Don't attack if just moving toward goal
         if (((target == goal || (bChaseGoal && goal)) && goal) || aiNextNode) {
             Actor actualGoal = ((target == goal || (bChaseGoal && goal)) && goal) ? goal : aiNextNode;
@@ -337,7 +337,7 @@ extend class S7_MonsterBase {
 
                 return;
             }
-            
+
             // Check for missile attack
             if (missilestate) {
                 if (!S7_ActorExtensions.IsFast (self) && movecount) {
@@ -358,7 +358,7 @@ extend class S7_MonsterBase {
                     S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                     return;
                 }
-                
+
                 SetState (missilestate);
 
                 bJustAttacked = true;
@@ -402,7 +402,7 @@ extend class S7_MonsterBase {
 
         if (strafecount)
             strafecount--;
-        
+
         // Class bosses don't do this when strafing
         if ((!fastChase || !FastChaseStrafeCount) && !dontMove) {
             // CANTLEAVEFLOORPIC handling was completely missing in the non-serpent functions.
@@ -414,7 +414,7 @@ extend class S7_MonsterBase {
             if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoMove () && !(flags & CHF_StopIfBlocked)))
                 S7_NewChaseDir ();
 
-            // If the move was illegal, reset it 
+            // If the move was illegal, reset it
             // (copied from A_SerpentChase - it applies to everything with CANTLEAVEFLOORPIC!)
             if (bCantLeaveFloorPic && floorpic != oldFloor) {
                 if (TryMove (old, false)) {
@@ -431,7 +431,7 @@ extend class S7_MonsterBase {
         }
         else if (dontMove && movecount > 0)
             movecount--;
-        
+
         // make active sound
         if (playActive && random [Chase] (0, 255) < 3)
             PlayActiveSound ();

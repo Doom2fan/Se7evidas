@@ -15,12 +15,12 @@ class S7_GM_GlobalMaths {
 	static double copySignDouble(double source, double signSource) {
 		return abs(source) * sign(signSource);
 	}
-	
+
 	/// Remaps a value in a range to another range.
 	static double remapRange(double value, double range1L, double range1H, double range2L, double range2H) {
 		return range2L + (value - range1L) * (range2H - range1H) / (range1H - range1L);
 	}
-	
+
 	/// Remaps a value in a range to another range.
 	static int remapRangeInt(int value, int range1L, int range1H, int range2L, int range2H) {
 		return int(range2L + (value - range1L) * (range2H - range1H) / double(range1H - range1L));
@@ -51,13 +51,13 @@ class S7_GM_GlobalMaths {
 		double fovratio = (aspect >= 1.3) ? 1.333333 : aspect;
 		return 2 * atan(tan(clamp(fovH, 5, 170) / 2.0) / fovratio);
 	}
-	
+
 	/// Linearly interpolates between two doubles, clamping the parameters.
 	static double lerpDouble(double from, double to, double time) {
 		time = clamp(time, 0, 1);
 		return lerpUnclampedDouble(from, to, time);
 	}
-	
+
 	/// Linearly interpolates between two doubles.
 	static double lerpUnclampedDouble(double from, double to, double time) {
 		double ret;
@@ -88,7 +88,7 @@ class S7_GM_GlobalMaths {
 			return (((ndcCoords.x + 1) * Screen.getWidth()) / 2, ((-ndcCoords.y + 1) * Screen.getHeight()) / 2);
 		}
 	}
-	
+
 	enum OutCode {
 		OUT_Inside = 0,
 		OUT_Left   = 1 << 0,
@@ -96,11 +96,11 @@ class S7_GM_GlobalMaths {
 		OUT_Bottom = 1 << 2,
 		OUT_Top    = 1 << 3
 	}
-	
+
 	/// Computes an outcode for a point in a rectangle.
 	static OutCode computeOutcode(Vector2 point, Vector2 min, Vector2 max) {
 		OutCode code = OUT_Inside;
-		
+
 		if (point.x < min.x) {
 			code |= OUT_Left;
 		}
@@ -113,15 +113,15 @@ class S7_GM_GlobalMaths {
 		else if (point.y > max.y) {
 			code |= OUT_Bottom;
 		}
-		
+
 		return code;
 	}
-	
+
 	/// Clips a line to a rectangle.
 	static bool, Vector2, Vector2 cohenSutherlandClip(Vector2 point0, Vector2 point1, Vector2 min, Vector2 max) {
 		OutCode outcode0 = computeOutCode(point0, min, max);
 		OutCode outcode1 = computeOutCode(point1, min, max);
-		
+
 		while (true) {
 			// trivial accept - points are both on screen
 			if ((outcode0 | outcode1) == 0) {
@@ -134,7 +134,7 @@ class S7_GM_GlobalMaths {
 			else {
 				Vector2 new;
 				OutCode outcodeOut = (outcode0 != 0) ? outcode0 : outcode1;
-				
+
 				if ((outcodeOut & OUT_Bottom) != 0) {
 					new.x = point0.x + (point1.x - point0.x) * (max.y - point0.y) / (point1.y - point0.y);
 					new.y = max.y;
@@ -151,7 +151,7 @@ class S7_GM_GlobalMaths {
 					new.y = point0.y + (point1.y - point0.y) * (min.x - point0.x) / (point1.x - point0.x);
 					new.x = min.x;
 				}
-				
+
 				if (outcodeOut == outCode0) {
 					point0.x = new.x;
 					point0.y = new.y;
@@ -166,7 +166,7 @@ class S7_GM_GlobalMaths {
 		}
 		return false, (0, 0), (0, 0);
 	}
-	
+
 	// Normalizes an angle to (-180, 180]. Like Actor.normalize180, but callable in data scope.
 	static double normalize180(double ang) {
 		ang = ang % 360;

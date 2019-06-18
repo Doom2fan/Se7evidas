@@ -64,7 +64,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     override void Tick () {
         Super.Tick ();
-        
+
         if (!self)
             return;
 

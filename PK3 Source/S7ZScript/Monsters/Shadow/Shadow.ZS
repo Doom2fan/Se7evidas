@@ -41,7 +41,7 @@ class S7_ShadowDemon : S7_Mechdemon {
             alpha += 2./TICRATE;
         else if (dead && alpha < 1.)
             alpha += .15/TICRATE;
-        else if (!attacking && !dead && health > 0 && alpha > .25) 
+        else if (!attacking && !dead && health > 0 && alpha > .25)
             alpha -= 1.5/TICRATE;
 
         alpha = clamp (alpha, .25, 1.);

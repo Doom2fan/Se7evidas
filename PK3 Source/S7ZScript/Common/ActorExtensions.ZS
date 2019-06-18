@@ -137,7 +137,7 @@ class S7_ActorExtensions : Actor {
 
         if (!no_z && (a.pos.z > (b.pos.z + b.height) || (a.pos.z + a.height) <= b.pos.z))
             return false;
-       
+
         return true;
     }
 
@@ -258,7 +258,7 @@ class S7_ActorExtensions : Actor {
 
             secPoly.lines.Push (line);
         }
-        
+
         return !S7_Math.PointInPolygon (mo.pos.XY, secPoly);
     }
 
@@ -352,10 +352,10 @@ class S7_ActorExtensions : Actor {
                         inv.Destroy ();
                         return NULL;
                     }
-                    
+
                     return inv;
                 }
-                
+
                 return mo;
             }
         }
@@ -368,7 +368,7 @@ class S7_ActorExtensions : Actor {
 
         if (style == 0)
             style = 1;//gameinfo.defaultdropstyle;
-        
+
         if (style == 2) {
             item.vel.X += random2 [DropItem] (7);
             item.vel.Y += random2 [DropItem] (7);
@@ -383,7 +383,7 @@ class S7_ActorExtensions : Actor {
     static bool CheckDelayedSpawn (Actor act) {
         int maxSightRange = S7_DelayedSpawnsMaxSightRange;
         int maxSoundRange = S7_DelayedSpawnsMaxSoundRange;
-        
+
         for (int i = 0; i < MAXPLAYERS; i++) {
             if (!playeringame [i])
                 continue;

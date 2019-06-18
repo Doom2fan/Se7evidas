@@ -183,7 +183,7 @@ class S7_Infernal : S7_MonsterBase {
                 return ResolveState ("FlameInit");
 
             A_FaceTarget (0, 0);
-            
+
             let proj = S7_InfernalBall (A_SpawnProjectile ('S7_InfernalBall', 32));
 
             if (proj)

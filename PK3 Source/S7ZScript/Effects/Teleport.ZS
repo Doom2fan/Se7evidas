@@ -27,7 +27,7 @@ class S7_TeleportFog : S7_EffectsBase {
 
         +NOINTERACTION +NOTELEPORT +NOGRAVITY +NOBLOCKMAP
     }
-    
+
     override void Tick () {
         CheaperTick ();
     }

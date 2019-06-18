@@ -259,7 +259,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 E 1 A_FaceTarget (turn * 2, turn * 2);
         SCR1 F 1 {
             A_FaceTarget (0, 0);
-            
+
             DoFireGun ();
         }
         SCR1 EEE 1 A_FaceTarget (turn * 1.5, turn * 1.5);

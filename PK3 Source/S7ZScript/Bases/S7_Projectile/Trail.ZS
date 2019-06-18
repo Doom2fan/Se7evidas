@@ -45,7 +45,7 @@ extend class S7_Projectile {
                     act.target = target;
                 else
                     act.target = self;
-                
+
                 act.angle = angle;
                 act.pitch = pitch;
             }

@@ -142,7 +142,7 @@ class S7_Mechdemon : S7_DemonBase {
         }
 
         Prev = oldPos;
-        
+
         return ResolveState (null);
     }
 
