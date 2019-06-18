@@ -31,8 +31,9 @@ Misc/Common/FireballHit         "sounds/Misc/Common/FireballHit.ogg" // Ditto
 Misc/Common/Fireball2           "sounds/Misc/Common/Fireball2.ogg" // Ditto. Edited by Chronos "phantombeta" Ouroboros
 
 // Fire
-Fire/Small                      "sounds/Effects/Fire/Fire_Small.ogg" // From Quake 4
-Fire/Flare                      "sounds/Effects/Fire/Flare.ogg"      // Ditto
+Fire/DoomCrackle                "sounds/Effects/Fire/DoomCrackle.ogg" // Credits: Id Software, Per Kristian, Chronos "phantombeta" Ouroboros
+Fire/Small                      "sounds/Effects/Fire/Fire_Small.ogg"  // From Quake 4
+Fire/Flare                      "sounds/Effects/Fire/Flare.ogg"       // Ditto
 
 // Footsteps
 $RANDOM Footsteps/Large {

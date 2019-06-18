@@ -120,83 +120,366 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (96. * (1. + invoker.bonusDMGFactor)), 144, fulldamagedistance: 48);
 
+            bool hitFloor = (pos.Z <= floorZ);
             bool hitCeiling = (pos.Z + height >= ceilingZ);
 
-            int count = 20 + random [weaponSpc] (0, 5);
+            let fireDefs = GetDefaultByType ('S7_ThumperGrenadeTherm_Fire');
+
+            double projAngle = angle + 180;
+
+            if (BlockingLine)
+                projAngle = VectorAngle (BlockingLine.delta.X, BlockingLine.delta.Y) - 90.;
+
+            let rng = S7_FastRNG.Create ();
+
+            Array<double> angles, pitches;
+            angles.Clear (); pitches.Clear ();
+
+            int count = 150 + random [weaponSpc] (0, 10);
+            angles.Grow (count); pitches.Grow (count);
+
+            while (angles.Size () <= count) {
+                double z0, z1;
+
+                [z0, z1] = S7_Math.GenerateGaussianNoise (rng, 0, 80);
+
+                angles.Push (z0);
+                angles.Push (z1);
+
+                [z0, z1] = S7_Math.GenerateGaussianNoise (rng, 60, 25);
+
+                pitches.Push (-z0);
+                pitches.Push (-z1);
+            }
+
             for (; count > 0; count--) {
                 Vector3 firePos = (
                     fRandom [weaponSpc] (-.025, .025),
                     fRandom [weaponSpc] (-.025, .025),
-                    .25
+                    pos.Z
                 );
-                Vector3 fireVel = (
-                    fRandom [weaponSpc] (1.75, 6.),
-                    0.,
-                    fRandom [weaponSpc] (2.5 , 5.)
+                Vector3 fireVel;
+
+                fireVel = S7_Math.GetAxisAngles (
+                    projAngle + angles [count],
+                    fRandom [weaponSpc] (-89.9, 89.9),
+                    0
                 );
 
-                if (hitCeiling) {
-                    firePos.Z = -firePos.Z;
-                    fireVel.X = fRandom [weaponSpc] (0., 6.);
-                    fireVel.Z = -fireVel.Z;
+                fireVel *= fRandom [weaponSpc] (20., 30.);
+
+                if (hitCeiling && !hitFloor) {
+                    firePos.Z = ceilingZ - (fireDefs.height + 1.);
+                    fireVel.Z = -abs (fireVel.Z);
+                } else if (hitFloor && !hitCeiling) {
+                    firePos.Z = floorZ + fireDefs.height + 1.;
+                    fireVel.Z = abs (fireVel.Z);
                 }
 
                 bool success; Actor act;
                 [success, act] = A_SpawnItemEx ('S7_ThumperGrenadeTherm_Fire',
-                    firePos.X, firePos.Y, firePos.Z,
+                    firePos.X, firePos.Y, 0,
                     fireVel.X, fireVel.Y, fireVel.Z,
-                    fRandom [weaponSpc] (0., 360.), SXF_TransferPointers | SXF_NoCheckPosition
+                    0, SXF_AbsoluteVelocity | SXF_TransferPointers | SXF_NoCheckPosition
                 );
 
                 let fire = S7_Projectile (act);
-                if (success && fire)
+                if (success && fire) {
                     fire.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
-
-                A_SetScale (0.6);
+                    fire.SetOrigin ((fire.pos.XY, firePos.Z), false);
+                }
             }
+
+            for (int i = random [sfx] (15, 25); i > 0; i--) {
+                let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-25, 25), fRandom [sfx] (-25, 25), 0)));
+
+                act.A_SetRenderstyle (act.alpha, STYLE_TranslucentStencil);
+                act.SetShade ("FFFFFF");
+                act.scale = (0.325, 0.325);
+                act.vel = (
+                    fRandom [sfx] (-.15, .15),
+                    fRandom [sfx] (.1, .5) * fRandomPick [sfx] (-1, 1),
+                    fRandom [sfx] (-.5, .5)
+                );
+                act.fadeInTime = random [sfx] (2, 5);
+                act.stayTime = 10;
+                act.fadeOutTime = random [sfx] (17, ceil (35 * 1.25));
+                act.targetAlpha = .5;
+            }
+
+            A_SetScale (1.0);
         }
         goto Explosion;
+
+    Explosion:
+        TNT1 A 3 {
+            let expl = S7_GenericExplosion (Spawn ('S7_GenericExplosion', pos));
+            if (expl) {
+                expl.target = self;
+                expl.noSmoke = true;
+            }
+        }
+        stop;
+    }
+}
+
+class S7_ThumperGrenadeTherm_Fire_Smoke : S7_FireThinker_Smoke {
+    default {
+        Alpha 0.9;
+
+        RenderStyle "stencil";
+        StencilColor "FF FF FF";
+    }
+
+    override void PostBeginPlay () {
+        chosenFrame = smokeRNG.GetInt (0, 24);
+
+        double offsMax = fireSize / 3.;
+        SetOrigin (Vec3Offset (
+            smokeRNG.GetFloat (-offsMax, offsMax),
+            smokeRNG.GetFloat (-offsMax, offsMax),
+            smokeRNG.GetFloat (-offsMax, offsMax)
+        ), false);
+
+        if (pos.Z <= (floorZ + 1))
+            SetZ (floorZ + 1);
+
+        if ((pos.Z + height) < ceilingZ)
+            vel.Z = smokeRNG.GetFloat (1.2, 4.);
+
+        A_SetScale (smokeRNG.GetFloat (0.05, 0.065));
+        scaleSpeed = 0.005;
+        if (scale.X < 0)
+            scaleSpeed = -scaleSpeed;
+
+        alpha += smokeRNG.GetFloat (-0.1, 0.1);
+        alphaSpeed = 0.05;
+
+        roll = smokeRNG.GetFloat (0, 360);
+        bSpriteFlip = smokeRNG.GetInt (0, 1);
+
+        fadeTime = smokeRNG.GetInt (4, 10);
+    }
+
+    override void Tick () {
+        if (isFrozen ())
+            return;
+
+        frame = chosenFrame;
+
+        if (!(vel ~== (0, 0, 0))) {
+            let newPos = level.Vec3Offset (pos, vel);
+            bool xyPosEqual = (newPos.XY ~== pos.XY);
+
+            if (xyPosEqual && !(vel.Z ~== 0)) {
+                Prev.Z = pos.Z;
+                SetZ (newPos.Z);
+            } else if (!xyPosEqual)
+                SetOrigin (pos + vel, true);
+        }
+
+        if (fadeTime > 0)
+            fadeTime--;
+        else if ((alpha -= alphaSpeed) < alphaSpeed) {
+            Destroy ();
+            return;
+        }
+
+        scale.X = scale.Y = scale.X + scaleSpeed;
+    }
+}
+
+class S7_ThumperGrenadeTherm_Fire_Trail : S7_ThumperGrenadeTherm_Fire_Smoke {
+    const FadeSpeed = 0.2;
+    const ScaleSpeed = 0.002;
+
+    override void PostBeginPlay () {
+        chosenFrame = random [sfx] (0, 24);
+
+        A_SetScale (0.0225);
+
+        roll = fRandom [sfx] (0, 360);
+        bSpriteFlip = random [sfx] (0, 1);
+    }
+
+    override void Tick () {
+        if (isFrozen ())
+            return;
+
+        frame = chosenFrame;
+
+        if (
+            (alpha -= FadeSpeed) <= 0. ||
+            (scale.Y = (scale.X -= ScaleSpeed)) < (ScaleSpeed * 2)
+        ) {
+            Destroy ();
+            return;
+        }
+    }
+}
+
+class S7_ThumperGrenadeTherm_Fire_Fire : S7_FireThinker_Flame {
+    override void PostBeginPlay () {
+        double offsMax = fireSize / 3.;
+        SetOrigin (Vec3Offset (
+            flameRNG.GetFloat (-offsMax, offsMax),
+            flameRNG.GetFloat (-offsMax, offsMax),
+            flameRNG.GetFloat (-offsMax, offsMax)
+        ), false);
+
+        A_PlaySound ("Fire/DoomCrackle", attenuation: 2);
+
+        Destroy ();
+    }
+
+    states {
+    Spawn:
+        TNT1 A 1;
+        stop;
     }
 }
 
 class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
     default {
-        Radius 1;
-        Height 1;
+        S7_Projectile.MovementMode FastProjectile;
+        S7_Projectile.FastProjCollision ColMode_Center;
+        S7_Projectile.EffectStepMul -1;
+
+        Radius 9;
+        Height 8;
         Mass 0x7FFFFFFF;
-        Args 72;
+        Gravity 4;
         RenderStyle "add";
         DamageFunction 0;
         DamageType 'ThermiteFire';
 
-        +FORCEXYBILLBOARD +NODAMAGETHRUST +BLOODLESSIMPACT +FORCERADIUSDMG
-        +THRUACTORS       +DONTSPLASH
+        MissileType 'S7_ThumperGrenadeTherm_Fire_Trail';
+
+        +FORCEXYBILLBOARD +NODAMAGETHRUST +BLOODLESSIMPACT +HITTRACER
+        +HITOWNER
         -NOGRAVITY
+    }
+
+    S7_FireThinker_BaseInfo info;
+    int stepMulCounter;
+
+    bool hitSomething;
+
+    override void PostBeginPlay () {
+        Super.PostBeginPlay ();
+
+        info = new ('S7_FireThinker_BaseInfo');
+
+        info.duration = int (35. * fRandom [weaponSpc] (12.5, 20.));
+        info.fireSize = 24. * fRandom [weaponSpc] (0.85, 1.25);
+
+        info.damage = 1;
+        info.damageMul = 1. + bonusDMGFactor;
+        info.damageDelay = 5;
+        info.damageType = DamageType;
+
+        info.smokeDelay = 4;
+        info.smokeMinDensity = 0;
+        info.smokeMaxDensity = 3;
+        info.smokeActor = 'S7_ThumperGrenadeTherm_Fire_Smoke';
+
+        info.flameMinDelay = 35 * 8;
+        info.flameMaxDelay = 35 * 12;
+        info.flameMinDensity = 1;
+        info.flameMaxDensity = 1;
+        info.flameActor = 'S7_ThumperGrenadeTherm_Fire_Fire';
+
+        trailType = null;
+        stepMulCounter = randomPick [S7_SmokeRNG] (4, 4, 4, 4, -1);
+    }
+
+    class<Actor> trailType;
+    override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
+        if (!trailType)
+            return NULL;
+
+        Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
+
+        double realFloorZ = GetZAt (finalPos.X, finalPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+
+        if (finalPos.Z < realFloorZ)
+            finalPos.Z = realFloorZ;
+
+        Actor act = Spawn (trailType, finalPos, ALLOW_REPLACE);
+
+        if (act)
+            act.ClearInterpolation ();
+
+        return act;
+    }
+
+    override void Tick () {
+        Super.Tick ();
+
+        if (--info.duration < 1) {
+            Destroy ();
+            return;
+        }
+
+        if (!self || !info || hitSky)
+            return;
+
+        if (stepMulCounter > 0) {
+            stepMulCounter--;
+            switch (stepMulCounter) {
+                case 2:
+                    effectStepMul = (1. / 4.);
+                    trailType = MissileName;
+                    break;
+                case 1:
+                    effectStepMul = (1. / 5.);
+                    trailType = MissileName;
+                    break;
+                case 0:
+                    effectStepMul = (1. / 6.);
+                    trailType = MissileName;
+                    break;
+            }
+        }
+
+        S7_StickToObject ();
+    }
+
+    const SmallMovementSpeed = 1. / 256.;
+    void S7_StickToObject () {
+        if (!tracer)
+            tracer = BlockingMobj;
+
+        if (S7_FireThinker.StickFromActor (self, target, tracer, info))
+            Destroy ();
+        else if (hitSomething) {
+            tracer = BlockingMobj = null;
+            bMissile = true;
+
+            if (vel ~== (0, 0, 0)) {
+                vel = (
+                    fRandomPick [weaponSpc] (-SmallMovementSpeed, SmallMovementSpeed),
+                    fRandomPick [weaponSpc] (-SmallMovementSpeed, SmallMovementSpeed),
+                    -SmallMovementSpeed
+                );
+            }
+        }
     }
 
     states {
     Spawn:
-        THGR F 1 bright;
+        THGR F 6 bright;
         wait;
     Death:
         TNT1 A 0 {
-            A_PlaySound ("Fire/Small", CHAN_7, 0.8, TRUE, 0.5);
-            bForceXYBillboard = false;
             A_ChangeLinkFlags (false);
+
+            bSpriteFlip = !!random [weaponSpc] (0, 1);
         }
+        goto Loople;
     Loople:
-        THGR C  2 bright {
-            A_CountdownArg (0, "FadeOut");
-            A_Explode (int (1. * (1. + invoker.bonusDMGFactor)), 45, XF_HurtSource, fulldamagedistance: 45);
-        }
-        THGR DE 2 bright;
-        loop;
-    FadeOut:
-        THGR C  2 bright {
-            A_SetScale (scale.X - 0.035);
-            A_Explode (int (1. * (1. + invoker.bonusDMGFactor)), int (45 * scale.X), XF_HurtSource, fulldamagedistance: int (45 * scale.X));
-        }
-        THGR DE 2 bright A_FadeOut (0.08);
+        THGR F 1 bright;
+        TNT1 A 0 { hitSomething = true; }
         loop;
     }
 }

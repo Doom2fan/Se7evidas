@@ -108,6 +108,9 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Effects/Fire.ZS"
 #include "S7ZScript/Effects/Explosions.ZS"
 
+// Systems
+#include "S7ZScript/Systems/FireThinker.ZS"
+
 // RPG Systems
 #include "S7ZScript/RPG Systems/Shop System.ZS"
 #include "S7ZScript/RPG Systems/XP System.ZS"
