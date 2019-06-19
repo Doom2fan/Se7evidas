@@ -263,6 +263,40 @@ class S7_SSItem_Armor : S7_SSItem {
     }
 }
 
+class S7_SSItem_Weapon : S7_SSItem {
+    override void PostProcess () {
+        class<Inventory> weapClass = inventoryName;
+        if (!(weapClass is 'S7_BaseWeapon'))
+            Console.Printf ("\cgSe7evidas error: S7_SSItem_Weapon can only be used with items inheriting from S7_BaseWeapon. (item \"%s\")", inventoryName);
+    }
+
+    override S7_SSItemInfo GetInfo (S7_BasePlayer player, int amount) {
+        let ret = self.info.Copy ();
+
+        if (ret.maxAmount < 0) {
+            Inventory inv;
+
+            if (player && (inv = player.FindInventory (self.inventoryName)))
+                ret.maxAmount = inv.maxAmount;
+            else if (self.inventoryName != "") {
+                let defaults = GetDefaultByType ((Class<Inventory>) (self.inventoryName));
+                ret.maxAmount = defaults ? defaults.maxAmount : 0;
+            }
+        }
+
+        ret.buyPrice *= amount;
+        ret.buyAmount *= amount;
+        ret.sellPrice *= amount;
+        ret.sellAmount *= amount;
+
+        let weap = S7_BaseWeapon (player.FindInventory (inventoryName));
+        if (weap)
+            ret.sellPrice += int (weap.Enchantments_GetSellPrice () * .75);
+
+        return ret;
+    }
+}
+
 class S7_SSItem_Upgrade : S7_SSItem {
     Array<string> requiredUpgrades;
 

@@ -113,6 +113,26 @@ class S7_BaseWeapon : Weapon {
 
         return finalPriceInt, finalPower;
     }
+    int Enchantments_GetSellPrice () const {
+        int ret = 0;
+
+        for (int i = 0; i < enchantments_List.Size (); i++) {
+            double finalPrice = enchantment_Price_Base;
+            finalPrice *= (1. + (enchantment_Price_PowerMul * (enchantments_List [i])));
+            finalPrice = finalPrice * (enchantment_Price_AmountD ** i);
+
+            int finalPriceInt = int (finalPrice);
+            finalPriceInt = (
+                ((finalPriceInt % 10) == 5) ?
+                finalPriceInt :
+                (finalPriceInt + (finalPriceInt % 2))
+            );
+
+            ret += finalPriceInt;
+        }
+
+        return ret;
+    }
 
     Array<int> enchantments_List;
     double Enchantments_GetDamageBonus () {

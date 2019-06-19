@@ -501,7 +501,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "RPTR" {
+                buySellItem "RPTR" : "S7_SSItem_Weapon" {
                     name = "$SHORTRAPTOR";
                     desc = "$SS_RAPTORDESC";
                     info = "$SS_RAPTORINFO";
@@ -511,7 +511,7 @@ shop "mainShop" {
                     buyPrice = 1750;
                     sellPrice = 1315;
                 },
-                buySellItem "RVLV" {
+                buySellItem "RVLV" : "S7_SSItem_Weapon" {
                     name = "$SHORTREVOLVER";
                     desc = "$SS_REVOLVERDESC";
                     info = "$SS_REVOLVERINFO";
@@ -535,7 +535,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "TEC9" {
+                buySellItem "TEC9" : "S7_SSItem_Weapon" {
                     name = "$SHORTTEC9";
                     desc = "$SS_TEC9DESC";
                     info = "$SS_TEC9INFO";
@@ -545,7 +545,7 @@ shop "mainShop" {
                     buyPrice = 1500;
                     sellPrice = 1125;
                 },
-                buySellItem "HTTR" {
+                buySellItem "HTTR" : "S7_SSItem_Weapon" {
                     name = "$SHORTHITTERSMG";
                     desc = "$SS_HITTERSMGDESC";
                     info = "$SS_HITTERSMGINFO";
@@ -555,7 +555,7 @@ shop "mainShop" {
                     buyPrice = 2500;
                     sellPrice = 1875;
                 },
-                buySellItem "LPEW" {
+                buySellItem "LPEW" : "S7_SSItem_Weapon" {
                     name = "$SHORTBUTTFLY";
                     desc = "$SS_LSR_PEW_PEWDESC";
                     info = "$SS_LSR_PEW_PEWINFO";
@@ -579,7 +579,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "MANX" {
+                buySellItem "MANX" : "S7_SSItem_Weapon" {
                     name = "$SHORTMANXCARBINE";
                     desc = "$SS_MANXDESC";
                     info = "$SS_MANXINFO";
@@ -589,7 +589,7 @@ shop "mainShop" {
                     buyPrice = 6500;
                     sellPrice = 4875;
                 },
-                buySellItem "MARS" {
+                buySellItem "MARS" : "S7_SSItem_Weapon" {
                     name = "$SHORTAMG";
                     desc = "$SS_AMGDESC";
                     info = "$SS_AMGINFO";
@@ -599,7 +599,7 @@ shop "mainShop" {
                     buyPrice = 11000;
                     sellPrice = 8250;
                 },
-                buySellItem "FCHD" {
+                buySellItem "FCHD" : "S7_SSItem_Weapon" {
                     name = "$SHORTFAUCHARD";
                     desc = "$SS_FAUCHARDDESC";
                     info = "$SS_FAUCHARDINFO";
@@ -623,7 +623,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "CESR" {
+                buySellItem "CESR" : "S7_SSItem_Weapon" {
                     name = "$SHORTCAESARCHAINGUN";
                     desc = "$SS_CAESARCHAINGUNDESC";
                     info = "$SS_CAESARCHAINGUNINFO";
@@ -647,7 +647,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "LDSG" {
+                buySellItem "LDSG" : "S7_SSItem_Weapon" {
                     name = "$SHORTSHOTGUN";
                     desc = "$SS_SHOTGUNDESC";
                     info = "$SS_SHOTGUNINFO";
@@ -671,7 +671,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "CNQR" {
+                buySellItem "CNQR" : "S7_SSItem_Weapon" {
                     name = "$SHORTCONQUERORSRIFLE";
                     desc = "$SS_CONQUERORDESC";
                     info = "$SS_CONQUERORINFO";
@@ -695,7 +695,7 @@ shop "mainShop" {
                     icon = "M_BACK_D";
                     link = "weaponsPage";
                 },
-                buySellItem "THMP" {
+                buySellItem "THMP" : "S7_SSItem_Weapon" {
                     name = "$SHORTTHUMPER";
                     desc = "$SS_THUMPERDESC";
                     info = "$SS_THUMPERINFO";
@@ -705,7 +705,7 @@ shop "mainShop" {
                     buyPrice = 15000;
                     sellPrice = 11250;
                 },
-                buySellItem "GTX2" {
+                buySellItem "GTX2" : "S7_SSItem_Weapon" {
                     name = "$SHORTIONCANNON";
                     desc = "$SS_IONCANNONDESC";
                     info = "$SS_IONCANNONINFO";
@@ -824,7 +824,7 @@ shop "mainShop" {
                     inventoryName = "S7_12gaShells";
                     sellPrice = 3;
                 },
-                sellItem "LSSG" {
+                sellItem "LSSG" : "S7_SSItem_Weapon" {
                     name = "$SHORTSSG";
                     desc = "$SS_SSGDESC";
                     info = "$SS_SSGINFO";
@@ -832,7 +832,7 @@ shop "mainShop" {
                     inventoryName = "S7_SSG";
                     sellPrice = 3500;
                 },
-                sellItem "AK47" {
+                sellItem "AK47" : "S7_SSItem_Weapon" {
                     name = "$SHORTAK47";
                     desc = "$SS_AK47DESC";
                     info = "$SS_AK47INFO";
