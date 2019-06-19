@@ -46,8 +46,8 @@ class S7_AMG : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A762", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 750, 0.2, 1.15;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 750, 0.4, 1.15;
     }
 
     const BASEZOOMFACTOR = 5.5;

@@ -48,8 +48,8 @@ class S7_SSG : S7_BaseWeapon {
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.CanReloadWhileSprinting true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 700, 0.2, 1.16;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 700, 0.4, 1.16;
     }
 
     bool leftLoaded, rightLoaded, firingBoth;

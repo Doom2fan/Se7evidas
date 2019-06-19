@@ -46,8 +46,8 @@ class S7_HitterSMG : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "AACP", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 650, 0.1, 1.16;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 650, 0.4, 1.16;
     }
 
     bool upperJammed, lowerJammed;

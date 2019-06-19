@@ -46,8 +46,8 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A45W", 6;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 1250, 0.3, 1.178;
+        S7_BaseWeapon.EnchantmentProperties true, 0.015;
+        S7_BaseWeapon.EnchantmentPrice 1250, 0.25, 1.178;
     }
 
     override void PostBeginPlay () {

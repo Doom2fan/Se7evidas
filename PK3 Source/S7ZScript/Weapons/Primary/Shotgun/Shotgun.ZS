@@ -46,8 +46,8 @@ class S7_Shotgun : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A20g", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 700, 0.2, 1.16;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 700, 0.4, 1.16;
     }
 
     int loaded;

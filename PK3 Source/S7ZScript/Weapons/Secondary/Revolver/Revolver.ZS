@@ -46,8 +46,8 @@ class S7_Revolver : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A44M", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 650, 0.2, 1.182;
+        S7_BaseWeapon.EnchantmentProperties true, 0.02;
+        S7_BaseWeapon.EnchantmentPrice 650, 0.425, 1.1885;
     }
 
     states {

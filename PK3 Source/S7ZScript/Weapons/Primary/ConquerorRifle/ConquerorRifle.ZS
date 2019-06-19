@@ -46,8 +46,8 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A45W", 1;
         S7_BaseWeapon.BindSlot WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 1350, 0.3, 1.209;
+        S7_BaseWeapon.EnchantmentProperties true, 0.015;
+        S7_BaseWeapon.EnchantmentPrice 1350, 0.25, 1.209;
     }
 
     const BASEZOOMFACTOR = 6.5;

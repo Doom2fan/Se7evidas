@@ -65,8 +65,8 @@ class S7_Thumper : S7_BaseWeapon {
         S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag false;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 850, 0.25, 1.1612;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 850, 0.65, 1.1612;
 
         +WEAPON.NOAUTOAIM
     }

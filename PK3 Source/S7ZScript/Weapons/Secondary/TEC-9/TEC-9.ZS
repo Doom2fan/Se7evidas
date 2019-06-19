@@ -46,8 +46,8 @@ class S7_TEC9 : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A9MM", 1;
         S7_BaseWeapon.BindSlot WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 450, 0.075, 1.1885;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 450, 0.375, 1.1885;
     }
 
     bool selecting;

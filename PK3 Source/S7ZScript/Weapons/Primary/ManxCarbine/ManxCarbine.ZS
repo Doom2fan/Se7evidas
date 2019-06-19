@@ -46,8 +46,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
         S7_BaseWeapon.AmmoBuyData "A9MM", 1;
         S7_BaseWeapon.BindSlot WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
-        S7_BaseWeapon.EnchantmentProperties true, 0.075;
-        S7_BaseWeapon.EnchantmentPrice 600, 0.1, 1.16;
+        S7_BaseWeapon.EnchantmentProperties true, 0.025;
+        S7_BaseWeapon.EnchantmentPrice 600, 0.4, 1.16;
     }
 
     const MANX_SCOPEOVERLAY_ID      = 20;
