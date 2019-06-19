@@ -132,10 +132,12 @@ class S7_ActorExtensions : Actor {
     static bool CheckActorCollision (Actor a, Actor b, bool no_z = false) {
         double blockDist = b.radius + a.radius;
 
-        if (abs (b.pos.x - a.pos.x) >= blockDist || abs (b.pos.y - a.pos.y) >= blockDist)
+        let diff = a.Vec2To (b);
+
+        if (abs (diff.X) >= blockDist || abs (diff.Y) >= blockDist)
             return false;
 
-        if (!no_z && (a.pos.z > (b.pos.z + b.height) || (a.pos.z + a.height) <= b.pos.z))
+        if (!no_z && (a.pos.z >= (b.pos.Z + b.height) || (a.pos.Z + a.height) <= b.pos.Z))
             return false;
 
         return true;

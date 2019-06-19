@@ -34,24 +34,29 @@ extend class S7_Math {
         // the sqrt (dist) is fine to use as well, but this is faster.
         float sqDist = 0.0f;
 
-        double p [3] = { sphereCoords.X, sphereCoords.Y, sphereCoords.Z };
-        double bMin [3] = {
-            boxCoords.X - boxSize.X,
-            boxCoords.Y - boxSize.X,
-            boxCoords.Z
-        };
-        double bMax [3] = {
-            boxCoords.X + boxSize.X,
-            boxCoords.Y + boxSize.X,
-            boxCoords.Z + boxSize.Y
-        };
+        let diffCoords = level.Vec3Diff (sphereCoords, boxCoords);
 
-        for (int i = 0; i < 3; i++) {
-            // For each axis count any excess distance outside box extents
-            float v = p [i];
-            if (v < bMin [i]) sqDist += (bMin [i] - v) * (bMin [i] - v);
-            if (v > bMax [i]) sqDist += (v - bMax [i]) * (v - bMax [i]);
-        }
+        Vector3 bMin = (
+            diffCoords.X - boxSize.X,
+            diffCoords.Y - boxSize.X,
+            diffCoords.Z
+        );
+        Vector3 bMax = (
+            diffCoords.X + boxSize.X,
+            diffCoords.Y + boxSize.X,
+            diffCoords.Z + boxSize.Y
+        );
+
+        // For each axis count any excess distance outside box extents
+        // X
+        if (bMin.X > 0) sqDist += (bMin.X) * (bMin.X);
+        if (bMax.X < 0) sqDist += (bMax.X) * (bMax.X);
+        // Y
+        if (bMin.Y > 0) sqDist += (bMin.Y) * (bMin.Y);
+        if (bMax.Y < 0) sqDist += (bMax.Y) * (bMax.Y);
+        // Z
+        if (bMin.Z > 0) sqDist += (bMin.Z) * (bMin.Z);
+        if (bMax.Z < 0) sqDist += (bMax.Z) * (bMax.Z);
 
         // Sphere and AABB intersect if the (squared) distance between them is
         // less than the (squared) sphere radius.
@@ -74,10 +79,12 @@ extend class S7_Math {
     static bool TestAABB (Vector3 box1Coords, Vector2 box1Size, Vector3 box2Coords, Vector2 box2Size, bool no_z = false) {
         double blockDist = box2Size.X + box1Size.X;
 
-        if (abs (box2Coords.X - box1Coords.X) >= blockDist || abs (box2Coords.Y - box1Coords.Y) >= blockDist)
+        let diff = level.Vec2Diff (box1Coords.XY, box2Coords.XY);
+
+        if (abs (diff.X) >= blockDist || abs (diff.Y) >= blockDist)
             return false;
 
-        if (!no_z && (box1Coords.Z > (box2Coords.Z + box2Size.Y) || (box1Coords.Z + box1Size.Y) <= box2Coords.Z))
+        if (!no_z && (box1Coords.Z >= (box2Coords.Z + box2Size.Y) || (box1Coords.Z + box1Size.Y) <= box2Coords.Z))
             return false;
 
         return true;
