@@ -210,6 +210,9 @@ class S7_FatFuckFlame_Trail : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 

@@ -41,6 +41,9 @@ class S7_WhiteSmoke : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 

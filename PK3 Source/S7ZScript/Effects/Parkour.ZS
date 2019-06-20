@@ -34,6 +34,9 @@ class S7_MultiJump_Marker : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 

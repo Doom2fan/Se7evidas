@@ -116,6 +116,9 @@ class S7_FastProjTrailBase : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 }

@@ -25,6 +25,9 @@ class S7_Empress_FXBase : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 }

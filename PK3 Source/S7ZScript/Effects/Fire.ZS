@@ -31,6 +31,9 @@ class S7_FireBase : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 

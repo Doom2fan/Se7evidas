@@ -38,6 +38,9 @@ class S7_GenericExplosion : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 
@@ -97,6 +100,9 @@ class S7_GenericExplosion_Shockwave : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 

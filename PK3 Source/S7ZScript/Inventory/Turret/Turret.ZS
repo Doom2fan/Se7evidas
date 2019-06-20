@@ -454,6 +454,9 @@ class S7_TurretRedDot : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 
@@ -475,6 +478,9 @@ class S7_TurretExplosion : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 

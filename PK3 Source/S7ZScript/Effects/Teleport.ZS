@@ -29,6 +29,9 @@ class S7_TeleportFog : S7_EffectsBase {
     }
 
     override void Tick () {
+        if (isFrozen ())
+            return;
+
         CheaperTick ();
     }
 
