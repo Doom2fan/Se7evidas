@@ -129,7 +129,7 @@ extend class S7_MonsterBase {
         movementDir = S7_MOVEDIR_NODIR;
     }
 
-    bool doNewChaseDir_WhatToIgnore;
+    int doNewChaseDir_WhatToIgnore;
     void S7_DoNewChaseDir (double deltaX, double deltaY, Actor targ = null) {
         int d [2];
         int oldDir, turnaround = S7_MOVEDIR_NODIR;
