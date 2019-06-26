@@ -39,6 +39,8 @@ class S7_ThumperGrenade : S7_Projectile {
         Gravity 0.25;
         Translation "112:127=216:223";
 
+        Decal "Scorch";
+
         -NOGRAVITY
     }
 
@@ -494,6 +496,8 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         DamageType 'TH_GrenadeImpact';
         Translation "112:127=80:95";
 
+        Decal "";
+
         -NOGRAVITY
     }
 
@@ -780,6 +784,8 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
     default {
         DamageType 'TH_GrenadeImpact';
         Translation "112:127=104:111";
+
+        Decal "";
     }
 
     action void S7_DoDamage (int dmgMin, int dmgMax, double maxDist, double fullDmgDist, bool zeroMinDmg) {
