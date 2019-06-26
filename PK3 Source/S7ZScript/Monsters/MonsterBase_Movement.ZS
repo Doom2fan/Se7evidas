@@ -74,23 +74,8 @@ extend class S7_MonsterBase {
             if (player && playeringame [i]) {
                 if (true || (random [NewChaseDir] (0, 255) & 1) || !CheckSight (player)) {
                     let delta = Vec2To (player);
-                    int d [2];
 
-                    if (delta.X > 10)
-                        d [0] = S7_MOVEDIR_EAST;
-                    else if (delta.X < -10)
-                        d [0] = S7_MOVEDIR_WEST;
-                    else
-                        d [0] = S7_MOVEDIR_NODIR;
-
-                    if (delta.Y < -10)
-                        d [1] = S7_MOVEDIR_SOUTH;
-                    else if (delta.Y > 10)
-                        d [1] = S7_MOVEDIR_NORTH;
-                    else
-                        d [1] = S7_MOVEDIR_NODIR;
-
-                    S7_DoNewChaseDir (d [0], d [1], player);
+                    S7_DoNewChaseDir (delta, player);
                     if (movementDir != S7_MOVEDIR_NODIR)
                         return;
                 }
@@ -130,46 +115,55 @@ extend class S7_MonsterBase {
     }
 
     int doNewChaseDir_WhatToIgnore;
-    void S7_DoNewChaseDir (double deltaX, double deltaY, Actor targ = null) {
+    void S7_DoNewChaseDir (Vector2 delta, Actor targ = null) {
         int d [2];
-        int oldDir, turnaround = S7_MOVEDIR_NODIR;
+        int oldDir, turnaround = S7_MOVEDIR_NODIR, walkDir = S7_MOVEDIR_NODIR;
         uint attempts = 0; // We don't need to attempt S7_MOVEDIR_NODIR.
-        if (doNewChaseDir_WhatToIgnore == 1)
-            attempts = 0x55555555; // Only odd bits
-        else if (doNewChaseDir_WhatToIgnore == 2)
-            attempts = 0xAAAAAAAA; // Only even bits
         oldDir = movementDir;
-
-        doNewChaseDir_WhatToIgnore = ((doNewChaseDir_WhatToIgnore+1) & 3);
 
         if (movementDir != S7_MOVEDIR_NODIR)
             turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
 
-        if (deltaX > 10)
-            d [0] = S7_MOVEDIR_EAST;
-        else if (deltaX < -10)
-            d [0] = S7_MOVEDIR_WEST;
-        else
-            d [0] = S7_MOVEDIR_NODIR;
-
-        if (deltaY < -10)
-            d [1] = S7_MOVEDIR_SOUTH;
-        else if (deltaY > 10)
-            d [1] = S7_MOVEDIR_NORTH;
-        else
-            d [1] = S7_MOVEDIR_NODIR;
-
         // Try direct route
-        if (d [0] != S7_MOVEDIR_NODIR && d [1] != S7_MOVEDIR_NODIR) {
-            double ang = VectorAngle (deltaX, deltaY);
-            movementDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
+        if (abs (delta.X) >= 10 && abs (delta.Y) >= 10) {
+            double ang = VectorAngle (delta.X, delta.Y);
+            movementDir = walkDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
 
             if (movementDir != turnaround) {
                 attempts |= (1 << movementDir);
-                if (S7_TryWalk ())
+                if (S7_TryWalk ()) {
+                    doNewChaseDir_WhatToIgnore = 0;
                     return;
+                }
             }
         }
+
+        if (doNewChaseDir_WhatToIgnore == 0 || doNewChaseDir_WhatToIgnore == 3) {
+            int forwardsDir = walkDir;
+
+            if (forwardsDir == S7_MOVEDIR_NODIR)
+                forwardsDir = oldDir;
+
+            if (forwardsDir != S7_MOVEDIR_NODIR) {
+                int moveDir = forwardsDir - 8;
+
+                if (moveDir < 0)
+                    moveDir = 32 + moveDir;
+
+                int tmp = ((0xFFFF << moveDir) | (0xFFFF >>> (32-moveDir)));
+
+                if (doNewChaseDir_WhatToIgnore == 0)
+                    attempts |= ~tmp;
+                else
+                    attempts |= tmp;
+            } else
+                doNewChaseDir_WhatToIgnore = ((doNewChaseDir_WhatToIgnore+1) & 3);
+        }
+
+        if (doNewChaseDir_WhatToIgnore == 1)
+            attempts = 0xAAAAAAAA; // Only even bits
+        else if (doNewChaseDir_WhatToIgnore == 2)
+            attempts = 0x55555555; // Only odd bits
 
         // Try other directions
         if (!bAvoidingDropoff) {
@@ -177,8 +171,10 @@ extend class S7_MonsterBase {
             if (oldDir != S7_MOVEDIR_NODIR && !(attempts & (1 << oldDir))) {
                 movementDir = (oldDir & S7_MOVEDIR_MAXDIR);
                 attempts |= (1 << oldDir);
-                if (S7_TryWalk ())
+                if (S7_TryWalk ()) {
+                    doNewChaseDir_WhatToIgnore = 0;
                     return;
+                }
             }
         }
 
@@ -208,8 +204,20 @@ extend class S7_MonsterBase {
 
         if (hasTarget) {
             int sweepSwap = ((random [NewChaseDir] (0, 255) & 1) ? -1 : 1);
+            int forwardsDir = walkDir;
+
+            if (doNewChaseDir_WhatToIgnore == 1)
+                forwardsDir = turnaround;
+
+            if (forwardsDir == S7_MOVEDIR_NODIR) {
+                if (oldDir != S7_MOVEDIR_NODIR)
+                    forwardsDir = oldDir;
+                else
+                    forwardsDir = 0;
+            }
+
             for (int i = 1; i <= S7_MOVEDIR_MAXDIR; i++) {
-                int tDir = movementDir + ((i >> 1) * sweepSwap);
+                int tDir = forwardsDir + ((i >> 1) * sweepSwap);
                 sweepSwap = -sweepSwap;
 
                 if (tDir > S7_MOVEDIR_MAXDIR)
@@ -225,8 +233,12 @@ extend class S7_MonsterBase {
                     movementDir = (tDir & S7_MOVEDIR_MAXDIR);
                     [success, newPos] = S7_TryWalk (true);
 
-                    let diff = level.Vec2Diff (newPos, targPos);
-                    double dist = diff dot diff;
+                    double dist = double.infinity;
+                    if (success) {
+                        let diff = level.Vec2Diff (newPos, targPos);
+                        dist = diff dot diff;
+                    }
+
                     if (success && dist <= sweepClosestDist) {
                         sweepClosestDirs.Push (tDir);
                         sweepClosestDist = dist;
@@ -242,8 +254,10 @@ extend class S7_MonsterBase {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepClosestDirs [i];
                 attempts |= (1 << movementDir);
-                if (S7_TryWalk ())
+                if (S7_TryWalk ()) {
+                    doNewChaseDir_WhatToIgnore = 0;
                     return;
+                }
             }
         }
 
@@ -253,20 +267,27 @@ extend class S7_MonsterBase {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepIgnoredDirs [i];
                 attempts |= (1 << movementDir);
-                if (S7_TryWalk ())
+                if (S7_TryWalk ()) {
+                    doNewChaseDir_WhatToIgnore = 0;
                     return;
+                }
             }
         }
 
         // If all else fails, try to turn around.
-        if (turnaround != S7_MOVEDIR_NODIR && !(attempts & (1 << turnaround))) {
+        if (doNewChaseDir_WhatToIgnore > 0 &&
+            turnaround != S7_MOVEDIR_NODIR && !(attempts & (1 << turnaround))
+        ) {
             movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
-            if (S7_TryWalk ())
+            if (S7_TryWalk ()) {
+                doNewChaseDir_WhatToIgnore = 0;
                 return;
+            }
         }
 
         // Cannot move
         movementDir = S7_MOVEDIR_NODIR;
+        doNewChaseDir_WhatToIgnore = ((doNewChaseDir_WhatToIgnore+1) & 3);
     }
 
     void S7_NewChaseDir () {
@@ -298,8 +319,7 @@ extend class S7_MonsterBase {
             let it = BlockLinesIterator.Create (self);
             Line line;
 
-            double deltaX = 0;
-            double deltaY = 0;
+            Vector2 delta = (0, 0);
             while ((it.Next () && (line = it.CurLine))) {
                 // Ignore one-sided linedefs
                 if (line.backsector &&
@@ -308,7 +328,7 @@ extend class S7_MonsterBase {
                 ) {
                     let relPos = PosRelative (line.frontsector);
                     double front = line.frontsector.floorplane.ZatPoint (relPos.XY);
-                    double back  = line.backsector.floorplane.ZatPoint  (relPos.XY);
+                    double back  =  line.backsector.floorplane.ZatPoint (relPos.XY);
                     double ang;
 
                     // The monster must contact one of the two floors,
@@ -325,12 +345,12 @@ extend class S7_MonsterBase {
 
                     // Move away from dropoff at a standard speed.
                     // Multiple contacted linedefs are cumulative (e.g. hanging over corner)
-                    deltaX -= 32 * sin (ang);
-                    deltaY += 32 * cos (ang);
+                    delta.X -= 32 * sin (ang);
+                    delta.Y += 32 * cos (ang);
                 }
             }
 
-            if (deltaX != 0 || deltaY != 0) {
+            if (!(delta ~== (0, 0))) {
                 // [Graf Zahl] I have changed P_TryMove to only apply this logic when
                 // being called from here. AVOIDINGDROPOFF activates the code that
                 // allows monsters to move away from a dropoff. This is different from
@@ -338,7 +358,7 @@ extend class S7_MonsterBase {
                 // forcing a massive change in the monster behavior to use this.
 
                 bAvoidingDropoff = true;
-                S7_DoNewChaseDir (deltaX, deltaY);
+                S7_DoNewChaseDir (delta);
                 bAvoidingDropoff = false;
 
                 // If moving away from dropoff, set movecount to 1 so that
@@ -369,7 +389,7 @@ extend class S7_MonsterBase {
             }
         }
 
-        S7_DoNewChaseDir (delta.X, delta.Y);
+        S7_DoNewChaseDir (delta);
 
         // If strafing, set movecount to strafecount so that old Doom
         // logic still works the same, except in the strafing part
