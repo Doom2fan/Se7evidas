@@ -186,7 +186,7 @@ class S7_Fauchard : S7_BaseWeapon {
 // Fauchard Tracer
 //
 //-------------------------------------------------------------------------------------------
-class S7_FauchardTracer : S7_BaseTracer {
+class S7_FauchardTracer : S7_LaserTracer {
     default {
         DamageFunction ((30. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
         Speed 300;

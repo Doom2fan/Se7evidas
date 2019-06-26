@@ -19,20 +19,28 @@
 /// The base type for all S7 projectiles
 class S7_Projectile : FastProjectile {
     enum EMovementMode {
-        Normal = 0, /// The projectile uses the normal movement code.
-        FastProjectile, /// The projectile is a FastProjectile.
-        OldFastProj, /// The projectile is a FastProjectile and uses GZDoom's code.
+        Normal         = 0, /// The projectile uses the normal movement code.
+        FastProjectile    , /// The projectile is a FastProjectile.
+        OldFastProj       , /// The projectile is a FastProjectile and uses GZDoom's code.
     };
     /// Determines how to detect collisions. Only used for EMovementMode.FastProjectile.
     enum EFPCollisionMode {
-        ColMode_Center      = 1, /// Check the center for collision
+        ColMode_Center      = 1     , /// Check the center for collision
         ColMode_Corners     = 1 << 1, /// Check the corners for collision
         ColMode_EdgeCenters = 1 << 2, /// Check the center of the edges for collision.
+    };
+    /// Determines how to effects are placed. Only used for EMovementMode.FastProjectile.
+    enum EEffectsStepMode {
+        EFXStepMode_FastProj = 0, /// Emulates GZDoom's FastProjectile trails.
+        EFXStepMode_Accurate    , /// Calculates effects placement accurately.
+        EFXStepMode_MapUnit     , /// Places effects every /interval/ map units.
     };
 
     int moveMode;
     int fpCollisionMode;
     bool interpFastProj;
+    int effectsStepsMode;
+    double effectStepInterval;
     double effectStepMul;
     double bonusDMGFactor;
 
@@ -44,6 +52,10 @@ class S7_Projectile : FastProjectile {
     property FastProjCollision: fpCollisionMode;
     /// Changes how many times StepEffects is called. Only used by EMovementMode.FastProjectile.
     property EffectStepMul: effectStepMul;
+    /// Changes how effects are placed. Only used by EMovementMode.FastProjectile.
+    property EffectsStepsMode: effectsStepsMode;
+    /// Changes the interval for effects placement. Uses the radius as the interval if negative. Defaults to -1. Only used by EMovementMode.FastProjectile.
+    property EffectStepInterval: effectStepInterval;
     /// Whether to interpolate the projectile's movement. Only used by EMovementMode.FastProjectile.
     property InterpMove: interpFastProj;
 
@@ -51,7 +63,10 @@ class S7_Projectile : FastProjectile {
         S7_Projectile.MovementMode Normal;
         S7_Projectile.FastProjCollision ColMode_EdgeCenters;
         S7_Projectile.InterpMove true;
+
         S7_Projectile.EffectStepMul 0.125;
+        S7_Projectile.EffectsStepsMode EFXStepMode_FastProj;
+        S7_Projectile.EffectStepInterval -1;
 
         Projectile;
     }

@@ -76,8 +76,18 @@ class S7_BaseTracer : S7_Projectile {
         }
     }
 }
+class S7_LaserTracer : S7_BaseTracer {
+    default {
+        S7_Projectile.EffectsStepsMode EFXStepMode_MapUnit;
+        S7_Projectile.EffectStepInterval 10;
+    }
+}
+
 class S7_BulletTracer : S7_BaseTracer {
     default {
+        S7_Projectile.EffectsStepsMode EFXStepMode_MapUnit;
+        S7_Projectile.EffectStepInterval 10;
+
         DamageFunction int ((8. + fRandom [weaponDamage] (-2., 2.)) * (1. + bonusDMGFactor));
 
         Scale 0.02120;
@@ -111,10 +121,13 @@ class S7_BulletTracer : S7_BaseTracer {
 }
 
 class S7_TracerTrail : S7_TracerEffectsBase {
+    default {
+        alpha 0.5;
+    }
+
     states {
     Spawn:
-        //SPRK AAA 1 bright A_FadeOut (0.4);
-        SPRK A 2 bright;
+        SPRK AA 1 bright;
         stop;
     }
 }

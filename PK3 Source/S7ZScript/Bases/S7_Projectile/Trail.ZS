@@ -20,75 +20,98 @@ extend class S7_Projectile {
     virtual Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
         class<Actor> trail = MissileName;
 
-        if (trail != null) {
-            Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
+        if (!trail)
+            return NULL;
 
-            Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
+        Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
 
-            double realFloorZ = GetZAt (finalPos.X, finalPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+        double realFloorZ = GetZAt (finalPos.X, finalPos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
 
-            double hitz = finalPos.z - 8;
-            if (hitz < realFloorZ)
-                hitz = realFloorZ;
-            // Do not clip this offset to the floor.
-            hitz += missileHeight;
+        finalPos.Z -= 8;
+        if (finalPos.Z < realFloorZ)
+            finalPos.Z = realFloorZ;
+        // Do not clip this offset to the floor.
+        finalPos.Z += missileHeight;
 
-            LinkContext ctx;
-            act.UnlinkFromWorld (ctx);
-            act.SetXYZ ((finalPos.XY, hitz));
-            act.LinkToWorld (ctx);
-            act.FindFloorCeiling (FFCF_OnlySpawnPos);
-            act.ClearInterpolation ();
+        Actor act = Spawn (trail, finalPos, ALLOW_REPLACE);
 
-            if (act != null) {
-                if (bGetOwner && target != null)
-                    act.target = target;
-                else
-                    act.target = self;
+        if (!act)
+            return NULL;
 
-                act.angle = angle;
-                act.pitch = pitch;
-            }
+        if (bGetOwner && target != null)
+            act.target = target;
+        else
+            act.target = self;
 
-            return act;
-        }
+        act.angle = angle;
+        act.pitch = pitch;
 
-        return NULL;
+        return act;
     }
 
     void SpawnEffects (Vector3 initialPos, double dist, Vector3 stepSize) {
+        double interval = radius;
+        if (effectStepInterval >= 0)
+            interval = effectStepInterval;
+
         if (effectStepMul < 0 ||
-            radius <= 0 || dist <= 0 ||
-            stepSize.XY.Length () <= 0 ||
-            stepSize.X != stepSize.X ||
-            stepSize.Y != stepSize.Y
+            interval <= 0 || dist <= 0
         ) {
             return;
         }
 
-        double count = 8;
-        while (abs (stepSize.X) > radius * count || abs (stepSize.Y) > radius * count) {
-            if (count == double.infinity || count == -double.infinity) {
-                if (S7_DebugMode)
-                    Console.Printf ("S7_Projectile.SpawnEffects: count overflowed");
+        Vector3 dirVec = stepSize.Unit ();
 
+        if (effectsStepsMode == EFXStepMode_MapUnit) {
+            Vector3 frac = dirVec * interval;
+            int count = int ((dist / interval));
+            Vector3 initialDist = (dirVec * dist) - (count * frac);
+
+            for (int i = 0; i < count; i++) {
+                Vector3 curDist = initialDist + (frac * i);
+                double diff = abs (curDist.Length ());
+
+                if (diff > dist)
+                    break;
+
+                StepEffects (initialPos, curDist, stepSize);
+            }
+        } else {
+            if (stepSize.X != stepSize.X ||
+                stepSize.Y != stepSize.Y ||
+                stepSize.XY.Length () <= 0
+            ) {
                 return;
             }
-            count += count;
-        }
 
-        Vector3 frac = stepSize / count;
+            double count;
+            if (effectsStepsMode == EFXStepMode_FastProj) {
+                count = 8;
+                while (abs (stepSize.X) > interval * count || abs (stepSize.Y) > interval * count) {
+                    if (count == double.infinity || count == -double.infinity) {
+                        if (S7_DebugMode)
+                            Console.Printf ("S7_Projectile.SpawnEffects: count overflowed");
 
-        int spawnCount = int (count * effectStepMul);
-        for (int i = 0; i < count; i++) {
-            double diff = abs ((frac * i).Length ());
+                        return;
+                    }
+                    count += count;
+                }
+            } else
+                count = stepSize.Length () / interval;
 
-            if (diff >= dist)
-                break;
+            Vector3 frac = stepSize / count;
 
-            if (--spawnCount <= 0) {
-                spawnCount = int (count * effectStepMul);
-                StepEffects (initialPos, frac * i, stepSize);
+            int spawnCount = int (count * effectStepMul);
+            for (int i = 0; i < count; i++) {
+                double diff = abs ((frac * i).Length ());
+
+                if (diff >= dist)
+                    break;
+
+                if (--spawnCount <= 0) {
+                    spawnCount = int (count * effectStepMul);
+                    StepEffects (initialPos, frac * i, stepSize);
+                }
             }
         }
     }
