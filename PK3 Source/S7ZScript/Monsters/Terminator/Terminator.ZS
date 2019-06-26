@@ -450,7 +450,6 @@ class S7_TerminatorGrenade : S7_Projectile {
         DamageFunction (24 + random [monsterDMG] (-2, 2));
         //Speed 1;
         Speed 75;
-        DeathSound "Explosions/Explosion2";
         Gravity 0.2;
         Obituary "$OBTERMGREN";
 
@@ -463,6 +462,8 @@ class S7_TerminatorGrenade : S7_Projectile {
         loop;
     Death:
         TNT1 A 3 {
+            S7_ExplosionSound.CreateExplosion2 (pos);
+
             bNoGravity = true;
             S7_ActorExtensions.A_S7SpawnShrapnel (self, 100);
             A_SetDamageType ('ExplosionSplashDMG');
@@ -482,7 +483,6 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
     default {
         DamageFunction (50 + random [monsterDMG] (-2, 2));
         Speed 110;
-        DeathSound "Explosions/Explosion2";
         Obituary "$OBTERMSGREN";
         /*MissileType 'S7_TerminatorGrenadeShockwave';
         MissileHeight 8;*/
@@ -495,6 +495,8 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
         loop;
     Death:
         XPL2 A     3 {
+            S7_ExplosionSound.CreateExplosion2 (pos);
+            
             bNoGravity = true;
             S7_ActorExtensions.A_S7SpawnShrapnel (self, 50);
             A_SetDamageType ('ExplosionSplashDMG');

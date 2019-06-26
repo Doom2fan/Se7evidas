@@ -78,6 +78,28 @@ Explosions/Explosion2_1         "sounds/Effects/Explosions/Explode2_1.ogg" // Fr
 Explosions/Explosion2_2         "sounds/Effects/Explosions/Explode2_2.ogg" // Ditto
 Explosions/Explosion2_3         "sounds/Effects/Explosions/Explode2_3.ogg" // Ditto
 
+// Muffled explosions
+// These muffled explosion sounds were made by Chronos "phantombeta" Ouroboros from the previous explosion sounds.
+$RANDOM Explosions/Explosion1 {
+    Explosions/MuffledExplosion1_1
+    Explosions/MuffledExplosion1_2
+    Explosions/MuffledExplosion1_3
+    Explosions/MuffledExplosion1_4
+}
+Explosions/MuffledExplosion1_1         "sounds/Effects/Explosions/MuffledExplode1_1.ogg" // Credits: Id Software (Quake 4), Chronos "phantombeta" Ouroboros.
+Explosions/MuffledExplosion1_2         "sounds/Effects/Explosions/MuffledExplode1_2.ogg" // Ditto
+Explosions/MuffledExplosion1_3         "sounds/Effects/Explosions/MuffledExplode1_3.ogg" // Ditto
+Explosions/MuffledExplosion1_4         "sounds/Effects/Explosions/MuffledExplode1_4.ogg" // Ditto
+
+$RANDOM Explosions/Explosion2 {
+    Explosions/MuffledExplosion2_1
+    Explosions/MuffledExplosion2_2
+    Explosions/MuffledExplosion2_3
+}
+Explosions/MuffledExplosion2_1         "sounds/Effects/Explosions/MuffledExplode2_1.ogg" // Credits: Id Software (Quake 4), Chronos "phantombeta" Ouroboros.
+Explosions/MuffledExplosion2_2         "sounds/Effects/Explosions/MuffledExplode2_2.ogg" // Ditto
+Explosions/MuffledExplosion2_3         "sounds/Effects/Explosions/MuffledExplode2_3.ogg" // Ditto
+
 // Bounces
 Bounce/MetalSmall               "sounds/Effects/Misc/BounceMetalSmall.ogg" // From Heretic
 

@@ -16,6 +16,85 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+class S7_ExplosionSound : S7_EffectsBase {
+    default {
+        Radius 0;
+        Height 0;
+
+        RenderStyle "None";
+
+        +INVISIBLE
+    }
+
+    const Attenuation_Close = 0.5;
+    const Attenuation_Distant = 0.125;
+
+    const AttnDist_Close = ((512. * 3.) / Attenuation_Close) * 1.5;
+    const Dist_MinVol = 0.00000001;
+
+    const Channel_Close = CHAN_5;
+    const Channel_Distant = CHAN_6;
+    int duration;
+
+    static void CreateExplosion1 (Vector3 pos) {
+        int soundNum = random [S7_RandomSound] (1, 4);
+
+        Sound closeSound = String.Format ("Explosions/Explosion1_%d", soundNum);
+        Sound distantSound = String.Format ("Explosions/MuffledExplosion1_%d", soundNum);
+
+        CreateExplosionSound (pos, closeSound, distantSound);
+    }
+
+    static void CreateExplosion2 (Vector3 pos) {
+        int soundNum = random [S7_RandomSound] (1, 3);
+
+        Sound closeSound = String.Format ("Explosions/Explosion2_%d", soundNum);
+        Sound distantSound = String.Format ("Explosions/MuffledExplosion2_%d", soundNum);
+
+        CreateExplosionSound (pos, closeSound, distantSound);
+    }
+
+    static void CreateExplosionSound (Vector3 pos, Sound closeSound, Sound distantSound) {
+        int duration = int ((35. * ceil (max (S_GetLength (closeSound), S_GetLength (distantSound)))) + 5);
+
+        let act = S7_ExplosionSound (Spawn ('S7_ExplosionSound', pos));
+
+        if (!act)
+            return;
+
+        act.duration = duration;
+        act.A_PlaySound (closeSound, slot: Channel_Close, volume: 1., attenuation: Attenuation_Close);
+        act.A_PlaySound (distantSound, slot: Channel_Distant, volume: Dist_MinVol, attenuation: Attenuation_Distant);
+    }
+
+    override void Tick () {
+        if (--duration < 1) {
+            A_StopSound (Channel_Close);
+            A_StopSound (Channel_Distant);
+
+            Destroy ();
+            return;
+        }
+
+        let cam = players [consoleplayer].camera;
+        // If the camera is null, try the PlayerPawn.
+        if (!cam)
+            cam = players [consoleplayer].mo;
+        // If the PlayerPawn is null too, abort!
+        if (!cam)
+            return;
+
+        double dist = cam.Distance3D (self);
+        A_SoundVolume (Channel_Distant, clamp (dist / AttnDist_Close, Dist_MinVol, 1.));
+    }
+
+    states {
+    Spawn:
+        TNT1 A -1;
+        stop;
+    }
+}
+
 class S7_GenericExplosion : S7_EffectsBase {
     default {
         RenderStyle "add";

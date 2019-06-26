@@ -59,7 +59,7 @@ class S7_ThumperGrenade : S7_Projectile {
     Loople:
         TNT1 A 0 {
             A_SetScale (1.);
-            A_PlaySound ("Explosions/Explosion2", attenuation: 0.5);
+            S7_ExplosionSound.CreateExplosion2 (pos);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 192, fulldamagedistance: 64);
@@ -86,7 +86,7 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
     Loople:
         TNT1 A 0 {
             A_SetScale (.85);
-            A_PlaySound ("Explosions/Explosion2", attenuation: 0.5);
+            S7_ExplosionSound.CreateExplosion2 (pos);
 
             S7_ActorExtensions.A_S7SpawnShrapnel (
                 self, random [weaponSpc] (100, 150),
@@ -117,7 +117,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     states {
     Loople:
         TNT1 A 0 {
-            A_PlaySound ("Explosions/Explosion1", attenuation: 0.5);
+            S7_ExplosionSound.CreateExplosion1 (pos);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (96. * (1. + invoker.bonusDMGFactor)), 144, fulldamagedistance: 48);
@@ -602,7 +602,7 @@ class S7_ThumperGrenadeCluster : S7_ThumperGrenade {
     states {
     Loople:
         TNT1 A 0 {
-            A_PlaySound ("Explosions/Explosion2", attenuation: 0.5);
+            S7_ExplosionSound.CreateExplosion2 (pos);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (64. * (1. + invoker.bonusDMGFactor)), 96, fulldamagedistance: 32);
@@ -675,7 +675,7 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
         XPL3 A         3 bright {
             bNoGravity = TRUE;
 
-            A_PlaySound ("Explosions/Explosion1", CHAN_Body, 0.25);
+            S7_ExplosionSound.CreateExplosion1 (pos);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (fRandom [weaponSpc] (5., 6.) * (1. + invoker.bonusDMGFactor)), 32, fulldamagedistance: 32);
@@ -702,7 +702,8 @@ class S7_ThumperGrenadeNail : S7_ThumperGrenade {
     states {
     Loople:
         TNT1 A 0 {
-            A_PlaySound ("Explosions/Explosion2", attenuation: 0.5);
+            S7_ExplosionSound.CreateExplosion2 (pos);
+
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (64. * (1. + invoker.bonusDMGFactor)), 96, fulldamagedistance: 32);
 

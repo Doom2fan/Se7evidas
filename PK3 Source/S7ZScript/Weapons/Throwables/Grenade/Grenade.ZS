@@ -368,7 +368,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
 
             A_Stop ();
 
-            A_PlaySound ("Explosions/Explosion2");
+            S7_ExplosionSound.CreateExplosion2 (pos);
             let expl = Spawn ('S7_GenericExplosion', pos);
             if (expl) {
                 expl.target = self;
