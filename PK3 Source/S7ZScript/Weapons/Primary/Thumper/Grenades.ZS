@@ -44,6 +44,10 @@ class S7_ThumperGrenade : S7_Projectile {
         -NOGRAVITY
     }
 
+    action void Gren_DoQuake () {
+        A_QuakeEx (3, 3, 3, 17, 0, int (256 * scale.X), "", falloff: 1, rollIntensity: 2.);
+    }
+
     states {
     Spawn:
         THGR A 1;
@@ -67,10 +71,13 @@ class S7_ThumperGrenade : S7_Projectile {
         goto Explosion;
 
     Explosion:
-        TNT1 A 3 {
+        TNT1 A 20 {
+            Gren_DoQuake ();
             let expl = Spawn ('S7_GenericExplosion', pos);
-            if (expl)
+            if (expl) {
                 expl.target = self;
+                expl.scale = scale;
+            }
         }
         stop;
     }
@@ -98,7 +105,7 @@ class S7_ThumperGrenadeFrag : S7_ThumperGrenade {
             );
 
             A_SetDamageType ('ExplosionSplashDMG');
-            A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 192, fulldamagedistance: 64);
+            A_Explode (int (128. * (1. + invoker.bonusDMGFactor)), 160, fulldamagedistance: 64);
         }
         goto Explosion;
     }
@@ -214,7 +221,8 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
         goto Explosion;
 
     Explosion:
-        TNT1 A 3 {
+        TNT1 A 17 {
+            Gren_DoQuake ();
             let expl = S7_GenericExplosion (Spawn ('S7_GenericExplosion', pos));
             if (expl) {
                 expl.target = self;

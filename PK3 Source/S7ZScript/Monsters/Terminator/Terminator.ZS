@@ -464,6 +464,9 @@ class S7_TerminatorGrenade : S7_Projectile {
         TNT1 A 3 {
             S7_ExplosionSound.CreateExplosion2 (pos);
 
+            A_QuakeEx (3, 3, 3, 17, 0, 96 * 2, "", falloff: 1, rollIntensity: 2.);
+
+
             bNoGravity = true;
             S7_ActorExtensions.A_S7SpawnShrapnel (self, 100);
             A_SetDamageType ('ExplosionSplashDMG');
@@ -494,16 +497,22 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
         GRN2 AA 1 A_SpawnItemEx ('S7_TerminatorGrenadeShockwave');
         loop;
     Death:
-        XPL2 A     3 {
+        TNT1 A 3 {
             S7_ExplosionSound.CreateExplosion2 (pos);
+
+            A_QuakeEx (3, 3, 3, 17, 0, 72 * 2, "", falloff: 1, rollIntensity: 2.);
             
             bNoGravity = true;
             S7_ActorExtensions.A_S7SpawnShrapnel (self, 50);
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (72, 104);
+
+            let expl = Spawn ('S7_GenericExplosion', pos);
+            if (expl) {
+                expl.target = self;
+                expl.scale = (.78125, .78125);
+            }
         }
-        XPL2 BCDEF 3;
-        stop;
     }
 }
 class S7_TerminatorGrenadeShockwave : S7_FastProjTrailBase {
