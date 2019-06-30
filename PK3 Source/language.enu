@@ -182,6 +182,10 @@
         OBM400AUTOGUNSELF           = "%o was shredded by %h own autogun";
         OB_SHRAPNEL                 = "%o was hit by a piece of shrapnel";
 // MvP
+    // Zombies
+    OBSCORPSTROOPER                 = "%o was eliminated by a Shadow Corps Trooper";
+    OBSCORPSHUNTER                  = "%o was hunted down by a Shadow Corps Hunter";
+    OBSCORPSENFORCER                = "%o was neutralized by a Shadow Corps Enforcer";
     // Hellion
     OBHELLIONFB                     = "%o was burnt by a Hellion";
     // Doggo
@@ -190,9 +194,18 @@
     OBMECHDEMON                     = "%o was devoured by a Mechdemon";
     // Shadow
     OBSHADOW                        = "%o was devoured by a Shadow";
+    // Infernal
+    OBINFERNAL                      = "%o was scorched by an Infernal";
+    OBINFERNAL_FLAME                = "%o was seared by an Infernal";
     // Black Panther
     OBBPANTHER_MELEE                = "%o had %h guts torn out and eaten by a Black Panther.";
     OBBPANTHER                      = "%o was torn apart by a Black Panther";
+    // Infernal Guardian
+    OBINFERNALGUARDIAN_MELEE        = "%o was slaughtered by an Infernal Guardian";
+    OBINFERNALGUARDIAN              = "%o was gutted by an Infernal Guardian";
+    // Flesh Spawn
+    OBFLESHSPAWN                    = "%o was devoured by a Tick";
+    OBFLESHSPAWNBALL                = "%o was zapped by a Tick";
     // Empress
     OB_EMPRESS                      = "%o was raped by an Empress";
     OB_EMPRESSFB                    = "%o was burnt to a crisp by an Empress";
@@ -207,16 +220,6 @@
     OBTERMSGREN                     = "%o couldn't dodge a Terminator's grenade";
     OBTERMPLASMA                    = "%o was vaporized by a Terminator";
     OBTERMFLAME                     = "%o didn't realize getting anywhere near a Terminator was a bad idea";
-    // Zombies
-    OBSCORPSTROOPER                 = "%o was eliminated by a Shadow Corps Trooper";
-    OBSCORPSHUNTER                  = "%o was hunted down by a Shadow Corps Hunter";
-    OBSCORPSENFORCER                = "%o was neutralized by a Shadow Corps Enforcer";
-    // Infernal Guardian
-    OBINFERNALGUARDIAN_MELEE        = "%o was slaughtered by an Infernal Guardian";
-    OBINFERNALGUARDIAN              = "%o was gutted by an Infernal Guardian";
-    // Flesh Spawn
-    OBFLESHSPAWN                    = "%o was devoured by a Tick";
-    OBFLESHSPAWNBALL                = "%o was zapped by a Tick";
 
 // Default Strings
     QUITMSG                         = "Is this too much for you, pussy?";
