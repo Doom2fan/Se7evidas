@@ -33,16 +33,6 @@ struct S7_TransactionData {
 class S7_PlayerData : Inventory {
     /** Health **/
     bool dying;
-    /** Movement **/
-    // Dodging
-    int dodgeCooldown;
-    // Multijump
-    int mJumpCount;
-    // Walljump
-    int wjumpJustJumped;
-    // Ledge grabbing
-    bool  lGrabGrabbed;
-    Actor lGrabMarker;
     /** Misc **/
     // Shop menu
     S7_TransactionData transactData;
@@ -62,7 +52,7 @@ class S7_PlayerData : Inventory {
     override void AttachToOwner (Actor other) {
         Super.AttachToOwner (other);
         dying = false;
-        dodgeCooldown = mjumpCount = wjumpJustJumped = staminaTics = heartbeatTics = 0;
+        staminaTics = heartbeatTics = 0;
         milkRegenRate = 2;
         milkUseRate = 20;
     }
@@ -121,12 +111,6 @@ class S7_BasePlayer : PlayerPawn {
     bool stepFrame;
     actor playerLineTarget;
     actor damageInflictor, damageSource;
-
-    // Sprinting
-    bool   sprint_Sprinting;
-    int    sprint_Tics; // sprintTics: Used to remove stamina. If this is -1, stamina was depleted by sprinting.
-    double sprint_OldAgility; // oldAgility: This is used for checking if the agility stat changed.
-    double sprint_SpeedFactor, sprint_SpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
 
     void GiveBasics () {
         if (!player || player.mo != self)
@@ -257,6 +241,7 @@ class S7_BasePlayer : PlayerPawn {
         Movement_Sprinting ();
         Movement_WallJump ();
         Movement_MultiJump ();
+        Movement_FallTeching ();
         // Weapons
         Weapon_SetAmmoMax ();
         // Misc

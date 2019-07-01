@@ -99,10 +99,10 @@ class S7_LedgeGrabWeapon : S7_NullWeapon {
     states {
     Ready:
         TNT1 A 1 {
-            let pData = S7_PlayerData (FindInventory ('S7_PlayerData'));
+            let pPawn = S7_BasePlayer (self);
 
             bool grabbed = false;
-            if (pData) grabbed = pData.lGrabGrabbed;
+            if (pPawn) grabbed = pPawn.LedgeGrab_Grabbed;
 
             A_WeaponReady (WRF_NoFire | WRF_NoBob | (grabbed ? WRF_DisableSwitch : 0));
         }
