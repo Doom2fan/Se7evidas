@@ -26,16 +26,16 @@ class S7_PlayerclassMenu : OptionMenu {
     // Constants
     //
     //=============================================================================
-    const DESCBOX_X = 150;
-    const DESCBOX_Y = 8 + 80 + 5;
-    const DESCBOX_Width = 50 + 72 + 50;
-    const DESCBOX_Height = 132 - 8;
-    const DESCBOX_MaxLines = 14;
-    const DESCBOX_ArrowsY = DESCBOX_X + DESCBOX_Width + 2;
-    const DESCBOX_ArrowLeftX  = DESCBOX_Y + DESCBOX_Height - 24;
-    const DESCBOX_ArrowRightX = DESCBOX_Y + DESCBOX_Height - 11;
+    const DESCBOX_ArrowRightTex = "INVGEMR1";
+    const DESCBOX_ArrowLeftTex  = "INVGEML1";
+    const DESCBOX_ArrowScale = 1.5;
+    const DESCBOX_Width = (100 + 72 + 100);
+    const DESCBOX_Height = (132 - 8) * 2;
     string classDesc;
     int curPage, pagesCount;
+
+    int arrowsX;
+    int arrowRightY, arrowLeftY;
 
     //=============================================================================
     //
@@ -89,7 +89,7 @@ class S7_PlayerclassMenu : OptionMenu {
 
             let pDisplay = new ('OptionMenuItemS7_PlayerDisplay');
             if (pDisplay) {
-                pDisplay.DoInit (desc, 200, 8, "20 00 00", "80 00 40");
+                pDisplay.DoInit (desc, "20 00 00", "80 00 40");
                 desc.mItems.Push (pDisplay);
             }
         }
@@ -175,14 +175,11 @@ class S7_PlayerclassMenu : OptionMenu {
 
     override bool MouseEvent (int type, int x, int y) {
         if (type == MOUSE_Click) {
-            let arrowLeft  = TexMan.CheckForTexture ("INVGEML1", TexMan.Type_Any),
-                arrowRight = TexMan.CheckForTexture ("INVGEMR1", TexMan.Type_Any);
-            int arrowsX     = int (DESCBOX_ArrowsY     - 160) * CleanXfac_1 + (Screen.GetWidth  () / 2),
-                arrowLeftY  = int (DESCBOX_ArrowLeftX  - 100) * CleanYfac_1 + (Screen.GetHeight () / 2),
-                arrowRightY = int (DESCBOX_ArrowRightX - 100) * CleanYfac_1 + (Screen.GetHeight () / 2);
+            let arrowLeft  = TexMan.CheckForTexture (DESCBOX_ArrowLeftTex , TexMan.Type_Any),
+                arrowRight = TexMan.CheckForTexture (DESCBOX_ArrowRightTex, TexMan.Type_Any);
 
-            Vector2 arrowLeftSize  = TexMan.GetScaledSize (arrowLeft ),
-                    arrowRightSize = TexMan.GetScaledSize (arrowRight);
+            Vector2 arrowLeftSize  = TexMan.GetScaledSize (arrowLeft ) * DESCBOX_ArrowScale,
+                    arrowRightSize = TexMan.GetScaledSize (arrowRight) * DESCBOX_ArrowScale;
             arrowLeftSize  = ( arrowLeftSize.X * CleanXfac_1,  arrowLeftSize.Y * CleanYfac_1);
             arrowRightSize = (arrowRightSize.X * CleanXfac_1, arrowRightSize.Y * CleanYfac_1);
 
@@ -227,6 +224,20 @@ class S7_PlayerclassMenu : OptionMenu {
         return false;
     }
 
+    static Vector2, Vector2 GetBoxSizes (OptionMenu menu) {
+        if (!menu)
+            return (0, 0), (0, 0);
+
+        int width  = Screen.GetWidth  ();
+        int height = Screen.GetHeight ();
+        int indent = menu.GetIndent ();
+
+        return
+            (indent + OptionWidth ("◄") + 2 + 3 + 8, height * .35),
+            (DESCBOX_Width  * CleanXfac_1, DESCBOX_Height * CleanYfac_1)
+        ;
+    }
+
     //=============================================================================
     //
     // Drawer
@@ -235,39 +246,77 @@ class S7_PlayerclassMenu : OptionMenu {
     override void Drawer () {
         Super.Drawer ();
 
-        if (classDesc != "") {
-            int x = int (DESCBOX_X - 160) * CleanXfac_1 + (Screen.GetWidth  () / 2),
-                y = int (DESCBOX_Y - 100) * CleanYfac_1 + (Screen.GetHeight () / 2),
-                w = DESCBOX_Width  * CleanXfac_1,
-                h = DESCBOX_Height * CleanYfac_1;
+        if (classDesc == "")
+            return;
 
-            Screen.Dim ("000000", 1, x, y, w, h);
-            Screen.DrawFrame (x, y, w, h);
+        // Calculate box
+        int descBoxX, descBoxY,
+            descBoxW, descBoxH;
+        {
+            Vector2 descBoxPos, descBoxSize;
+            [descBoxPos, descBoxSize] = GetBoxSizes (self);
 
-            let fnt = Font.GetFont ('S7TxtFnt.FON2');
-            let lines = fnt.BreakLines (StringTable.Localize (classDesc, true), DESCBOX_Width-4);
-            pagesCount = int (ceil (double (lines.Count ()) / (DESCBOX_MaxLines+1)));
+            descBoxX = int (descBoxPos.X ); descBoxY = int (descBoxPos.Y );
+            descBoxW = int (descBoxSize.X); descBoxH = int (descBoxSize.Y);
+        }
 
-            int fntHeight = fnt.GetHeight ();
-            int lineX = int (DESCBOX_X+4 - 160) * CleanXfac_1 + (Screen.GetWidth  () >> 1);
-            int iMax = min (lines.Count () - (curPage * (DESCBOX_MaxLines+1)), DESCBOX_MaxLines+1);
-            for (int i = 0; i < iMax; i++) {
-                string line = lines.StringAt ((curPage * (DESCBOX_MaxLines+1)) + i);
-                int lineY = int (((DESCBOX_Y + 2) + fntHeight * i) - 100) * CleanYfac_1 + (Screen.GetHeight () / 2);
+        // Draw box
+        Screen.Dim ("000000", 1, descBoxX, descBoxY, descBoxW, descBoxH);
+        Screen.DrawFrame (descBoxX, descBoxY, descBoxW, descBoxH);
 
-                Screen.DrawText (fnt, Font.CR_White, lineX, lineY, line, DTA_CleanNoMove_1, true, DTA_KeepRatio, true);
-            }
+        // Get arrow textures
+        let arrowLeft  = TexMan.CheckForTexture (DESCBOX_ArrowLeftTex , TexMan.Type_Any),
+            arrowRight = TexMan.CheckForTexture (DESCBOX_ArrowRightTex, TexMan.Type_Any);
+        Vector2 arrowLeftSize  = TexMan.GetScaledSize (arrowLeft ) * DESCBOX_ArrowScale,
+                arrowRightSize = TexMan.GetScaledSize (arrowRight) * DESCBOX_ArrowScale;
+        arrowLeftSize  = ( arrowLeftSize.X * CleanXfac_1,  arrowLeftSize.Y * CleanYfac_1);
+        arrowRightSize = (arrowRightSize.X * CleanXfac_1, arrowRightSize.Y * CleanYfac_1);
 
-            let arrowLeft  = TexMan.CheckForTexture ("INVGEML1", TexMan.Type_Any),
-                arrowRight = TexMan.CheckForTexture ("INVGEMR1", TexMan.Type_Any);
-            int arrowsX     = int (DESCBOX_ArrowsY     - 160) * CleanXfac_1 + (Screen.GetWidth  () / 2),
-                arrowLeftY  = int (DESCBOX_ArrowLeftX  - 100) * CleanYfac_1 + (Screen.GetHeight () / 2),
-                arrowRightY = int (DESCBOX_ArrowRightX - 100) * CleanYfac_1 + (Screen.GetHeight () / 2);
+        // Calculate arrow coords
+        arrowsX = descBoxX + descBoxW + 3 + 2;
+        arrowRightY = int (descBoxY + descBoxH - arrowRightSize.Y);
 
-            if (curPage > 0)
-                Screen.DrawTexture (arrowLeft , true, arrowsX, arrowLeftY , DTA_CleanNoMove_1, true, DTA_KeepRatio, true);
-            if (curPage < (pagesCount - 1))
-                Screen.DrawTexture (arrowRight, true, arrowsX, arrowRightY, DTA_CleanNoMove_1, true, DTA_KeepRatio, true);
+        arrowLeftY = int (arrowRightY - (arrowLeftSize.Y + 2));
+
+        // Calculate lines
+        let fnt = OptionFont (); //Font.GetFont ('S7TxtFnt.FON2');
+
+        int fntHeight = fnt.GetHeight ();
+        int maxLines = int (floor ((DESCBOX_Height - 4.*2.) / fntHeight));
+
+        let lines = fnt.BreakLines (StringTable.Localize (classDesc, true), DESCBOX_Width-4);
+        pagesCount = int (ceil (double (lines.Count ()) / maxLines));
+
+        // Draw lines
+        int lineX = int (descBoxX + (4 * CleanXfac_1));
+        int iMax = min (lines.Count () - (curPage * (maxLines)), maxLines);
+        for (int i = 0; i < iMax; i++) {
+            string line = lines.StringAt ((curPage * maxLines) + i);
+            int lineY = int ((descBoxY + 2 * CleanYfac_1) + (fntHeight * CleanYfac_1) * i);
+
+            Screen.DrawText (fnt, Font.CR_White, lineX, lineY, line, DTA_CleanNoMove_1, true, DTA_KeepRatio, true);
+        }
+
+        // Draw arrows
+        if (curPage > 0) {
+            Screen.DrawTexture (
+                arrowLeft , true,
+                arrowsX, arrowLeftY ,
+                DTA_CleanNoMove_1, true,
+                DTA_KeepRatio, true,
+                DTA_DestWidthF , arrowLeftSize.X,
+                DTA_DestHeightF, arrowLeftSize.Y
+            );
+        }
+        if (curPage < (pagesCount - 1)) {
+            Screen.DrawTexture (
+                arrowRight, true,
+                arrowsX, arrowRightY,
+                DTA_CleanNoMove_1, true,
+                DTA_KeepRatio, true,
+                DTA_DestWidthF , arrowRightSize.X,
+                DTA_DestHeightF, arrowRightSize.Y
+            );
         }
     }
 }
@@ -284,7 +333,6 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
     PlayerClass mPlayerClass;
     State mPlayerState;
     int mPlayerTics;
-    bool mNoportrait;
     int8 mRotation;
     int8 mMode; // 0: automatic (used by class selection), 1: manual (used by player setup)
     int8 mTranslate;
@@ -308,9 +356,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
     //
     //
     //=============================================================================
-    void DoInit (OptionMenuDescriptor menu, int x, int y, Color c1, Color c2, bool np = false, Name command = 'None') {
-        mXpos = x;
-        mYpos = y;
+    void DoInit (OptionMenuDescriptor menu, Color c1, Color c2, Name command = 'None') {
         mAction = "None";
         mEnabled = false;
         mOwner = menu;
@@ -321,7 +367,6 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
         mBackdrop = TexMan.CheckForTexture ("B@CKDROP", TexMan.Type_MiscPatch);  // The weird name is to avoid clashes with mods.
         mPlayerClass = NULL;
         mPlayerState = NULL;
-        mNoportrait = np;
         mMode = 0;
         mRotation = 0;
         mTranslate = false;
@@ -472,6 +517,8 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
     //
     //=============================================================================
 
+    const DisplayWidth  = 120;
+    const DisplayHeight = 120;
     override int Draw (OptionMenuDescriptor desc, int y, int indent, bool selected) {
         if (mMode == 0 && !UpdatePlayerClass ())
             return 0;
@@ -480,51 +527,53 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
 
         Name portrait = playdef.Portrait;
 
-        if (portrait != 'None' && !mNoPortrait) {
-            TextureID texid = TexMan.CheckForTexture (portrait, TexMan.Type_MiscPatch);
-            screen.DrawTexture (texid, true, mXpos, mYpos, DTA_Clean, true);
-        } else {
-            int x = int (mXpos - 160) * CleanXfac_1 + (screen.GetWidth  () >> 1);
-            int y = int (mYpos - 100) * CleanYfac_1 + (screen.GetHeight () >> 1);
+        Vector2 boxPos, boxSize;
+        [boxPos, boxSize] = S7_PlayerclassMenu.GetBoxSizes (OptionMenu (Menu.GetCurrentMenu ()));
 
-            int r = mBaseColor.r + mAddColor.r;
-            int g = mBaseColor.g + mAddColor.g;
-            int b = mBaseColor.b + mAddColor.b;
-            int m = max (r, g, b);
-            r = r * 255 / m;
-            g = g * 255 / m;
-            b = b * 255 / m;
-            Color c = Color (255, r, g, b);
+        int x = int (boxPos.X + ((boxSize.X - DisplayWidth * CleanXFac_1) / 2.));
+        int y = int (boxPos.Y - ((DisplayHeight + 16) * CleanYFac_1));
 
-            screen.DrawTexture (mBackdrop, false, x, y - 1,
-                DTA_DestWidth, 72 * CleanXfac_1,
-                DTA_DestHeight, 80 * CleanYfac_1,
-                DTA_Color, c,
-                DTA_Masked, true
-            );
+        int r = mBaseColor.r + mAddColor.r;
+        int g = mBaseColor.g + mAddColor.g;
+        int b = mBaseColor.b + mAddColor.b;
+        int m = max (r, g, b);
+        r = r * 255 / m;
+        g = g * 255 / m;
+        b = b * 255 / m;
+        Color c = Color (255, r, g, b);
 
-            Screen.DrawFrame (x, y, 72 * CleanXfac_1, 80 * CleanYfac_1 - 1);
+        screen.DrawTexture (mBackdrop, false, x, y - 1,
+            DTA_CleanNoMove_1, true,
+            DTA_DestWidthF , DisplayWidth  * CleanXfac_1,
+            DTA_DestHeightF, DisplayHeight * CleanYfac_1,
+            DTA_Color, c,
+            DTA_Masked, true
+        );
 
-            if (mPlayerState != NULL) {
-                Vector2 Scale;
-                TextureID sprite;
-                bool flip;
+        Screen.DrawFrame (x, y, DisplayWidth * CleanXfac_1, DisplayHeight * CleanYfac_1 - 1);
 
-                [sprite, flip, Scale] = mPlayerState.GetSpriteTexture (mRotation, mSkin, playdef.Scale);
+        if (mPlayerState != NULL) {
+            Vector2 Scale;
+            TextureID sprite;
+            bool flip;
 
-                if (sprite.IsValid ()) {
-                    int trans = mTranslate ? Translation.MakeID (TRANSLATION_Players, MAXPLAYERS) : 0;
-                    let tscale = TexMan.GetScaledSize (sprite);
-                    Scale.X *= CleanXfac_1 * tscale.X;
-                    Scale.Y *= CleanYfac_1 * tscale.Y;
+            [sprite, flip, Scale] = mPlayerState.GetSpriteTexture (mRotation, mSkin, playdef.Scale);
 
-                    screen.DrawTexture (sprite, false,
-                        x + 36 * CleanXfac_1, y + 71 * CleanYfac_1,
-                        DTA_DestWidthF, Scale.X, DTA_DestHeightF, Scale.Y,
-                        DTA_TranslationIndex, trans,
-                        DTA_FlipX, flip
-                    );
-                }
+            if (sprite.IsValid ()) {
+                int trans = mTranslate ? Translation.MakeID (TRANSLATION_Players, MAXPLAYERS) : 0;
+                let tscale = TexMan.GetScaledSize (sprite);
+                Scale.X *= tscale.X * 1.5 * CleanXfac_1;
+                Scale.Y *= tscale.Y * 1.5 * CleanYfac_1;
+
+                screen.DrawTexture (sprite, false,
+                    int (x + (DisplayWidth  * CleanXfac_1 / 2.)),
+                    int (y + (DisplayHeight * CleanYfac_1 * .825)),
+                    DTA_CleanNoMove_1, true,
+                    DTA_DestWidthF , Scale.X,
+                    DTA_DestHeightF, Scale.Y,
+                    DTA_TranslationIndex, trans,
+                    DTA_FlipX, flip
+                );
             }
         }
 
