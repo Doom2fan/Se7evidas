@@ -544,10 +544,11 @@ class S7_BaseWeapon : Weapon {
     }
 
     enum S7_A_FireBullets_Flags {
-        S7_FB_SpeedOffs     = 1 << 0,
-        S7_FB_UseAmmo       = 1 << 1,
-        S7_FB_AbsoluteAngle = 1 << 2,
-        S7_FB_AbsolutePitch = 1 << 3,
+        S7_FB_SpeedOffs       = 1 << 0,
+        S7_FB_UseAmmo         = 1 << 1,
+        S7_FB_AbsoluteAngle   = 1 << 2,
+        S7_FB_AbsolutePitch   = 1 << 3,
+        S7_FB_PhysRelVelocity = 1 << 4,
     }
 
     action Actor, S7_TZK_ArrayObj S7_A_SpawnSFX (class<Actor> sfxType, Vector3 offs = (0, 0, 0), double angleOffs = 0, double pitchOffs = 0, int amount = 1, int flags = 0) {
@@ -614,6 +615,9 @@ class S7_BaseWeapon : Weapon {
 
             proj.vel = (forwards.Unit () * proj.Speed);
             [proj.angle, proj.pitch, proj.roll] = projRot.ToAngles ();
+
+            if (flags & S7_FB_PhysRelVelocity)
+                proj.vel = vel + proj.vel;
 
             if ((projType is 'S7_Projectile'))
                 S7_Projectile (proj).bonusDMGFactor = bonusDMGFactor;
