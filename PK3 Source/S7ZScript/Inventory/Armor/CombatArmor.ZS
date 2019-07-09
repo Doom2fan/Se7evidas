@@ -38,8 +38,10 @@ class S7_CCCombatArmorData : S7_ArmorData {
     }
 
     override void FixArmor (S7_BasicArmor armor, int amount) {
-        weaveDMG = max (weaveDMG - (amount / 2.), 0.);
-        platesDMG = max (platesDMG - (amount / 2.), 0.);
+        if (weaveDMG < weaveDMGLimit)
+            weaveDMG = max (weaveDMG - (amount / 2.), 0.);
+        if (platesDMG < platesDMGLimit)
+            platesDMG = max (platesDMG - (amount / 2.), 0.);
 
         UpdateAmount (armor);
     }
