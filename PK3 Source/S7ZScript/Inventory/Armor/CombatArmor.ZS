@@ -51,18 +51,21 @@ class S7_CCCombatArmorData : S7_ArmorData {
     }
 
     protected double, double, int CalcBulletDamage (int dmg, double baseWeaveDMG, double maxBulletShred,
-        double pltShift = 0, double pltMin = 0,
-        double usrPltM = 0, double usrWeaveM = 0, double usrWeaveMShift = 0, double usrMin = 0
+        double pltDMG = 0,
+        double usrPltM = 0, double usrWeaveM = 0, double usrWeaveShreddedM = 0, double usrWeaveMShift = 0, double usrMin = 0
     ) {
         double pltDMGFactor = platesDMG / platesDMGLimit;
         double weaveDMGFactor = weaveDMG / weaveDMGLimit;
-        double bulletShredding = clamp (1-(pltDMGFactor), 0.0, maxBulletShred);
-        double pltDMG = clamp ((pltDMGFactor - pltShift) / (1-pltShift), pltMin, 1.0);
-        double wevDMG = baseWeaveDMG * (1-bulletShredding);
 
-        double usrModPlt = usrPltM + pltDMGFactor - usrPltM*pltDMGFactor;
-        double usrModWeaveP1 = 1 - bulletShredding + usrWeaveM * bulletShredding;
-        double usrModWeave = usrModWeaveP1 * clamp ((weaveDMGFactor - usrWeaveMShift) / (1-usrWeaveMShift), 0.0, 1.0);
+        double bulletShredding = clamp (1. - pltDMGFactor, 0.0, maxBulletShred);
+        double wevDMG = baseWeaveDMG * (1. - bulletShredding);
+
+        double usrModPlt = usrPltM + pltDMGFactor - usrPltM * pltDMGFactor;
+
+        double usrModWeaveP1 = S7_Math.Lerp (usrWeaveShreddedM, usrWeaveM, bulletShredding);
+        double usrModWeaveP2 = clamp ((weaveDMGFactor - usrWeaveMShift) / (1. - usrWeaveMShift), 0, 1);
+        double usrModWeave = S7_Math.Lerp (usrModWeaveP1, 1., usrModWeaveP2);
+
         double usrDMG = clamp (usrModPlt * usrModWeave, usrMin, 1.0);
 
         return dmg * wevDMG, dmg * pltDMG, int (dmg * usrDMG);
@@ -104,19 +107,19 @@ class S7_CCCombatArmorData : S7_ArmorData {
 
             switch (damageType) {
             case 'PistolTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.3 , 0.85, pltShift: 0.3 , pltMin: 0.2 , usrPltM: 0.55, usrWeaveM: 0.35, usrWeaveMShift: 0.25, usrMin: 0.25);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.3 , 0.85, pltDMG: 0.5 , usrPltM: 0.55, usrWeaveM: 0.2 , usrWeaveShreddedM: 0.07, usrWeaveMShift: 0.5 , usrMin: 0.175);
                 break;
             case 'RevolverTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.33, 0.85, pltShift: 0.35, pltMin: 0.18, usrPltM: 0.6 , usrWeaveM: 0.35, usrWeaveMShift: 0.25, usrMin: 0.25);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.33, 0.85, pltDMG: 0.65, usrPltM: 0.6 , usrWeaveM: 0.3 , usrWeaveShreddedM: 0.1 , usrWeaveMShift: 0.4 , usrMin: 0.245);
                 break;
             case 'ShotgunTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.15, 0.95, pltShift: 0.5 , pltMin: 0.15, usrPltM: 0.5 , usrWeaveM: 0.2 , usrWeaveMShift: 0.70, usrMin: 0.25);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.15, 0.95, pltDMG: 0.5 , usrPltM: 0.5 , usrWeaveM: 0.1 , usrWeaveShreddedM: 0.03, usrWeaveMShift: 0.65, usrMin: 0.1 );
                 break;
             case 'RifleTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.5 , 0.8 , pltShift: 0.15, pltMin: 0.5 , usrPltM: 0.55, usrWeaveM: 0.4 , usrWeaveMShift: 0.2 , usrMin: 0.3);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.5 , 0.8 , pltDMG: 0.5 , usrPltM: 0.55, usrWeaveM: 0.6 , usrWeaveShreddedM: 0.2 , usrWeaveMShift: 0.0 , usrMin: 0.3 );
                 break;
             case 'SniperRifleTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.6 , 0.5 , pltShift: 0.15, pltMin: 0.6 , usrPltM: 0.6 , usrWeaveM: 0.65, usrWeaveMShift: 0.1 , usrMin: 0.6);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.6 , 0.5 , pltDMG: 0.5 , usrPltM: 0.6 , usrWeaveM: 0.95, usrWeaveShreddedM: 0.32, usrWeaveMShift: 0.0 , usrMin: 0.6 );
                 break;
             case 'Fire':
                 pltDMG = max (damage - 15, 0) * 0.25;
@@ -198,21 +201,25 @@ class S7_SBTKCombatArmorData : S7_CCCombatArmorData {
             double weaveInt = weaveDMG / weaveDMGLimit;
             double pltInt = platesDMG / platesDMGLimit;
 
+            // Base weave damage is 1.45 times that of the CC one's.
+            // Plate damage is 1.25 times that of the CC one's, with the rifle ones tweaked.
+            // usrWeaveM is 0.75 time that of the CC one's.
+            // usrWeaveShreddedM is 0.875 time that of the CC one's.
             switch (damageType) {
             case 'PistolTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.3 , 0.85, pltShift: 0.255, pltMin: 0.32 , usrPltM: 0.55, usrWeaveM: 0.26, usrWeaveMShift: 0.25, usrMin: 0.18);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.44, 0.9 , pltDMG: 0.625, usrPltM: 0.5 , usrWeaveM: 0.15 , usrWeaveShreddedM: 0.062, usrWeaveMShift: 0.5 , usrMin: 0.175);
                 break;
             case 'RevolverTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.33, 0.85, pltShift: 0.298, pltMin: 0.288, usrPltM: 0.6 , usrWeaveM: 0.26, usrWeaveMShift: 0.25, usrMin: 0.18);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.48, 0.9 , pltDMG: 0.812, usrPltM: 0.55, usrWeaveM: 0.225, usrWeaveShreddedM: 0.088, usrWeaveMShift: 0.4 , usrMin: 0.245);
                 break;
             case 'ShotgunTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.15, 0.95, pltShift: 0.425, pltMin: 0.24 , usrPltM: 0.5 , usrWeaveM: 0.15, usrWeaveMShift: 0.70, usrMin: 0.18);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.22, 1.0 , pltDMG: 0.625, usrPltM: 0.45, usrWeaveM: 0.075, usrWeaveShreddedM: 0.026, usrWeaveMShift: 0.65, usrMin: 0.1 );
                 break;
             case 'RifleTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.5 , 0.8 , pltShift: 0.128, pltMin: 0.8  , usrPltM: 0.55, usrWeaveM: 0.3 , usrWeaveMShift: 0.2 , usrMin: 0.225);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.73, 0.85, pltDMG: 0.675, usrPltM: 0.5 , usrWeaveM: 0.45 , usrWeaveShreddedM: 0.175, usrWeaveMShift: 0.0 , usrMin: 0.2 );
                 break;
             case 'SniperRifleTracer':
-                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.6 , 0.5 , pltShift: 0.128, pltMin: 0.96 , usrPltM: 0.6 , usrWeaveM: 0.49, usrWeaveMShift: 0.1 , usrMin: 0.45);
+                [wevDMG, pltDMG, ret] = CalcBulletDamage (damage, 0.87, 0.6 , pltDMG: 0.725, usrPltM: 0.55, usrWeaveM: 0.713, usrWeaveShreddedM: 0.28 , usrWeaveMShift: 0.0 , usrMin: 0.45);
                 break;
             case 'Fire':
                 pltDMG = max (damage - 12, 0) * 0.26;
