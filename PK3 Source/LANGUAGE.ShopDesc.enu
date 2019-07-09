@@ -30,7 +30,7 @@ SS_REVOLVERINFO = "Manufacturer: ShadowFyre\nCaliber: .44 Magnum\nCapacity: 6 ca
 
 // SMGs
 SS_TEC9DESC = "The S18 \"Kronos\" SMG is a simple and effective weapon from Cronus Corps. The Kronos has found popularity for its low price tag, high concealability and high firing speed. For you, it means firepower whenever you need it, wherever you need it.";
-SS_TEC9INFO = "Manufacturer: Cronus Corps\nCaliber: 9x19mm\nCapacity: 32 cartridges\nFiring modes: Full-auto and burst-fire\nFiring speed: 1050/2100 RPM";
+SS_TEC9INFO = "Manufacturer: Cronus Corps\nCaliber: 9x19mm\nCapacity: 32 cartridges\nFiring modes: Full-auto only\nFiring speed: 1050 RPM";
 
 SS_HITTERSMGDESC = "The SR20 \"Hitter\" SMG is a collaboration between Cronus Corps and Sigma BTK. It was designed to be a cross between the R16 \"Raptor\" Semi-automatic Pistol and the S18 \"Kronos\" SMG, firing two rounds at once to increase the amount of rounds it fires per minute without increasing the firing speed.\n\nAfter it reached shops, a small design flaw was found: a single round doesn't have enough power to cycle the gun. Normally this wouldn't be a problem, but it was soon discovered that mixing cartridges with powder from different manufacturers would occasionally fail to cycle due to the rounds not firing with perfect timing\nDespite this, the Hitter is still manufactured and sold, as it is an otherwise good gun.";
 SS_HITTERSMGINFO = "Manufacturer: Cronus Corps & Sigma BTK\nCaliber: .45 ACP\nCapacity: 62 cartridges\nFiring modes: Full-auto only\nFiring speed: 1400 RPM";
