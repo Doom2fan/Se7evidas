@@ -124,7 +124,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     states {
     Loople:
         TNT1 A 0 {
-            S7_ExplosionSound.CreateExplosion1 (pos);
+            S7_ExplosionSound.CreateExplosion2 (pos);
 
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (int (96. * (1. + invoker.bonusDMGFactor)), 144, fulldamagedistance: 48);
