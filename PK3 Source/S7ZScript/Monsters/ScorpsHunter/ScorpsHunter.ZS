@@ -238,26 +238,27 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 CD 2 A_FaceTarget (90, 45);
         SCR3 E  1 {
             A_FaceTarget (0, 0);
-            A_SetTics (random [monsterSpc] (3, 5));
+            A_SetTics (random [monsterSpc] (2, 4));
         }
     DoAim:
         TNT1 A 0 {
-            if (!CheckLOF (CLOFF_NoAim | CLOFF_FromBase, 3200.0, 0.0, 0, 0, 35.0, 9.0))
-                return ResolveState ("See");
-
             turn = 20.0;
 
             if (!ammo)
                 return ResolveState ("DryFire");
 
-            return ResolveState (random [monsterSpc] (1, 4));
+            return ResolveState (random [monsterSpc] (0, 3));
         }
-        SCR3 EEEE 1 A_FaceTarget (abs (turn), abs (turn));
+        SCR3 EEEEEE 1 A_FaceTarget (abs (turn), abs (turn));
     DoShoot:
-        SCR3 E 1 A_FaceTarget (turn * 2, turn * 2);
+        SCR3 E 1 A_FaceTarget (turn / 4, turn / 4);
         SCR3 F 1 {
-            A_FaceTarget (0, 0);
+            if (!CheckLOF (CLOFF_NoAim | CLOFF_FromBase, 3200.0, 0.0, 0, 0, 35.0, 9.0))
+                return ResolveState ("See");
+
             DoFireGun ();
+
+            return ResolveState (null);
         }
         goto EndShoot;
 

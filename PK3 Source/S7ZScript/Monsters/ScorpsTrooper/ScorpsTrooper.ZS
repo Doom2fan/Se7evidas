@@ -231,9 +231,6 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
     DoShoot:
         TNT1 A 0 {
-            if (!CheckLOF (CLOFF_NoAim | CLOFF_FromBase, 3200.0, 0.0, 0, 0, 35.0, 9.0))
-                return ResolveState ("See");
-
             if (CheckIfCloser (target, 512)) {
                 fireMode = 1;
                 turn = 30.0;
@@ -256,12 +253,8 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
         SCR1 EEEEE 1 A_FaceTarget (abs (turn), abs (turn));
     DoShoot2:
-        SCR1 E 1 A_FaceTarget (turn * 2, turn * 2);
-        SCR1 F 1 {
-            A_FaceTarget (0, 0);
-
-            DoFireGun ();
-        }
+        SCR1 E 1 A_FaceTarget (turn / 4, turn / 4);
+        SCR1 F 1 DoFireGun ();
         SCR1 EEE 1 A_FaceTarget (turn * 1.5, turn * 1.5);
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target is in LOS, keep firing

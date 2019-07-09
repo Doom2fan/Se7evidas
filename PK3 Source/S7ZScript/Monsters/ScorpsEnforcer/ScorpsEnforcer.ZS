@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsEnforcerTracer : S7_BulletTracer {
     default {
-        DamageFunction ((8. + fRandom [monsterDMG] (-2., 3.)) * (1. + bonusDMGFactor));
+        DamageFunction ((6. + fRandom [monsterDMG] (-2., 1.)) * (1. + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 250;
         DamageType 'RifleTracer';
     }
@@ -212,11 +212,8 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
         SCR2 UUUUUU 1 A_FaceTarget (abs (turn), abs (turn));
         TNT1 A      0 A_PlaySound ("Monsters/ScorpsEnforcer/Attack", CHAN_Voice);
     DoShoot2:
-        SCR2 E 1 A_FaceTarget (turn * 2, turn * 2);
-        SCR2 F 1 {
-            A_FaceTarget (0, 0);
-            DoFireGun ();
-        }
+        SCR2 E 1 A_FaceTarget (turn / 4, turn / 4);
+        SCR2 F 1 DoFireGun ();
         SCR2 U 2;
         SCR2 U 1 A_JumpIf (fireMode, 1); // If we're firing full auto, skip this frame
         TNT1 A 0 {
