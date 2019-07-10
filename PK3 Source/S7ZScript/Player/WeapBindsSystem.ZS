@@ -364,11 +364,19 @@ class S7_WeapBindsSystem : Inventory {
             }
         }
 
-        if (oldWeap && Owner.player.ReadyWeapon == oldWeap && Owner.player.PendingWeapon == WP_NOCHANGE) {
-            if (weap)
-                Owner.player.PendingWeapon = weap;
-            else
-                Owner.player.PendingWeapon = S7_BaseWeapon (Owner.FindInventory ('S7_UnarmedWeap'));
+        if (oldWeap) {
+            if (Owner.player.PendingWeapon == oldWeap)
+                Owner.player.PendingWeapon = WP_NOCHANGE;
+
+            if (Owner.player.ReadyWeapon == oldWeap && Owner.player.PendingWeapon == WP_NOCHANGE) {
+                if (weap)
+                    Owner.player.PendingWeapon = weap;
+                else
+                    Owner.player.PendingWeapon = S7_BaseWeapon (Owner.FindInventory ('S7_UnarmedWeap'));
+            }
+
+            if (LastWeapon == oldWeap)
+                LastWeapon = weap;
         }
     }
 }
