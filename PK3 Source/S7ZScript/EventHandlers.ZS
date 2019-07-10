@@ -27,9 +27,10 @@ class S7_ServerEventHandler : EventHandler {
             if (!playeringame [i])
                 continue;
 
-            Shader.SetEnabled (players [i], "S7_DemonEyes"  , false);
-            Shader.SetEnabled (players [i], "S7_Invuln"     , false);
-            Shader.SetEnabled (players [i], "S7_Nightvision", false);
+            Shader.SetEnabled (players [i], "S7_Shadowsphere", false);
+            Shader.SetEnabled (players [i], "S7_DemonEyes"   , false);
+            Shader.SetEnabled (players [i], "S7_Invuln"      , false);
+            Shader.SetEnabled (players [i], "S7_Nightvision" , false);
             //Shader.SetEnabled (players [i], "S7_StealthShader", !(gamestate == GS_TITLELEVEL));
         }
     }

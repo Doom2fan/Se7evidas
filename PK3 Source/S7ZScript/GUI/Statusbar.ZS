@@ -144,8 +144,6 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
 
         let pPawn = S7_BasePlayer (CPlayer.mo);
 
-        DoBlurEffect (pPawn, TicFrac);
-
         if (!selectedHUDCvar)
             selectedHUDCvar = CVar.GetCvar ("S7_HUDType", CPlayer);
 

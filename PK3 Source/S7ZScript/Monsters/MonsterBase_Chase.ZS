@@ -92,6 +92,14 @@ extend class S7_MonsterBase {
     virtual bool S7_Chase_CanMissileTarget () { return true; }
     virtual bool S7_Chase_CanMeleeTarget () { return true; }
 
+    bool S7_CanAttackStealthEnemy (Actor other) {
+        double dist = Distance2D (other);
+        double stealthFactor = S7_GetTargetStealthFactor (other);
+        double maxDist = max (maxStealthAttackRange * (1. - stealthFactor), (radius * 2.) + other.radius);
+        
+        return !(stealthFactor >= .6 && dist > maxDist);
+    }
+
     //-------------------------------------------------------------------------------------------
     //
     // DoChase / A_DoChase
@@ -346,15 +354,10 @@ extend class S7_MonsterBase {
                 } else if (!CheckMissileRange ()) {
                     S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                     return;
-                } else if (aiNextNode) {
-                    double dist = Distance2D (target);
-                    double stealthFactor = S7_GetTargetStealthFactor (target);
-
-                    if (stealthFactor >= .6 && dist > (maxStealthAttackRange * (clamp (1. - stealthFactor, .25, 1.)))) {
-                        S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
-                        return;
-                    }
                 } else if (!S7_Chase_CanMissileTarget ()) {
+                    S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
+                    return;
+                } else if (!S7_CanAttackStealthEnemy (target)) {
                     S7_DoChaseEnd (fastChase, meleestate, missilestate, playActive, nightmareFast, dontMove, flags);
                     return;
                 }

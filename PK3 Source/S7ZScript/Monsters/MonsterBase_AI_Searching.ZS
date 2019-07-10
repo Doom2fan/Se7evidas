@@ -111,7 +111,7 @@ extend class S7_MonsterBase {
                 aiLastTargetPos = target.pos;
 
             // Forget player and set a search node if they can't be seen, are out of LoS or shadow
-            if (!inLOS || !S7_CanSeeEnemy (target, noRand: true) || (target.bShadow && random [monsterAI] (0, 35) == 0)) {
+            if (!inLOS || !S7_CanSeeEnemy (target) || (target.bShadow && random [monsterAI] (0, 35) == 0)) {
                 bool lastTargetPosValid = !(aiLastTargetPos != aiLastTargetPos);
 
                 if (!bAmbush) {
@@ -133,7 +133,7 @@ extend class S7_MonsterBase {
                     ForgetTarget (self);
             }
         } else if (aiNextNode && target) {
-            if (CheckIfTargetInLOS () && S7_CanSeeEnemy (target, noRand: true)) {
+            if (CheckIfTargetInLOS () && S7_CanSeeEnemy (target)) {
                 aiCountdown = -1;
                 aiNodeCountdown = -1;
 

@@ -470,7 +470,7 @@ extend class S7_MonsterBase {
 
             double newFloorZ = GetZAt (ptry.X, ptry.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
 
-            if (!bDropOff &&abs (newFloorZ - oldFloorZ) > MaxStepHeight) {
+            if (!bDropOff && abs (newFloorZ - oldFloorZ) > MaxStepHeight) {
                 tryOK = false;
                 if (!checkOnly) {
                     SetOrigin (prevPos, true);

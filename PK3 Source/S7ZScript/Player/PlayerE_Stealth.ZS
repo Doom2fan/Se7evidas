@@ -20,19 +20,19 @@
 extend class S7_BasePlayer {
     double stealthFactor, shaderStealthFactor;
     void Misc_Stealth () {
+        // Still needs to be enabled because of the shadowsphere.
         if (!player || (player.cheats & CF_PREDICTING))
             return;
 
-        double lightLevel = Misc_Stealth_GetLightLevel (), origll = lightlevel;
-        lightLevel *= (CheckInventory ('S7_Invisibility_Power', 1) ? .5 : 1.);
+        double lightLevel = 1.0;//Misc_Stealth_GetLightLevel ();
+        lightLevel *= (CheckInventory ('S7_Invisibility_Power', 1) ? 0. : 1.);
         lightlevel = clamp (clamp (.6 - lightlevel, 0., 1.) / .4, 0., 1.);
 
-        double crouchFactor = clamp (1. + .25 * (1-player.crouchFactor), 1., 1.25);
-
+        double crouchFactor = clamp (1. + .25 * (1. - player.crouchFactor), 1., 1.25);
         stealthFactor = clamp (lightLevel * crouchFactor, 0., 1.);
 
         shaderStealthFactor = S7_Math.Lerp (shaderStealthFactor, max ((stealthFactor - .6), 0.) / .4, .1);
-        Shader.SetUniform1f (player, "S7_StealthShader", "stealthFactor", shaderStealthFactor);
+        //Shader.SetUniform1f (player, "S7_StealthShader", "stealthFactor", shaderStealthFactor);
     }
 
     double Misc_Stealth_GetLightLevel () {

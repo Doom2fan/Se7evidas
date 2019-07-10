@@ -46,58 +46,21 @@ extend class S7_MonsterBase {
         return 0.;
     }
 
-    enum S7_IsInvisible_Values {
-        S7_IsInvisible_InvisibleFlag = 1,
-        S7_IsInvisible_Stealthy      = 2,
-    };
-    int S7_IsInvisible (Actor other, bool touchChecks = true, bool stealthChecks = true) {
+    bool S7_CanSeeEnemy (Actor other) {
+        double dist = Distance2D (other);
+        double stealthFactor = S7_GetTargetStealthFactor (other);
+        double maxDist = max (maxStealthSightRange * (1. - stealthFactor), (radius * 2.) + other.radius);
+        
+        if (stealthFactor >= .6 && dist > maxDist)
+            return false;
+
         if (bSeeInvisible)
-            return false;
-
-        bool isTouching = false;
-
-        /*if (touchChecks) {
-            double dist = Distance2D (other);
-
-            if (dist <= radius + other.radius && (
-                    (pos.Z >= other.pos.Z && pos.Z <= (other.pos.Z + other.Height)) ||
-                    (other.pos.Z >= pos.Z && other.pos.Z <= (pos.Z + Height))
-                )
-            ) {
-                isTouching = true;
-            }
-        }*/
-
-        if (stealthChecks && other is 'S7_BasePlayer') {
-            double stealthFactor = S7_GetTargetStealthFactor (other);
-
-            if (stealthFactor >= .6)
-                return S7_IsInvisible_Stealthy;
-        }
-
-        return (other.bInvisible ? S7_IsInvisible_InvisibleFlag : 0);
-    }
-
-    bool S7_CanSeeEnemy (Actor other, bool touchChecks = false, bool noRand = true) {
-        S7_IsInvisible_Values invisVal = S7_IsInvisible (other, touchChecks, true);
-
-        if (!invisVal)
             return true;
-        if (invisVal && invisVal != S7_IsInvisible_Stealthy)
+
+        if (other.bInvisible)
             return false;
-        else {
-            double dist = max (Distance2D (other) - (radius + other.radius), 0.);
-            double stealthFactor = S7_GetTargetStealthFactor (other);
 
-            if (invisVal == S7_IsInvisible_Stealthy &&
-                (dist <= (maxStealthSightRange * clamp (1. - stealthFactor, .5, 1.))) &&
-                (noRand || random [monsterAI] (0, 255) < 160)
-            ) {
-                return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     //-------------------------------------------------------------------------------------------
@@ -203,7 +166,7 @@ extend class S7_MonsterBase {
                         continue; // Player isn't sneaking, but still didn't detect
                 }
 
-                if (!fromChase ? !S7_CanSeeEnemy (player.mo) : S7_IsInvisible (player.mo, touchChecks: false))
+                if (!S7_CanSeeEnemy (player.mo))
                     continue;
             }
 

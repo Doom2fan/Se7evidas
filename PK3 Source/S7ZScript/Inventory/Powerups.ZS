@@ -232,6 +232,37 @@ class S7_Invisibility_Power : PowerInvisibility {
 
         -SHADOW
     }
+
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (Owner.player) {
+            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", true);
+            Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "blurStrength", 1.);
+            Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "vignetteStrength", 1.);
+        }
+    }
+
+    override void EndEffect () {
+        Super.EndEffect ();
+
+        if (Owner && Owner.player)
+            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", false);
+    }
+
+    override void DetachFromOwner () {
+        if (Owner && Owner.player)
+            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", false);
+
+        Super.DetachFromOwner ();
+    }
+
+    override void OnDestroy () {
+        if (Owner && Owner.player)
+            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", false);
+
+        Super.OnDestroy ();
+    }
 }
 
 class S7_Invisibility : PowerupGiver {

@@ -235,7 +235,8 @@ class S7_BasePlayer : PlayerPawn {
         }
 
         // Movement
-        //Misc_Stealth (); // RIP stealth system, you will be missed
+        Misc_Stealth (); // RIP stealth system, you will be missed. Still needs
+                         // to be enabled because of the shadowsphere.
         Movement_Dodging ();
         Movement_LedgeGrabbing ();
         Movement_Sprinting ();
