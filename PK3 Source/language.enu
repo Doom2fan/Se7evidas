@@ -84,7 +84,7 @@
         45WW_PACK                   = "Pack of 5 .45 WW cartridges";
         20GA_SINGLE                 = "Picked up a 20ga shell";
         20GASMALL                   = "Picked up a handful of 20ga shells";
-        20GA_BOX                    = "Box of 20ga shells";
+        20GA_BANDOLIER              = "Bandolier of 20ga shells";
         12GA_SINGLE                 = "Picked up a 12ga shell";
         12GASMALL                   = "Picked up a handful of 12ga shells";
         12GA_BOX                    = "Box of 12ga shells";

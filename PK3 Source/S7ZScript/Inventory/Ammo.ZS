@@ -261,7 +261,7 @@ class S7_45WWCartridges : Ammo {
 class S7_20gaShells : Ammo {
     default {
         Tag "$20GA";
-        Inventory.PickupMessage "$20GA_BOX";
+        Inventory.PickupMessage "$20GA_BANDOLIER";
         Inventory.Amount 10;
         Inventory.MaxAmount 60;
         // Ammo.BackpackMaxAmount 80;
