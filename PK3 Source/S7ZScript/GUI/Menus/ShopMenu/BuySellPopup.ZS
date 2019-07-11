@@ -337,6 +337,9 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             addButton.disabled = true;
         if (amount <= 1)
             decButton.disabled = true;
+
+        addButton.textColor = (addButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
+        decButton.textColor = (decButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
     }
 
     void Close () {

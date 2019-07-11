@@ -227,6 +227,13 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         statButtons [5] [1].disabled = (magicAdd    <= 0);
         statButtons [6] [1].disabled = (techAdd     <= 0);
 
+        for (int i = 0; i < statButtons.Size (); i++) {
+            for (int j = 0; j < 2; j++) {
+                let statButton = statButtons [i] [j];
+                statButton.textColor = (statButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
+            }
+        }
+
         for (int i = 0; i < statLabels.Size () + 1; i++) {
             if (i == statLabels.Size ()) {
                 SetTooltip ("");
