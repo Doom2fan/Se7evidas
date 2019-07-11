@@ -35,10 +35,12 @@ extend class S7_BasePlayer {
     const LedgeGrab_MaxReach = 8.0;
     const LedgeGrab_MaxHeight = 48.0;
     const LedgeGrab_DropKeys = BT_USE | BT_JUMP;
+    const LedgeGrab_MaxClimbTime = 35;
 
     Actor ledgeGrab_Marker;
     bool  ledgeGrab_Grabbed;
     bool  ledgeGrab_DoClimb;
+    int   ledgeGrab_ClimbTime;
 
     // Sprinting
     bool   sprint_Sprinting;
@@ -348,13 +350,22 @@ extend class S7_BasePlayer {
             double xyStiffness = .25, xyDamping = .5 ;
             double  zStiffness = .75,  zDamping = .25;
 
-            if ((player.cmd.buttons & BT_CROUCH) && !(player.oldbuttons & BT_CROUCH))
+            if (!(player.cheats & CF_PREDICTING) && (player.cmd.buttons & BT_CROUCH) && !(player.oldbuttons & BT_CROUCH)) {
                 ledgeGrab_DoClimb = true;
+                ledgeGrab_ClimbTime = 0;
+            }
 
             if (ledgeGrab_DoClimb) {
                 destPos.Z = marker.floorZ + (player.viewZ - pos.Z);
                 xyStiffness = .1 ; xyDamping = .5;
                 zStiffness  = .25;  zDamping = .5;
+
+                if (!(player.cheats & CF_PREDICTING)) {
+                    if (ledgeGrab_ClimbTime++ > LedgeGrab_MaxClimbTime) {
+                        ledgeGrab_DoClimb = false;
+                        ledgeGrab_ClimbTime = 0;
+                    }
+                }
             }
 
             double viewZ = pos.Z + player.viewHeight;
