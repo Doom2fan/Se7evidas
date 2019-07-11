@@ -52,22 +52,24 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
             return;
 
         if (item.itemData && item.itemData.itemType == IT_PageLink && item.itemData.link) {
-            list.Select (NULL);
+            link.selectedItem = NULL;
+            link.hoveredItem = NULL;
+            list.UpdateList ();
+
             let page = item.itemData.link;
             list.SetPage (page);
             link.SetPage (page);
 
             Menu.MenuSound ("S7Menu/Choose");
-
-            link.selectedItem = NULL;
-            link.hoveredItem = NULL;
         } else if (link.selectedItem != item) { // If the item isn't already selected
-            list.Select (item);
             link.selectedItem = item;
+            list.UpdateList ();
+
             Menu.MenuSound ("S7Menu/SelectionMove");
         } else {
-            list.Select (NULL);
             link.selectedItem = NULL;
+            list.UpdateList ();
+
             Menu.MenuSound ("S7Menu/SelectionMove");
         }
     }
@@ -146,7 +148,8 @@ class S7_ShopMenu_List : S7_ZF_Frame {
 
     override void Ticker () {
         Super.Ticker ();
-        UpdateScroll ();
+
+        UpdateList ();
     }
 
     override void OnUIEvent (S7_ZF_UiEvent ev) { // Type_WheelUp
@@ -171,6 +174,36 @@ class S7_ShopMenu_List : S7_ZF_Frame {
                 itemsFrame.box.pos.Y = -lowestCoord;
             else if (itemsFrame.box.pos.Y > 0)
                 itemsFrame.box.pos.Y = 0;
+        }
+    }
+
+    void UpdateList () {
+        UpdateScroll ();
+
+        bool sellMode = link.sellMode;
+        let pPawn = S7_BasePlayer (link.CPlayer.mo);
+
+        for (int i = items.Size () - 1; i >= 0; i--) {
+            let item = items [i];
+
+            if (!item || !item.itemData)
+                continue;
+
+            int colour = Font.CR_WHITE;
+
+            if (item == link.selectedItem)
+                colour = Font.CR_RED;
+            else if (item.itemData.itemType != IT_PageLink) {
+                if (
+                    (!sellMode && !item.itemData.CanBuy (pPawn, 1)) ||
+                    (sellMode && !item.itemData.CanSell (pPawn, 1))
+                ) {
+                    colour = Font.CR_DARKGRAY;
+                }
+            }
+
+            for (int j = item.labels.Size () - 1; j >= 0; j--)
+                item.labels [j].textColor = colour;
         }
     }
 
@@ -286,18 +319,5 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         itemsFrame.box.pos.Y = 0;
 
         return true;
-    }
-
-    void Select (S7_ShopMenu_ListItem item) {
-        Array<S7_ZF_Label> labels; labels.Clear ();
-        for (int i = 0; i < items.Size (); i++) {
-            if (!items [i])
-                return;
-
-            labels.Copy (items [i].labels);
-            for (int j = 0; j < labels.Size (); j++)
-                labels [j].textColor = (items [i] == item ? Font.CR_RED : Font.CR_WHITE);
-            labels.Clear ();
-        }
     }
 }

@@ -125,6 +125,9 @@ class S7_SSItem {
     }
 
     virtual bool CanBuy (S7_BasePlayer player, int amount) {
+        if (!(itemType & IT_BuyItem))
+            return false;
+
         S7_SSItemInfo info = GetInfo (player, amount);
 
         return (GetAmount (player, false) + info.buyAmount) <= info.maxAmount &&
@@ -132,6 +135,9 @@ class S7_SSItem {
     }
 
     virtual bool CanSell (S7_BasePlayer player, int amount) {
+        if (!(itemType & IT_SellItem))
+            return false;
+
         S7_SSItemInfo info = GetInfo (player, amount);
 
         int maxCashAmount = 0;

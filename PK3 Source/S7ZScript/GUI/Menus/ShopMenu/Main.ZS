@@ -209,14 +209,15 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                     backKeyCountdown = 10;
 
                     if (backPage) {
-                        itemsList.Select (NULL);
+                        selectedItem = NULL;
+                        hoveredItem = NULL;
+
+                        itemsList.UpdateList ();
                         itemsList.SetPage (backPage);
                         SetPage (backPage);
 
                         Menu.MenuSound ("S7Menu/PrevMenu");
 
-                        selectedItem = NULL;
-                        hoveredItem = NULL;
                         return true;
                     } else
                         return false;
