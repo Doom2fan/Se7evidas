@@ -40,6 +40,21 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
         }
     }
 
+    override void buttonHeldCommand (S7_ZF_Button caller, string command) {
+        if (command.IndexOf (":") < 0)
+            return;
+
+        Array<String> commandStrings; commandStrings.Clear ();
+        command.Split (commandStrings, ":");
+
+        if (commandStrings.Size () == 2 && link.buttonHeldTics++ > 8) {
+            if (commandStrings [0] == "StatAdd")
+                GiveStat (commandStrings [1], false);
+            else if (commandStrings [0] == "StatDec")
+                GiveStat (commandStrings [1], true);
+        }
+    }
+
     void ResetStatAdds () {
         link.strengthAdd = link.agilityAdd = link.vitalityAdd = link.defenseAdd = link.willAdd = link.magicAdd = link.techAdd = 0;
     }
@@ -112,6 +127,8 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
     S7_ZF_Button resetButton, acceptButton;
 
+    int buttonHeldTics;
+
     static const String statNames [] = {
         "Strength", "Agility", "Vitality", "Defense", "Will", "Magic", "Tech"
     };
@@ -146,22 +163,42 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statText = statText.MakeUpper ();
             statText = StringTable.Localize ("$STATSMENU_" .. statText, true);
 
-            statLabels [i] = new ('S7_ZF_Label').Init ((0, yCoords + 1), (0, SmallFont.GetHeight ()), text: String.Format ("%s:", statText),
-                fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+            statLabels [i] = new ('S7_ZF_Label').Init (
+                (0, yCoords + 1), (0, SmallFont.GetHeight ()),
+                text: String.Format ("%s:", statText),
+                fnt: smallFont,
+                wrap: false, autoSize: true,
+                textColor: Font.CR_WHITE
             );
             statLabels [i].cmdHandler = handler;
             statLabels [i].command = statNames [i];
             statLabels [i].Pack (statsFrame);
-            statBaseLabels [i] = new ('S7_ZF_Label').Init ((80, yCoords + 1), (0, SmallFont.GetHeight ()), text: "0",
-                fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+
+            statBaseLabels [i] = new ('S7_ZF_Label').Init (
+                (80, yCoords + 1), (0, SmallFont.GetHeight ()),
+                text: "0",
+                fnt: smallFont,
+                wrap: false, autoSize: true,
+                textColor: Font.CR_WHITE
             );
             statBaseLabels [i].Pack (statsFrame);
-            statAddLabels [i] = new ('S7_ZF_Label').Init ((110, yCoords + 1), (0, SmallFont.GetHeight ()), text: "+0",
-                fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+
+            statAddLabels [i] = new ('S7_ZF_Label').Init ((
+                110, yCoords + 1), (0, SmallFont.GetHeight ()),
+            text: "+0",
+                fnt: smallFont,
+                wrap: false, autoSize: true,
+                textColor: Font.CR_WHITE
             );
             statAddLabels [i].Pack (statsFrame);
 
-            statButtons [i] [0] = new ('S7_ZF_Button').Init ((140, yCoords), (13, 11), text: "+", cmdHandler: handler, command: String.Format ("StatAdd:%s", statName), fnt: smallFont);
+            statButtons [i] [0] = new ('S7_ZF_Button').Init (
+                (140, yCoords), (13, 11),
+                text: "+",
+                cmdHandler: handler, command: String.Format ("StatAdd:%s", statName),
+                fnt: smallFont,
+                holdInterval: 1
+            );
             statButtons [i] [0].SetTexture (
                 "graphics/Menu/Generic/SmallButton.png",
                 "graphics/Menu/Generic/SmallButtonHover.png",
@@ -169,7 +206,14 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 "graphics/Menu/Generic/SmallButton.png"
             );
             statButtons [i] [0].Pack (statsFrame);
-            statButtons [i] [1] = new ('S7_ZF_Button').Init ((160, yCoords), (13, 11), text: "-", cmdHandler: handler, command: String.Format ("StatDec:%s", statName), fnt: smallFont);
+
+            statButtons [i] [1] = new ('S7_ZF_Button').Init (
+                (160, yCoords), (13, 11),
+                text: "-",
+                cmdHandler: handler, command: String.Format ("StatDec:%s", statName),
+                fnt: smallFont,
+                holdInterval: 1
+            );
             statButtons [i] [1].SetTexture (
                 "graphics/Menu/Generic/SmallButton.png",
                 "graphics/Menu/Generic/SmallButtonHover.png",
@@ -227,12 +271,18 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         statButtons [5] [1].disabled = (magicAdd    <= 0);
         statButtons [6] [1].disabled = (techAdd     <= 0);
 
+        bool statButtonHeld = false;
         for (int i = 0; i < statButtons.Size (); i++) {
             for (int j = 0; j < 2; j++) {
                 let statButton = statButtons [i] [j];
+
                 statButton.textColor = (statButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
+                statButtonHeld |= (statButton.curButtonState == S7_ZF_Button.ButtonState_Click);
             }
         }
+
+        if (!statButtonHeld)
+            buttonHeldTics = 0;
 
         for (int i = 0; i < statLabels.Size () + 1; i++) {
             if (i == statLabels.Size ()) {
