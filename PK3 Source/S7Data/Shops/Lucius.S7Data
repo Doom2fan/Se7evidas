@@ -138,7 +138,7 @@ shop "mainShop" {
                     info = "$SS_MEDIKIT_INFO";
                     icon = "sprites/Inventory/Health/MKITA0.png";
                     inventoryName = "S7_Medikit";
-                    buyPrice = 700;
+                    buyPrice = 400;
                     sellPrice = 200;
                 },
                 buySellItem "STIM" {
@@ -147,7 +147,7 @@ shop "mainShop" {
                     info = "$SS_STIMPACK_INFO";
                     icon = "sprites/Inventory/Health/SPAKA0.png";
                     inventoryName = "S7_Stimpack";
-                    buyPrice = 400;
+                    buyPrice = 250;
                     sellPrice = 115;
                 },
                 buyItem "BSRK" {
