@@ -230,6 +230,7 @@ class S7_Invisibility_Power : PowerInvisibility {
         Powerup.Duration -90;
         Powerup.Mode "Fuzzy";
 
+        +INVENTORY.PERSISTENTPOWER
         -SHADOW
     }
 
