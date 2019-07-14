@@ -284,7 +284,7 @@ class S7_MedikitApplicator : S7_HealWeap {
     }
 
     override void CanceledHealing () {
-        A_StopSound (CHAN_7);
+        Owner.A_StopSound (CHAN_7);
         lowerSpeed = 0;
     }
 }
