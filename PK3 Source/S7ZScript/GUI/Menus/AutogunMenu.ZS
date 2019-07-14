@@ -28,11 +28,17 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
         if (!link || !link.CPlayer || !link.CPlayer.mo)
             return;
 
-        if (command == "scanAngleIncButton")
+        if (command == "scanAngleIncButton") {
             ChangeScanAngle (1);
-        else if (command == "scanAngleDecButton")
+
+            if (caller)
+                caller.holdTicInterval = 15;
+        } else if (command == "scanAngleDecButton") {
             ChangeScanAngle (-1);
-        else if (command == "repairHealthButton")
+
+            if (caller)
+                caller.holdTicInterval = 15;
+        } else if (command == "repairHealthButton")
             link.popup.Activate (link.GetRepairHealthText (), "RepairHealth");
         else if (command == "buyAmmoButton")
             link.popup.Activate (link.GetAmmoReplenishText (), "ReplenishAmmo");
@@ -49,10 +55,17 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
         if (!link || !link.CPlayer || !link.CPlayer.mo)
             return;
 
-        if (command == "scanAngleIncButton")
+        if (command == "scanAngleIncButton") {
             ChangeScanAngle (1);
-        else if (command == "scanAngleDecButton")
+            
+            if (caller)
+                caller.holdTicInterval = 3;
+        } else if (command == "scanAngleDecButton") {
             ChangeScanAngle (-1);
+            
+            if (caller)
+                caller.holdTicInterval = 3;
+        }
     }
 }
 
@@ -128,6 +141,8 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
     S7_ZF_Label scanAngleLabel;
     S7_ZF_Label scanAngleAmountLabel;
     S7_ZF_Button scanAngleInc, scanAngleDec;
+
+    int buttonHeldTics;
 
     void ReportError (string error) {
         let errorLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: error, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
