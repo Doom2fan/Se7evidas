@@ -65,7 +65,7 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
             string xpData = String.Format ("S7_XPSysMenuConfirm:%d,%d,%d,%d,%d,%d,%d", link.strengthAdd, link.agilityAdd, link.vitalityAdd, link.defenseAdd, link.willAdd, link.magicAdd, link.techAdd);
             EventHandler.SendNetworkEvent (xpData);
             ResetStatAdds ();
-            Menu.MenuSound ("S7Menu/Choose");
+            Menu.MenuSound ("S7Menu/Close");
         } else {
             link.Close ();
             Menu.MenuSound ("S7Menu/PrevMenu");
