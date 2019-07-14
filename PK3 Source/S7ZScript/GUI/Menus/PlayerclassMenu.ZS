@@ -197,7 +197,7 @@ class S7_PlayerclassMenu : OptionMenu {
 
         y = (y / CleanYfac_1) - mDesc.mDrawTop;
 
-        if (x >= (int (mDesc.mIndent - 160) * CleanXfac_1 + (Screen.GetWidth  () >> 1)))
+        if (x >= GetIndent ())
             return false;
 
         if (mFocusControl) {
