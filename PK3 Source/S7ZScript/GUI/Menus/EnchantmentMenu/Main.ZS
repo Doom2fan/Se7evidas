@@ -32,8 +32,12 @@ class S7_WeaponEnchantmentMenuHandler : S7_ZF_Handler {
             link.enchantsListFrame.UpdateScroll (-1);
         } else if (command == "increasePower") {
             link.enchantmentPower = min (link.enchantmentPower + 1, 1 << 24);
+
+            Menu.MenuSound ("S7Menu/SliderMove");
         } else if (command == "decreasePower") {
             link.enchantmentPower = max (link.enchantmentPower - 1, 1);
+
+            Menu.MenuSound ("S7Menu/SliderMove");
         }
     }
 
@@ -51,6 +55,7 @@ class S7_WeaponEnchantmentMenuHandler : S7_ZF_Handler {
                 return;
 
             EventHandler.SendNetworkEvent (String.Format ("S7_WeaponEnchantmentMenu:DoEnchant:%s", link.selectedWeap.GetClassName ()), link.enchantmentPower);
+            Menu.MenuSound ("S7Menu/Close");
         }
     }
 

@@ -61,6 +61,8 @@ class S7_WeaponEnchantmentMenu_ListHandler : S7_ZF_Handler {
                     }
 
                     link.enchantmentPower = 1;
+
+                    Menu.MenuSound ("S7Menu/SelectionMove");
                 }
             }
         }
