@@ -185,7 +185,7 @@ class S7_ZF_Element ui {
 	/// Draws a grid of images according to the size Vector2.
 	/// Scales the image instead of tiling if possible.
 	void drawTiledImage(Vector2 relPos, Vector2 size, string imageName, bool animate, Vector2 scale = (1, 1), double alpha = 1.0) {
-		Vector2 imageSize = texSize(imageName);
+		Vector2 imageSize = texSize(imageName) * getScale();
 
 		// Abort if the image has an invalid resolution.
 		if (imageSize.x < 0 || imageSize.x ~== 0 || imageSize.y < 0 || imageSize.y ~== 0) {
@@ -198,15 +198,12 @@ class S7_ZF_Element ui {
 		screenClip.size = screenSize();
 		clipRect = clipRect.rectOfIntersection(screenClip);
 
-		Vector2 loopSize;
-		loopSize.x = imageSize.x == 1 ? 1 : size.x;
-		loopSize.y = imageSize.y == 1 ? 1 : size.y;
 		Vector2 imageScale;
-		imageScale.x = imageSize.x == 1 ? scale.x * size.x : scale.x;
-		imageScale.y = imageSize.y == 1 ? scale.y * size.y : scale.y;
+		imageScale.x = scale.x * imageSize.x;
+		imageScale.y = scale.y * imageSize.y;
 
 		let absPos = relToScreen(relPos) * getScale();
-		let scaledSize = scaleVec(size, scale) * getScale();
+		let scaledSize = size * getScale();
 		if (scaledSize ~== (0, 0)) {
 			return;
 		}
@@ -222,8 +219,8 @@ class S7_ZF_Element ui {
 		shape.pushTriangle(0, 3, 1);
 		shape.pushTriangle(0, 2, 3);
 
-		double xSize = scaledSize.x / scaledSize.x;
-		double ySize = scaledSize.y / scaledSize.y;
+		double xSize = scaledSize.x / imageScale.x;
+		double ySize = scaledSize.y / imageScale.y;
 
 		shape.pushCoord((    0,     0));
 		shape.pushCoord((xSize,     0));
@@ -238,26 +235,36 @@ class S7_ZF_Element ui {
 
 	/// Draw a box using a S7_ZF_BoxTextures struct.
 	void drawBox(Vector2 pos, Vector2 size, S7_ZF_BoxTextures textures, bool animate, Vector2 scale = (1, 1)) {
-		pos *= getScale();
+		// Draw the corners.
+		// Top-left corner
 		string tlName = textures.corners[textures.C_TOPLEFT];
-		Vector2 cornerSize = texSize(tlName);
+		Vector2 cornerSize = scaleVec(texSize(tlName), scale);
 		drawImage(pos, tlName, animate, scale);
+		// Top-right corner
 		string trName = textures.corners[textures.C_TOPRIGHT];
 		drawImage((pos.x + (size.x - cornerSize.x) * scale.x, pos.y), trName, animate, scale);
+		// Bottom-left corner
 		string blName = textures.corners[textures.C_BOTTOMLEFT];
 		drawImage((pos.x, pos.y + (size.y - cornerSize.y) * scale.y), blName, animate, scale);
+		// Bottom-right corner
 		string brName = textures.corners[textures.C_BOTTOMRIGHT];
 		drawImage(pos + scaleVec((size - cornerSize), scale), brName, animate, scale);
 
+		// Draw the sides.
+		// Top
 		string tName = textures.sides[textures.S_TOP];
 		drawTiledImage((pos.x + cornerSize.x * scale.x, pos.y), scaleVec((size.x - (cornerSize.x * 2), cornerSize.y), scale), tName, animate, scale);
+		// Bottom
 		string bName = textures.sides[textures.S_BOTTOM];
 		drawTiledImage((pos.x + cornerSize.x * scale.x, pos.y + (size.y - cornerSize.y) * scale.y), scaleVec((size.x - (cornerSize.x * 2), cornerSize.y), scale), bName, animate, scale);
+		// Left
 		string lName = textures.sides[textures.S_LEFT];
 		drawTiledImage((pos.x, pos.y + cornerSize.y * scale.y), scaleVec((cornerSize.x, size.y - (cornerSize.y * 2)), scale), lName, animate, scale);
+		// Right
 		string rName = textures.sides[textures.S_RIGHT];
 		drawTiledImage((pos.x + (size.x - cornerSize.x) * scale.x, pos.y + cornerSize.y * scale.y), scaleVec((cornerSize.x, size.y - (cornerSize.y * 2)), scale), rName, animate, scale);
 
+		// Draw the middle.
 		drawTiledImage(pos + scaleVec(cornerSize, scale), scaleVec(size - (cornerSize * 2), scale), textures.midTex, animate);
 	}
 

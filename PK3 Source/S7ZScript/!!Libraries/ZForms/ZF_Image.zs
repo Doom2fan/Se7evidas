@@ -31,12 +31,11 @@ class S7_ZF_Image : S7_ZF_Element {
 		imageSize.x *= imageScale.x;
 		imageSize.y *= imageScale.y;
 
-		Vector2 pos = getAlignedDrawPos(box.size, imageSize, alignment);
-
 		if (tiled) {
-			drawTiledImage(pos, box.size, image, true, imageScale);
+			drawTiledImage((0, 0), box.size, image, true, imageScale);
 		}
 		else {
+			Vector2 pos = getAlignedDrawPos(box.size, imageSize, alignment);
 			drawImage(pos, image, true, imageScale, clipRect: boxToScreen());
 		}
 	}
