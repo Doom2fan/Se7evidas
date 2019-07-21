@@ -40,7 +40,6 @@ class S7_EMTPlayer : S7_ScoutPlayer {
         GiveInventory ('S7_GrenadeCount', 2);
         GiveInventory ('S7_Stimpack', 4);
         GiveInventory ('S7_Medikit', 2);
-        GiveInventory ('S7_Flashlight', 1);
         // Ammo
         GiveInventory ('S7_RevolverClip', 6);
         GiveInventory ('S7_44MCartridges', 18);
