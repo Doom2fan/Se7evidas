@@ -125,15 +125,15 @@ class S7_RiflemanPlayer : S7_InfantryPlayer {
 
     override void GiveBasics_ClassSpecific () {
         // Equipment
-        GiveInventory ('S7_GrenadeCount', 4);
-        GiveInventory ('S7_Stimpack', 3);
-        GiveInventory ('S7_Medikit', 2);
+        GiveInventory ('S7_GrenadeCount', 2);
+        GiveInventory ('S7_Stimpack', 2);
+        GiveInventory ('S7_Medikit', 1);
         GiveInventory ('S7_Flashlight', 1);
         // Ammo
         GiveInventory ('S7_RaptorClip', 24);
-        GiveInventory ('S7_9mmCartridges', 84);
+        GiveInventory ('S7_9mmCartridges', 48);
         GiveInventory ('S7_AMGMag', 35);
-        GiveInventory ('S7_762x39Cartridges', 160);
+        GiveInventory ('S7_762x39Cartridges', 52);
 
         GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
         GiveBasics_GiveStartingWeapon ('S7_Raptor');
@@ -160,15 +160,15 @@ class S7_EnforcerPlayer : S7_InfantryPlayer {
     override void GiveBasics_ClassSpecific () {
         GiveInventory ('S7_MacheteMelee', 1);
         // Equipment
-        GiveInventory ('S7_GrenadeCount', 4);
-        GiveInventory ('S7_Stimpack', 3);
-        GiveInventory ('S7_Medikit', 2);
+        GiveInventory ('S7_GrenadeCount', 2);
+        GiveInventory ('S7_Stimpack', 2);
+        GiveInventory ('S7_Medikit', 1);
         GiveInventory ('S7_Flashlight', 1);
         // Ammo
         GiveInventory ('S7_RevolverClip', 6);
-        GiveInventory ('S7_44MCartridges', 24);
+        GiveInventory ('S7_44MCartridges', 12);
         GiveInventory ('S7_ShotgunMag', 10);
-        GiveInventory ('S7_20gaShells', 20);
+        GiveInventory ('S7_20gaShells', 10);
 
         GiveBasics_GiveStartingWeapon ('S7_GrenadeWeap');
         GiveBasics_GiveStartingWeapon ('S7_Revolver');

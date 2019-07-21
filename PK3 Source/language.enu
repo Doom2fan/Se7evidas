@@ -61,8 +61,8 @@
     S7_CLASSDESC_MEDIC       = "Base health: 80\n\nAbilities:\nFaster healing item usage\nMore efficient conventional healing items\n\nEquipment:\n\"Deathbringer\" .44 Magnum Revolver\n24 rounds of .44 Magnum ammo\nCleaver\nGrenades (2)\nStimpacks (6)\nMedikits (4)";
     S7_CLASSDESC_INFILTRATOR = "Base health: 75\n\nAbilities:\nFaster movement speed\nDouble-jump\nHigher jump height\nCan fit into smaller spaces\n\nEquipment:\nSuppressed \"Manx\" 9mm Carbine with scope\nSuppressed \"Kronos\" 9mm SMG\n138 rounds of 9x19mm ammo\nDagger\nFlashlight\nStimpacks (3)\nMedikit";
     S7_CLASSDESC_INFANTRY    = "Base health: 100\n\nEquipment:\n\"Raptor\" 9mm Pistol\n70 rounds of 9x19mm ammo\nGrenades (4)\nStimpacks (3)\nMedikits (2)";
-    S7_CLASSDESC_RIFLEMAN    = "Base health: 100\n\nEquipment:\n\"Mars\" 7.62x39mm Assault Rifle\n\"Raptor\" 9mm Pistol\n160 rounds of 7.62x39mm ammo\n50 rounds of 9x19mm ammo\nGrenades (4)\nFlashlight\nStimpacks (3)\nMedikits (2)";
-    S7_CLASSDESC_ENFORCER    = "Base health: 100\n\nEquipment:\n\"Lucifer\" 20ga Combat Shotgun\n\"Deathbringer\" .44 Magnum Revolver\n20 20ga shells\n18 rounds of .44 Magnum ammo\nCleaver\nGrenades (4)\nFlashlight\nStimpacks (3)\nMedikits (2)";
+    S7_CLASSDESC_RIFLEMAN    = "Base health: 100\n\nEquipment:\n\"Mars\" 7.62x39mm Assault Rifle\n\"Raptor\" 9mm Pistol\n52 rounds of 7.62x39mm ammo\n48 rounds of 9x19mm ammo\nGrenades (2)\nFlashlight\nStimpacks (2)\nMedikit (1)";
+    S7_CLASSDESC_ENFORCER    = "Base health: 100\n\nEquipment:\n\"Lucifer\" 20ga Combat Shotgun\n\"Deathbringer\" .44 Magnum Revolver\n10 20ga shells\n18 rounds of .44 Magnum ammo\nCleaver\nGrenades (2)\nFlashlight\nStimpacks (2)\nMedikit (1)";
 
 // Levels
 
