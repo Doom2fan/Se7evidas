@@ -215,7 +215,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto Deselect;
 
     Fire:
-        BLSG A 1 {
+        BLSG A 1 bright {
             if (invoker.akimbo)
                 return ResolveState ("AkimboRight.Fire");
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
@@ -241,7 +241,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLSG A 1 A_Refire ("Fire");
         goto Ready2;
     Fire.Sights:
-        BLSG K 1 {
+        BLSG K 1 bright {
             A_GunFlash ("Flash.Sights");
             S7_A_FireBullets ('S7_LaserPewPew_Tracer', spread: (.2, .2), offs: (10, 0, 3), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 2));
@@ -462,7 +462,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto Overlay.DeselectDEAD;
 
     AkimboRight.Fire:
-        BLS2 A 1 {
+        BLS2 A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("AkimboRight.DryFire");
 
@@ -484,7 +484,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         goto AkimboRight.Ready;
     AltFire:
     AkimboLeft.Fire:
-        BLS2 A 1 {
+        BLS2 A 1 bright {
             if (!CheckInventory ('S7_LaserPewPewClipSecond', 1))
                 return ResolveState ("AkimboLeft.Dryfire");
 

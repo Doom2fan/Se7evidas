@@ -50,7 +50,7 @@ class S7_AK47 : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 750, 0.4, 1.15;
     }
 
-    bool halfTic, reloadChamber; // Temporary stuff
+    bool halfTic, reloadChamber, whichFlash; // Temporary stuff
     bool semiAuto, semiOnly; // Persistent stuff
 
     override void DoEffect () {
@@ -127,7 +127,7 @@ class S7_AK47 : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        AK47 A 1 {
+        AK47 A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
@@ -239,7 +239,14 @@ class S7_AK47 : S7_BaseWeapon {
 
     // Muzzle flashes
     Flash:
-        AK4F AB 1 bright;
+        AK4F A 1 bright {
+            let psp = player.FindPSprite (PSP_Flash);
+
+            if (psp)
+                psp.frame = (invoker.whichFlash ? 1 : 0);
+
+            invoker.whichFlash = !invoker.whichFlash;
+        }
         stop;
     }
 }

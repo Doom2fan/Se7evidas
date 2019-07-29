@@ -120,7 +120,7 @@ class S7_Shotgun : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        SSGF E 1 {
+        SSGF E 1 bright {
             int ammoCount = CountInv (invoker.ammoType1);
 
             if (ammoCount >= 10 && invoker.loaded != 2) // If the mag ammo is completely full, (i.e. two in chamber and 8 in mag) then this makes no sense.
@@ -151,7 +151,7 @@ class S7_Shotgun : S7_BaseWeapon {
         goto Ready2;
 
     FireRight:
-        SSGF E 1 {
+        SSGF E 1 bright {
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_6);
             A_AlertMonsters ();
             A_GunFlash ("FlashRight");
@@ -187,7 +187,7 @@ class S7_Shotgun : S7_BaseWeapon {
             return ResolveState (null);
         }
 
-        SSGF E 1 {
+        SSGF E 1 bright {
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_5);
 
             invoker.loaded = 1;
@@ -197,7 +197,7 @@ class S7_Shotgun : S7_BaseWeapon {
             S7_Recoil (-0.725);
         }
 
-        SSGF D 1 {
+        SSGF D 1 bright {
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_6);
 
             invoker.loaded = 0;

@@ -90,7 +90,7 @@ class S7_HitterSMG : S7_BaseWeapon {
     Fire:
         SR20 A 1 A_JumpIf (!CheckInventory (invoker.ammoType1, 2), "DryFire");
     Hold:
-        SR20 A  1 {
+        SR20 A 1 bright {
             if (!CheckInventory (invoker.ammoType1, 2))
                 return ResolveState ("DryFire.Firing");
 

@@ -235,7 +235,7 @@ class S7_AMG : S7_BaseWeapon {
         goto Ready2;
 
     Fire:
-        AMGG B 1 {
+        AMGG B 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
                 if (!invoker.burstCount)
                     return ResolveState ("DryFire");

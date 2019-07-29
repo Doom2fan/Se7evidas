@@ -175,7 +175,7 @@ class S7_TEC9 : S7_BaseWeapon {
     Fire:
         TEC9 B 1 { invoker.fireFrame2 = false; }
     Hold:
-        TEC9 D 1 {
+        TEC9 D 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
                 A_ClearRefire ();
                 return ResolveState ("DryFire");

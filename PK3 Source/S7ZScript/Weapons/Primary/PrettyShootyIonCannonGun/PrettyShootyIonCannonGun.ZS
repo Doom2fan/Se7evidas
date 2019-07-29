@@ -192,11 +192,11 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         }
         goto Fire.Anim;
     Fire.Anim:
-        PIC1 A        1 A_WeaponOffset (8, 40);
-        PIC1 B        1 A_WeaponOffset (6, 38, WOF_Interpolate);
-        PIC1 C        1 A_WeaponOffset (4, 36, WOF_Interpolate);
-        PIC1 D        1 A_WeaponOffset (2, 34, WOF_Interpolate);
-        TNT1 A        0 A_WeaponReady (WRF_DisableSwitch | WRF_DisableSwitch | WRF_NoFire);
+        PIC1 A        1 bright A_WeaponOffset (8, 40);
+        PIC1 B        1        A_WeaponOffset (6, 38, WOF_Interpolate);
+        PIC1 C        1        A_WeaponOffset (4, 36, WOF_Interpolate);
+        PIC1 D        1        A_WeaponOffset (2, 34, WOF_Interpolate);
+        TNT1 A        0        A_WeaponOffset (0, 32, WOF_Interpolate);
         PIC1 EFG      1;
         PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
         PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));

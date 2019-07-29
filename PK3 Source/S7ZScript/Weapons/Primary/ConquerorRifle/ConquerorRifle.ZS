@@ -215,7 +215,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2;
 
     Fire:
-        CQR1 A 1 {
+        CQR1 A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
             if (!invoker.loaded)

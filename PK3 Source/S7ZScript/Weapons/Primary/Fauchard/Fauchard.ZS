@@ -113,7 +113,7 @@ class S7_Fauchard : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        LSRF A 1 {
+        LSRF A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 

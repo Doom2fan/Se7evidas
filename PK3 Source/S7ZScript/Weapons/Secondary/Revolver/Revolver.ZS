@@ -82,8 +82,8 @@ class S7_Revolver : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        RVLV AABB 1;
-        RVLV C  1 {
+        RVLV AB 2;
+        RVLV C  1 bright{
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 

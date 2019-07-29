@@ -231,7 +231,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Deselect;
 
     Fire:
-        MANX A 1 {
+        MANX A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 

@@ -141,7 +141,7 @@ class S7_SSG : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire.Left:
-        SSG5 A 1 {
+        SSG5 A 1 bright {
             if ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK))
                 return ResolveState ("Fire.Both");
 
@@ -161,7 +161,7 @@ class S7_SSG : S7_BaseWeapon {
         SSG5 B 1 S7_Recoil (-2.175);
         goto Ready2;
     Fire.Right:
-        SSG5 A 1 {
+        SSG5 A 1 bright {
             if ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK))
                 return ResolveState ("Fire.Both");
 
@@ -182,7 +182,7 @@ class S7_SSG : S7_BaseWeapon {
         goto Ready2;
 
     Fire.Both:
-        SSG5 A 1 {
+        SSG5 A 1 bright {
             if (!invoker.leftLoaded && !invoker.rightLoaded)
                 return ResolveState ("DryFireBoth");
             else if (!invoker.leftLoaded)
@@ -200,7 +200,7 @@ class S7_SSG : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        SSG5 A 1 {
+        SSG5 A 1 bright {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
 
@@ -213,7 +213,7 @@ class S7_SSG : S7_BaseWeapon {
         goto Ready2;
     Fire.Both.DryLeft:
         SSG5 A 1 A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon);
-        SSG5 A 1 {
+        SSG5 A 1 bright {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
             A_GunFlash ("Flash.Right");
@@ -226,7 +226,7 @@ class S7_SSG : S7_BaseWeapon {
         SSG0 A 4;
         goto Ready2;
     Fire.Both.DryRight:
-        SSG5 A 1 {
+        SSG5 A 1 bright {
             A_AlertMonsters ();
             A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
             A_GunFlash ("Flash.Left");

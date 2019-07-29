@@ -124,7 +124,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        CESR A 1 {
+        CESR A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 

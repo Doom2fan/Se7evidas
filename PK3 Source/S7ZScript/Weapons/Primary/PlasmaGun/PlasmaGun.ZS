@@ -124,7 +124,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        PLSG A 1 {
+        PLSG A 1 bright {
             if (invoker.charge >= 1)
                 return ResolveState ("Fire.Charged");
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
