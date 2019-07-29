@@ -282,7 +282,7 @@ class S7_Flashlight_Spotlight : DynamicLight {
         targetPos = followTarget.Vec3Angle (
             2 + (6 * abs (sin (offsetAngle))),
             followTarget.angle + offsetAngle,
-            offsetZ * followTarget.player.crouchfactor,
+            offsetZ,
             false
         );
 
