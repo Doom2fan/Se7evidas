@@ -48,9 +48,17 @@ class S7_ThumperGrenade : S7_Projectile {
         A_QuakeEx (3, 3, 3, 17, 0, int (256 * scale.X), "", falloff: 1, rollIntensity: 2.);
     }
 
+    double airburstRange;
+    double rangeTravelled;
+
     states {
     Spawn:
-        THGR A 1;
+        THGR A 1 noDelay {
+            rangeTravelled += vel.Length ();
+
+            if (airburstRange > 0 && rangeTravelled >= airburstRange)
+                S7_ExplodeMissile (null, null, false);
+        }
         loop;
     Death:
         TNT1 A 0 {
@@ -850,38 +858,87 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
         }
     }
 
+    bool emittingGas;
     int time;
 
+    action void S7_InitialGasBurst () {
+        name origDMGType = damageType;
+
+        bDontSplash = true;
+        bNoDamageThrust = true;
+        bBloodlessImpact = true;
+        bForceRadiusDMG = true;
+        A_SetDamageType ('NerveGas');
+
+        S7_DoDamage (25, 30, 192., 80., false);
+
+        for (int i = 0; i < 360; i += 25) {
+            A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  6.0, 0.0, 0.5, i, SXF_NoCheckPosition);
+            A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  3.0, 0.0, 0.5, i + 12.5, SXF_NoCheckPosition);
+        }
+
+        invoker.time = (2 * 35) - random [weaponSpc] (-10, 10);
+
+        A_SetDamageType (origDMGType);
+        bDontSplash = false;
+        bNoDamageThrust = false;
+        bBloodlessImpact = false;
+        bForceRadiusDMG = false;
+    }
+
+    action void S7_EmitGas () {
+        if (invoker.time < 1)
+            return;
+
+        name origDMGType = damageType;
+
+        bDontSplash = true;
+        bNoDamageThrust = true;
+        bBloodlessImpact = true;
+        bForceRadiusDMG = true;
+        A_SetDamageType ('NerveGas');
+
+        S7_DoDamage (3, 3, 1024., 512., false);
+        A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 0.25, 0.0, 0.0, 3.5, 0, SXF_NoCheckPosition);
+        invoker.time--;
+
+        A_SetDamageType (origDMGType);
+        bDontSplash = false;
+        bNoDamageThrust = false;
+        bBloodlessImpact = false;
+        bForceRadiusDMG = false;
+    }
+
     states {
-    Loople:
-        THGR B 1 {
-            A_PlaySound ("Steam/Burst");
+    Spawn:
+        THGR A 1 noDelay {
+            rangeTravelled += vel.Length ();
 
-            A_SetGravity (1.0);
-            bDontSplash = true;
-            bNoDamageThrust = true;
-            bBloodlessImpact = true;
-            bForceRadiusDMG = true;
+            if (!emittingGas && airburstRange > 0 && rangeTravelled >= airburstRange) {
+                A_PlaySound ("Steam/Burst");
 
-            A_SetDamageType ('NerveGas');
-            S7_DoDamage (25, 30, 192., 80., false);
+                S7_InitialGasBurst ();
 
-
-            for (int i = 0; i < 360; i += 25) {
-                A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  6.0, 0.0, 0.5, i, SXF_NoCheckPosition);
-                A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  3.0, 0.0, 0.5, i + 12.5, SXF_NoCheckPosition);
+                emittingGas = true;
             }
 
-            time = (2 * 35) - random [weaponSpc] (-10, 10);
+            if (emittingGas)
+                S7_EmitGas ();
+        }
+        loop;
+    Loople:
+        THGR B 1 {
+            A_SetGravity (1.0);
+
+            if (!emittingGas)
+                S7_InitialGasBurst ();
         }
     ActualLoople:
         THGR B 1 {
-            if (time <= 0)
+            if (time < 1)
                 return ResolveState ("Die");
 
-            S7_DoDamage (3, 3, 1024., 512., false);
-            A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 0.25, 0.0, 0.0, 3.5, 0, SXF_NoCheckPosition);
-            time--;
+            S7_EmitGas ();
 
             return ResolveState (null);
         }
