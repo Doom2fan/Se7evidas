@@ -500,7 +500,14 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 //
 //-------------------------------------------------------------------------------------------
 class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
+    meta color LightColor;
+    property LightColor: LightColor;
+    meta int LightIntensity;
+    property LightIntensity: LightIntensity;
+
     default {
+        S7_ThumperGrenadeFlare.LightColor "#72BAFF";
+        S7_ThumperGrenadeFlare.LightIntensity 85.;
         DamageType 'TH_GrenadeImpact';
         Translation "112:127=80:95";
 
@@ -512,23 +519,41 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     bool initialized;
     int maxTime;
     int time;
-    PointLight dynLight;
+    PointLightAttenuated dynLight;
 
     override void PostBeginPlay () {
         time = maxTime = random [weaponSpc] (1025, 1050);
 
         if (!dynLight)
-            dynLight = PointLight (Spawn ('PointLight')); // Spawn the dynamic light
+            dynLight = PointLightAttenuated (Spawn ('PointLightAttenuated', pos)); // Spawn the dynamic light
+
         dynLight.target = self;
-        dynLight.args [DynamicLight.Light_Red] = 114; // Color - Red
-        dynLight.args [DynamicLight.Light_Green] = 186; // Color - Green
-        dynLight.args [DynamicLight.Light_Blue] = 255; // Color - Blue
-        dynLight.args [DynamicLight.Light_Intensity] = 85; // Size
-        //dynLight.args [DynamicLight.Light_Secondary_Intensity] = 75; // Secondary size
-        //dynLight.angle = 0.72;
+        dynLight.args [DynamicLight.Light_Red] = LightColor.r; // Color - Red
+        dynLight.args [DynamicLight.Light_Green] = LightColor.g; // Color - Green
+        dynLight.args [DynamicLight.Light_Blue] = LightColor.b; // Color - Blue
+        dynLight.args [DynamicLight.Light_Intensity] = LightIntensity; // Size
 
         A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE);
         initialized = true;
+    }
+
+    override void Tick () {
+        Super.Tick ();
+
+        if (dynLight) {
+            dynLight.SetXYZ (pos);
+            dynLight.target = self;
+
+            double mult = Clamp (time / (maxTime * .65), 0., 1.);
+
+            dynLight.args [DynamicLight.Light_Red] = int (LightColor.r * mult); // Color - Red
+            dynLight.args [DynamicLight.Light_Green] = int (LightColor.g * mult); // Color - Green
+            dynLight.args [DynamicLight.Light_Blue] = int (LightColor.b * mult); // Color - Blue
+            dynLight.args [DynamicLight.Light_Intensity] = int (floor (S7_Math.Lerp (LightIntensity, LightIntensity * .8, 1. - mult)));
+        }
+
+        if (time > 0)
+            time--;
     }
 
     override void OnDestroy () {
@@ -538,20 +563,9 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 
     states {
     Spawn:
-        THGR A 1 {
-            if (time <= 0)
+        THGR A 1 noDelay {
+            if ((time <= 0 || !dynLight) && vel.Length () ~== 0.)
                 return ResolveState ("RanOut");
-
-            if (dynLight) {
-                double mult = 1.0;
-                if (time < (maxTime * 0.25))
-                    mult = Clamp (time / (maxTime * 0.025), 0.05, 1.0);
-                dynLight.args [DynamicLight.Light_Intensity] = int (floor (85 * mult));
-                //dynLight.args [DynamicLight.Light_Secondary_Intensity] = int (floor (75 * mult));
-            } else
-                return ResolveState ("RanOut");
-
-            time--;
 
             return ResolveState (null);
         }
@@ -562,24 +576,13 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
             if (!initialized)
                 PostBeginPlay ();
 
-            vel.x = vel.y = 0;
+            //vel.x = vel.y = 0;
             A_SetGravity (1.0);
         }
     Loople:
         THGR A 1 {
-            if (time <= 0)
+            if ((time <= 0 || !dynLight) && vel.Length () ~== 0.)
                 return ResolveState ("RanOut");
-
-            if (dynLight) {
-                double mult = 1.0;
-                if (time < (maxTime * 0.25))
-                    mult = Clamp (time / (maxTime * 0.025), 0.05, 1.0);
-                dynLight.args [DynamicLight.Light_Intensity] = int (floor (85 * mult));
-                //dynLight.args [DynamicLight.Light_Secondary_Intensity] = int (floor (75 * mult));
-            } else
-                return ResolveState ("RanOut");
-
-            time--;
 
             return ResolveState (null);
         }
