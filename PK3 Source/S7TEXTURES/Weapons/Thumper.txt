@@ -1,117 +1,54 @@
-sprite "THMPA0", 163, 88 {
-    offset -191, -81
+sprite "THMPA0", 172, 82 {
+    offset -175, -86
     patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 4, 47
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
 }
 
-sprite "THMPB0", 163, 88 {
-    offset -208, -90
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 4, 47
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
+sprite "THMPB0", 170, 82 {
+    offset -177, -86
+    patch "graphics/Weapons/Thumper/Frame2.png", 0, 0
 }
 
-sprite "THMPC0", 163, 88 {
-    offset -205, -88
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 4, 47
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
+sprite "THMPC0", 167, 82 {
+    offset -180, -86
+    patch "graphics/Weapons/Thumper/Frame3.png", 0, 0
 }
 
-sprite "THMPD0", 163, 88 {
-    offset -202, -86
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 4, 47
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
+sprite "THMPD0", 165, 82 {
+    offset -182, -86
+    patch "graphics/Weapons/Thumper/Frame4.png", 0, 0
 }
 
-sprite "THMPE0", 163, 88 {
-    offset -198, -84
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 4, 47
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
+sprite "THMPE0", 163, 82 {
+    offset -184, -86
+    patch "graphics/Weapons/Thumper/Frame5.png", 0, 0
 }
 
-sprite "THPPA0", 163, 88 {
-    offset -196, -84
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 6, 49
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
+sprite "THMPF0", 161, 82 {
+    offset -186, -86
+    patch "graphics/Weapons/Thumper/Frame6.png", 0, 0
 }
 
-sprite "THPPB0", 163, 88 {
-    offset -209, -90
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 6, 49
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
+sprite "THMPG0", 159, 82 {
+    offset -188, -86
+    patch "graphics/Weapons/Thumper/Frame7.png", 0, 0
 }
 
-sprite "THPPC0", 163, 88 {
-    offset -217, -93
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 10, 53
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
-}
-
-sprite "THPPD0", 163, 88 {
-    offset -226, -97
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
-    patch "graphics/Hands/Hand-003.png", 14, 56
-    patch "graphics/Weapons/Thumper/Part2.png", 0, 25
-    patch "graphics/Weapons/Thumper/Part1.png", 44, 49
-}
-
-sprite "THPRA0", 169, 88 {
-    offset -191, -85
-    patch "graphics/Weapons/Thumper/Frame1.png", 6, 0
-    patch "graphics/Hands/Hand-003.png", 0, 46
-    patch "graphics/Weapons/Thumper/Part1.png", 50, 49
-    patch "graphics/Weapons/Thumper/Part2.png", 6, 25
-}
-
-sprite "THPRB0", 205, 88 {
-    offset -164, -91
-    patch "graphics/Hands/Hand-001.png", 0, 42
-    patch "graphics/Weapons/Thumper/Frame1.png", 42, 0
-}
-
-sprite "THPRC0", 228, 88 {
-    offset -152, -97
-    patch "graphics/Hands/Hand-001.png", 0, 47
-    patch "graphics/Weapons/Thumper/Frame1.png", 65, 0
-}
-
-sprite "THPRD0", 245, 88 {
-    offset -135, -97
-    patch "graphics/Hands/Hand-001.png", 0, 66
-    patch "graphics/Weapons/Thumper/Frame1.png", 82, 0
-}
-
-sprite "THPRE0", 163, 88 {
-    offset -217, -97
-    patch "graphics/Weapons/Thumper/Frame1.png", 0, 0
+sprite "THMPH0", 154, 82 {
+    offset -193, -86
+    patch "graphics/Weapons/Thumper/Frame8.png", 0, 0
 }
 
 sprite "THGRB1", 8, 8 {
     offset 4, 3
-    patch "spriteS/WEAPONS/PRIMARY/THUMPER/THGRA1.PNG", 0, 0
+    patch "sprites/Weapons/Primary/Thumper/THGRA1.png", 0, 0
 }
 
 sprite "THGRB2B8", 16, 8 {
     offset 8, 3
-    patch "spriteS/WEAPONS/PRIMARY/THUMPER/THGRA2A8.PNG", 0, 0
+    patch "sprites/Weapons/Primary/Thumper/THGRA2A8.png", 0, 0
 }
 
 sprite "THGRB3B7", 20, 8 {
     offset 10, 3
-    patch "spriteS/WEAPONS/PRIMARY/THUMPER/THGRA3A7.PNG", 0, 0
+    patch "sprites/Weapons/Primary/Thumper/THGRA3A7.png", 0, 0
 }

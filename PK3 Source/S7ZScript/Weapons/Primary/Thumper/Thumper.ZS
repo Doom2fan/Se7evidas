@@ -157,38 +157,36 @@ class S7_Thumper : S7_BaseWeapon {
         stop;
 
     Select.Hand:
-        HAN0 A 1 DoSelectOffset ((132, 151), -5, forceNoInterpolate: true);
-        HAN0 A 1 DoSelectOffset ((149, 140), -5);
-        HAN0 A 1 DoSelectOffset ((161, 127), -5);
-        HAN0 A 1 DoSelectOffset ((168, 122), -5);
+        HAN0 F 1 DoSelectOffset (( 67, 168), -5, forceNoInterpolate: true);
+        HAN0 F 1 DoSelectOffset (( 95, 158), -5);
+        HAN0 F 1 DoSelectOffset ((123, 148), -5);
+        HAN0 F 1 DoSelectOffset ((151, 137), -5);
+        HAN0 F 1 DoSelectOffset ((167, 130), -5);
         stop;
     Ready:
-        THPR E 1 DoSelectOffset ((77, 55), forceNoInterpolate: true);
-        THPR E 1 {
-            DoSelectOffset ((45, 32));
+        THMP H 1 {
             A_Overlay (-5, "Select.Hand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
+            DoSelectOffset ((8 + (30 * 4), 4 + (15 * 4)), forceNoInterpolate: true);
         }
-        THPR E 1 DoSelectOffset (( 14,  10));
-        THPR E 1 DoSelectOffset ((  1,   1));
-        THPR E 1 DoSelectOffset ((-16, -13));
+        THMP H 1 DoSelectOffset ((8 + (30 * 3), 4 + (15 * 3)));
+        THMP H 1 DoSelectOffset ((8 + (30 * 2), 4 + (15 * 2)));
+        THMP H 1 DoSelectOffset ((8 + (30 * 1), 4 + (15 * 1)));
+        THMP H 1 DoSelectOffset ((8           , 4           ));
         THMP A 1 {
             DoSelectOffset ((10, 3), forceNoInterpolate: true);
             DoSelectOffset (( 0, 0));
         }
     Ready2:
-        THMP A 1 {
-            S7_WeaponReady ("Reload", "ChangeMode");
-
-            return ResolveState (null);
-        }
+        THMP A 1 S7_WeaponReady ("Reload", "ChangeMode");
         loop;
 
     Deselect.Hand:
-        HAN0 A 1 DoSelectOffset ((168, 122), -5, forceNoInterpolate: true);
-        HAN0 A 1 DoSelectOffset ((161, 127), -5);
-        HAN0 A 1 DoSelectOffset ((149, 140), -5);
-        HAN0 A 1 DoSelectOffset ((132, 151), -5);
+        HAN0 F 1 DoSelectOffset ((167, 130), -5, forceNoInterpolate: true);
+        HAN0 F 1 DoSelectOffset ((151, 137), -5);
+        HAN0 F 1 DoSelectOffset ((123, 148), -5);
+        HAN0 F 1 DoSelectOffset (( 95, 158), -5);
+        HAN0 F 1 DoSelectOffset (( 67, 168), -5);
         stop;
     Deselect:
         THMP A 1 {
@@ -198,15 +196,15 @@ class S7_Thumper : S7_BaseWeapon {
             DoSelectOffset ((0, 0));
             return ResolveState (null);
         }
-        THPR E 1 {
-            DoSelectOffset ((-16, -13));
+        THMP H 1 {
+            DoSelectOffset ((8, 4));
             A_Overlay (-5, "Deselect.Hand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
         }
-        THPR E 1 DoSelectOffset (( 1,  1));
-        THPR E 1 DoSelectOffset ((14, 10));
-        THPR E 1 DoSelectOffset ((45, 32));
-        THPR E 1 DoSelectOffset ((77, 55));
+        THMP H 1 DoSelectOffset ((8 + (30 * 1), 4 + (15 * 1)));
+        THMP H 1 DoSelectOffset ((8 + (30 * 2), 4 + (15 * 2)));
+        THMP H 1 DoSelectOffset ((8 + (30 * 3), 4 + (15 * 3)));
+        THMP H 1 DoSelectOffset ((8 + (30 * 4), 4 + (15 * 4)));
         goto TrueDeselect;
 
     Fire:
@@ -264,8 +262,14 @@ class S7_Thumper : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        THMP A      1 S7_Recoil (-1.65);
-        THMP DBCDEA 1;
+        THMP A 1 {
+            S7_Recoil (-1.65);
+            A_WeaponOffset (11, 32 + 5);
+        }
+        THMP A 1 A_WeaponOffset (17, 32 + 9);
+        THMP A 1 A_WeaponOffset (14, 32 + 7, WOF_Interpolate);
+        THMP A 1 A_WeaponOffset ( 7, 32 + 3, WOF_Interpolate);
+        THMP A 2 A_WeaponOffset ( 0, 32, WOF_Interpolate);
         goto Ready2;
 
     ChangeMode:
@@ -295,16 +299,23 @@ class S7_Thumper : S7_BaseWeapon {
         goto Ready2;
 
     Pump:
-        THMP A   1 {
+        TNT1 A 0 {
             if (invoker.magazine.Size () <= 0)
                 return ResolveState ("DryFire");
 
             invoker.chambered = true;
 
+            A_Overlay (2, "Pump.Anim");
+
             return ResolveState (null);
         }
-        THPP A   2;
-        THPP B   1 {
+        TNT1 A 16;
+        goto Ready2;
+    Pump.Anim: // 16 tics
+        THMP A 2 A_OverlayFlags (2, PSPF_AddWeapon, true);
+        THMP B 1 A_WeaponOffset ( 5, 32 +  3, WOF_Interpolate);
+        THMP C 1 {
+            A_WeaponOffset (16, 32 +  7, WOF_Interpolate);
             A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
 
             if (invoker.casingType)
@@ -312,11 +323,13 @@ class S7_Thumper : S7_BaseWeapon {
 
             invoker.casingType = NULL;
         }
-        THPP C   1;
-        THPP D   6;
-        THPP CBA 1;
-        THMP A   2;
-        goto Ready2;
+        THMP E 1 A_WeaponOffset (20, 32 +  9, WOF_Interpolate);
+        THMP F 6 A_WeaponOffset (35, 32 + 16, WOF_Interpolate);
+        THMP E 1 A_WeaponOffset (26, 32 + 12, WOF_Interpolate);
+        THMP C 1 A_WeaponOffset (18, 32 +  9, WOF_Interpolate);
+        THMP B 1 A_WeaponOffset ( 3, 32 +  1, WOF_Interpolate);
+        THMP A 2 A_WeaponOffset ( 0, 32     , WOF_Interpolate);
+        stop;
 
     Flash:
         THPF AB 1 bright;
@@ -335,62 +348,91 @@ class S7_Thumper : S7_BaseWeapon {
         goto Ready2;
 
     Reload:
-        THMP A    2 {
+        THMP A 2 {
             if (!CheckInventory ('S7_Reloading', 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
                 return ResolveState ("EndReload");
 
+            if (!invoker.chambered && invoker.magazine.Size () > 0)
+                return ResolveState ("InsertShells.Pump2");
+
             return ResolveState (null);
         }
-        THPR A    2 A_JumpIf (!invoker.chambered && invoker.magazine.Size () > 0, "InsertShells.Pump2");
-        THPR BCDE 2;
+
+        TNT1 A 5 A_Overlay (2, "Reload.LowerAnim");
         goto InsertShells;
+    Reload.LowerAnim:
+        THMP H 1 {
+            A_OverlayFlags (2, PSPF_AddWeapon, true);
+            A_Overlay (-5, "Deselect.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+
+            A_WeaponOffset ((5.2 * 1), 32 + (3.2 * 1));
+        }
+        THMP H 1 A_WeaponOffset ((5.2 * 2), 32 + (3.2 * 2));
+        THMP H 1 A_WeaponOffset ((5.2 * 3), 32 + (3.2 * 3));
+        THMP H 1 A_WeaponOffset ((5.2 * 4), 32 + (3.2 * 4));
+        THMP H 1 A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5));
+        stop;
+    Reload.RaiseAnim:
+        THMP H 1 {
+            A_OverlayFlags (2, PSPF_AddWeapon, true);
+            A_Overlay (-5, "Select.Hand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+
+            A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5));
+        }
+        THMP H 1 A_WeaponOffset ((5.2 * 4), 32 + (3.2 * 4));
+        THMP H 1 A_WeaponOffset ((5.2 * 3), 32 + (3.2 * 3));
+        THMP H 1 A_WeaponOffset ((5.2 * 2), 32 + (3.2 * 2));
+        THMP H 1 A_WeaponOffset ((5.2 * 1), 32 + (3.2 * 1));
+        stop;
+
     InsertShells:
-        THPR E 13 {
+        THMP H 13 {
+            A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5), WOF_Interpolate);
+
             if (!CheckInventory ('S7_Reloading', 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
                 return ResolveState ("Reloaded");
 
             return ResolveState (null);
         }
-        THPR E 1 {
+        THMP H 1 {
             A_PlaySound ("Weapons/Thumper/ShellIn", CHAN_6);
             invoker.magazine.Insert (0, invoker.selectedPool);
             TakeInventory (S7_Thumper.PoolNames [invoker.selectedPool], 1);
-            A_WeaponOffset (-6.5, 29);
+            A_WeaponOffset ((5.2 * 5) - 6.5, 32 + (3.2 * 5) - 3);
         }
-        THPR E 2 A_WeaponOffset (-10, 27);
-        THPR E 2 A_WeaponOffset (- 4, 29, WOF_Interpolate);
-        THPR E 3 A_WeaponOffset (  0, 32, WOF_Interpolate);
+        THMP H 2 A_WeaponOffset ((5.2 * 5) - 10, 32 + (3.2 * 5) - 5);
+        THMP H 2 A_WeaponOffset ((5.2 * 5) -  4, 32 + (3.2 * 5) - 3, WOF_Interpolate);
+        THMP H 3 A_WeaponOffset ((5.2 * 5)     , 32 + (3.2 * 5)    , WOF_Interpolate);
         TNT1 A 0 A_JumpIf (!invoker.chambered, "InsertShells.Pump");
         loop;
+
     InsertShells.Pump:
-        THPR EDCBA 2;
+        TNT1 A 5 A_Overlay (2, "Reload.RaiseAnim");
     InsertShells.Pump2:
-        THMP A     1 {
+        TNT1 A 16 {
             if (invoker.magazine.Size () <= 0)
                 return ResolveState ("InsertShells");
 
             invoker.chambered = true;
 
+            A_Overlay (2, "Pump.Anim");
+
             return ResolveState (null);
         }
-        THPP A     2;
-        THPP B     1 {
-            A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+        TNT1 A 5 {
+            if (invoker.CountCurPoolAmmo () < 1 || !CheckInventory ('S7_Reloading', 1))
+                return ResolveState ("EndReload");
 
-            if (invoker.casingType)
-                S7_SpawnCasing ();
+            A_Overlay (2, "Reload.LowerAnim");
 
-            invoker.casingType = NULL;
+            return ResolveState (null);
         }
-        THPP C     1;
-        THPP D     6;
-        THPP CBA   1;
-        THMP A     2 A_JumpIf (invoker.CountCurPoolAmmo () < 1 || !CheckInventory ('S7_Reloading', 1), "EndReload");
-        THPR ABCDE 2;
         goto InsertShells;
 
     Reloaded:
-        THPR EDCBA 2;
+        TNT1 A 5 A_Overlay (2, "Reload.RaiseAnim");
     EndReload:
         TNT1 A 0 TakeInventory ('S7_Reloading', 0x7FFFFFFF);
         goto Ready2;
