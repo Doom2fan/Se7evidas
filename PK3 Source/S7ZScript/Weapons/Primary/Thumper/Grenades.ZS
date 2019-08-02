@@ -549,7 +549,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         Super.Tick ();
 
         if (dynLight) {
-            dynLight.SetXYZ (pos);
+            dynLight.SetOrigin (pos, true);
             dynLight.target = self;
 
             double mult = Clamp (time / (maxTime * .65), 0., 1.);
