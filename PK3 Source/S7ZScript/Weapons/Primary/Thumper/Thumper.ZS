@@ -63,6 +63,7 @@ class S7_Thumper : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "THMPU0";
         S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
+        S7_BaseWeapon.AmmoBuyData "", 1;
         S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
@@ -87,6 +88,17 @@ class S7_Thumper : S7_BaseWeapon {
         "S7_Thumper_PNGas"
     };
 
+    static const string Pool_ShopNames [] = {
+        "",
+        "THP1",
+        "THP2",
+        "THP3",
+        "THP4",
+        "THP5",
+        "THP6",
+        "THP7"
+    };
+
     static const Class<Inventory> MagTokens [] = {
         "S7_ThumperMag1",
         "S7_ThumperMag2",
@@ -108,6 +120,16 @@ class S7_Thumper : S7_BaseWeapon {
         selectedPool = S7_TH_Exp;
     }
 
+    void UpdateAmmoQuickBuyData () {
+        if (selectedPool <= S7_TH_None || selectedPool >= S7_TH_EndToken) {
+            ammoBuyShopItem = "";
+            ammoBuyAmount = 0;
+        } else {
+            ammoBuyShopItem = Pool_ShopNames [selectedPool];
+            ammoBuyAmount = 1;
+        }
+    }
+
     override void DoEffect () {
         Super.DoEffect ();
 
@@ -119,6 +141,8 @@ class S7_Thumper : S7_BaseWeapon {
 
         Owner.SetInventory ('S7_ThumperMag', magazine.Size ());
         Owner.SetInventory ('S7_ThumperSelectedPool', selectedPool - 1);
+
+        UpdateAmmoQuickBuyData ();
     }
 
     override bool SS_PreSell (int amount) {
@@ -275,24 +299,26 @@ class S7_Thumper : S7_BaseWeapon {
     ChangeMode:
         THMP A 5 {
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-            A_PlaySound ("Weapons/ModeChange", CHAN_6);
 
-            bool looped = false;
             int i = invoker.selectedPool + 1;
 
             while (TRUE) {
                 if (i == invoker.selectedPool)
                     return ResolveState (null);
                 else if (i >= S7_TH_EndToken)
-                    i = 0;
-                else if (CheckInventory (S7_Thumper.PoolNames [i], 1))
+                    i = S7_TH_None;
+                else if (CheckInventory (S7_Thumper.PoolNames [i], 1) || (player.cmd.buttons & BT_AltAttack))
                     break;
 
                 i++;
             }
 
-            if (i > S7_TH_None && i < S7_TH_EndToken && i != invoker.selectedPool)
+            if (i > S7_TH_None && i < S7_TH_EndToken && i != invoker.selectedPool) {
+                A_PlaySound ("Weapons/ModeChange", CHAN_6);
                 invoker.selectedPool = i;
+            }
+
+            invoker.UpdateAmmoQuickBuyData ();
 
             return ResolveState (null);
         }
