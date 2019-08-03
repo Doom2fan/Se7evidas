@@ -375,7 +375,11 @@ class S7_Thumper : S7_BaseWeapon {
 
     Reload:
         THMP A 2 {
-            if (!CheckInventory ('S7_Reloading', 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
+            if (
+                !CheckInventory ('S7_Reloading', 1) ||
+                invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 ||
+                invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken
+            )
                 return ResolveState ("EndReload");
 
             if (!invoker.chambered && invoker.magazine.Size () > 0)
