@@ -69,4 +69,5 @@ const S7C_MJumpMinDiff = 15;
 const S7C_WJumpDelay = 5;
 
 // Misc
+const S7C_MapUnitsPerMeter = 32;
 const EQUAL_EPSILON = (1 / 65536.);

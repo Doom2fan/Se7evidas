@@ -72,6 +72,7 @@ class S7_Thumper : S7_BaseWeapon {
         +WEAPON.NOAUTOAIM
     }
 
+    double airburstDistance; // In meters
     bool chambered;
     int selectedPool;
     class<S7_50mmCasing> casingType;
@@ -202,7 +203,7 @@ class S7_Thumper : S7_BaseWeapon {
             DoSelectOffset (( 0, 0));
         }
     Ready2:
-        THMP A 1 S7_WeaponReady ("Reload", "ChangeMode");
+        THMP A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom);
         loop;
 
     Deselect.Hand:
@@ -278,7 +279,16 @@ class S7_Thumper : S7_BaseWeapon {
             A_AlertMonsters ();
             A_GunFlash ();
 
-            S7_A_FireBullets (projType, offs: (10, 9, 6), pitchOffs: -1.5, bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+            let grenProj = S7_ThumperGrenade (
+                S7_A_FireBullets (projType,
+                    offs: (10, 9, 6), pitchOffs: -1.5,
+                    bonusDMGFactor: invoker.Enchantments_GetDamageBonus (),
+                    flags: S7_FB_UseAmmo
+                )
+            );
+            if (grenProj)
+                grenProj.airburstRange = invoker.airburstDistance * S7C_MapUnitsPerMeter;
+
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4.5, 3));
             invoker.chambered = false;
 
@@ -319,6 +329,29 @@ class S7_Thumper : S7_BaseWeapon {
             }
 
             invoker.UpdateAmmoQuickBuyData ();
+
+            return ResolveState (null);
+        }
+        goto Ready2;
+
+    Zoom:
+        THMP A 2 {
+            if (player.cmd.buttons & BT_Attack) {
+                if (invoker.airburstDistance >= 10.)
+                    invoker.airburstDistance += .5;
+                else
+                    invoker.airburstDistance = 10.;
+            }
+            else if (player.cmd.buttons & BT_AltAttack) {
+                if (invoker.airburstDistance ~== 10. || invoker.airburstDistance < 10.)
+                    invoker.airburstDistance = 0.;
+                else
+                    invoker.airburstDistance -= .5;
+            }
+        }
+        TNT1 A 0 {
+            if (player.cmd.buttons & BT_Zoom)
+                return ResolveState ("Zoom");
 
             return ResolveState (null);
         }

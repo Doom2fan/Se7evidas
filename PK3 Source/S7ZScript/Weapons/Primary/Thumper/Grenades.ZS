@@ -48,17 +48,47 @@ class S7_ThumperGrenade : S7_Projectile {
         A_QuakeEx (3, 3, 3, 17, 0, int (256 * scale.X), "", falloff: 1, rollIntensity: 2.);
     }
 
+    bool projDetonated;
     double airburstRange;
     double rangeTravelled;
 
+    override void S7_ExplodeMissile (Line l, Actor targ, bool onSky) {
+        Super.S7_ExplodeMissile (l, targ, onSky);
+
+        projDetonated = true;
+    }
+
+    virtual void DoAirburst (Vector3 prevVel) {
+        S7_ExplodeMissile (null, null, false);
+        projDetonated = true;
+    }
+
+    override void Tick () {
+        let oldPos = pos;
+        let prevVel = vel;
+        double airburstRangeLeft = (airburstRange - rangeTravelled);
+
+        bool velResized = false;
+        if (!projDetonated && airburstRange > 0 && airburstRangeLeft >= 0 && vel.Length () > airburstRangeLeft) {
+            vel = vel.Unit () * airburstRangeLeft;
+
+            velResized = true;
+        }
+
+        Super.Tick ();
+
+        if (velResized && !projDetonated)
+            vel = prevVel;
+
+        rangeTravelled += level.Vec3Diff (oldPos, pos).Length ();
+
+        if (!projDetonated && airburstRange > 0 && (airburstRange - rangeTravelled) < EQUAL_EPSILON)
+            DoAirburst (prevVel);
+    }
+
     states {
     Spawn:
-        THGR A 1 noDelay {
-            rangeTravelled += vel.Length ();
-
-            if (airburstRange > 0 && rangeTravelled >= airburstRange)
-                S7_ExplodeMissile (null, null, false);
-        }
+        THGR A 1;
         loop;
     Death:
         TNT1 A 0 {
@@ -541,6 +571,8 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         dynLight.args [DynamicLight.Light_Blue] = LightColor.b; // Color - Blue
         dynLight.args [DynamicLight.Light_Intensity] = LightIntensity; // Size
 
+        airburstRange = 0;
+
         A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE);
         initialized = true;
     }
@@ -909,19 +941,18 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
         bForceRadiusDMG = false;
     }
 
+    override void DoAirburst (Vector3 prevVel) {
+        A_PlaySound ("Steam/Burst");
+        S7_InitialGasBurst ();
+        emittingGas = true;
+        projDetonated = true;
+
+        vel = prevVel + (prevVel.XY.Unit () * 25, -GetGravity ());
+    }
+
     states {
     Spawn:
         THGR A 1 noDelay {
-            rangeTravelled += vel.Length ();
-
-            if (!emittingGas && airburstRange > 0 && rangeTravelled >= airburstRange) {
-                A_PlaySound ("Steam/Burst");
-
-                S7_InitialGasBurst ();
-
-                emittingGas = true;
-            }
-
             if (emittingGas)
                 S7_EmitGas ();
         }
