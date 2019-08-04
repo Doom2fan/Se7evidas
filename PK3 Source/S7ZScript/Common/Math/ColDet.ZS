@@ -30,8 +30,8 @@ extend class S7_Math {
     **  Returns true if the sphere intersects the AABB, false otherwise.
     */
     static bool TestSphereAABB (Vector3 sphereCoords, double sphereRadius, Vector3 boxCoords, Vector2 boxSize) {
-        // Compute squared distance between sphere center and AABB
-        // the sqrt (dist) is fine to use as well, but this is faster.
+        // Compute squared distance between sphere center and AABB.
+        // The sqrt (dist) is fine to use as well, but this is faster.
         float sqDist = 0.0f;
 
         let diffCoords = level.Vec3Diff (sphereCoords, boxCoords);

@@ -24,13 +24,7 @@ class S7_ShopMenuHandler : S7_ZF_Handler {
             if (command == "BuySellButton") {
                 link.ShowBuySellPopup ();
             }
-        } /*else {
-            Array<String> commandStrings;
-            command.Split (commandStrings, ":");
-
-            if (commandStrings.Size () >= 2) {
-            }
-        }*/
+        }
     }
 }
 
@@ -139,8 +133,6 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         sellMode = false;
 
         SetPage (shopData.mainPage);
-
-        //dontDim = true;
     }
 
     void SetPage (S7_SSPage page) {

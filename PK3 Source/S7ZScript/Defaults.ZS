@@ -117,25 +117,6 @@ class S7_PositionMarkerPersistent : S7_PositionMarker {
 
 //-------------------------------------------------------------------------------------------
 //
-// Action runner item base
-//
-//-------------------------------------------------------------------------------------------
-class S7_ActionRunnerBase : CustomInventory {
-    default {
-        Inventory.MaxAmount 1;
-
-        +INVENTORY.AUTOACTIVATE +INVENTORY.QUIET +INVENTORY.ALWAYSPICKUP
-    }
-
-    states {
-    Spawn:
-        TNT1 A 0;
-        stop;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
 // Custom key base
 //
 //-------------------------------------------------------------------------------------------
@@ -146,61 +127,5 @@ class S7_CustomKey : CustomInventory {
 
         +INVENTORY.UNDROPPABLE
         -INVENTORY.INVBAR
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Distance testing puff
-//
-//-------------------------------------------------------------------------------------------
-class S7_DistanceTestPuff : Actor {
-    default {
-        Damage 0;
-        DamageType 'TesterProjectile';
-        Alpha 0.0;
-        Scale 0.0;
-        Decal 'None';
-
-        +BLOODLESSIMPACT +PAINLESS +NOPAIN +PUFFGETSOWNER
-        +NOTIMEFREEZE
-    }
-
-    states {
-    Spawn:
-    Death:
-    Crash:
-    Crush:
-        TNT1 A 1 A_Jump (256, "RunStuff");
-        wait;
-    RunStuff:
-        TNT1 A 2;
-        stop;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Distance testing projectile
-//
-//-------------------------------------------------------------------------------------------
-class S7_DistanceTestProjectile : FastProjectile {
-    default {
-        Speed 25;
-        Damage 0;
-        DamageType 'TesterProjectile';
-        Alpha 0.0;
-        Scale 0.0;
-        Decal 'None';
-
-        Projectile;
-
-        +BLOODLESSIMPACT +PAINLESS +NOPAIN +NOTIMEFREEZE
-    }
-
-    states {
-    Spawn:
-        TNT1 A 2;
-        stop;
     }
 }

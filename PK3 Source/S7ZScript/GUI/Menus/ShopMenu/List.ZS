@@ -152,7 +152,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         UpdateList ();
     }
 
-    override void OnUIEvent (S7_ZF_UiEvent ev) { // Type_WheelUp
+    override void OnUIEvent (S7_ZF_UiEvent ev) {
         Super.OnUIEvent (ev);
 
         if (itemsFrame && itemsFrame.isEnabled ()) {

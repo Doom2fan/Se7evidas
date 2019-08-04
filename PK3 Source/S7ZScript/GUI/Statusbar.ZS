@@ -271,7 +271,7 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
 
             // Draw
             DrawString (mRadarMarkers, "B", radarOffs + screenPos - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, colour);
-        }//level.time
+        }
         DrawString (mRadarMarkers, "A", radarOffs - (0, markerYOffs), DI_SCREEN_RIGHT_TOP | DI_TEXT_ALIGN_CENTER | DI_NOSHADOW, Font.CR_BLUE);
     }
 
@@ -279,31 +279,32 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
         DrawImage ("HELMTOP", (0, 0), DI_ITEM_TOP | DI_SCREEN_HCENTER);
         DrawImage ("HELMBTML", (0, 0), DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM);
         DrawImage ("HELMBTMR", (0, 0), DI_ITEM_RIGHT_BOTTOM | DI_SCREEN_RIGHT_BOTTOM);
-        if (!CheckInventory ('S7_DisableHud', 1)) {
-            alpha = 0.75;
 
-            DrawImage ("graphics/HUD/Normal/HOLOBARSNONE.png", (0, 27), DI_ITEM_TOP | DI_SCREEN_HCENTER);
+        alpha = .75;
 
-            int maxHealth = pPawn.GetMaxHealth (true);
+        DrawImage ("graphics/HUD/Normal/HOLOBARSNONE.png", (0, 27), DI_ITEM_TOP | DI_SCREEN_HCENTER);
 
-            string energyImg;
-            if (CheckHealth (int (maxHealth * .75), true))
-                energyImg = "graphics/HUD/Normal/HOLOBARSGREEN.png";
-            else if (CheckHealth (int (maxHealth * .50), true))
-                energyImg = "graphics/HUD/Normal/HOLOBARSYELLOW.png";
-            else if (CheckHealth (int (maxHealth * .25), true))
-                energyImg = "graphics/HUD/Normal/HOLOBARSORANGE.png";
-            else
-                energyImg = "graphics/HUD/Normal/HOLOBARSRED.png";
-            DrawImage (energyImg, (0, 29), DI_ITEM_TOP | DI_SCREEN_HCENTER);
+        int maxHealth = pPawn.GetMaxHealth (true);
 
-            // Draw health/armor bars
-            DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), maxHealth, (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
-            DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetS7ArmorSaveAmount (), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
-            // Draw health/armor numbers
-            DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ('HUD_Health'));
-            DrawString (mNormalHUDFont, FormatNumber (mArmorInterpolator.GetValue (), 1, 3), (33, 50), DI_TEXT_ALIGN_RIGHT | DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ('HUD_Armour'));
-        }
+        string energyImg;
+        if (CheckHealth (int (maxHealth * .75), true))
+            energyImg = "graphics/HUD/Normal/HOLOBARSGREEN.png";
+        else if (CheckHealth (int (maxHealth * .50), true))
+            energyImg = "graphics/HUD/Normal/HOLOBARSYELLOW.png";
+        else if (CheckHealth (int (maxHealth * .25), true))
+            energyImg = "graphics/HUD/Normal/HOLOBARSORANGE.png";
+        else
+            energyImg = "graphics/HUD/Normal/HOLOBARSRED.png";
+        DrawImage (energyImg, (0, 29), DI_ITEM_TOP | DI_SCREEN_HCENTER);
+
+        // Draw health/armor bars
+        DrawBar ("HOLOBR00", "HOLOBR01", mHealthInterpolator.GetValue (), maxHealth, (0, 36), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
+        DrawBar ("HOLOBR10", "HOLOBR01", mArmorInterpolator.GetValue (), GetS7ArmorSaveAmount (), (0, 41), 0, 0, DI_ITEM_TOP | DI_SCREEN_HCENTER);
+        // Draw health/armor numbers
+        DrawString (mNormalHUDFont, FormatNumber (mHealthInterpolator.GetValue (), 1, 3), (-33, 50), DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ('HUD_Health'));
+        DrawString (mNormalHUDFont, FormatNumber (mArmorInterpolator.GetValue (), 1, 3), (33, 50), DI_TEXT_ALIGN_RIGHT | DI_SCREEN_HCENTER | DI_NOSHADOW, Font.FindFontColor ('HUD_Armour'));
+
+        alpha = 1.;
     }
 
     transient CVar enHPBar_HPDisp, enHPBar_Nametag;

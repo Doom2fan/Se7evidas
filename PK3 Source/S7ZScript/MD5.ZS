@@ -106,9 +106,9 @@ class S7_MD5 {
         return true;
     }
 
-    private uint _state [4]; // state (ABCD)
-    private uint _count; // number of bits, modulo 2^64
-    private uint _buffer [64]; // input buffer
+    private uint _state [4]; // State (ABCD)
+    private uint _count; // Number of bits, modulo 2^64
+    private uint _buffer [64]; // Input buffer
 
     static const uint8 _padding [] = {
         0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -154,7 +154,7 @@ class S7_MD5 {
      * MD5 basic transformation. Transforms state based on block.
      */
 
-    //Constants for MD5Transform routine.
+    // Constants for MD5Transform routine.
     enum TransConsts {
         S11 = 7,
         S12 = 12,
@@ -175,7 +175,6 @@ class S7_MD5 {
     }
 
     private void transform (S7_TZK_ArrayI32 block) {
-        //Console.PrintF ("pre-transform: %.8X%.8X%.8X%.8X", _state[0], _state[1], _state[2], _state[3]);
         uint a = _state [0],
              b = _state [1],
              c = _state [2],
@@ -262,7 +261,6 @@ class S7_MD5 {
         _state [1] += b;
         _state [2] += c;
         _state [3] += d;
-        //Console.PrintF ("post-transform: %.8X%.8X%.8X%.8X", _state[0], _state[1], _state[2], _state[3]);
     }
 
     const BlockSize = 512;
@@ -282,7 +280,6 @@ class S7_MD5 {
     bool Put (S7_TZK_ArrayI32 data) {
         uint i, index, partLen;
         uint inputLen = data.Size ();
-        //Console.PrintF ("%d", inputLen);
         let tmpBuffer = new ('S7_TZK_ArrayI32');
 
         // Compute number of bytes mod 64
@@ -327,7 +324,7 @@ class S7_MD5 {
         } else
             i = 0;
 
-        /* Buffer remaining input */
+        // Buffer remaining input
         if (inputLen - i) {
             for (int j = 0; j < inputLen-i; j++)
                 _buffer [index+j] = data.Values [i+j] & 0xFF;
@@ -363,13 +360,13 @@ class S7_MD5 {
         // Append length (before padding)
         Put (bitsArr);
 
-        //Store state in digest
+        // Store state in digest
         for (int i = 0; i < 4; i++) {
             uint val = _state [i];
             data.AppendFormat ("%.2X%.2X%.2X%.2X", val & 0xFF, (val >>> 8*1) & 0xFF, (val >>> 8*2) & 0xFF, (val >>> 8*3) & 0xFF);
         }
 
-        /* Zeroize sensitive information. */
+        // Zeroize sensitive information.
         Reset ();
         return data;
     }

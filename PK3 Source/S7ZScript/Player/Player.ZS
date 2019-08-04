@@ -22,8 +22,6 @@
 // Inventory tokens
 //
 //-------------------------------------------------------------------------------------------
-class S7_DisableHud            : S7_Boolean { }
-class S7_SoulLance_BeamGrabbed : S7_Boolean { }
 class S7_HoldingZoom           : S7_Boolean { }
 
 struct S7_TransactionData {
@@ -83,14 +81,6 @@ class S7_BasePlayer : PlayerPawn {
 
         // Class stuff
         Player.DisplayName "Player";
-
-        // Weapon Slots
-        /*player.weaponSlot 1, 'S7_Raptor', 'S7_TEC9', 'S7_Revolver'
-        player.weaponSlot 2, 'S7_Shotgun', 'S7_AMG', 'S7_ManxCarbine', 'S7_HitterSMG', 'S7_Fauchard', 'S7_SSG', 'S7_LaserPewPew', 'S7_ConquerorRifle', 'S7_AK47'
-        player.weaponSlot 3, 'S7_HellwarriorBladeForm1'
-        player.weaponSlot 4, 'S7_PrettyShootyIonCannonGun', 'S7_PlasmaGun', 'S7_Thumper', 'S7_AntimatterGun'
-        player.weaponSlot 5, 'S7_GrenadeWeap'
-        player.weaponSlot 6, 'S7_BerserkWeap'*/
 
         // Misc
         Radius 16;
@@ -251,7 +241,6 @@ class S7_BasePlayer : PlayerPawn {
         Misc_BerserkSideEffects ();
         Misc_Heartbeats ();
         Misc_HellhunterBlade ();
-        Misc_BlurCamera ();
     }
 
     override void OnRespawn () {
@@ -286,14 +275,14 @@ class S7_BasePlayer : PlayerPawn {
         player.crouchdir = direction;
         player.crouchfactor += crouchSpeed;
 
-        // check whether the move is ok
+        // Check whether the move is ok
         height = defaultHeight * player.crouchfactor;
 
         if (!TryMove (pos.XY, false, NULL)) {
             height = savedHeight;
 
             if (direction > 0) {
-                // doesn't fit
+                // Doesn't fit
                 player.crouchfactor -= crouchSpeed;
                 return;
             }
@@ -357,7 +346,7 @@ class S7_BasePlayer : PlayerPawn {
             bob = playerData.bob * sin (bobAngle) * (player.mo.waterlevel > 1 ? 0.25 : 0.5);
         }
 
-        // move viewheight
+        // Move viewheight
         if (player.playerstate == PST_LIVE) {
             player.viewheight += player.deltaviewheight;
 
@@ -667,103 +656,5 @@ class S7_PowerDodgeEffects : Powerup {
             return;
 
         Owner.bNonShootable = bNonShootable;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// Blur effect
-//
-//-------------------------------------------------------------------------------------------
-class S7_BlurCamera : Actor {
-    Vector3 realPos;
-
-    default {
-        Radius 0;
-        Height 0;
-
-        +NOINTERACTION +NOBLOCKMAP +NOCLIP +INVISIBLE
-        +NOGRAVITY
-    }
-
-    states {
-    Spawn:
-        TNT1 A 1;
-        wait;
-    }
-}
-
-//-------------------------------------------------------------------------------------------
-//
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//
-//-------------------------------------------------------------------------------------------
-class GETTHATSHITOUTTAHERE : Actor {
-    default {
-        Health -1;
-        Radius 20;
-        Height 56;
-        Mass 500;
-        Speed 10;
-        PainChance 100;
-        monster;
-        SeeSound "skeleton/sight";
-        PainSound "skeleton/sight";
-        DeathSound "skeleton/sight";
-        ActiveSound "skeleton/sight";
-
-        +INVULNERABLE +LOOKALLAROUND   +NODAMAGE +FLOORCLIP
-        +MISSILEMORE  +MISSILEEVENMORE +NOCLIP
-        -COUNTKILL -SOLID -SHOOTABLE -ISMONSTER
-    }
-
-    states {
-    Spawn:
-        SKEL AB 5 A_Look;
-        loop;
-    See:
-        SKEL AABBCCDDEEFF 1 A_Chase;
-        loop;
-    Melee:
-        TNT1 A 0 A_FaceTarget;
-        SKEL G 1 A_SkelWhoosh;
-        SKEL H 1 A_FaceTarget;
-        TNT1 A 0 A_CustomMeleeAttack (0);
-        SKEL I 1 A_PlaySound ("skeleton/melee");
-        goto See;
-    Missile:
-        SKEL J 5 bright A_FaceTarget;
-        SKEL K 5        A_SpawnProjectile ('GETTHATSHITOUTTAHERETRACER');
-        SKEL K 5        A_FaceTarget;
-        goto See;
-    Pain:
-        SKEL L 2;
-        SKEL L 2 A_Pain;
-        goto See;
-    }
-}
-
-class GETTHATSHITOUTTAHERETRACER : FastProjectile {
-    default {
-        Radius 11;
-        Height 8;
-        DamageFunction (1);
-        Speed 1000;
-        RenderStyle "add";
-        SeeSound "skeleton/attack";
-        DeathSound "skeleton/tracex";
-
-        Projectile;
-
-        +SEEKERMISSILE +RANDOMIZE
-    }
-
-    states {
-    Spawn:
-        FATB AB 1 bright A_Tracer;
-        loop;
-    Death:
-        FBXP ABC 1 bright;
-        stop;
     }
 }

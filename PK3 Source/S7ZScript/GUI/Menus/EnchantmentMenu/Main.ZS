@@ -73,7 +73,7 @@ class S7_WeaponEnchantmentMenuHandler : S7_ZF_Handler {
 class S7_WeaponEnchantmentMenu_EnchantsList : S7_ZF_Frame {
     S7_ZF_Frame itemsFrame;
 
-    override void OnUIEvent (S7_ZF_UiEvent ev) { // Type_WheelUp
+    override void OnUIEvent (S7_ZF_UiEvent ev) {
         Super.OnUIEvent (ev);
 
         if (itemsFrame && itemsFrame.isEnabled ()) {
@@ -258,8 +258,6 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         tooltipLabel.Pack (mainFrame);
 
         enchantmentPower = 1;
-
-        //dontDim = true;
     }
 
     int, double GetNewEnchantmentData (S7_BaseWeapon weap) {

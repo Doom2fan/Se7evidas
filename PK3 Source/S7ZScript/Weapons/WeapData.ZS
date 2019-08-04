@@ -45,7 +45,7 @@ class S7_WeapData {
         "S7_HitterSMGClip",
         "S7_ManxCarbineClip",
         "S7_PlasmaGunMag",
-        //s"S7_PrettyShootyIonCannonGunMag",
+        "S7_PrettyShootyIonCannonGunMag",
         "S7_ShotgunMag",
         "S7_ThumperMag",
         "S7_RaptorClip",

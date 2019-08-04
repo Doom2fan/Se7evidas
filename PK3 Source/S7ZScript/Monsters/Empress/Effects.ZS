@@ -185,7 +185,7 @@ class S7_EmpressPentagramLine : S7_Projectile {
 
     states {
     Spawn:
-        TNT1 AAAAAAAAAA 1;// A_SpawnItemEx ('S7_EmpressPentagramFire', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, SXF_Clientside | SXF_NoCheckPosition);
+        TNT1 AAAAAAAAAA 1;
         stop;
     Death:
         TNT1 A 1;
@@ -207,13 +207,10 @@ class S7_EmpressPentagramFire : S7_Empress_FXBase {
     states {
     Spawn:
         HRSF AAAAAAAAAAAAA 3 bright;
-        //EPTF ABCDEFGHIJKLM 3 bright;
         TNT1 A             0 A_Countdown;
         loop;
 
     Death:
-        /*EPTF NOP 3 bright;
-        stop;*/
         HRSF A 1 A_FadeOut (0.1);
         loop;
     }

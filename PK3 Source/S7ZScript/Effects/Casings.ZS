@@ -114,19 +114,6 @@ class S7_CasingBase : S7_EffectsBase {
         }
         wait;
 
-    /*//Rest1: #### A 0; goto RestDerp;
-    //Rest2: #### B 0; goto RestDerp;
-    Rest3: #### C 0; goto RestDerp;
-    //Rest4: #### D 0; goto RestDerp;
-    //Rest5: #### E 0; goto RestDerp;
-    //Rest6: #### F 0; goto RestDerp;
-    Rest7: #### G 0; goto RestDerp;
-    //Rest8: #### H 0; goto RestDerp;
-    RestDerp:
-        #### # 0 { return ResolveState ("Delaying"); }
-        wait;*/
-
-
     Death:
         #### # 0 {
             switch (frame) {
@@ -163,7 +150,7 @@ class S7_ShellCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS0 ABCDEFGH 2; // A_SpawnItemEx ('S7_CasingSmoke')
+        CAS0 ABCDEFGH 2;
         loop;
     }
 }
@@ -191,7 +178,7 @@ class S7_12gaShellCasing : S7_CasingBase {
     Spawn:
         CAS4 FFGGHABCDEFGH 2;
     Idle:
-        CAS4 ABCDEFGH 2; // A_SpawnItemEx ('S7_CasingSmoke')
+        CAS4 ABCDEFGH 2;
         loop;
     }
 }
@@ -217,7 +204,7 @@ class S7_9mmCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS1 HABCDEFG 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS1 HABCDEFG 2;
         loop;
     }
 }
@@ -242,7 +229,7 @@ class S7_RevolverCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS2 ABCDEFGH 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS2 ABCDEFGH 2;
         loop;
     }
 }
@@ -275,7 +262,7 @@ class S7_RifleCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS3 HABCDEFG 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS3 HABCDEFG 2;
         loop;
     }
 }
@@ -293,7 +280,7 @@ class S7_45WWCasing : S7_CasingBase {
 
     states {
     Spawn:
-        CAS5 HABCDEFG 2; // noDelay A_SpawnItemEx ('S7_CasingSmoke')
+        CAS5 HABCDEFG 2;
         loop;
     }
 }

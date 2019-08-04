@@ -48,10 +48,6 @@ class S7_FastRNG {
         seed = (seed + 0xD3A2646C) ^ (seed <<   9);
         seed = (seed + 0xFD7046C5) + (seed <<   3);
         seed = (seed ^ 0xB55A4F09) ^ (seed >>> 16);
-
-        /*seed ^= seed << 13;
-        seed ^= seed >> 17;
-        seed ^= seed << 5;*/
     }
 
     int GetInt (int min, int max) {

@@ -231,8 +231,6 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
         tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
         tooltipLabel.Pack (mainFrame);
-
-        //dontDim = true;
     }
 
     override void Ticker () {

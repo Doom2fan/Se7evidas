@@ -253,7 +253,7 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
             text: String.Format ("%s: ", labelText),
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
         );
-        scanAngleLabel.Pack (menuFrame);//scanAngleInc scanAngleDec
+        scanAngleLabel.Pack (menuFrame);
 
         scanAngleAmountLabel = new ('S7_ZF_Label').Init ((scanAngleLabel.box.pos.x, scanAngleLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
         scanAngleAmountLabel.Pack (menuFrame);

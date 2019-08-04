@@ -347,7 +347,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2;
 
     Fire.Jammed:
-        CQR1 A 3 { // add an auto unjamming cvar later
+        CQR1 A 3 { // Add an auto unjamming cvar later
             A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
 
             if (invoker.zoomed)

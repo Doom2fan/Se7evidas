@@ -137,7 +137,7 @@ class S7_TracerTrail : S7_TracerEffectsBase {
 // Bullet puff
 //
 //-------------------------------------------------------------------------------------------
-class S7_BulletPuff : S7_TracerEffectsBase { // replaces bulletPuff {
+class S7_BulletPuff : S7_TracerEffectsBase {
     default {
         Scale 0.05;
 
@@ -224,7 +224,7 @@ class S7_AK47_Tracer : S7_BulletTracer {
     }
 }
 
-class S7_SSGTracer : S7_BulletTracer { // 259 max DMG
+class S7_SSGTracer : S7_BulletTracer {
     default {
         DamageFunction int ((6. + fRandom [weaponDamage] (-2., 1.)) * (1. + bonusDMGFactor));
         Speed 250;

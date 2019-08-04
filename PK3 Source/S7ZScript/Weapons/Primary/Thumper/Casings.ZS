@@ -35,7 +35,7 @@ class S7_50mmCasing : S7_CasingBase {
 
     states {
     Spawn:
-        C501 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C501 HABCDEFG 2;
         loop;
     }
 }
@@ -52,7 +52,7 @@ class S7_50mmCasingSpawnFrag : S7_CasingSpawnerBase {
 class S7_50mmCasingFrag : S7_50mmCasing {
     states {
     Spawn:
-        C502 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C502 HABCDEFG 2;
         loop;
     }
 }
@@ -69,7 +69,7 @@ class S7_50mmCasingSpawnTherm : S7_CasingSpawnerBase {
 class S7_50mmCasingTherm : S7_50mmCasing {
     states {
     Spawn:
-        C503 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C503 HABCDEFG 2;
         loop;
     }
 }
@@ -86,7 +86,7 @@ class S7_50mmCasingSpawnFlare : S7_CasingSpawnerBase {
 class S7_50mmCasingFlare : S7_50mmCasing {
     states {
     Spawn:
-        C504 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C504 HABCDEFG 2;
         loop;
     }
 }
@@ -103,7 +103,7 @@ class S7_50mmCasingSpawnCluster : S7_CasingSpawnerBase {
 class S7_50mmCasingCluster : S7_50mmCasing {
     states {
     Spawn:
-        C505 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C505 HABCDEFG 2;
         loop;
     }
 }
@@ -120,7 +120,7 @@ class S7_50mmCasingSpawnNail : S7_CasingSpawnerBase {
 class S7_50mmCasingNail : S7_50mmCasing {
     states {
     Spawn:
-        C506 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C506 HABCDEFG 2;
         loop;
     }
 }
@@ -137,7 +137,7 @@ class S7_50mmCasingSpawnNGas : S7_CasingSpawnerBase {
 class S7_50mmCasingNGas : S7_50mmCasing {
     states {
     Spawn:
-        C507 HABCDEFG 2; // A_SpawnItem ('S7_ShotSmokeTrail');
+        C507 HABCDEFG 2;
         loop;
     }
 }

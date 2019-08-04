@@ -403,7 +403,7 @@ extend class S7_MonsterBase {
             return true, pos.XY;
 
         if (movementDir >= S7_MOVEDIR_NODIR) {
-            movementDir = S7_MOVEDIR_NODIR; // make sure it's valid.
+            movementDir = S7_MOVEDIR_NODIR; // Make sure it's valid.
             return false, pos.XY;
         }
 
@@ -456,7 +456,7 @@ extend class S7_MonsterBase {
         for (int i = 1; i <= stepCount; i++) {
             let ptry = startPos + tryMoveVec * i / stepCount;
 
-            // killough 3/15/98: don't jump over dropoffs
+            // killough 3/15/98: Don't jump over dropoffs
             bDropOff = false;
             if (!checkOnly) {
                 prevPos = pos;
@@ -528,7 +528,7 @@ extend class S7_MonsterBase {
 
         if (!tryOK) {
             if ((bCanJump || bFloat) && tm.floatok) {
-                // must adjust height
+                // Must adjust height
                 double savedZ = pos.Z;
 
                 if (pos.Z < tm.floorZ)

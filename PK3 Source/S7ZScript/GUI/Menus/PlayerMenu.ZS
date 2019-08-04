@@ -85,8 +85,6 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         AddButton (weapEnchantButton, "$PLAYERMENU_WEAPENCHANTMENT", 15 + ((fontHeight+4) * buttonCount++), handler, "openWeaponEnchantmentMenu");
         if (CheckInventory ('S7_M400AutogunStored'))
             AddButton (m400AutogunButton, "$PLAYERMENU_M400AUTOGUN", 15 + ((fontHeight+4) * buttonCount++), handler, "openAutogunMenu");
-
-        //dontDim = true;
     }
 
     bool CheckInventory (class<Inventory> item, int amount = 1) {

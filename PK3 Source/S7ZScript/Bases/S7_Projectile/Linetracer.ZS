@@ -39,10 +39,10 @@ class S7_Projectile_Trace : LineTracer {
         if (!(mo.bSolid || mo.bSpecial || mo.bShootable || mo.bTouchy))
             return TRACE_Skip;
 
-        if (mo.bThruActors)// || (sourceActor.bThruSpecies && mo.GetSpecies () == sourceActor.GetSpecies ()))
+        if (mo.bThruActors)
             return TRACE_Skip;
 
-        return TRACE_Stop; // && sourceActor.CanCollideWith (Results.HitActor)
+        return TRACE_Stop;
     }
 
     ETraceStatus HandleWall () {
@@ -74,9 +74,6 @@ class S7_Projectile_Trace : LineTracer {
     }
 
     override ETraceStatus TraceCallback () {
-        /*if (!sourceActor)
-            return TRACE_Skip;*/
-
         ETraceStatus status = TRACE_Skip;
         switch (Results.HitType) {
             case TRACE_HitActor:

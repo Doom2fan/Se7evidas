@@ -84,7 +84,7 @@ class S7_EmpressMissile1 : S7_Projectile {
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        bMissile = false; // remove the MISSILE flag so the Draco's defense system won't target it
+        bMissile = false; // Remove the MISSILE flag so the Draco's defense system won't target it
         rotAngle = angle;
         loopCount = 15;
         savedVel = vel;

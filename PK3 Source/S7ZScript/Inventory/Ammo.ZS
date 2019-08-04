@@ -150,7 +150,6 @@ class S7_9mmCartridges : Ammo {
         Inventory.PickupMessage "$9MMMAG";
         Inventory.Amount 15;
         Inventory.MaxAmount 90;
-        // Ammo.BackpackMaxAmount 120;
         Inventory.Icon "CLIPA0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -173,7 +172,6 @@ class S7_45ACPCartridges : Ammo {
         Inventory.PickupMessage "$45ACP_DRUMMAG";
         Inventory.Amount 62;
         Inventory.MaxAmount 372;
-        // Ammo.BackpackMaxAmount 496;
         Inventory.Icon "CLIPC0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -196,7 +194,6 @@ class S7_44MCartridges : Ammo {
         Inventory.PickupMessage "$44M_SPEEDLOADER";
         Inventory.Amount 6;
         Inventory.MaxAmount 36;
-        // Ammo.BackpackMaxAmount 48;
         //Inventory.Icon "44MP0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -219,7 +216,6 @@ class S7_762x39Cartridges : Ammo {
         Inventory.PickupMessage "$762X39_MAG";
         Inventory.Amount 35;
         Inventory.MaxAmount 210;
-        // Ammo.BackpackMaxAmount 280;
         //Inventory.Icon "CLIPE0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -264,7 +260,6 @@ class S7_20gaShells : Ammo {
         Inventory.PickupMessage "$20GA_BANDOLIER";
         Inventory.Amount 10;
         Inventory.MaxAmount 60;
-        // Ammo.BackpackMaxAmount 80;
         Inventory.Icon "SHELA0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -339,7 +334,6 @@ class S7_12gaShells : Ammo {
         Inventory.PickupMessage "$12GA_BOX";
         Inventory.Amount 6;
         Inventory.MaxAmount 72;
-        // Ammo.BackpackMaxAmount 96;
         Inventory.Icon "SHELB0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -414,7 +408,6 @@ class S7_Cells : Ammo {
         Inventory.PickupMessage "$CELLS";
         Inventory.Amount 18;
         Inventory.MaxAmount 216;
-        // Ammo.BackpackMaxAmount 288;
         Inventory.Icon "CELLA0";
         Inventory.PickupSound "misc/ammopickup";
     }
@@ -437,7 +430,6 @@ class S7_FBSysCells : Ammo {
         Inventory.PickupMessage "$FBSYSCELLS";
         Inventory.Amount 32;
         Inventory.MaxAmount 192;
-        // Ammo.BackpackMaxAmount 184;
         Inventory.Icon "CELLC0";
         Inventory.PickupSound "misc/ammopickup";
     }

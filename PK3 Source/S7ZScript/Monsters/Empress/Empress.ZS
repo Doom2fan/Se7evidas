@@ -24,10 +24,6 @@
 /** Constants **/
 const S7_EmpressMass = 12000;
 
-/** Inventory tokens **/
-// Booleans
-class S7_IsEmpress : S7_Boolean { }
-
 /** Main actor **/
 class S7_Empress : S7_DemonBase {
     default {
@@ -116,7 +112,6 @@ class S7_Empress : S7_DemonBase {
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        GiveInventory ('S7_IsEmpress', 1);
         TakeInventory ('S7_IsDead', 0x7FFFFFFF);
     }
 
@@ -327,9 +322,6 @@ class S7_Empress : S7_DemonBase {
         HRFR F  9 {
             shieldUp = true;
             invulnDelay = InvulnDelayTime;
-            //bNoBlood = true;
-            //bInvulnerable = true;
-            //GiveInventory ('S7_EmpressProtection', 1);
             bool success; Actor act;
             [success, act] = A_SpawnItemEx ('S7_EmpressInvulnOrbiterCW',  64., 0, 50., 0, 0, 0, 0, SXF_NoCheckPosition | SXF_SetMaster);
             if (success && act) {
@@ -403,11 +395,7 @@ class S7_Empress : S7_DemonBase {
         }
         goto Death;
     Death:
-        TNT1 A 0 {
-            GiveInventory ('S7_IsDead', 1);
-            return (CheckInventory ('S7_SoulLance_BeamGrabbed', 1) ? ResolveState ("SLance_BeamLost") : ResolveState ("Death2"));
-        }
-    Death2:
+        TNT1 A 0 { GiveInventory ('S7_IsDead', 1); }
         HRFR GGG    13 A_Pain;
         HRFR FFFFFF  1 A_SpawnItemEx ('S7_EmpressDeathSmokeSpawner', 0, 0, 0, 0, 0, 0, 0, SXF_Clientside | SXF_NoCheckPosition);
         HRFR F       2;

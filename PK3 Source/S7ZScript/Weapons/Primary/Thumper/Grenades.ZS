@@ -616,7 +616,6 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
             if (!initialized)
                 PostBeginPlay ();
 
-            //vel.x = vel.y = 0;
             A_SetGravity (1.0);
         }
     Loople:
@@ -802,8 +801,6 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
         Height 2;
         DamageFunction (fRandom [weaponDamage] (5., 10.) * (1. + bonusDMGFactor));
         Speed 1;
-        /*MissileType 'S7_HeatSmokeStatic';
-        MissileHeight 8;*/
 
         +NOGRAVITY +BLOODSPLATTER +NOEXTREMEDEATH +NODAMAGETHRUST
         +RIPPER

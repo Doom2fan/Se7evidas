@@ -69,10 +69,7 @@ class S7_BasicArmor : BasicArmor {
             return true; // You shouldn't be picking up S7_BasicArmor anyway.
 
         if (!item.bIgnoreSkill) {
-            /*if (item is 'S7_BasicArmorBonus') {
-                let armor = S7_BasicArmorBonus (item);
-                armor.SaveAmount = int (armor.SaveAmount * G_SkillPropertyFloat (SKILLP_ArmorFactor));
-            } else*/ if (item is 'S7_BasicArmorPickup') {
+            if (item is 'S7_BasicArmorPickup') {
                 let armor = S7_BasicArmorPickup (item);
                 armor.SaveAmount = int (armor.SaveAmount * G_SkillPropertyFloat (SKILLP_ArmorFactor));
             }

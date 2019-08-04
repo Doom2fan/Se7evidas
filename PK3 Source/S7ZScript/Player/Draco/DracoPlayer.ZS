@@ -51,9 +51,6 @@ class S7_DracoThing : Inventory {
 //-------------------------------------------------------------------------------------------
 class S7_DracoPlayer : S7_BasePlayer {
     default {
-        /*Radius 18;
-        Height 60;*/
-
         // Damage
         Health 200;
         Player.MaxHealth 200;

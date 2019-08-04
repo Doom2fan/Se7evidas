@@ -126,68 +126,9 @@ extend class S7_BasePlayer {
                 playerData.heartbeatTics = 0;
             } else if (health > 25) // If health is greater than 25...
                 playerData.heartbeatTics = 0; // Set heartbeatTics to 0
-            else // if neither...
+            else // If neither...
                 playerData.heartbeatTics++; // Add one to heartbeatTics
         }
-    }
-
-    Actor Misc_BC_GetRightAct (Actor opt1, Actor opt2, Actor opt3, Actor opt4) {
-        if (opt1)
-            return opt1;
-        else if (opt2)
-            return opt2;
-        else if (opt3)
-            return opt3;
-        else if (opt4)
-            return opt4;
-
-        return null;
-    }
-
-    void Misc_BC_DoCamera (out S7_BlurCamera cam, Actor dataActor) {
-        if (!dataActor)
-            return;
-
-        if (!cam) {
-            cam = S7_BlurCamera (Spawn ('S7_BlurCamera'));
-
-            if (!cam)
-                return;
-        }
-
-        cam.target = self;
-
-        Vector3 camPos = dataActor.pos;
-        double camAngle = dataActor.angle;
-        double camPitch = dataActor.pitch;
-
-        if (dataActor is 'PlayerPawn' && dataActor.player)
-            camPos = (camPos.XY, dataActor.player.viewZ);
-
-        Vector2 fwd = AngleToVector (camAngle, 2);
-
-        if (s7_debugmode) {
-        if (abs (camPitch) > 89)
-            fwd = (fwd * max (0.5, cos (camPitch)) * 2);
-        else
-            fwd = (fwd * cos (camPitch) * 6);
-        }
-
-        cam.SetOrigin (camPos + fwd, true);
-        //cam.vel = dataActor.vel;
-        cam.angle = camAngle;
-        cam.pitch = camPitch;
-    }
-
-    S7_BlurCamera cam1, cam2, cam3, cam4;
-    void Misc_BlurCamera () {
-        if (player.cheats & CF_PREDICTING)
-            return;
-
-        Misc_BC_DoCamera (cam4, Misc_BC_GetRightAct (cam3, cam2, cam1, self));
-        Misc_BC_DoCamera (cam3, Misc_BC_GetRightAct (cam2, cam1, self, null));
-        Misc_BC_DoCamera (cam2, Misc_BC_GetRightAct (cam1, self, null, null));
-        Misc_BC_DoCamera (cam1, Misc_BC_GetRightAct (self, null, null, null)); // We don't actually show this one.
     }
 
     void Misc_HellhunterBlade () {

@@ -66,7 +66,7 @@ extend class S7_MonsterBase {
             return;
         }
 
-        // turn towards movement direction if not there yet
+        // Turn towards movement direction if not there yet
         if (!(flags & CHF_NODIRECTIONTURN) && (movementDir < S7_MOVEDIR_NODIR)) {
             angle = floor (angle / S7_MOVEDIR_INTERVAL) * S7_MOVEDIR_INTERVAL;
 
@@ -172,7 +172,6 @@ extend class S7_MonsterBase {
                 if (!multiplayer)
                     i = 0;
                 else {
-                    // for (i = pr_S7_NewChaseDir() & (MAXPLAYERS-1); !playeringame[i]; i = (i+1) & (MAXPLAYERS-1))
                     i = random [S7_NewChaseDir] (0, 255) & (MAXPLAYERS - 1);
                     while (!playeringame [i]) {
                         i = (i + 1) & (MAXPLAYERS - 1);
@@ -222,7 +221,7 @@ extend class S7_MonsterBase {
             }
         }
 
-        // do not attack twice in a row
+        // Do not attack twice in a row
         if (bJustAttacked) {
             bJustAttacked = false;
 
@@ -413,7 +412,7 @@ extend class S7_MonsterBase {
             //int oldgroup = PrevPortalGroup;
             TextureID oldFloor = floorpic;
 
-            // chase towards player
+            // Chase towards player
             if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoMove () && !(flags & CHF_StopIfBlocked)))
                 S7_NewChaseDir ();
 
@@ -435,7 +434,7 @@ extend class S7_MonsterBase {
         else if (dontMove && movecount > 0)
             movecount--;
 
-        // make active sound
+        // Make active sound
         if (playActive && random [Chase] (0, 255) < 3)
             PlayActiveSound ();
 

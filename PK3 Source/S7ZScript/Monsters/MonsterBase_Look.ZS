@@ -135,19 +135,19 @@ extend class S7_MonsterBase {
             player = players [pnum];
 
             if (!player.mo.bShootable)
-                continue;           // not shootable (observer or dead)
+                continue;           // Not shootable (observer or dead)
 
             if (!(bFriendly ^ player.mo.bFriendly))
-                continue;           // same +MF_FRIENDLY, ignore
+                continue;           // Same +MF_FRIENDLY, ignore
 
             if (player.cheats & CF_NoTarget)
-                continue;           // no target
+                continue;           // No target
 
             if (player.health <= 0)
-                continue;           // dead
+                continue;           // Dead
 
             if (!IsVisible (player.mo, allAround, params))
-                continue;           // out of sight
+                continue;           // Out of sight
 
             // [SP] Deathmatch fixes - if we have MF_FRIENDLY we're definitely in deathmatch
             // we're going to ignore our master, but go after his enemies.

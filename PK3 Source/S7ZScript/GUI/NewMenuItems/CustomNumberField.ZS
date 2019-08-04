@@ -39,7 +39,7 @@ class OptionMenuItemCustomNumberField : OptionMenuFieldBase {
 
     override int Draw (OptionMenuDescriptor desc, int y, int indent, bool selected) {
         if (mEnter) {
-            // reposition the text so that the cursor is visible when in entering mode.
+            // Reposition the text so that the cursor is visible when in entering mode.
             String text = Represent ();
             int tlen = SmallFont.StringWidth (text) * CleanXfac_1;
             int newindent = screen.GetWidth () - tlen - CursorSpace ();

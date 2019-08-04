@@ -155,7 +155,7 @@ class S7_BaseWeapon : Weapon {
             if (Owner.player.mo == players [consoleplayer].camera)
                 StatusBar.ReceivedWeapon (self);
         }
-        GivenAsMorphWeapon = false; // will be set explicitly by morphing code
+        GivenAsMorphWeapon = false; // Will be set explicitly by morphing code
     }
 
     override void DetachFromOwner () {
@@ -435,10 +435,10 @@ class S7_BaseWeapon : Weapon {
         angle = self.Angle + random2 [cwpunch] () * (5.625 / 256);
         pitch = AimLineAttack (angle, range, t, 0., ALF_Check3D);
 
-        // only use ammo when actually hitting something!
+        // Only use ammo when actually hitting something!
         if ((flags & CPF_UseAmmo) && t.linetarget && weapon && stateinfo != null && stateinfo.mStateType == STATE_PSprite) {
             if (!weapon.DepleteAmmo (weapon.bAltFire, true))
-                return null; // out of ammo
+                return null; // Out of ammo
         }
 
         if (puffType == NULL)
@@ -475,7 +475,7 @@ class S7_BaseWeapon : Weapon {
                 else            A_PlaySound (AttackSound, CHAN_WEAPON);
             }
 
-            // turn to face target
+            // Turn to face target
             if (!(flags & CPF_NoTurn))
                 self.Angle = t.angleFromSource;
 
@@ -588,8 +588,6 @@ class S7_BaseWeapon : Weapon {
         let arr = new ('S7_TZK_ArrayObj');
         arr.Clear ();
 
-        /*double projAngle = ((flags & S7_FB_AbsoluteAngle) ? angleOffs : angle + angleOffs);
-        double projPitch = ((flags & S7_FB_AbsolutePitch) ? pitchOffs : pitch + pitchOffs);*/
         let projBaseRot = S7_GM_Quaternion.CreateFromAngles (angleOffs, pitchOffs, 0);
         if ((flags & (S7_FB_AbsoluteAngle | S7_FB_AbsolutePitch)) != (S7_FB_AbsoluteAngle | S7_FB_AbsolutePitch)) {
             let shooterAngles = S7_GM_Quaternion.CreateFromAngles (

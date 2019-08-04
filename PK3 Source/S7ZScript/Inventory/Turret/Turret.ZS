@@ -440,8 +440,6 @@ class S7_M400Autogun : S7_PlayerSummon {
                 expl.A_SetScale (.5);
         }
         stop;
-
-        //firing height: 38.5
     }
 }
 

@@ -44,17 +44,6 @@ class S7_PlayerclassMenu : OptionMenu {
     //=============================================================================
     override void Init (Menu parent, OptionMenuDescriptor desc) {
         Super.Init (parent, desc);
-        /*mParentMenu = parent;
-        mDesc = desc;
-        DontDim = desc.mDontDim;
-        if (mDesc != NULL && mDesc.mSelectedItem == -1) mDesc.mSelectedItem = FirstSelectable ();
-        mDesc.CalcIndent ();
-
-        // notify all items that the menu was just created.
-        for (int i=0;i<mDesc.mItems.Size (); i++)
-        {
-            mDesc.mItems [i].OnMenuCreated ();
-        }*/
 
         desc.mMenuName = "S7_PlayerclassMenu";
         desc.mTitle = "$MNU_CHOOSECLASS";
@@ -279,7 +268,7 @@ class S7_PlayerclassMenu : OptionMenu {
         arrowLeftY = int (arrowRightY - (arrowLeftSize.Y + 2));
 
         // Calculate lines
-        let fnt = OptionFont (); //Font.GetFont ('S7TxtFnt.FON2');
+        let fnt = OptionFont ();
 
         int fntHeight = fnt.GetHeight ();
         int maxLines = int (floor ((DESCBOX_Height - 4.*2.) / fntHeight));

@@ -196,11 +196,11 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         itemName.box.size = (smallFont.StringWidth (itemName.text), smallFont.GetHeight ());
         itemName.box.pos =
             (8 + texSize.X + ((texSize.X > 0) ? 4 : 0),
-             itemIcon.box.pos.Y //+ (texSize.Y > 0 ? (texSize.Y - smallFont.GetHeight ()) / 2 : 0)
+             itemIcon.box.pos.Y
         );
 
-        let actualBox = itemName.box; //((texSize.X > 0 && texSize.Y > 0) ? itemIcon.box : itemName.box);
-        double xCoords = actualBox.pos.X; //8;
+        let actualBox = itemName.box;
+        double xCoords = actualBox.pos.X;
         if (info && info.maxAmount != 1) {
             selAmount.box.pos = (xCoords, (actualBox.pos.Y + actualBox.size.Y) + 2);
             totalAmount.box.pos = (xCoords, (selAmount.box.pos.Y + selAmount.box.size.Y) + 2);

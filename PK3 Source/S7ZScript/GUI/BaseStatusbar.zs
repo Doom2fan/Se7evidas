@@ -38,7 +38,7 @@ class S7_BaseStatusbar : BaseStatusBar {
 
         Vector2 box = (abs (p2.X - p1.X) * scale.X, abs (p2.Y - p1.Y) * scale.Y);
 
-        // resolve auto-alignment before making any adjustments to the position values.
+        // Resolve auto-alignment before making any adjustments to the position values.
         if (!(flags & DI_SCREEN_MANUAL_ALIGN)) {
             if (origin.X < 0) flags |= DI_SCREEN_RIGHT;
             else flags |= DI_SCREEN_LEFT;
@@ -82,7 +82,7 @@ class S7_BaseStatusbar : BaseStatusBar {
             case DI_SCREEN_BOTTOM: org.Y = screen.GetHeight (); break;
             }
 
-            // move stuff in the top right corner a bit down if the fps counter is on.
+            // Move stuff in the top right corner a bit down if the fps counter is on.
             if ((flags & (DI_SCREEN_HMASK|DI_SCREEN_VMASK)) == DI_SCREEN_RIGHT_TOP && vid_fps) {
                 origin.Y += 10;
             }
@@ -120,7 +120,7 @@ class S7_BaseStatusbar : BaseStatusBar {
 
         let texID = TexMan.CheckForTexture (tex, TexMan.Type_Any);
         [w, h] = TexMan.GetSize (texID);
-        double vWidth = h * Screen.GetAspectRatio (); //(double (Screen.GetWidth ()) / double (Screen.GetHeight ()));
+        double vWidth = h * Screen.GetAspectRatio ();
 
         TexMan.SetCameraToTexture (cam, tex, CPlayer.fov);
         Screen.DrawTexture (texID, false, (vWidth - w) / 2., 0., DTA_VirtualWidthF, vWidth, DTA_VirtualHeightF, double (h), DTA_KeepRatio, true, DTA_Alpha, alpha);

@@ -167,7 +167,7 @@ extend class S7_BasePlayer {
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
                 if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) && (pos.Z - floorZ) <= 0 &&
                     !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
-                    !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !ledgeGrab_Grabbed
+                    !ledgeGrab_Grabbed
                 ) {
                     Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
@@ -195,7 +195,7 @@ extend class S7_BasePlayer {
     void Movement_MultiJump () {
         if (player.cheats & CF_PREDICTING)
             return;
-        if (!level.IsJumpingAllowed () || health <= 0 || ledgeGrab_Grabbed || wallJump_JustJumped || CheckInventory ('S7_SoulLance_BeamGrabbed', 1))
+        if (!level.IsJumpingAllowed () || health <= 0 || ledgeGrab_Grabbed || wallJump_JustJumped)
             return;
         if (teching_Active)
             return;
@@ -252,7 +252,7 @@ extend class S7_BasePlayer {
         if (wallJump_JustJumped && !(player.cheats & CF_PREDICTING))
             wallJump_JustJumped--;
 
-        if (health <= 0 || (self is 'S7_DracoPlayer') || wallJump_JustJumped || CheckInventory ('S7_SoulLance_BeamGrabbed', 1))
+        if (health <= 0 || (self is 'S7_DracoPlayer') || wallJump_JustJumped)
             return;
 
         // Return if the player isn't trying to move backwards and isn't holding onto a ledge
@@ -444,7 +444,7 @@ extend class S7_BasePlayer {
                 // Start/stop sprinting
                 if (!sprint_Sprinting && sprint_Tics != -1 &&
                     (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
-                    !CheckInventory ('S7_SoulLance_BeamGrabbed', 1) && !(self is 'S7_DracoPlayer') && !ledgeGrab_Grabbed
+                    !(self is 'S7_DracoPlayer') && !ledgeGrab_Grabbed
                 ) {
                     sprint_Sprinting = true;
                     sprint_SpeedFactor = sprint_SpdFacPproc = 0.0;
@@ -452,7 +452,7 @@ extend class S7_BasePlayer {
                     sprint_OldAgility = double.NaN;
                 } else if (sprint_Sprinting &&
                     (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
-                    CheckInventory ('S7_SoulLance_BeamGrabbed', 1) || ledgeGrab_Grabbed || (self is 'S7_DracoPlayer'))
+                    ledgeGrab_Grabbed || (self is 'S7_DracoPlayer'))
                 ) {
                     if (sprint_Tics < 5)
                         TakeInventory ('S7_Stamina', sprint_Tics);

@@ -67,28 +67,6 @@ class S7_WeaponEnchantmentMenu_ListHandler : S7_ZF_Handler {
             }
         }
     }
-
-    /*override void elementHoverChanged (S7_ZF_Element caller, string command, bool lostFocus) {
-        Array<String> commandStrings; commandStrings.Clear ();
-        command.Split (commandStrings, ":");
-
-        if (commandStrings.Size () >= 2) {
-            if (commandStrings [0] == "Weapon")
-                ListHover (commandStrings [1], lostFocus);
-        }
-    }
-
-    void ListHover (string weaponName, bool lostFocus) {
-        let item = FindWeap (weaponName);
-
-        if (!item)
-            return;
-
-        if (!lostFocus)
-            link.hoveredWeap = item.weaponInst;
-        else if (link.hoveredWeap == item.weaponInst)
-            link.hoveredWeap = NULL;
-    }*/
 }
 
 class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {

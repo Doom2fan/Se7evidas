@@ -27,17 +27,12 @@ class S7_CanHitPointData {
 
     // Stuff to be ignored when tracing.
     Array<Actor> IgnoredActors;
-    /*Array<int> IgnoredLines;
-    Array<int> IgnoredSectors;*/
 }
 
 class S7_CanHitPointLineTracer : LineTracer {
     S7_CanHitPointData data;
 
     override ETraceStatus TraceCallback () {
-        /*if (Results.HitPos.X ~== data.p2.X && Results.HitPos.Y ~== data.p2.Y && Results.HitPos.Z ~== data.p2.Z)
-            return TRACE_Abort;*/
-
         switch (Results.HitType) {
             case TRACE_HitActor:
                 if (data.ignoreAllActors)
@@ -55,13 +50,6 @@ class S7_CanHitPointLineTracer : LineTracer {
 
             case TRACE_HitWall: {
                 if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower) return TRACE_Stop;
-
-                /*if (data.IgnoredLines.Find (Results.HitLine) != data.IgnoredLines.Size ()) {
-                    if ((Results.HitLine.flags & Line.ML_BLOCKING))
-                        return TRACE_Stop;
-                    else
-                        return TRACE_Skip;
-                }*/
 
                 if ((Results.HitLine.flags & (Line.ML_BLOCKEVERYTHING | Line.ML_BLOCKING)) != 0)
                     return TRACE_Stop;
@@ -124,7 +112,7 @@ class S7_ActorExtensions : Actor {
             return NULL;
 
         if (act is 'PlayerPawn')
-            return NULL;    // do not resurrect players
+            return NULL;    // Do not resurrect players
 
         return act.FindState ('Raise');
     }
@@ -311,7 +299,7 @@ class S7_ActorExtensions : Actor {
             th.vel.Y = mo.vel.Y / 2;
             th.tics += random [RipperBlood] () & 3;
 
-            // colorize the blood!
+            // Colorize the blood!
             if (!th.bDontTranslate)
                 th.Translation = bleeder.BloodTranslation;
         }

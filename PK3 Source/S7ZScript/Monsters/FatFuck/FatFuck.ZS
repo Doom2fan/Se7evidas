@@ -81,7 +81,7 @@ class S7_FatFuck : S7_DemonBase {
 
     override void UpdateStats () {
         // Strength
-        //damageMultiply = 1.0 + (0.0225 * xpSys.GetStat (S7Stat_Strength));
+        damageMultiply = 1.0 + (0.0225 * xpSys.GetStat (S7Stat_Strength));
         // Defense
         damageFactor = clamp (1.0 - (0.0125 * xpSys.GetStat (S7Stat_Defense)), 0.1, 1.0);
         // Agility

@@ -134,13 +134,11 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         itemsList = S7_WeapAssignMenu_List (new ('S7_WeapAssignMenu_List').InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
 
         selectedX = selectedY = -1;
-
-        //dontDim = true;
     }
 
     virtual void OnInit () { isDraco = false; }
 
-    override void Ticker () { // GetClassName
+    override void Ticker () {
         Super.Ticker ();
         menuactive = Menu.OnNoPause;
 

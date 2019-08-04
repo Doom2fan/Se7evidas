@@ -332,9 +332,6 @@ class S7_Terminator : S7_DemonBase {
     Missile.End:
         goto See;
 
-    /*Melee:
-        goto See*/
-
     Pain:
         TERM L 6;
         TERM L 6 A_Pain;
@@ -398,8 +395,6 @@ class S7_Terminator_Head : S7_GoreBase {
     Death:
         THAD I -1;
         stop;
-    //Crush:
-
     }
 }
 
@@ -411,8 +406,6 @@ class S7_Terminator_Shoulder : S7_Terminator_Head {
     Death:
         TSHO I -1;
         stop;
-    //Crush:
-
     }
 }
 
@@ -425,8 +418,6 @@ class S7_Terminator_Arm : S7_GoreBase {
         TARM CDE 1;
         TARM F  -1;
         stop;
-    //Crush:
-
     }
 }
 
@@ -448,7 +439,6 @@ class S7_TerminatorGrenade : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
         DamageFunction (24 + random [monsterDMG] (-2, 2));
-        //Speed 1;
         Speed 75;
         Gravity 0.2;
         Obituary "$OBTERMGREN";
@@ -487,8 +477,6 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
         DamageFunction (50 + random [monsterDMG] (-2, 2));
         Speed 110;
         Obituary "$OBTERMSGREN";
-        /*MissileType 'S7_TerminatorGrenadeShockwave';
-        MissileHeight 8;*/
     }
 
     states {
@@ -531,8 +519,6 @@ class S7_TerminatorGrenadeShockwave : S7_FastProjTrailBase {
 class S7_TerminatorNail : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
-        /*Radius 2;
-        Height 2;*/
         DamageFunction (38 + random [monsterDMG] (-2, 2));
         Speed 130;
         Gravity 0.35;

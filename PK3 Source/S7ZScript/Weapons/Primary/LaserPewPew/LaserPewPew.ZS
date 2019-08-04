@@ -248,7 +248,6 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
             A_ZoomFactor (1.270);
             S7_Recoil (-0.38);
-            //A_SetAngle (angle - 0.5 * random [weaponSpc] (-1, 1), SPF_Interpolate);
 
             return ResolveState (null);
         }

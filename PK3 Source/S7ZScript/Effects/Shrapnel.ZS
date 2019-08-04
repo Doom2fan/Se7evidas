@@ -109,20 +109,10 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
         FRG2 D 0;
         goto Flight;
     Flight:
-        #### #   1 {
-            //A_SpawnItemEx ('S7_ShrapnelSmoke');
-            A_ChangeVelocity (0, 0, -1);
-        }
-        #### ### 1 {
-            A_ChangeVelocity (vel.X * 0.9, vel.Y * 0.9, vel.Z - 1, CVF_Replace);
-            //A_SpawnItemEx ('S7_ShrapnelSmoke');
-        }
+        #### #   1 A_ChangeVelocity (0, 0, -1);
+        #### ### 1 A_ChangeVelocity (vel.X * 0.9, vel.Y * 0.9, vel.Z - 1, CVF_Replace);
     FlightActual:
-        #### ## 1 {
-            A_ChangeVelocity (vel.X * 0.9 + fRandom [shrapnel] (-1, 1), vel.Y * 0.9 + fRandom [shrapnel] (-1, 1), vel.Z - 1, CVF_Replace);
-            //A_SpawnItemEx ('S7_ShrapnelSmoke');
-        }
-        //#### #  0 { realDamage *= 0.9; }
+        #### ## 1 A_ChangeVelocity (vel.X * 0.9 + fRandom [shrapnel] (-1, 1), vel.Y * 0.9 + fRandom [shrapnel] (-1, 1), vel.Z - 1, CVF_Replace);
         loop;
 
     Death:
