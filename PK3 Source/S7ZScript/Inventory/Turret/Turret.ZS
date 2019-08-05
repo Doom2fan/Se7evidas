@@ -149,7 +149,7 @@ class S7_M400Autogun : S7_PlayerSummon {
 
             return false;
         } else
-            useTimer = 35 * 2;
+            useTimer = TICRATE * 2;
 
         return false;
     }

@@ -35,7 +35,7 @@ extend class S7_BasePlayer {
     const LedgeGrab_MaxReach = 8.0;
     const LedgeGrab_MaxHeight = 48.0;
     const LedgeGrab_DropKeys = BT_USE | BT_JUMP;
-    const LedgeGrab_MaxClimbTime = 35;
+    const LedgeGrab_MaxClimbTime = TICRATE;
 
     Actor ledgeGrab_Marker;
     bool  ledgeGrab_Grabbed;
@@ -49,7 +49,7 @@ extend class S7_BasePlayer {
     double sprint_SpeedFactor, sprint_SpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
 
     // Teching
-    const Teching_MaxPressTime = 35 / 4;
+    const Teching_MaxPressTime = TICRATE / 4;
     const Teching_MaxHorzSpeed = 50.0;
 
     bool   teching_Active;

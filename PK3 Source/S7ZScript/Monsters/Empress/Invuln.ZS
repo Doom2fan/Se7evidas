@@ -97,7 +97,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         owner = S7_Empress (master);
 
         rotAngle = 270;
-        countdown = 35 * 12;
+        countdown = TICRATE * 12;
 
         OrbitMaster (true);
         ClearInterpolation ();

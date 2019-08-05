@@ -183,7 +183,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 //
 //-------------------------------------------------------------------------------------------
 class S7_ThrownHandGrenade : S7_ThrownObject {
-    const FuseTime = int (ceil (35 * 3.5));
+    const FuseTime = int (ceil (TICRATE * 3.5));
 
     default {
         Radius 5;

@@ -62,7 +62,7 @@ class S7_Empress : S7_DemonBase {
         +DONTMORPH +MISSILEMORE
     }
 
-    const InvulnDelayTime = 35 * 12;
+    const InvulnDelayTime = TICRATE * 12;
     const InvulnLimit = 2500;
     const InvulnShieldAngle = 152.5;
 

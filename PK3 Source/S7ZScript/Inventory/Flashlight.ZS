@@ -64,7 +64,7 @@ class S7_FlashlightBattery : Inventory {
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
 class S7_Flashlight : Inventory {
-    const MaxBatteryCharge = 35 * 60 * 30;
+    const MaxBatteryCharge = TICRATE * 60 * 30;
 
     default {
         Inventory.MaxAmount 1;

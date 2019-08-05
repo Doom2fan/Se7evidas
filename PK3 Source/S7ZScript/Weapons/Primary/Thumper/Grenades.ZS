@@ -250,7 +250,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
                 );
                 act.fadeInTime = random [sfx] (2, 5);
                 act.stayTime = 10;
-                act.fadeOutTime = random [sfx] (17, ceil (35 * 1.25));
+                act.fadeOutTime = random [sfx] (17, ceil (TICRATE * 1.25));
                 act.targetAlpha = .5;
             }
 
@@ -418,7 +418,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 
         info = new ('S7_FireThinker_BaseInfo');
 
-        info.duration = int (35. * fRandom [weaponSpc] (12.5, 20.));
+        info.duration = int (TICRATE * fRandom [weaponSpc] (12.5, 20.));
         info.fireSize = 24. * fRandom [weaponSpc] (0.85, 1.25);
 
         info.damage = 1;
@@ -431,8 +431,8 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
         info.smokeMaxDensity = 3;
         info.smokeActor = 'S7_ThumperGrenadeTherm_Fire_Smoke';
 
-        info.flameMinDelay = 35 * 8;
-        info.flameMaxDelay = 35 * 12;
+        info.flameMinDelay = TICRATE * 8;
+        info.flameMaxDelay = TICRATE * 12;
         info.flameMinDensity = 1;
         info.flameMaxDensity = 1;
         info.flameActor = 'S7_ThumperGrenadeTherm_Fire_Fire';
@@ -906,7 +906,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  3.0, 0.0, 0.5, i + 12.5, SXF_NoCheckPosition);
         }
 
-        invoker.time = (2 * 35) - random [weaponSpc] (-10, 10);
+        invoker.time = (2 * TICRATE) - random [weaponSpc] (-10, 10);
 
         A_SetDamageType (origDMGType);
         bDontSplash = false;

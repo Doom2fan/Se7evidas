@@ -55,7 +55,7 @@ class S7_ExplosionSound : S7_EffectsBase {
     }
 
     static void CreateExplosionSound (Vector3 pos, Sound closeSound, Sound distantSound) {
-        int duration = int ((35. * ceil (max (S_GetLength (closeSound), S_GetLength (distantSound)))) + 5);
+        int duration = int ((TICRATE * ceil (max (S_GetLength (closeSound), S_GetLength (distantSound)))) + 5);
 
         let act = S7_ExplosionSound (Spawn ('S7_ExplosionSound', pos));
 

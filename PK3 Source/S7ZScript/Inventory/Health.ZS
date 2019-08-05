@@ -243,7 +243,7 @@ class S7_MedikitApplicator : S7_HealWeap {
         S7_HealWeap.HealItem 'S7_Medikit';
         S7_HealWeap.HealItemAmount 1;
 
-        S7_HealWeap.HealTime floor (.75 * 35); // .75 seconds
+        S7_HealWeap.HealTime floor (.75 * TICRATE); // .75 seconds
         S7_HealWeap.HealAmount 23;
     }
 
@@ -353,7 +353,7 @@ class S7_StimpackApplicator : S7_HealWeap {
         let regenMod = S7_Stimpack_FasterRegen (pPawn.xpSys.GetStatModInstance ('S7_Stimpack_FasterRegen'));
 
         if (regenMod)
-            regenMod.ticsLeft += max (35 * 15, (35 * 50) - regenMod.ticsLeft);
+            regenMod.ticsLeft += max (TICRATE * 15, (TICRATE * 50) - regenMod.ticsLeft);
         else {
             regenMod = new ('S7_Stimpack_FasterRegen');
 
@@ -373,7 +373,7 @@ class S7_StimpackApplicator : S7_HealWeap {
 
 class S7_Stimpack_FasterRegen : S7_StatModifier {
     override bool Init (actor act, S7_XPSystem xpSys) {
-        self.ticsLeft = 35 * 50;
+        self.ticsLeft = TICRATE * 50;
         self.stats = S7Stat_Special;
         self.specialStatName = "regenRate";
         self.factor = 0.75;

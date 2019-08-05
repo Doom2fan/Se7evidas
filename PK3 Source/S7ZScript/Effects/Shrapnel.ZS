@@ -73,7 +73,7 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
 
     override void Tick () {
         if (bMissile) {// KE = (mv^2) / 2
-            double velMS = (vel.Length () * 35.) / 32.;
+            double velMS = (vel.Length () * TICRATE) / 32.;
             double massKG = mass / 1000.;
             double KE = (massKG * (velMS**2)) / 2.;
 

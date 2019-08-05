@@ -54,7 +54,7 @@ class S7_Mechdemon : S7_DemonBase {
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
 
-        chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * 35));
+        chargeCooldown = int (ceil (fRandom [monsterSpc] (5, 15) * TICRATE));
     }
 
     override void InitializeXPSystem () {
@@ -130,13 +130,13 @@ class S7_Mechdemon : S7_DemonBase {
         if (!TryMove (pos.XY + AngleToVector (angle, S7_ChargeSpeed), true, false)) {
             if (BlockingMobj) {
                 BlockingMobj.DamageMobj (self, self, int (fRandom [monsterDMG] (5., 15.) * (1. + invoker.GetDamageBonus ())), "Melee");
-                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5., 15.) * 35.));
+                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5., 15.) * TICRATE));
 
                 return ResolveState ("See");
             }
 
             if (BlockingLine) {
-                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5., 15.) * 35.));
+                invoker.chargeCooldown = int (ceil (fRandom [monsterSpc] (5., 15.) * TICRATE));
                 return ResolveState ("See");
             }
         }

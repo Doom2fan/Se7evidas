@@ -81,7 +81,7 @@ extend class S7_MonsterBase {
 
         aiNextNode = aiLastKnown;
 
-        aiNodeCountdown = random [monsterAI] (15 * 35, 20 * 35);
+        aiNodeCountdown = random [monsterAI] (15 * TICRATE, 20 * TICRATE);
 
         if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
             Console.Printf ("%s %p picked a new pathnode", GetClassName (), self);
@@ -115,7 +115,7 @@ extend class S7_MonsterBase {
                 bool lastTargetPosValid = !(aiLastTargetPos != aiLastTargetPos);
 
                 if (!bAmbush) {
-                    aiCountdown = random [monsterAI] (30 * 35, int (2.5 * 60 * 35));
+                    aiCountdown = random [monsterAI] (30 * TICRATE, int (2.5 * 60 * TICRATE));
 
                     if (lastTargetPosValid) {
                         aiLastKnown = Spawn ("S7_LastKnownPositionMarker", aiLastTargetPos, ALLOW_REPLACE);
@@ -123,7 +123,7 @@ extend class S7_MonsterBase {
 
                         aiNextNode = aiLastKnown;
 
-                        aiNodeCountdown = random [monsterAI] (15 * 35, 40 * 35);
+                        aiNodeCountdown = random [monsterAI] (15 * TICRATE, 40 * TICRATE);
                     } else
                         SearchBehavior_MakeNewNode ();
 
@@ -179,7 +179,7 @@ extend class S7_MonsterBase {
         aiNodeCountdown = max (aiNodeCountdown - 1, -1);
 
         if ((S7_Debug_MonsterAI & S7_Dbg_MAI_Searching) && (aiCountdown % 175 == 1))
-            Console.Printf ("%s %p searching for %f seconds", GetClassName (), self, aiCountdown / 35.);
+            Console.Printf ("%s %p searching for %f seconds", GetClassName (), self, aiCountdown / TICRATE);
     }
 
     void ForgetTarget (Actor which) {
