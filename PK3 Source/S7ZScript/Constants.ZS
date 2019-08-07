@@ -71,3 +71,4 @@ const S7C_WJumpDelay = 5;
 // Misc
 const S7C_MapUnitsPerMeter = 32;
 const EQUAL_EPSILON = (1 / 65536.);
+const TICRATE = Thinker.TICRATE;
