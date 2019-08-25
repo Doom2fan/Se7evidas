@@ -62,20 +62,20 @@ extend class S7_Projectile {
             double traceHeight = height * FPColOffs [i * 2 + 1];
             Vector3 traceOffs = (s * xOffs, c * xOffs, traceHeight);
 
-            let curTracePos = pos;
-            let traceEndpoint = level.Vec3Offset (pos, traceOffs + vel);
+            let traceStartPos = level.Vec3Offset (pos, traceOffs);
+            let traceCurPos = traceStartPos;
+            let traceEndpoint = level.Vec3Offset (traceCurPos, vel);
 
             int handleColRet = 0;
             do {
-                Vector3 startPos = level.Vec3Offset (curTracePos, traceOffs);
-                double traceMaxDist = level.Vec3Diff (startPos, traceEndpoint).Length ();
+                double traceMaxDist = level.Vec3Diff (traceCurPos, traceEndpoint).Length ();
 
-                if (tr.Trace (startPos, curSector, velUnit, traceMaxDist, 0)) {
+                if (tr.Trace (traceCurPos, curSector, velUnit, traceMaxDist, 0)) {
                     if (!self)
                         return;
 
-                    curTracePos = level.Vec3Offset (tr.Results.HitPos, velUnit * EQUAL_EPSILON);
-                    handleColRet = HandleCollision (oldPos, oldVel, startPos);
+                    handleColRet = HandleCollision (oldPos, oldVel, traceStartPos);
+                    traceCurPos = tr.Results.HitPos;
                     if (handleColRet == 1) {
                         if (!self)
                             return;
