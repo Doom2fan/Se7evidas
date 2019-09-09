@@ -270,16 +270,16 @@ class S7_ZF_Element ui {
 
 	/// Draws a coloured region, taking into account relative positioning, and scale factor.
 	void fill(Vector2 relStartPos, Vector2 size, Color col, double amount) {
+		Vector2 startPos = relToScreen(relStartPos) * getScale();
+		size *= getScale();
+
 		S7_ZF_AABB beforeClip = getClipAABB();
-		Vector2 clipPos = (relToScreen(relStartPos)) * getScale();
 		S7_ZF_AABB clipTest = new("S7_ZF_AABB");
-		clipTest.pos = clipPos;
-		clipTest.size = size;
+		clipTest.pos = startPos;
+		clipTest.size = size * getScale();
 		S7_ZF_AABB clipRect = clipTest.rectOfIntersection(beforeClip);
 		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
 
-		Vector2 startPos = (relToScreen(relStartPos)) * getScale();
-		size *= getScale();
 		Screen.dim(col, amount * getAlpha(), int(startPos.x), int(startPos.y), int(size.x), int(size.y));
 
 		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
@@ -287,9 +287,23 @@ class S7_ZF_Element ui {
 
 	/// Packs the element into the master frame.
 	void pack(S7_ZF_Frame master) {
+		if (master != NULL) {
+			unpack();
+		}
+
 		self.master = master;
 		master.elements.push(self);
 		baseScreenSize = master.baseScreenSize;
+	}
+
+	/// Unpacks the element from its master frame.
+	void unpack() {
+		if (master == NULL) {
+			return;
+		}
+
+		int index = master.elements.find (self);
+		master.elements.delete(index, 1);
 	}
 
 	void setBox(Vector2 pos, Vector2 size) {
