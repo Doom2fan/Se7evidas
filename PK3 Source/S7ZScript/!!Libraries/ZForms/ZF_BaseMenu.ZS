@@ -2,6 +2,8 @@
 /// Contains a mainFrame to put items in.
 class S7_ZF_GenericMenu : GenericMenu {
 	S7_ZF_Frame mainFrame;
+	int mouseX;
+	int mouseY;
 
 	override void init(Menu parent) {
 		Super.init(parent);
@@ -16,6 +18,13 @@ class S7_ZF_GenericMenu : GenericMenu {
 	}
 
 	override void ticker() {
+		// Trigger a mouse movement UI event to fix things "sticking" sometimes
+		let zfEv = new("S7_ZF_UiEvent");
+		zfEv.type = UIEvent.Type_MouseMove;
+		zfEv.mouseX = mouseX;
+		zfEv.mouseY = mouseY;
+		mainFrame.onUIEvent(zfEv);
+
 		Super.ticker();
 		mainFrame.ticker();
 	}
@@ -27,6 +36,11 @@ class S7_ZF_GenericMenu : GenericMenu {
 
 	// "relay" all UI events down to the elements so they can handle them
 	override bool onUIEvent(UIEvent ev) {
+		if (ev.type == UIEvent.Type_MouseMove) {
+			mouseX = ev.mouseX;
+			mouseY = ev.mouseY;
+		}
+
 		let zfEv = new("S7_ZF_UiEvent");
 
 		S7_ZF_UiEvent.fromGZDUiEvent(ev, zfEv);
@@ -58,6 +72,13 @@ class S7_ZF_EventHandlerMenu ui {
 	}
 
 	protected virtual void ticker() {
+		// Trigger a mouse movement UI event to fix things "sticking" sometimes
+		let zfEv = new("S7_ZF_UiEvent");
+		zfEv.type = UIEvent.Type_MouseMove;
+		zfEv.mouseX = inputProc_MouseX;
+		zfEv.mouseY = inputProc_MouseY;
+		mainFrame.onUIEvent(zfEv);
+
 		mainFrame.ticker();
 	}
 
