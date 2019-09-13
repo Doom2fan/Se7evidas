@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
     default {
-        DamageFunction ((4. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
+        DamageFunction ((6. + fRandom [monsterDMG] (-2., 2.)) * (1. + bonusDMGFactor));
         DamageType 'PistolTracer';
     }
 }
@@ -39,8 +39,6 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         Obituary "$OBSCORPSTROOPER";
         Species 'ScorpsTrooper';
         Tag "$SCRPSTROOTAG";
-
-        +MISSILEMORE
     }
 
     override void PostBeginPlay () {
@@ -146,8 +144,9 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         }
     }
 
+    /** Idle/walking **/
     states {
-    // Initialize
+    // Idle
     Spawn:
     Idle:
         SCR1 AAA 1 {
@@ -221,13 +220,18 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 AABBCCDD 3 S7_DoScorpsChase ();
         TNT1 A        0 A_Jump (!(random [monsterSpc] (0, 255) < 192) && ammo < 5, "Reload");
         loop;
+    }
 
+    /** Attacks **/
+    int shotsCount;
+    states {
     // Firing
     Missile:
         SCR1 CD 2 A_FaceTarget (90, 45);
         SCR1 E  1 {
             A_FaceTarget (0, 0);
             A_SetTics (random [monsterSpc] (3, 8));
+            shotsCount = random [monsterAtk] (1, 3);
         }
     DoShoot:
         TNT1 A 0 {
@@ -243,6 +247,9 @@ class S7_ScorpsTrooper : S7_ScorpBase {
                 spreadY = 2.625;
             }
 
+            if (shotsCount < 1)
+                return ResolveState ("EndShoot");
+
             if (!ammo)
                 return ResolveState ("DryFire");
 
@@ -254,7 +261,10 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 EEEEE 1 A_FaceTarget (abs (turn), abs (turn));
     DoShoot2:
         SCR1 E 1 A_FaceTarget (turn / 4, turn / 4);
-        SCR1 F 1 DoFireGun ();
+        SCR1 F 1 {
+            DoFireGun ();
+            shotsCount--;
+        }
         SCR1 EEE 1 A_FaceTarget (turn * 1.5, turn * 1.5);
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target is in LOS, keep firing
@@ -280,7 +290,10 @@ class S7_ScorpsTrooper : S7_ScorpBase {
             return ResolveState (null);
         }
         SCR1 E 1;
-        SCR1 F 1 DoFireGun ();
+        SCR1 F 1 {
+            DoFireGun ();
+            shotsCount--;
+        }
         SCR1 E 3;
         TNT1 A 0 {
             if (CheckIfTargetInLOS (90.0, JLOSF_DeadNoJump)) // If the target comes into LOS, go back to normal shooting
@@ -293,7 +306,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         loop;
 
     EndShoot:
-        SCR1 E 2;
+        SCR1 E 8;
         goto See;
 
     DryFire:
@@ -321,7 +334,10 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 EEEAAA 2;
         SCR1 A      3;
         goto Idle;
+    }
 
+    /** Pain & Death **/
+    states {
     // Flinching
     Pain:
         SCR1 G 2;

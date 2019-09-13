@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ScorpsHunterTracer : S7_SSGTracer {
     default {
-        DamageFunction (fRandom [weaponDamage] (1., 5.) * (1. + bonusDMGFactor));
+        DamageFunction (fRandom [weaponDamage] (1.75, 5.) * (1. + bonusDMGFactor));
         S7_BaseTracer.TrueSpeed 200;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
@@ -232,7 +232,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 AABBCCDD 3 S7_DoScorpsChase ();
         TNT1 A        0 A_Jump (!(random [monsterSpc] () < 192) && ammo < 2, "Reload");
         loop;
+    }
 
+    /** Attacks **/
+    states {
     // Firing
     Missile:
         SCR3 CD 2 A_FaceTarget (90, 45);
@@ -263,7 +266,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         goto EndShoot;
 
     EndShoot:
-        SCR3 E 4;
+        SCR3 E 8;
         goto See;
 
     DryFire:
@@ -292,7 +295,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 EA 5;
         SCR3 A  3;
         goto Idle;
+    }
 
+    /** Pain & Death **/
+    states {
     // Flinching
     Pain:
         SCR3 G 2;

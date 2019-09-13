@@ -100,9 +100,9 @@ class S7_Hellion : S7_DemonBase {
     Missile:
         TNT1 A 0 A_PlaySound ("Monsters/Hellion/Attack", CHAN_Voice);
 
-        HELN GGGGGGHHIIJJKK 1 A_FaceTarget (26, 13);
+        HELN GGGGGGHHHHIIIJJ 1 bright A_FaceTarget (26, 13);
 
-        HELN L 6 {
+        HELN K 4 bright {
             A_FaceTarget (0, 0);
 
             let proj = S7_HellionBall (A_SpawnProjectile ('S7_HellionBall', 35.0, 0, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch));
@@ -110,6 +110,7 @@ class S7_Hellion : S7_DemonBase {
             if (proj)
                 proj.bonusDMGFactor = GetDamageBonus ();
         }
+        HELN L 6;
         goto See;
 
     Pain:
