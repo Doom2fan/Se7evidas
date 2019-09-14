@@ -262,12 +262,18 @@ class S7_ManxCarbine : S7_BaseWeapon {
             return ResolveState (null);
         }
         MANX B 1 S7_Recoil (-0.3);
-        MANX C 1 A_JumpIf (invoker.semiAuto, "Fire.Semi");
-        MANX A 1 A_Refire;
+        MANX C 1;
+        MANX A 1 {
+            if (invoker.semiAuto)
+                return ResolveState ("Fire.Semi");
+
+            A_Refire ();
+
+            return ResolveState (null);
+        }
         MANX A 3;
         goto Ready2;
     Fire.Semi:
-        MANX C    1;
         MANX AAAA 1 { player.WeaponState |= WF_WeaponReady; }
         MANX A    2;
         goto Ready2;
@@ -286,15 +292,18 @@ class S7_ManxCarbine : S7_BaseWeapon {
             A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .975);
             S7_Recoil (-0.3);
         }
+        SCP1 D 1 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
         SCP1 D 1 {
-            A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
-            return A_JumpIf (invoker.semiAuto, "Fire.Zoom.Semi");
+            if (invoker.semiAuto)
+                return ResolveState ("Fire.Zoom.Semi");
+
+            A_Refire ();
+
+            return ResolveState (null);
         }
-        SCP1 D 1 A_Refire;
         SCP1 D 3;
         goto Ready2;
     Fire.Zoom.Semi:
-        SCP1 D    1;
         SCP1 DDDD 1 { player.WeaponState |= WF_WeaponReady; }
         SCP1 D    2;
         goto Ready2;
