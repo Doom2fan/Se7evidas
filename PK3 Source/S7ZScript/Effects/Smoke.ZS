@@ -195,7 +195,7 @@ class S7_ShotSmoke_2 : S7_WhiteSmoke {
 
     states {
     Spawn:
-        SMKS ABCDEFGHIJKLMNOPQRSTUVW 1;
+        SMKS ACEGIKMOQSUW 1;
         stop;
     }
 }
