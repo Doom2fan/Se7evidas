@@ -50,6 +50,7 @@ class S7_AMG : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 750, 0.4, 1.15;
     }
 
+    const ANIM_LAYER = 2;
     const BASEZOOMFACTOR = 5.5;
     const BURSTLENGTH = 3;
     bool burstFire;
@@ -66,7 +67,7 @@ class S7_AMG : S7_BaseWeapon {
         Super.DoEffect ();
 
         if (Owner.player.ReadyWeapon == self) {
-            let psp = Owner.player.FindPSprite (PSP_Weapon);
+            let psp = Owner.player.FindPSprite (ANIM_LAYER);
 
             if (psp && psp.sprite == GetSpriteIndex ('SCP1')) {
                 Owner.A_WeaponOffset (0, 32);
@@ -86,49 +87,93 @@ class S7_AMG : S7_BaseWeapon {
         return BASEZOOMFACTOR + zoomLevel;
     }
 
-    action void HandleBurstRecoil (int burstCount, double mul = 1.) {
-        S7_Recoil ((-1.6 / 3.) * burstCount * mul);
-        A_ZoomFactor (invoker.GetZoomFactor ());
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     states {
     Spawn:
         AMGG Z -1;
         stop;
+    }
 
+    /** Animations **/
+    states {
+    Anim.Select:
+        AMGG A 6;
+        AMGG A 1;
+        wait;
+    Anim.Idle:
+        AMGG A 1 {
+            if (invoker.zoomed)
+                S7_SetSprite ('SCP1', 0, ANIM_LAYER);
+        }
+        wait;
+    Anim.Fire:
+        AMGG B 1 A_JumpIf (invoker.zoomed, "Anim.FireZoom");
+        AMGG B 1 A_JumpIf (invoker.burstFire, "Anim.Fire.Burst");
+        AMGG C 2;
+        goto Anim.Idle;
+    Anim.Fire.Burst:
+        AMGG C 1 A_JumpIf (invoker.zoomed, "Anim.FireZoom.Burst");
+        AMGG A 5;
+        goto Anim.Idle;
+    Anim.FireZoom:
+        SCP1 A 4;
+        goto Anim.Idle;
+    Anim.FireZoom.Burst:
+        SCP1 A 6;
+        goto Anim.Idle;
+    Anim.DryfireIdle:
+        AMGG C 1 A_JumpIf (invoker.zoomed, "Anim.Idle");
+        goto Anim.Idle;
+    Anim.Reload:
+        AMGG A         2;
+        AMGR ABCDE     2;
+        AMGR F         2 A_PlaySound ("Weapons/AMG/Out", CHAN_6);
+        AMGR GHIJKLMNO 2;
+        AMGR P         2 A_PlaySound ("Weapons/AMG/In", CHAN_7);
+        AMGR QR        4;
+        AMGR S         7 A_PlaySound ("Weapons/AMG/Tap", CHAN_6);
+        AMGR TUVWXYA   2;
+        AMGG A         2;
+        goto Ready2;
+    }
+
+    states {
     Ready:
         TNT1 A 0 {
             invoker.burstCount = 0;
             invoker.zoomed = false;
             invoker.selecting = true;
+
+            S7_SetAnim ("Anim.Select");
         }
-        AMGG A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
-        AMGG A 1 DoSelectOffset ((56, 56));
-        AMGG A 1 DoSelectOffset ((40, 40));
-        AMGG A 1 DoSelectOffset ((24, 24));
-        AMGG A 1 DoSelectOffset (( 8,  8));
-        AMGG A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((56, 56));
+        TNT1 A 1 DoSelectOffset ((40, 40));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
         TNT1 A 0 { invoker.selecting = false; }
     Ready2:
-        AMGG A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
-        goto Ready2.DoStuff;
-    Ready2.Zoom:
-        SCP1 A 0;
-        goto Ready2.DoStuff;
-    Ready2.DoStuff:
-        #### # 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
             invoker.burstCount = 0;
             if (invoker.zoomed)
                 TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
             A_ZoomFactor (invoker.GetZoomFactor ());
 
-            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));;
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));;
         }
-        #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
+        TNT1 A 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
+        TNT1 A 1 S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
         goto Ready2;
 
     Deselect:
@@ -139,24 +184,30 @@ class S7_AMG : S7_BaseWeapon {
 
             if (health <= 0) {
                 invoker.zoomed = false;
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
             }
 
             if (invoker.zoomed)
                 return ResolveState ("Deselect.Zoom");
 
+            S7_SetAnim ("Anim.Select");
+
             return ResolveState (null);
         }
-        AMGG A 1 DoSelectOffset (( 0,  0));
-        AMGG A 1 DoSelectOffset (( 8,  8));
-        AMGG A 1 DoSelectOffset ((24, 24));
-        AMGG A 1 DoSelectOffset ((40, 40));
-        AMGG A 1 DoSelectOffset ((56, 56));
-        AMGG A 1 DoSelectOffset ((72, 72));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset ((40, 40));
+        TNT1 A 1 DoSelectOffset ((56, 56));
+        TNT1 A 1 DoSelectOffset ((72, 72));
         goto TrueDeselect;
     Deselect.Zoom:
-        AMGG A 8 {
+        TNT1 A 8 {
             invoker.zoomed = false;
+
+            S7_SetAnim ("Anim.Idle");
+
             A_SetBlend ("00 00 00", 1.0, 8);
             A_ZoomFactor (1.0, ZOOM_Instant);
         }
@@ -164,6 +215,8 @@ class S7_AMG : S7_BaseWeapon {
 
     QuickMeleeDerp:
         TNT1 A 0 {
+            S7_SetAnim ("Null");
+
             TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
             if (invoker.zoomed)
@@ -172,9 +225,14 @@ class S7_AMG : S7_BaseWeapon {
             return ResolveState (null);
         }
         goto QuickMelee;
+    }
 
+    /** Zooming **/
+    states {
     Zoom:
-        #### ######## 1 {
+        TNT1 AAAAAAAA 1 {
+            S7_SetAnim ("Anim.Idle");
+
             if (!invoker.zoomed || !(player.cmd.buttons & BT_ZOOM))
                 return ResolveState ("DoZoom");
 
@@ -185,8 +243,10 @@ class S7_AMG : S7_BaseWeapon {
         }
         goto ChangeZoomLevel;
     DoZoom:
-        #### # 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
-        SCP1 A 8 {
+        TNT1 A 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
+        TNT1 A 8 {
+            S7_SetAnim ("Anim.Idle");
+
             GiveInventory ('S7_HoldingZoom', 1);
 
             if (!invoker.zoomed) {
@@ -201,15 +261,20 @@ class S7_AMG : S7_BaseWeapon {
         }
         goto Ready2;
     Unzoom:
-        AMGG A 8 {
+        TNT1 A 8 {
             invoker.zoomed = false;
+
+            S7_SetAnim ("Anim.Idle");
+
             A_SetCrosshair (0);
             A_SetBlend ("00 00 00", 1.0, 8);
             A_ZoomFactor (invoker.GetZoomFactor (), ZOOM_Instant);
         }
         goto Ready2;
     ChangeZoomLevel:
-        #### # 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
             if (!(player.cmd.buttons & BT_ZOOM))
                 return ResolveState ("Ready2");
 
@@ -224,12 +289,15 @@ class S7_AMG : S7_BaseWeapon {
         }
         loop;
     ChangeZoomLevel.Delay:
-        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
+        TNT1 A 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
         goto ChangeZoomLevel;
+    }
 
+    /** Fire mode change **/
+    states {
     ChangeMode:
-        #### # 1;
-        #### # 5 {
+        TNT1 A 1 S7_SetAnim ("Anim.Idle");
+        TNT1 A 5 {
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             if (invoker.burstFire)
@@ -242,58 +310,79 @@ class S7_AMG : S7_BaseWeapon {
             return ResolveState (null);
         }
         goto Ready2;
+    }
 
-    Fire:
-        AMGG B 1 bright {
-            if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
-                if (!invoker.burstCount)
-                    return ResolveState ("DryFire");
-                else
-                    return ResolveState ("DryFire.Burst");
-            }
+    /** Firing **/
+    action void HandleBurstRecoil (int burstCount) {
+        S7_Recoil ((-1.6 / 3.) * burstCount);
+        A_ZoomFactor (invoker.GetZoomFactor ());
+    }
 
-            A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon);
-            A_AlertMonsters ();
-            A_GunFlash ();
+    override void V_S7_Recoil (double amount) {
+        Super.V_S7_Recoil (amount * (zoomed ? .5555 : 1.));
+    }
 
-            if (invoker.zoomed)
-                return ResolveState ("Fire.Zoom");
+    action state S7_DoFire () {
+        if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
+            if (!invoker.burstCount)
+                return ResolveState ("DryFire");
+            else
+                return ResolveState ("DryFire.Burst");
+        }
 
+        A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon);
+        A_AlertMonsters ();
+        A_GunFlash ();
+
+        if (!invoker.zoomed) {
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
             S7_A_SpawnCasing ('S7_RifleCasing', (30, 10.5, 12), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_AMGTracer', spread: (.14, .14), offs: (10, 5, 8), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-
-            if (!invoker.burstFire) {
-                S7_Recoil (-.9);
-                A_ZoomFactor (invoker.GetZoomFactor () * .98, ZOOM_Instant);
-            } else if (invoker.burstCount >= BURSTLENGTH)
-                HandleBurstRecoil (invoker.burstCount);
-            else {
-                S7_Recoil (-.05);
-                double zoomFac = invoker.GetZoomFactor () * (1. - (.01 * (BURSTLENGTH - invoker.burstCount)));
-                A_ZoomFactor (zoomFac, (invoker.burstCount < 1) ? ZOOM_Instant : 0);
-            }
-
-            return ResolveState (null);
+        } else {
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 4));
+            S7_A_SpawnCasing ('S7_RifleCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
+            S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
         }
-        AMGG B 1 {
+
+        if (!invoker.burstFire) {
+            S7_Recoil (-.9);
+            A_ZoomFactor (invoker.GetZoomFactor () * .98, ZOOM_Instant);
+        } else if (invoker.burstCount >= BURSTLENGTH)
+            HandleBurstRecoil (invoker.burstCount);
+        else {
+            S7_Recoil (-.05);
+            double mulFac = invoker.zoomed ? .025 : .01;
+            double zoomFac = invoker.GetZoomFactor () * (1. - (mulFac * (BURSTLENGTH - invoker.burstCount)));
+            A_ZoomFactor (zoomFac, (invoker.burstCount < 1) ? ZOOM_Instant : 0);
+        }
+
+        return ResolveState (null);
+    }
+
+    states {
+    Fire:
+        TNT1 A 1 bright {
+            S7_SetAnim ("Anim.Fire");
+            return S7_DoFire ();
+        }
+        TNT1 A 1 {
             if (invoker.burstFire)
                 return ResolveState ("Fire.Burst");
 
             S7_Recoil (-.9);
-            A_ZoomFactor (.99);
+            A_ZoomFactor (invoker.GetZoomFactor () * .99);
 
             return ResolveState (null);
         }
-        AMGG C 1 {
+        TNT1 A 1 {
             S7_Recoil (+.3);
-            A_ZoomFactor (1.);
+            A_ZoomFactor (invoker.GetZoomFactor ());
         }
-        AMGG C 1 A_Refire ();
+        TNT1 A 1 A_Refire ();
         goto Ready2;
 
     Fire.Burst:
-        AMGG C 1 {
+        TNT1 A 1 {
             if (++invoker.burstCount < BURSTLENGTH)
                 return ResolveState ("Fire");
 
@@ -301,54 +390,8 @@ class S7_AMG : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        AMGG A 1 HandleBurstRecoil (invoker.burstCount);
-        AMGG A 4 {
-            invoker.burstCount = 0;
-            A_ClearRefire (); // Gotta clear the refire manually.
-        }
-        goto Ready2;
-
-    Fire.Zoom:
-        SCP1 A 1 {
-            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 4));
-            S7_A_SpawnCasing ('S7_RifleCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
-            S7_A_FireBullets ('S7_AMGTracer', spread: (.13, .13), offs: (10, 0, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-
-            if (!invoker.burstFire) {
-                S7_Recoil (-0.5);
-                A_ZoomFactor (invoker.GetZoomFactor () * .95);
-            } else if (invoker.burstCount >= BURSTLENGTH)
-                HandleBurstRecoil (invoker.burstCount, .625);
-            else {
-                S7_Recoil (-0.05);
-                double zoomFac = invoker.GetZoomFactor () * (1. - (.025 * (BURSTLENGTH - invoker.burstCount)));
-                A_ZoomFactor (zoomFac, (invoker.burstCount < 1) ? ZOOM_Instant : 0);
-            }
-        }
-        SCP1 A 1 {
-            if (invoker.burstFire)
-                return ResolveState ("Fire.Zoom.Burst");
-
-            S7_Recoil (-0.5);
-
-            return ResolveState (null);
-        }
-        SCP1 A 1 A_ZoomFactor (invoker.GetZoomFactor ());
-        SCP1 A 1 A_Refire ("Fire");
-        goto Ready2;
-
-    Fire.Zoom.Burst:
-        SCP1 A 1 {
-            if (++invoker.burstCount < BURSTLENGTH)
-                return ResolveState ("Fire");
-
-            HandleBurstRecoil (invoker.burstCount);
-
-            return ResolveState (null);
-        }
-        SCP1 A 1 HandleBurstRecoil (invoker.burstCount);
-        SCP1 A 4 {
-            A_ZoomFactor (invoker.GetZoomFactor ());
+        TNT1 A 1 HandleBurstRecoil (invoker.burstCount);
+        TNT1 A 4 {
             invoker.burstCount = 0;
             A_ClearRefire (); // Gotta clear the refire manually.
         }
@@ -385,42 +428,32 @@ class S7_AMG : S7_BaseWeapon {
         stop;
 
     DryFire.Burst:
-        AMGG C  1 {
+        TNT1 A  1 {
+            S7_SetAnim ("Anim.DryfireIdle");
+
             A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
             HandleBurstRecoil (invoker.burstCount);
-
-            if (invoker.zoomed)
-                return ResolveState ("DryFire.Burst.Zoom");
-
-            return ResolveState (null);
         }
-        AMGG AA 1 HandleBurstRecoil (invoker.burstCount);
-        goto DryFire.Check;
-    DryFire.Burst.Zoom:
-        SCP1 AAA 1 HandleBurstRecoil (invoker.burstCount);
+        TNT1 AA 1 HandleBurstRecoil (invoker.burstCount);
         goto DryFire.Check;
     DryFire:
-        AMGG A 3 {
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+
             A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
             invoker.burstCount = 0;
-
-            if (invoker.zoomed)
-                return ResolveState ("DryFire.Zoom");
-
-            return ResolveState (null);
         }
-        goto DryFire.Check;
-    DryFire.Zoom:
-        SCP1 A 3;
         goto DryFire.Check;
     DryFire.Check:
         TNT1 A 0 {
             invoker.burstCount = 0;
-
             return A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "DryReload");
         }
         goto Ready2;
+    }
 
+    /** Reloading **/
+    states {
     DryReload:
         TNT1 A 0 GiveInventory ('S7_Reloading', 1);
     Reload:
@@ -442,18 +475,17 @@ class S7_AMG : S7_BaseWeapon {
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        AMGG A         2;
-        AMGR ABCDE     2;
-        AMGR F         2 A_PlaySound ("Weapons/AMG/Out", CHAN_6);
-        AMGR GHIJKLMNO 2;
-        AMGR P         2 A_PlaySound ("Weapons/AMG/In", CHAN_7);
-        AMGR QR        4;
-        AMGR S         7 A_PlaySound ("Weapons/AMG/Tap", CHAN_6);
-        AMGR TUVWXYA   2;
-        AMGG A         2;
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && !InStateSequence (psp.CurState, ResolveState ("Anim.Reload")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
     }
 }

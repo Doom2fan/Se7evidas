@@ -644,6 +644,17 @@ class S7_BaseWeapon : Weapon {
         return Actor (arr.Values [0]), arr;
     }
 
+    action void S7_SetSprite (name spriteName, int frameNum = -1, int overlayNum = PSP_Weapon) {
+        let psp = player.FindPSprite (overlayNum);
+
+        if (!psp)
+            return;
+
+        psp.sprite = GetSpriteIndex (spriteName);
+        if (frameNum > -1)
+            psp.frame = frameNum;
+    }
+
     states {
     DryFire:
         TNT1 A 0 {
@@ -692,7 +703,7 @@ class S7_BaseWeapon : Weapon {
         wait;
     Overlay.DeselectDEAD:
         #### # 1 {
-            let psp = player.FindPSprite (PSP_WEAPON);
+            let psp = player.FindPSprite (PSP_Weapon);
 
             if (!psp)
                 return ResolveState ("Null");
