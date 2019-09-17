@@ -62,146 +62,48 @@ class S7_AK47 : S7_BaseWeapon {
             fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
     }
 
+    const ANIM_LAYER = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
     states {
     Spawn:
         AK4P A -1;
         loop;
-
-    Select.Hand:
+    }
+    
+    /** Animations **/
+    states {
+    Anim.Idle:
+        AK47 A 1;
+        wait;
+    Anim.Select:
+        AK47 S 4;
+        AK47 A 1;
+        wait;
+    Anim.SelectHand:
         HAN0 F 1 DoSelectOffset ((142, 159), -5, true);
         HAN0 F 1 DoSelectOffset ((151, 146), -5);
         HAN0 F 1 DoSelectOffset ((157, 129), -5);
         HAN0 F 1 DoSelectOffset ((160, 111), -5);
         HAN0 F 1 DoSelectOffset ((162,  96), -5);
         stop;
-    Ready:
-        AK47 S 1 {
-            DoSelectOffset ((69, 72), forceNoInterpolate: true);
-            A_Overlay (-5, "Select.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-        }
-        AK47 S 1 DoSelectOffset ((48, 48));
-        AK47 S 1 DoSelectOffset ((24, 24));
-        AK47 S 1 DoSelectOffset (( 8,  8));
-        AK47 S 1 DoSelectOffset (( 0,  0));
-        AK47 A 1 DoSelectOffset (( 0,  0));
-    Ready2:
-        AK47 A 1 S7_WeaponReady ("Reload", "ChangeMode");
-        loop;
-
-    ChangeMode:
-        AK47 A 5 {
-            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
-
-            if (invoker.semiOnly)
-                invoker.semiAuto = true;
-            else {
-                if (invoker.semiAuto)
-                    invoker.semiAuto = false;
-                else
-                    invoker.semiAuto = true;
-
-                A_PlaySound ("Weapons/ModeChange", CHAN_7);
-            }
-        }
-        goto Ready2;
-
-    Deselect.Hand:
+    Anim.Deselect:
+        AK47 A 1;
+        AK47 S 4;
+        wait;
+    Anim.DeselectHand:
         HAN0 F 1 DoSelectOffset ((162,  96), -5, true);
         HAN0 F 1 DoSelectOffset ((160, 111), -5);
         HAN0 F 1 DoSelectOffset ((157, 129), -5);
         HAN0 F 1 DoSelectOffset ((151, 146), -5);
         HAN0 F 1 DoSelectOffset ((142, 159), -5);
         stop;
-    Deselect:
-        AK47 A 1 A_JumpIf (health <= 0, "Deselect.DEAD");
-        AK47 S 1 {
-            DoSelectOffset (( 0,  0));
-            A_Overlay (-5, "Deselect.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-        }
-        AK47 S 1 DoSelectOffset (( 8,  8));
-        AK47 S 1 DoSelectOffset ((24, 24));
-        AK47 S 1 DoSelectOffset ((48, 48));
-        AK47 S 1 DoSelectOffset ((69, 72));
-        goto TrueDeselect;
-
-    Fire:
-        AK47 A 1 bright {
-            if (!invoker.CheckAmmo (PrimaryFire, false, true))
-                return ResolveState ("DryFire");
-
-            A_AlertMonsters ();
-            A_GunFlash ("Flash");
-            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3.5, 2.5));
-            S7_A_SpawnCasing ('S7_RifleCasing', (30, 18, 10.5), pitchOffs: -45, spread: (10, 15));
-            S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-
-            A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
-            S7_Recoil (-.9);
-            A_ZoomFactor (.99, ZOOM_Instant);
-
-            return ResolveState (null);
-        }
-        AK47 C 1 {
-            S7_Recoil (-.9);
-            A_ZoomFactor (.995);
-        }
-        AK47 B 1 {
-            S7_Recoil (+.6);
-            A_ZoomFactor (1.);
-        }
-        AK47 C 1;
-        AK47 A 1 {
-            if (invoker.halfTic) {
-                invoker.halfTic = false;
-                return ResolveState ("Fire.End");
-            }
-
-            invoker.halfTic = true;
-            return ResolveState (null);
-        }
-    Fire.End:
-        AK47 A 1 {
-            if (invoker.semiOnly || invoker.semiAuto)
-                return ResolveState ("Fire.Semi");
-
-            A_Refire ("Fire");
-            return ResolveState (null);
-        }
-        goto Ready2;
-    Fire.Semi:
-        TNT1 A   0 { invoker.halfTic = false; }
-        AK47 AAA 1 { player.WeaponState |= WF_WeaponReady; }
-        goto Ready2;
-
-    DryFire:
-        AK47 A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
-        goto Ready2;
-
-    Reload:
-        TNT1 A 0 {
-            TakeInventory ('S7_Reloading', 1);
-
-            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
-                return ResolveState ("Ready2");
-
-            if (CheckInventory (invoker.ammoType1, 1)) // If there's still a bullet chambered, set reloadChamber to false
-                invoker.reloadChamber = false;
-            else // If not, (i.e. the mag is empty) set reloadChamber to false
-                invoker.reloadChamber = true;
-
-            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
-            if (ammoAmount <= 0)
-                return ResolveState ("Ready2");
-
-            GiveInventory (invoker.ammoType1, ammoAmount);
-            TakeInventory (invoker.ammoType2, ammoAmount);
-
-            return ResolveState ("ReloadFinish");
-        }
-    ReloadFinish:
+    Anim.Reload:
         AK47 A   1 A_WeaponOffset (0  , 32);
         AK47 A   1 A_WeaponOffset (1.5, 33);
         AK47 D   1 A_WeaponOffset (3  , 34);
@@ -230,19 +132,179 @@ class S7_AK47 : S7_BaseWeapon {
         AK47 W   1 A_WeaponOffset (1.5, 33);
         AK47 A   1 A_WeaponOffset (0  , 32);
 
-        TNT1 A 0 A_JumpIf (invoker.reloadChamber, "ReloadFinish.Chamber");
-        goto Reload.End;
-    ReloadFinish.Chamber:
+        TNT1 A 0 A_JumpIf (invoker.reloadChamber, "Anim.Reload.Chamber");
+        goto Anim.Reload.End;
+    Anim.Reload.Chamber:
         AK47 A     2;
         AK42 ABCDE 2;
         AK42 F     2 A_PlaySound ("Weapons/AK47/Bolt", CHAN_6);
         AK42 GH    2;
         AK42 IJKLM 1;
         AK47 A     2;
-        goto Reload.End;
-    Reload.End:
+        goto Anim.Reload.End;
+    Anim.Reload.End:
         AK47 A 2 { invoker.reloadChamber = false; }
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 0 {
+            S7_SetAnim ("Anim.Select");
+            A_Overlay (-5, "Anim.SelectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        TNT1 A 1 DoSelectOffset ((69, 72), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+    Ready2:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp");
+        }
+        loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
+
+    ChangeMode:
+        TNT1 A 5 {
+            S7_SetAnim ("Anim.Idle");
+
+            TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
+
+            if (invoker.semiOnly)
+                invoker.semiAuto = true;
+            else {
+                if (invoker.semiAuto)
+                    invoker.semiAuto = false;
+                else
+                    invoker.semiAuto = true;
+
+                A_PlaySound ("Weapons/ModeChange", CHAN_7);
+            }
+        }
         goto Ready2;
+    Deselect:
+        AK47 A 0 {
+            if (health <= 0)
+                return ResolveState ("Deselect.DEAD");
+
+            S7_SetAnim ("Anim.Deselect");
+            return ResolveState (null);
+        }
+        TNT1 A 1 {
+            DoSelectOffset (( 0,  0));
+            A_Overlay (-5, "Anim.DeselectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((69, 72));
+        goto TrueDeselect;
+
+    Fire:
+        AK47 A 1 bright {
+            if (!invoker.CheckAmmo (PrimaryFire, false, true))
+                return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Fire");
+
+            A_AlertMonsters ();
+            A_GunFlash ("Flash");
+            A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
+
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3.5, 2.5));
+            S7_A_SpawnCasing ('S7_RifleCasing', (30, 18, 10.5), pitchOffs: -45, spread: (10, 15));
+            S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+
+
+            S7_Recoil (-.9);
+            A_ZoomFactor (.99, ZOOM_Instant);
+
+            return ResolveState (null);
+        }
+        AK47 C 1 {
+            S7_Recoil (-.9);
+            A_ZoomFactor (.995);
+        }
+        AK47 B 1 {
+            S7_Recoil (+.6);
+            A_ZoomFactor (1.);
+        }
+        AK47 C 1;
+        AK47 A 1 {
+            if (invoker.halfTic) {
+                invoker.halfTic = false;
+                return ResolveState ("Fire.End");
+            }
+
+            invoker.halfTic = true;
+            return ResolveState (null);
+        }
+    Fire.End:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
+            if (invoker.semiOnly || invoker.semiAuto)
+                return ResolveState ("Fire.Semi");
+
+            A_Refire ("Fire");
+            return ResolveState (null);
+        }
+        goto Ready2;
+    Fire.Semi:
+        TNT1 A   0 {
+            S7_SetAnim ("Anim.Idle");
+            invoker.halfTic = false;
+        }
+        TNT1 AAA 1 { player.WeaponState |= WF_WeaponReady; }
+        goto Ready2;
+
+    DryFire:
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        }
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
+        goto Ready2;
+
+    Reload:
+        TNT1 A 0 {
+            TakeInventory ('S7_Reloading', 1);
+
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
+                return ResolveState ("Ready2");
+
+            if (CheckInventory (invoker.ammoType1, 1)) // If there's still a bullet chambered, set reloadChamber to false
+                invoker.reloadChamber = false;
+            else // If not, (i.e. the mag is empty) set reloadChamber to false
+                invoker.reloadChamber = true;
+
+            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
+            if (ammoAmount <= 0)
+                return ResolveState ("Ready2");
+
+            GiveInventory (invoker.ammoType1, ammoAmount);
+            TakeInventory (invoker.ammoType2, ammoAmount);
+
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
 
     // Muzzle flashes
     Flash:
