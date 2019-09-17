@@ -50,94 +50,38 @@ class S7_Revolver : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 650, 0.425, 1.1885;
     }
 
+    const ANIM_LAYER = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
     states {
     Spawn:
         RVLP A -1;
         loop;
-
-    Ready:
-        RVLV A 1 DoSelectOffset ((96, 96), forceNoInterpolate: true);
-        RVLV A 1 DoSelectOffset ((72, 72));
-        RVLV A 1 DoSelectOffset ((48, 48));
-        RVLV A 1 DoSelectOffset ((24, 24));
-        RVLV A 1 DoSelectOffset (( 8,  8));
-        RVLV A 1 DoSelectOffset (( 0,  0));
-    Ready2:
-        RVLV A 1 S7_WeaponReady ("Reload", null);
-        loop;
-
-    Deselect:
-        RVLV A 1 {
-            if (health <= 0)
-                return ResolveState ("Deselect.DEAD");
-
-            DoSelectOffset (( 0,  0));
-            return ResolveState (null);
-        }
-        RVLV A 1 DoSelectOffset (( 8,  8));
-        RVLV A 1 DoSelectOffset ((24, 24));
-        RVLV A 1 DoSelectOffset ((48, 48));
-        RVLV A 1 DoSelectOffset ((72, 72));
-        RVLV A 1 DoSelectOffset ((96, 96));
-        goto TrueDeselect;
-
-    Fire:
+    }
+    
+    /** Animations **/
+    states {
+    Anim.Idle:
+        RVLV A 1;
+        wait;
+    Anim.Fire:
         RVLV AB 1;
-        RVLV C  1 bright {
-            if (!invoker.CheckAmmo (PrimaryFire, false, true))
-                return ResolveState ("DryFire");
-
-            A_PlaySound ("Weapons/Revolver/Fire", CHAN_Weapon);
-            A_AlertMonsters ();
-            A_GunFlash ();
-
-            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 1.8, 1));
-            S7_A_FireBullets ('S7_RevolverTracer', spread: (.5, .5), offs: (12, 4, 2), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-
-            S7_Recoil (-1.75);
-            A_ZoomFactor (.965, ZOOM_Instant);
-
-            return ResolveState (null);
-        }
-        RVLV D  1 {
-            S7_Recoil (-1.75);
-            A_ZoomFactor (.9825);
-        }
-        RVLV E  1 {
-            S7_Recoil (+.25);
-            A_ZoomFactor (1.);
-        }
-        RVLV E  1 S7_Recoil (+.25);
+        RVLV C  1 bright;
+        RVLV D  1;
+        RVLV E  1;
+        RVLV E  1;
         RVLV FG 1;
         RVLV A  1;
-        goto Ready2;
-
-    Flash:
-        RVLF A 1 bright;
-        stop;
-
-    DryFire:
-        RVLV C 3 A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
-        goto Ready2;
-
-    Reload:
-        TNT1 A 0 {
-            TakeInventory ('S7_Reloading', 1);
-
-            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
-                return ResolveState ("Ready2");
-
-            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
-            if (ammoAmount <= 0)
-                return ResolveState ("Ready2");
-
-            GiveInventory (invoker.ammoType1, ammoAmount);
-            TakeInventory (invoker.ammoType2, ammoAmount);
-
-            return ResolveState ("ReloadFinish");
-        }
-    ReloadFinish:
+        goto Anim.Idle;
+    Anim.DryFire:
+        RVLV BC 1;
+        goto Anim.Idle;
+    Anim.Reload:
         // Open
         RVLV AHIJ 1;
         RVLV KL   1;
@@ -165,6 +109,116 @@ class S7_Revolver : S7_BaseWeapon {
         RVL2 IJK 1;
         RVL2 LM  1;
         RVLV A   3;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((96, 96), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((72, 72));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+    Ready2:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
+        }
+        loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
+
+    Deselect:
+        RVLV A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
+                return ResolveState ("Deselect.DEAD");
+            }
+
+            S7_SetAnim ("Anim.Idle");
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((72, 72));
+        TNT1 A 1 DoSelectOffset ((96, 96));
+        goto TrueDeselect;
+
+    Fire:
+        TNT1 A 2 S7_SetAnim ("Anim.Fire");
+        TNT1 A 1 {
+            if (!invoker.CheckAmmo (PrimaryFire, false, true))
+                return ResolveState ("DryFire");
+
+            A_PlaySound ("Weapons/Revolver/Fire", CHAN_Weapon);
+            A_AlertMonsters ();
+            A_GunFlash ();
+
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 1.8, 1));
+            S7_A_FireBullets ('S7_RevolverTracer', spread: (.5, .5), offs: (12, 4, 2), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+
+            S7_Recoil (-1.75);
+            A_ZoomFactor (.965, ZOOM_Instant);
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 {
+            S7_Recoil (-1.75);
+            A_ZoomFactor (.9825);
+        }
+        TNT1 A 1 {
+            S7_Recoil (+.25);
+            A_ZoomFactor (1.);
+        }
+        TNT1 A 1 S7_Recoil (+.25);
+        TNT1 A 2;
+        TNT1 A 1;
         goto Ready2;
+
+    Flash:
+        RVLF A 1 bright;
+        stop;
+
+    DryFire:
+        TNT1 A 3 {
+            A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
+            S7_SetAnim ("Anim.DryFire");
+        }
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
+        goto Ready2;
+
+    Reload:
+        TNT1 A 0 {
+            TakeInventory ('S7_Reloading', 1);
+
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
+                return ResolveState ("Ready2");
+
+            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
+            if (ammoAmount <= 0)
+                return ResolveState ("Ready2");
+
+            GiveInventory (invoker.ammoType1, ammoAmount);
+            TakeInventory (invoker.ammoType2, ammoAmount);
+
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
     }
 }
