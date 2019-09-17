@@ -112,16 +112,18 @@ class S7_AMG : S7_BaseWeapon {
         }
         wait;
     Anim.Fire:
-        AMGG B 1 A_JumpIf (invoker.zoomed, "Anim.FireZoom");
+        AMGG B 1 bright A_JumpIf (invoker.zoomed, "Anim.FireZoom");
         AMGG B 1 A_JumpIf (invoker.burstFire, "Anim.Fire.Burst");
         AMGG C 2;
         goto Anim.Idle;
     Anim.Fire.Burst:
-        AMGG C 1 A_JumpIf (invoker.zoomed, "Anim.FireZoom.Burst");
+        AMGG C 1;
         AMGG A 5;
         goto Anim.Idle;
     Anim.FireZoom:
-        SCP1 A 4;
+        SCP1 A 1 bright;
+        SCP1 A 1 A_JumpIf (invoker.burstFire, "Anim.FireZoom.Burst");
+        SCP1 A 2;
         goto Anim.Idle;
     Anim.FireZoom.Burst:
         SCP1 A 6;
@@ -168,7 +170,7 @@ class S7_AMG : S7_BaseWeapon {
 
             A_ZoomFactor (invoker.GetZoomFactor ());
 
-            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));;
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
         }
         TNT1 A 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
@@ -361,7 +363,7 @@ class S7_AMG : S7_BaseWeapon {
 
     states {
     Fire:
-        TNT1 A 1 bright {
+        TNT1 A 1 {
             S7_SetAnim ("Anim.Fire");
             return S7_DoFire ();
         }
