@@ -103,10 +103,10 @@ class S7_BoundingBox {
 
     bool inRange (in Line ld) const {
         return (
-            m_Box [BOXLEFT  ] < ld.bbox[BOXRIGHT ] &&
-            m_Box [BOXRIGHT ] > ld.bbox[BOXLEFT  ] &&
-            m_Box [BOXTOP   ] > ld.bbox[BOXBOTTOM] &&
-            m_Box [BOXBOTTOM] < ld.bbox[BOXTOP   ]
+            m_Box [BOXLEFT  ] < ld.bbox [BOXRIGHT ] &&
+            m_Box [BOXRIGHT ] > ld.bbox [BOXLEFT  ] &&
+            m_Box [BOXTOP   ] > ld.bbox [BOXBOTTOM] &&
+            m_Box [BOXBOTTOM] < ld.bbox [BOXTOP   ]
         );
     }
 

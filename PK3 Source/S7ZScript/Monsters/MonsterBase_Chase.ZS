@@ -272,7 +272,7 @@ extend class S7_MonsterBase {
                 Actor newGoal = iterator.Next ();
 
                 if (newGoal && goal == target) {
-                    delay = newGoal.args[1];
+                    delay = newGoal.args [1];
                     reactiontime = delay * TICRATE + level.maptime;
                 } else {
                     delay = 0;

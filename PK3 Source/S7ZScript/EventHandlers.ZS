@@ -147,7 +147,7 @@ class S7_PlayerEventHandler : EventHandler {
                 let flashlight = S7_Flashlight (pPawn.FindInventory ("S7_Flashlight"));
                 if (flashlight)
                     flashlight.TogglePressed ();
-            } else if (pPawn && strings [1] ~== "FlashlightRelease"){
+            } else if (pPawn && strings [1] ~== "FlashlightRelease") {
                 let flashlight = S7_Flashlight (pPawn.FindInventory ("S7_Flashlight"));
                 if (flashlight)
                     flashlight.ToggleReleased ();

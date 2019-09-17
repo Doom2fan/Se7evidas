@@ -110,8 +110,8 @@ class S7_MapEventThinker : Thinker {
                 effect.Destroy ();
         }
 
-        for (int i = 0; i < level.Sectors.Size(); i++) {
-            Sector s = level.Sectors[i];
+        for (int i = 0; i < level.Sectors.Size (); i++) {
+            Sector s = level.Sectors [i];
             s.SetLightLevel (lightLevel);
         }
     }

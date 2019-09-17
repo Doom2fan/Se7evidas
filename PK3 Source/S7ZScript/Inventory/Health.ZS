@@ -446,7 +446,7 @@ class S7_CanteenRefill : Inventory {
 
         if (!canteen || canteen.Amount < canteen.MaxAmount) {
             toucher.GiveInventory ('S7_Canteen', Amount);
-            GoAwayAndDie();
+            GoAwayAndDie ();
             return true;
         }
 
