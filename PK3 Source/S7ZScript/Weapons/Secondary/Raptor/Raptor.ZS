@@ -50,41 +50,88 @@ class S7_Raptor : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 450, 0.375, 1.1885;
     }
 
+    const ANIM_LAYER = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
     states {
     Spawn:
         RPTP A -1;
         loop;
+    }
 
+    /** Animations **/
+    states {
+    Anim.Idle:
+        RPTN A 1;
+        wait;
+    Anim.Fire:
+        RPTN BC 1;
+        goto Anim.Idle;
+    Anim.Altfire:
+        RPTM A    1;
+        RPTM BC   1;
+        RPTM D    1;
+        RPTM EFGH 1;
+        TNT1 A    4;
+        RPTN A    1;
+    Anim.Reload:
+        RPTR FGGH  1;
+        RPTR I     4;
+        RPTR I    23 A_PlaySound ("Weapons/Raptor/Out", CHAN_6);
+        RPTR I     1 A_PlaySound ("Weapons/Raptor/In", CHAN_7);
+        RPTR JDD   1;
+        RPTR BA    1;
+        RPTN A     1;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
     Ready:
-        RPTN A 1 DoSelectOffset ((80, 80), forceNoInterpolate: true);
-        RPTN A 1 DoSelectOffset ((64, 64));
-        RPTN A 1 DoSelectOffset ((48, 48));
-        RPTN A 1 DoSelectOffset ((32, 32));
-        RPTN A 1 DoSelectOffset ((14, 14));
-        RPTN A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((80, 80), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((32, 32));
+        TNT1 A 1 DoSelectOffset ((14, 14));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        goto Ready2;
+
     Ready2:
-        RPTN A 1 S7_WeaponReady ("Reload", null);
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null);
+        }
         loop;
 
     Deselect:
-        RPTN A 1 {
+        RPTN A 0 {
             if (health <= 0)
                 return ResolveState ("Deselect.DEAD");
 
-            DoSelectOffset (( 0,  0));
+            S7_SetAnim ("Anim.Idle");
+
             return ResolveState (null);
         }
-        RPTN A 1 DoSelectOffset ((14, 14));
-        RPTN A 1 DoSelectOffset ((32, 32));
-        RPTN A 1 DoSelectOffset ((48, 48));
-        RPTN A 1 DoSelectOffset ((64, 64));
-        RPTN A 1 DoSelectOffset ((80, 80));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset ((14, 14));
+        TNT1 A 1 DoSelectOffset ((32, 32));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset ((80, 80));
         goto TrueDeselect;
 
     Fire:
-        RPTN B 1 bright {
+        TNT1 A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Fire");
 
             A_PlaySound ("Weapons/Raptor/Fire", CHAN_Weapon);
             A_AlertMonsters ();
@@ -101,24 +148,27 @@ class S7_Raptor : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        RPTN C 1 {
+        TNT1 A 1 {
             S7_Recoil (-.95);
             A_ZoomFactor (.99375);
         }
-        RPTN A 1 {
+        TNT1 A 1 {
             S7_Recoil (+.5);
             A_ZoomFactor (1.);
         }
-        RPTN AAAA 1 { player.WeaponState |= WF_WeaponReady; }
+        TNT1 AAAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 
     AltFire:
-        RPTM A    1 A_PlaySound ("Weapons/Raptor/Melee", CHAN_5);
-        RPTM BC   1;
-        RPTM D    1 A_CustomPunch (30 + random [weaponDamage] (-2, 2), true, 0, 'S7_RaptorMPuff', 85);
-        RPTM EFGH 1;
-        TNT1 A    4;
-        RPTN A    1;
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Altfire");
+            A_PlaySound ("Weapons/Raptor/Melee", CHAN_5);
+        }
+        TNT1 A 2;
+        TNT1 A 1 A_CustomPunch (30 + random [weaponDamage] (-2, 2), true, 0, 'S7_RaptorMPuff', 85);
+        TNT1 A 4;
+        TNT1 A 4;
+        TNT1 A 1;
         goto Ready2;
 
     Flash:
@@ -126,7 +176,8 @@ class S7_Raptor : S7_BaseWeapon {
         stop;
 
     DryFire:
-        RPTN A 3 {
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
             A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
@@ -146,17 +197,18 @@ class S7_Raptor : S7_BaseWeapon {
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        RPTR FGGH  1;
-        RPTR I     4;
-        RPTR I    23 A_PlaySound ("Weapons/Raptor/Out", CHAN_6);
-        RPTR I     1 A_PlaySound ("Weapons/Raptor/In", CHAN_7);
-        RPTR JDD   1;
-        RPTR BA    1;
-        RPTN A     1;
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
     }
 }
 
