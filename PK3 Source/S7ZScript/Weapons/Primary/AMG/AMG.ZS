@@ -141,9 +141,10 @@ class S7_AMG : S7_BaseWeapon {
         AMGR S         7 A_PlaySound ("Weapons/AMG/Tap", CHAN_6);
         AMGR TUVWXYA   2;
         AMGG A         2;
-        goto Ready2;
+        goto Anim.Idle;
     }
 
+    /** Actions **/
     states {
     Ready:
         TNT1 A 0 {
@@ -483,7 +484,7 @@ class S7_AMG : S7_BaseWeapon {
         }
         TNT1 A 1 {
             let psp = player.FindPSprite (ANIM_LAYER);
-            if (psp && !InStateSequence (psp.CurState, ResolveState ("Anim.Reload")))
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
                 return ResolveState ("Ready2");
 
             return ResolveState (null);
