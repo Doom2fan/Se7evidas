@@ -96,12 +96,19 @@ class S7_Raptor : S7_BaseWeapon {
             S7_A_FireBullets ('S7_RaptorTracer', spread: (.4, .4), offs: (12, 6.5, 5.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             S7_A_FireBullets ('S7_RaptorTracer', spread: (.4, .4), offs: (12, 6.5, 7.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus ());
 
-            S7_Recoil (-0.8);
+            S7_Recoil (-.95);
+            A_ZoomFactor (.9875, ZOOM_Instant);
 
             return ResolveState (null);
         }
-        RPTN C    1 S7_Recoil (-0.8);
-        RPTN A    1;
+        RPTN C 1 {
+            S7_Recoil (-.95);
+            A_ZoomFactor (.99375);
+        }
+        RPTN A 1 {
+            S7_Recoil (+.5);
+            A_ZoomFactor (1.);
+        }
         RPTN AAAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 

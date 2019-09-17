@@ -200,7 +200,9 @@ class S7_TEC9 : S7_BaseWeapon {
                 S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 5.25, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             }
 
-            S7_Recoil (-0.25);
+            S7_Recoil (-.75);
+            A_ZoomFactor (.99, ZOOM_Instant);
+            A_SetAngle (angle + fRandom [weaponSpread] (-.5, .5));
 
             let psp = player.FindPSprite (PSP_Weapon);
             if (psp && invoker.fireFrame2)
@@ -215,7 +217,9 @@ class S7_TEC9 : S7_BaseWeapon {
             return ResolveState (null);
         }
         TEC9 B 1 {
-            S7_Recoil (-0.25);
+            S7_Recoil (+.25);
+            A_ZoomFactor (1.);
+
             invoker.spriteOffsets = (0, 0, WOF_Interpolate);
         }
         TEC9 B 1 A_Refire ();

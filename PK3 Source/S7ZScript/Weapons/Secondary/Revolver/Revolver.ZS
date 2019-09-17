@@ -83,7 +83,7 @@ class S7_Revolver : S7_BaseWeapon {
 
     Fire:
         RVLV AB 1;
-        RVLV C  1 bright{
+        RVLV C  1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
@@ -95,11 +95,19 @@ class S7_Revolver : S7_BaseWeapon {
             S7_A_FireBullets ('S7_RevolverTracer', spread: (.5, .5), offs: (12, 4, 2), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             S7_Recoil (-1.75);
+            A_ZoomFactor (.965, ZOOM_Instant);
 
             return ResolveState (null);
         }
-        RVLV D  1 S7_Recoil (-1.75);
-        RVLV EE 1;
+        RVLV D  1 {
+            S7_Recoil (-1.75);
+            A_ZoomFactor (.9825);
+        }
+        RVLV E  1 {
+            S7_Recoil (+.25);
+            A_ZoomFactor (1.);
+        }
+        RVLV E  1 S7_Recoil (+.25);
         RVLV FG 1;
         RVLV A  1;
         goto Ready2;

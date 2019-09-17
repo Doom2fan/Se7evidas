@@ -138,12 +138,19 @@ class S7_AK47 : S7_BaseWeapon {
             S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
             A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
-            S7_Recoil (-0.7);
+            S7_Recoil (-.9);
+            A_ZoomFactor (.99, ZOOM_Instant);
 
             return ResolveState (null);
         }
-        AK47 C 1 S7_Recoil (-0.7);
-        AK47 B 1;
+        AK47 C 1 {
+            S7_Recoil (-.9);
+            A_ZoomFactor (.995);
+        }
+        AK47 B 1 {
+            S7_Recoil (+.6);
+            A_ZoomFactor (1.);
+        }
         AK47 C 1;
         AK47 A 1 {
             if (invoker.halfTic) {
