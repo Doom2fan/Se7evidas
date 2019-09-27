@@ -21,7 +21,6 @@
 #include "S7TEXTURES/Weapons/Shotgun.txt"
 #include "S7TEXTURES/Weapons/SSG.txt"
 #include "S7TEXTURES/Weapons/TEC-9.txt"
-#include "S7TEXTURES/Weapons/TEC-9Suppressed.txt"
 #include "S7TEXTURES/Weapons/Thumper.txt"
 
 // Inventory
