@@ -50,13 +50,11 @@ class S7_TEC9 : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 450, 0.375, 1.1885;
     }
 
-    bool selecting;
-
-    const TEC9_SUPPRESSOROVERLAY_ID = 20;
+    const ANIM_LAYER = 2;
+    const TEC9_SUPPRESSOROVERLAY_ID = 3;
     bool hasSuppressor;
 
     bool fireFrame2;
-    Vector3 spriteOffsets;
 
     override void Tick () {
         Super.Tick ();
@@ -83,8 +81,19 @@ class S7_TEC9 : S7_BaseWeapon {
         return true;
     }
 
-    override Vector2 DoSelectOffset_InitialOffset () {
-        return hasSuppressor ? (12, 12) : (0, 0);
+    override void DoEffect () {
+        Super.DoEffect ();
+
+        if (hasSuppressor)
+            Owner.A_OverlayOffset (ANIM_LAYER, 12, 12);
+        else
+            Owner.A_OverlayOffset (ANIM_LAYER,  0,  0);
+    }
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     states {
@@ -96,40 +105,64 @@ class S7_TEC9 : S7_BaseWeapon {
                 sprite = GetSpriteIndex ('TEC9');
         }
         goto Spawn;
+    }
 
-    Ready:
-        TNT1 A 0 {
-            invoker.selecting = true;
-            A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
+    /** Animations **/
+    states {
+    Anim.Idle:
+        TEC9 A 1;
+        wait;
+    Anim.FireStart:
+        TEC9 B 1;
+        wait;
+    Anim.Fire:
+        TEC9 D 1 bright {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (!psp)
+                return;
+
+            if (invoker.fireFrame2)
+                psp.frame = 2; // C
+            else
+                psp.frame = 3; // D
         }
-        TEC9 A 1 DoSelectOffset ((80, 80), forceNoInterpolate: true);
-        TEC9 A 1 DoSelectOffset ((64, 64));
-        TEC9 A 1 DoSelectOffset ((48, 48));
-        TEC9 A 1 DoSelectOffset ((32, 32));
-        TEC9 A 1 DoSelectOffset ((16, 16));
-        TEC9 A 1 DoSelectOffset (( 0,  0));
-        TNT1 A 0 { invoker.selecting = false; }
-    Ready2:
-        TEC9 A 1 S7_WeaponReady ("Reload", null);
-        loop;
+        TEC9 B 1;
+        wait;
+    Anim.Reload:
+        TECR A   1 A_PlaySound ("Weapons/TEC-9/Out", CHAN_6);
+        TECR BCD 1;
+        TECR D   5;
+        TECR DEF 2;
+        TNT1 A   0 A_PlaySound ("Weapons/TEC-9/In", CHAN_7);
+        TECR G   2 A_WeaponOffset (0, 32 + -6);
+        TECR H   2;
+        TECR I   2 A_WeaponOffset (0, 32 + -3);
+        TECR J   2 A_WeaponOffset (0, 32 +  0);
+        TECR KLM 2;
+        TECR N   2 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
+        TECR O   2 A_WeaponOffset (0, 32 + -8);
+        TECR P   2 A_WeaponOffset (0, 32 + -6);
+        TECR P   4 A_WeaponOffset (0, 32 + -3);
+        TECR Q   2 A_WeaponOffset (0, 32 + -6);
+        TECR R   2 A_WeaponOffset (0, 32 + -3);
+        TECR S   2 A_WeaponOffset (0, 32 +  0);
+        goto Anim.Idle;
 
     Overlay.Suppressor:
         TECS A 1 {
             {
                 name sprite = 'TECS';
-                int id = TEC9_SUPPRESSOROVERLAY_ID;
                 bool showOverlay = invoker.hasSuppressor;
 
-                let pspWeap = player.FindPSprite (PSP_Weapon);
-                let pspOverlay = player.FindPSprite (id);
+                let pspWeap = player.FindPSprite (ANIM_LAYER);
+                let pspOverlay = player.FindPSprite (TEC9_SUPPRESSOROVERLAY_ID);
 
                 if (!pspWeap || !pspOverlay)
                     return ResolveState (null);
 
-                if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TEC9')) {
-                    pspOverlay.sprite = GetSpriteIndex (sprite);
-                    pspOverlay.frame = pspWeap.frame;
-                } else if (showOverlay && pspWeap.sprite == GetSpriteIndex ('TECR')) {
+                A_OverlayOffset (TEC9_SUPPRESSOROVERLAY_ID, 12, 12);
+
+                if (showOverlay && (pspWeap.sprite == GetSpriteIndex ('TEC9') || pspWeap.sprite == GetSpriteIndex ('TECR'))) {
                     pspOverlay.sprite = GetSpriteIndex (sprite);
                     pspOverlay.frame = 0;
                 } else {
@@ -141,45 +174,59 @@ class S7_TEC9 : S7_BaseWeapon {
             if (health <= 0)
                 return ResolveState ("Overlay.DeselectDEAD");
 
-            if (!invoker.selecting) {
-                if (invoker.hasSuppressor)
-                    A_WeaponOffset (12 + invoker.spriteOffsets.X, 32 + 12 + invoker.spriteOffsets.Y, int (invoker.spriteOffsets.Z));
-                else
-                    A_WeaponOffset (0 + invoker.spriteOffsets.X, 32 + invoker.spriteOffsets.Y, int (invoker.spriteOffsets.Z));
-            }
-
             return ResolveState (null);
         }
         wait;
+    }
+
+    states {
+    Ready:
+        TNT1 A 0 {
+            S7_SetAnim ("Anim.Idle");
+            A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
+        }
+        TNT1 A 1 DoSelectOffset ((80, 80), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((32, 32));
+        TNT1 A 1 DoSelectOffset ((16, 16));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+    Ready2:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null);
+        }
+        loop;
 
     Deselect:
         TEC9 A 0 {
             if (health <= 0)
                 return ResolveState ("Deselect.DEAD");
 
-            invoker.selecting = true;
             return ResolveState (null);
         }
-        TEC9 A 1 DoSelectOffset (( 0,  0));
-        TEC9 A 1 DoSelectOffset ((16, 16));
-        TEC9 A 1 DoSelectOffset ((32, 32));
-        TEC9 A 1 DoSelectOffset ((48, 48));
-        TEC9 A 1 DoSelectOffset ((64, 64));
-        TEC9 A 1 DoSelectOffset ((80, 80));
-        TNT1 A 0 {
-            invoker.selecting = false;
-            A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Null");
-        }
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset ((16, 16));
+        TNT1 A 1 DoSelectOffset ((32, 32));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset ((80, 80));
+        TNT1 A 0 A_Overlay (TEC9_SUPPRESSOROVERLAY_ID, "Null");
         goto TrueDeselect;
 
     Fire:
-        TEC9 B 1 { invoker.fireFrame2 = false; }
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.FireStart");
+            invoker.fireFrame2 = false;
+        }
     Hold:
-        TEC9 D 1 bright {
+        TNT1 A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
                 A_ClearRefire ();
                 return ResolveState ("DryFire");
             }
+
+            S7_SetAnim ("Anim.Fire");
 
             if (!invoker.hasSuppressor) {
                 A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
@@ -204,34 +251,29 @@ class S7_TEC9 : S7_BaseWeapon {
             A_ZoomFactor (.99, ZOOM_Instant);
             A_SetAngle (angle + fRandom [weaponSpread] (-.5, .5));
 
-            let psp = player.FindPSprite (PSP_Weapon);
-            if (psp && invoker.fireFrame2)
-                psp.frame = 2; // C
-            else if (psp)
-                psp.frame = 3; // D
-
-            invoker.spriteOffsets = (4, 4, 0);
+            A_WeaponOffset (4, 32 + 4);
 
             invoker.fireFrame2 = !invoker.fireFrame2;
 
             return ResolveState (null);
         }
-        TEC9 B 1 {
+        TNT1 A 1 {
             S7_Recoil (+.25);
             A_ZoomFactor (1.);
 
-            invoker.spriteOffsets = (0, 0, WOF_Interpolate);
+            A_WeaponOffset (0, 32, WOF_Interpolate);
         }
-        TEC9 B 1 A_Refire ();
-        TEC9 B 1 { player.WeaponState |= WF_WeaponReady; }
+        TNT1 A 1 A_Refire ();
+        TNT1 A 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
 
     DryFire:
-        TEC9 B 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.FireStart");
             A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
             A_ClearRefire ();
         }
-        TEC9 A 3;
+        TNT1 A 3 S7_SetAnim ("Anim.Idle");
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
@@ -250,27 +292,18 @@ class S7_TEC9 : S7_BaseWeapon {
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        TNT1 A    0 A_PlaySound ("Weapons/TEC-9/Out", CHAN_6);
-        TECR ABCD 1;
-        TECR D    5;
-        TECR DEF  2;
-        TNT1 A    0 A_PlaySound ("Weapons/TEC-9/In", CHAN_7);
-        TECR G    2 { invoker.spriteOffsets = (0, -6, 0); }
-        TECR H    2;
-        TECR I    2 { invoker.spriteOffsets = (0, -3, 0); }
-        TECR J    2 { invoker.spriteOffsets = (0,  0, 0); }
-        TECR KLM  2;
-        TECR N    2 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
-        TECR O    2 { invoker.spriteOffsets = (0, -8, 0); }
-        TECR P    2 { invoker.spriteOffsets = (0, -6, 0); }
-        TECR P    4 { invoker.spriteOffsets = (0, -3, 0); }
-        TECR Q    2 { invoker.spriteOffsets = (0, -6, 0); }
-        TECR R    2 { invoker.spriteOffsets = (0, -3, 0); }
-        TECR S    2 { invoker.spriteOffsets = (0,  0, 0); }
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
 
     // Muzzle flashes
     Flash:
