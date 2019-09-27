@@ -243,7 +243,7 @@ class S7_TEC9 : S7_BaseWeapon {
                 S7_A_SpawnCasing ('S7_9mmCasing', (30, 11, 9.5), pitchOffs: -45, spread: (10, 15));
                 S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 4.25, 4), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             } else {
-                S7_A_SpawnCasing ('S7_9mmCasing', (30, 14, 9.5), pitchOffs: -45, spread: (10, 15));
+                S7_A_SpawnCasing ('S7_9mmCasing', (30, 12, 12), pitchOffs: -45, spread: (10, 15));
                 S7_A_FireBullets ('S7_TEC9Tracer', spread: (.45, .45), offs: (10, 5.25, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
             }
 
