@@ -37,7 +37,7 @@ class S7_GrenadeCount : Ammo {
 
     states {
     Spawn:
-        TGRN Z -1;
+        HGRN Z -1;
         stop;
     }
 }
@@ -66,7 +66,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
 
-        S7_BaseWeapon.Icon "TGRNZ0";
+        S7_BaseWeapon.Icon "HGRNZ0";
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
         S7_BaseWeapon.AmmoBuyData "HGRN", 1;
         S7_BaseWeapon.BindSlot WpSlot_Special;
@@ -131,10 +131,10 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
             return ResolveState (null);
         }
-        TGRN WXY    1;
-        TGRN ABCDEF 1;
-        TGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
-        TGRN HIJKLM 1;
+        HGRN WXY    1;
+        HGRN ABCDEF 1;
+        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN HIJKLM 1;
         TNT1 A      1;
         goto Hold;
 
@@ -145,10 +145,10 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
             return ResolveState (null);
         }
-        TGRN WXY    1;
-        TGRN ABCDEF 1;
-        TGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
-        TGRN HIJKLM 1;
+        HGRN WXY    1;
+        HGRN ABCDEF 1;
+        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN HIJKLM 1;
         TNT1 A      1 {
             TakeInventory ('S7_GrenadeCount', 1, TIF_NoTakeInfinite);
 
@@ -169,10 +169,10 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
             return ResolveState (null);
         }
-        TGRN MLKJIH 1;
-        TGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
-        TGRN FEDCBA 1;
-        TGRN YXW    1;
+        HGRN MLKJIH 1;
+        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN FEDCBA 1;
+        HGRN YXW    1;
         goto Ready2;
     }
 }
