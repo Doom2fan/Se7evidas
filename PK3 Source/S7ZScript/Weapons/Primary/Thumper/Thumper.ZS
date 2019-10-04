@@ -72,21 +72,44 @@ class S7_Thumper : S7_BaseWeapon {
         +WEAPON.NOAUTOAIM
     }
 
+    const ANIM_LAYER = 2;
     double airburstDistance; // In meters
     bool chambered;
     int selectedPool;
-    class<S7_50mmCasing> casingType;
+    Class<S7_50mmCasing> casingType;
     Array<int> magazine;
 
     static const Class<Inventory> PoolNames [] = {
-        "",
-        "S7_Thumper_PExp",
-        "S7_Thumper_PFrag",
-        "S7_Thumper_PTherm",
-        "S7_Thumper_PFlare",
-        "S7_Thumper_PCluster",
-        "S7_Thumper_PNail",
-        "S7_Thumper_PNGas"
+        'None',
+        'S7_Thumper_PExp',
+        'S7_Thumper_PFrag',
+        'S7_Thumper_PTherm',
+        'S7_Thumper_PFlare',
+        'S7_Thumper_PCluster',
+        'S7_Thumper_PNail',
+        'S7_Thumper_PNGas'
+    };
+
+    static const Class<S7_ThumperGrenade> ProjectileNames [] = {
+        'None',
+        'S7_ThumperGrenade',
+        'S7_ThumperGrenadeFrag',
+        'S7_ThumperGrenadeTherm',
+        'S7_ThumperGrenadeFlare',
+        'S7_ThumperGrenadeCluster',
+        'S7_ThumperGrenadeNail',
+        'S7_ThumperGrenadeNGas'
+    };
+
+    static const Class<S7_50mmCasing> CasingNames [] = {
+        'None',
+        'S7_50mmCasing',
+        'S7_50mmCasingFrag',
+        'S7_50mmCasingTherm',
+        'S7_50mmCasingFlare',
+        'S7_50mmCasingCluster',
+        'S7_50mmCasingNail',
+        'S7_50mmCasingNGas'
     };
 
     static const string Pool_ShopNames [] = {
@@ -101,11 +124,11 @@ class S7_Thumper : S7_BaseWeapon {
     };
 
     static const Class<Inventory> MagTokens [] = {
-        "S7_ThumperMag1",
-        "S7_ThumperMag2",
-        "S7_ThumperMag3",
-        "S7_ThumperMag4",
-        "S7_ThumperMag5"
+        'S7_ThumperMag1',
+        'S7_ThumperMag2',
+        'S7_ThumperMag3',
+        'S7_ThumperMag4',
+        'S7_ThumperMag5'
     };
 
     int CountCurPoolAmmo () {
@@ -162,7 +185,7 @@ class S7_Thumper : S7_BaseWeapon {
             int type = magazine [magazine.Size ()-1];
             magazine.Pop ();
 
-            class<Inventory> typeClass = PoolNames [type];
+            Class<Inventory> typeClass = PoolNames [type];
             if (unifiedCount < unifiedMax)
                 Owner.GiveInventory (typeClass, 1);
             else
@@ -176,104 +199,155 @@ class S7_Thumper : S7_BaseWeapon {
         S7_A_SpawnCasing (invoker.casingType, (30, 18, 16), pitchOffs: -45, spread: (10, 15));
     }
 
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
+    /** Pickups **/
     states {
     Spawn:
         THMP U -1;
         stop;
+    }
 
-    Select.Hand:
+    /** Animations **/
+    states {
+    Anim.Idle:
+        THMP A 1;
+        wait;
+    Anim.Handless:
+        THMP H 1;
+        wait;
+
+    Anim.SelectHand:
         HAN0 F 1 DoSelectOffset (( 67, 168), -5, forceNoInterpolate: true);
         HAN0 F 1 DoSelectOffset (( 95, 158), -5);
         HAN0 F 1 DoSelectOffset ((123, 148), -5);
         HAN0 F 1 DoSelectOffset ((151, 137), -5);
         HAN0 F 1 DoSelectOffset ((167, 130), -5);
         stop;
-    Ready:
-        THMP H 1 {
-            A_Overlay (-5, "Select.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-            DoSelectOffset ((8 + (30 * 4), 4 + (15 * 4)), forceNoInterpolate: true);
-        }
-        THMP H 1 DoSelectOffset ((8 + (30 * 3), 4 + (15 * 3)));
-        THMP H 1 DoSelectOffset ((8 + (30 * 2), 4 + (15 * 2)));
-        THMP H 1 DoSelectOffset ((8 + (30 * 1), 4 + (15 * 1)));
-        THMP H 1 DoSelectOffset ((8           , 4           ));
-        THMP A 1 {
-            DoSelectOffset ((10, 3), forceNoInterpolate: true);
-            DoSelectOffset (( 0, 0));
-        }
-    Ready2:
-        THMP A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom);
-        loop;
-
-    Deselect.Hand:
+    Anim.DeselectHand:
         HAN0 F 1 DoSelectOffset ((167, 130), -5, forceNoInterpolate: true);
         HAN0 F 1 DoSelectOffset ((151, 137), -5);
         HAN0 F 1 DoSelectOffset ((123, 148), -5);
         HAN0 F 1 DoSelectOffset (( 95, 158), -5);
         HAN0 F 1 DoSelectOffset (( 67, 168), -5);
         stop;
-    Deselect:
-        THMP A 1 {
-            if (health <= 0)
-                return ResolveState ("Deselect.DEAD");
 
-            DoSelectOffset ((0, 0));
+    Anim.Pump: // 16 tics
+        THMP A 2;
+        THMP B 1 A_WeaponOffset ( 5, 32 +  3, WOF_Interpolate);
+        THMP C 1 {
+            A_WeaponOffset (16, 32 +  7, WOF_Interpolate);
+            A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+
+            if (invoker.casingType)
+                S7_SpawnCasing ();
+
+            invoker.casingType = NULL;
+        }
+        THMP E 1 A_WeaponOffset (20, 32 +  9, WOF_Interpolate);
+        THMP F 6 A_WeaponOffset (35, 32 + 16, WOF_Interpolate);
+        THMP E 1 A_WeaponOffset (26, 32 + 12, WOF_Interpolate);
+        THMP C 1 A_WeaponOffset (18, 32 +  9, WOF_Interpolate);
+        THMP B 1 A_WeaponOffset ( 3, 32 +  1, WOF_Interpolate);
+        THMP A 2 A_WeaponOffset ( 0, 32     , WOF_Interpolate);
+        goto Anim.Idle;
+
+    Anim.ReloadLower:
+        THMP H 1 {
+            A_Overlay (-5, "Anim.DeselectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+
+            A_WeaponOffset ((5.2 * 1), 32 + (3.2 * 1));
+        }
+        THMP H 1 A_WeaponOffset ((5.2 * 2), 32 + (3.2 * 2));
+        THMP H 1 A_WeaponOffset ((5.2 * 3), 32 + (3.2 * 3));
+        THMP H 1 A_WeaponOffset ((5.2 * 4), 32 + (3.2 * 4));
+        THMP H 1 A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5));
+        goto Anim.Idle;
+    Anim.ReloadRaise:
+        THMP H 1 {
+            A_Overlay (-5, "Anim.SelectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+
+            A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5));
+        }
+        THMP H 1 A_WeaponOffset ((5.2 * 4), 32 + (3.2 * 4));
+        THMP H 1 A_WeaponOffset ((5.2 * 3), 32 + (3.2 * 3));
+        THMP H 1 A_WeaponOffset ((5.2 * 2), 32 + (3.2 * 2));
+        THMP H 1 A_WeaponOffset ((5.2 * 1), 32 + (3.2 * 1));
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 1 {
+            DoSelectOffset ((8 + (30 * 4), 4 + (15 * 4)), forceNoInterpolate: true);
+            S7_SetAnim ("Anim.Handless");
+
+            A_Overlay (-5, "Anim.SelectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 3), 4 + (15 * 3)));
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 2), 4 + (15 * 2)));
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 1), 4 + (15 * 1)));
+        TNT1 A 1 DoSelectOffset ((8           , 4           ));
+        TNT1 A 1 {
+            DoSelectOffset ((10, 3), forceNoInterpolate: true);
+            DoSelectOffset (( 0, 0));
+            S7_SetAnim ("Anim.Idle");
+        }
+    Ready2:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom);
+        }
+        loop;
+
+    Deselect:
+        THMP A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
+                return ResolveState ("Deselect.DEAD");
+            }
+
             return ResolveState (null);
         }
-        THMP H 1 {
+        TNT1 A 1 {
+            DoSelectOffset ((0, 0));
+            S7_SetAnim ("Anim.Idle");
+        }
+        TNT1 A 1 {
             DoSelectOffset ((8, 4));
+            S7_SetAnim ("Anim.Handless");
+
             A_Overlay (-5, "Deselect.Hand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
         }
-        THMP H 1 DoSelectOffset ((8 + (30 * 1), 4 + (15 * 1)));
-        THMP H 1 DoSelectOffset ((8 + (30 * 2), 4 + (15 * 2)));
-        THMP H 1 DoSelectOffset ((8 + (30 * 3), 4 + (15 * 3)));
-        THMP H 1 DoSelectOffset ((8 + (30 * 4), 4 + (15 * 4)));
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 1), 4 + (15 * 1)));
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 2), 4 + (15 * 2)));
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 3), 4 + (15 * 3)));
+        TNT1 A 1 DoSelectOffset ((8 + (30 * 4), 4 + (15 * 4)));
         goto TrueDeselect;
 
     Fire:
-        THMP A 1 {
+        TNT1 A 1 {
             if (!invoker.chambered)
                 return ResolveState ("Pump");
 
-            class<Actor> projType;
+            S7_SetAnim ("Anim.Idle");
+
             int grenType = invoker.magazine [invoker.magazine.Size () - 1];
             invoker.magazine.Pop ();
-            switch (grenType) {
-                default:
-                case S7_TH_None:
-                    return ResolveState ("Ready2"); // Shouldn't happen, but better safe than sorry.
-                    break;
-                case S7_TH_Exp:
-                    invoker.casingType = 'S7_50mmCasing';
-                    projType = 'S7_ThumperGrenade';
-                    break;
-                case S7_TH_Frag:
-                    invoker.casingType = 'S7_50mmCasingFrag';
-                    projType = 'S7_ThumperGrenadeFrag';
-                    break;
-                case S7_TH_Therm:
-                    invoker.casingType = 'S7_50mmCasingTherm';
-                    projType = 'S7_ThumperGrenadeTherm';
-                    break;
-                case S7_TH_Flare:
-                    invoker.casingType = 'S7_50mmCasingFlare';
-                    projType = 'S7_ThumperGrenadeFlare';
-                    break;
-                case S7_TH_Cluster:
-                    invoker.casingType = 'S7_50mmCasingCluster';
-                    projType = 'S7_ThumperGrenadeCluster';
-                    break;
-                case S7_TH_Nail:
-                    invoker.casingType = 'S7_50mmCasingNail';
-                    projType = 'S7_ThumperGrenadeNail';
-                    break;
-                case S7_TH_NGas:
-                    invoker.casingType = 'S7_50mmCasingNGas';
-                    projType = 'S7_ThumperGrenadeNGas';
-                    break;
-            }
+            if (grenType <= S7_TH_None || grenType >= S7_TH_EndToken)
+                return ResolveState ("Ready2"); // Shouldn't happen, but better safe than sorry.
+
+            Class<S7_ThumperGrenade> projType = invoker.ProjectileNames [grenType];
+            invoker.casingType = invoker.CasingNames [grenType];
 
             A_PlaySound ("Weapons/Thumper/Fire", CHAN_Weapon);
             A_AlertMonsters ();
@@ -296,19 +370,20 @@ class S7_Thumper : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        THMP A 1 {
+        TNT1 A 1 {
             S7_Recoil (-1.65);
             A_WeaponOffset (11, 32 + 5);
         }
-        THMP A 1 A_WeaponOffset (17, 32 + 9);
-        THMP A 1 A_WeaponOffset (14, 32 + 7, WOF_Interpolate);
-        THMP A 1 A_WeaponOffset ( 7, 32 + 3, WOF_Interpolate);
-        THMP A 2 A_WeaponOffset ( 0, 32, WOF_Interpolate);
+        TNT1 A 1 A_WeaponOffset (17, 32 + 9);
+        TNT1 A 1 A_WeaponOffset (14, 32 + 7, WOF_Interpolate);
+        TNT1 A 1 A_WeaponOffset ( 7, 32 + 3, WOF_Interpolate);
+        TNT1 A 2 A_WeaponOffset ( 0, 32, WOF_Interpolate);
         goto Ready2;
 
     ChangeMode:
-        THMP A 5 {
+        TNT1 A 5 {
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
+            S7_SetAnim ("Anim.Idle");
 
             int i = invoker.selectedPool + 1;
 
@@ -335,14 +410,15 @@ class S7_Thumper : S7_BaseWeapon {
         goto Ready2;
 
     Zoom:
-        THMP A 2 {
+        TNT1 A 2 {
+            S7_SetAnim ("Anim.Idle");
+
             if (player.cmd.buttons & BT_Attack) {
                 if (invoker.airburstDistance >= 10.)
                     invoker.airburstDistance += .5;
                 else
                     invoker.airburstDistance = 10.;
-            }
-            else if (player.cmd.buttons & BT_AltAttack) {
+            } else if (player.cmd.buttons & BT_AltAttack) {
                 if (invoker.airburstDistance ~== 10. || invoker.airburstDistance < 10.)
                     invoker.airburstDistance = 0.;
                 else
@@ -364,38 +440,22 @@ class S7_Thumper : S7_BaseWeapon {
 
             invoker.chambered = true;
 
-            A_Overlay (2, "Pump.Anim");
+            S7_SetAnim ("Anim.Pump");
 
             return ResolveState (null);
         }
         TNT1 A 16;
         goto Ready2;
-    Pump.Anim: // 16 tics
-        THMP A 2 A_OverlayFlags (2, PSPF_AddWeapon, true);
-        THMP B 1 A_WeaponOffset ( 5, 32 +  3, WOF_Interpolate);
-        THMP C 1 {
-            A_WeaponOffset (16, 32 +  7, WOF_Interpolate);
-            A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
-
-            if (invoker.casingType)
-                S7_SpawnCasing ();
-
-            invoker.casingType = NULL;
-        }
-        THMP E 1 A_WeaponOffset (20, 32 +  9, WOF_Interpolate);
-        THMP F 6 A_WeaponOffset (35, 32 + 16, WOF_Interpolate);
-        THMP E 1 A_WeaponOffset (26, 32 + 12, WOF_Interpolate);
-        THMP C 1 A_WeaponOffset (18, 32 +  9, WOF_Interpolate);
-        THMP B 1 A_WeaponOffset ( 3, 32 +  1, WOF_Interpolate);
-        THMP A 2 A_WeaponOffset ( 0, 32     , WOF_Interpolate);
-        stop;
 
     Flash:
         THPF AB 1 bright;
         stop;
 
     DryFire:
-        THMP A 1 A_PlaySound ("Weapons/Thumper/Dryfire", CHAN_7);
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/Thumper/Dryfire", CHAN_7);
+        }
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ()) {
                 GiveInventory ('S7_Reloading', 1);
@@ -407,7 +467,7 @@ class S7_Thumper : S7_BaseWeapon {
         goto Ready2;
 
     Reload:
-        THMP A 2 {
+        TNT1 A 2 {
             if (
                 !CheckInventory ('S7_Reloading', 1) ||
                 invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 ||
@@ -418,61 +478,46 @@ class S7_Thumper : S7_BaseWeapon {
             if (!invoker.chambered && invoker.magazine.Size () > 0)
                 return ResolveState ("InsertShells.Pump2");
 
+            S7_SetAnim ("Anim.Idle");
+
             return ResolveState (null);
         }
-
-        TNT1 A 5 A_Overlay (2, "Reload.LowerAnim");
+        TNT1 A 5 S7_SetAnim ("Anim.ReloadLower");
         goto InsertShells;
-    Reload.LowerAnim:
-        THMP H 1 {
-            A_OverlayFlags (2, PSPF_AddWeapon, true);
-            A_Overlay (-5, "Deselect.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-
-            A_WeaponOffset ((5.2 * 1), 32 + (3.2 * 1));
-        }
-        THMP H 1 A_WeaponOffset ((5.2 * 2), 32 + (3.2 * 2));
-        THMP H 1 A_WeaponOffset ((5.2 * 3), 32 + (3.2 * 3));
-        THMP H 1 A_WeaponOffset ((5.2 * 4), 32 + (3.2 * 4));
-        THMP H 1 A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5));
-        stop;
-    Reload.RaiseAnim:
-        THMP H 1 {
-            A_OverlayFlags (2, PSPF_AddWeapon, true);
-            A_Overlay (-5, "Select.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-
-            A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5));
-        }
-        THMP H 1 A_WeaponOffset ((5.2 * 4), 32 + (3.2 * 4));
-        THMP H 1 A_WeaponOffset ((5.2 * 3), 32 + (3.2 * 3));
-        THMP H 1 A_WeaponOffset ((5.2 * 2), 32 + (3.2 * 2));
-        THMP H 1 A_WeaponOffset ((5.2 * 1), 32 + (3.2 * 1));
-        stop;
 
     InsertShells:
-        THMP H 13 {
+        TNT1 A 13 {
+            S7_SetAnim ("Anim.Handless");
+
             A_WeaponOffset ((5.2 * 5), 32 + (3.2 * 5), WOF_Interpolate);
 
-            if (!CheckInventory ('S7_Reloading', 1) || invoker.magazine.Size () >= 5 || invoker.CountCurPoolAmmo () < 1 || invoker.selectedPool <= S7_TH_None || invoker.selectedPool >= S7_TH_EndToken)
+            if (
+                !CheckInventory ('S7_Reloading', 1) ||
+                invoker.magazine.Size () >= 5       ||
+                invoker.CountCurPoolAmmo () < 1     ||
+                invoker.selectedPool <= S7_TH_None  ||
+                invoker.selectedPool >= S7_TH_EndToken
+            )
                 return ResolveState ("Reloaded");
 
             return ResolveState (null);
         }
-        THMP H 1 {
+        TNT1 A 1 {
             A_PlaySound ("Weapons/Thumper/ShellIn", CHAN_6);
+
             invoker.magazine.Insert (0, invoker.selectedPool);
             TakeInventory (S7_Thumper.PoolNames [invoker.selectedPool], 1);
+
             A_WeaponOffset ((5.2 * 5) - 6.5, 32 + (3.2 * 5) - 3);
         }
-        THMP H 2 A_WeaponOffset ((5.2 * 5) - 10, 32 + (3.2 * 5) - 5);
-        THMP H 2 A_WeaponOffset ((5.2 * 5) -  4, 32 + (3.2 * 5) - 3, WOF_Interpolate);
-        THMP H 3 A_WeaponOffset ((5.2 * 5)     , 32 + (3.2 * 5)    , WOF_Interpolate);
+        TNT1 A 2 A_WeaponOffset ((5.2 * 5) - 10, 32 + (3.2 * 5) - 5);
+        TNT1 A 2 A_WeaponOffset ((5.2 * 5) -  4, 32 + (3.2 * 5) - 3, WOF_Interpolate);
+        TNT1 A 3 A_WeaponOffset ((5.2 * 5)     , 32 + (3.2 * 5)    , WOF_Interpolate);
         TNT1 A 0 A_JumpIf (!invoker.chambered, "InsertShells.Pump");
         loop;
 
     InsertShells.Pump:
-        TNT1 A 5 A_Overlay (2, "Reload.RaiseAnim");
+        TNT1 A 5 S7_SetAnim ("Anim.ReloadRaise");
     InsertShells.Pump2:
         TNT1 A 16 {
             if (invoker.magazine.Size () <= 0)
@@ -480,7 +525,7 @@ class S7_Thumper : S7_BaseWeapon {
 
             invoker.chambered = true;
 
-            A_Overlay (2, "Pump.Anim");
+            S7_SetAnim ("Anim.Pump");
 
             return ResolveState (null);
         }
@@ -488,14 +533,14 @@ class S7_Thumper : S7_BaseWeapon {
             if (invoker.CountCurPoolAmmo () < 1 || !CheckInventory ('S7_Reloading', 1))
                 return ResolveState ("EndReload");
 
-            A_Overlay (2, "Reload.LowerAnim");
+            S7_SetAnim ("Anim.ReloadLower");
 
             return ResolveState (null);
         }
         goto InsertShells;
 
     Reloaded:
-        TNT1 A 5 A_Overlay (2, "Reload.RaiseAnim");
+        TNT1 A 5 S7_SetAnim ("Anim.ReloadRaise");
     EndReload:
         TNT1 A 0 TakeInventory ('S7_Reloading', 0x7FFFFFFF);
         goto Ready2;
