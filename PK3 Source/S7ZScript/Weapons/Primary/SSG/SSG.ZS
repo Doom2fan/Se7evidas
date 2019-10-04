@@ -52,7 +52,8 @@ class S7_SSG : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 700, 0.4, 1.16;
     }
 
-    bool leftLoaded, rightLoaded, firingBoth;
+    const ANIM_LAYER = 2;
+    bool leftLoaded, rightLoaded, firingBoth_FiredLeft;
 
     override void DoEffect () {
         Super.DoEffect ();
@@ -97,199 +98,6 @@ class S7_SSG : S7_BaseWeapon {
         }
     }
 
-    states {
-    Spawn:
-        SSGP A -1;
-        loop;
-
-    Ready:
-        SSG0 A 1 DoSelectOffset ((-71, 50), forceNoInterpolate: true);
-        SSG0 A 1 DoSelectOffset ((-61, 35));
-        SSG0 A 1 DoSelectOffset ((-48, 21));
-        SSG0 A 1 DoSelectOffset ((-34, 11));
-        SSG0 A 1 DoSelectOffset ((-11,  4));
-        SSG0 A 1 DoSelectOffset ((  0,  0));
-    Ready2:
-        SSG0 A 1 {
-            bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK)), altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
-            if (attack && altAttack)
-                return ResolveState ("Fire.Both");
-            if (attack)
-                return ResolveState ("Fire.Left");
-            if (altAttack)
-                return ResolveState ("Fire.Right");
-
-            S7_WeaponReady ("Reload", null, wrFlags: WRF_NoFire);
-
-            return ResolveState (null);
-        }
-        loop;
-
-    Deselect:
-        SSG0 A 1 {
-            if (health <= 0)
-                return ResolveState ("Deselect.DEAD");
-
-            DoSelectOffset ((  0,  0));
-            return ResolveState (null);
-        }
-        SSG0 A 1 DoSelectOffset ((-11,  4));
-        SSG0 A 1 DoSelectOffset ((-34, 11));
-        SSG0 A 1 DoSelectOffset ((-48, 21));
-        SSG0 A 1 DoSelectOffset ((-61, 35));
-        SSG0 A 1 DoSelectOffset ((-71, 50));
-        goto TrueDeselect;
-
-    Fire.Left:
-        SSG5 A 1 bright {
-            if ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK))
-                return ResolveState ("Fire.Both");
-
-            if (!invoker.leftLoaded)
-                return ResolveState ("DryFireLeft");
-
-            A_AlertMonsters ();
-            A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
-            A_GunFlash ("Flash.Left");
-
-            S7_FireSSG (false);
-
-            S7_Recoil (-2.175);
-
-            return ResolveState (null);
-        }
-        SSG5 B 1 S7_Recoil (-2.175);
-        goto Ready2;
-    Fire.Right:
-        SSG5 A 1 bright {
-            if ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK))
-                return ResolveState ("Fire.Both");
-
-            if (!invoker.rightLoaded)
-                return ResolveState ("DryFireRight");
-
-            A_AlertMonsters ();
-            A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
-            A_GunFlash ("Flash.Right");
-
-            S7_FireSSG (true);
-
-            S7_Recoil (-2.175);
-
-            return ResolveState (null);
-        }
-        SSG5 B 1 S7_Recoil (-2.175);
-        goto Ready2;
-
-    Fire.Both:
-        SSG5 A 1 bright {
-            if (!invoker.leftLoaded && !invoker.rightLoaded)
-                return ResolveState ("DryFireBoth");
-            else if (!invoker.leftLoaded)
-                return ResolveState ("Fire.Both.DryLeft");
-            else if (!invoker.rightLoaded)
-                return ResolveState ("Fire.Both.DryRight");
-
-            A_AlertMonsters ();
-            A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
-            A_GunFlash ("Flash.Both");
-
-            S7_FireSSG (false);
-
-            S7_Recoil (-1.0875);
-
-            return ResolveState (null);
-        }
-        SSG5 A 1 bright {
-            A_AlertMonsters ();
-            A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
-
-            S7_FireSSG (true);
-
-            S7_Recoil (-5.4375); // 2.175 * 2.5
-        }
-        SSG5 B 1 S7_Recoil (-2.175);
-        SSG0 A 4;
-        goto Ready2;
-    Fire.Both.DryLeft:
-        SSG5 A 1 A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon);
-        SSG5 A 1 bright {
-            A_AlertMonsters ();
-            A_PlaySound ("Weapons/SSG/Fire", CHAN_5);
-            A_GunFlash ("Flash.Right");
-
-            S7_FireSSG (true);
-
-            S7_Recoil (-2.175);
-        }
-        SSG5 B 1 S7_Recoil (-2.175);
-        SSG0 A 4;
-        goto Ready2;
-    Fire.Both.DryRight:
-        SSG5 A 1 bright {
-            A_AlertMonsters ();
-            A_PlaySound ("Weapons/SSG/Fire", CHAN_Weapon);
-            A_GunFlash ("Flash.Left");
-
-            S7_FireSSG (false);
-
-            S7_Recoil (-2.175);
-
-            return ResolveState (null);
-        }
-        SSG5 B 1 {
-            A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
-            S7_Recoil (-2.175);
-        }
-        SSG0 A 5;
-        goto Ready2;
-
-    Flash.Left:
-        SSG5 CD 1 bright;
-        stop;
-    Flash.Right:
-        SSG5 EF 1 bright;
-        stop;
-    Flash.Both:
-        SSG5 CGF 1 bright;
-        stop;
-
-    DryFireLeft:  SSG0 A 3 A_PlaySound ("Weapons/DryFireShotgun", CHAN_6); goto DryFireEnd;
-    DryFireRight: SSG0 A 3 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7); goto DryFireEnd;
-    DryFireBoth:  SSG0 A 1 A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
-                  SSG0 A 2 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7); goto DryFireEnd;
-
-    DryFireEnd:
-        TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
-        goto Ready2;
-
-    Reload:
-        TNT1 A     0 {
-            TakeInventory ('S7_Reloading', 1);
-
-            if ((invoker.leftLoaded && invoker.rightLoaded) ||
-                (!invoker.leftLoaded && !invoker.rightLoaded && !CheckInventory (invoker.ammoType2, 2)) ||
-                (!invoker.leftLoaded && !CheckInventory (invoker.ammoType2, 1)) ||
-                (!invoker.rightLoaded && !CheckInventory (invoker.ammoType2, 1)))
-                return ResolveState ("Ready2");
-
-            return ResolveState (null);
-        }
-        SSG0 AAABC 1;
-        SSG0 D     1 A_PlaySound ("Weapons/SSG/Open", CHAN_7);
-        SSG0 E     1;
-        TNT1 A     0 {
-            if (!invoker.leftLoaded && !invoker.rightLoaded)
-                return ResolveState ("LoadBoth");
-            else if (!invoker.leftLoaded && invoker.rightLoaded)
-                return ResolveState ("LoadLeft");
-            else if (invoker.leftLoaded && !invoker.rightLoaded)
-                return ResolveState ("LoadRight");
-
-            return ResolveState ("ReloadEnd"); // Shouldn't EVER get here. If it still somehow did, uh... Just close the shotgun without reloading.
-        }
-    }
-
     action void S7_SpawnShell (bool right) {
         if (!right)
             S7_A_SpawnCasing ('S7_12gaShellCasing', (30, 4, 20), pitchOffs: -50, spread: (0, 1.5));
@@ -297,8 +105,35 @@ class S7_SSG : S7_BaseWeapon {
             S7_A_SpawnCasing ('S7_12gaShellCasing', (30, 8, 20), pitchOffs: -50, spread: (0, 1.5));
     }
 
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
+    /** Pickup **/
     states {
-    LoadBoth:
+    Spawn:
+        SSGP A -1;
+        loop;
+    }
+
+    /** Animations **/
+    states {
+    Anim.Idle:
+        SSG0 A 1;
+        wait;
+    Anim.Fire:
+        SSG5 A 1 bright;
+        SSG5 B 1;
+        goto Anim.Idle;
+
+    Anim.ReloadOpen:
+        SSG0 AAABC 1;
+        SSG0 D     1 A_PlaySound ("Weapons/SSG/Open", CHAN_7);
+        SSG0 E     1;
+        wait;
+    Anim.ReloadBoth:
         SSG0 F         1 {
             S7_SpawnShell (false);
             S7_SpawnShell (true);
@@ -319,9 +154,8 @@ class S7_SSG : S7_BaseWeapon {
         }
         SSG1 C         4;
         SSG1 DEFGHI    1;
-        goto ReloadEnd;
-
-    LoadLeft:
+        goto Anim.ReloadEnd;
+    Anim.ReloadLeft:
         SSG3 A         1 S7_SpawnShell (false);
         SSG3 BCDEFHIJK 1;
         SSG0 Q         4 {
@@ -331,9 +165,8 @@ class S7_SSG : S7_BaseWeapon {
         }
         SSG3 LMN       1;
         SSG1 EFGHI     1;
-        goto ReloadEnd;
-
-    LoadRight:
+        goto Anim.ReloadEnd;
+    Anim.ReloadRight:
         SSG2 A      1 S7_SpawnShell (true);
         SSG2 BCDE   1;
         SSG0 WXYZ   1;
@@ -345,12 +178,218 @@ class S7_SSG : S7_BaseWeapon {
         }
         SSG1 C      4;
         SSG1 DEFGHI 1;
-        goto ReloadEnd;
-
-    ReloadEnd:
+        goto Anim.ReloadEnd;
+    Anim.ReloadEnd:
         SSG0 E     1;
         SSG0 D     1 A_PlaySound ("Weapons/SSG/Close", CHAN_Weapon);
         SSG0 CBAAA 1;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((-71, 50), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((-61, 35));
+        TNT1 A 1 DoSelectOffset ((-48, 21));
+        TNT1 A 1 DoSelectOffset ((-34, 11));
+        TNT1 A 1 DoSelectOffset ((-11,  4));
+        TNT1 A 1 DoSelectOffset ((  0,  0));
+    Ready2:
+        TNT1 A 1 {
+            bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK));
+            bool altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
+            if (attack && altAttack)
+                return ResolveState ("Fire.Both");
+            else if (attack)
+                return ResolveState ("Fire.Left");
+            else if (altAttack)
+                return ResolveState ("Fire.Right");
+
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null, wrFlags: WRF_NoFire);
+
+            return ResolveState (null);
+        }
+        loop;
+
+    Deselect:
+        SSG0 A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
+                return ResolveState ("Deselect.DEAD");
+            }
+
+            S7_SetAnim ("Anim.Idle");
+            return ResolveState (null);
+        }
+        TNT1 A 1 DoSelectOffset ((  0,  0));
+        TNT1 A 1 DoSelectOffset ((-11,  4));
+        TNT1 A 1 DoSelectOffset ((-34, 11));
+        TNT1 A 1 DoSelectOffset ((-48, 21));
+        TNT1 A 1 DoSelectOffset ((-61, 35));
+        TNT1 A 1 DoSelectOffset ((-71, 50));
+        goto TrueDeselect;
+    }
+
+    action state S7_FireSSGSingle (bool right, bool firingBoth = false) {
+        if (!firingBoth) {
+            int otherButton = (!right ? BT_ALTATTACK : BT_ATTACK);
+            if (!(player.oldbuttons & otherButton) && (player.cmd.buttons & otherButton))
+                return ResolveState ("Fire.Both");
+
+            if (!right && !invoker.leftLoaded)
+                return ResolveState ("DryFireLeft");
+            else if (right && !invoker.rightLoaded)
+                return ResolveState ("DryFireRight");
+        }
+
+        if (!firingBoth)
+            S7_SetAnim ("Anim.Fire");
+
+        A_AlertMonsters ();
+        A_PlaySound ("Weapons/SSG/Fire", (!right ? CHAN_Weapon : CHAN_5));
+        if (!firingBoth) {
+            if (!right) A_GunFlash ("Flash.Left");
+            else        A_GunFlash ("Flash.Right");
+        }
+
+        S7_FireSSG (right);
+        S7_Recoil (-2.175);
+
+        return ResolveState (null);
+    }
+
+    action state S7_FireSSGBoth (bool right, bool firingBoth = false) {
+        A_AlertMonsters ();
+        A_PlaySound ("Weapons/SSG/Fire", (!right ? CHAN_Weapon : CHAN_5));
+
+        S7_FireSSG (right);
+
+        return ResolveState (null);
+    }
+
+    states {
+    Fire.Left:
+        TNT1 A 1 S7_FireSSGSingle (false);
+        TNT1 A 1 S7_Recoil (-2.175);
         goto Ready2;
+    Fire.Right:
+        TNT1 A 1 S7_FireSSGSingle (true);
+        TNT1 A 1 S7_Recoil (-2.175);
+        goto Ready2;
+
+    Fire.Both:
+        TNT1 A 1 {
+            if (!invoker.leftLoaded && !invoker.rightLoaded)
+                return ResolveState ("DryFireBoth");
+
+            if (invoker.leftLoaded && invoker.rightLoaded) {
+                S7_SetAnim ("Anim.Fire");
+                S7_FireSSGBoth (false);
+
+                A_GunFlash ("Flash.Both");
+                S7_Recoil (-1.0875);
+
+                invoker.firingBoth_FiredLeft = true;
+            } else if (!invoker.rightLoaded) {
+                S7_SetAnim ("Anim.Fire");
+                S7_FireSSGSingle (false, true);
+
+                A_GunFlash ("Flash.Left");
+
+                invoker.firingBoth_FiredLeft = true;
+            } else {
+                A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon);
+                invoker.firingBoth_FiredLeft = false;
+            }
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 {
+            if (invoker.firingBoth_FiredLeft && invoker.rightLoaded) {
+                S7_SetAnim ("Anim.Fire");
+                S7_FireSSGBoth (true);
+                S7_Recoil (-5.4375); // 2.175 * 2.5
+            } else if (!invoker.firingBoth_FiredLeft) {
+                S7_SetAnim ("Anim.Fire");
+                S7_FireSSGSingle (true, true);
+
+                A_GunFlash ("Flash.Right");
+            } else {
+                S7_Recoil (-2.175);
+                A_PlaySound ("Weapons/DryFireShotgun", CHAN_5);
+            }
+        }
+        TNT1 A 1 S7_Recoil (-2.175);
+        TNT1 A 4;
+        goto Ready2;
+
+    Flash.Left:
+        SSG5 CD 1 bright;
+        stop;
+    Flash.Right:
+        SSG5 EF 1 bright;
+        stop;
+    Flash.Both:
+        SSG5 CGF 1 bright;
+        stop;
+
+    DryFireLeft:
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
+        }
+        goto DryFireEnd;
+    DryFireRight:
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+        }
+        goto DryFireEnd;
+    DryFireBoth:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
+        }
+        TNT1 A 2 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+        goto DryFireEnd;
+    DryFireEnd:
+        TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
+        goto Ready2;
+
+    Reload:
+        TNT1 A 0 {
+            TakeInventory ('S7_Reloading', 1);
+
+            if ((invoker.leftLoaded && invoker.rightLoaded) ||
+                (!invoker.leftLoaded && !invoker.rightLoaded && !CheckInventory (invoker.ammoType2, 2)) ||
+                (!invoker.leftLoaded && !CheckInventory (invoker.ammoType2, 1)) ||
+                (!invoker.rightLoaded && !CheckInventory (invoker.ammoType2, 1)))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        TNT1 A 5 S7_SetAnim ("Anim.ReloadOpen");
+        TNT1 A 2 A_PlaySound ("Weapons/SSG/Open", CHAN_7);
+        TNT1 A 0 {
+            if (!invoker.leftLoaded && !invoker.rightLoaded)
+                S7_SetAnim ("Anim.ReloadBoth");
+            else if (!invoker.leftLoaded && invoker.rightLoaded)
+                S7_SetAnim ("Anim.ReloadLeft");
+            else if (invoker.leftLoaded && !invoker.rightLoaded)
+                S7_SetAnim ("Anim.ReloadRight");
+            else // Shouldn't EVER get here. If it still somehow did, uh... Just close the shotgun without reloading.
+                S7_SetAnim ("Anim.ReloadEnd");
+        }
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
     }
 }
