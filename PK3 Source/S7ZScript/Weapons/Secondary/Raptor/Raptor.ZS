@@ -111,8 +111,10 @@ class S7_Raptor : S7_BaseWeapon {
 
     Deselect:
         RPTN A 0 {
-            if (health <= 0)
+            if (health <= 0) {
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
+            }
 
             S7_SetAnim ("Anim.Idle");
 

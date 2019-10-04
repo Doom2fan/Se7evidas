@@ -83,7 +83,7 @@ class S7_AK47 : S7_BaseWeapon {
         AK47 A 1;
         wait;
     Anim.Select:
-        AK47 S 4;
+        AK47 S 5;
         AK47 A 1;
         wait;
     Anim.SelectHand:
@@ -95,7 +95,7 @@ class S7_AK47 : S7_BaseWeapon {
         stop;
     Anim.Deselect:
         AK47 A 1;
-        AK47 S 4;
+        AK47 S 5;
         wait;
     Anim.DeselectHand:
         HAN0 F 1 DoSelectOffset ((162,  96), -5, true);
@@ -192,12 +192,15 @@ class S7_AK47 : S7_BaseWeapon {
         goto Ready2;
     Deselect:
         AK47 A 0 {
-            if (health <= 0)
+            if (health <= 0) {
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
+            }
 
             S7_SetAnim ("Anim.Deselect");
             return ResolveState (null);
         }
+        TNT1 A 1;
         TNT1 A 1 {
             DoSelectOffset (( 0,  0));
             A_Overlay (-5, "Anim.DeselectHand");
