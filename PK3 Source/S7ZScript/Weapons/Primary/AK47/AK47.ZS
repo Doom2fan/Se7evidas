@@ -70,6 +70,7 @@ class S7_AK47 : S7_BaseWeapon {
         A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
+    /** Pickup **/
     states {
     Spawn:
         AK4P A -1;

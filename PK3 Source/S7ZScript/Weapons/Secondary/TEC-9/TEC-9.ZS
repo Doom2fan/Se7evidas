@@ -96,6 +96,7 @@ class S7_TEC9 : S7_BaseWeapon {
         A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
+    /** Pickup **/
     states {
     Spawn:
         TEC9 Z 1 {

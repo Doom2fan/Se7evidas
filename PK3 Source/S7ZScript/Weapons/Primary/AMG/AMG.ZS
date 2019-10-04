@@ -93,6 +93,7 @@ class S7_AMG : S7_BaseWeapon {
         A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
+    /** Pickup **/
     states {
     Spawn:
         AMGG Z -1;
