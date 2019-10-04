@@ -84,6 +84,9 @@ class S7_TEC9 : S7_BaseWeapon {
     override void DoEffect () {
         Super.DoEffect ();
 
+        if (Owner.player.ReadyWeapon != self)
+            return;
+
         if (hasSuppressor)
             Owner.A_OverlayOffset (ANIM_LAYER, 12, 12);
         else
