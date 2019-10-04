@@ -111,6 +111,15 @@ class S7_TEC9 : S7_BaseWeapon {
         goto Spawn;
     }
 
+    action void S7_TEC9FireSpriteSwap () {
+        let psp = player.FindPSprite (ANIM_LAYER);
+
+        if (!psp)
+            return;
+
+        psp.frame = (invoker.fireFrame2 ? 2 : 3); // C or D
+    }
+
     /** Animations **/
     states {
     Anim.Idle:
@@ -121,15 +130,16 @@ class S7_TEC9 : S7_BaseWeapon {
         wait;
     Anim.Fire:
         TEC9 D 1 bright {
-            let psp = player.FindPSprite (ANIM_LAYER);
-            if (!psp)
-                return;
+            if (invoker.hasSuppressor)
+                return ResolveState ("Anim.FireSuppressed");
 
-            if (invoker.fireFrame2)
-                psp.frame = 2; // C
-            else
-                psp.frame = 3; // D
+            S7_TEC9FireSpriteSwap ();
+            return ResolveState (null);
         }
+        TEC9 B 1;
+        wait;
+    Anim.FireSuppressed:
+        TEC9 D 1 S7_TEC9FireSpriteSwap ();
         TEC9 B 1;
         wait;
     Anim.Reload:
@@ -236,7 +246,7 @@ class S7_TEC9 : S7_BaseWeapon {
             invoker.fireFrame2 = false;
         }
     Hold:
-        TNT1 A 1 bright {
+        TNT1 A 1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true)) {
                 A_ClearRefire ();
                 return ResolveState ("DryFire");

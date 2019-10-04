@@ -82,6 +82,11 @@ class S7_AK47 : S7_BaseWeapon {
     Anim.Idle:
         AK47 A 1;
         wait;
+    Anim.Fire:
+        AK47 A 1 bright;
+        AK47 CBC 1;
+        AK47 A 1;
+        goto Anim.Idle;
     Anim.Select:
         AK47 S 5;
         AK47 A 1;
@@ -213,7 +218,7 @@ class S7_AK47 : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        AK47 A 1 bright {
+        TNT1 A 1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
@@ -233,16 +238,16 @@ class S7_AK47 : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        AK47 C 1 {
+        TNT1 A 1 {
             S7_Recoil (-.9);
             A_ZoomFactor (.995);
         }
-        AK47 B 1 {
+        TNT1 A 1 {
             S7_Recoil (+.6);
             A_ZoomFactor (1.);
         }
-        AK47 C 1;
-        AK47 A 1 {
+        TNT1 A 1;
+        TNT1 A 1 {
             if (invoker.halfTic) {
                 invoker.halfTic = false;
                 return ResolveState ("Fire.End");

@@ -70,7 +70,8 @@ class S7_Raptor : S7_BaseWeapon {
         RPTN A 1;
         wait;
     Anim.Fire:
-        RPTN BC 1;
+        RPTN B 1 bright;
+        RPTN C 1;
         goto Anim.Idle;
     Anim.Altfire:
         RPTM A    1;

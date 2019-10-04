@@ -101,6 +101,9 @@ class S7_CaesarChaingun : S7_BaseWeapon {
     Anim.Idle:
         CESR A 1;
         wait;
+    Anim.Fire:
+        CESR A 1 bright;
+        goto Anim.Idle;
     Anim.Reload:
         CESR ABCD 1;
         CESR E    6;
@@ -172,11 +175,11 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         goto TrueDeselect;
 
     Fire:
-        TNT1 A 1 bright {
+        TNT1 A 1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
-            S7_SetAnim ("Anim.Idle");
+            S7_SetAnim ("Anim.Fire");
 
             invoker.firedDud = (random [weaponSpc] (0, 255) < 2);
 
