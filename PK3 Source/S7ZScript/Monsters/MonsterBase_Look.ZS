@@ -50,7 +50,7 @@ extend class S7_MonsterBase {
         double dist = Distance2D (other);
         double stealthFactor = S7_GetTargetStealthFactor (other);
         double maxDist = max (maxStealthSightRange * (1. - stealthFactor), (radius * 2.) + other.radius);
-        
+
         if (stealthFactor >= .6 && dist > maxDist)
             return false;
 

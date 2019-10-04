@@ -64,7 +64,7 @@ class S7_Revolver : S7_BaseWeapon {
         RVLP A -1;
         loop;
     }
-    
+
     /** Animations **/
     states {
     Anim.Idle:

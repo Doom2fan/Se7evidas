@@ -489,7 +489,7 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
             S7_ExplosionSound.CreateExplosion2 (pos);
 
             A_QuakeEx (3, 3, 3, 17, 0, 72 * 2, "", falloff: 1, rollIntensity: 2.);
-            
+
             bNoGravity = true;
             S7_ActorExtensions.A_S7SpawnShrapnel (self, 50);
             A_SetDamageType ('ExplosionSplashDMG');

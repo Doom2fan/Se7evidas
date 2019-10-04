@@ -57,12 +57,12 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
 
         if (command == "scanAngleIncButton") {
             ChangeScanAngle (1);
-            
+
             if (caller)
                 caller.holdTicInterval = 3;
         } else if (command == "scanAngleDecButton") {
             ChangeScanAngle (-1);
-            
+
             if (caller)
                 caller.holdTicInterval = 3;
         }

@@ -76,7 +76,7 @@ class S7_AK47 : S7_BaseWeapon {
         AK4P A -1;
         loop;
     }
-    
+
     /** Animations **/
     states {
     Anim.Idle:
