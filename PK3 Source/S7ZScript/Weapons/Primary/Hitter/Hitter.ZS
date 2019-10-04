@@ -50,52 +50,115 @@ class S7_HitterSMG : S7_BaseWeapon {
         S7_BaseWeapon.EnchantmentPrice 650, 0.4, 1.16;
     }
 
+    const ANIM_LAYER = 2;
     bool upperJammed, lowerJammed;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
 
     action void S7_SpawnCasing () {
         S7_A_SpawnCasing ('S7_45ACPCasing', (30, 10, 10), pitchOffs: -45, spread: (10, 15));
     }
 
+    /** Pickup **/
     states {
     Spawn:
         SR20 Z -1;
         loop;
+    }
 
+    /** Animations **/
+    states {
+    Anim.Idle:
+        SR20 A 1;
+        wait;
+    Anim.Fire:
+        SR20 A  1 bright;
+        SR20 E  1;
+        SR20 D  1;
+        SR20 C  1;
+        SR20 BA 1;
+        SR20 A  9;
+        goto Anim.Idle;
+    Anim.DryFireFiring:
+        SR20 AEDCB 1;
+        goto Anim.Idle;
+    Anim.DoubleJammed:
+        SR20 A     1;
+        SR20 CEDCB 1;
+        SR20 A     1;
+        goto Anim.Idle;
+    Anim.AltFire:
+        SR20 A      1;
+        SR20 KLMNOP 1;
+        SR20 Q      1;
+        SR20 RSTUVW 1;
+        goto Anim.Idle;
+    Anim.Reload:
+        SR20 AF  1;
+        SR20 G   1 A_PlaySound ("Weapons/HitterSMG/Out", CHAN_6);
+        SR20 H   1;
+        SR20 I  18;
+        SR20 I  28 A_PlaySound ("Weapons/HitterSMG/In", CHAN_7);
+        SR20 JA  1;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
     Ready:
-        SR20 A 1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
-        SR20 A 1 DoSelectOffset ((72, 72));
-        SR20 A 1 DoSelectOffset ((48, 48));
-        SR20 A 1 DoSelectOffset ((24, 24));
-        SR20 A 1 DoSelectOffset (( 8,  8));
-        SR20 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((72, 72));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
     Ready2:
-        SR20 A 1 S7_WeaponReady ("Reload", null);
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null);
+        }
         loop;
 
     Deselect:
-        SR20 A 1 {
-            if (health <= 0)
+        SR20 A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
+            }
 
-            DoSelectOffset (( 0,  0));
+            S7_SetAnim ("Anim.Idle");
             return ResolveState (null);
         }
-        SR20 A 1 DoSelectOffset (( 8,  8));
-        SR20 A 1 DoSelectOffset ((24, 24));
-        SR20 A 1 DoSelectOffset ((48, 48));
-        SR20 A 1 DoSelectOffset ((72, 72));
-        SR20 A 1 DoSelectOffset ((88, 88));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((72, 72));
+        TNT1 A 1 DoSelectOffset ((88, 88));
         goto TrueDeselect;
 
     Fire:
-        SR20 A 1 A_JumpIf (!CheckInventory (invoker.ammoType1, 2), "DryFire");
+        TNT1 A 1 {
+            if (!CheckInventory (invoker.ammoType1, 2))
+                return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Idle");
+            return ResolveState (null);
+        }
     Hold:
-        SR20 A 1 bright {
+        TNT1 A 1 bright {
             if (!CheckInventory (invoker.ammoType1, 2))
                 return ResolveState ("DryFire.Firing");
 
             if (invoker.upperJammed && invoker.lowerJammed)
                 return ResolveState ("DoubleJammed");
+
+            S7_SetAnim ("Anim.Fire");
 
             if (!invoker.upperJammed) {
                 S7_SpawnCasing ();
@@ -134,39 +197,43 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        SR20 E  1 S7_Recoil (-0.6);
-        SR20 D  1;
-        SR20 C  1 A_Refire ("Hold");
-        SR20 BA 1 A_ClearRefire;
-        SR20 A  9;
+        TNT1 A  2 S7_Recoil (-0.6);
+        TNT1 A  1 A_Refire ("Hold");
+        TNT1 AA 1 A_ClearRefire ();
+        TNT1 A  9;
         goto Ready2;
 
     DryFire:
-        SR20 A 3 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+        }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
     DryFire.Firing:
-        SR20 A    1 {
+        TNT1 A 5 {
             A_ClearRefire ();
+            S7_SetAnim ("Anim.DryFireFiring");
             A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
         }
-        SR20 EDCB 1;
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     DoubleJammed:
-        SR20 A     1 {
+        TNT1 A     7 {
             A_ClearRefire ();
+            S7_SetAnim ("Anim.DoubleJammed");
             A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
         }
-        SR20 CEDCB 1;
-        SR20 A     1;
         goto Ready2;
 
     AltFire:
-        SR20 A      1 A_ClearRefire;
-        SR20 KLMNOP 1;
-        SR20 Q      1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.AltFire");
+            A_ClearRefire ();
+        }
+        TNT1 A 6;
+        TNT1 A 1 {
             if (invoker.upperJammed || CheckInventory (invoker.ammoType1, 1)) {
                 S7_SpawnCasing ();
                 if (!invoker.upperJammed)
@@ -182,8 +249,8 @@ class S7_HitterSMG : S7_BaseWeapon {
             invoker.lowerJammed = false;
             A_PlaySound ("Weapons/HitterSMG/Slide", CHAN_6);
         }
-        SR20 RSTUVW 1;
-        SR20 A 1 A_JumpIf (CheckInventory ('S7_Reloading', 1), "Reload");
+        TNT1 A 6;
+        TNT1 A 0 A_JumpIf (CheckInventory ('S7_Reloading', 1), "Reload");
         goto Ready2;
 
     Reload:
@@ -205,17 +272,18 @@ class S7_HitterSMG : S7_BaseWeapon {
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        // Reloading anim here
-        SR20 AF  1;
-        SR20 G   1 A_PlaySound ("Weapons/HitterSMG/Out", CHAN_6);
-        SR20 H   1;
-        SR20 I  18;
-        SR20 I  28 A_PlaySound ("Weapons/HitterSMG/In", CHAN_7);
-        SR20 JA  1;
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
 
     Flash:
         SR2F A 1 bright;
