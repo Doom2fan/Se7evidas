@@ -78,27 +78,72 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         Owner.A_SetPitch (Owner.pitch + amount, SPF_Interpolate);
     }
 
+    const ANIM_LAYER = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (ANIM_LAYER, animState);
+        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
     int fireMode;
     bool firedDud;
 
+    /** Pickup **/
     states {
     Spawn:
         CESR Z -1;
         loop;
+    }
 
+    /** Animations **/
+    states {
+    Anim.Idle:
+        CESR A 1;
+        wait;
+    Anim.Reload:
+        CESR ABCD 1;
+        CESR E    6;
+        CESR FGH  1;
+        CESR I    1 A_PlaySound ("Weapons/CaesarChaingun/Out", CHAN_5);
+        CESR I    2 A_WeaponOffset (-2, 32 - 2);
+        CESR J    2 A_WeaponOffset (-1, 32 - 1);
+        CESR K    1 A_WeaponOffset ( 0, 32    );
+        CESR LMN  1;
+        CESR OPPQ 1;
+        CESR R   20;
+        CESR QPPO 1;
+        CESR NMLK 1;
+        CESR J    1 A_PlaySound ("Weapons/CaesarChaingun/In", CHAN_6);
+        CESR I    2 A_WeaponOffset (2, 32 + 2);
+        CESR I    2 A_WeaponOffset (1, 32 + 1);
+        CESR H    1 A_WeaponOffset (0, 32    );
+        CESR GF   1;
+        CESR E    6;
+        CESR DCBA 1;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
     Ready:
-        CESR A 1 DoSelectOffset ((14.4 * 5, 14.4 * 5), forceNoInterpolate: true);
-        CESR A 1 DoSelectOffset ((14.4 * 4, 14.4 * 4));
-        CESR A 1 DoSelectOffset ((14.4 * 3, 14.4 * 3));
-        CESR A 1 DoSelectOffset ((14.4 * 2, 14.4 * 2));
-        CESR A 1 DoSelectOffset ((14.4 * 1, 14.4 * 1));
-        CESR A 1 DoSelectOffset ((0, 0));
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((14.4 * 5, 14.4 * 5), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((14.4 * 4, 14.4 * 4));
+        TNT1 A 1 DoSelectOffset ((14.4 * 3, 14.4 * 3));
+        TNT1 A 1 DoSelectOffset ((14.4 * 2, 14.4 * 2));
+        TNT1 A 1 DoSelectOffset ((14.4 * 1, 14.4 * 1));
+        TNT1 A 1 DoSelectOffset ((0, 0));
     Ready2:
-        CESR A 1 S7_WeaponReady ("Reload", "ChangeMode");
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", "ChangeMode");
+        }
         loop;
 
     ChangeMode:
-        CESR A 5 {
+        TNT1 A 5 {
+            S7_SetAnim ("Anim.Idle");
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             if (++invoker.fireMode > 2)
@@ -109,24 +154,29 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         goto Ready2;
 
     Deselect:
-        CESR A 1 {
-            if (health <= 0)
+        CESR A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
+            }
 
-            DoSelectOffset ((0, 0));
+            S7_SetAnim ("Anim.Idle");
             return ResolveState (null);
         }
-        CESR A 1 DoSelectOffset ((14.4 * 1, 14.4 * 1));
-        CESR A 1 DoSelectOffset ((14.4 * 2, 14.4 * 2));
-        CESR A 1 DoSelectOffset ((14.4 * 3, 14.4 * 3));
-        CESR A 1 DoSelectOffset ((14.4 * 4, 14.4 * 4));
-        CESR A 1 DoSelectOffset ((14.4 * 5, 14.4 * 5));
+        TNT1 A 1 DoSelectOffset ((0, 0));
+        TNT1 A 1 DoSelectOffset ((14.4 * 1, 14.4 * 1));
+        TNT1 A 1 DoSelectOffset ((14.4 * 2, 14.4 * 2));
+        TNT1 A 1 DoSelectOffset ((14.4 * 3, 14.4 * 3));
+        TNT1 A 1 DoSelectOffset ((14.4 * 4, 14.4 * 4));
+        TNT1 A 1 DoSelectOffset ((14.4 * 5, 14.4 * 5));
         goto TrueDeselect;
 
     Fire:
-        CESR A 1 bright {
+        TNT1 A 1 bright {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Idle");
 
             invoker.firedDud = (random [weaponSpc] (0, 255) < 2);
 
@@ -148,13 +198,13 @@ class S7_CaesarChaingun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        CESR A 1 {
+        TNT1 A 1 {
             if (!invoker.firedDud) {
                 S7_Recoil ((invoker.fireMode >= 2) ? -1.35 : -0.9);
                 A_WeaponOffset (3, 32 + 3);
             }
         }
-        CESR A 2 {
+        TNT1 A 2 {
             switch (invoker.fireMode) {
                 default: A_SetTics (2); break;
                 case  1: A_SetTics (1); break;
@@ -166,11 +216,17 @@ class S7_CaesarChaingun : S7_BaseWeapon {
             A_WeaponOffset (0, 32);
         }
     Fire.End:
-        CESR A 1 A_Refire ("Fire");
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            A_Refire ("Fire");
+        }
         goto Ready2;
 
     DryFire:
-        CESR A 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
@@ -188,29 +244,18 @@ class S7_CaesarChaingun : S7_BaseWeapon {
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        CESR ABCD 1;
-        CESR E    6;
-        CESR FGH  1;
-        CESR I    1 A_PlaySound ("Weapons/CaesarChaingun/Out", CHAN_5);
-        CESR I    2 A_WeaponOffset (-2, 32 - 2);
-        CESR J    2 A_WeaponOffset (-1, 32 - 1);
-        CESR K    1 A_WeaponOffset ( 0, 32    );
-        CESR LMN  1;
-        CESR OPPQ 1;
-        CESR R   20;
-        CESR QPPO 1;
-        CESR NMLK 1;
-        CESR J    1 A_PlaySound ("Weapons/CaesarChaingun/In", CHAN_6);
-        CESR I    2 A_WeaponOffset (2, 32 + 2);
-        CESR I    2 A_WeaponOffset (1, 32 + 1);
-        CESR H    1 A_WeaponOffset (0, 32    );
-        CESR GF   1;
-        CESR E    6;
-        CESR DCBA 1;
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (ANIM_LAYER);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
 
     // Muzzle flashes
     Flash:
