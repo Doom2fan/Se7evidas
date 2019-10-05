@@ -88,84 +88,130 @@ class S7_Shotgun : S7_BaseWeapon {
             S7_A_SpawnCasing ('S7_ShellCasing', (30, 4.5, 12), pitchOffs: 90, spread: (0, 0), horzMul:  .5);
     }
 
+    const AnimLayer_ID = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
+    /** Pickup **/
     states {
     Spawn:
         DTUP A -1;
         stop;
+    }
 
+    /** Animations **/
+    states {
+    Anim.Idle:
+        SSGR A 1;
+        wait;
+    Anim.Fire:
+        SSGF E 1 bright;
+        SSGF E 2;
+        SSGF F 1;
+        goto Anim.Idle;
+    Anim.AltFire:
+        SSGF ED 1 bright;
+        SSGF DD 1;
+        SSGF EF 1;
+        SSGR A  1;
+        goto Anim.Idle;
+    Anim.Pump: // 10 tics
+        SSGR A 1 A_WeaponOffset ( 4, 32 +  4);
+        SSGR A 1 A_WeaponOffset ( 8, 32 +  8);
+        SSGR A 4 A_WeaponOffset (12, 32 + 12);
+        SSGR A 1 A_WeaponOffset ( 9, 32 +  9);
+        SSGR A 1 A_WeaponOffset ( 6, 32 +  6);
+        SSGR A 1 A_WeaponOffset ( 3, 32 +  3);
+        SSGR A 1 A_WeaponOffset ( 0, 32     );
+        goto Anim.Idle;
+    Anim.InsertShells: // 28 tics
+        DSGR AB 1;
+        DSGR C  4;
+        DSGR BA 1;
+        DSGR A  1 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_6);
+        DSGR B  1;
+        DSGR C  4;
+        DSGR B  1;
+        DSGR A 13;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
     Ready:
-        SSGR A 1 DoSelectOffset ((64, 64), forceNoInterpolate: true);
-        SSGR A 1 DoSelectOffset ((48, 48));
-        SSGR A 1 DoSelectOffset ((32, 32));
-        SSGR A 1 DoSelectOffset ((16, 16));
-        SSGR A 1 DoSelectOffset (( 8,  8));
-        SSGR A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((64, 64), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((32, 32));
+        TNT1 A 1 DoSelectOffset ((16, 16));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
     Ready2:
-        SSGR A 1 S7_WeaponReady ("Reload", null);
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
+        }
         loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     Deselect:
-        SSGR A 1 {
-            if (health <= 0)
+        SSGR A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
+            }
 
-            DoSelectOffset (( 0,  0));
+            S7_SetAnim ("Anim.Idle");
+
             return ResolveState (null);
         }
-        SSGR A 1 DoSelectOffset (( 8,  8));
-        SSGR A 1 DoSelectOffset ((16, 16));
-        SSGR A 1 DoSelectOffset ((32, 32));
-        SSGR A 1 DoSelectOffset ((48, 48));
-        SSGR A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset ((16, 16));
+        TNT1 A 1 DoSelectOffset ((32, 32));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((64, 64));
         goto TrueDeselect;
 
     Fire:
-        SSGF E 1 bright {
+        TNT1 A 1 {
+            bool firingRight = false;
             int ammoCount = CountInv (invoker.ammoType1);
 
             if (ammoCount >= 10 && invoker.loaded != 2) // If the mag ammo is completely full, (i.e. two in chamber and 8 in mag) then this makes no sense.
                 invoker.loaded = 2;                     // Probably cheating or a bug. Just silently fix it and fire anyway.
             else if (ammoCount <= 0)
                 return ResolveState ("DryFire");
-            else if (invoker.loaded == 1 || (invoker.loaded > 0 && ammoCount == 1))
-                return ResolveState ("FireRight");
-            else if (invoker.loaded <= 0)
+            else if (invoker.loaded == 1 || (invoker.loaded > 0 && ammoCount == 1)) {
+                firingRight = true;
+            } else if (invoker.loaded <= 0)
                 return ResolveState ("Pump");
+
+            S7_SetAnim ("Anim.Fire");
 
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_5);
             A_AlertMonsters ();
-            A_GunFlash ("FlashLeft");
+            if (!firingRight)
+                A_GunFlash ("FlashLeft");
+            else
+                A_GunFlash ("FlashRight");
 
-            invoker.loaded = 1;
+            invoker.loaded--;
             invoker.DepleteAmmo (false, true, 1);
-            S7_FireShotgun (false);
+            S7_FireShotgun (firingRight);
 
             S7_Recoil (-1.45);
 
             return ResolveState (null);
         }
-        SSGF E 1 S7_Recoil (-1.45);
-        SSGF E 1;
-        SSGF F 1 S7_Recoil (0.725);
-        SSGR A 1 S7_Recoil (0.725);
-        goto Ready2;
-
-    FireRight:
-        SSGF E 1 bright {
-            A_PlaySound ("Weapons/Shotgun/Fire", CHAN_6);
-            A_AlertMonsters ();
-            A_GunFlash ("FlashRight");
-
-            invoker.loaded = 0;
-            invoker.DepleteAmmo (false, true, 1);
-            S7_FireShotgun (true);
-
-            S7_Recoil (-1.45);
-        }
-        SSGF E 1 S7_Recoil (-1.45);
-        SSGF E 1;
-        SSGF F 1 S7_Recoil (0.725);
-        SSGR A 1 S7_Recoil (0.725);
+        TNT1 A  2 S7_Recoil (-1.45);
+        TNT1 AA 1 S7_Recoil (0.725);
         goto Ready2;
 
     AltFire:
@@ -181,14 +227,15 @@ class S7_Shotgun : S7_BaseWeapon {
             else if (invoker.loaded == 1 || ammoCount == 1)
                 return ResolveState ("Fire");
 
-            A_AlertMonsters ();
-            A_GunFlash ("AltFlash");
+            S7_SetAnim ("Anim.AltFire");
 
             return ResolveState (null);
         }
-
-        SSGF E 1 bright {
+        TNT1 A 1 bright {
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_5);
+
+            A_AlertMonsters ();
+            A_GunFlash ("AltFlash");
 
             invoker.loaded = 1;
             invoker.DepleteAmmo (false, true, 1);
@@ -196,9 +243,10 @@ class S7_Shotgun : S7_BaseWeapon {
 
             S7_Recoil (-0.725);
         }
-
-        SSGF D 1 bright {
+        TNT1 A 1 bright {
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_6);
+
+            A_AlertMonsters ();
 
             invoker.loaded = 0;
             invoker.DepleteAmmo (false, true, 1);
@@ -206,11 +254,10 @@ class S7_Shotgun : S7_BaseWeapon {
 
             S7_Recoil (-2.175);
         }
-
-        SSGF DD 1 S7_Recoil (-1.45);
-        SSGF E  1;
-        SSGF F  1 S7_Recoil (1.45);
-        SSGR A  1 S7_Recoil (1.45);
+        TNT1 AA 1 S7_Recoil (-1.45);
+        TNT1 A  1;
+        TNT1 A  1 S7_Recoil (1.45);
+        TNT1 A  1 S7_Recoil (1.45);
         goto Ready2;
 
     FlashLeft:
@@ -224,7 +271,7 @@ class S7_Shotgun : S7_BaseWeapon {
         stop;
 
     Pump:
-        SSGR A 1 {
+        TNT1 A 1 {
             int ammoCount = CountInv (invoker.ammoType1);
 
             if (ammoCount >= 10) {  // If the mag ammo is completely full, (i.e. two in chamber and 8 in mag) then this makes no sense.
@@ -239,22 +286,20 @@ class S7_Shotgun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        SSGR A 1 {
+        TNT1 A 10 {
+            S7_SetAnim ("Anim.Pump");
+            A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
+
             S7_SpawnCasing (false);
             S7_SpawnCasing (true);
-            A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
-            A_WeaponOffset (4, 32 + 4);
         }
-        SSGR A 1 A_WeaponOffset ( 8, 32 +  8);
-        SSGR A 4 A_WeaponOffset (12, 32 + 12);
-        SSGR A 1 A_WeaponOffset ( 9, 32 +  9);
-        SSGR A 1 A_WeaponOffset ( 6, 32 +  6);
-        SSGR A 1 A_WeaponOffset ( 3, 32 +  3);
-        SSGR A 1 A_WeaponOffset (0, 32);
         goto Ready2;
 
     DryFire:
-        SSGR A 3 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+        }
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ()) {
                 GiveInventory ('S7_Reloading', 1);
@@ -266,31 +311,36 @@ class S7_Shotgun : S7_BaseWeapon {
         goto Ready2;
 
     Reload:
-        SSGR A 5 A_JumpIf (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2, "ReloadFinish");
+        TNT1 A 5 {
+            if (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2)
+                return ResolveState ("ReloadFinish");
+
+            S7_SetAnim ("Anim.Idle");
+
+            return ResolveState (null);
+        }
         TNT1 A 0 A_JumpIf (invoker.loaded != 2, "InsertShells.Pump");
         goto InsertShells;
 
     InsertShells:
-        DSGR A       1 {
+        TNT1 A 28 {
             if (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2)
                 return ResolveState ("ReloadFinish");
 
             GiveInventory ('S7_ShotgunMag', 2);
             TakeInventory ('S7_20gaShells', 2);
+
+            S7_SetAnim ("Anim.InsertShells");
             A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5);
 
             return ResolveState (null);
         }
-        DSGR BCCCCBA 1;
-        DSGR A       1 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_6);
-        DSGR BCCCCB  1;
-        DSGR A      13;
-        TNT1 A       0 A_JumpIf (invoker.loaded != 2, "InsertShells.Pump");
+        TNT1 A 0 A_JumpIf (invoker.loaded != 2, "InsertShells.Pump");
         goto InsertShells;
 
     InsertShells.Pump:
-        SSGR A 1;
-        SSGR A 1 {
+        TNT1 A 1;
+        TNT1 A 10 {
             if (invoker.loaded >= 2) {
                 invoker.loaded = 2;
                 return ResolveState ("InsertShells");
@@ -310,16 +360,10 @@ class S7_Shotgun : S7_BaseWeapon {
                 return ResolveState ("InsertShells");
 
             A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
-            A_WeaponOffset (4, 32 + 4);
+            S7_SetAnim ("Anim.Pump");
 
             return ResolveState (null);
         }
-        SSGR A 1 A_WeaponOffset ( 8, 32 +  8);
-        SSGR A 4 A_WeaponOffset (12, 32 + 12);
-        SSGR A 1 A_WeaponOffset ( 9, 32 +  9);
-        SSGR A 1 A_WeaponOffset ( 6, 32 +  6);
-        SSGR A 1 A_WeaponOffset ( 3, 32 +  3);
-        SSGR A 1 A_WeaponOffset (0, 32);
         goto InsertShells;
 
     ReloadFinish:
