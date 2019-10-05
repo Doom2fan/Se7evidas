@@ -208,11 +208,14 @@ class S7_SSG : S7_BaseWeapon {
                 return ResolveState ("Fire.Right");
 
             S7_SetAnim ("Anim.Idle");
-            S7_WeaponReady ("Reload", null, wrFlags: WRF_NoFire);
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp", wrFlags: WRF_NoFire);
 
             return ResolveState (null);
         }
         loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     Deselect:
         SSG0 A 0 {

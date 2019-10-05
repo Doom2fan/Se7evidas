@@ -182,8 +182,11 @@ class S7_TEC9 : S7_BaseWeapon {
                     return ResolveState ("Overlay.DeselectDEAD");
                 }
 
-                if (!pspWeap)
+                if (!pspWeap) {
+                    pspOverlay.sprite = GetSpriteIndex ('TNT1');
+                    pspOverlay.frame = 0;
                     return ResolveState (null);
+                }
 
                 A_OverlayOffset (TEC9_SuppressorOverlay_ID, 12, 12);
 
@@ -216,9 +219,12 @@ class S7_TEC9 : S7_BaseWeapon {
     Ready2:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
-            S7_WeaponReady ("Reload", null);
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
         }
         loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     Deselect:
         TEC9 A 0 {

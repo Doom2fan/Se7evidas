@@ -304,9 +304,12 @@ class S7_Thumper : S7_BaseWeapon {
     Ready2:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
-            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom);
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_AllowZoom);
         }
         loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     Deselect:
         THMP A 0 {

@@ -106,9 +106,12 @@ class S7_Raptor : S7_BaseWeapon {
     Ready2:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
-            S7_WeaponReady ("Reload", null);
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
         }
         loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     Deselect:
         RPTN A 0 {

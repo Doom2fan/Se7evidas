@@ -140,9 +140,12 @@ class S7_CaesarChaingun : S7_BaseWeapon {
     Ready2:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
-            S7_WeaponReady ("Reload", "ChangeMode");
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp");
         }
         loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     ChangeMode:
         TNT1 A 5 {
