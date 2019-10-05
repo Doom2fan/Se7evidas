@@ -26,7 +26,7 @@ extend class S7_S7DataParser {
         ParseValue (itemID, VT_String);
         if (itemID.Length () != 4) {
             m_ParsingException = S7_ParsingException.Create (String.Format ("Invalid item id \"%s\". Id must be 4 characters long.", itemID), "S7_S7DataParser.ParseShop_Item_ParseHeader");
-            return NULL;
+            return null;
         }
 
         if (!noClassType) {
@@ -38,14 +38,14 @@ extend class S7_S7DataParser {
 
         if ((t = m_Tokenizer.Next ()).type != TOK_BraceO) {
             m_ParsingException = S7_BadTokenPE.Create ("S7_S7DataParser.ParseShop_Item_ParseHeader", TOK_BraceO, t);
-            return NULL;
+            return null;
         }
 
         S7_SSItem item = S7_SSItem (new (itemClass));
 
         if (!item) {
             m_ParsingException = S7_ParsingException.Create (String.Format ("Item class \"%s\" does not exist", itemClass), "S7_S7DataParser.ParseShop_Item_ParseHeader");
-            return NULL;
+            return null;
         }
 
         item.Init ();
@@ -129,11 +129,11 @@ extend class S7_S7DataParser {
                 return;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseShop_Item_PageLink", m_ParsingException);
             itemData.Destroy ();
             return;
@@ -349,11 +349,11 @@ extend class S7_S7DataParser {
                 return;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseShop_Item_BuySellItem", m_ParsingException);
             itemData.Destroy ();
             return;

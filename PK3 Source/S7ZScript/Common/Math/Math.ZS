@@ -27,7 +27,7 @@ class S7_Math {
 
     const SqrtTwo = 1.41421356237309504880168872421;
 
-    const VM_EPSILON = (1. / 65536.);
+    const VM_Epsilon = (1. / 65536.);
 
     /** General math **/
     static double Lerp (double x, double y, double a) {

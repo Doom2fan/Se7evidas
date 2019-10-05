@@ -62,7 +62,7 @@ class S7_Empress : S7_DemonBase {
         +DONTMORPH +MISSILEMORE
     }
 
-    const InvulnDelayTime = TICRATE * 12;
+    const InvulnDelayTime = TicRate * 12;
     const InvulnLimit = 2500;
     const InvulnShieldAngle = 152.5;
 
@@ -123,7 +123,7 @@ class S7_Empress : S7_DemonBase {
 
         if (shieldUp) {
             let angTo = inflictor ? AngleTo (inflictor) : double.NaN;
-            if (flags & DMG_USEANGLE && !inflictor)
+            if (flags & DMG_UseAngle && !inflictor)
                 angTo = DeltaAngle (self.angle, angle);
 
             if (abs (angTo) <= InvulnShieldAngle)
@@ -139,7 +139,7 @@ class S7_Empress : S7_DemonBase {
 
             Spawn ('S7_EmpressShieldHitspark', inflictor.pos);
         } else if (shieldUp) {
-            if (damage < TELEFRAG_DAMAGE)
+            if (damage < Telefrag_Damage)
                 damage /= 2;
         }
 

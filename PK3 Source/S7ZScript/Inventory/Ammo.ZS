@@ -60,7 +60,7 @@ class S7_Backpack : Inventory replaces Backpack {
             ItemChoices [i].Split (options, ":");
             amounts.Reserve (options.Size ());
             for (int i = options.Size () - 1; i >= 0; i--) {
-                let itemDef = GetDefaultByType ((class<Inventory>) (options [i]));
+                let itemDef = GetDefaultByType ((Class<Inventory>) (options [i]));
                 if (!itemDef) {
                     options.Delete (i, 1);
                     amounts.Delete (i, 1);
@@ -295,7 +295,7 @@ class S7_20gaShells : Ammo {
                         act.target = target;
                         act.master = master;
                         act.tracer = tracer;
-                        act.ChangeTID (TID);
+                        act.ChangeTID (tid);
                     }
                 }
             }

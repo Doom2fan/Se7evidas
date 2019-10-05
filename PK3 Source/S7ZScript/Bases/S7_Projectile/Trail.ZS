@@ -18,10 +18,10 @@
 
 extend class S7_Projectile {
     virtual Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
-        class<Actor> trail = MissileName;
+        Class<Actor> trail = MissileName;
 
         if (!trail)
-            return NULL;
+            return null;
 
         Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
 
@@ -36,7 +36,7 @@ extend class S7_Projectile {
         Actor act = Spawn (trail, finalPos, ALLOW_REPLACE);
 
         if (!act)
-            return NULL;
+            return null;
 
         if (bGetOwner && target != null)
             act.target = target;

@@ -32,7 +32,7 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
         if (!mapData.mapEventSet)
             S7_MapEventThinker.Init (null, mapData);
 
-        if (mapData.mapEvent == MEVNT_PerfectHatred)
+        if (mapData.mapEvent == S7_MEVNT_PerfectHatred)
             return 'S7_MEvntNoMonster';
 
         return Super.ChooseSpawn ();
@@ -41,12 +41,12 @@ class S7_ReplacementSpawner : S7_MonsterSpawner {
     bool spawnLater; // Gotta do this stupid hack...
     bool delayedSpawn;
     override void BeginPlay () {
-        if (S7_DelayedMonsterSpawns != DelaySpawns_Off) {
+        if (S7_DelayedMonsterSpawns != S7_DelaySpawns_Off) {
             switch (S7_DelayedMonsterSpawns) {
-            case DelaySpawns_MapStart:
+            case S7_DelaySpawns_MapStart:
                 delayedSpawn = (GetLevelSpawnTime () <= 1);
                 break;
-            case DelaySpawns_All:
+            case S7_DelaySpawns_All:
                 delayedSpawn = true;
                 break;
             }

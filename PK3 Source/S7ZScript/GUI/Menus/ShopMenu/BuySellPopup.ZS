@@ -109,24 +109,24 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
         background = new ('S7_ZF_Image').Init ((0, 0), (320, 80), "graphics/Menu/Shop/BuySellPopup.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
-        modeLabel = new ('S7_ZF_Label').Init ((4, 4), (40, 10), text: "", fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        modeLabel = new ('S7_ZF_Label').Init ((4, 4), (40, 10), text: "", fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         modeLabel.Pack (self);
 
         itemIcon = new ('S7_ZF_Image').Init ((0, 0), (0, 0), "", S7_ZF_Image.AlignType_TopLeft);
         itemIcon.Pack (self);
-        itemName = new ('S7_ZF_Label').Init ((0, 0), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        itemName = new ('S7_ZF_Label').Init ((0, 0), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         itemName.Pack (self);
 
         totalAmount = new ('S7_ZF_Label').Init ((0, 0), (smallFont.StringWidth (String.Format ("%s: 00000", StringTable.Localize ("$SS_TOTAL", true))), smallFont.GetHeight ()),
-            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE
+            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White
         );
         totalAmount.Pack (self);
         selAmount = new ('S7_ZF_Label').Init ((0, 0), (smallFont.StringWidth (String.Format ("%s: 00000", StringTable.Localize ("$SS_COUNT", true))), smallFont.GetHeight ()),
-            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE
+            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White
         );
         selAmount.Pack (self);
         priceLabel = new ('S7_ZF_Label').Init ((0, 0), (smallFont.StringWidth (String.Format ("%s: 00000000", StringTable.Localize ("$SS_PRICE", true))), smallFont.GetHeight ()),
-            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE
+            text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White
         );
         priceLabel.Pack (self);
 
@@ -281,14 +281,14 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         selAmount.text = String.Format ("%s: %d", StringTable.Localize ("$SS_COUNT", true), amount);
         priceLabel.text = String.Format ("%s: %d", StringTable.Localize ("$SS_PRICE", true), price);
 
-        totalAmount.textColor = Font.CR_WHITE;
-        selAmount.textColor = Font.CR_WHITE;
-        priceLabel.textColor = Font.CR_WHITE;
-        acceptButton.textColor = Font.CR_WHITE;
+        totalAmount.textColor = Font.CR_White;
+        selAmount.textColor = Font.CR_White;
+        priceLabel.textColor = Font.CR_White;
+        acceptButton.textColor = Font.CR_White;
 
         acceptButton.disabled = false;
 
-        class<Inventory> cashInvType = (class<Inventory>) (selectedItem.cashItem);
+        Class<Inventory> cashInvType = (Class<Inventory>) (selectedItem.cashItem);
         uint cash = uint (pPawn.CountInv (cashInvType)), maxCash;
 
         let cashInv = pPawn.FindInventory (cashInvType);
@@ -302,8 +302,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         if ((!sellMode && cash < price) || // If buying, check if there's not enough money
             ( sellMode && (cash + price) >= maxCash) // If selling, check if there's too much money
         ) {
-            priceLabel.textColor = Font.CR_DARKRED;
-            acceptButton.textColor = Font.CR_DARKGRAY;
+            priceLabel.textColor = Font.CR_DarkRed;
+            acceptButton.textColor = Font.CR_DarkGray;
 
             acceptButton.disabled = true;
         }
@@ -311,9 +311,9 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             (!sellMode && (selectedItem.GetAmount (pPawn, sellMode) + total) > info.maxAmount) || // If buying, check if there's too much of the item
             ( sellMode && total > selectedItem.GetAmount (pPawn, sellMode)) // If selling, check if there's not enough of the item
         ) {
-            selAmount.textColor = Font.CR_DARKRED;
-            totalAmount.textColor = Font.CR_DARKRED;
-            acceptButton.textColor = Font.CR_DARKGRAY;
+            selAmount.textColor = Font.CR_DarkRed;
+            totalAmount.textColor = Font.CR_DarkRed;
+            acceptButton.textColor = Font.CR_DarkGray;
 
             acceptButton.disabled = true;
         }
@@ -338,8 +338,8 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         if (amount <= 1)
             decButton.disabled = true;
 
-        addButton.textColor = (addButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
-        decButton.textColor = (decButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
+        addButton.textColor = (addButton.disabled ? Font.CR_DarkGray : Font.CR_White);
+        decButton.textColor = (decButton.disabled ? Font.CR_DarkGray : Font.CR_White);
     }
 
     void Close () {

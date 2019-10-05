@@ -25,7 +25,7 @@ extend class S7_BasePlayer {
     };
 
     void Misc_PermanentItems () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
 
         for (int i = 0; i < PermanentItems.Size (); i++) {
@@ -42,7 +42,7 @@ extend class S7_BasePlayer {
     }
 
     void Misc_StaminaRegen () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
 
         int curStamina = CountInv ('S7_Stamina');
@@ -71,7 +71,7 @@ extend class S7_BasePlayer {
     }
 
     void Misc_BerserkSideEffects () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
         if (health <= 0 || bKilled)
             return;
@@ -122,7 +122,7 @@ extend class S7_BasePlayer {
                 (health <= 5  && health > 2  && playerData.heartbeatTics >= 35) ||
                 (health <= 2  &&                playerData.heartbeatTics >= 18)
             ) {
-                A_PlaySound ("Player/Heartbeat", CHAN_Body, 1.0, false, ATTN_NONE, true);
+                A_PlaySound ("Player/Heartbeat", CHAN_Body, 1.0, false, ATTN_None, true);
                 playerData.heartbeatTics = 0;
             } else if (health > 25) // If health is greater than 25...
                 playerData.heartbeatTics = 0; // Set heartbeatTics to 0
@@ -132,7 +132,7 @@ extend class S7_BasePlayer {
     }
 
     void Misc_HellhunterBlade () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
 
         int curLvl = CountInv ('S7_HellhunterBladeAffinity');

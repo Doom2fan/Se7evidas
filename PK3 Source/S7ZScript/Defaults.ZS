@@ -50,7 +50,7 @@ class S7_DebrisGeneral : S7_EffectsBase {
 
     override void PostBeginPlay () {
         Super.PostBeginPlay ();
-        target = NULL;
+        target = null;
     }
 }
 

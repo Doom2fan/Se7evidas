@@ -103,7 +103,7 @@ extend class S7_Empress {
                 }
             }
         } else if (time == DanmakuFireballs_Time_Warn)
-            A_PlaySound ("Monsters/Empress/DanmakuFireballsEnd", CHAN_6, attenuation: ATTN_NONE);
+            A_PlaySound ("Monsters/Empress/DanmakuFireballsEnd", CHAN_6, attenuation: ATTN_None);
         else if (time == DanmakuFireballs_Time_LaunchMissiles) {
             for (int i = 0; i < invoker.attackDanmakuFireballs_Fireballs.Size (); i++) {
                 let proj = invoker.attackDanmakuFireballs_Fireballs [i];

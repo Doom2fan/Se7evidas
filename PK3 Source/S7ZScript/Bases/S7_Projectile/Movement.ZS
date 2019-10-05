@@ -124,7 +124,7 @@ extend class S7_Projectile {
                     BlockingCeiling = CurSector;
 
                 A_Stop ();
-                S7_ExplodeMissile (NULL, NULL, didHitSky);
+                S7_ExplodeMissile (null, null, didHitSky);
             }
         }
 

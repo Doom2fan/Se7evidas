@@ -158,7 +158,7 @@ extend class S7_Projectile {
 
                 if (bMissile) {
                     A_Stop ();
-                    S7_ExplodeMissile (NULL, NULL, didHitSky);
+                    S7_ExplodeMissile (null, null, didHitSky);
                 }
 
                 return 1;

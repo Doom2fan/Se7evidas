@@ -82,7 +82,7 @@ class S7_ThumperGrenade : S7_Projectile {
 
         rangeTravelled += level.Vec3Diff (oldPos, pos).Length ();
 
-        if (!projDetonated && airburstRange > 0 && (airburstRange - rangeTravelled) < EQUAL_EPSILON)
+        if (!projDetonated && airburstRange > 0 && (airburstRange - rangeTravelled) < S7C_EqualEpsilon)
             DoAirburst (prevVel);
     }
 
@@ -250,7 +250,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
                 );
                 act.fadeInTime = random [sfx] (2, 5);
                 act.stayTime = 10;
-                act.fadeOutTime = random [sfx] (17, ceil (TICRATE * 1.25));
+                act.fadeOutTime = random [sfx] (17, ceil (TicRate * 1.25));
                 act.targetAlpha = .5;
             }
 
@@ -418,7 +418,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
 
         info = new ('S7_FireThinker_BaseInfo');
 
-        info.duration = int (TICRATE * fRandom [weaponSpc] (12.5, 20.));
+        info.duration = int (TicRate * fRandom [weaponSpc] (12.5, 20.));
         info.fireSize = 24. * fRandom [weaponSpc] (0.85, 1.25);
 
         info.damage = 1;
@@ -431,8 +431,8 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
         info.smokeMaxDensity = 3;
         info.smokeActor = 'S7_ThumperGrenadeTherm_Fire_Smoke';
 
-        info.flameMinDelay = TICRATE * 8;
-        info.flameMaxDelay = TICRATE * 12;
+        info.flameMinDelay = TicRate * 8;
+        info.flameMaxDelay = TicRate * 12;
         info.flameMinDensity = 1;
         info.flameMaxDensity = 1;
         info.flameActor = 'S7_ThumperGrenadeTherm_Fire_Fire';
@@ -441,10 +441,10 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
         stepMulCounter = randomPick [S7_SmokeRNG] (4, 4, 4, 4, -1);
     }
 
-    class<Actor> trailType;
+    Class<Actor> trailType;
     override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
         if (!trailType)
-            return NULL;
+            return null;
 
         Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
 
@@ -573,7 +573,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 
         airburstRange = 0;
 
-        A_PlaySound ("Fire/Flare", CHAN_7, 0.15, TRUE);
+        A_PlaySound ("Fire/Flare", CHAN_7, 0.15, true);
         initialized = true;
     }
 
@@ -630,7 +630,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
     RanOut:
         THGR B 1 {
             if (dynLight)
-                dynLight.A_Remove (AAPTR_Default, RMVF_EVERYTHING);
+                dynLight.A_Remove (AAPTR_Default, RMVF_Everything);
 
             A_StopSound (CHAN_7);
             A_SpawnItemEx ('S7_Thumper_Used', 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
@@ -723,7 +723,7 @@ class S7_ThumperGrenadeCluster_Bomb : S7_Projectile {
 
     Death:
         XPL3 A         3 bright {
-            bNoGravity = TRUE;
+            bNoGravity = true;
 
             S7_ExplosionSound.CreateExplosion1 (pos);
 
@@ -906,7 +906,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
             A_SpawnItemEx ('S7_ThumperGrenadeNGas_GasCloud_Trail', 0.0, 0.0, 1.0,  3.0, 0.0, 0.5, i + 12.5, SXF_NoCheckPosition);
         }
 
-        invoker.time = (2 * TICRATE) - random [weaponSpc] (-10, 10);
+        invoker.time = (2 * TicRate) - random [weaponSpc] (-10, 10);
 
         A_SetDamageType (origDMGType);
         bDontSplash = false;

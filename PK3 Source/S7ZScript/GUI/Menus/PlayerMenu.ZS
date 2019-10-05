@@ -70,7 +70,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         menusFrame.Pack (mainFrame);
 
         string labelText = StringTable.Localize ("$PLAYERMENUHEADER", true);
-        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (menusFrame);
 
@@ -87,7 +87,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
             AddButton (m400AutogunButton, "$PLAYERMENU_M400AUTOGUN", 15 + ((fontHeight+4) * buttonCount++), handler, "openAutogunMenu");
     }
 
-    bool CheckInventory (class<Inventory> item, int amount = 1) {
+    bool CheckInventory (Class<Inventory> item, int amount = 1) {
         if (CPlayer == null)
             return false;
 
@@ -95,7 +95,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         return it != null && it.Amount >= amount;
     }
 
-    void AddButton (out S7_ZF_Button button, string label, double yOffs, S7_ZF_Handler cmdHandler = NULL, string command = "") {
+    void AddButton (out S7_ZF_Button button, string label, double yOffs, S7_ZF_Handler cmdHandler = null, string command = "") {
         string btnText = StringTable.Localize (label, true);
         int btnTextWidth = smallFont.StringWidth (btnText), btnTextHeight = smallFont.GetHeight ();
 
@@ -114,13 +114,13 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
             return;
         }
 
-        xpSysButton.textColor           = (      xpSysButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
-        luciusShopButton.textColor      = ( luciusShopButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
-        weapAssignButton.textColor      = ( weapAssignButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
-        weapEnchantButton.textColor     = (weapEnchantButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+        xpSysButton.textColor           = (      xpSysButton.isHovered ? Font.CR_Red : Font.CR_White);
+        luciusShopButton.textColor      = ( luciusShopButton.isHovered ? Font.CR_Red : Font.CR_White);
+        weapAssignButton.textColor      = ( weapAssignButton.isHovered ? Font.CR_Red : Font.CR_White);
+        weapEnchantButton.textColor     = (weapEnchantButton.isHovered ? Font.CR_Red : Font.CR_White);
         if (dracoWeapAssignButton)
-            dracoWeapAssignButton.textColor = (dracoWeapAssignButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+            dracoWeapAssignButton.textColor = (dracoWeapAssignButton.isHovered ? Font.CR_Red : Font.CR_White);
         if (m400AutogunButton)
-            m400AutogunButton.textColor     = (m400AutogunButton.isHovered ? Font.CR_RED : Font.CR_WHITE);
+            m400AutogunButton.textColor     = (m400AutogunButton.isHovered ? Font.CR_Red : Font.CR_White);
     }
 }

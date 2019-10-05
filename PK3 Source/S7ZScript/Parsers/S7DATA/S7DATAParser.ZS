@@ -27,13 +27,13 @@ class S7_S7DataParser : S7_BaseParser {
     protected S7_S7Data parsedData;
 
     S7_S7Data GetOutput () {
-        if (m_ParsingException) return NULL;
+        if (m_ParsingException) return null;
         return parsedData;
     }
     void SetInitialData (S7_S7Data data) { parsedData = data; }
 
     override bool Parse () {
-        m_ParsingException = NULL;
+        m_ParsingException = null;
 
         S7_TZK_Token tk;
 
@@ -66,11 +66,11 @@ class S7_S7DataParser : S7_BaseParser {
                 break;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.Parse", m_ParsingException);
             return false;
         }
@@ -88,7 +88,7 @@ class S7_S7DataParser : S7_BaseParser {
             return;
         }
 
-        if (m_ParsingException != NULL)
+        if (m_ParsingException != null)
             return;
 
         let lmpNum = Wads.CheckNumForFullName (inclPath);

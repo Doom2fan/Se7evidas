@@ -19,12 +19,12 @@
 class S7_ItemSpawner : RandomSpawner {
     bool delayedSpawn;
     override void BeginPlay () {
-        if (S7_DelayedItemSpawns != DelaySpawns_Off) {
+        if (S7_DelayedItemSpawns != S7_DelaySpawns_Off) {
             switch (S7_DelayedItemSpawns) {
-            case DelaySpawns_MapStart:
+            case S7_DelaySpawns_MapStart:
                 delayedSpawn = (GetLevelSpawnTime () <= 1);
                 break;
-            case DelaySpawns_All:
+            case S7_DelaySpawns_All:
                 delayedSpawn = true;
                 break;
             }

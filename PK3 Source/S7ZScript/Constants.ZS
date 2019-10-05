@@ -22,37 +22,37 @@ const S7C_MinorVersion = 3;
 const S7C_PointVersion = 0;
 
 // Map events
-enum MapEventTypes {
-    MEVNT_None            = 0, // This is here just in case you need to check it for some reason.
-    MEVNT_GhostTown          ,
-    MEVNT_PowerOutage        ,
-    MEVNT_NuclearMeltdown    ,
-    MEVNT_PerfectHatred      ,
-    MEVNT_LastToken          , // This is here just so you don't have to keep track of the last event, it's not an actual event.
+enum S7_MapEventTypes {
+    S7_MEVNT_None            = 0, // This is here just in case you need to check it for some reason.
+    S7_MEVNT_GhostTown          ,
+    S7_MEVNT_PowerOutage        ,
+    S7_MEVNT_NuclearMeltdown    ,
+    S7_MEVNT_PerfectHatred      ,
+    S7_MEVNT_LastToken          , // This is here just so you don't have to keep track of the last event, it's not an actual event.
 };
 
 // Firing mode icons
-enum FiringModeIcon {
-    FMI_None      = 0,
-    FMI_SemiAuto  = 1,
-    FMI_BurstFire = 2,
-    FMI_FullAuto  = 3,
+enum S7_FiringModeIcon {
+    S7_FMI_None      = 0,
+    S7_FMI_SemiAuto  = 1,
+    S7_FMI_BurstFire = 2,
+    S7_FMI_FullAuto  = 3,
 };
 
 // Weapon binding slots
 enum S7_WeaponSlots {
-    WpSlot_Medium = 1,
-    WpSlot_Light,
-    WpSlot_Heavy,
-    WpSlot_AreaDMG,
-    WpSlot_Special,
+    S7_WpSlot_Medium = 1,
+    S7_WpSlot_Light,
+    S7_WpSlot_Heavy,
+    S7_WpSlot_AreaDMG,
+    S7_WpSlot_Special,
 };
 
 // Delayed spawns
 enum S7_DelayedSpawns {
-    DelaySpawns_Off = 0,
-    DelaySpawns_MapStart = 1,
-    DelaySpawns_All = 2,
+    S7_DelaySpawns_Off = 0,
+    S7_DelaySpawns_MapStart = 1,
+    S7_DelaySpawns_All = 2,
 }
 
 // Debugging constants
@@ -70,5 +70,4 @@ const S7C_WJumpDelay = 5;
 
 // Misc
 const S7C_MapUnitsPerMeter = 32;
-const EQUAL_EPSILON = (1 / 65536.);
-const TICRATE = Thinker.TICRATE;
+const S7C_EqualEpsilon = (1 / 65536.);

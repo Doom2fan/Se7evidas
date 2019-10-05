@@ -36,7 +36,7 @@ class S7_Error {
 class S7_Exception : S7_Error {
     S7_Exception innerException;
 
-    static S7_Exception Create (string message = "", string source = "", S7_Exception innerException = NULL) {
+    static S7_Exception Create (string message = "", string source = "", S7_Exception innerException = null) {
         let ret = new ('S7_Exception');
         ret.message = message;
         ret.source = source;
@@ -55,7 +55,7 @@ class S7_Exception : S7_Error {
             string curLine = "";
 
             if (msg) {
-                if (e.innerException != NULL && src)
+                if (e.innerException != null && src)
                     curLine.AppendFormat ("-------------------------------------------------------------------------------\n");
 
                 curLine.AppendFormat ("%s [%s]\n", e.GetClassName (), msg);

@@ -52,8 +52,8 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
             return;
 
         if (item.itemData && item.itemData.itemType == IT_PageLink && item.itemData.link) {
-            link.selectedItem = NULL;
-            link.hoveredItem = NULL;
+            link.selectedItem = null;
+            link.hoveredItem = null;
             list.UpdateList ();
 
             let page = item.itemData.link;
@@ -67,7 +67,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
 
             Menu.MenuSound ("S7Menu/SelectionMove");
         } else {
-            link.selectedItem = NULL;
+            link.selectedItem = null;
             list.UpdateList ();
 
             Menu.MenuSound ("S7Menu/SelectionMove");
@@ -107,7 +107,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
         if (!lostFocus && buttonEnabled)
             link.hoveredItem = item;
         else if (link.hoveredItem == item)
-            link.hoveredItem = NULL;
+            link.hoveredItem = null;
     }
 }
 
@@ -189,16 +189,16 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             if (!item || !item.itemData)
                 continue;
 
-            int colour = Font.CR_WHITE;
+            int colour = Font.CR_White;
 
             if (item == link.selectedItem)
-                colour = Font.CR_RED;
+                colour = Font.CR_Red;
             else if (item.itemData.itemType != IT_PageLink) {
                 if (
                     (!sellMode && !item.itemData.CanBuy (pPawn, 1)) ||
                     (sellMode && !item.itemData.CanSell (pPawn, 1))
                 ) {
-                    colour = Font.CR_DARKGRAY;
+                    colour = Font.CR_DarkGray;
                 }
             }
 
@@ -227,17 +227,17 @@ class S7_ShopMenu_List : S7_ZF_Frame {
                 if (!items [i])
                     continue;
 
-                items [i].itemData = NULL;
+                items [i].itemData = null;
                 if (items [i].clickableArea) {
-                    items [i].clickableArea.master = NULL;
+                    items [i].clickableArea.master = null;
                     items [i].clickableArea.Destroy ();
-                    items [i].clickableArea = NULL;
+                    items [i].clickableArea = null;
                 }
                 items [i].labels.Clear ();
                 if (items [i].icon) {
-                    items [i].icon.master = NULL;
+                    items [i].icon.master = null;
                     items [i].icon.Destroy ();
-                    items [i].icon = NULL;
+                    items [i].icon = null;
                 }
             }
             items.Clear ();
@@ -247,9 +247,9 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             if (clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ())
                 clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
 
-            itemsFrame.master = NULL;
+            itemsFrame.master = null;
             itemsFrame.Destroy ();
-            itemsFrame = NULL;
+            itemsFrame = null;
         }
 
         itemsFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 0));
@@ -294,7 +294,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
                 let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
-                    fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
+                    fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
                 label.Pack (itemsFrame);
                 itemControls.labels.Push (label);

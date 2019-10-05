@@ -44,18 +44,18 @@ class S7_Revolver : S7_BaseWeapon {
         S7_BaseWeapon.Icon "RVLPA0";
         S7_BaseWeapon.ShortTag "$SHORTREVOLVER";
         S7_BaseWeapon.AmmoBuyData "A44M", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties true, 0.02;
         S7_BaseWeapon.EnchantmentPrice 650, 0.425, 1.1885;
     }
 
-    const ANIM_LAYER = 2;
+    const AnimLayer_ID = 2;
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (ANIM_LAYER, animState);
-        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     /** Pickup **/
@@ -214,7 +214,7 @@ class S7_Revolver : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 1 {
-            let psp = player.FindPSprite (ANIM_LAYER);
+            let psp = player.FindPSprite (AnimLayer_ID);
             if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
                 return ResolveState ("Ready2");
 

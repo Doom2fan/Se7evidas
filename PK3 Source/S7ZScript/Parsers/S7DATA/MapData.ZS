@@ -39,11 +39,11 @@ extend class S7_S7DataParser {
                 return;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseMapData", m_ParsingException);
             return;
         }
@@ -94,11 +94,11 @@ extend class S7_S7DataParser {
                 return;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseMapData_Map", m_ParsingException);
             return;
         }

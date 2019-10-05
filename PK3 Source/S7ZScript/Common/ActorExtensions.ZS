@@ -51,9 +51,9 @@ class S7_CanHitPointLineTracer : LineTracer {
             case TRACE_HitWall: {
                 if (Results.Tier == TIER_Upper || Results.Tier == TIER_Lower) return TRACE_Stop;
 
-                if ((Results.HitLine.flags & (Line.ML_BLOCKEVERYTHING | Line.ML_BLOCKING)) != 0)
+                if ((Results.HitLine.flags & (Line.ML_BlockEverything | Line.ML_Blocking)) != 0)
                     return TRACE_Stop;
-                if (!(Results.HitLine.flags & Line.ML_TWOSIDED))
+                if (!(Results.HitLine.flags & Line.ML_TwoSided))
                     return TRACE_Stop;
                 if (Results.HitLine.flags & data.lineBlockFlags)
                     return TRACE_Stop;
@@ -73,7 +73,7 @@ class S7_SectorList {
 }
 
 class S7_ActorExtensions : Actor {
-    const CHP_BlockFlags = Line.ML_BLOCKMONSTERS | Line.ML_BLOCK_PLAYERS | Line.ML_BLOCK_FLOATERS | Line.ML_BLOCKPROJECTILE | Line.ML_BLOCKUSE | Line.ML_BLOCKSIGHT | Line.ML_BLOCKHITSCAN;
+    const CHP_BlockFlags = Line.ML_BlockMonsters | Line.ML_Block_Players | Line.ML_Block_Floaters | Line.ML_BlockProjectile | Line.ML_BlockUse | Line.ML_BlockSight | Line.ML_BlockHitscan;
     static bool CanHitPoint (LevelLocals lvl, Vector3 p1, Vector3 p2, S7_CanHitPointData data) {
         if (!data)
             data = new ('S7_CanHitPointData');
@@ -105,14 +105,14 @@ class S7_ActorExtensions : Actor {
     static State GetRaiseState (Actor act) {
         // Not a monster
         if (!act.bCorpse)
-            return NULL;
+            return null;
 
         if (act.tics != -1 && // Not lying still yet
             !act.curState.bCanRaise) // Or not ready to be raised yet
-            return NULL;
+            return null;
 
         if (act is 'PlayerPawn')
-            return NULL;    // Do not resurrect players
+            return null;    // Do not resurrect players
 
         return act.FindState ('Raise');
     }
@@ -185,7 +185,7 @@ class S7_ActorExtensions : Actor {
              * Can't support line portals currently :(
             */
 
-            if (!check.Sidedef [Line.Back] || !(check.flags & Line.ML_TWOSIDED))
+            if (!check.Sidedef [Line.Back] || !(check.flags & Line.ML_TwoSided))
                 continue;
 
             // Early out for intra-sector lines
@@ -277,7 +277,7 @@ class S7_ActorExtensions : Actor {
 
     // This only exists because P_RipperBlood wasn't exported to ZScript.
     static void RipperBlood (Actor mo, Actor bleeder) {
-        class<Actor> bloodcls = bleeder.GetBloodType (0);
+        Class<Actor> bloodcls = bleeder.GetBloodType (0);
 
         double xo = random2 [RipperBlood] () / 16.;
         double yo = random2 [RipperBlood] () / 16.;
@@ -306,12 +306,12 @@ class S7_ActorExtensions : Actor {
     }
 
     // Fucking GZDoom...
-    static Actor DropItem (Actor source, class<Actor> type, int dropAmount = -1, int chance = 256) {
-        if (type != NULL && random [DropItem] () <= chance) {
+    static Actor DropItem (Actor source, Class<Actor> type, int dropAmount = -1, int chance = 256) {
+        if (type != null && random [DropItem] () <= chance) {
             Actor mo;
             double spawnz = 0;
 
-            if (true) {//!(i_compatflags & COMPATF_NOTOSSDROPS)) {
+            if (true) {//!(i_compatflags & COMPATF_NoTossDrops)) {
                 int style = sv_dropstyle;
 
                 if (style == 0)
@@ -329,7 +329,7 @@ class S7_ActorExtensions : Actor {
                 mo.bDropped = true;
                 mo.bNoGravity = false;
 
-                if (true)//!(i_compatflags & COMPATF_NOTOSSDROPS))
+                if (true)//!(i_compatflags & COMPATF_NoTossDrops))
                     TossItem (mo);
 
                 if (mo is 'Inventory') {
@@ -340,7 +340,7 @@ class S7_ActorExtensions : Actor {
 
                     if (inv.SpecialDropAction (source)) {
                         inv.Destroy ();
-                        return NULL;
+                        return null;
                     }
 
                     return inv;
@@ -350,7 +350,7 @@ class S7_ActorExtensions : Actor {
             }
         }
 
-        return NULL;
+        return null;
     }
 
     static void TossItem (Actor item) {
@@ -374,7 +374,7 @@ class S7_ActorExtensions : Actor {
         int maxSightRange = S7_DelayedSpawnsMaxSightRange;
         int maxSoundRange = S7_DelayedSpawnsMaxSoundRange;
 
-        for (int i = 0; i < MAXPLAYERS; i++) {
+        for (int i = 0; i < MaxPlayers; i++) {
             if (!playeringame [i])
                 continue;
             if (!players [i].mo)

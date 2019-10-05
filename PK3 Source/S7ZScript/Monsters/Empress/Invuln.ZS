@@ -31,7 +31,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         Health 75;
         Radius 25;
         Height 25;
-        Mass LARGE_MASS;
+        Mass Large_Mass;
         RenderStyle "add";
         DamageFactor "EmpressDeath", 1.0;
         DamageFactor "NerveGas", 0.0;
@@ -97,7 +97,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
         owner = S7_Empress (master);
 
         rotAngle = 270;
-        countdown = TICRATE * 12;
+        countdown = TicRate * 12;
 
         OrbitMaster (true);
         ClearInterpolation ();

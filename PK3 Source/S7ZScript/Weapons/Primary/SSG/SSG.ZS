@@ -45,14 +45,14 @@ class S7_SSG : S7_BaseWeapon {
 
         S7_BaseWeapon.Icon "SSGPA0";
         S7_BaseWeapon.ShortTag "$SHORTSSG";
-        S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Medium;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.CanReloadWhileSprinting true;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
         S7_BaseWeapon.EnchantmentPrice 700, 0.4, 1.16;
     }
 
-    const ANIM_LAYER = 2;
+    const AnimLayer_ID = 2;
     bool leftLoaded, rightLoaded, firingBoth_FiredLeft;
 
     override void DoEffect () {
@@ -106,9 +106,9 @@ class S7_SSG : S7_BaseWeapon {
     }
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (ANIM_LAYER, animState);
-        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     /** Pickup **/
@@ -198,8 +198,8 @@ class S7_SSG : S7_BaseWeapon {
         TNT1 A 1 DoSelectOffset ((  0,  0));
     Ready2:
         TNT1 A 1 {
-            bool attack = ((player.cmd.buttons & BT_ATTACK) && !(player.oldbuttons & BT_ATTACK));
-            bool altAttack = ((player.cmd.buttons & BT_ALTATTACK) && !(player.oldbuttons & BT_ALTATTACK));
+            bool attack = ((player.cmd.buttons & BT_Attack) && !(player.oldbuttons & BT_Attack));
+            bool altAttack = ((player.cmd.buttons & BT_AltAttack) && !(player.oldbuttons & BT_AltAttack));
             if (attack && altAttack)
                 return ResolveState ("Fire.Both");
             else if (attack)
@@ -235,7 +235,7 @@ class S7_SSG : S7_BaseWeapon {
 
     action state S7_FireSSGSingle (bool right, bool firingBoth = false) {
         if (!firingBoth) {
-            int otherButton = (!right ? BT_ALTATTACK : BT_ATTACK);
+            int otherButton = (!right ? BT_AltAttack : BT_Attack);
             if (!(player.oldbuttons & otherButton) && (player.cmd.buttons & otherButton))
                 return ResolveState ("Fire.Both");
 
@@ -384,7 +384,7 @@ class S7_SSG : S7_BaseWeapon {
                 S7_SetAnim ("Anim.ReloadEnd");
         }
         TNT1 A 1 {
-            let psp = player.FindPSprite (ANIM_LAYER);
+            let psp = player.FindPSprite (AnimLayer_ID);
             if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
                 return ResolveState ("Ready2");
 

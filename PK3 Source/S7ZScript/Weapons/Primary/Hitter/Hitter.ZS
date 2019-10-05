@@ -44,19 +44,19 @@ class S7_HitterSMG : S7_BaseWeapon {
         S7_BaseWeapon.Icon "SR20Z0";
         S7_BaseWeapon.ShortTag "$SHORTHITTERSMG";
         S7_BaseWeapon.AmmoBuyData "AACP", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Light;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
         S7_BaseWeapon.EnchantmentPrice 650, 0.4, 1.16;
     }
 
-    const ANIM_LAYER = 2;
+    const AnimLayer_ID = 2;
     bool upperJammed, lowerJammed;
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (ANIM_LAYER, animState);
-        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     action void S7_SpawnCasing () {
@@ -277,7 +277,7 @@ class S7_HitterSMG : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 1 {
-            let psp = player.FindPSprite (ANIM_LAYER);
+            let psp = player.FindPSprite (AnimLayer_ID);
             if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
                 return ResolveState ("Ready2");
 

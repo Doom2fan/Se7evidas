@@ -41,7 +41,7 @@ extend class S7_S7DataParser {
     protected void ParseShop_PostProcessing (S7_SSShop shopData, S7_S7DP_TempShopData tmpShopData) {
         ParseShop_PostProc_ReplaceFakePage (shopData.mainPage, tmpShopData);
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseShop_PostProcessing", m_ParsingException);
             return;
         }

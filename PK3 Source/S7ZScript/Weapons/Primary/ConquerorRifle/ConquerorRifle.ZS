@@ -44,13 +44,13 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         S7_BaseWeapon.Icon "CQRPA0";
         S7_BaseWeapon.ShortTag "$SHORTCONQUERORSRIFLE";
         S7_BaseWeapon.AmmoBuyData "A45W", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Heavy;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties true, 0.015;
         S7_BaseWeapon.EnchantmentPrice 1350, 0.25, 1.209;
     }
 
-    const BASEZOOMFACTOR = 6.5;
+    const BaseZoomFactor = 6.5;
     bool jammed, loaded, noPump, noEject; // noEject is just for telling the reloading anim not to spawn casings
     bool zoomed;
     double zoomLevel;
@@ -58,7 +58,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     override void DoEffect () {
         Super.DoEffect ();
 
-        fireModeIcon = noPump ? FMI_SemiAuto : FMI_None;
+        fireModeIcon = noPump ? S7_FMI_SemiAuto : S7_FMI_None;
     }
 
     states {
@@ -105,10 +105,10 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
     Zoom:
         #### ######## 1 {
-            if (!invoker.zoomed || !(player.cmd.buttons & BT_ZOOM))
+            if (!invoker.zoomed || !(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("DoZoom");
 
-            if (player.cmd.buttons & BT_ATTACK || player.cmd.buttons & BT_ALTATTACK)
+            if (player.cmd.buttons & BT_Attack || player.cmd.buttons & BT_AltAttack)
                 return ResolveState ("ChangeZoomLevel");
 
             return ResolveState (null);
@@ -123,7 +123,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 invoker.zoomed = true;
                 A_SetCrosshair (99);
                 A_SetBlend ("00 00 00", 1.0, 8);
-                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel, ZOOM_Instant);
+                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel, ZOOM_Instant);
             } else
                 return ResolveState ("Unzoom");
 
@@ -140,22 +140,22 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto Ready2;
     ChangeZoomLevel:
         #### # 1 {
-            if (!(player.cmd.buttons & BT_ZOOM))
+            if (!(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("Ready2");
 
-            if (player.cmd.buttons & BT_ATTACK) {
+            if (player.cmd.buttons & BT_Attack) {
                 invoker.zoomLevel = clamp (invoker.zoomLevel + 0.75, 0, 15);
-                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
-            } else if (player.cmd.buttons & BT_ALTATTACK) {
+                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
+            } else if (player.cmd.buttons & BT_AltAttack) {
                 invoker.zoomLevel = clamp (invoker.zoomLevel - 0.75, 0, 15);
-                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
             }
 
             return ResolveState (null);
         }
         loop;
     ChangeZoomLevel.Delay:
-        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
+        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
         goto ChangeZoomLevel;
 
     ChangeMode:
@@ -311,12 +311,12 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
     Fire.Anim.Zoomed:
         SCP1 B 1 {
-            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .9);
+            A_ZoomFactor ((BaseZoomFactor + invoker.zoomLevel) * .9);
             S7_Recoil (-1.5);
         }
         SCP1 B 1 S7_Recoil (-1.75);
         SCP1 B 1 {
-            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
+            A_ZoomFactor ((BaseZoomFactor + invoker.zoomLevel) * .95);
 
             S7_Recoil (0.15);
         }
@@ -334,7 +334,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             } else
                 invoker.noEject = false; // Reset noEject
 
-            A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+            A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
             S7_Recoil (0.15);
         }
 

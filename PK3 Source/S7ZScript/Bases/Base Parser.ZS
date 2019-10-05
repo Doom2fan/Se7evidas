@@ -44,8 +44,8 @@ class S7_ParsingException : S7_Exception {
         return message;
     }
 
-    static S7_ParsingException Create (string msg = "", string src = "", S7_Exception inner = NULL,
-        EParserError err = ERR_None, S7_TZK_Token tkn = NULL, bool notEx = false
+    static S7_ParsingException Create (string msg = "", string src = "", S7_Exception inner = null,
+        EParserError err = ERR_None, S7_TZK_Token tkn = null, bool notEx = false
     ) {
         let ret = new ('S7_ParsingException');
         ret.message = msg; ret.source = src; ret.innerException = inner;
@@ -55,7 +55,7 @@ class S7_ParsingException : S7_Exception {
         return ret;
     }
     static S7_ParsingException CreateParserError (string src, EParserError err, S7_TZK_Token tkn) {
-        return Create ("", src, NULL, err, tkn, false);
+        return Create ("", src, null, err, tkn, false);
     }
 }
 
@@ -76,7 +76,7 @@ class S7_UnexpectedToken : S7_ParsingException {
 
     static S7_UnexpectedToken Create (string src, S7_TZK_Token tkn, string value = "") {
         let ret = new ('S7_UnexpectedToken');
-        ret.message = ""; ret.innerException = NULL; ret.notException = false;
+        ret.message = ""; ret.innerException = null; ret.notException = false;
         ret.source = src;
         ret.error = ERR_BadToken;
         ret.tkn = tkn;
@@ -95,7 +95,7 @@ class S7_BadTokenPE : S7_ParsingException {
 
     static S7_BadTokenPE Create (string src, ETokenType expectedType, S7_TZK_Token tkn) {
         let ret = new ('S7_BadTokenPE');
-        ret.message = ""; ret.innerException = NULL; ret.notException = false;
+        ret.message = ""; ret.innerException = null; ret.notException = false;
         ret.source = src;
         ret.error = ERR_BadToken;
         ret.tkn = tkn;
@@ -195,7 +195,7 @@ class S7_BaseParser {
             return true;
         } else if (t.type == TOK_Comma) {
             ParseFloat (yStr);
-            if (m_ParsingException != NULL) {
+            if (m_ParsingException != null) {
                 m_ParsingException = S7_ParsingException.Create ("", "S7_BaseParser.ParseVector", m_ParsingException);
                 return false;
             }
@@ -207,7 +207,7 @@ class S7_BaseParser {
                 }
 
                 ParseFloat (zStr);
-                if (m_ParsingException != NULL) {
+                if (m_ParsingException != null) {
                     m_ParsingException = S7_ParsingException.Create ("", "S7_BaseParser.ParseVector", m_ParsingException);
                     return false;
                 }
@@ -239,7 +239,7 @@ class S7_BaseParser {
             default: ParseGenericType (value, valueType); break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_BaseParser.ParseValue", m_ParsingException);
             return false;
         }
@@ -258,7 +258,7 @@ class S7_BaseParser {
 
         ParseValue (value, valueType);
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_BaseParser.ParseAssignment", m_ParsingException);
             return false;
         }
@@ -281,7 +281,7 @@ class S7_BaseParser {
 
         ParseArray (values, valueType);
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_BaseParser.ParseArrayAssignment", m_ParsingException);
             return false;
         }
@@ -309,7 +309,7 @@ class S7_BaseParser {
             ParseValue (val, valueType);
             values.Push (val);
 
-            if (m_ParsingException != NULL) {
+            if (m_ParsingException != null) {
                 m_ParsingException = S7_ParsingException.Create ("", "S7_BaseParser.ParseArray", m_ParsingException);
                 values.Clear ();
                 return false;

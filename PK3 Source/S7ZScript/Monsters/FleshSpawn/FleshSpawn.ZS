@@ -108,7 +108,7 @@ class S7_FleshSpawn : S7_MonsterBase {
         return true;
     }
 
-    action void FS_SpawnGib (class<Actor> gibClass, double zOffs, double xyOffs, double gibPitch) {
+    action void FS_SpawnGib (Class<Actor> gibClass, double zOffs, double xyOffs, double gibPitch) {
         double gibSpeed = 8;
         double vX = 0., vY, vZ = 0.;
 

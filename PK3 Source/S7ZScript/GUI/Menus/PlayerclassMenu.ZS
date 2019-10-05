@@ -18,7 +18,7 @@
 
 class S7_PlayerclassMenu : OptionMenu {
     enum PlayerClassFlags {
-        PCF_NOMENU = 1, // Hide in new game menu
+        PCF_NoMenu = 1, // Hide in new game menu
     };
 
     //=============================================================================
@@ -115,7 +115,7 @@ class S7_PlayerclassMenu : OptionMenu {
             return;
         }
 
-        let defs = GetDefaultByType ((class<S7_BasePlayer>) (PlayerClasses [classnum].Type));
+        let defs = GetDefaultByType ((Class<S7_BasePlayer>) (PlayerClasses [classnum].Type));
 
         if (defs)
             classDesc = defs.classDesc;
@@ -333,11 +333,11 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
     Color mAddColor;
 
     enum EPDFlags {
-        PDF_ROTATION = 0x10001,
-        PDF_SKIN = 0x10002,
-        PDF_CLASS = 0x10003,
-        PDF_MODE = 0x10004,
-        PDF_TRANSLATE = 0x10005,
+        PDF_Rotation = 0x10001,
+        PDF_Skin = 0x10002,
+        PDF_Class = 0x10003,
+        PDF_Mode = 0x10004,
+        PDF_Translate = 0x10005,
     };
 
     //=============================================================================
@@ -354,8 +354,8 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
         mAddColor = c2;
 
         mBackdrop = TexMan.CheckForTexture ("B@CKDROP", TexMan.Type_MiscPatch);  // The weird name is to avoid clashes with mods.
-        mPlayerClass = NULL;
-        mPlayerState = NULL;
+        mPlayerClass = null;
+        mPlayerState = null;
         mMode = 0;
         mRotation = 0;
         mTranslate = false;
@@ -374,7 +374,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
 
         State newState = GetDefaultByType (mPlayerClass.Type).SeeState;
 
-        if (newState == NULL) // No see state, so try spawn state.
+        if (newState == null) // No see state, so try spawn state.
             newState = GetDefaultByType (mPlayerClass.Type).SpawnState;
 
         if (newState)
@@ -401,7 +401,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
 
             // Since the newly displayed class may use a different translation
             // range than the old one, we need to update the translation, too.
-            Translation.SetPlayerTranslation (TRANSLATION_Players, MAXPLAYERS, consoleplayer, mPlayerClass);
+            Translation.SetPlayerTranslation (TRANSLATION_Players, MaxPlayers, consoleplayer, mPlayerClass);
         }
     }
 
@@ -454,22 +454,22 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
 
     override bool SetValue (int i, int value) {
         switch (i) {
-        case PDF_MODE:
+        case PDF_Mode:
             mMode = value;
             return true;
 
-        case PDF_ROTATION:
+        case PDF_Rotation:
             mRotation = value;
             return true;
 
-        case PDF_TRANSLATE:
+        case PDF_Translate:
             mTranslate = value;
 
-        case PDF_CLASS:
+        case PDF_Class:
             SetPlayerClass (value, true);
             break;
 
-        case PDF_SKIN:
+        case PDF_Skin:
             mSkin = value;
             break;
         }
@@ -494,7 +494,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
     override void Ticker () {
         if (mClassNum < 0) UpdateRandomClass ();
 
-        if (mPlayerState != NULL && mPlayerState.Tics != -1 && mPlayerState.NextState != NULL) {
+        if (mPlayerState != null && mPlayerState.Tics != -1 && mPlayerState.NextState != null) {
             if (--mPlayerTics <= 0)
                 SetState (mPlayerState.NextState);
         }
@@ -512,7 +512,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
         if (mMode == 0 && !UpdatePlayerClass ())
             return 0;
 
-        let playdef = GetDefaultByType ((class<PlayerPawn>) (mPlayerClass.Type));
+        let playdef = GetDefaultByType ((Class<PlayerPawn>) (mPlayerClass.Type));
 
         Name portrait = playdef.Portrait;
 
@@ -541,7 +541,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
 
         Screen.DrawFrame (x, y, DisplayWidth * CleanXfac_1, DisplayHeight * CleanYfac_1 - 1);
 
-        if (mPlayerState != NULL) {
+        if (mPlayerState != null) {
             Vector2 Scale;
             TextureID sprite;
             bool flip;
@@ -549,7 +549,7 @@ class OptionMenuItemS7_PlayerDisplay : OptionMenuItem {
             [sprite, flip, Scale] = mPlayerState.GetSpriteTexture (mRotation, mSkin, playdef.Scale);
 
             if (sprite.IsValid ()) {
-                int trans = mTranslate ? Translation.MakeID (TRANSLATION_Players, MAXPLAYERS) : 0;
+                int trans = mTranslate ? Translation.MakeID (TRANSLATION_Players, MaxPlayers) : 0;
                 let tscale = TexMan.GetScaledSize (sprite);
                 Scale.X *= tscale.X * 1.5 * CleanXfac_1;
                 Scale.Y *= tscale.Y * 1.5 * CleanYfac_1;

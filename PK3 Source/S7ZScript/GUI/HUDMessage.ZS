@@ -114,7 +114,7 @@ class S7_HudMessage : HUDMessageBase {
     }
 
     static play void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int flags = 0, int alignment = S7_HudMessage.AlignTopLeft,
-        int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, name fnt = 'SmallFont', double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
+        int color = Font.CR_Untranslated, int style = STYLE_Normal, name fnt = 'SmallFont', double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
     ) {
         let h = S7_HudMessageHandler (EventHandler.Find ('S7_HudMessageHandler'));
 
@@ -186,7 +186,7 @@ class S7_HudMessageFade : S7_HudMessage {
     }
 
     static play void Show (int targetPlayer, string text, int id, Vector2 pos, int holdTics, int inTics, int outTics, int flags = 0,
-        int alignment = S7_HudMessage.AlignTopLeft, int color = Font.CR_UNTRANSLATED, int style = STYLE_Normal, name fnt = 'SmallFont',
+        int alignment = S7_HudMessage.AlignTopLeft, int color = Font.CR_Untranslated, int style = STYLE_Normal, name fnt = 'SmallFont',
         double alpha = 1.0, Vector2 screenSize = (0, 0), int layer = BaseStatusbar.HUDMSGLayer_Default
     ) {
         let h = S7_HudMessageHandler (EventHandler.Find ('S7_HudMessageHandler'));
@@ -225,7 +225,7 @@ class S7_HudMessageFade : S7_HudMessage {
 }
 
 class S7_QueuedHudMessage {
-    class<S7_HudMessage> msgClass;
+    Class<S7_HudMessage> msgClass;
     S7_HudMessageData msg;
     int id;
     int layer;

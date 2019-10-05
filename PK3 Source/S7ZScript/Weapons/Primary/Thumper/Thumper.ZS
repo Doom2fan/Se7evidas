@@ -64,7 +64,7 @@ class S7_Thumper : S7_BaseWeapon {
         S7_BaseWeapon.Icon "THMPU0";
         S7_BaseWeapon.ShortTag "$SHORTTHUMPER";
         S7_BaseWeapon.AmmoBuyData "", 1;
-        S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
+        S7_BaseWeapon.BindSlot S7_WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag false;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
         S7_BaseWeapon.EnchantmentPrice 850, 0.65, 1.1612;
@@ -72,7 +72,7 @@ class S7_Thumper : S7_BaseWeapon {
         +WEAPON.NOAUTOAIM
     }
 
-    const ANIM_LAYER = 2;
+    const AnimLayer_ID = 2;
     double airburstDistance; // In meters
     bool chambered;
     int selectedPool;
@@ -200,9 +200,9 @@ class S7_Thumper : S7_BaseWeapon {
     }
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (ANIM_LAYER, animState);
-        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     /** Pickups **/
@@ -246,7 +246,7 @@ class S7_Thumper : S7_BaseWeapon {
             if (invoker.casingType)
                 S7_SpawnCasing ();
 
-            invoker.casingType = NULL;
+            invoker.casingType = null;
         }
         THMP E 1 A_WeaponOffset (20, 32 +  9, WOF_Interpolate);
         THMP F 6 A_WeaponOffset (35, 32 + 16, WOF_Interpolate);
@@ -387,7 +387,7 @@ class S7_Thumper : S7_BaseWeapon {
 
             int i = invoker.selectedPool + 1;
 
-            while (TRUE) {
+            while (true) {
                 if (i == invoker.selectedPool)
                     return ResolveState (null);
                 else if (i >= S7_TH_EndToken)

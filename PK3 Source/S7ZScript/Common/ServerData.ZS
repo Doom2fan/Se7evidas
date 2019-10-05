@@ -17,7 +17,7 @@
 */
 
 class S7_MapData_SpawnPos {
-    class<Actor> actorClass;
+    Class<Actor> actorClass;
     Vector3 pos;
 }
 class S7_MapData : Thinker {
@@ -29,12 +29,12 @@ class S7_MapData : Thinker {
     bool mapEventSet;
 
     S7_MapData Init () {
-        ChangeStatNum (STAT_INFO);
+        ChangeStatNum (STAT_Info);
         return self;
     }
 
     static S7_MapData Get () {
-        ThinkerIterator it = ThinkerIterator.Create ('S7_MapData', STAT_INFO);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_MapData', STAT_Info);
         let p = S7_MapData (it.Next ());
 
         if (!p)
@@ -44,7 +44,7 @@ class S7_MapData : Thinker {
     }
 
     clearscope static S7_MapData GetSpecial () {
-        ThinkerIterator it = ThinkerIterator.Create ('S7_MapData', STAT_INFO);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_MapData', STAT_Info);
         let p = S7_MapData (it.Next ());
 
         if (!p)
@@ -88,7 +88,7 @@ class S7_ServerData : Thinker {
         lowestLevel = int.max;
 
         int pCount;
-        for (int i = 0; i < MAXPLAYERS; i++) {
+        for (int i = 0; i < MaxPlayers; i++) {
             if (playeringame [i] && players [i].mo) {
                 if (!(players [i].mo is 'S7_BasePlayer'))
                     continue;
@@ -118,13 +118,13 @@ class S7_ServerData : Thinker {
     }
 
     S7_ServerData Init () {
-        ChangeStatNum (STAT_STATIC);
+        ChangeStatNum (STAT_Static);
         Tick ();
         return self;
     }
 
     static S7_ServerData Get () {
-        ThinkerIterator it = ThinkerIterator.Create ('S7_ServerData', STAT_STATIC);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_ServerData', STAT_Static);
         let p = S7_ServerData (it.Next ());
 
         if (!p)
@@ -137,7 +137,7 @@ class S7_ServerData : Thinker {
     }
 
     clearscope static S7_ServerData GetSpecial () {
-        ThinkerIterator it = ThinkerIterator.Create ('S7_ServerData', STAT_STATIC);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_ServerData', STAT_Static);
         let p = S7_ServerData (it.Next ());
 
         if (!p)

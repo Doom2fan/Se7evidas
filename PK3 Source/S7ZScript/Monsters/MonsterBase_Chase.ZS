@@ -34,7 +34,7 @@ extend class S7_MonsterBase {
     }
 
     bool CheckReachedGoal (Actor other) {
-        if (!other || (CurSector.Flags & Sector.SECF_NOATTACK))
+        if (!other || (CurSector.Flags & Sector.SECF_NoAttack))
             return false;
 
         double dist = Distance2D (other);
@@ -67,17 +67,17 @@ extend class S7_MonsterBase {
         }
 
         // Turn towards movement direction if not there yet
-        if (!(flags & CHF_NODIRECTIONTURN) && (movementDir < S7_MOVEDIR_NODIR)) {
-            angle = floor (angle / S7_MOVEDIR_INTERVAL) * S7_MOVEDIR_INTERVAL;
+        if (!(flags & CHF_NoDirectionTurn) && (movementDir < S7_MoveDir_NoDir)) {
+            angle = floor (angle / S7_MoveDir_Interval) * S7_MoveDir_Interval;
 
-            double delta = deltaangle (angle, (movementDir * S7_MOVEDIR_INTERVAL));
+            double delta = deltaangle (angle, (movementDir * S7_MoveDir_Interval));
             if (delta < 0)
-                angle -= S7_MOVEDIR_INTERVAL;
+                angle -= S7_MoveDir_Interval;
             else if (delta > 0)
-                angle += S7_MOVEDIR_INTERVAL;
+                angle += S7_MoveDir_Interval;
         }
 
-        if ((--movecount < 0 && !(flags & CHF_NORANDOMTURN)) || (!S7_DoMove () && !(flags & CHF_STOPIFBLOCKED))) {
+        if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoMove () && !(flags & CHF_StopIfBlocked))) {
             S7_RandomChaseDir ();
             movecount += 5;
         }
@@ -105,7 +105,7 @@ extend class S7_MonsterBase {
     // DoChase / A_DoChase
     //
     //-------------------------------------------------------------------------------------------
-    const S7_CLASS_BOSS_STRAFE_RANGE = 64*10;
+    const S7_Class_Boss_Strafe_Range = 64*10;
     void S7_DoChase (bool fastChase, State meleestate, State missilestate, bool playActive, bool nightmareFast, bool dontMove, int flags) {
         /*
         ** Quirks: Doesn't support the NightmareFast Gameinfo flag.
@@ -144,20 +144,20 @@ extend class S7_MonsterBase {
         // Turn towards movement direction if not there yet
         if (strafecount)
             A_FaceTarget ();
-        else if (!(flags & CHF_NoDirectionTurn) && movementDir < S7_MOVEDIR_COUNT) {
-            angle = floor (angle / S7_MOVEDIR_INTERVAL) * S7_MOVEDIR_INTERVAL;
+        else if (!(flags & CHF_NoDirectionTurn) && movementDir < S7_MoveDir_Count) {
+            angle = floor (angle / S7_MoveDir_Interval) * S7_MoveDir_Interval;
 
-            double delta = DeltaAngle (angle, (movementDir * S7_MOVEDIR_INTERVAL));
+            double delta = DeltaAngle (angle, (movementDir * S7_MoveDir_Interval));
 
             if (delta < 0)
-                angle -= S7_MOVEDIR_INTERVAL;
+                angle -= S7_MoveDir_Interval;
             else if (delta > 0)
-                angle += S7_MOVEDIR_INTERVAL;
+                angle += S7_MoveDir_Interval;
         }
 
         // [RH] If the target is dead or a friend (and not a goal), stop chasing it.
         if (target && target != goal && (target.health <= 0 || IsFriend (target)))
-            target = NULL;
+            target = null;
 
         // [RH] Friendly monsters will consider chasing whoever hurts a player if they
         // don't already have a target.
@@ -172,9 +172,9 @@ extend class S7_MonsterBase {
                 if (!multiplayer)
                     i = 0;
                 else {
-                    i = random [S7_NewChaseDir] (0, 255) & (MAXPLAYERS - 1);
+                    i = random [S7_NewChaseDir] (0, 255) & (MaxPlayers - 1);
                     while (!playeringame [i]) {
-                        i = (i + 1) & (MAXPLAYERS - 1);
+                        i = (i + 1) & (MaxPlayers - 1);
                     }
                 }
 
@@ -198,7 +198,7 @@ extend class S7_MonsterBase {
             }
 
             // Got a new target
-            if (S7_LookForPlayers (true, NULL, fromChase: true) && target != goal) {
+            if (S7_LookForPlayers (true, null, fromChase: true) && target != goal) {
                 bInChase = false;
                 return;
             }
@@ -262,7 +262,7 @@ extend class S7_MonsterBase {
                 // as the goal.
                 while (spec = specit.Next ()) {
                     level.ExecuteSpecial (
-                        spec.special, self, NULL, false,
+                        spec.special, self, null, false,
                         spec.args [0], spec.args [1], spec.args [2], spec.args [3], spec.args [4]
                     );
                 }
@@ -273,7 +273,7 @@ extend class S7_MonsterBase {
 
                 if (newGoal && goal == target) {
                     delay = newGoal.args [1];
-                    reactiontime = delay * TICRATE + level.maptime;
+                    reactiontime = delay * TicRate + level.maptime;
                 } else {
                     delay = 0;
                     reactiontime = default.reactiontime;
@@ -281,7 +281,7 @@ extend class S7_MonsterBase {
                 }
 
                 if (target == goal)
-                    target = NULL;
+                    target = null;
                 bJustAttacked = true;
 
                 if (newGoal && delay != 0) {
@@ -314,7 +314,7 @@ extend class S7_MonsterBase {
                 vel.X = vel.Y = 0;
 
                 double dist = Distance2D (target);
-                if (dist < S7_CLASS_BOSS_STRAFE_RANGE) {
+                if (dist < S7_Class_Boss_Strafe_Range) {
                     if (random [Chase] (0, 255) < 100) {
                         double ang = AngleTo (target);
 
@@ -329,7 +329,7 @@ extend class S7_MonsterBase {
 
         // [RH] Scared monsters attack less frequently
         if (target &&
-            ((target.player == NULL ||
+            ((target.player == null ||
             !((target.player.cheats & CF_Frightening) || target.bFrightening)) &&
             !bFrightened) ||
             random [Anubis] (0, 255) < 43
@@ -337,7 +337,7 @@ extend class S7_MonsterBase {
             // Check for melee attack
             if (meleestate && CheckMeleeRange () && S7_Chase_CanMeleeTarget ()) {
                 if (AttackSound)
-                    A_PlaySound (AttackSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NORM);
+                    A_PlaySound (AttackSound, CHAN_Weapon, volume: 1., attenuation: ATTN_Norm);
 
                 SetState (meleestate);
                 bInChase = false;
@@ -386,7 +386,7 @@ extend class S7_MonsterBase {
             }
 
             Actor oldTarget = target;
-            gotNew = S7_LookForPlayers (true, NULL, fromChase: true);
+            gotNew = S7_LookForPlayers (true, null, fromChase: true);
 
             if (lookForBetter)
                 bNoSightCheck = true;

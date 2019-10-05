@@ -38,11 +38,11 @@ class S7_ShadowDemon : S7_Mechdemon {
         bool dead = (bKilled || health <= 0);
 
         if (attacking && alpha < 1.)
-            alpha += 2./TICRATE;
+            alpha += 2./TicRate;
         else if (dead && alpha < 1.)
-            alpha += .15/TICRATE;
+            alpha += .15/TicRate;
         else if (!attacking && !dead && health > 0 && alpha > .25)
-            alpha -= 1.5/TICRATE;
+            alpha -= 1.5/TicRate;
 
         alpha = clamp (alpha, .25, 1.);
 

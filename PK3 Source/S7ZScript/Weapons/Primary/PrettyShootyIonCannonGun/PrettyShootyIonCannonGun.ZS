@@ -45,7 +45,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         S7_BaseWeapon.Icon "PIC1Z0";
         S7_BaseWeapon.ShortTag "$SHORTIONCANNON";
         S7_BaseWeapon.AmmoBuyData "ACEL", 1;
-        S7_BaseWeapon.BindSlot WpSlot_AreaDMG;
+        S7_BaseWeapon.BindSlot S7_WpSlot_AreaDMG;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
@@ -53,7 +53,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     int readyFrame;
     bool altFireType2;
 
-    action bool FireMainProjectile (class<S7_IonCannonProjectile> proj, bool useAmmo = true) {
+    action bool FireMainProjectile (Class<S7_IonCannonProjectile> proj, bool useAmmo = true) {
         bool canFire = true;
 
         let act = S7_A_FireBullets ('S7_IonCannonSpaceTester', offs: (10, 8, 8));

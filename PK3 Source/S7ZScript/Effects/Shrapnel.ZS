@@ -73,7 +73,7 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
 
     override void Tick () {
         if (bMissile) {// KE = (mv^2) / 2
-            double velMS = (vel.Length () * TICRATE) / 32.;
+            double velMS = (vel.Length () * TicRate) / 32.;
             double massKG = mass / 1000.;
             double KE = (massKG * (velMS**2)) / 2.;
 
@@ -118,7 +118,7 @@ class S7_Shrapnel : S7_Projectile { // By Chronos "phantombeta" Ouroboros. (Heav
     Death:
         #### # 1 {
             A_RearrangePointers (AAPTR_Master, AAPTR_Null, AAPTR_Default);
-            A_Explode (int (realDamage), 2, XF_HURTSOURCE, false, 2);
+            A_Explode (int (realDamage), 2, XF_HurtSource, false, 2);
         }
         stop;
     }

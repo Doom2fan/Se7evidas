@@ -203,8 +203,8 @@ class S7_BasePlayer : PlayerPawn {
     }
 
     override void PlayerThink () {
-        if (!(player.cheats & CF_PREDICTING))
-            player.cheats |= CF_INTERPVIEW;
+        if (!(player.cheats & CF_Predicting))
+            player.cheats |= CF_InterpView;
 
         Super.PlayerThink ();
 
@@ -213,11 +213,11 @@ class S7_BasePlayer : PlayerPawn {
         if (!player || !player.mo || player.mo != self)
             return;
 
-        if (!(player.cheats & CF_PREDICTING)) {
+        if (!(player.cheats & CF_Predicting)) {
             if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ('S7_BasicArmor'))
                 GiveBasics (); // We only check it in this function to avoid a function call.
 
-            if (!(player.cmd.buttons & BT_RELOAD) && (player.oldbuttons & BT_RELOAD))
+            if (!(player.cmd.buttons & BT_Reload) && (player.oldbuttons & BT_Reload))
                 SetInventory ('S7_Reloading', !CheckInventory ('S7_Reloading', 1));
 
             if (playerData)
@@ -249,7 +249,7 @@ class S7_BasePlayer : PlayerPawn {
         if (!player || !player.mo || player.mo != self)
             return;
 
-        if (!(player.cheats & CF_PREDICTING)) {
+        if (!(player.cheats & CF_Predicting)) {
             GiveBasics ();
 
             if (weapBinds) {
@@ -265,11 +265,11 @@ class S7_BasePlayer : PlayerPawn {
             S7_BasePlayer (player.mo).CustCalcHeight ();
     }
 
-    const BASECROUCHSPEED = (1./8.);
+    const BaseCrouchSpeed = (1./8.);
     override void CrouchMove (int direction) {
         double defaultHeight = fullHeight;
         double savedHeight = height;
-        double crouchSpeed = direction * BASECROUCHSPEED;
+        double crouchSpeed = direction * BaseCrouchSpeed;
         double oldHeight = player.viewheight;
 
         player.crouchdir = direction;
@@ -278,7 +278,7 @@ class S7_BasePlayer : PlayerPawn {
         // Check whether the move is ok
         height = defaultHeight * player.crouchfactor;
 
-        if (!TryMove (pos.XY, false, NULL)) {
+        if (!TryMove (pos.XY, false, null)) {
             height = savedHeight;
 
             if (direction > 0) {
@@ -297,7 +297,7 @@ class S7_BasePlayer : PlayerPawn {
         CheckFakeFloorTriggers (pos.Z + oldHeight, true);
     }
 
-    const GZD_MAXBOB = 16.0;
+    const GZD_MaxBob = 16.0;
     virtual void CustCalcHeight () {
         if (!player || !player.morphTics || !playerData)
             return;
@@ -317,14 +317,14 @@ class S7_BasePlayer : PlayerPawn {
             else {
                 playerData.bob *= S7_PlayerCVar.GetFloat (player, "movebob");
 
-                if (playerData.bob > GZD_MAXBOB)
-                    playerData.bob = GZD_MAXBOB;
+                if (playerData.bob > GZD_MaxBob)
+                    playerData.bob = GZD_MaxBob;
             }
         }
 
         double defaultviewheight = player.mo.ViewHeight + player.crouchviewdelta;
 
-        if (player.cheats & CF_NOVELOCITY) {
+        if (player.cheats & CF_NoVelocity) {
             player.viewz = player.mo.pos.z + defaultviewheight;
 
             if (player.viewz > player.mo.ceilingz - 4)
@@ -335,19 +335,19 @@ class S7_BasePlayer : PlayerPawn {
 
         if (still) {
             if (player.health > 0) {
-                bobAngle = level.time / (120 * TICRATE / 35.) * 360.;
+                bobAngle = level.time / (120 * TicRate / 35.) * 360.;
                 bob = S7_PlayerCVar.GetFloat (player, "stillbob") * sin (bobAngle);
             }
             else
                 bob = 0;
         }
         else {
-            bobAngle = level.time / (20 * TICRATE / 35.) * 360.;
+            bobAngle = level.time / (20 * TicRate / 35.) * 360.;
             bob = playerData.bob * sin (bobAngle) * (player.mo.waterlevel > 1 ? 0.25 : 0.5);
         }
 
         // Move viewheight
-        if (player.playerstate == PST_LIVE) {
+        if (player.playerstate == PST_Live) {
             player.viewheight += player.deltaviewheight;
 
             if (player.viewheight > defaultviewheight) {
@@ -369,7 +369,7 @@ class S7_BasePlayer : PlayerPawn {
 
         player.viewz = player.mo.pos.z + player.viewheight + (bob * player.mo.ViewBob); // [SP] Allow DECORATE changes to view bobbing speed.
 
-        if (player.mo.Floorclip && player.playerstate != PST_DEAD && player.mo.pos.Z <= player.mo.floorz)
+        if (player.mo.Floorclip && player.playerstate != PST_Dead && player.mo.pos.Z <= player.mo.floorz)
             player.viewz -= player.mo.Floorclip;
 
         if (player.viewz > player.mo.ceilingz - 4)
@@ -624,7 +624,7 @@ class S7_PowerDodgeEffects : Powerup {
         if (!Owner || !Owner.player) // Return if it doesn't have an owner
             return;
 
-        if (Owner.player.cheats & CF_PREDICTING) // Return if running player prediction
+        if (Owner.player.cheats & CF_Predicting) // Return if running player prediction
             return;
 
         if (level.time & 1)
@@ -643,7 +643,7 @@ class S7_PowerDodgeEffects : Powerup {
             speedMo.Scale = Owner.Scale;
 
             if (Owner == players [consoleplayer].camera &&
-                !(Owner.player.cheats & CF_CHASECAM)) {
+                !(Owner.player.cheats & CF_Chasecam)) {
                 speedMo.bInvisible = true;
             }
         }

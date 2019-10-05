@@ -124,11 +124,11 @@ extend class S7_S7DataParser {
                 return;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseShop_Page", m_ParsingException);
             pageData.Destroy ();
             return;
@@ -166,7 +166,7 @@ extend class S7_S7DataParser {
                 return;
             }
 
-            if (m_ParsingException != NULL)
+            if (m_ParsingException != null)
                 break;
 
             t = m_Tokenizer.Next ();
@@ -179,7 +179,7 @@ extend class S7_S7DataParser {
             }
         }
 
-        if (m_ParsingException != NULL) {
+        if (m_ParsingException != null) {
             m_ParsingException = S7_ParsingException.Create ("", "S7_S7DataParser.ParseShop_Page_ItemsList", m_ParsingException);
             return;
         }

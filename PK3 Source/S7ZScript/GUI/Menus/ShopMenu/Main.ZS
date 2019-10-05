@@ -63,13 +63,13 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
     void ReportError (string error) {
         let errorLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: error,
-            fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+            fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         errorLabel.box.pos = (320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ());
         errorLabel.Pack (mainFrame);
         string labelText = "You shouldn't be seeing this";
         let label = new ('S7_ZF_Label').Init ((0, 12), (0, smallFont.GetHeight ()), text: labelText,
-            fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE
+            fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         label.box.pos = (320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.box.pos.y + bigFont.GetHeight () + 5);
         label.Pack (mainFrame);
@@ -108,7 +108,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         popupFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 480));
         popupFrame.Pack (mainFrame);
 
-        nameLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: "", fnt: bigFont, wrap: false, textColor: Font.CR_WHITE);
+        nameLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: "", fnt: bigFont, wrap: false, textColor: Font.CR_White);
         nameLabel.Pack (shopFrame);
 
         itemsList = S7_ShopMenu_List (new ('S7_ShopMenu_List').InitList (self, shopFrame, shopData));
@@ -117,14 +117,14 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         mainWindowBG = new ('S7_ZF_Image').Init ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
         mainWindowBG.Pack (shopFrame);
 
-        playerDataLabel = new ('S7_ZF_Label').Init ((255, 345-smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_WHITE);
+        playerDataLabel = new ('S7_ZF_Label').Init ((255, 345-smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         playerDataLabel.Pack (shopFrame);
-        descLabel = new ('S7_ZF_Label').Init ((255, 55), (355, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_WHITE);
+        descLabel = new ('S7_ZF_Label').Init ((255, 55), (355, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         descLabel.Pack (shopFrame);
-        infoLabel = new ('S7_ZF_Label').Init ((255, 355), (355, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_WHITE);
+        infoLabel = new ('S7_ZF_Label').Init ((255, 355), (355, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         infoLabel.Pack (shopFrame);
 
-        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
         tooltipLabel.Pack (mainFrame);
 
         buyButton = new ('S7_ZF_Button').Init ((555, 423), (50, 17), text: StringTable.Localize ("$SS_BUYBUTTON", true), cmdHandler: handler, command: "BuySellButton", fnt: smallFont);
@@ -201,8 +201,8 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                     backKeyCountdown = 10;
 
                     if (backPage) {
-                        selectedItem = NULL;
-                        hoveredItem = NULL;
+                        selectedItem = null;
+                        hoveredItem = null;
 
                         itemsList.UpdateList ();
                         itemsList.SetPage (backPage);
@@ -243,18 +243,18 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             SetTooltip (StringTable.Localize ("$SS_BUYSELLPOPUPTTIP", true));
 
         if (buyButton) {
-            int bbColor = Font.CR_WHITE;
+            int bbColor = Font.CR_White;
             bool bbDisable = false;
 
             if (!selectedItem) {
-                bbColor = Font.CR_DARKGRAY;
+                bbColor = Font.CR_DarkGray;
                 bbDisable = true;
             } else {
                 let selItemData = selectedItem.itemData;
 
                 if ((!sellMode && !(selItemData.itemType & IT_BuyItem)) ||
                     ( sellMode && !(selItemData.itemType & IT_SellItem))) {
-                    bbColor = Font.CR_DARKGRAY;
+                    bbColor = Font.CR_DarkGray;
                     bbDisable = true;
                 } else {
                     let pPawn = S7_BasePlayer (CPlayer.mo);
@@ -273,15 +273,15 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
                     if ((!sellMode && selItemData.GetAmount (pPawn, sellMode) >= info.maxAmount && info.maxAmount > 0) ||
                         ( sellMode && selItemData.GetAmount (pPawn, sellMode) <  info.sellAmount)) {
-                        bbColor = Font.CR_RED;
+                        bbColor = Font.CR_Red;
                         bbDisable = true;
                     } else if ((!sellMode && cashAmount < info.buyPrice) ||
                                 (sellMode && double (cashAmount) + info.sellPrice > cashMax)) {
-                        bbColor = Font.CR_RED;
+                        bbColor = Font.CR_Red;
                         bbDisable = true;
                     } else if ((!sellMode && !selItemData.CanBuy  (pPawn, 1)) ||
                                 (sellMode && !selItemData.CanSell (pPawn, 1))) {
-                        bbColor = Font.CR_RED;
+                        bbColor = Font.CR_Red;
                         bbDisable = true;
                     }
                 }
@@ -323,7 +323,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         else if (selectedItem && selectedItem.itemData)
             Select (selectedItem.itemData);
         else
-            Select (NULL);
+            Select (null);
     }
 
     string GetCostString (int price, bool isSellMode) {
@@ -415,7 +415,7 @@ class S7_ShopMenu_EventHandler : EventHandler {
 
             int amount = e.Args [1];
             double mod = 0.0;
-            S7_SSItem item = NULL;
+            S7_SSItem item = null;
 
             for (int i = 0; i < shopData.allItems.Size (); i++) {
                 if (shopData.allItems [i].id == e.Args [0]) {
@@ -442,7 +442,7 @@ class S7_LuciusShopMenu : S7_ShopMenu {
         let serverData = S7_ServerData.GetSpecial ();
 
         if (!serverData || !serverData.S7Data || !serverData.S7Data.shopData)
-            return NULL;
+            return null;
 
         return S7_SSShop (serverData.S7Data.shopData.shops.Get ("mainShop"));
     }

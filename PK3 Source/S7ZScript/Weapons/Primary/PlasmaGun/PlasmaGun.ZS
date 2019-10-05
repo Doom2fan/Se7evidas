@@ -44,7 +44,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         S7_BaseWeapon.Icon "PLSGU0";
         S7_BaseWeapon.ShortTag "$SHORTPLASMAGUN";
         S7_BaseWeapon.AmmoBuyData "ACEL", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Heavy;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Heavy;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
@@ -52,12 +52,12 @@ class S7_PlasmaGun : S7_BaseWeapon {
     override void DoEffect () {
         Super.DoEffect ();
 
-        fireModeIcon = (semiAuto ? FMI_SemiAuto : FMI_FullAuto);
+        fireModeIcon = (semiAuto ? S7_FMI_SemiAuto : S7_FMI_FullAuto);
     }
 
-    const CHARGE_MAX = 4;
-    const CHARGE_COST = 9;
-    const MAX_CHARGING_LEVEL = 53;
+    const Charge_Max = 4;
+    const Charge_Cost = 9;
+    const Max_Charging_Level = 53;
 
     int amountUsedToCharge;
     int prevCharge;
@@ -68,15 +68,15 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
     int GetChargeCost () {
         if (!Owner)
-            return CHARGE_COST;
+            return Charge_Cost;
 
         let pPawn = S7_BasePlayer (Owner);
 
         if (!pPawn || !pPawn.xpSys)
-            return CHARGE_COST;
+            return Charge_Cost;
 
-        double ret = CHARGE_COST * (1.0 - (pPawn.xpSys.GetStat (S7Stat_Tech, false) * .01));
-        return int (floor (clamp (ret, 4., CHARGE_COST)));
+        double ret = Charge_Cost * (1.0 - (pPawn.xpSys.GetStat (S7Stat_Tech, false) * .01));
+        return int (floor (clamp (ret, 4., Charge_Cost)));
     }
 
     double GetDamageBonus () {
@@ -104,7 +104,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         PLSG A 1 DoSelectOffset ((24, 24));
         PLSG A 1 DoSelectOffset (( 0,  0));
     Ready2:
-        PLSG A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: ((invoker.charge >= CHARGE_MAX) ? WRF_NoSecondary : 0));
+        PLSG A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: ((invoker.charge >= Charge_Max) ? WRF_NoSecondary : 0));
         TNT1 A 0 { invoker.altfireLock = false; }
         loop;
 
@@ -227,7 +227,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             if (invoker.charge > 1)
                 A_SetBlend ("10 6B DA", 0.175 * invoker.charge, 8);
 
-            double vR = double (invoker.charge) / CHARGE_MAX;
+            double vR = double (invoker.charge) / Charge_Max;
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon, 1. - (.5 * vR));
             A_PlaySound ("Weapons/PlasmaGun/AltFire", CHAN_5, 0.5 + (.5 * vR));
 
@@ -270,7 +270,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
     AltFire:
         PLSG A 1 {
-            if (invoker.charge >= CHARGE_MAX)
+            if (invoker.charge >= Charge_Max)
                 return ResolveState ("Ready2");
             else if (!CheckInventory ('S7_PlasmaGunMag', invoker.GetChargeCost ()))
                 return ResolveState ("DryFire.Alt");
@@ -285,7 +285,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/Charge", CHAN_Weapon);
     Charge:
         PLSG A 1 {
-            if (invoker.chargingLevel >= MAX_CHARGING_LEVEL)
+            if (invoker.chargingLevel >= Max_Charging_Level)
                 return ResolveState ("ChargingFinished");
 
             A_WeaponOffset (0 + fRandom [weaponSpc] (-1, 1), 32 + fRandom [weaponSpc] (-1, 1));

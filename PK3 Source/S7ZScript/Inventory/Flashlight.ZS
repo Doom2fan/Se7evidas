@@ -64,7 +64,7 @@ class S7_FlashlightBattery : Inventory {
 ** Sounds: Credits in the SNDINFO file (SNDINFO.MiscInventory)
 */
 class S7_Flashlight : Inventory {
-    const MaxBatteryCharge = TICRATE * 60 * 30;
+    const MaxBatteryCharge = TicRate * 60 * 30;
 
     default {
         Inventory.MaxAmount 1;
@@ -114,7 +114,7 @@ class S7_Flashlight : Inventory {
     }
 
     void ToggleLight () {
-        Owner.A_PlaySound (active ? "Inventory/Flashlight/Off" : "Inventory/Flashlight/On", CHAN_ITEM, volume: 0.5);
+        Owner.A_PlaySound (active ? "Inventory/Flashlight/Off" : "Inventory/Flashlight/On", CHAN_Item, volume: 0.5);
         active = !active;
         infraredMode = false;
     }

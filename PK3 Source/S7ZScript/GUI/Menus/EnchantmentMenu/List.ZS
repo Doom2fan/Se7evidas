@@ -21,13 +21,13 @@ class S7_WeaponEnchantmentMenu_ListHandler : S7_ZF_Handler {
 
     S7_WeapAssignMenu_ListWeap FindWeap (string weaponName) {
         if (!link)
-            return NULL;
+            return null;
 
         let list = link.itemsList;
         if (!list)
-            return NULL;
+            return null;
 
-        S7_WeapAssignMenu_ListWeap item = NULL;
+        S7_WeapAssignMenu_ListWeap item = null;
 
         for (int i = 0; i < list.items.Size (); i++) {
             if (list.items [i] && list.items [i].weaponName ~== weaponName) {
@@ -56,8 +56,8 @@ class S7_WeaponEnchantmentMenu_ListHandler : S7_ZF_Handler {
                         link.selectedWeap = item.weaponInst;
                         link.itemsList.Select (item);
                     } else {
-                        link.selectedWeap = NULL;
-                        link.itemsList.Select (NULL);
+                        link.selectedWeap = null;
+                        link.itemsList.Select (null);
                     }
 
                     link.enchantmentPower = 1;
@@ -138,24 +138,24 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
         if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
             clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
-            itemsFrame.master = NULL;
+            itemsFrame.master = null;
             itemsFrame.Destroy ();
-            itemsFrame = NULL;
+            itemsFrame = null;
         }
         if (items.Size () > 0) {
             for (int i = items.Size () - 1; i >= 0; i--) {
                 if (!items [i])
                     continue;
 
-                items [i].weaponInst = NULL;
+                items [i].weaponInst = null;
                 if (items [i].clickableArea) {
                     items [i].clickableArea.Destroy ();
-                    items [i].clickableArea = NULL;
+                    items [i].clickableArea = null;
                 }
                 items [i].labels.Clear ();
                 if (items [i].icon) {
                     items [i].icon.Destroy ();
-                    items [i].icon = NULL;
+                    items [i].icon = null;
                 }
             }
             items.Clear ();
@@ -213,7 +213,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
                 let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
-                    fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
+                    fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
                 label.Pack (itemsFrame);
                 weapControls.labels.Push (label);
@@ -250,7 +250,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
             labels.Copy (items [i].labels);
             for (int j = 0; j < labels.Size (); j++)
-                labels [j].textColor = (items [i] == item ? Font.CR_RED : Font.CR_WHITE);
+                labels [j].textColor = (items [i] == item ? Font.CR_Red : Font.CR_White);
             labels.Clear ();
         }
     }

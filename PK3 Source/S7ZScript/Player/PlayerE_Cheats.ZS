@@ -30,14 +30,14 @@ extend class S7_BasePlayer {
     override void CheatGive (String name, int amount) {
         let player = self.player;
 
-        if (player.mo == NULL || player.health <= 0)
+        if (player.mo == null || player.health <= 0)
             return;
 
-        int giveall = ALL_NO;
+        int giveall = ALL_No;
         if (name ~== "all")
-            giveall = ALL_YES;
+            giveall = ALL_Yes;
         else if (name ~== "everything")
-            giveall = ALL_YESYES;
+            giveall = ALL_YesYes;
 
         if (name ~== "levels") {
             xpSys.GiveXP (amount);
@@ -64,13 +64,13 @@ extend class S7_BasePlayer {
         if (giveall || name ~== "weapons") {
             let savedpending = player.PendingWeapon;
             for (int i = 0; i < AllActorClasses.Size (); ++i) {
-                let type = (class<S7_BaseWeapon>) (AllActorClasses [i]);
+                let type = (Class<S7_BaseWeapon>) (AllActorClasses [i]);
                 if (type != null && type != 'S7_BaseWeapon') {
                     // Don't give replaced weapons unless the replacement was done by Dehacked.
                     let rep = GetReplacement (type);
                     if (rep == type || rep is 'DehackedPickup') {
                         readonly<S7_BaseWeapon> def = GetDefaultByType (type);
-                        if (giveall == ALL_YESYES || !def.bCheatNotWeapon)
+                        if (giveall == ALL_YesYes || !def.bCheatNotWeapon)
                             GiveInventory (type, 1, true);
                     }
                 }

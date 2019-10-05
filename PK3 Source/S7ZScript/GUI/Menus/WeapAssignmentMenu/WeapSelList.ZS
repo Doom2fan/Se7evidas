@@ -64,7 +64,7 @@ class S7_WeapAssignMenu_ListHandler : S7_ZF_Handler {
         if (!lostFocus)
             link.hoveredWeap = item.weaponInst;
         else if (link.hoveredWeap == item.weaponInst)
-            link.hoveredWeap = NULL;
+            link.hoveredWeap = null;
     }
 }
 
@@ -148,24 +148,24 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                 if (!items [i])
                     continue;
 
-                items [i].weaponInst = NULL;
+                items [i].weaponInst = null;
                 if (items [i].clickableArea) {
                     items [i].clickableArea.Destroy ();
-                    items [i].clickableArea = NULL;
+                    items [i].clickableArea = null;
                 }
                 items [i].labels.Clear ();
                 if (items [i].icon) {
                     items [i].icon.Destroy ();
-                    items [i].icon = NULL;
+                    items [i].icon = null;
                 }
             }
             items.Clear ();
         }
         if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
             clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
-            itemsFrame.master = NULL;
+            itemsFrame.master = null;
             itemsFrame.Destroy ();
-            itemsFrame = NULL;
+            itemsFrame = null;
         }
     }
 
@@ -175,24 +175,24 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
         if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
             clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
-            itemsFrame.master = NULL;
+            itemsFrame.master = null;
             itemsFrame.Destroy ();
-            itemsFrame = NULL;
+            itemsFrame = null;
         }
         if (items.Size () > 0) {
             for (int i = items.Size () - 1; i >= 0; i--) {
                 if (!items [i])
                     continue;
 
-                items [i].weaponInst = NULL;
+                items [i].weaponInst = null;
                 if (items [i].clickableArea) {
                     items [i].clickableArea.Destroy ();
-                    items [i].clickableArea = NULL;
+                    items [i].clickableArea = null;
                 }
                 items [i].labels.Clear ();
                 if (items [i].icon) {
                     items [i].icon.Destroy ();
-                    items [i].icon = NULL;
+                    items [i].icon = null;
                 }
             }
             items.Clear ();
@@ -206,7 +206,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         if (link.selectedX >= 0 && link.selectedY >= 0 && link.weapBinds.BindUsed (link.selectedX + 1, link.selectedY, isDraco)) {
             let weapControls = new ('S7_WeapAssignMenu_ListWeap');
             weapControls.weaponName = "@__NoWeapon__";
-            weapControls.weaponInst = NULL;
+            weapControls.weaponInst = null;
 
             Vector2 texSize = (0, 0);
 
@@ -232,7 +232,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
                 let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
-                    fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
+                    fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
                 label.Pack (itemsFrame);
                 weapControls.labels.Push (label);
@@ -296,7 +296,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
                 let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
-                    fnt: smallFont, wrap: false, textColor: Font.CR_WHITE
+                    fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
                 label.Pack (itemsFrame);
                 weapControls.labels.Push (label);
@@ -333,7 +333,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
             labels.Copy (items [i].labels);
             for (int j = 0; j < labels.Size (); j++)
-                labels [j].textColor = (items [i] == item ? Font.CR_RED : Font.CR_WHITE);
+                labels [j].textColor = (items [i] == item ? Font.CR_Red : Font.CR_White);
             labels.Clear ();
         }
     }

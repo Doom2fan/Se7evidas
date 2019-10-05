@@ -107,7 +107,7 @@ class S7_SSItem {
         icon            = "";
         inventoryName   = "";
         itemType        = 0;
-        link            = NULL;
+        link            = null;
         cashItem        = "S7_Cash";
         info            = new ('S7_SSItemInfo');
         info.maxAmount  = -1;
@@ -143,7 +143,7 @@ class S7_SSItem {
         int maxCashAmount = 0;
 
         let cashInv = player.FindInventory (cashItem);
-        let defCashInv = GetDefaultByType ((class<Inventory>) (cashItem));
+        let defCashInv = GetDefaultByType ((Class<Inventory>) (cashItem));
         if (cashInv)
             maxCashAmount = cashInv.MaxAmount;
         else if (defCashInv)
@@ -271,7 +271,7 @@ class S7_SSItem_Armor : S7_SSItem {
 
 class S7_SSItem_Weapon : S7_SSItem {
     override void PostProcess () {
-        class<Inventory> weapClass = inventoryName;
+        Class<Inventory> weapClass = inventoryName;
         if (!(weapClass is 'S7_BaseWeapon'))
             Console.Printf ("\cgSe7evidas error: S7_SSItem_Weapon can only be used with items inheriting from S7_BaseWeapon. (item \"%s\")", inventoryName);
     }

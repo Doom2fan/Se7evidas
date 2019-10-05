@@ -44,21 +44,21 @@ class S7_ManxCarbine : S7_BaseWeapon {
         S7_BaseWeapon.Icon "MNXPA0";
         S7_BaseWeapon.ShortTag "$SHORTMANXCARBINE";
         S7_BaseWeapon.AmmoBuyData "A9MM", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
         S7_BaseWeapon.EnchantmentPrice 600, 0.4, 1.16;
     }
 
-    const MANX_SCOPEOVERLAY_ID      = 20;
-    const MANX_SUPPRESSOROVERLAY_ID = 21;
+    const Manx_ScopeOverlay_ID      = 20;
+    const Manx_SuppressorOverlay_ID = 21;
     bool hasScope;
     bool hasSuppressor;
 
     bool semiAuto;
     bool fireSoundChannel;
 
-    const BASEZOOMFACTOR = 3.0;
+    const BaseZoomFactor = 3.0;
     bool   zoomed;
     double zoomLevel;
 
@@ -81,7 +81,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
     override void DoEffect () {
         Super.DoEffect ();
 
-        fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
+        fireModeIcon = semiAuto ? S7_FMI_SemiAuto : S7_FMI_FullAuto;
     }
 
     override bool SS_PreSell (int amount) {
@@ -143,8 +143,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     Ready:
         TNT1 A 0 {
-            A_Overlay (MANX_SCOPEOVERLAY_ID     , "Overlay.Scope"     );
-            A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Overlay.Suppressor");
+            A_Overlay (Manx_ScopeOverlay_ID     , "Overlay.Scope"     );
+            A_Overlay (Manx_SuppressorOverlay_ID, "Overlay.Suppressor");
         }
         MANX A 1 DoSelectOffset ((56, 56), forceNoInterpolate: true);
         MANX A 1 DoSelectOffset ((48, 48));
@@ -191,10 +191,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2;
 
     Overlay.Scope:
-        MNX2 A 1 Manx_RunOverlay (MANX_SCOPEOVERLAY_ID, 'MNX2', invoker.hasScope);
+        MNX2 A 1 Manx_RunOverlay (Manx_ScopeOverlay_ID, 'MNX2', invoker.hasScope);
         loop;
     Overlay.Suppressor:
-        MNX3 A 1 Manx_RunOverlay (MANX_SUPPRESSOROVERLAY_ID, 'MNX3', invoker.hasSuppressor);
+        MNX3 A 1 Manx_RunOverlay (Manx_SuppressorOverlay_ID, 'MNX3', invoker.hasSuppressor);
         loop;
 
     Deselect:
@@ -218,8 +218,8 @@ class S7_ManxCarbine : S7_BaseWeapon {
         MANX A 1 DoSelectOffset ((48, 48));
         MANX A 1 DoSelectOffset ((56, 56));
         TNT1 A 0 {
-            A_Overlay (MANX_SCOPEOVERLAY_ID     , "Null");
-            A_Overlay (MANX_SUPPRESSOROVERLAY_ID, "Null");
+            A_Overlay (Manx_ScopeOverlay_ID     , "Null");
+            A_Overlay (Manx_SuppressorOverlay_ID, "Null");
         }
         goto TrueDeselect;
     Deselect.Zoom:
@@ -285,14 +285,14 @@ class S7_ManxCarbine : S7_BaseWeapon {
             S7_A_SpawnCasing ('S7_9mmCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_ManxCarbineTracer', spread: (.24, .24), offs: (10, 0, 10), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
-            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .95);
+            A_ZoomFactor ((BaseZoomFactor + invoker.zoomLevel) * .95);
             S7_Recoil (-0.3);
         }
         SCP1 D 1 {
-            A_ZoomFactor ((BASEZOOMFACTOR + invoker.zoomLevel) * .975);
+            A_ZoomFactor ((BaseZoomFactor + invoker.zoomLevel) * .975);
             S7_Recoil (-0.3);
         }
-        SCP1 D 1 A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+        SCP1 D 1 A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
         SCP1 D 1 {
             if (invoker.semiAuto)
                 return ResolveState ("Fire.Zoom.Semi");
@@ -310,10 +310,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     Zoom:
         #### ######## 1 {
-            if (!invoker.zoomed || !(player.cmd.buttons & BT_ZOOM))
+            if (!invoker.zoomed || !(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("DoZoom");
 
-            if (player.cmd.buttons & BT_ATTACK || player.cmd.buttons & BT_ALTATTACK)
+            if (player.cmd.buttons & BT_Attack || player.cmd.buttons & BT_AltAttack)
                 return ResolveState ("ChangeZoomLevel");
 
             return ResolveState (null);
@@ -328,7 +328,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
                 invoker.zoomed = true;
                 A_SetCrosshair (99);
                 A_SetBlend ("00 00 00", 1.0, 8);
-                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel, ZOOM_Instant);
+                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel, ZOOM_Instant);
             } else
                 return ResolveState ("Unzoom");
 
@@ -345,22 +345,22 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2;
     ChangeZoomLevel:
         #### # 1 {
-            if (!(player.cmd.buttons & BT_ZOOM))
+            if (!(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("Ready2");
 
-            if (player.cmd.buttons & BT_ATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.2, 0, BASEZOOMFACTOR);
-                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
-            } else if (player.cmd.buttons & BT_ALTATTACK) {
-                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.2, 0, BASEZOOMFACTOR);
-                A_ZoomFactor (BASEZOOMFACTOR + invoker.zoomLevel);
+            if (player.cmd.buttons & BT_Attack) {
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.2, 0, BaseZoomFactor);
+                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
+            } else if (player.cmd.buttons & BT_AltAttack) {
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.2, 0, BaseZoomFactor);
+                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
             }
 
             return ResolveState (null);
         }
         loop;
     ChangeZoomLevel.Delay:
-        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
+        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
         goto ChangeZoomLevel;
 
     ChangeMode:

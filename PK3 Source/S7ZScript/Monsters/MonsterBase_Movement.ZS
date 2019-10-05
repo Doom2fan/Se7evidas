@@ -22,17 +22,17 @@
 */
 
 extend class S7_MonsterBase {
-    const S7_MOVEDIR_EAST = 0;
-    const S7_MOVEDIR_WEST = S7_MOVEDIR_MAXDIR / 2;
-    const S7_MOVEDIR_NORTH = S7_MOVEDIR_MAXDIR / 4;
-    const S7_MOVEDIR_SOUTH = int (floor (S7_MOVEDIR_MAXDIR * .75));
+    const S7_MoveDir_East = 0;
+    const S7_MoveDir_West = S7_MoveDir_MaxDir / 2;
+    const S7_MoveDir_North = S7_MoveDir_MaxDir / 4;
+    const S7_MoveDir_South = int (floor (S7_MoveDir_MaxDir * .75));
     // MUST BE A POWER OF TWO
     // IF YOU CHANGE THIS TO ANYTHING HIGHER THAN 32,
     // REVERT COMMIT 66f70402 ("Optimized S7_DoNewChaseDir's attempts array into an int.")
-    const S7_MOVEDIR_MAXDIR = 32 - 1;
-    const S7_MOVEDIR_NODIR = S7_MOVEDIR_MAXDIR + 1;
-    const S7_MOVEDIR_COUNT = S7_MOVEDIR_MAXDIR + 2;
-    const S7_MOVEDIR_INTERVAL = 360. / (S7_MOVEDIR_MAXDIR + 1);
+    const S7_MoveDir_MaxDir = 32 - 1;
+    const S7_MoveDir_NoDir = S7_MoveDir_MaxDir + 1;
+    const S7_MoveDir_Count = S7_MoveDir_MaxDir + 2;
+    const S7_MoveDir_Interval = 360. / (S7_MoveDir_MaxDir + 1);
 
     int movementDir;
 
@@ -49,12 +49,12 @@ extend class S7_MonsterBase {
     }
 
     void S7_RandomChaseDir () {
-        int oldDir, turnaround = S7_MOVEDIR_NODIR;
+        int oldDir, turnaround = S7_MoveDir_NoDir;
 
         oldDir = movementDir;
 
-        if (movementDir != S7_MOVEDIR_NODIR)
-            turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
+        if (movementDir != S7_MoveDir_NoDir)
+            turnaround = (int ((((movementDir * S7_MoveDir_Interval) + 180.) % 360.) / S7_MoveDir_Interval) & S7_MoveDir_MaxDir);
 
         if (bFriendly) {
             Actor player;
@@ -65,7 +65,7 @@ extend class S7_MonsterBase {
             else {
                 if (!multiplayer)
                     i = 0;
-                else for (i = (random [NewChaseDir] (0, 255) & (MAXPLAYERS-1)); !playeringame [i]; i = ((i+1) & (MAXPLAYERS-1)))
+                else for (i = (random [NewChaseDir] (0, 255) & (MaxPlayers-1)); !playeringame [i]; i = ((i+1) & (MaxPlayers-1)))
                     ; // Do nothing
 
                 player = players [i].mo;
@@ -76,7 +76,7 @@ extend class S7_MonsterBase {
                     let delta = Vec2To (player);
 
                     S7_DoNewChaseDir (delta, player);
-                    if (movementDir != S7_MOVEDIR_NODIR)
+                    if (movementDir != S7_MoveDir_NoDir)
                         return;
                 }
             }
@@ -90,44 +90,44 @@ extend class S7_MonsterBase {
 
         int turndir = (random [NewChaseDir] (0, 255) & 1) ? -1 : 1;
 
-        if (oldDir == S7_MOVEDIR_NODIR)
+        if (oldDir == S7_MoveDir_NoDir)
             oldDir = random [NewChaseDir] (0, 255);
 
         int tDir;
-        int oldDirMasked = (oldDir & S7_MOVEDIR_MAXDIR);
-        for (tDir = ((oldDir + turndir) & S7_MOVEDIR_MAXDIR); tDir != oldDirMasked; tDir = ((tDir + turndir) & S7_MOVEDIR_MAXDIR)) {
+        int oldDirMasked = (oldDir & S7_MoveDir_MaxDir);
+        for (tDir = ((oldDir + turndir) & S7_MoveDir_MaxDir); tDir != oldDirMasked; tDir = ((tDir + turndir) & S7_MoveDir_MaxDir)) {
             if (tDir != turnaround) {
-                movementDir = (tDir & S7_MOVEDIR_MAXDIR);
+                movementDir = (tDir & S7_MoveDir_MaxDir);
                 if (S7_TryWalk ())
                     return;
             }
         }
 
-        if (turnaround != S7_MOVEDIR_NODIR) {
-            movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
+        if (turnaround != S7_MoveDir_NoDir) {
+            movementDir = (turnaround & S7_MoveDir_MaxDir);
             if (S7_TryWalk ()) {
                 movecount = (random [NewChaseDir] (0, 255) & 15);
                 return;
             }
         }
 
-        movementDir = S7_MOVEDIR_NODIR;
+        movementDir = S7_MoveDir_NoDir;
     }
 
     int doNewChaseDir_WhatToIgnore;
     void S7_DoNewChaseDir (Vector2 delta, Actor targ = null) {
         int d [2];
-        int oldDir, turnaround = S7_MOVEDIR_NODIR, walkDir = S7_MOVEDIR_NODIR;
-        uint attempts = 0; // We don't need to attempt S7_MOVEDIR_NODIR.
+        int oldDir, turnaround = S7_MoveDir_NoDir, walkDir = S7_MoveDir_NoDir;
+        uint attempts = 0; // We don't need to attempt S7_MoveDir_NoDir.
         oldDir = movementDir;
 
-        if (movementDir != S7_MOVEDIR_NODIR)
-            turnaround = (int ((((movementDir * S7_MOVEDIR_INTERVAL) + 180.) % 360.) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
+        if (movementDir != S7_MoveDir_NoDir)
+            turnaround = (int ((((movementDir * S7_MoveDir_Interval) + 180.) % 360.) / S7_MoveDir_Interval) & S7_MoveDir_MaxDir);
 
         // Try direct route
         if (abs (delta.X) >= 10 && abs (delta.Y) >= 10) {
             double ang = VectorAngle (delta.X, delta.Y);
-            movementDir = walkDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MOVEDIR_INTERVAL) & S7_MOVEDIR_MAXDIR);
+            movementDir = walkDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MoveDir_Interval) & S7_MoveDir_MaxDir);
 
             if (movementDir != turnaround) {
                 attempts |= (1 << movementDir);
@@ -141,10 +141,10 @@ extend class S7_MonsterBase {
         if (doNewChaseDir_WhatToIgnore == 0 || doNewChaseDir_WhatToIgnore == 3) {
             int forwardsDir = walkDir;
 
-            if (forwardsDir == S7_MOVEDIR_NODIR)
+            if (forwardsDir == S7_MoveDir_NoDir)
                 forwardsDir = oldDir;
 
-            if (forwardsDir != S7_MOVEDIR_NODIR) {
+            if (forwardsDir != S7_MoveDir_NoDir) {
                 int moveDir = forwardsDir - 8;
 
                 if (moveDir < 0)
@@ -168,8 +168,8 @@ extend class S7_MonsterBase {
         // Try other directions
         if (!bAvoidingDropoff) {
             // There is no direct path to the enemy, so pick another direction.
-            if (oldDir != S7_MOVEDIR_NODIR && !(attempts & (1 << oldDir))) {
-                movementDir = (oldDir & S7_MOVEDIR_MAXDIR);
+            if (oldDir != S7_MoveDir_NoDir && !(attempts & (1 << oldDir))) {
+                movementDir = (oldDir & S7_MoveDir_MaxDir);
                 attempts |= (1 << oldDir);
                 if (S7_TryWalk ()) {
                     doNewChaseDir_WhatToIgnore = 0;
@@ -209,28 +209,28 @@ extend class S7_MonsterBase {
             if (doNewChaseDir_WhatToIgnore == 1)
                 forwardsDir = turnaround;
 
-            if (forwardsDir == S7_MOVEDIR_NODIR) {
-                if (oldDir != S7_MOVEDIR_NODIR)
+            if (forwardsDir == S7_MoveDir_NoDir) {
+                if (oldDir != S7_MoveDir_NoDir)
                     forwardsDir = oldDir;
                 else
                     forwardsDir = 0;
             }
 
-            for (int i = 1; i <= S7_MOVEDIR_MAXDIR; i++) {
+            for (int i = 1; i <= S7_MoveDir_MaxDir; i++) {
                 int tDir = forwardsDir + ((i >> 1) * sweepSwap);
                 sweepSwap = -sweepSwap;
 
-                if (tDir > S7_MOVEDIR_MAXDIR)
-                    tDir = tDir - S7_MOVEDIR_MAXDIR;
-                if (tDir < -S7_MOVEDIR_MAXDIR)
-                    tDir = tDir + S7_MOVEDIR_MAXDIR;
+                if (tDir > S7_MoveDir_MaxDir)
+                    tDir = tDir - S7_MoveDir_MaxDir;
+                if (tDir < -S7_MoveDir_MaxDir)
+                    tDir = tDir + S7_MoveDir_MaxDir;
                 if (tDir < 0)
-                    tDir = S7_MOVEDIR_MAXDIR + tDir;
+                    tDir = S7_MoveDir_MaxDir + tDir;
 
                 if (tDir != turnaround && !(attempts & (1 << tDir))) {
                     bool success; Vector2 newPos;
 
-                    movementDir = (tDir & S7_MOVEDIR_MAXDIR);
+                    movementDir = (tDir & S7_MoveDir_MaxDir);
                     [success, newPos] = S7_TryWalk (true);
 
                     double dist = double.infinity;
@@ -276,9 +276,9 @@ extend class S7_MonsterBase {
 
         // If all else fails, try to turn around.
         if (doNewChaseDir_WhatToIgnore > 0 &&
-            turnaround != S7_MOVEDIR_NODIR && !(attempts & (1 << turnaround))
+            turnaround != S7_MoveDir_NoDir && !(attempts & (1 << turnaround))
         ) {
-            movementDir = (turnaround & S7_MOVEDIR_MAXDIR);
+            movementDir = (turnaround & S7_MoveDir_MaxDir);
             if (S7_TryWalk ()) {
                 doNewChaseDir_WhatToIgnore = 0;
                 return;
@@ -286,7 +286,7 @@ extend class S7_MonsterBase {
         }
 
         // Cannot move
-        movementDir = S7_MOVEDIR_NODIR;
+        movementDir = S7_MoveDir_NoDir;
         doNewChaseDir_WhatToIgnore = ((doNewChaseDir_WhatToIgnore+1) & 3);
     }
 
@@ -376,7 +376,7 @@ extend class S7_MonsterBase {
                 double dist = Distance2D (target);
 
                 if (!target.player)
-                    isMeleeAttacker = (target.MissileState == NULL && dist < (target.MeleeRange + target.radius) * 2);
+                    isMeleeAttacker = (target.MissileState == null && dist < (target.MeleeRange + target.radius) * 2);
                 else if (target.player.ReadyWeapon) {
                     // Melee range of player weapon is a parameter of the action function and cannot be checked here.
                     isMeleeAttacker = (target.player.ReadyWeapon.bMeleeWeapon && dist < 192);
@@ -402,8 +402,8 @@ extend class S7_MonsterBase {
         if (bBlasted)
             return true, pos.XY;
 
-        if (movementDir >= S7_MOVEDIR_NODIR) {
-            movementDir = S7_MOVEDIR_NODIR; // Make sure it's valid.
+        if (movementDir >= S7_MoveDir_NoDir) {
+            movementDir = S7_MoveDir_NoDir; // Make sure it's valid.
             return false, pos.XY;
         }
 
@@ -422,7 +422,7 @@ extend class S7_MonsterBase {
         if (bJumpDown && target && !target.IsFriend (self) && Distance2D (target) < 144 && random [Dropoff] (0, 255) < 235)
             dropoff = 2;
 
-        Vector3 moveVec = (AngleToVector (double (movementDir) * S7_MOVEDIR_INTERVAL, Speed), 0);
+        Vector3 moveVec = (AngleToVector (double (movementDir) * S7_MoveDir_Interval, Speed), 0);
         [angle, pitch] = S7_Math.GetAnglesTo (level, pos, pos + moveVec);
 
         double maxmove = radius - 1.;
@@ -461,7 +461,7 @@ extend class S7_MonsterBase {
             if (!checkOnly) {
                 prevPos = pos;
                 Prev = prevPrev;
-                tryOK = TryMove (ptry, true, NULL, tm);
+                tryOK = TryMove (ptry, true, null, tm);
             } else {
                 prevPos = (startPos + tryMoveVec * (i - 1) / stepCount, pos.Z);
                 tryOK = CheckMove (ptry, 0, tm: tm);
@@ -555,7 +555,7 @@ extend class S7_MonsterBase {
 
             if (!checkOnly) {
                 // Open any specials
-                movementDir = S7_MOVEDIR_NODIR;
+                movementDir = S7_MoveDir_NoDir;
 
                 int usesCount = CheckMonsterUseSpecials ();
 

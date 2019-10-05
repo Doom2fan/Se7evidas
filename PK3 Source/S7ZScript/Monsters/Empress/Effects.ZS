@@ -164,7 +164,7 @@ class S7_EmpressPentagramLine : S7_Projectile {
     }
 
     override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
-        class<Actor> trail = MissileName;
+        Class<Actor> trail = MissileName;
 
         if (trail != null) {
             Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
@@ -180,7 +180,7 @@ class S7_EmpressPentagramLine : S7_Projectile {
             return act;
         }
 
-        return NULL;
+        return null;
     }
 
     states {

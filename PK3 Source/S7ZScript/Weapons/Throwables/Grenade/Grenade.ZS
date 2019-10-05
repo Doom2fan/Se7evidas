@@ -69,7 +69,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         S7_BaseWeapon.Icon "HGRNZ0";
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
         S7_BaseWeapon.AmmoBuyData "HGRN", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Special;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Special;
         S7_ThrowWeapon.MaxForce 30;
         S7_ThrowWeapon.CanCancelThrow true;
         S7_BaseWeapon.EnchantmentProperties false, 0.;
@@ -183,7 +183,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 //
 //-------------------------------------------------------------------------------------------
 class S7_ThrownHandGrenade : S7_ThrownObject {
-    const FuseTime = int (ceil (TICRATE * 3.5));
+    const FuseTime = int (ceil (TicRate * 3.5));
 
     default {
         Radius 5;

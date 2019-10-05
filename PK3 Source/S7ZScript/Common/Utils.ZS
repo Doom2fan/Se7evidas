@@ -73,10 +73,10 @@ struct S7_Utils {
 
 class S7_BoundingBox {
     enum BoxSides {
-        BOXTOP,
-        BOXBOTTOM,
-        BOXLEFT,
-        BOXRIGHT
+        BoxTop,
+        BoxBottom,
+        BoxLeft,
+        BoxRight
     };
 
     protected double m_Box [4];
@@ -90,23 +90,23 @@ class S7_BoundingBox {
     }
 
     void SetBox (Vector2 pos, double radius) {
-        m_Box [BOXTOP   ] = pos.Y + radius;
-        m_Box [BOXLEFT  ] = pos.X - radius;
-        m_Box [BOXRIGHT ] = pos.X + radius;
-        m_Box [BOXBOTTOM] = pos.Y - radius;
+        m_Box [BoxTop   ] = pos.Y + radius;
+        m_Box [BoxLeft  ] = pos.X - radius;
+        m_Box [BoxRight ] = pos.X + radius;
+        m_Box [BoxBottom] = pos.Y - radius;
     }
 
     void ClearBox () {
-        m_Box [BOXTOP   ] = m_Box [BOXRIGHT] = -float.Max;
-        m_Box [BOXBOTTOM] = m_Box [BOXLEFT ] = float.Max;
+        m_Box [BoxTop   ] = m_Box [BoxRight] = -float.Max;
+        m_Box [BoxBottom] = m_Box [BoxLeft ] = float.Max;
     }
 
     bool inRange (in Line ld) const {
         return (
-            m_Box [BOXLEFT  ] < ld.bbox [BOXRIGHT ] &&
-            m_Box [BOXRIGHT ] > ld.bbox [BOXLEFT  ] &&
-            m_Box [BOXTOP   ] > ld.bbox [BOXBOTTOM] &&
-            m_Box [BOXBOTTOM] < ld.bbox [BOXTOP   ]
+            m_Box [BoxLeft  ] < ld.bbox [BoxRight ] &&
+            m_Box [BoxRight ] > ld.bbox [BoxLeft  ] &&
+            m_Box [BoxTop   ] > ld.bbox [BoxBottom] &&
+            m_Box [BoxBottom] < ld.bbox [BoxTop   ]
         );
     }
 
@@ -114,30 +114,30 @@ class S7_BoundingBox {
         int p1, p2;
 
         if (ld.delta.X ~== 0) {
-            // ST_VERTICAL
-            p1 = m_Box [BOXRIGHT] < ld.v1.p.X;
-            p2 = m_Box [BOXLEFT ] < ld.v1.p.X;
+            // ST_Vertical
+            p1 = m_Box [BoxRight] < ld.v1.p.X;
+            p2 = m_Box [BoxLeft ] < ld.v1.p.X;
             if (ld.delta.Y < 0) {
                 p1 ^= 1;
                 p2 ^= 1;
             }
         } else if (ld.delta.Y ~== 0) {
-            // ST_HORIZONTAL:
-            p1 = m_Box [BOXTOP   ] > ld.v1.p.X;
-            p2 = m_Box [BOXBOTTOM] > ld.v1.p.Y;
+            // ST_Horizontal:
+            p1 = m_Box [BoxTop   ] > ld.v1.p.X;
+            p2 = m_Box [BoxBottom] > ld.v1.p.Y;
 
             if (ld.delta.X < 0) {
                 p1 ^= 1;
                 p2 ^= 1;
             }
         } else if ((ld.delta.X * ld.delta.Y) >= 0) {
-            // ST_POSITIVE:
-            p1 = S7_Math.PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXTOP   ], ld);
-            p2 = S7_Math.PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXBOTTOM], ld);
+            // ST_Positive:
+            p1 = S7_Math.PointOnLineSidePrecise (m_Box [BoxLeft ], m_Box [BoxTop   ], ld);
+            p2 = S7_Math.PointOnLineSidePrecise (m_Box [BoxRight], m_Box [BoxBottom], ld);
         } else {
-            // ST_NEGATIVE:
-            p1 = S7_Math.PointOnLineSidePrecise (m_Box [BOXRIGHT], m_Box [BOXTOP   ], ld);
-            p2 = S7_Math.PointOnLineSidePrecise (m_Box [BOXLEFT ], m_Box [BOXBOTTOM], ld);
+            // ST_Negative:
+            p1 = S7_Math.PointOnLineSidePrecise (m_Box [BoxRight], m_Box [BoxTop   ], ld);
+            p2 = S7_Math.PointOnLineSidePrecise (m_Box [BoxLeft ], m_Box [BoxBottom], ld);
         }
 
         return (p1 == p2) ? p1 : -1;

@@ -22,7 +22,7 @@
 */
 
 extend class S7_MonsterBase {
-    const TEAM_NONE = 255;
+    const Team_None = 255;
 
     int S7_GetTeam () {
         if (player)
@@ -31,7 +31,7 @@ extend class S7_MonsterBase {
         int myTeam = DesignatedTeam;
 
         // Check for monsters that belong to a player on the team but aren't part of the team themselves.
-        if (myTeam == TEAM_NONE && FriendPlayer != 0)
+        if (myTeam == Team_None && FriendPlayer != 0)
             myTeam = players [FriendPlayer - 1].GetTeam ();
 
         return myTeam;
@@ -83,26 +83,26 @@ extend class S7_MonsterBase {
             bool result = LookForEnemies (allAround, params);
 
             // [SP] If you don't see any enemies in deathmatch, look for players (but only when friend to a specific player.)
-            if (FriendPlayer == 0 && (!teamplay || S7_GetTeam () == TEAM_NONE))
+            if (FriendPlayer == 0 && (!teamplay || S7_GetTeam () == Team_None))
                 return result;
             if (result || !deathmatch)
                 return true;
         } // [SP] if false, and in deathmatch, intentional fall-through
 
         // Single player game and player is dead; look for monsters
-        if (!(gameinfo.gametype & (GAME_DoomStrifeChex)) && !multiplayer && players [0].health <= 0 && !goal && gamestate != GS_TITLELEVEL)
+        if (!(gameinfo.gametype & (GAME_DoomStrifeChex)) && !multiplayer && players [0].health <= 0 && !goal && gamestate != GS_TitleLevel)
             return LookForMonsters ();
 
         c = 0;
         if (TIDtoHate != 0)
-            pnum = random [LookyLooky] (0, 255) & (MAXPLAYERS - 1);
+            pnum = random [LookyLooky] (0, 255) & (MaxPlayers - 1);
         else
             pnum = LastLookPlayerNumber;
 
         while (true) {
             // [ED850] Each and every player should only ever be checked once.
-            if (c++ < MAXPLAYERS) {
-                pnum = (pnum + 1) & (MAXPLAYERS - 1);
+            if (c++ < MaxPlayers) {
+                pnum = (pnum + 1) & (MaxPlayers - 1);
                 if (!playeringame [pnum])
                     continue;
 
@@ -122,10 +122,10 @@ extend class S7_MonsterBase {
                     if (lastenemy && lastenemy.health > 0) {
                         if (!IsFriend (lastenemy)) {
                             target = lastenemy;
-                            lastenemy = NULL;
+                            lastenemy = null;
                             return true;
                         } else
-                            lastenemy = NULL;
+                            lastenemy = null;
                     }
                 }
 
@@ -138,7 +138,7 @@ extend class S7_MonsterBase {
                 continue;           // Not shootable (observer or dead)
 
             if (!(bFriendly ^ player.mo.bFriendly))
-                continue;           // Same +MF_FRIENDLY, ignore
+                continue;           // Same +MF_Friendly, ignore
 
             if (player.cheats & CF_NoTarget)
                 continue;           // No target
@@ -149,7 +149,7 @@ extend class S7_MonsterBase {
             if (!IsVisible (player.mo, allAround, params))
                 continue;           // Out of sight
 
-            // [SP] Deathmatch fixes - if we have MF_FRIENDLY we're definitely in deathmatch
+            // [SP] Deathmatch fixes - if we have MF_Friendly we're definitely in deathmatch
             // we're going to ignore our master, but go after his enemies.
             if (bFriendly) {
                 if (IsFriend (player.mo))
@@ -201,7 +201,7 @@ extend class S7_MonsterBase {
 
             special = 0;
             goal = iterator.Next ();
-            reactiontime = Args [2] * TICRATE + level.maptime;
+            reactiontime = Args [2] * TicRate + level.maptime;
 
             if (Args [3] == 0)
                 bChaseGoal = false;
@@ -219,7 +219,7 @@ extend class S7_MonsterBase {
 
             // [RH] If the soundtarget is dead, don't chase it
             if (targ && targ.health <= 0) {
-                targ = NULL;
+                targ = null;
                 targFromSound = false;
             }
 
@@ -235,7 +235,7 @@ extend class S7_MonsterBase {
             if (IsFriend (targ)) { // Be a little more precise!
                 // If we find a valid target here, the wandering logic should *not*
                 // be activated! It would cause the seestate to be set twice.
-                if (invoker.S7_LookForPlayers (bLookAllAround, NULL)) {
+                if (invoker.S7_LookForPlayers (bLookAllAround, null)) {
                     A_S7Look_SeeYou ();
                     return;
                 }
@@ -260,7 +260,7 @@ extend class S7_MonsterBase {
             }
         }
 
-        if (!invoker.S7_LookForPlayers (bLookAllAround, NULL))
+        if (!invoker.S7_LookForPlayers (bLookAllAround, null))
             return;
 
         // Go into chase state
@@ -271,9 +271,9 @@ extend class S7_MonsterBase {
         // [RH] Don't start chasing after a goal if it isn't time yet.
         if (target == goal) {
             if (reactiontime > level.maptime)
-                target = NULL;
+                target = null;
         } else if (SeeSound)
-            A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: bBoss ? ATTN_NONE : ATTN_NORM);
+            A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: bBoss ? ATTN_None : ATTN_Norm);
 
         if (target && SeeState)
             SetState (SeeState);
@@ -285,7 +285,7 @@ extend class S7_MonsterBase {
     //
     //-------------------------------------------------------------------------------------------
     action void A_S7LookEx (int flags = 0, double minSeeDist = 0, double maxSeeDist = 0, double maxHearDist = 0, double fov = 0, StateLabel seeStateLabel = null) {
-        Actor targ = NULL;
+        Actor targ = null;
         bool targFromSound = false;
         double dist;
         State customSeeState = FindState (seeStateLabel);
@@ -310,7 +310,7 @@ extend class S7_MonsterBase {
 
             special = 0;
             goal = iterator.Next ();
-            reactiontime = Args [2] * TICRATE + level.maptime;
+            reactiontime = Args [2] * TicRate + level.maptime;
 
             if (Args [3] == 0)
                 bChaseGoal = false;
@@ -330,15 +330,15 @@ extend class S7_MonsterBase {
                 if (targ) {
                     // [RH] If the soundtarget is dead, don't chase it
                     if (targ.health <= 0) {
-                        targ = NULL;
+                        targ = null;
                         targFromSound = false;
                     } else {
                         dist = Distance2D (targ);
 
                         // [KS] If the target is too far away, don't respond to the sound.
                         if (maxHearDist && dist > maxHearDist) {
-                            targ = NULL;
-                            LastHeard = NULL;
+                            targ = null;
+                            LastHeard = null;
                             targFromSound = false;
                         }
                     }
@@ -381,7 +381,7 @@ extend class S7_MonsterBase {
                 // [KS] The target can become ourselves in rare circumstances (like
                 // if we committed suicide), so if that's the case, just ignore it.
                 if (target == self)
-                    target = NULL;
+                    target = null;
 
                 if (target) {
                     if (bAmbush) {
@@ -416,12 +416,12 @@ extend class S7_MonsterBase {
         // [RH] Don't start chasing after a goal if it isn't time yet.
         if (target == goal) {
             if (reactiontime > level.maptime)
-                target = NULL;
+                target = null;
         } else if (SeeSound && !(flags & LOF_NoSeeSound)) {
             if (flags & LOF_FullVolSeeSound) // Full volume
-                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NONE);
+                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_None);
             else
-                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_NORM);
+                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_Norm);
         }
 
         if (target && !bInChase) {

@@ -23,7 +23,7 @@
 //-------------------------------------------------------------------------------------------
 class S7_ServerEventHandler : EventHandler {
     void ResetShaders () {
-        for (int i = 0; i < MAXPLAYERS; i++) {
+        for (int i = 0; i < MaxPlayers; i++) {
             if (!playeringame [i])
                 continue;
 
@@ -31,7 +31,7 @@ class S7_ServerEventHandler : EventHandler {
             Shader.SetEnabled (players [i], "S7_DemonEyes"   , false);
             Shader.SetEnabled (players [i], "S7_Invuln"      , false);
             Shader.SetEnabled (players [i], "S7_Nightvision" , false);
-            //Shader.SetEnabled (players [i], "S7_StealthShader", !(gamestate == GS_TITLELEVEL));
+            //Shader.SetEnabled (players [i], "S7_StealthShader", !(gamestate == GS_TitleLevel));
         }
     }
 
@@ -53,9 +53,9 @@ class S7_ServerEventHandler : EventHandler {
         serverData.mapCount++;
 
         /*if (serverData.mapCount > 0 && random [S7_MapEvents] () < 32)
-            serverData.queuedMapEvent = random [S7_MapEvents] (MEVNT_None + 1, MEVNT_LastToken - 1);
+            serverData.queuedMapEvent = random [S7_MapEvents] (S7_MEVNT_None + 1, S7_MEVNT_LastToken - 1);
         else*/
-            serverData.queuedMapEvent = MEVNT_None;
+            serverData.queuedMapEvent = S7_MEVNT_None;
 
         ResetShaders ();
     }
@@ -108,7 +108,7 @@ class S7_PlayerEventHandler : EventHandler {
                 return;
             if (!players [e.Player].ReadyWeapon || !(players [e.Player].ReadyWeapon is 'S7_BaseWeapon'))
                 return;
-            if (players [e.Player].PendingWeapon != WP_NOCHANGE)
+            if (players [e.Player].PendingWeapon != WP_NoChange)
                 return;
 
             let serverData = S7_ServerData.Get ();
@@ -120,7 +120,7 @@ class S7_PlayerEventHandler : EventHandler {
                 int itemID = S7_Utils.MakeUIDStr (weap.ammoBuyShopItem);
 
                 let shopData = serverData.S7Data.shopData;
-                S7_SSItem item = NULL;
+                S7_SSItem item = null;
 
                 for (int i = 0; i < shopData.allItems.Size (); i++) {
                     if (shopData.allItems [i].id == itemID) {

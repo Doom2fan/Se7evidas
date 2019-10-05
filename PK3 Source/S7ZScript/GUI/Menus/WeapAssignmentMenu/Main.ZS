@@ -101,14 +101,14 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         OnInit ();
 
         string labelText = "WEAPON SLOT ASSIGNMENT";
-        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (slotsFrame);
 
         for (int x = 0; x < 5; x++) {
             double xCoords = 19.0 + ((105.0 + 19.0) * x);
             labelText = weapLabelsText [x];
-            label = new ('S7_ZF_Label').Init ((xCoords, 48), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+            label = new ('S7_ZF_Label').Init ((xCoords, 48), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
             label.box.pos.X += (105.0 / 2) - (smallFont.stringWidth (labelText) / 2.0);
             label.Pack (slotsFrame);
 
@@ -129,7 +129,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         infoBG = new ('S7_ZF_Image').Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft);
         infoBG.Pack (weapSelFrame);
-        infoLabel = new ('S7_ZF_Label').Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), text: "", fnt: smallFont, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        infoLabel = new ('S7_ZF_Label').Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), text: "", fnt: smallFont, wrap: true, autoSize: false, textColor: Font.CR_White);
         infoLabel.Pack (weapSelFrame);
         itemsList = S7_WeapAssignMenu_List (new ('S7_WeapAssignMenu_List').InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
 
@@ -194,7 +194,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         else if (selectedX >= 0 && selectedY >= 0 && selectedWeap)
             SetInfo (selectedWeap);
         else
-            SetInfo (NULL);
+            SetInfo (null);
     }
 
     void ActivateSelFrame (S7_WeaponSlots slot) {
@@ -225,7 +225,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         MenuSound ("S7Menu/SelectionMove");
 
         selectedX = selectedY = -1;
-        hoveredWeap = NULL;
+        hoveredWeap = null;
         ActivateSelFrame (-1);
         UpdateData ();
     }
@@ -290,7 +290,7 @@ class S7_WeapAssignMenu_EventHandler : EventHandler {
 
             int slot = e.Args [0], pos = e.Args [1];
 
-            weapBinds.SetBind (slot, pos, NULL, !!e.args [2]);
+            weapBinds.SetBind (slot, pos, null, !!e.args [2]);
         }
     }
 }

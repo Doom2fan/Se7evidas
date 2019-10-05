@@ -44,7 +44,7 @@ class S7_AK47 : S7_BaseWeapon {
         S7_BaseWeapon.Icon "AK4PA0";
         S7_BaseWeapon.ShortTag "$SHORTAK47";
         S7_BaseWeapon.AmmoBuyData "A762", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
         S7_BaseWeapon.EnchantmentPrice 750, 0.4, 1.15;
@@ -57,17 +57,17 @@ class S7_AK47 : S7_BaseWeapon {
         Super.DoEffect ();
 
         if (semiOnly)
-            fireModeIcon = FMI_None;
+            fireModeIcon = S7_FMI_None;
         else
-            fireModeIcon = semiAuto ? FMI_SemiAuto : FMI_FullAuto;
+            fireModeIcon = semiAuto ? S7_FMI_SemiAuto : S7_FMI_FullAuto;
     }
 
-    const ANIM_LAYER = 2;
+    const AnimLayer_ID = 2;
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (ANIM_LAYER, animState);
-        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     /** Pickup **/
@@ -307,7 +307,7 @@ class S7_AK47 : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 1 {
-            let psp = player.FindPSprite (ANIM_LAYER);
+            let psp = player.FindPSprite (AnimLayer_ID);
             if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
                 return ResolveState ("Ready2");
 

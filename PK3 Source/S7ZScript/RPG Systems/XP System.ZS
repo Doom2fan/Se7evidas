@@ -80,7 +80,7 @@ class S7_XPSystem : Inventory {
     int strengthStat, agilityStat, vitalityStat, defenseStat, willStat, magicStat, techStat;
     double softness;
 
-    S7_StatModifier GetStatModInstance (class<S7_StatModifier> mod) {
+    S7_StatModifier GetStatModInstance (Class<S7_StatModifier> mod) {
         for (int i = statMods.Size () - 1; i >= 0; i--) {
             if (statMods [i] is mod)
                 return statMods [i];

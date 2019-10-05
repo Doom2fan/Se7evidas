@@ -33,10 +33,10 @@ class S7_DracoThing : Inventory {
             return false;
 
         if (pPawn.weapBinds)
-            pPawn.weapBinds.LastWeapon = NULL;
+            pPawn.weapBinds.LastWeapon = null;
 
         if (!(pPawn is 'S7_DracoPlayer'))
-            pPawn.MorphPlayer (pPawn.player, 'S7_DracoPlayer', 0x7FFFFFFF, morphFlags, NULL, NULL);
+            pPawn.MorphPlayer (pPawn.player, 'S7_DracoPlayer', 0x7FFFFFFF, morphFlags, null, null);
         else
             pPawn.UndoPlayerMorph (pPawn.player, MRF_UndoAlways, false);
 
@@ -80,12 +80,12 @@ class S7_DracoPlayer : S7_BasePlayer {
     override void CheckWeaponChange () { // We have to override this so Dracos can have multiple weapons
         let player = self.player;
 
-        if (player.WeaponState & WF_DISABLESWITCH) // Weapon changing has been disabled, so throw away any pending weapon requests.
-            player.PendingWeapon = WP_NOCHANGE;
+        if (player.WeaponState & WF_DisableSwitch) // Weapon changing has been disabled, so throw away any pending weapon requests.
+            player.PendingWeapon = WP_NoChange;
 
         // Put the weapon away if the player has a pending weapon or has died, and
         // we're at a place in the state sequence where dropping the weapon is okay.
-        if ((player.PendingWeapon != WP_NOCHANGE || player.health <= 0) && player.WeaponState & WF_WEAPONSWITCHOK)
+        if ((player.PendingWeapon != WP_NoChange || player.health <= 0) && player.WeaponState & WF_WeaponSwitchOk)
             DropWeapon ();
     }
 

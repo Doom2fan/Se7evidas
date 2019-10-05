@@ -76,14 +76,14 @@ class S7_FireThinker_Group {
     int smokeDelay;
     int smokeMinDensity;
     int smokeMaxDensity;
-    class<S7_FireThinker_Smoke> smokeActor;
+    Class<S7_FireThinker_Smoke> smokeActor;
 
     int flameMinDelay;
     int flameMaxDelay;
     int flameDelay;
     int flameMinDensity;
     int flameMaxDensity;
-    class<S7_FireThinker_Flame> flameActor;
+    Class<S7_FireThinker_Flame> flameActor;
 
     // Stick to actor
     Actor stickActor;
@@ -119,13 +119,13 @@ class S7_FireThinker_BaseInfo {
     int smokeDelay;
     int smokeMinDensity;
     int smokeMaxDensity;
-    class<S7_FireThinker_Smoke> smokeActor;
+    Class<S7_FireThinker_Smoke> smokeActor;
 
     int flameMinDelay;
     int flameMaxDelay;
     int flameMinDensity;
     int flameMaxDensity;
-    class<S7_FireThinker_Flame> flameActor;
+    Class<S7_FireThinker_Flame> flameActor;
 }
 
 class S7_FireThinker : Actor {
@@ -155,14 +155,14 @@ class S7_FireThinker : Actor {
 
         let chpData = new ('S7_CanHitPointData');
         chpData.ignoreAllActors = true;
-        chpData.lineBlockFlags = Line.ML_BLOCKSIGHT;
+        chpData.lineBlockFlags = Line.ML_BlockSight;
 
         if (fireData.group.stickActor) {
             fireData.group.stickActor.DamageMobj (
                 null, fireData.source,
                 damage,
                 fireData.damageType,
-                flags: DMG_NO_ARMOR | DMG_THRUSTLESS | DMG_NO_PAIN
+                flags: DMG_No_Armor | DMG_Thrustless | DMG_No_Pain
             );
         }
 
@@ -188,13 +188,13 @@ class S7_FireThinker : Actor {
                 null, fireData.source,
                 damage,
                 fireData.damageType,
-                flags: DMG_NO_ARMOR | DMG_THRUSTLESS | DMG_NO_PAIN
+                flags: DMG_No_Armor | DMG_Thrustless | DMG_No_Pain
             );
         }
     }
 
     override void BeginPlay () {
-        ChangeStatNum (STAT_USER_MAX);
+        ChangeStatNum (STAT_User_Max);
 
         int time = MSTime ();
 
@@ -476,7 +476,7 @@ class S7_FireThinker : Actor {
     }
 
     protected static S7_FireThinker Get () {
-        ThinkerIterator it = ThinkerIterator.Create ('S7_FireThinker', STAT_USER_MAX);
+        ThinkerIterator it = ThinkerIterator.Create ('S7_FireThinker', STAT_User_Max);
         let p = S7_FireThinker (it.Next ());
 
         if (!p)

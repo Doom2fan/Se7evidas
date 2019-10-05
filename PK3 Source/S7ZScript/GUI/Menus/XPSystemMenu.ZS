@@ -146,7 +146,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         string labelText = StringTable.Localize ("$STATSMENUHEADER", true);
-        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (mainFrame);
 
@@ -168,7 +168,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 text: String.Format ("%s:", statText),
                 fnt: smallFont,
                 wrap: false, autoSize: true,
-                textColor: Font.CR_WHITE
+                textColor: Font.CR_White
             );
             statLabels [i].cmdHandler = handler;
             statLabels [i].command = statNames [i];
@@ -179,7 +179,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 text: "0",
                 fnt: smallFont,
                 wrap: false, autoSize: true,
-                textColor: Font.CR_WHITE
+                textColor: Font.CR_White
             );
             statBaseLabels [i].Pack (statsFrame);
 
@@ -188,7 +188,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             text: "+0",
                 fnt: smallFont,
                 wrap: false, autoSize: true,
-                textColor: Font.CR_WHITE
+                textColor: Font.CR_White
             );
             statAddLabels [i].Pack (statsFrame);
 
@@ -229,7 +229,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
         resetButton.Pack (statsFrame);
 
-        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
         tooltipLabel.Pack (mainFrame);
     }
 
@@ -274,7 +274,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             for (int j = 0; j < 2; j++) {
                 let statButton = statButtons [i] [j];
 
-                statButton.textColor = (statButton.disabled ? Font.CR_DARKGRAY : Font.CR_WHITE);
+                statButton.textColor = (statButton.disabled ? Font.CR_DarkGray : Font.CR_White);
                 statButtonHeld |= (statButton.curButtonState == S7_ZF_Button.ButtonState_Click);
             }
         }

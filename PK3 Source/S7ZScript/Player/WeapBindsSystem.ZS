@@ -37,7 +37,7 @@ class S7_SlotMaxUpgrade : Inventory {
             return;
         }
 
-        if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.NUM_WEAPON_SLOTS - 1)) {
+        if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.Num_Weapon_Slots - 1)) {
             Console.Printf ("Invalid weapon slot %d.", upgradeSlot);
             didUpgrade = true;
             return;
@@ -74,7 +74,7 @@ class S7_SlotMaxUpgrade : Inventory {
         if (!Owner)
             return;
 
-        if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.NUM_WEAPON_SLOTS - 1))
+        if (upgradeSlot < 0 || upgradeSlot > (S7_WeapBindsSystem.Num_Weapon_Slots - 1))
             return;
 
         let weapBinds = S7_WeapBindsSystem (Owner.FindInventory ('S7_WeapBindsSystem'));
@@ -86,24 +86,24 @@ class S7_SlotMaxUpgrade : Inventory {
 }
 
 class S7_WeapBindsSystem : Inventory {
-    const NUM_WEAPON_SLOTS = 10;
-    const NUM_WEAPON_SLOTS_DRACO = 4;
+    const Num_Weapon_Slots = 10;
+    const Num_Weapon_Slots_Draco = 4;
 
     // The actual weapon binds.
-    Array<S7_BaseWeapon> Binds [NUM_WEAPON_SLOTS];
+    Array<S7_BaseWeapon> Binds [Num_Weapon_Slots];
     // The weapon binds for the Draco
-    Array<S7_BaseWeapon> DracoBinds [NUM_WEAPON_SLOTS_DRACO];
+    Array<S7_BaseWeapon> DracoBinds [Num_Weapon_Slots_Draco];
     // The maximum amount of weapons in a slot.
-    int SlotMaximum [NUM_WEAPON_SLOTS];
+    int SlotMaximum [Num_Weapon_Slots];
     // The last selected weapon;
     S7_BaseWeapon LastWeapon;
 
     override void AttachToOwner (Actor other) {
         Super.AttachToOwner (other);
 
-        for (int i = 0; i < NUM_WEAPON_SLOTS; i++) {
+        for (int i = 0; i < Num_Weapon_Slots; i++) {
             Binds [i].Clear ();
-            if (i < NUM_WEAPON_SLOTS_DRACO)
+            if (i < Num_Weapon_Slots_Draco)
                 DracoBinds [i].Clear ();
 
             if (i > 0 && i < 5)
@@ -116,7 +116,7 @@ class S7_WeapBindsSystem : Inventory {
     }
 
     override void DoEffect () {
-        for (int i = 0; i < NUM_WEAPON_SLOTS; i++) {
+        for (int i = 0; i < Num_Weapon_Slots; i++) {
             int j;
             while ((j = Binds [i].Find (null)) != Binds [i].Size ()) {
                 Binds [i].Delete (j, 1);
@@ -147,11 +147,11 @@ class S7_WeapBindsSystem : Inventory {
 
     clearscope S7_BaseWeapon GetBind (int slot, int pos, bool draco = false) {
         if (slot < (!draco ? 0 : 1) || pos < 0)
-            return NULL;
-        if (!draco && (slot > NUM_WEAPON_SLOTS-1 || pos >= Binds [slot].Size ()))
-            return NULL;
-        if (draco && (slot > NUM_WEAPON_SLOTS_DRACO || pos >= DracoBinds [slot-1].Size ()))
-            return NULL;
+            return null;
+        if (!draco && (slot > Num_Weapon_Slots-1 || pos >= Binds [slot].Size ()))
+            return null;
+        if (draco && (slot > Num_Weapon_Slots_Draco || pos >= DracoBinds [slot-1].Size ()))
+            return null;
 
         Array<S7_BaseWeapon> weapons; weapons.Clear ();
 
@@ -167,9 +167,9 @@ class S7_WeapBindsSystem : Inventory {
     clearscope bool BindUsed (int slot, int pos, bool draco = false) {
         if (slot < (!draco ? 0 : 1) || pos < 0)
             return false;
-        if (!draco && (slot > NUM_WEAPON_SLOTS-1 || pos >= Binds [slot].Size ()))
+        if (!draco && (slot > Num_Weapon_Slots-1 || pos >= Binds [slot].Size ()))
             return false;
-        if (draco && (slot > NUM_WEAPON_SLOTS_DRACO || pos >= DracoBinds [slot-1].Size ()))
+        if (draco && (slot > Num_Weapon_Slots_Draco || pos >= DracoBinds [slot-1].Size ()))
             return false;
 
         Array<S7_BaseWeapon> weapons; weapons.Clear ();
@@ -177,7 +177,7 @@ class S7_WeapBindsSystem : Inventory {
         if (!draco) weapons.Copy (     Binds [slot]);
         else        weapons.Copy (DracoBinds [slot-1]);
 
-        bool ret = weapons [pos] != NULL;
+        bool ret = weapons [pos] != null;
         weapons.Clear ();
 
         return ret;
@@ -186,7 +186,7 @@ class S7_WeapBindsSystem : Inventory {
     // Finds the slot and index of a weapon
     clearscope int, int LocateWeapon (S7_BaseWeapon weap, bool draco = false) {
         int i, j;
-        int slotsCount = (!draco ? NUM_WEAPON_SLOTS : NUM_WEAPON_SLOTS_DRACO);
+        int slotsCount = (!draco ? Num_Weapon_Slots : Num_Weapon_Slots_Draco);
 
         for (i = 0; i < slotsCount; i++) {
             j = (!draco ? (Binds [i].Find (weap)) : (DracoBinds [i].Find (weap)));
@@ -210,7 +210,7 @@ class S7_WeapBindsSystem : Inventory {
     clearscope int, int FindMostRecentWeapon (bool draco = false) {
         PlayerInfo player = PlayerPawn (Owner).player;
 
-        if (player.PendingWeapon != WP_NOCHANGE) {
+        if (player.PendingWeapon != WP_NoChange) {
             let weap = S7_BaseWeapon (player.PendingWeapon);
 
             if (!weap)
@@ -239,8 +239,8 @@ class S7_WeapBindsSystem : Inventory {
 
     // Picks the next weapon in the specified slot
     S7_BaseWeapon PickWeapon (uint slot, bool checkAmmo = false, bool draco = false) {
-        if (slot < (!draco ? 0 : 1) || (!draco && slot > NUM_WEAPON_SLOTS-1) || (draco && slot > NUM_WEAPON_SLOTS_DRACO))
-            return NULL;
+        if (slot < (!draco ? 0 : 1) || (!draco && slot > Num_Weapon_Slots-1) || (draco && slot > Num_Weapon_Slots_Draco))
+            return null;
 
         PlayerInfo player = PlayerPawn (Owner).player;
         Array<S7_BaseWeapon> weapons; weapons.Clear ();
@@ -276,7 +276,7 @@ class S7_WeapBindsSystem : Inventory {
         PlayerInfo player = PlayerPawn (Owner).player;
         int startSlot, startIndex;
         int slotsChecked = 0;
-        int slotsCount = (!draco ? NUM_WEAPON_SLOTS : NUM_WEAPON_SLOTS_DRACO);
+        int slotsCount = (!draco ? Num_Weapon_Slots : Num_Weapon_Slots_Draco);
 
         [startSlot, startIndex] = FindMostRecentWeapon (draco);
         if (!player.ReadyWeapon || (startSlot >= 0 && startIndex >= 0)) {
@@ -366,9 +366,9 @@ class S7_WeapBindsSystem : Inventory {
 
         if (oldWeap) {
             if (Owner.player.PendingWeapon == oldWeap)
-                Owner.player.PendingWeapon = WP_NOCHANGE;
+                Owner.player.PendingWeapon = WP_NoChange;
 
-            if (Owner.player.ReadyWeapon == oldWeap && Owner.player.PendingWeapon == WP_NOCHANGE) {
+            if (Owner.player.ReadyWeapon == oldWeap && Owner.player.PendingWeapon == WP_NoChange) {
                 if (weap)
                     Owner.player.PendingWeapon = weap;
                 else

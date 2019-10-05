@@ -39,11 +39,11 @@ class S7_BaseStatusbar : BaseStatusBar {
         Vector2 box = (abs (p2.X - p1.X) * scale.X, abs (p2.Y - p1.Y) * scale.Y);
 
         // Resolve auto-alignment before making any adjustments to the position values.
-        if (!(flags & DI_SCREEN_MANUAL_ALIGN)) {
-            if (origin.X < 0) flags |= DI_SCREEN_RIGHT;
-            else flags |= DI_SCREEN_LEFT;
-            if (origin.Y < 0) flags |= DI_SCREEN_BOTTOM;
-            else flags |= DI_SCREEN_TOP;
+        if (!(flags & DI_Screen_Manual_Align)) {
+            if (origin.X < 0) flags |= DI_Screen_Right;
+            else flags |= DI_Screen_Left;
+            if (origin.Y < 0) flags |= DI_Screen_Bottom;
+            else flags |= DI_Screen_Top;
         }
 
         alpha *= self.Alpha;
@@ -52,15 +52,15 @@ class S7_BaseStatusbar : BaseStatusBar {
 
         origin += drawOffset;
 
-        switch (flags & DI_ITEM_HMASK) {
-        case DI_ITEM_HCENTER:   origin.X -= box.X / 2; p1.X += box.X / 2; p2.X += box.X / 2; break;
-        case DI_ITEM_RIGHT:     origin.X -= box.X    ; p1.X += box.X; p2.X += box.X; break;
+        switch (flags & DI_Item_HMask) {
+        case DI_Item_HCenter:   origin.X -= box.X / 2; p1.X += box.X / 2; p2.X += box.X / 2; break;
+        case DI_Item_Right:     origin.X -= box.X    ; p1.X += box.X; p2.X += box.X; break;
         }
 
-        switch (flags & DI_ITEM_VMASK)
+        switch (flags & DI_Item_VMask)
         {
-        case DI_ITEM_VCENTER: origin.Y -= box.Y / 2; p1.Y += box.Y / 2; p2.Y += box.Y / 2; break;
-        case DI_ITEM_BOTTOM:  origin.Y -= box.Y    ; p1.Y += box.Y    ; p2.Y += box.Y; break;
+        case DI_Item_VCenter: origin.Y -= box.Y / 2; p1.Y += box.Y / 2; p2.Y += box.Y / 2; break;
+        case DI_Item_Bottom:  origin.Y -= box.Y    ; p1.Y += box.Y    ; p2.Y += box.Y; break;
         }
 
         if (!fullscreenOffsets) {
@@ -68,22 +68,22 @@ class S7_BaseStatusbar : BaseStatusBar {
         } else {
             Vector2 org;
 
-            switch (flags & DI_SCREEN_HMASK)
+            switch (flags & DI_Screen_HMask)
             {
             default: org.X = 0; break;
-            case DI_SCREEN_HCENTER: org.X = Screen.GetWidth () / 2; break;
-            case DI_SCREEN_RIGHT:   org.X = Screen.GetWidth (); break;
+            case DI_Screen_HCenter: org.X = Screen.GetWidth () / 2; break;
+            case DI_Screen_Right:   org.X = Screen.GetWidth (); break;
             }
 
-            switch (flags & DI_SCREEN_VMASK)
+            switch (flags & DI_Screen_VMask)
             {
             default: org.Y = 0; break;
-            case DI_SCREEN_VCENTER: org.Y = screen.GetHeight () / 2; break;
-            case DI_SCREEN_BOTTOM: org.Y = screen.GetHeight (); break;
+            case DI_Screen_VCenter: org.Y = screen.GetHeight () / 2; break;
+            case DI_Screen_Bottom: org.Y = screen.GetHeight (); break;
             }
 
             // Move stuff in the top right corner a bit down if the fps counter is on.
-            if ((flags & (DI_SCREEN_HMASK|DI_SCREEN_VMASK)) == DI_SCREEN_RIGHT_TOP && vid_fps) {
+            if ((flags & (DI_Screen_HMask|DI_Screen_VMask)) == DI_Screen_Right_Top && vid_fps) {
                 origin.Y += 10;
             }
 

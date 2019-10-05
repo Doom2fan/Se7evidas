@@ -44,15 +44,15 @@ class S7_AMG : S7_BaseWeapon {
         S7_BaseWeapon.Icon "AMGGZ0";
         S7_BaseWeapon.ShortTag "$SHORTAMG";
         S7_BaseWeapon.AmmoBuyData "A762", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Medium;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Medium;
         S7_BaseWeapon.UsesMag true;
         S7_BaseWeapon.EnchantmentProperties true, 0.025;
         S7_BaseWeapon.EnchantmentPrice 750, 0.4, 1.15;
     }
 
-    const ANIM_LAYER = 2;
-    const BASEZOOMFACTOR = 5.5;
-    const BURSTLENGTH = 3;
+    const AnimLayer_ID = 2;
+    const BaseZoomFactor = 5.5;
+    const BurstLength = 3;
     bool burstFire;
     int  burstCount;
     bool   zoomed;
@@ -67,7 +67,7 @@ class S7_AMG : S7_BaseWeapon {
         Super.DoEffect ();
 
         if (Owner.player.ReadyWeapon == self) {
-            let psp = Owner.player.FindPSprite (ANIM_LAYER);
+            let psp = Owner.player.FindPSprite (AnimLayer_ID);
 
             if (psp && psp.sprite == GetSpriteIndex ('SCP1')) {
                 Owner.A_WeaponOffset (0, 32);
@@ -77,20 +77,20 @@ class S7_AMG : S7_BaseWeapon {
             }
         }
 
-        fireModeIcon = burstFire ? FMI_BurstFire : FMI_FullAuto;
+        fireModeIcon = burstFire ? S7_FMI_BurstFire : S7_FMI_FullAuto;
     }
 
     double GetZoomFactor () {
         if (!zoomed)
             return 1.;
 
-        return BASEZOOMFACTOR + zoomLevel;
+        return BaseZoomFactor + zoomLevel;
     }
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (ANIM_LAYER, animState);
-        A_OverlayFlags (ANIM_LAYER, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (ANIM_LAYER, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
     }
 
     /** Pickup **/
@@ -109,7 +109,7 @@ class S7_AMG : S7_BaseWeapon {
     Anim.Idle:
         AMGG A 1 {
             if (invoker.zoomed)
-                S7_SetSprite ('SCP1', 0, ANIM_LAYER);
+                S7_SetSprite ('SCP1', 0, AnimLayer_ID);
         }
         wait;
     Anim.Fire:
@@ -237,10 +237,10 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 AAAAAAAA 1 {
             S7_SetAnim ("Anim.Idle");
 
-            if (!invoker.zoomed || !(player.cmd.buttons & BT_ZOOM))
+            if (!invoker.zoomed || !(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("DoZoom");
 
-            if (player.cmd.buttons & BT_ATTACK || player.cmd.buttons & BT_ALTATTACK)
+            if (player.cmd.buttons & BT_Attack || player.cmd.buttons & BT_AltAttack)
                 return ResolveState ("ChangeZoomLevel");
 
             return ResolveState (null);
@@ -279,13 +279,13 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
 
-            if (!(player.cmd.buttons & BT_ZOOM))
+            if (!(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("Ready2");
 
-            if (player.cmd.buttons & BT_ATTACK)
-                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.25, 0, BASEZOOMFACTOR * 1.5);
-            else if (player.cmd.buttons & BT_ALTATTACK)
-                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.25, 0, BASEZOOMFACTOR * 1.5);
+            if (player.cmd.buttons & BT_Attack)
+                invoker.zoomLevel = clamp (invoker.zoomLevel + 0.25, 0, BaseZoomFactor * 1.5);
+            else if (player.cmd.buttons & BT_AltAttack)
+                invoker.zoomLevel = clamp (invoker.zoomLevel - 0.25, 0, BaseZoomFactor * 1.5);
 
             A_ZoomFactor (invoker.GetZoomFactor ());
 
@@ -293,7 +293,7 @@ class S7_AMG : S7_BaseWeapon {
         }
         loop;
     ChangeZoomLevel.Delay:
-        TNT1 A 1 A_JumpIf (!(player.cmd.buttons & BT_ZOOM), "Ready2");
+        TNT1 A 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
         goto ChangeZoomLevel;
     }
 
@@ -351,12 +351,12 @@ class S7_AMG : S7_BaseWeapon {
         if (!invoker.burstFire) {
             S7_Recoil (-.9);
             A_ZoomFactor (invoker.GetZoomFactor () * .98, ZOOM_Instant);
-        } else if (invoker.burstCount >= BURSTLENGTH)
+        } else if (invoker.burstCount >= BurstLength)
             HandleBurstRecoil (invoker.burstCount);
         else {
             S7_Recoil (-.05);
             double mulFac = invoker.zoomed ? .025 : .01;
-            double zoomFac = invoker.GetZoomFactor () * (1. - (mulFac * (BURSTLENGTH - invoker.burstCount)));
+            double zoomFac = invoker.GetZoomFactor () * (1. - (mulFac * (BurstLength - invoker.burstCount)));
             A_ZoomFactor (zoomFac, (invoker.burstCount < 1) ? ZOOM_Instant : 0);
         }
 
@@ -387,7 +387,7 @@ class S7_AMG : S7_BaseWeapon {
 
     Fire.Burst:
         TNT1 A 1 {
-            if (++invoker.burstCount < BURSTLENGTH)
+            if (++invoker.burstCount < BurstLength)
                 return ResolveState ("Fire");
 
             HandleBurstRecoil (invoker.burstCount);
@@ -484,7 +484,7 @@ class S7_AMG : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 1 {
-            let psp = player.FindPSprite (ANIM_LAYER);
+            let psp = player.FindPSprite (AnimLayer_ID);
             if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
                 return ResolveState ("Ready2");
 

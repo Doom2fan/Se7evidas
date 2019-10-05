@@ -145,7 +145,7 @@ class S7_BasicArmor : BasicArmor {
 }
 
 class S7_BasicArmorPickup : BasicArmorPickup {
-    class<S7_ArmorData> dataClass;
+    Class<S7_ArmorData> dataClass;
 
     property DataClass: dataClass;
 

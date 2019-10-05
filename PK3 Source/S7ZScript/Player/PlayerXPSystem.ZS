@@ -42,18 +42,18 @@ class S7_PlayerXPSystem : S7_XPSystem {
 
             if (msgsOn && msgsOn.GetInt ()) {
                 S7_HudMessageFade.Show (consoleplayer, "Level up!", 1, (0.5 * 800, 0.75 * 600), 35 * 3, 7, 10, alignment: S7_HudMessage.AlignCenter,
-                    color: Font.CR_UNTRANSLATED, fnt: "BigFont", screenSize: (800, 600));
+                    color: Font.CR_Untranslated, fnt: "BigFont", screenSize: (800, 600));
 
                 if (message != "" && !additional)
                     S7_HudMessageFade.Show (consoleplayer, message, 2, (0.5 * 800, 0.8 * 600), 35 * 3, 7, 10,
-                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: 'SmallFont', screenSize: (800, 600));
+                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_Untranslated, fnt: 'SmallFont', screenSize: (800, 600));
                 else {
                     S7_HudMessageFade.Show (consoleplayer, String.Format ("You've reached level %d.\nYou have gained %d attribute points.", lvl, attrPts), 2, (0.5 * 800, 0.8 * 600), 35 * 3, 7, 10,
-                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: 'SmallFont', screenSize: (800, 600));
+                        flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_Untranslated, fnt: 'SmallFont', screenSize: (800, 600));
 
                     if (message != "")
                         S7_HudMessageFade.Show (consoleplayer, message, 2, (0.5 * 800, 0.8 * 4805), 35 * 3, 7, 10,
-                            flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_UNTRANSLATED, fnt: 'SmallFont', screenSize: (800, 600));
+                            flags: logMsgs ? S7_HudMessage.MSG_Log : 0, alignment: S7_HudMessage.AlignCenter, color: Font.CR_Untranslated, fnt: 'SmallFont', screenSize: (800, 600));
                 }
             }
         }

@@ -49,7 +49,7 @@ extend class S7_BasePlayer {
     /** Ammo max **/
     const BaseAmmoMax = 6.0;
     void Weapon_SetAmmoMax () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
 
         for (int i = 0; i < S7_WeapData.AmmoTypesData.Size (); i++) {
@@ -86,7 +86,7 @@ extend class S7_BasePlayer {
     }
 
     /** Misc **/
-    S7_BaseWeapon GiveBasics_GiveStartingWeapon (class<S7_BaseWeapon> weapon) {
+    S7_BaseWeapon GiveBasics_GiveStartingWeapon (Class<S7_BaseWeapon> weapon) {
         if (!CheckInventory (weapon, 1))
             GiveInventory (weapon, 1);
 

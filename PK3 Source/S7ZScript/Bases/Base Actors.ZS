@@ -66,7 +66,7 @@ class S7_MEvntNoMonster : Actor {
         Health 0x00FFFFFF;
         Radius 1;
         Height 10000;
-        Mass LARGE_MASS;
+        Mass Large_Mass;
         Speed 0;
         DamageFactor 0.0;
         DamageFactor "S7_ForceKillSpcDMG", 10.0;

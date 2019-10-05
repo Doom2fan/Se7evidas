@@ -64,7 +64,7 @@ class S7_MD5 {
 
         string ret = md5.Finish ();
 
-        md5.Reset (); md5 = NULL;
+        md5.Reset (); md5 = null;
 
         return ret;
     }
@@ -73,7 +73,7 @@ class S7_MD5 {
         let stream = S7_TZK_StringStream.Create (input);
 
         string ret = FromStream (stream);
-        stream = NULL;
+        stream = null;
 
         return ret;
     }

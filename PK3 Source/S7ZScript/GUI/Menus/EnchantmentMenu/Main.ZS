@@ -150,7 +150,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
 
         {
             string labelText = StringTable.Localize ("$WEAPONENCHANTMENTMENUHEADER", true);
-            S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+            S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
             label.box.pos.X = 320. - (bigFont.stringWidth (labelText) / 2.);
             label.Pack (mainFrame);
         }
@@ -165,26 +165,26 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         mainWindowBG.Pack (dataFrame);
 
         /** Weapon data **/
-        weapNameLabel = new ('S7_ZF_Label').Init ((0, 8), (0, smallFont.GetHeight ()*1.0), text: "", fnt: smallFont, wrap: false, autoSize: false, textScale: 1.0, textColor: Font.CR_WHITE);
+        weapNameLabel = new ('S7_ZF_Label').Init ((0, 8), (0, smallFont.GetHeight ()*1.0), text: "", fnt: smallFont, wrap: false, autoSize: false, textScale: 1.0, textColor: Font.CR_White);
         weapNameLabel.Pack (dataFrame);
 
         weapImage = new ('S7_ZF_Image').Init ((0, 8 + smallFont.GetHeight () + 12), (dataFrame.box.size.X, 200), "", S7_ZF_Image.AlignType_Center, imageScale: (2.5, 2.5));
         weapImage.Pack (dataFrame);
 
-        priceLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE);
+        priceLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White);
         priceLabel.Pack (dataFrame);
 
-        powerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE);
+        powerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White);
         powerLabel.Pack (dataFrame);
 
-        curTotalPowerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_DARKGRAY);
+        curTotalPowerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_DarkGray);
         curTotalPowerLabel.Pack (dataFrame);
 
-        newTotalPowerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_DARKRED);
+        newTotalPowerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_DarkRed);
         newTotalPowerLabel.Pack (dataFrame);
 
         increasePowerButton = new ('S7_ZF_Button').Init ((4, 0), (69, 17),
-            StringTable.Localize ("$WEAPONENCHANTMENTMENU_INC_POWER", true), cmdHandler: handler, command: "increasePower", fnt: smallFont, textColor: Font.CR_WHITE, holdInterval: 3
+            StringTable.Localize ("$WEAPONENCHANTMENTMENU_INC_POWER", true), cmdHandler: handler, command: "increasePower", fnt: smallFont, textColor: Font.CR_White, holdInterval: 3
         );
         increasePowerButton.SetTexture (
             "graphics/Menu/EnchantmentMenu/IncDecButton.png",
@@ -195,7 +195,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         increasePowerButton.Pack (dataFrame);
 
         decreasePowerButton = new ('S7_ZF_Button').Init ((4 + 69 + 4, 0), (69, 17),
-            StringTable.Localize ("$WEAPONENCHANTMENTMENU_DEC_POWER", true), cmdHandler: handler, command: "decreasePower", fnt: smallFont, textColor: Font.CR_WHITE, holdInterval: 3
+            StringTable.Localize ("$WEAPONENCHANTMENTMENU_DEC_POWER", true), cmdHandler: handler, command: "decreasePower", fnt: smallFont, textColor: Font.CR_White, holdInterval: 3
         );
         decreasePowerButton.SetTexture (
             "graphics/Menu/EnchantmentMenu/IncDecButton.png",
@@ -206,7 +206,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         decreasePowerButton.Pack (dataFrame);
 
         buyButton = new ('S7_ZF_Button').Init ((dataFrame.box.size.X - (69 + 4), 235 - (17 + 4)), (69, 17),
-            StringTable.Localize ("$WEAPONENCHANTMENTMENU_BUY", true), cmdHandler: handler, command: "buyEnchantment", fnt: smallFont, textColor: Font.CR_WHITE
+            StringTable.Localize ("$WEAPONENCHANTMENTMENU_BUY", true), cmdHandler: handler, command: "buyEnchantment", fnt: smallFont, textColor: Font.CR_White
         );
         buyButton.SetTexture (
             "graphics/Menu/EnchantmentMenu/IncDecButton.png",
@@ -223,7 +223,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
 
             string labelText = StringTable.Localize ("$WEAPONENCHANTMENTMENU_CURENCHANTS", true);
 
-            curEnchantmentsLabel = new ('S7_ZF_Label').Init ((5, 239), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_WHITE);
+            curEnchantmentsLabel = new ('S7_ZF_Label').Init ((5, 239), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
             curEnchantmentsLabel.Pack (dataFrame);
         }
 
@@ -254,7 +254,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         enchantsListDownButton.Pack (enchantsListFrame);
 
         /** Misc **/
-        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_WHITE);
+        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
         tooltipLabel.Pack (mainFrame);
 
         enchantmentPower = 1;
@@ -279,7 +279,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         else if (selectedWeap)
             Select (selectedWeap);
         else
-            Select (NULL);
+            Select (null);
 
         if (pPawn.playerData.transactData.done) {
             enchantmentPower = 1;
@@ -372,7 +372,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         UpdateLabel (newTotalPowerLabel, curTotalPowerLabel, "$WEAPONENCHANTMENTMENU_NEWTOTALPOWER", String.Format ("%d:%s", newTotalPowerAmount, FormatFraction (newTotalPower)));
 
         int cashAmount = CPlayer.mo.CountInv ("S7_Cash");
-        priceLabel.textColor = (finalPrice > cashAmount) ? Font.CR_RED : Font.CR_WHITE;
+        priceLabel.textColor = (finalPrice > cashAmount) ? Font.CR_Red : Font.CR_White;
 
         // Set the buttons' positions
         increasePowerButton.box.pos.Y = newTotalPowerLabel.box.pos.Y + newTotalPowerLabel.box.size.Y + 4;
@@ -387,9 +387,9 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         increasePowerButton.disabled = (finalPrice > cashAmount || nextLevelPrice > cashAmount);
         buyButton.disabled = (finalPrice > cashAmount);
 
-        decreasePowerButton.textColor = (decreasePowerButton.disabled) ? Font.CR_DARKGRAY : Font.CR_WHITE;
-        increasePowerButton.textColor = (increasePowerButton.disabled) ? Font.CR_DARKGRAY : Font.CR_WHITE;
-        buyButton.textColor = (buyButton.disabled) ? Font.CR_DARKGRAY : Font.CR_WHITE;
+        decreasePowerButton.textColor = (decreasePowerButton.disabled) ? Font.CR_DarkGray : Font.CR_White;
+        increasePowerButton.textColor = (increasePowerButton.disabled) ? Font.CR_DarkGray : Font.CR_White;
+        buyButton.textColor = (buyButton.disabled) ? Font.CR_DarkGray : Font.CR_White;
 
         // Destroy all the labels in the enchantment list and clear it
         for (int i = enchantsListInnerFrame.elements.Size () - 1; i >= 0; i--)
@@ -404,7 +404,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
             string label = String.Format ("%d. Level %d (%s)", i + 1, power, FormatFraction (power * weap.enchantment_BasePower));
 
             new ('S7_ZF_Label')
-                .Init ((0, (smallFontHeight + 4) * i), (smallFont.StringWidth (label), smallFontHeight), text: label, fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_WHITE)
+                .Init ((0, (smallFontHeight + 4) * i), (smallFont.StringWidth (label), smallFontHeight), text: label, fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White)
                 .Pack (enchantsListInnerFrame);
         }
         enchantsListInnerFrame.box.size.Y = ((smallFontHeight + 4) * (enchantmentsCount - 1)) + smallFontHeight + 1;

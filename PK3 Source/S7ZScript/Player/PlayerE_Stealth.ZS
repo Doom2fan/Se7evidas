@@ -21,7 +21,7 @@ extend class S7_BasePlayer {
     double stealthFactor, shaderStealthFactor;
     void Misc_Stealth () {
         // Still needs to be enabled because of the shadowsphere.
-        if (!player || (player.cheats & CF_PREDICTING))
+        if (!player || (player.cheats & CF_Predicting))
             return;
 
         double lightLevel = 1.0;//Misc_Stealth_GetLightLevel ();
@@ -45,7 +45,7 @@ extend class S7_BasePlayer {
             return 1.;
 
         // Set up light iterator
-        let LightFinder = ThinkerIterator.Create ("DynamicLight", Thinker.STAT_DLIGHT);
+        let LightFinder = ThinkerIterator.Create ("DynamicLight", Thinker.STAT_DLight);
 
         // Iterate lights
         DynamicLight currentLight = null;
@@ -87,9 +87,9 @@ extend class S7_BasePlayer {
                 }
 
                 if (frac > 0) {
-                    double lR = currentLight.Args [DynamicLight.LIGHT_RED  ] / 255.;
-                    double lG = currentLight.Args [DynamicLight.LIGHT_GREEN] / 255.;
-                    double lB = currentLight.Args [DynamicLight.LIGHT_BLUE ] / 255.;
+                    double lR = currentLight.Args [DynamicLight.LIGHT_Red  ] / 255.;
+                    double lG = currentLight.Args [DynamicLight.LIGHT_Green] / 255.;
+                    double lB = currentLight.Args [DynamicLight.LIGHT_Blue ] / 255.;
 
                     if (currentLight.bSubtractive) {
                         double bright = (lR, lG, lB).Length ();

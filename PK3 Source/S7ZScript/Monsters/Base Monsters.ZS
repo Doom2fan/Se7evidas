@@ -87,8 +87,8 @@ class S7_MonsterBase : Actor {
 
         SetXPSys ();
 
-        if (S7_DelayedMonsterStats == DelaySpawns_Off ||
-            (S7_DelayedMonsterStats == DelaySpawns_MapStart && GetLevelSpawnTime () > 1)
+        if (S7_DelayedMonsterStats == S7_DelaySpawns_Off ||
+            (S7_DelayedMonsterStats == S7_DelaySpawns_MapStart && GetLevelSpawnTime () > 1)
         ) {
             CallInitializeXPSystem ();
         }
@@ -196,7 +196,7 @@ class S7_MonsterBase : Actor {
         xpSys.GiveXP (amount);
     }
 
-    void GiveCash (Actor act, int amount, class<Inventory> cashItem = 'S7_Cash') {
+    void GiveCash (Actor act, int amount, Class<Inventory> cashItem = 'S7_Cash') {
         if (!act || amount <= 0)
             return;
 
@@ -292,7 +292,7 @@ class S7_ScorpBase : S7_MonsterBase {
             }
         }
 
-        A_S7Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NOPLAYACTIVE : 0);
+        A_S7Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NoPlayActive : 0);
     }
 
     // Default variables

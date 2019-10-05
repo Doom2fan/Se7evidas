@@ -56,7 +56,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         S7_BaseWeapon.Icon "BLSPA0";
         S7_BaseWeapon.ShortTag "$SHORTBUTTFLY";
         S7_BaseWeapon.AmmoBuyData "AFBC", 1;
-        S7_BaseWeapon.BindSlot WpSlot_Light;
+        S7_BaseWeapon.BindSlot S7_WpSlot_Light;
         S7_BaseWeapon.EnchantmentProperties false, 0.;
     }
 
@@ -420,7 +420,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
                 return ResolveState ("AkimboLeft.NoSecLPP");
             if (!invoker.akimbo)
                 return ResolveState ("AkimboLeft.Derped");
-            if ((player.cmd.buttons & BT_ALTATTACK))
+            if ((player.cmd.buttons & BT_AltAttack))
                 return ResolveState ("AkimboLeft.Fire");
 
             return ResolveState (null);
@@ -504,7 +504,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
         BLS2 C 1 S7_Recoil (-0.07);
         BLS2 B 1 S7_Recoil (-0.07);
         BLS2 A 1;
-        BLS2 A 1 A_JumpIf (player.cmd.buttons & BT_ALTATTACK, "AkimboLeft.Fire");
+        BLS2 A 1 A_JumpIf (player.cmd.buttons & BT_AltAttack, "AkimboLeft.Fire");
         goto AkimboLeft.Ready;
 
     AkimboRight.Dryfire:

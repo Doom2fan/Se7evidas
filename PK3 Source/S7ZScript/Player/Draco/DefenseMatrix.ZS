@@ -35,7 +35,7 @@ extend class S7_DracoPlayer {
             dmEnergyRegenTime--;
 
         if (defenseMatrixEnergy > 0) {
-            ThinkerIterator actorFinder = ThinkerIterator.Create ('Actor', Thinker.STAT_DEFAULT);
+            ThinkerIterator actorFinder = ThinkerIterator.Create ('Actor', Thinker.STAT_Default);
 
             Actor mo;
             while (mo = Actor (actorFinder.Next ())) {
@@ -45,7 +45,7 @@ extend class S7_DracoPlayer {
                 if (defenseMatrixEnergy >= 5 && abs (Distance3D (mo)) <= 160.0 && !(random [dracoADM] () < 8)) {
                     let zap = Spawn ('S7_DracoADMZap', mo.pos, ALLOW_REPLACE);
                     zap.target = self;
-                    mo.ExplodeMissile (NULL, zap, false);
+                    mo.ExplodeMissile (null, zap, false);
 
                     defenseMatrixEnergy -= 5;
                     continue;
@@ -87,7 +87,7 @@ extend class S7_DracoPlayer {
         let chpData = new ('S7_CanHitPointData');
         chpData.ignoredActors.Push (self);
         chpData.ignoredActors.Push (mo);
-        chpData.lineBlockFlags = Line.ML_BLOCKPROJECTILE;
+        chpData.lineBlockFlags = Line.ML_BlockProjectile;
         if (!S7_ActorExtensions.CanHitPoint (level, laserStartPos, misPos, chpData)) {
             if (S7_ActorExtensions.CanHitPoint (level, laserStartPos, mo.pos, chpData))
                 aimPos = mo.pos;
@@ -182,8 +182,8 @@ class S7_DracoADMLaser : S7_BaseTracer {
         Super.Effect ();
 
         if (tracer && S7_ActorExtensions.CheckActorCollision (self, tracer)) {
-            tracer.ExplodeMissile (NULL, self, false);
-            ExplodeMissile (NULL, tracer);
+            tracer.ExplodeMissile (null, self, false);
+            ExplodeMissile (null, tracer);
         }
     }
 

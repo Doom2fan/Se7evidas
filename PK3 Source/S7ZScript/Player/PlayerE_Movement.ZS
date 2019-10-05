@@ -34,8 +34,8 @@ extend class S7_BasePlayer {
     // Ledge grabbing
     const LedgeGrab_MaxReach = 8.0;
     const LedgeGrab_MaxHeight = 48.0;
-    const LedgeGrab_DropKeys = BT_USE | BT_JUMP;
-    const LedgeGrab_MaxClimbTime = TICRATE;
+    const LedgeGrab_DropKeys = BT_Use | BT_Jump;
+    const LedgeGrab_MaxClimbTime = TicRate;
 
     Actor ledgeGrab_Marker;
     bool  ledgeGrab_Grabbed;
@@ -49,7 +49,7 @@ extend class S7_BasePlayer {
     double sprint_SpeedFactor, sprint_SpdFacPproc; // sprintSpdFacPproc: This is here to store the speed factor to avoid having to make lots of expensive log calls.
 
     // Teching
-    const Teching_MaxPressTime = TICRATE / 4;
+    const Teching_MaxPressTime = TicRate / 4;
     const Teching_MaxHorzSpeed = 50.0;
 
     bool   teching_Active;
@@ -64,7 +64,7 @@ extend class S7_BasePlayer {
         // [RH] 180-degree turn overrides all other yaws
         if (player.turnticks) {
             player.turnticks--;
-            angle += (180. / TURN180_TICKS);
+            angle += (180. / TURN180_Ticks);
         } else
             angle += cmd.yaw * (360./65536.);
 
@@ -86,7 +86,7 @@ extend class S7_BasePlayer {
             double fm, sm;
 
             [friction, movefactor] = GetFriction ();
-            bobfactor = friction < ORIG_FRICTION ? movefactor : ORIG_FRICTION_FACTOR;
+            bobfactor = friction < Orig_Friction ? movefactor : Orig_Friction_Factor;
             if (!player.onground && !bNoGravity && !waterlevel) {
                 // [RH] allow very limited movement if not on ground.
                 movefactor *= level.aircontrol;
@@ -107,8 +107,8 @@ extend class S7_BasePlayer {
             }
 
             double sprintFactor = 1.0 + (sprint_Sprinting ? sprint_SpeedFactor : 0.0);
-            forwardmove = fm * movefactor * (35 / TICRATE) * sprintFactor;
-            sidemove = sm * movefactor * (35 / TICRATE) * sprintFactor;
+            forwardmove = fm * movefactor * (35 / TicRate) * sprintFactor;
+            sidemove = sm * movefactor * (35 / TicRate) * sprintFactor;
 
             if (forwardmove) {
                 Bob (Angle, cmd.forwardmove * bobfactor / 256., true);
@@ -120,11 +120,11 @@ extend class S7_BasePlayer {
                 Thrust (sidemove, a);
             }
 
-            if (!(player.cheats & CF_PREDICTING) && !(forwardmove ~== 0 && sidemove ~== 0))
+            if (!(player.cheats & CF_Predicting) && !(forwardmove ~== 0 && sidemove ~== 0))
                 PlayRunning ();
 
-            if (player.cheats & CF_REVERTPLEASE) {
-                player.cheats &= ~CF_REVERTPLEASE;
+            if (player.cheats & CF_RevertPlease) {
+                player.cheats &= ~CF_RevertPlease;
                 player.camera = player.mo;
             }
         }
@@ -132,14 +132,14 @@ extend class S7_BasePlayer {
     override void CheckCrouch (bool totallyfrozen) {
         UserCmd cmd = player.cmd;
 
-        if (player.onground && cmd.buttons & BT_JUMP)
+        if (player.onground && cmd.buttons & BT_Jump)
             crouching_DoCrouch = false;
 
         if (CanCrouch () && player.health > 0 && level.IsCrouchingAllowed ()) {
             if (!totallyfrozen) {
-                if ((cmd.buttons & BT_CROUCH) && !(player.oldbuttons & BT_CROUCH))
+                if ((cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch))
                     crouching_DoCrouch = player.onground;
-                else if (!(cmd.buttons & BT_CROUCH) && (player.oldbuttons & BT_CROUCH))
+                else if (!(cmd.buttons & BT_Crouch) && (player.oldbuttons & BT_Crouch))
                     crouching_DoCrouch = false;
 
                 int crouchdir = player.crouching;
@@ -165,35 +165,35 @@ extend class S7_BasePlayer {
             // Dodging
             if (dodge_Cooldown <= 0) { // If dodge_Cooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
-                if ((player.cmd.buttons & BT_USER2) && !(player.oldbuttons & BT_USER2) && (pos.Z - floorZ) <= 0 &&
+                if ((player.cmd.buttons & BT_UseR2) && !(player.oldbuttons & BT_UseR2) && (pos.Z - floorZ) <= 0 &&
                     !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
                     !ledgeGrab_Grabbed
                 ) {
                     Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
                     if (!(movementInput.XY dot movementInput.XY ~== 0)) { // If the player is trying to move
-                        if (!(player.cheats & CF_PREDICTING))
+                        if (!(player.cheats & CF_Predicting))
                             TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
 
                         A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
 
-                        if (!(player.cheats & CF_PREDICTING))
+                        if (!(player.cheats & CF_Predicting))
                             GiveInventory ('S7_PowerDodgeEffects', 1);
                         vel.X = vel.Y = 0.;
                         Thrust (32, angle + VectorAngle (movementInput.X, -movementInput.Y));
 
-                        if (!(player.cheats & CF_PREDICTING))
+                        if (!(player.cheats & CF_Predicting))
                             dodge_Cooldown = S7_DodgeCooldown;
                     }
                 }
-            } else if (!(player.cheats & CF_PREDICTING))
+            } else if (!(player.cheats & CF_Predicting))
                 dodge_Cooldown--;
-        } else if (!(player.cheats & CF_PREDICTING))
+        } else if (!(player.cheats & CF_Predicting))
             TakeInventory ('S7_PowerDodgeEffects', 0x7FFFFFFF);
     }
 
     void Movement_MultiJump () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
         if (!level.IsJumpingAllowed () || health <= 0 || ledgeGrab_Grabbed || wallJump_JustJumped)
             return;
@@ -209,11 +209,11 @@ extend class S7_BasePlayer {
         if (mJumpMax < 1 || multiJump_Count >= mJumpMax)
             return;
 
-        double force = (JumpZ * 35 / TICRATE) * S7_MultiJumpZMul;
+        double force = (JumpZ * 35 / TicRate) * S7_MultiJumpZMul;
         if (force <= 0.0)
             return;
 
-        if ((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
+        if ((player.cmd.buttons & BT_Jump) && !(player.oldbuttons & BT_Jump) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
             let marker = Spawn ('S7_MultiJump_Marker', pos); // Spawn the multijump effect
             marker.angle = angle;
             vel.Z = force;
@@ -232,11 +232,11 @@ extend class S7_BasePlayer {
 
         Vector3 velChange = -normal;
         velChange.XY *= 15;
-        velChange.Z = (JumpZ * 35 / TICRATE);
+        velChange.Z = (JumpZ * 35 / TicRate);
 
         velChange *= max ((-normal) dot wallNormal, .75);
 
-        if (!(player.cheats & CF_PREDICTING))
+        if (!(player.cheats & CF_Predicting))
             wallJump_JustJumped = S7C_WJumpDelay;
 
         vel = velChange;
@@ -244,12 +244,12 @@ extend class S7_BasePlayer {
         A_SetPitch (-VectorAngle (velChange.XY.Length (), velChange.Z) * .125, SPF_ForceClamp);
         A_SetAngle (VectorAngle (velChange.X, velChange.Y), SPF_ForceClamp);
 
-        if (ledgeGrab_Grabbed && !(player.cheats & CF_PREDICTING))
+        if (ledgeGrab_Grabbed && !(player.cheats & CF_Predicting))
             ledgeGrab_Grabbed = false;
     }
 
     void Movement_WallJump () {
-        if (wallJump_JustJumped && !(player.cheats & CF_PREDICTING))
+        if (wallJump_JustJumped && !(player.cheats & CF_Predicting))
             wallJump_JustJumped--;
 
         if (health <= 0 || (self is 'S7_DracoPlayer') || wallJump_JustJumped)
@@ -259,7 +259,7 @@ extend class S7_BasePlayer {
         if (player.cmd.forwardmove >= 0 && !ledgeGrab_Grabbed)
             return;
         // Return if the player didn't just press the jump key
-        if (!((player.cmd.buttons & BT_JUMP) && !(player.oldbuttons & BT_JUMP)))
+        if (!((player.cmd.buttons & BT_Jump) && !(player.oldbuttons & BT_Jump)))
             return;
         // Return if the player isn't 16 mu above the ground
         if (!ledgeGrab_Grabbed && (pos.Z - GetZAt ()) < 16.0)
@@ -322,7 +322,7 @@ extend class S7_BasePlayer {
                 ((player.cmd.buttons & LedgeGrab_DropKeys) == LedgeGrab_DropKeys) ||
                 S7_ActorExtensions.IsInVoid (marker)
             ) {
-                if (player.cheats & CF_PREDICTING)
+                if (player.cheats & CF_Predicting)
                     return;
 
                 if (crushFingers)
@@ -350,7 +350,7 @@ extend class S7_BasePlayer {
             double xyStiffness = .25, xyDamping = .5 ;
             double  zStiffness = .75,  zDamping = .25;
 
-            if (!(player.cheats & CF_PREDICTING) && (player.cmd.buttons & BT_CROUCH) && !(player.oldbuttons & BT_CROUCH)) {
+            if (!(player.cheats & CF_Predicting) && (player.cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch)) {
                 ledgeGrab_DoClimb = true;
                 ledgeGrab_ClimbTime = 0;
             }
@@ -360,7 +360,7 @@ extend class S7_BasePlayer {
                 xyStiffness = .1 ; xyDamping = .5;
                 zStiffness  = .25;  zDamping = .5;
 
-                if (!(player.cheats & CF_PREDICTING)) {
+                if (!(player.cheats & CF_Predicting)) {
                     if (ledgeGrab_ClimbTime++ > LedgeGrab_MaxClimbTime) {
                         ledgeGrab_DoClimb = false;
                         ledgeGrab_ClimbTime = 0;
@@ -377,7 +377,7 @@ extend class S7_BasePlayer {
 
             vel = newVel;
         } else if ((!ledgeGrab_Grabbed && ledgeGrab_Marker) || (ledgeGrab_Grabbed && !ledgeGrab_Marker)) {
-            if (!(player.cheats & CF_PREDICTING)) {
+            if (!(player.cheats & CF_Predicting)) {
                 if (ledgeGrab_Marker)
                     ledgeGrab_Marker.Destroy ();
 
@@ -392,7 +392,7 @@ extend class S7_BasePlayer {
             return;
         }
 
-        if (!ledgeGrab_Grabbed && vel.Z < 0.0 && vel.xy.Length () < 5 && Movement_LGrab_CheckWeap () && !(player.cheats & CF_PREDICTING)) {
+        if (!ledgeGrab_Grabbed && vel.Z < 0.0 && vel.xy.Length () < 5 && Movement_LGrab_CheckWeap () && !(player.cheats & CF_Predicting)) {
             let oldPos = pos;
             SetXYZ (pos + (0, 0, height));
             double ledgeHeight = GetZAt (spRadius + LedgeGrab_MaxReach, 0) - oldPos.Z;
@@ -425,7 +425,7 @@ extend class S7_BasePlayer {
             }
         }
 
-        if (!(player.cheats & CF_PREDICTING)) {
+        if (!(player.cheats & CF_Predicting)) {
             if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && !ledgeGrab_Grabbed && weapBinds.LastWeapon)
                 player.PendingWeapon = weapBinds.LastWeapon;
             else if (!ledgeGrab_Grabbed && CheckInventory ('S7_LedgeGrabWeapon', 1))
@@ -437,13 +437,13 @@ extend class S7_BasePlayer {
         Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
         if (health > 0) {
-            if (!(player.cheats & CF_PREDICTING)) {
+            if (!(player.cheats & CF_Predicting)) {
                 if (sprint_Tics == -1 && CheckInventory ('S7_Stamina', 75))
                     sprint_Tics = 0;
 
                 // Start/stop sprinting
                 if (!sprint_Sprinting && sprint_Tics != -1 &&
-                    (player.cmd.buttons & BT_USER1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
+                    (player.cmd.buttons & BT_UseR1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
                     !(self is 'S7_DracoPlayer') && !ledgeGrab_Grabbed
                 ) {
                     sprint_Sprinting = true;
@@ -451,7 +451,7 @@ extend class S7_BasePlayer {
                     sprint_Tics = 0;
                     sprint_OldAgility = double.NaN;
                 } else if (sprint_Sprinting &&
-                    (!(player.cmd.buttons & BT_USER1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
+                    (!(player.cmd.buttons & BT_UseR1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
                     ledgeGrab_Grabbed || (self is 'S7_DracoPlayer'))
                 ) {
                     if (sprint_Tics < 5)
@@ -493,7 +493,7 @@ extend class S7_BasePlayer {
     }
 
     void Movement_FallTeching () {
-        if (player.cheats & CF_PREDICTING)
+        if (player.cheats & CF_Predicting)
             return;
 
         double horzSpeedMax = Teching_MaxHorzSpeed * Teching_MaxHorzSpeed;
@@ -502,7 +502,7 @@ extend class S7_BasePlayer {
         bool horzSpeedOverMax = (vel.XY dot vel.XY) > horzSpeedMax;
 
         if (teching_Active) {
-            if (!(player.cmd.buttons & BT_CROUCH) || player.onground || horzSpeedOverMax || ledgeGrab_Grabbed)
+            if (!(player.cmd.buttons & BT_Crouch) || player.onground || horzSpeedOverMax || ledgeGrab_Grabbed)
                 teching_Active = false;
             else {
                 if (vel.Z < -0.5)
@@ -519,7 +519,7 @@ extend class S7_BasePlayer {
             }
         }
 
-        if ((player.cmd.buttons & BT_CROUCH) && !(player.oldbuttons & BT_CROUCH)) {
+        if ((player.cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch)) {
             if (!teching_Active && !player.onground && !horzSpeedOverMax && !ledgeGrab_Grabbed) {
                 teching_Active = true;
                 teching_HorzVelKilled = false;
