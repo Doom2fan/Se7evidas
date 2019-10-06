@@ -61,61 +61,117 @@ class S7_Fauchard : S7_BaseWeapon {
         return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.025;
     }
 
+    const AnimLayer_ID = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
     bool halfTic;
 
+    /** Pickup **/
     states {
     Spawn:
         LRFP A -1;
         stop;
+    }
 
-    Select.Hand:
+    /** Animations **/
+    states {
+    Anim.Idle:
+        LSRF A 1;
+        wait;
+    Anim.Handless:
+        LSRF H 1;
+        wait;
+    Anim.Fire:
+        LSRF A 1 bright;
+        LSRF B 1;
+        goto Anim.Idle;
+    Anim.SelectHand:
         TNT1 A 1;
         HAN0 A 1 DoSelectOffset (( 98, 156), -5, true);
         HAN0 A 1 DoSelectOffset ((110, 137), -5);
         HAN0 A 1 DoSelectOffset ((120, 122), -5);
         HAN0 A 1 DoSelectOffset ((134, 106), -5);
         stop;
-    Ready:
-        LSRF H 1 {
-            DoSelectOffset ((69, 49), forceNoInterpolate: true);
-            A_Overlay (-5, "Select.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-        }
-        LSRF H 1 DoSelectOffset (( 48,  33));
-        LSRF H 1 DoSelectOffset (( 36,  16));
-        LSRF H 1 DoSelectOffset ((-4 , -4 ));
-        LSRF H 1 DoSelectOffset ((-24, -23));
-        LSRF A 1 {
-            DoSelectOffset ((10, 4), forceNoInterpolate: true);
-            DoSelectOffset ((0, 0));
-        }
-    Ready2:
-        LSRF A 1 S7_WeaponReady ("Reload", null);
-        loop;
-
-    Deselect.Hand:
+    Anim.DeselectHand:
         HAN0 A 1 DoSelectOffset ((134, 106), -5, true);
         HAN0 A 1 DoSelectOffset ((120, 122), -5);
         HAN0 A 1 DoSelectOffset ((110, 137), -5);
         HAN0 A 1 DoSelectOffset (( 98, 156), -5);
         stop;
-    Deselect:
-        LSRF A 1 A_JumpIf (health <= 0, "Deselect.DEAD");
-        LSRF H 1 {
-            DoSelectOffset ((-24, -23), forceNoInterpolate: true);
-            A_Overlay (-5, "Deselect.Hand");
+    Anim.Reload:
+        LSRF ACDEFGH   2;
+        LSRF I         2 A_PlaySound ("Weapons/Fauchard/Out", CHAN_6);
+        LSRF J        30;
+        LSRF J        12 A_PlaySound ("Weapons/Fauchard/In", CHAN_7);
+        LSRF KHGFEDCA  2;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Handless");
+
+            A_Overlay (-5, "Anim.SelectHand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
+
+            DoSelectOffset ((69, 49), forceNoInterpolate: true);
         }
-        LSRF H 1 DoSelectOffset ((-4 , -4 ));
-        LSRF H 1 DoSelectOffset (( 36,  16));
-        LSRF H 1 DoSelectOffset (( 48,  33));
-        LSRF H 1 DoSelectOffset (( 69,  49));
+        TNT1 A 1 DoSelectOffset (( 48,  33));
+        TNT1 A 1 DoSelectOffset (( 36,  16));
+        TNT1 A 1 DoSelectOffset ((- 4, - 4));
+        TNT1 A 1 DoSelectOffset ((-24, -23));
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            DoSelectOffset ((10, 4), forceNoInterpolate: true);
+            DoSelectOffset ((0, 0));
+        }
+    Ready2:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
+        }
+        loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
+
+    Deselect:
+        LSRF A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
+                return ResolveState ("Deselect.DEAD");
+            }
+
+            S7_SetAnim ("Anim.Idle");
+            return ResolveState (null);
+        }
+        TNT1 A 1;
+        TNT1 A 1 {
+            A_Overlay (-5, "Anim.DeselectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+
+            S7_SetAnim ("Anim.Handless");
+            DoSelectOffset ((-24, -23), forceNoInterpolate: true);
+        }
+        TNT1 A 1 DoSelectOffset ((-4, -4));
+        TNT1 A 1 DoSelectOffset ((36, 16));
+        TNT1 A 1 DoSelectOffset ((48, 33));
+        TNT1 A 1 DoSelectOffset ((69, 49));
         goto TrueDeselect;
 
     Fire:
-        LSRF A 1 bright {
+        TNT1 A 1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Fire");
 
             A_PlaySound ("Weapons/Fauchard/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
             A_AlertMonsters ();
@@ -128,9 +184,9 @@ class S7_Fauchard : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        LSRF B 1 S7_Recoil (-0.3);
-        LSRF A 1;
-        LSRF A 1 {
+        TNT1 A 1 S7_Recoil (-0.3);
+        TNT1 A 1;
+        TNT1 A 1 {
             if (invoker.halfTic) {
                 invoker.halfTic = false;
                 return ResolveState ("Fire.End");
@@ -140,7 +196,7 @@ class S7_Fauchard : S7_BaseWeapon {
             return ResolveState (null);
         }
     Fire.End:
-        LSRF A 1 {
+        TNT1 A 1 {
             A_Refire ();
             A_ClearRefire ();
         }
@@ -151,7 +207,10 @@ class S7_Fauchard : S7_BaseWeapon {
         stop;
 
     DryFire:
-        LSRF A 3 A_PlaySound ("Weapons/DryFireLaser", CHAN_7);
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFireLaser", CHAN_7);
+        }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
@@ -169,15 +228,18 @@ class S7_Fauchard : S7_BaseWeapon {
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        LSRF ACDEFGH   2;
-        LSRF I         2 A_PlaySound ("Weapons/Fauchard/Out", CHAN_6);
-        LSRF J        30;
-        LSRF J        12 A_PlaySound ("Weapons/Fauchard/In", CHAN_7);
-        LSRF KHGFEDCA  2;
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (AnimLayer_ID);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
     }
 }
 
