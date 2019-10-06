@@ -313,7 +313,7 @@ class S7_Shotgun : S7_BaseWeapon {
     Reload:
         TNT1 A 5 {
             if (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2)
-                return ResolveState ("ReloadFinish");
+                return ResolveState ("ReloadEnd");
 
             S7_SetAnim ("Anim.Idle");
 
@@ -325,7 +325,7 @@ class S7_Shotgun : S7_BaseWeapon {
     InsertShells:
         TNT1 A 28 {
             if (!CheckInventory ('S7_Reloading', 1) || CheckInventory (invoker.ammoType1, 0) || CountInv (invoker.ammoType2) < 2)
-                return ResolveState ("ReloadFinish");
+                return ResolveState ("ReloadEnd");
 
             GiveInventory ('S7_ShotgunMag', 2);
             TakeInventory ('S7_20gaShells', 2);
@@ -366,7 +366,7 @@ class S7_Shotgun : S7_BaseWeapon {
         }
         goto InsertShells;
 
-    ReloadFinish:
+    ReloadEnd:
         TNT1 A 0 TakeInventory ('S7_Reloading', 1);
         goto Ready2;
     }
