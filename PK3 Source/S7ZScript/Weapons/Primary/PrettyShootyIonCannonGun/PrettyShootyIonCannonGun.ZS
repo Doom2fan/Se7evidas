@@ -97,22 +97,6 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         return canFire;
     }
 
-    action State S7_DoReload () {
-        TakeInventory ('S7_Reloading', 1);
-
-        if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
-            return ResolveState (null);
-
-        int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
-        if (ammoAmount <= 0)
-            return ResolveState (null);
-
-        GiveInventory (invoker.ammoType1, ammoAmount);
-        TakeInventory (invoker.ammoType2, ammoAmount);
-
-        return ResolveState ("ReloadAnim");
-    }
-
     double GetDamageBonus () {
         if (!Owner)
             return 0.;
@@ -125,59 +109,110 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.005;
     }
 
+    const AnimLayer_ID = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
+    /** Pickup **/
     states {
     Spawn:
         PIC1 Z -1;
         stop;
+    }
 
-    Ready:
-        PIC1 A 1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
-        PIC1 A 1 DoSelectOffset ((64, 64));
-        PIC1 A 1 DoSelectOffset ((40, 40));
-        PIC1 A 1 DoSelectOffset ((24, 24));
-        PIC1 A 1 DoSelectOffset (( 8,  8));
-        PIC1 A 1 DoSelectOffset (( 0,  0));
-    Ready2:
-        PIC1 AAAAAAAAAAAABBCCDDEEFFGGGGGFFEEDDCCBB 1 {
-            if (CheckInventory ('S7_Reloading', 1) && invoker.CanReload ()) {
-                let st = S7_DoReload ();
-
-                if (st != null)
-                    return st;
-            }
-
-            S7_WeaponReady (null, null);
-
-            return ResolveState (null);
-        }
+    /** Animations **/
+    states {
+    Anim.Idle:
+        PIC1 A 1;
+        wait;
+    Anim.Ready:
+        PIC1 A    12;
+        PIC1 BCDEF 1;
+        PIC1 G     5;
+        PIC1 FEDCB 1;
         loop;
+    Anim.Fire: // 60 tics
+        PIC1 A        1 bright A_WeaponOffset (8, 40);
+        PIC1 B        1 A_WeaponOffset (6, 38, WOF_Interpolate);
+        PIC1 C        1 A_WeaponOffset (4, 36, WOF_Interpolate);
+        PIC1 D        1 A_WeaponOffset (2, 34, WOF_Interpolate);
+        PIC1 E        1 A_WeaponOffset (0, 32, WOF_Interpolate);
+        PIC1 FG       1;
+        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
+        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
+        PIC1 G        4;
+        PIC1 FEDCBA   2;
+        PIC1 A        5;
+        goto Anim.Ready;
+    Anim.Reload:
+        PIC1 A   1 DoSelectOffset (( 0,  0), forceNoInterpolate: true);
+        PIC1 A   1 DoSelectOffset (( 8,  8));
+        PIC1 A   1 DoSelectOffset ((24, 24));
+        PIC1 A   1 DoSelectOffset ((40, 40));
+        PIC1 A   1 DoSelectOffset ((64, 64));
+        PIC1 A   1 DoSelectOffset ((88, 88));
+        TNT1 A   5;
+        TNT1 A 105 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Reload", CHAN_Weapon);
+        TNT1 A   5;
+        PIC1 A   1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
+        PIC1 A   1 DoSelectOffset ((64, 64));
+        PIC1 A   1 DoSelectOffset ((40, 40));
+        PIC1 A   1 DoSelectOffset ((24, 24));
+        PIC1 A   1 DoSelectOffset (( 8,  8));
+        PIC1 A   1 DoSelectOffset (( 0,  0));
+        goto Anim.Ready;
+    }
+
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 0 S7_SetAnim ("Anim.Ready");
+        TNT1 A 1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset ((40, 40));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        goto Ready2.SkipAnimSet;
+    Ready2:
+        TNT1 A 0 S7_SetAnim ("Anim.Ready");
+    Ready2.SkipAnimSet:
+        TNT1 A 1 S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
+        wait;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
     Deselect:
-        PIC1 A 1 {
-            if (health <= 0)
+        PIC1 A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
                 return ResolveState ("Deselect.DEAD");
+            }
 
-            DoSelectOffset (( 0,  0));
             return ResolveState (null);
         }
-        PIC1 A 1 DoSelectOffset (( 8,  8));
-        PIC1 A 1 DoSelectOffset ((24, 24));
-        PIC1 A 1 DoSelectOffset ((40, 40));
-        PIC1 A 1 DoSelectOffset ((64, 64));
-        PIC1 A 1 DoSelectOffset ((88, 88));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset (( 8,  8));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset ((40, 40));
+        TNT1 A 1 DoSelectOffset ((64, 64));
+        TNT1 A 1 DoSelectOffset ((88, 88));
         goto TrueDeselect;
 
-    Reload:
-        PIC1 A 5 TakeInventory ('S7_Reloading', 1);
-        goto Ready2;
-
     Fire:
-        TNT1 A 0 {
+        TNT1 A 60 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
             if (!FireMainProjectile ('S7_IonCannonProjectile', true))
                 return ResolveState ("CantFire");
+
+            S7_SetAnim ("Anim.Fire");
 
             for (int i = 0; i < 5; i++)
                 S7_A_FireBullets ('S7_IonCannonRail', spread: (1.5, 1.5), offs: (10, 8, 8), bonusDMGFactor: invoker.GetDamageBonus ());
@@ -190,25 +225,14 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        goto Fire.Anim;
-    Fire.Anim:
-        PIC1 A        1 bright A_WeaponOffset (8, 40);
-        PIC1 B        1        A_WeaponOffset (6, 38, WOF_Interpolate);
-        PIC1 C        1        A_WeaponOffset (4, 36, WOF_Interpolate);
-        PIC1 D        1        A_WeaponOffset (2, 34, WOF_Interpolate);
-        TNT1 A        0        A_WeaponOffset (0, 32, WOF_Interpolate);
-        PIC1 EFG      1;
-        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
-        PIC1 GGGGGGGG 2 S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
-        PIC1 G        4;
-        PIC1 FEDCBA   2;
-        PIC1 A        5;
         goto Ready2;
 
     AltFire:
-        TNT1 A 0 {
+        TNT1 A 60 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Fire");
 
             invoker.DepleteAmmo (false, true);
 
@@ -228,39 +252,43 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        goto Fire.Anim;
-
-    CantFire:
-        PIC1 A 1 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Error", CHAN_6);
         goto Ready2;
 
+    CantFire:
+        TNT1 A 1 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Error", CHAN_6);
+        goto Ready2.SkipAnimSet;
+
     DryFire:
-        PIC1 A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+        TNT1 A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
+        goto Ready2.SkipAnimSet;
+
+    Reload:
         TNT1 A 0 {
-            if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ())
-                return S7_DoReload ();
+            TakeInventory ('S7_Reloading', 1);
+
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
+                return ResolveState ("Ready2.SkipAnimSet");
+
+            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
+            if (ammoAmount <= 0)
+                return ResolveState ("Ready2.SkipAnimSet");
+
+            GiveInventory (invoker.ammoType1, ammoAmount);
+            TakeInventory (invoker.ammoType2, ammoAmount);
+
+            S7_SetAnim ("Anim.Reload");
 
             return ResolveState (null);
         }
-        goto Ready2;
+        TNT1 A 1 {
+            let psp = player.FindPSprite (AnimLayer_ID);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Ready")))
+                return ResolveState ("Ready2");
 
-    ReloadAnim:
-        PIC1 A   1 DoSelectOffset (( 0,  0), forceNoInterpolate: true);
-        PIC1 A   1 DoSelectOffset (( 8,  8));
-        PIC1 A   1 DoSelectOffset ((24, 24));
-        PIC1 A   1 DoSelectOffset ((40, 40));
-        PIC1 A   1 DoSelectOffset ((64, 64));
-        PIC1 A   1 DoSelectOffset ((88, 88));
-        TNT1 A   5;
-        TNT1 A 105 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Reload", CHAN_Weapon);
-        TNT1 A   5;
-        PIC1 A   1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
-        PIC1 A   1 DoSelectOffset ((64, 64));
-        PIC1 A   1 DoSelectOffset ((40, 40));
-        PIC1 A   1 DoSelectOffset ((24, 24));
-        PIC1 A   1 DoSelectOffset (( 8,  8));
-        PIC1 A   1 DoSelectOffset (( 0,  0));
-        goto Ready2;
+            return ResolveState (null);
+        }
+        wait;
     }
 }
 
