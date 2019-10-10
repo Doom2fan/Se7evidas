@@ -370,7 +370,8 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
             A_ZoomFactor (invoker.GetZoomFactor ());
         }
-        TNT1 AAAAA 1 { player.WeaponState |= WF_WeaponReady; }
+        TNT1 A 4;
+        TNT1 A 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
     Fire.PumpEnd:
         TNT1 A 0 { invoker.noEject = false; }
