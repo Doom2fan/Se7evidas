@@ -227,11 +227,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
             return ResolveState (null);
         }
-        TNT1 A 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         loop;
-    Ready2.HoldingZoom:
-        #### # 1 S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
-        goto Ready2;
 
     QuickMeleeDerp:
         TNT1 A 0 {
@@ -361,10 +357,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         }
         goto ChangeZoomLevel;
     DoZoom:
-        TNT1 A 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
         TNT1 A 8 {
-            GiveInventory ('S7_HoldingZoom', 1);
-
             S7_SetAnim ("Anim.Idle");
 
             if (!invoker.zoomed) {

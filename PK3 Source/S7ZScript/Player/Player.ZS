@@ -22,8 +22,6 @@
 // Inventory tokens
 //
 //-------------------------------------------------------------------------------------------
-class S7_HoldingZoom           : S7_Boolean { }
-
 struct S7_TransactionData {
     bool done;
     int result;

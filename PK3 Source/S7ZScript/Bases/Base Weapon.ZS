@@ -395,6 +395,8 @@ class S7_BaseWeapon : Weapon {
     }
 
     action void S7_WeaponReady (StateLabel reloadState, StateLabel fireModeState, StateLabel quickMeleeState = "QuickMelee", int flags = 0, int wrFlags = 0) {
+        wrFlags &= ~(WRF_AllowReload | WRF_AllowUser1 | WRF_AllowUser2 | WRF_AllowUser3 | WRF_AllowUser4);
+
         let pPawn = S7_BasePlayer (self);
         bool sprinting = pPawn ? pPawn.sprint_Sprinting : false;
 
@@ -412,6 +414,14 @@ class S7_BaseWeapon : Weapon {
             player.SetPSprite (PSP_Weapon, ResolveState (quickMeleeState));
         else
             TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+
+        if (wrFlags & WRF_AllowZoom) {
+            wrFlags &= ~WRF_AllowZoom;
+
+            let zoomState = ResolveState ("Zoom");
+            if (zoomState && !(player.oldbuttons & BT_Zoom) && (player.cmd.buttons & BT_Zoom))
+                player.SetPSprite (PSP_Weapon, zoomState);
+        }
 
         A_WeaponReady (wrFlags);
     }
@@ -682,7 +692,6 @@ class S7_BaseWeapon : Weapon {
     Deselect:
     TrueDeselect:
         ---- A 0 {
-            TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
             TakeInventory ('S7_Weap_ReadyFrame', 0x7FFFFFFF);
             A_ZoomFactor (1.0);
             A_WeaponOffset (0, 32);

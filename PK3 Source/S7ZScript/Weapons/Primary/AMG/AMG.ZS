@@ -174,10 +174,6 @@ class S7_AMG : S7_BaseWeapon {
 
             S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
         }
-        TNT1 A 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
-        goto Ready2;
-    Ready2.HoldingZoom:
-        TNT1 A 1 S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
         goto Ready2;
 
     Deselect:
@@ -247,9 +243,7 @@ class S7_AMG : S7_BaseWeapon {
         }
         goto ChangeZoomLevel;
     DoZoom:
-        TNT1 A 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
         TNT1 A 8 {
-            GiveInventory ('S7_HoldingZoom', 1);
             S7_SetAnim ("Anim.Idle");
 
             if (!invoker.zoomed) {
