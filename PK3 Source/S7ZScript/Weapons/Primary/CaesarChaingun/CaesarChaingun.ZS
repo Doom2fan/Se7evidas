@@ -200,7 +200,10 @@ class S7_CaesarChaingun : S7_BaseWeapon {
             } else
                 invoker.DepleteAmmo (false);
 
-            S7_A_SpawnCasing ('S7_45WWCasing', (30, 15, 13), pitchOffs: -45, spread: (10, 15));
+            Class<S7_CasingBase> casingType = 'S7_45WWCasing';
+            if (invoker.firedDud)
+                casingType = 'S7_45WWCasingUnfired';
+            S7_A_SpawnCasing (casingType, (30, 15, 13), pitchOffs: -45, spread: (10, 15));
 
             return ResolveState (null);
         }

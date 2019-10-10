@@ -284,3 +284,15 @@ class S7_45WWCasing : S7_CasingBase {
         loop;
     }
 }
+class S7_45WWCasingUnfired : S7_CasingBase {
+    default {
+        BounceSound "Weapons/Brass";
+        Scale .25;
+    }
+
+    states {
+    Spawn:
+        CAS6 HABCDEFG 2;
+        loop;
+    }
+}

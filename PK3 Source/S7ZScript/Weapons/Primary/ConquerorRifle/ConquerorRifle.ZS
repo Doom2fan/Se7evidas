@@ -51,14 +51,15 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     }
 
     const BaseZoomFactor = 6.5;
-    bool jammed, loaded, noPump, noEject; // noEject is just for telling the reloading anim not to spawn casings
+    bool jammed, loaded, lastLoaded, semiAuto, noEject; // noEject is just for telling the reloading anim not to spawn casings
     bool zoomed;
     double zoomLevel;
+    State pumpEndState;
 
     override void DoEffect () {
         Super.DoEffect ();
 
-        fireModeIcon = noPump ? S7_FMI_SemiAuto : S7_FMI_None;
+        fireModeIcon = semiAuto ? S7_FMI_SemiAuto : S7_FMI_None;
     }
 
     double GetZoomFactor () {
@@ -69,6 +70,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     }
 
     action void S7_DoLoad () {
+        invoker.lastLoaded = invoker.loaded;
         invoker.loaded = true;
 
         if (random [weaponSpc] () < 2)
@@ -283,10 +285,10 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         TNT1 A 5 {
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
-            if (invoker.noPump)
-                invoker.noPump = 0;
+            if (invoker.semiAuto)
+                invoker.semiAuto = false;
             else
-                invoker.noPump = 1;
+                invoker.semiAuto = true;
 
             A_PlaySound ("Weapons/ModeChange", CHAN_7);
 
@@ -298,8 +300,13 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         TNT1 A 1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
-            if (!invoker.loaded)
-                return ResolveState ("Fire.Pump");
+            if (!invoker.loaded) {
+                if (invoker.Ammo1.Amount > 0)
+                    S7_DoLoad ();
+
+                invoker.pumpEndState = ResolveState ("Fire.PumpEnd");
+                return ResolveState ("DoPump");
+            }
             if (invoker.jammed)
                 return ResolveState ("Fire.Jammed");
 
@@ -311,7 +318,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
             Vector2 spread = (!invoker.zoomed ? (.05, .06) : (.005, .005));
 
-            if (invoker.noPump)
+            if (invoker.semiAuto)
                 spread *= (!invoker.zoomed ? 1.75 : 2);
 
             if (!invoker.zoomed) {
@@ -319,7 +326,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
                 S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
-                if (invoker.noPump)
+                if (invoker.semiAuto)
                     S7_A_SpawnCasing ('S7_45WWCasing', (30, 12, 17), pitchOffs: -45, spread: (10, 15));
 
                 A_ZoomFactor (invoker.GetZoomFactor () * .975, ZOOM_Instant);
@@ -328,7 +335,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 3));
                 S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
-                if (invoker.noPump)
+                if (invoker.semiAuto)
                     S7_A_SpawnCasing ('S7_45WWCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
 
                 A_ZoomFactor (invoker.GetZoomFactor () * .9, ZOOM_Instant);
@@ -353,7 +360,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 A_ZoomFactor (invoker.GetZoomFactor () * .95);
         }
         TNT1 A 1 {
-            if (invoker.noPump) {
+            if (invoker.semiAuto) {
                 if (invoker.CheckAmmo (PrimaryFire, false, true))
                     S7_DoLoad ();
                 else
@@ -363,35 +370,35 @@ class S7_ConquerorRifle : S7_BaseWeapon {
 
             A_ZoomFactor (invoker.GetZoomFactor ());
         }
-
         TNT1 AAAAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
-    Fire.Pump:
+    Fire.PumpEnd:
+        TNT1 A 0 { invoker.noEject = false; }
+        goto Ready2;
+
+    DoPump:
         TNT1 A 1 {
-            if (invoker.Ammo1.Amount > 0) {
-                invoker.loaded = true;
-                invoker.noEject = false; // Reset noEject
-
-                if (random [weaponSpc] () < 2)
-                    invoker.jammed = true;
-                else
-                    invoker.jammed = false;
-            }
-
             S7_SetAnim ("Anim.Pump");
-
             A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
         }
         TNT1 A 3;
         TNT1 A 6 {
+            if (invoker.noEject)
+                return;
+
+            Class<S7_CasingBase> casingType = 'S7_45WWCasing';
+            if (invoker.lastLoaded)
+                casingType = 'S7_45WWCasingUnfired';
+
             if (!invoker.zoomed)
-                S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
+                S7_A_SpawnCasing (casingType, (30, 14, 20), pitchOffs: -45, spread: (10, 15));
             else
-                S7_A_SpawnCasing ('S7_45WWCasing', (30,  8, 10), pitchOffs: -45, spread: (10, 15));
+                S7_A_SpawnCasing (casingType, (30,  8, 10), pitchOffs: -45, spread: (10, 15));
         }
         TNT1 A 1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
         TNT1 A 3;
-        goto Ready2;
+        TNT1 A 1 { return invoker.pumpEndState; }
+        wait;
 
     Fire.Jammed:
         TNT1 A 3 { // Add an auto unjamming cvar later
@@ -407,14 +414,19 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.loaded) {
                 TakeInventory ('S7_ConquerorRifleClip', 1);
 
-                if (invoker.Ammo1.Amount < 1) {
+                if (invoker.Ammo1.Amount < 1)
                     invoker.loaded = false;
-                    invoker.noEject = true;
-                }
+                else if (invoker.Ammo1.Amount > 0)
+                    S7_DoLoad ();
             }
 
-            return ResolveState ("Fire.Pump");
+            invoker.pumpEndState = ResolveState ("AltFire.PumpEnd");
+
+            return ResolveState ("DoPump");
         }
+    AltFire.PumpEnd:
+        TNT1 A 0 { invoker.noEject = !invoker.loaded; }
+        goto Ready2;
 
     DryFire:
         TNT1 A 3 {
@@ -463,26 +475,18 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                 TakeInventory ('S7_Reloading', 1);
                 if (invoker.loaded && !invoker.jammed)
                     return ResolveState ("Ready2");
-                else
-                    return ResolveState ("Reload.Pump");
+                else {
+                    S7_DoLoad ();
+                    invoker.pumpEndState = ResolveState ("Reload.PumpEnd");
+                    return ResolveState ("DoPump");
+                }
             }
 
             return ResolveState (null);
         }
         wait;
-    Reload.Pump:
-        TNT1 A 1 {
-            S7_SetAnim ("Anim.Pump");
-            S7_DoLoad ();
-            A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
-        }
-        TNT1 A 3;
-        TNT1 A 6 {
-            if (!invoker.noEject)
-                S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
-        }
-        TNT1 A 1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
-        TNT1 A 3;
+    Reload.PumpEnd:
+        TNT1 A 0 { invoker.noEject = false; }
         goto Ready2;
 
     // Muzzle flashes
