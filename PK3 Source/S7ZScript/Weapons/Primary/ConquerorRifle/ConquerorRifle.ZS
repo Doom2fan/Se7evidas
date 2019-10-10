@@ -61,69 +61,185 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         fireModeIcon = noPump ? S7_FMI_SemiAuto : S7_FMI_None;
     }
 
+    double GetZoomFactor () {
+        if (!zoomed)
+            return 1.;
+
+        return BaseZoomFactor + zoomLevel;
+    }
+
+    action void S7_DoLoad () {
+        invoker.loaded = true;
+
+        if (random [weaponSpc] () < 2)
+            invoker.jammed = true;
+        else
+            invoker.jammed = false;
+    }
+
+    const AnimLayer_ID = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
+    /** Pickup **/
     states {
     Spawn:
         CQRP A -1;
         loop;
+    }
 
-    Select.Hand:
+    /** Animations **/
+    states {
+    Anim.Idle:
+        CQR1 A 1 {
+            if (invoker.zoomed)
+                S7_SetSprite ('SCP1', 1, AnimLayer_ID);
+        }
+        wait;
+    Anim.Handless:
+        CQR1 N 1;
+        wait;
+    Anim.Pump:
+        CQR1 A   1 A_JumpIf (invoker.zoomed, "Anim.Idle");
+        CQR1 EFG 1;
+        CQR1 H   7;
+        CQR1 GFE 1;
+        goto Anim.Idle;
+    Anim.Fire:
+        CQR1 A   1 bright A_JumpIf (invoker.zoomed, "Anim.FireZoom");
+        CQR1 CB  1;
+        CQR1 CDA 2;
+        goto Anim.Idle;
+    Anim.FireZoom:
+        SCP1 B 1 bright;
+        goto Anim.Idle;
+    Anim.Reload:
+        CQR1 A      2;
+        CQR1 IJKLMN 2;
+        TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/Out", CHAN_6);
+        CQR1 OPN    2;
+        CQR1 N     12;
+        TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/In", CHAN_7);
+        CQR1 QRN    2;
+        CQR1 NMLKJI 2;
+        CQR1 A      2;
+        goto Anim.Idle;
+
+    Anim.SelectHand:
         TNT1 A 1;
         HAN0 A 1 DoSelectOffset (( 61, 162), -5, true);
         HAN0 A 1 DoSelectOffset (( 91, 135), -5);
         HAN0 F 1 DoSelectOffset ((116, 122), -5);
         HAN0 F 1 DoSelectOffset ((132, 105), -5);
         stop;
+    Anim.DeselectHand:
+        HAN0 F 1 DoSelectOffset ((132, 105), -5, true);
+        HAN0 F 1 DoSelectOffset ((116, 122), -5);
+        HAN0 A 1 DoSelectOffset (( 91, 135), -5);
+        HAN0 A 1 DoSelectOffset (( 61, 162), -5);
+        TNT1 A 1;
+        stop;
+    }
+
+    /** Actions **/
+    states {
     Ready:
-        CQR1 N 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Handless");
+
             DoSelectOffset ((109, 77), forceNoInterpolate: true);
-            A_Overlay (-5, "Select.Hand");
+            A_Overlay (-5, "Anim.SelectHand");
             A_OverlayFlags (-5, PSPF_AddWeapon, false);
         }
-        CQR1 N 1 DoSelectOffset (( 82, 60));
-        CQR1 N 1 DoSelectOffset (( 57, 43));
-        CQR1 N 1 DoSelectOffset (( 34, 27));
-        CQR1 N 1 DoSelectOffset (( 12, 15));
-        CQR1 A 1 DoSelectOffset ((  0,  0));
+        TNT1 A 1 DoSelectOffset (( 82, 60));
+        TNT1 A 1 DoSelectOffset (( 57, 43));
+        TNT1 A 1 DoSelectOffset (( 34, 27));
+        TNT1 A 1 DoSelectOffset (( 12, 15));
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            DoSelectOffset ((0, 0));
+        }
     Ready2:
-        CQR1 A 0 A_JumpIf (invoker.zoomed, "Ready2.Zoom");
-        goto Ready2.DoThings;
-    Ready2.Zoom:
-        SCP1 B 0;
-        goto Ready2.DoThings;
-    Ready2.DoThings:
-        #### # 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
             if (invoker.zoomed)
                 TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
-            S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_AllowZoom | (invoker.zoomed ? WRF_NoBob : 0));
         }
-        #### # 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
+        TNT1 A 0 TakeInventory ('S7_HoldingZoom', 0x7FFFFFFF);
         goto Ready2;
     Ready2.HoldingZoom:
-        #### # 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
+        TNT1 A 1 S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: WRF_NoFire | WRF_NoSwitch | (invoker.zoomed ? WRF_NoBob : 0));
+        goto Ready2;
+
+    Deselect:
+        CQR1 A 0 {
+            if (health <= 0) {
+                invoker.zoomed = false;
+                A_ZoomFactor (invoker.GetZoomFactor ());
+                S7_SetAnim ("Null");
+                return ResolveState ("Deselect.DEAD");
+            }
+
+            if (invoker.zoomed)
+                return ResolveState ("Deselect.Zoom");
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Handless");
+            DoSelectOffset (( 12, 15), forceNoInterpolate: true);
+
+            A_Overlay (-5, "Anim.DeselectHand");
+            A_OverlayFlags (-5, PSPF_AddWeapon, false);
+        }
+        TNT1 A 1 DoSelectOffset (( 34, 27));
+        TNT1 A 1 DoSelectOffset (( 57, 43));
+        TNT1 A 1 DoSelectOffset (( 82, 60));
+        TNT1 A 1 DoSelectOffset ((109, 77));
+        goto TrueDeselect;
+    Deselect.Zoom:
+        TNT1 A 8 {
+            S7_SetAnim ("Anim.Idle");
+
+            A_SetBlend ("00 00 00", 1.0, 8);
+            A_SetCrosshair (0);
+            A_ZoomFactor (invoker.GetZoomFactor (), ZOOM_Instant);
+            invoker.zoomed = false;
+        }
         goto Ready2;
 
     Zoom:
-        #### ######## 1 {
+        TNT1 AAAAAAAA 1 {
             if (!invoker.zoomed || !(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("DoZoom");
 
             if (player.cmd.buttons & BT_Attack || player.cmd.buttons & BT_AltAttack)
                 return ResolveState ("ChangeZoomLevel");
 
+            S7_SetAnim ("Anim.Idle");
+
             return ResolveState (null);
         }
         goto ChangeZoomLevel;
     DoZoom:
-        #### # 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
-        SCP1 B 8 {
+        TNT1 A 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
+        TNT1 A 8 {
             GiveInventory ('S7_HoldingZoom', 1);
+            S7_SetAnim ("Anim.Idle");
 
             if (!invoker.zoomed) {
                 invoker.zoomed = true;
                 A_SetCrosshair (99);
                 A_SetBlend ("00 00 00", 1.0, 8);
-                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel, ZOOM_Instant);
+                A_ZoomFactor (invoker.GetZoomFactor (), ZOOM_Instant);
             } else
                 return ResolveState ("Unzoom");
 
@@ -131,36 +247,40 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
         goto Ready2;
     Unzoom:
-        CQR1 A 10 {
+        TNT1 A 10 {
+            S7_SetAnim ("Anim.Idle");
+
             invoker.zoomed = false;
             A_SetCrosshair (0);
             A_SetBlend ("00 00 00", 1.0, 8);
-            A_ZoomFactor (1.0, ZOOM_Instant);
+            A_ZoomFactor (invoker.GetZoomFactor (), ZOOM_Instant);
         }
         goto Ready2;
     ChangeZoomLevel:
-        #### # 1 {
+        TNT1 A 1 {
             if (!(player.cmd.buttons & BT_Zoom))
                 return ResolveState ("Ready2");
 
+            S7_SetAnim ("Anim.Idle");
+
             if (player.cmd.buttons & BT_Attack) {
                 invoker.zoomLevel = clamp (invoker.zoomLevel + 0.75, 0, 15);
-                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
+                A_ZoomFactor (invoker.GetZoomFactor ());
             } else if (player.cmd.buttons & BT_AltAttack) {
                 invoker.zoomLevel = clamp (invoker.zoomLevel - 0.75, 0, 15);
-                A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
+                A_ZoomFactor (invoker.GetZoomFactor ());
             }
 
             return ResolveState (null);
         }
         loop;
     ChangeZoomLevel.Delay:
-        #### # 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
+        TNT1 A 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
         goto ChangeZoomLevel;
 
     ChangeMode:
-        #### # 1;
-        #### # 5 {
+        TNT1 A 1 S7_SetAnim ("Anim.Idle");
+        TNT1 A 5 {
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             if (invoker.noPump)
@@ -174,48 +294,8 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
         goto Ready2;
 
-    Deselect.Hand:
-        HAN0 F 1 DoSelectOffset ((132, 105), -5, true);
-        HAN0 F 1 DoSelectOffset ((116, 122), -5);
-        HAN0 A 1 DoSelectOffset (( 91, 135), -5);
-        HAN0 A 1 DoSelectOffset (( 61, 162), -5);
-        TNT1 A 1;
-        stop;
-    Deselect:
-        CQR1 A 1 {
-            if (health <= 0) {
-                invoker.zoomed = false;
-                return ResolveState ("Deselect.DEAD");
-            }
-
-            if (invoker.zoomed)
-                return ResolveState ("Deselect.Zoom");
-
-            A_SetCrosshair (0);
-
-            return ResolveState (null);
-        }
-        CQR1 N 1 {
-            DoSelectOffset (( 12, 15), forceNoInterpolate: true);
-            A_Overlay (-5, "Deselect.Hand");
-            A_OverlayFlags (-5, PSPF_AddWeapon, false);
-        }
-        CQR1 N 1 DoSelectOffset (( 34, 27));
-        CQR1 N 1 DoSelectOffset (( 57, 43));
-        CQR1 N 1 DoSelectOffset (( 82, 60));
-        CQR1 N 1 DoSelectOffset ((109, 77));
-        goto TrueDeselect;
-    Deselect.Zoom:
-        CQR1 A 8 {
-            A_SetBlend ("00 00 00", 1.0, 8);
-            A_SetCrosshair (0);
-            A_ZoomFactor (1.0, ZOOM_Instant);
-            invoker.zoomed = false;
-        }
-        goto Ready2;
-
     Fire:
-        CQR1 A 1 bright {
+        TNT1 A 1 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
             if (!invoker.loaded)
@@ -223,52 +303,71 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             if (invoker.jammed)
                 return ResolveState ("Fire.Jammed");
 
+            S7_SetAnim ("Anim.Fire");
+
             A_AlertMonsters ();
             A_PlaySound ("Weapons/ConquerorRifle/Fire", CHAN_Weapon);
             invoker.loaded = false;
 
-            if (invoker.zoomed)
-                return ResolveState ("Fire.Zoomed");
-
-            A_GunFlash ("Flash");
-
-            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
-
-            Vector2 spread = (.05, .06);
+            Vector2 spread = (!invoker.zoomed ? (.05, .06) : (.005, .005));
 
             if (invoker.noPump)
-                spread *= 1.75;
+                spread *= (!invoker.zoomed ? 1.75 : 2);
 
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+            if (!invoker.zoomed) {
+                A_GunFlash ("Flash");
+                S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
+                S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
-            if (invoker.noPump)
-                S7_A_SpawnCasing ('S7_45WWCasing', (30, 12, 17), pitchOffs: -45, spread: (10, 15));
+                if (invoker.noPump)
+                    S7_A_SpawnCasing ('S7_45WWCasing', (30, 12, 17), pitchOffs: -45, spread: (10, 15));
 
-            S7_Recoil (-1.5);
+                A_ZoomFactor (invoker.GetZoomFactor () * .975, ZOOM_Instant);
+            } else {
+                A_GunFlash ("Flash.Zoomed");
+                S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 3));
+                S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
+
+                if (invoker.noPump)
+                    S7_A_SpawnCasing ('S7_45WWCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
+
+                A_ZoomFactor (invoker.GetZoomFactor () * .9, ZOOM_Instant);
+            }
+
+            S7_Recoil (-1.75);
 
             return ResolveState (null);
         }
-        CQR1 C 1 S7_Recoil (-1.75);
-        CQR1 B 1 S7_Recoil (0.15);
-        CQR1 C 1 {
+        TNT1 A 1 {
+            S7_Recoil (-1.5);
+            if (!invoker.zoomed)
+                A_ZoomFactor (invoker.GetZoomFactor () * .9833);
+            else
+                A_ZoomFactor (invoker.GetZoomFactor () * .95);
+        }
+        TNT1 A 1 {
+            S7_Recoil (+.15);
+            if (!invoker.zoomed)
+                A_ZoomFactor (invoker.GetZoomFactor () * .991667);
+            else
+                A_ZoomFactor (invoker.GetZoomFactor () * .95);
+        }
+        TNT1 A 1 {
             if (invoker.noPump) {
-                if (invoker.CheckAmmo (PrimaryFire, false, true)) {
-                    invoker.loaded = true;
-
-                    if (random [weaponSpc] () < 2)
-                        invoker.jammed = true;
-                    else
-                        invoker.jammed = false;
-                } else
+                if (invoker.CheckAmmo (PrimaryFire, false, true))
+                    S7_DoLoad ();
+                else
                     invoker.noEject = true;
             } else
                 invoker.noEject = false; // Reset noEject
+
+            A_ZoomFactor (invoker.GetZoomFactor ());
         }
 
-        CQR1 CDDAA 1 { player.WeaponState |= WF_WeaponReady; }
+        TNT1 AAAAA 1 { player.WeaponState |= WF_WeaponReady; }
         goto Ready2;
     Fire.Pump:
-        CQR1 A   1 {
+        TNT1 A 1 {
             if (invoker.Ammo1.Amount > 0) {
                 invoker.loaded = true;
                 invoker.noEject = false; // Reset noEject
@@ -279,85 +378,26 @@ class S7_ConquerorRifle : S7_BaseWeapon {
                     invoker.jammed = false;
             }
 
-            if (invoker.zoomed)
-                return ResolveState ("Fire.Zoomed.Pump");
+            S7_SetAnim ("Anim.Pump");
 
             A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
-
-            return ResolveState (null);
         }
-        CQR1 EFG 1;
-        CQR1 H   6 S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
-        CQR1 H   1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
-        CQR1 GFE 1;
-        goto Ready2;
-
-    Fire.Zoomed:
-        TNT1 A 0 {
-            A_GunFlash ("Flash.Zoomed");
-            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 0, 3));
-
-            Vector2 spread = (.005, .005);
-
-            if (invoker.noPump)
-                spread *= 2;
-
-            S7_A_FireBullets ('S7_ConquerorRifle_Tracer', spread: spread, offs: (10, 0, 4.5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-
-            if (invoker.noPump)
-                S7_A_SpawnCasing ('S7_45WWCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
-
-            return ResolveState (null);
+        TNT1 A 3;
+        TNT1 A 6 {
+            if (!invoker.zoomed)
+                S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
+            else
+                S7_A_SpawnCasing ('S7_45WWCasing', (30,  8, 10), pitchOffs: -45, spread: (10, 15));
         }
-    Fire.Anim.Zoomed:
-        SCP1 B 1 {
-            A_ZoomFactor ((BaseZoomFactor + invoker.zoomLevel) * .9);
-            S7_Recoil (-1.5);
-        }
-        SCP1 B 1 S7_Recoil (-1.75);
-        SCP1 B 1 {
-            A_ZoomFactor ((BaseZoomFactor + invoker.zoomLevel) * .95);
-
-            S7_Recoil (0.15);
-        }
-        SCP1 B 1 {
-            if (invoker.noPump) {
-                if (invoker.CheckAmmo (PrimaryFire, false, true)) {
-                    invoker.loaded = true;
-
-                    if (random [weaponSpc] () < 2)
-                        invoker.jammed = true;
-                    else
-                        invoker.jammed = false;
-                } else
-                    invoker.noEject = true;
-            } else
-                invoker.noEject = false; // Reset noEject
-
-            A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
-            S7_Recoil (0.15);
-        }
-
-        SCP1 BBBBB 1 { player.WeaponState |= WF_WeaponReady; }
-        goto Ready2;
-    Fire.Zoomed.Pump:
-        SCP1 B 4 A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
-        SCP1 B 6 S7_A_SpawnCasing ('S7_45WWCasing', (30, 8, 10), pitchOffs: -45, spread: (10, 15));
-        SCP1 B 3 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
+        TNT1 A 1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
+        TNT1 A 3;
         goto Ready2;
 
     Fire.Jammed:
-        CQR1 A 3 { // Add an auto unjamming cvar later
+        TNT1 A 3 { // Add an auto unjamming cvar later
+            S7_SetAnim ("Anim.Idle");
             A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
-
-            if (invoker.zoomed)
-                return ResolveState ("Fire.Jammed.Zoomed");
-
-            return ResolveState (null);
         }
-        goto Ready2;
-    Fire.Jammed.Zoomed:
-        SCP1 B 3;
         goto Ready2;
 
     AltFire:
@@ -377,81 +417,72 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
 
     DryFire:
-        CQR1 A 3 {
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
             A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
-
-            if (invoker.zoomed)
-                return ResolveState ("DryFire.Zoomed");
-
-            return ResolveState (null);
         }
-        goto DryFire2;
-    DryFire.Zoomed:
-        SCP1 B 3;
-        goto DryFire2;
-    DryFire2:
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
 
     Reload.Zoomed:
-        CQR1 A 10 {
+        TNT1 A 10 {
+            S7_SetAnim ("Anim.Idle");
+
             invoker.zoomed = false;
             A_SetCrosshair (0);
-            A_ZoomFactor (1.0, ZOOM_Instant);
             A_SetBlend ("00 00 00", 1.0, 8);
+            A_ZoomFactor (invoker.GetZoomFactor (), ZOOM_Instant);
         }
         goto Reload;
     Reload:
         TNT1 A 0 {
-            TakeInventory ('S7_Reloading', 1);
-
-            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1)) {
+                TakeInventory ('S7_Reloading', 1);
                 return ResolveState ("Ready2");
+            }
 
             if (invoker.zoomed)
                 return ResolveState ("Reload.Zoomed");
 
             int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
-            if (ammoAmount <= 0)
+            if (ammoAmount <= 0) {
+                TakeInventory ('S7_Reloading', 1);
                 return ResolveState ("Ready2");
+            }
 
             GiveInventory (invoker.ammoType1, ammoAmount);
             TakeInventory (invoker.ammoType2, ammoAmount);
 
-            return ResolveState ("ReloadFinish");
+            S7_SetAnim ("Anim.Reload");
+
+            return ResolveState (null);
         }
-    ReloadFinish:
-        CQR1 A      2;
-        CQR1 IJKLMN 2;
-        TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/Out", CHAN_6);
-        CQR1 OPN    2;
-        CQR1 N     12;
-        TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/In", CHAN_7);
-        CQR1 QRN    2;
-        CQR1 NMLKJI 2;
-        CQR1 A      2;
-        TNT1 A      0 A_JumpIf (!invoker.loaded, "ReloadFinish.Pump");
-        goto Ready2;
-    ReloadFinish.Pump:
-        CQR1 A   1 {
+        TNT1 A 1 {
+            let psp = player.FindPSprite (AnimLayer_ID);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle"))) {
+                TakeInventory ('S7_Reloading', 1);
+                if (invoker.loaded && !invoker.jammed)
+                    return ResolveState ("Ready2");
+                else
+                    return ResolveState ("Reload.Pump");
+            }
+
+            return ResolveState (null);
+        }
+        wait;
+    Reload.Pump:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Pump");
+            S7_DoLoad ();
             A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
-
-            invoker.loaded = true;
-
-            if (random [weaponSpc] () < 2)
-                invoker.jammed = true;
-            else
-                invoker.jammed = false;
         }
-        CQR1 EFG 1;
-        CQR1 H   6 {
+        TNT1 A 3;
+        TNT1 A 6 {
             if (!invoker.noEject)
                 S7_A_SpawnCasing ('S7_45WWCasing', (30, 14, 20), pitchOffs: -45, spread: (10, 15));
-
-            invoker.noEject = false; // Reset noEject
         }
-        CQR1 H   1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
-        CQR1 GFE 1;
+        TNT1 A 1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
+        TNT1 A 3;
         goto Ready2;
 
     // Muzzle flashes
