@@ -203,14 +203,24 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             S7_A_FireBullets ('S7_PlasmaGunRail', spread: (.275, .275), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
-
-            A_WeaponOffset (4, 36);
             A_GunFlash ();
+
+            S7_Recoil (-.8);
+            A_ZoomFactor (.99125, ZOOM_Instant);
+            A_WeaponOffset (4, 36);
 
             return ResolveState (null);
         }
-        TNT1 A 1 A_WeaponOffset (3, 35);
-        TNT1 A 1 A_WeaponOffset (2, 34);
+        TNT1 A 1 {
+            S7_Recoil (-.675);
+            A_ZoomFactor (.995625);
+            A_WeaponOffset (3, 35);
+        }
+        TNT1 A 1 {
+            S7_Recoil (+.6);
+            A_ZoomFactor (1.);
+            A_WeaponOffset (2, 34);
+        }
         TNT1 A 1 A_WeaponOffset (1, 33);
         TNT1 A 1 {
             A_WeaponOffset (0, 32);
@@ -251,12 +261,12 @@ class S7_PlasmaGun : S7_BaseWeapon {
         TNT1 A 6 {
             A_WeaponOffset (0, 32);
 
-            int tics = 6 + int (max (0, invoker.prevCharge - 1) * 1.5);
+            int tics = int (6 * (1 + max (0., invoker.prevCharge - 1.) * 0.5));
             {
                 let pPawn = S7_BasePlayer (self);
 
                 if (pPawn && pPawn.xpSys)
-                    tics = int (double (tics) * clamp (pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.06, .5, 1.));
+                    tics = int (double (tics) * clamp (1. - pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.06, .5, 1.));
             }
 
             invoker.prevCharge = 0;
