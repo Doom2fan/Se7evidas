@@ -57,7 +57,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
     }
 
     override double S7_WeightSpeedModifier (double strengthStat, double berserkCount) {
-        return clamp (0.65 + clamp (0.15 * log (strengthStat / 2.), 0., 1.) + (0.05 * berserkCount), 0., 1.);
+        return clamp (.65 + clamp (.15 * log (strengthStat / 4.), 0., 1.) + (.05 * berserkCount), 0., 1.);
     }
 
     override void V_S7_Recoil (double amount) {
