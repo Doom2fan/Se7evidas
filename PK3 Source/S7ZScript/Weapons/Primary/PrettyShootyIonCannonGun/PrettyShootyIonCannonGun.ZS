@@ -53,6 +53,10 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     int readyFrame;
     bool altFireType2;
 
+    override double S7_WeightSpeedModifier (double strengthStat, double berserkCount) {
+        return clamp (.65 + clamp (.15 * log (strengthStat / 4.), 0., 1.) + (.05 * berserkCount), 0., 1.);
+    }
+
     action bool FireMainProjectile (Class<S7_IonCannonProjectile> proj, bool useAmmo = true) {
         bool canFire = true;
 

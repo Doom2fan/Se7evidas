@@ -195,6 +195,10 @@ class S7_Thumper : S7_BaseWeapon {
         return true;
     }
 
+    override double S7_WeightSpeedModifier (double strengthStat, double berserkCount) {
+        return clamp (.875 + clamp (.15 * log (strengthStat / 4.), 0., 1.) + (.05 * berserkCount), 0., 1.);
+    }
+
     action void S7_SpawnCasing () {
         S7_A_SpawnCasing (invoker.casingType, (30, 18, 16), pitchOffs: -45, spread: (10, 15));
     }

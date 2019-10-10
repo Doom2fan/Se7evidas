@@ -66,6 +66,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
     bool semiAuto;
     bool altfireLock;
 
+    override double S7_WeightSpeedModifier (double strengthStat, double berserkCount) {
+        return clamp (.85 + clamp (.175 * log (strengthStat / 3.875), 0., 1.) + (.0565 * berserkCount), 0., 1.);
+    }
+
     int GetChargeCost () {
         if (!Owner)
             return Charge_Cost;
