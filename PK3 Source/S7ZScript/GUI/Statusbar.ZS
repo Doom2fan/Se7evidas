@@ -387,6 +387,24 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
 
         // Ammo bars
         if (CPlayer.ReadyWeapon) {
+            let weap = S7_BaseWeapon (CPlayer.ReadyWeapon);
+
+            if (weap && weap.fireModeIcon != S7_FMI_None) {
+                string icon;
+
+                if (weap.fireModeIcon == S7_FMI_SemiAuto)
+                    icon = "graphics/HUD/Fullscreen/FireMode/SemiAuto.png";
+                else if (weap.fireModeIcon == S7_FMI_BurstFire)
+                    icon = "graphics/HUD/Fullscreen/FireMode/BrstFire.png";
+                else if (weap.fireModeIcon == S7_FMI_FullAuto)
+                    icon = "graphics/HUD/Fullscreen/FireMode/FullAuto.png";
+                else
+                    icon = "";
+
+                if (!(icon == ""))
+                    DrawImage (icon, (5, 5), DI_Item_Left_Top);
+            }
+
             if (CheckWeaponSelected ('S7_SSG')) {
                 // Draw ammo pool count
                 DrawString (mFScreenHUDFont, "Pool:      ", (-6, -50), DI_Text_Align_Right | DI_NoShadow, Font.CR_White);
@@ -464,23 +482,6 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
                     DrawImage (String.Format ("graphics/HUD/Cartridges/S7H50M%d.png", grenType), (-26 - 22 * i, -17), DI_Item_Left_Top);
                 }
             } else {
-                let weap = S7_BaseWeapon (CPlayer.ReadyWeapon);
-                if (weap && weap.fireModeIcon != S7_FMI_None) {
-                    string icon;
-
-                    if (weap.fireModeIcon == S7_FMI_SemiAuto)
-                        icon = "graphics/HUD/Fullscreen/FireMode/SemiAuto.png";
-                    else if (weap.fireModeIcon == S7_FMI_BurstFire)
-                        icon = "graphics/HUD/Fullscreen/FireMode/BrstFire.png";
-                    else if (weap.fireModeIcon == S7_FMI_FullAuto)
-                        icon = "graphics/HUD/Fullscreen/FireMode/FullAuto.png";
-                    else
-                        icon = "";
-
-                    if (!(icon == ""))
-                        DrawImage (icon, (5, 5), DI_Item_Left_Top);
-                }
-
                 for (int i = 0; i < FScreenAmmoBars.Size (); i++) {
                     if (CheckWeaponSelected (FScreenAmmoBars [i].weap)) {
                         let bar = FScreenAmmoBars [i];
