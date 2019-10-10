@@ -249,9 +249,8 @@ class S7_AMG : S7_BaseWeapon {
     DoZoom:
         TNT1 A 1 A_JumpIf (CheckInventory ('S7_HoldingZoom', 1), "Ready2.HoldingZoom");
         TNT1 A 8 {
-            S7_SetAnim ("Anim.Idle");
-
             GiveInventory ('S7_HoldingZoom', 1);
+            S7_SetAnim ("Anim.Idle");
 
             if (!invoker.zoomed) {
                 invoker.zoomed = true;
