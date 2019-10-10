@@ -232,7 +232,6 @@ class S7_AK47 : S7_BaseWeapon {
             S7_A_SpawnCasing ('S7_RifleCasing', (30, 18, 10.5), pitchOffs: -45, spread: (10, 15));
             S7_A_FireBullets ('S7_AK47_Tracer', spread: (.16, .16), offs: (10, 7, 5), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
 
-
             S7_Recoil (-.9);
             A_ZoomFactor (.99, ZOOM_Instant);
 
