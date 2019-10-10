@@ -91,104 +91,39 @@ class S7_PlasmaGun : S7_BaseWeapon {
         return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.005;
     }
 
+    const AnimLayer_ID = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        A_Overlay (AnimLayer_ID, animState);
+        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+    }
+
+    /** Pickup **/
     states {
     Spawn:
         PLSG U -1;
         stop;
+    }
 
-    Ready:
-        PLSG A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
-        PLSG A 1 DoSelectOffset ((60, 58));
-        PLSG A 1 DoSelectOffset ((48, 48));
-        PLSG A 1 DoSelectOffset ((38, 37));
-        PLSG A 1 DoSelectOffset ((24, 24));
-        PLSG A 1 DoSelectOffset (( 0,  0));
-    Ready2:
-        PLSG A 1 S7_WeaponReady ("Reload", "ChangeMode", wrFlags: ((invoker.charge >= Charge_Max) ? WRF_NoSecondary : 0));
-        TNT1 A 0 { invoker.altfireLock = false; }
-        loop;
-
-    Deselect:
-        PLSG A 1 {
-            if (health <= 0)
-                return ResolveState ("Deselect.DEAD");
-
-            DoSelectOffset (( 0,  0));
-            return ResolveState (null);
-        }
-        PLSG A 1 DoSelectOffset ((24, 24));
-        PLSG A 1 DoSelectOffset ((38, 37));
-        PLSG A 1 DoSelectOffset ((48, 48));
-        PLSG A 1 DoSelectOffset ((60, 58));
-        PLSG A 1 DoSelectOffset ((72, 72));
-        goto TrueDeselect;
-
-    Fire:
-        PLSG A 1 bright {
-            if (invoker.charge >= 1)
-                return ResolveState ("Fire.Charged");
-            if (!invoker.CheckAmmo (PrimaryFire, false, true))
-                return ResolveState ("DryFire");
-
-            A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
-
-            S7_A_FireBullets ('S7_PlasmaGunRail', spread: (.275, .275), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
-
-            A_WeaponOffset (4, 36);
-            A_GunFlash ("Flash.Fire");
-
-            return ResolveState (null);
-        }
-        PLSG D 1 A_WeaponOffset (3, 35);
-        PLSG C 1 A_WeaponOffset (2, 34);
-        PLSG B 1 A_WeaponOffset (1, 33);
-        PLSG A 1 {
-            if (invoker.semiAuto)
-                return ResolveState ("Fire.Semi");
-
-            A_WeaponOffset (0, 32);
-
-            A_Refire ("Fire");
-
-            return ResolveState (null);
-        }
-        goto Ready2;
-    Fire.Semi:
-        PLSG A 1 { player.WeaponState |= WF_WeaponReady; }
-        goto Ready2;
-
-    DryFire:
-        PLSG A 3 {
-            A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
-            A_WeaponOffset (0, 32);
-        }
-        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
-        goto Ready2;
-    DryFire.Alt:
-        PLSG A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
-        goto Ready2;
-
-    Reload:
-        TNT1 A 0 {
-            TakeInventory ('S7_Reloading', 1);
-
-            if (invoker.charge > 0)
-                return ResolveState ("Decharge");
-
-            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
-                return ResolveState ("Ready2");
-
-            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
-            if (ammoAmount <= 0)
-                return ResolveState ("Ready2");
-
-            GiveInventory (invoker.ammoType1, ammoAmount);
-            TakeInventory (invoker.ammoType2, ammoAmount);
-
-            return ResolveState ("ReloadFinish");
-        }
-    ReloadFinish:
+    /** Animations **/
+    states {
+    Anim.Idle:
+        PLSG A 1;
+        wait;
+    Anim.Fire:
+        PLSG A 1 bright;
+        PLSG DCB 1;
+        goto Anim.Idle;
+    Anim.FireCharged:
+        PLSG A 1 bright;
+        PLSG D 1;
+        PLSG F 1;
+        wait;
+    Anim.FireChargedEnd:
+        PLSG EDCBA 1;
+        goto Anim.Idle;
+    Anim.Reload:
         PLSG A  2 DoSelectOffset (( 0,  0), forceNoInterpolate: true);
         PLSG A  1 DoSelectOffset ((24, 24));
         PLSG A  1 DoSelectOffset ((38, 37));
@@ -208,22 +143,85 @@ class S7_PlasmaGun : S7_BaseWeapon {
             DoSelectOffset (( 0,  0));
             A_PlaySound ("Weapons/PlasmaGun/Beep", CHAN_Weapon);
         }
-        goto Ready2;
+        goto Anim.Idle;
+    }
 
-    Decharge:
-        PLSG A 5 {
-            GiveInventory ('S7_PlasmaGunMag', invoker.amountUsedToCharge);
+    /** Actions **/
+    states {
+    Ready:
+        TNT1 A 0 S7_SetAnim ("Anim.Idle");
+        TNT1 A 1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
+        TNT1 A 1 DoSelectOffset ((60, 58));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((38, 37));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+    Ready2:
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+            S7_WeaponReady ("Reload", "ChangeMode", "QuickMeleeDerp", wrFlags: ((invoker.charge >= Charge_Max) ? WRF_NoSecondary : 0));
+        }
+        TNT1 A 0 { invoker.altfireLock = false; }
+        loop;
+    QuickMeleeDerp:
+        TNT1 A 0 S7_SetAnim ("Null");
+        goto QuickMelee;
 
-            invoker.charge = 0;
-            invoker.amountUsedToCharge = 0;
+    Deselect:
+        PLSG A 0 {
+            if (health <= 0) {
+                S7_SetAnim ("Null");
+                return ResolveState ("Deselect.DEAD");
+            }
 
-            A_SetBlend ("10 6B DA", 0.25, 4);
-            TakeInventory ('S7_Reloading', 1);
+            S7_SetAnim ("Anim.Idle");
+            return ResolveState (null);
+        }
+        TNT1 A 1 DoSelectOffset (( 0,  0));
+        TNT1 A 1 DoSelectOffset ((24, 24));
+        TNT1 A 1 DoSelectOffset ((38, 37));
+        TNT1 A 1 DoSelectOffset ((48, 48));
+        TNT1 A 1 DoSelectOffset ((60, 58));
+        TNT1 A 1 DoSelectOffset ((72, 72));
+        goto TrueDeselect;
+
+    // Firing
+    Fire:
+        TNT1 A 1 {
+            if (invoker.charge >= 1)
+                return ResolveState ("Fire.Charged");
+            if (!invoker.CheckAmmo (PrimaryFire, false, true))
+                return ResolveState ("DryFire");
+
+            S7_SetAnim ("Anim.Fire");
+
+            A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
+
+            S7_A_FireBullets ('S7_PlasmaGunRail', spread: (.275, .275), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
+            S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
+
+            A_WeaponOffset (4, 36);
+            A_GunFlash ();
+
+            return ResolveState (null);
+        }
+        TNT1 A 1 A_WeaponOffset (3, 35);
+        TNT1 A 1 A_WeaponOffset (2, 34);
+        TNT1 A 1 A_WeaponOffset (1, 33);
+        TNT1 A 1 {
+            A_WeaponOffset (0, 32);
+
+            if (invoker.semiAuto)
+                player.WeaponState |= WF_WeaponReady;
+            else
+                A_Refire ("Fire");
         }
         goto Ready2;
 
     Fire.Charged:
-        PLSG A     1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.FireCharged");
+
             if (invoker.charge > 1)
                 A_SetBlend ("10 6B DA", 0.175 * invoker.charge, 8);
 
@@ -243,10 +241,10 @@ class S7_PlasmaGun : S7_BaseWeapon {
             invoker.charge = 0;
             invoker.amountUsedToCharge = 0;
         }
-        PLSG D     1 A_WeaponOffset (6, 38);
-        PLSG F     1 A_WeaponOffset (4, 36);
-        PLSG F     1 A_WeaponOffset (2, 34);
-        PLSG F     6 {
+        TNT1 A 1 A_WeaponOffset (6, 38);
+        TNT1 A 1 A_WeaponOffset (4, 36);
+        TNT1 A 1 A_WeaponOffset (2, 34);
+        TNT1 A 6 {
             A_WeaponOffset (0, 32);
 
             int tics = 6 + int (max (0, invoker.prevCharge - 1) * 1.5);
@@ -261,44 +259,47 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             A_SetTics (tics);
         }
-        PLSG EDCBA 1;
+        TNT1 A 5 S7_SetAnim ("Anim.FireChargedEnd");
         goto Ready2;
 
-    Flash.Fire:
-        PLSF A 1 bright;
-        stop;
-
+    // Charging
     AltFire:
-        PLSG A 1 {
+        TNT1 A 1 {
             if (invoker.charge >= Charge_Max)
                 return ResolveState ("Ready2");
             else if (!CheckInventory ('S7_PlasmaGunMag', invoker.GetChargeCost ()))
                 return ResolveState ("DryFire.Alt");
 
+            S7_SetAnim ("Anim.Idle");
+
             return ResolveState (null);
         }
-        PLSG A 1 A_Refire ("ChargeStart");
+        TNT1 A 1 A_Refire ("ChargeStart");
         TNT1 A 0 A_ClearRefire;
         goto Ready2;
 
     ChargeStart:
         TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/Charge", CHAN_Weapon);
     Charge:
-        PLSG A 1 {
+        TNT1 A 1 {
             if (invoker.chargingLevel >= Max_Charging_Level)
                 return ResolveState ("ChargingFinished");
+
+            S7_SetAnim ("Anim.Idle");
 
             A_WeaponOffset (0 + fRandom [weaponSpc] (-1, 1), 32 + fRandom [weaponSpc] (-1, 1));
             invoker.chargingLevel++;
 
             return ResolveState (null);
         }
-        PLSG A 1 A_Refire ("Charge");
-        PLSG A 1 A_ClearRefire;
+        TNT1 A 1 A_Refire ("Charge");
+        TNT1 A 1 A_ClearRefire;
         goto CancelCharging;
 
     CancelCharging:
-        PLSG A 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
             A_StopSound (CHAN_Weapon);
             A_WeaponOffset (0, 32);
 
@@ -317,7 +318,9 @@ class S7_PlasmaGun : S7_BaseWeapon {
         loop;
 
     ChargingFinished:
-        PLSG A 5 {
+        TNT1 A 5 {
+            S7_SetAnim ("Anim.Idle");
+
             A_StopSound (CHAN_Weapon);
             A_WeaponOffset (0, 32);
 
@@ -342,12 +345,11 @@ class S7_PlasmaGun : S7_BaseWeapon {
         }
         goto Ready2;
 
-    Flash.Charged:
-        PLSF B 1 bright A_WeaponOffset (8, 40);
-        stop;
-
+    // Changing firing mode
     ChangeMode:
-        PLSG A 1 {
+        TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
             TakeInventory ('S7_ChangeFireMode', 0x7FFFFFFF);
 
             invoker.semiAuto = !invoker.semiAuto;
@@ -356,10 +358,82 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             A_WeaponOffset (4, 36);
         }
-        PLSG A 1 A_WeaponOffset (3, 35);
-        PLSG A 1 A_WeaponOffset (2, 34);
-        PLSG A 1 A_WeaponOffset (1, 33);
-        PLSG A 1 A_WeaponOffset (0, 32);
+        TNT1 A 1 A_WeaponOffset (3, 35);
+        TNT1 A 1 A_WeaponOffset (2, 34);
+        TNT1 A 1 A_WeaponOffset (1, 33);
+        TNT1 A 1 A_WeaponOffset (0, 32);
+        goto Ready2;
+
+    // Flashes
+    Flash:
+        PLSF A 1 bright;
+        stop;
+    Flash.Charged:
+        PLSF B 1 bright;
+        stop;
+
+    // Dryfires
+    DryFire:
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+
+            A_WeaponOffset (0, 32);
+            A_ClearRefire ();
+        }
+        TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
+        goto Ready2;
+    DryFire.Alt:
+        TNT1 A 3 {
+            S7_SetAnim ("Anim.Idle");
+            A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+
+            A_ClearRefire ();
+        }
+        goto Ready2;
+
+    // Reloading
+    Reload:
+        TNT1 A 0 {
+            TakeInventory ('S7_Reloading', 1);
+
+            if (invoker.charge > 0)
+                return ResolveState ("Decharge");
+
+            if (CheckInventory (invoker.ammoType1, 0) || !CheckInventory (invoker.ammoType2, 1))
+                return ResolveState ("Ready2");
+
+            int ammoAmount = min (FindInventory (invoker.ammoType1).maxAmount - CountInv (invoker.ammoType1), CountInv (invoker.ammoType2));
+            if (ammoAmount <= 0)
+                return ResolveState ("Ready2");
+
+            GiveInventory (invoker.ammoType1, ammoAmount);
+            TakeInventory (invoker.ammoType2, ammoAmount);
+
+            S7_SetAnim ("Anim.Reload");
+            return ResolveState (null);
+        }
+        TNT1 A 1 {
+            let psp = player.FindPSprite (AnimLayer_ID);
+            if (psp && InStateSequence (psp.CurState, ResolveState ("Anim.Idle")))
+                return ResolveState ("Ready2");
+
+            return ResolveState (null);
+        }
+        wait;
+
+    Decharge:
+        TNT1 A 5 {
+            S7_SetAnim ("Anim.Idle");
+
+            GiveInventory ('S7_PlasmaGunMag', invoker.amountUsedToCharge);
+
+            invoker.charge = 0;
+            invoker.amountUsedToCharge = 0;
+
+            A_SetBlend ("10 6B DA", 0.25, 4);
+            TakeInventory ('S7_Reloading', 1);
+        }
         goto Ready2;
     }
 }
