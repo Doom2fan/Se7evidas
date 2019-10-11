@@ -88,9 +88,7 @@ class S7_AMG : S7_BaseWeapon {
     }
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (AnimLayer_ID, animState);
-        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        S7_Internal_SetAnim (AnimLayer_ID, animState, 0, 0);
     }
 
     /** Pickup **/
@@ -215,12 +213,12 @@ class S7_AMG : S7_BaseWeapon {
 
     QuickMeleeDerp:
         TNT1 A 0 {
-            S7_SetAnim ("Null");
-
             TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
 
             if (invoker.zoomed)
                 return ResolveState ("Ready2");
+
+            S7_SetAnim ("Null");
 
             return ResolveState (null);
         }

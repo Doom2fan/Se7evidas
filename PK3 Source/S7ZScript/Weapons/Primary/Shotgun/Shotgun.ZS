@@ -91,9 +91,7 @@ class S7_Shotgun : S7_BaseWeapon {
     const AnimLayer_ID = 2;
 
     action void S7_SetAnim (StateLabel animState) {
-        A_Overlay (AnimLayer_ID, animState);
-        A_OverlayFlags (AnimLayer_ID, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
-        A_OverlayFlags (AnimLayer_ID, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        S7_Internal_SetAnim (AnimLayer_ID, animState, 0, 0);
     }
 
     /** Pickup **/

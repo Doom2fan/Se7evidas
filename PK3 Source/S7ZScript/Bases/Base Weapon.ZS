@@ -394,6 +394,19 @@ class S7_BaseWeapon : Weapon {
         return S7_WeightSpeedModifier (strengthStat, berserkCount);
     }
 
+    protected action void S7_Internal_SetAnim (int animLayer, StateLabel animState, int setFlags, int unsetFlags) {
+        A_Overlay (animLayer, "DummyState");
+        A_OverlayFlags (animLayer, PSPF_AddWeapon | PSPF_AddBob | PSPF_PowDouble | PSPF_CvarFast | PSPF_RenderStyle | PSPF_Alpha, true);
+        A_OverlayFlags (animLayer, PSPF_Flip | PSPF_Mirror | PSPF_ForceAlpha | PSPF_ForceStyle, false);
+        A_OverlayFlags (animLayer, setFlags, true);
+        A_OverlayFlags (animLayer, unsetFlags, false);
+
+        let psp = player.FindPSprite (animLayer);
+        if (!psp)
+            ThrowAbortException ("This should never happen.");
+        psp.SetState (ResolveState (animState));
+    }
+
     action void S7_WeaponReady (StateLabel reloadState, StateLabel fireModeState, StateLabel quickMeleeState = "QuickMelee", int flags = 0, int wrFlags = 0) {
         wrFlags &= ~(WRF_AllowReload | WRF_AllowUser1 | WRF_AllowUser2 | WRF_AllowUser3 | WRF_AllowUser4);
 
@@ -666,6 +679,10 @@ class S7_BaseWeapon : Weapon {
     }
 
     states {
+    DummyState
+        TNT1 A 1;
+        wait;
+
     DryFire:
         TNT1 A 0 {
             A_PlaySound ("Weapons/DryFire", CHAN_Weapon);
