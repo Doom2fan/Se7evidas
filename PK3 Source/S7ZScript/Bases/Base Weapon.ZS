@@ -679,7 +679,7 @@ class S7_BaseWeapon : Weapon {
     }
 
     states {
-    DummyState
+    DummyState:
         TNT1 A 1;
         wait;
 

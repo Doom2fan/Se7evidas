@@ -238,6 +238,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Weapons/Primary/Fauchard/Fauchard.ZS"
 #include "S7ZScript/Weapons/Primary/SSG/SSG.ZS"
 #include "S7ZScript/Weapons/Primary/LaserPewPew/LaserPewPew.ZS"
+#include "S7ZScript/Weapons/Primary/LaserPewPew/Akimbo.ZS"
 #include "S7ZScript/Weapons/Primary/ConquerorRifle/ConquerorRifle.ZS"
 #include "S7ZScript/Weapons/Primary/AK47/AK47.ZS"
 #include "S7ZScript/Weapons/Primary/CaesarChaingun/CaesarChaingun.ZS"
