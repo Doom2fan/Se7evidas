@@ -204,12 +204,20 @@ class S7_Shotgun : S7_BaseWeapon {
             invoker.DepleteAmmo (false, true, 1);
             S7_FireShotgun (firingRight);
 
+            A_ZoomFactor (.98, ZOOM_Instant);
             S7_Recoil (-1.45);
 
             return ResolveState (null);
         }
-        TNT1 A  2 S7_Recoil (-1.45);
-        TNT1 AA 1 S7_Recoil (0.725);
+        TNT1 A  2 {
+            A_ZoomFactor (.99);
+            S7_Recoil (-1.45);
+        }
+        TNT1 A 1 {
+            A_ZoomFactor (1.);
+            S7_Recoil (+.725);
+        }
+        TNT1 A 1 S7_Recoil (+.725);
         goto Ready2;
 
     AltFire:
@@ -239,7 +247,8 @@ class S7_Shotgun : S7_BaseWeapon {
             invoker.DepleteAmmo (false, true, 1);
             S7_FireShotgun (false);
 
-            S7_Recoil (-0.725);
+            A_ZoomFactor (.98, ZOOM_Instant);
+            S7_Recoil (-.725);
         }
         TNT1 A 1 bright {
             A_PlaySound ("Weapons/Shotgun/Fire", CHAN_6);
@@ -250,12 +259,20 @@ class S7_Shotgun : S7_BaseWeapon {
             invoker.DepleteAmmo (false, true, 1);
             S7_FireShotgun (true);
 
+            A_ZoomFactor (.975, ZOOM_Instant);
             S7_Recoil (-2.175);
         }
-        TNT1 AA 1 S7_Recoil (-1.45);
-        TNT1 A  1;
-        TNT1 A  1 S7_Recoil (1.45);
-        TNT1 A  1 S7_Recoil (1.45);
+        TNT1 A 1 {
+            A_ZoomFactor (.9875);
+            S7_Recoil (-1.45);
+        }
+        TNT1 A 1 {
+            A_ZoomFactor (1.);
+            S7_Recoil (-1.45);
+        }
+        TNT1 A 1;
+        TNT1 A 1 S7_Recoil (+1.45);
+        TNT1 A 1 S7_Recoil (+1.45);
         goto Ready2;
 
     FlashLeft:
