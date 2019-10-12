@@ -371,16 +371,25 @@ class S7_Thumper : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4.5, 3));
             invoker.chambered = false;
 
-            S7_Recoil (-1.65);
+            A_ZoomFactor (.975, ZOOM_Instant);
+            S7_Recoil (-2.65);
 
             return ResolveState (null);
         }
         TNT1 A 1 {
+            A_ZoomFactor (.985);
             S7_Recoil (-1.65);
             A_WeaponOffset (11, 32 + 5);
         }
-        TNT1 A 1 A_WeaponOffset (17, 32 + 9);
-        TNT1 A 1 A_WeaponOffset (14, 32 + 7, WOF_Interpolate);
+        TNT1 A 1 {
+            A_ZoomFactor (.9925);
+            S7_Recoil (+.825);
+            A_WeaponOffset (17, 32 + 9);
+        }
+        TNT1 A 1 {
+            A_ZoomFactor (1.);
+            A_WeaponOffset (14, 32 + 7, WOF_Interpolate);
+        }
         TNT1 A 1 A_WeaponOffset ( 7, 32 + 3, WOF_Interpolate);
         TNT1 A 2 A_WeaponOffset ( 0, 32, WOF_Interpolate);
         goto Ready2;
