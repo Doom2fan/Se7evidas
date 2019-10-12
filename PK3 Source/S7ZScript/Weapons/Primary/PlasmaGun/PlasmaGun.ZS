@@ -95,6 +95,16 @@ class S7_PlasmaGun : S7_BaseWeapon {
         return pPawn.xpSys.GetStat (S7Stat_Tech, false) * 0.005;
     }
 
+    action double GetRecoilZoomFactor (int chargeLevel, int stepCount, int whichStep) {
+        double baseFactor;
+
+        baseFactor = (1. - .99125);
+        baseFactor = baseFactor * 1.5 * max (.5 + .5 * chargeLevel, 1.);
+        baseFactor = 1. - baseFactor;
+
+        return S7_Math.Lerp (baseFactor, 1., 1. / stepCount * whichStep);
+    }
+
     const AnimLayer_ID = 2;
 
     action void S7_SetAnim (StateLabel animState) {
@@ -203,20 +213,20 @@ class S7_PlasmaGun : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
             A_GunFlash ();
 
-            S7_Recoil (-.8);
             A_ZoomFactor (.99125, ZOOM_Instant);
+            S7_Recoil (-.8);
             A_WeaponOffset (4, 36);
 
             return ResolveState (null);
         }
         TNT1 A 1 {
-            S7_Recoil (-.675);
             A_ZoomFactor (.995625);
+            S7_Recoil (-.675);
             A_WeaponOffset (3, 35);
         }
         TNT1 A 1 {
-            S7_Recoil (+.6);
             A_ZoomFactor (1.);
+            S7_Recoil (+.6);
             A_WeaponOffset (2, 34);
         }
         TNT1 A 1 A_WeaponOffset (1, 33);
@@ -241,20 +251,29 @@ class S7_PlasmaGun : S7_BaseWeapon {
             A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon, 1. - (.5 * vR));
             A_PlaySound ("Weapons/PlasmaGun/AltFire", CHAN_5, 0.5 + (.5 * vR));
 
+            A_GunFlash ("Flash.Charged");
             S7_A_FireBullets (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
-
             for (int i = 0; i < (invoker.charge + 1); i++)
                 S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
 
+            A_ZoomFactor (GetRecoilZoomFactor (invoker.charge, 2, 0), ZOOM_Instant);
+            S7_Recoil (-.8 * (1.5 * max (.5 + .5 * invoker.charge, 1.)));
             A_WeaponOffset (8, 40);
-            A_GunFlash ("Flash.Charged");
 
             invoker.prevCharge = invoker.charge;
             invoker.charge = 0;
             invoker.amountUsedToCharge = 0;
         }
-        TNT1 A 1 A_WeaponOffset (6, 38);
-        TNT1 A 1 A_WeaponOffset (4, 36);
+        TNT1 A 1 {
+            A_ZoomFactor (GetRecoilZoomFactor (invoker.charge, 2, 1));
+            S7_Recoil (-.675 * (1.5 * max (.5 + .5 * invoker.charge, 1.)));
+            A_WeaponOffset (6, 38);
+        }
+        TNT1 A 1 {
+            A_ZoomFactor (GetRecoilZoomFactor (invoker.charge, 2, 2));
+            S7_Recoil (+.6 * (1.5 * max (.5 + .5 * invoker.charge, 1.)));
+            A_WeaponOffset (4, 36);
+        }
         TNT1 A 1 A_WeaponOffset (2, 34);
         TNT1 A 6 {
             A_WeaponOffset (0, 32);
