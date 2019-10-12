@@ -193,6 +193,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
 
                 A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);
 
+                A_ZoomFactor (.975, ZOOM_Instant);
                 S7_Recoil ((invoker.fireMode >= 1) ? -1.35 : -0.9);
                 A_WeaponOffset (6, 32 + 6);
             } else
@@ -207,6 +208,11 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         }
         TNT1 A 1 {
             if (!invoker.firedDud) {
+                if (invoker.fireMode < 2)
+                    A_ZoomFactor (.9875);
+                else
+                    A_ZoomFactor (1., ZOOM_Instant);
+
                 S7_Recoil ((invoker.fireMode >= 2) ? -1.35 : -0.9);
                 A_WeaponOffset (3, 32 + 3);
             }
@@ -217,8 +223,10 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 case  1: A_SetTics (1); break;
                 case  2: A_SetTics (0); break;
             }
-            if (!invoker.firedDud)
+            if (!invoker.firedDud) {
+                A_ZoomFactor (1.);
                 S7_Recoil (-0.9);
+            }
 
             A_WeaponOffset (0, 32);
         }
