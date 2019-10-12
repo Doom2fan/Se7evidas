@@ -53,7 +53,7 @@ class S7_SSG : S7_BaseWeapon {
     }
 
     const AnimLayer_ID = 2;
-    bool leftLoaded, rightLoaded, firingBoth_FiredLeft;
+    bool leftLoaded, rightLoaded, firingBoth_FiredLeft, firingBoth_FiredRight;
 
     override void DoEffect () {
         Super.DoEffect ();
@@ -257,6 +257,7 @@ class S7_SSG : S7_BaseWeapon {
         }
 
         S7_FireSSG (right);
+        A_ZoomFactor (.98, ZOOM_Instant);
         S7_Recoil (-2.175);
 
         return ResolveState (null);
@@ -274,11 +275,25 @@ class S7_SSG : S7_BaseWeapon {
     states {
     Fire.Left:
         TNT1 A 1 S7_FireSSGSingle (false);
-        TNT1 A 1 S7_Recoil (-2.175);
+        TNT1 A 1 {
+            A_ZoomFactor (.99);
+            S7_Recoil (-2.175);
+        }
+        TNT1 A 1 {
+            A_ZoomFactor (1.);
+            S7_Recoil (+1.0875);
+        }
         goto Ready2;
     Fire.Right:
         TNT1 A 1 S7_FireSSGSingle (true);
-        TNT1 A 1 S7_Recoil (-2.175);
+        TNT1 A 1 {
+            A_ZoomFactor (.99);
+            S7_Recoil (-2.175);
+        }
+        TNT1 A 1 {
+            A_ZoomFactor (1.);
+            S7_Recoil (+1.0875);
+        }
         goto Ready2;
 
     Fire.Both:
@@ -306,25 +321,60 @@ class S7_SSG : S7_BaseWeapon {
                 invoker.firingBoth_FiredLeft = false;
             }
 
+            if (invoker.firingBoth_FiredLeft)
+                A_ZoomFactor (.98, ZOOM_Instant);
+
             return ResolveState (null);
         }
         TNT1 A 1 {
             if (invoker.firingBoth_FiredLeft && invoker.rightLoaded) {
                 S7_SetAnim ("Anim.Fire");
                 S7_FireSSGBoth (true);
+
+                A_ZoomFactor (.975, ZOOM_Instant);
                 S7_Recoil (-5.4375); // 2.175 * 2.5
+
+                invoker.firingBoth_FiredRight = true;
             } else if (!invoker.firingBoth_FiredLeft) {
                 S7_SetAnim ("Anim.Fire");
-                S7_FireSSGSingle (true, true);
-
                 A_GunFlash ("Flash.Right");
+
+                S7_FireSSGSingle (true, true);
+                A_ZoomFactor (.98, ZOOM_Instant);
+
+                invoker.firingBoth_FiredRight = true;
             } else {
+                A_ZoomFactor (.99);
                 S7_Recoil (-2.175);
                 A_PlaySound ("Weapons/DryFireShotgun", CHAN_5);
+
+                invoker.firingBoth_FiredRight = false;
             }
         }
-        TNT1 A 1 S7_Recoil (-2.175);
-        TNT1 A 4;
+        TNT1 A 1 {
+            if (invoker.firingBoth_FiredLeft && invoker.firingBoth_FiredRight) {
+                A_ZoomFactor (.9875);
+                S7_Recoil (-2.175);
+            } else if (invoker.firingBoth_FiredLeft) {
+                A_ZoomFactor (1.);
+                S7_Recoil (+1.0875);
+            } else if (invoker.firingBoth_FiredRight) {
+                A_ZoomFactor (1.);
+                S7_Recoil (-2.175);
+            }
+        }
+        TNT1 A 1 {
+            if (invoker.firingBoth_FiredLeft && invoker.firingBoth_FiredRight) {
+                A_ZoomFactor (1.);
+                S7_Recoil (+1.0875);
+            } else if (invoker.firingBoth_FiredRight)
+                S7_Recoil (+1.0875);
+        }
+        TNT1 A 1 {
+            if (invoker.firingBoth_FiredLeft && invoker.firingBoth_FiredRight)
+                S7_Recoil (+1.0875);
+        }
+        TNT1 A 2;
         goto Ready2;
 
     Flash.Left:
