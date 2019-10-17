@@ -179,11 +179,18 @@ class S7_Fauchard : S7_BaseWeapon {
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
 
             S7_Recoil (-0.3);
+            A_ZoomFactor (.9925, ZOOM_Instant);
 
             return ResolveState (null);
         }
-        TNT1 A 1 S7_Recoil (-0.3);
-        TNT1 A 1;
+        TNT1 A 1 {
+            S7_Recoil (-0.3);
+            A_ZoomFactor (.99625);
+        }
+        TNT1 A 1 {
+            S7_Recoil (+0.24);
+            A_ZoomFactor (1.);
+        }
         TNT1 A 1 {
             if (invoker.halfTic) {
                 invoker.halfTic = false;
