@@ -67,8 +67,6 @@ class S7_Fauchard : S7_BaseWeapon {
         S7_Internal_SetAnim (AnimLayer_ID, animState, 0, 0);
     }
 
-    bool halfTic;
-
     /** Pickup **/
     states {
     Spawn:
@@ -171,7 +169,7 @@ class S7_Fauchard : S7_BaseWeapon {
 
             S7_SetAnim ("Anim.Fire");
 
-            A_PlaySound ("Weapons/Fauchard/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
+            A_PlaySound ("Weapons/Fauchard/Fire", CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
 
@@ -187,20 +185,10 @@ class S7_Fauchard : S7_BaseWeapon {
             S7_Recoil (-0.3);
             A_ZoomFactor (.99625);
         }
-        TNT1 A 1 {
+        TNT1 A 3 {
             S7_Recoil (+0.24);
             A_ZoomFactor (1.);
         }
-        TNT1 A 1 {
-            if (invoker.halfTic) {
-                invoker.halfTic = false;
-                return ResolveState ("Fire.End");
-            }
-
-            invoker.halfTic = true;
-            return ResolveState (null);
-        }
-    Fire.End:
         TNT1 A 1 {
             A_Refire ();
             A_ClearRefire ();
