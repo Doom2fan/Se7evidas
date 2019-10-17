@@ -52,6 +52,7 @@ class S7_HitterSMG : S7_BaseWeapon {
 
     const AnimLayer_ID = 2;
     bool upperJammed, lowerJammed;
+    bool upperFired, lowerFired;
 
     action void S7_SetAnim (StateLabel animState) {
         S7_Internal_SetAnim (AnimLayer_ID, animState, 0, 0);
@@ -161,14 +162,20 @@ class S7_HitterSMG : S7_BaseWeapon {
             if (!invoker.upperJammed) {
                 S7_SpawnCasing ();
                 S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-            } else
+                invoker.upperFired = true;
+            } else {
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_6);
+                invoker.upperFired = false;
+            }
 
             if (!invoker.lowerJammed) {
                 S7_SpawnCasing ();
                 S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
-            } else
+                invoker.lowerFired = true;
+            } else {
                 A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+                invoker.lowerFired = false;
+            }
 
             if (invoker.upperJammed)
                 A_GunFlash ("Flash.UpperJammed");
@@ -191,11 +198,32 @@ class S7_HitterSMG : S7_BaseWeapon {
                     invoker.lowerJammed = true;
             }
 
-            S7_Recoil (-0.6);
+            if (invoker.upperFired && invoker.lowerFired) {
+                S7_Recoil (-1.2);
+                A_ZoomFactor (.9865, ZOOM_Instant);
+            } else {
+                S7_Recoil (-.975);
+                A_ZoomFactor (.9875, ZOOM_Instant);
+            }
 
             return ResolveState (null);
         }
-        TNT1 A  2 S7_Recoil (-0.6);
+        TNT1 A  1 {
+            if (invoker.upperFired && invoker.lowerFired) {
+                S7_Recoil (-.95);
+                A_ZoomFactor (.99325);
+            } else {
+                S7_Recoil (-.772);
+                A_ZoomFactor (.99375);
+            }
+        }
+        TNT1 A  1 {
+            if (invoker.upperFired && invoker.lowerFired)
+                S7_Recoil (+.72);
+            else
+                S7_Recoil (+.582);
+            A_ZoomFactor (1.);
+        }
         TNT1 A  1 A_Refire ("Hold");
         TNT1 AA 1 A_ClearRefire ();
         TNT1 A  9;
