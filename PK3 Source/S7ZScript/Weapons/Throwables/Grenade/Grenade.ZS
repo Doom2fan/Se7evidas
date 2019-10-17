@@ -106,10 +106,39 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         }
     }
 
+    const AnimLayer_ID = 2;
+
+    action void S7_SetAnim (StateLabel animState) {
+        S7_Internal_SetAnim (AnimLayer_ID, animState, 0, 0);
+    }
+
+    /** Animations **/
+    states {
+    Anim.Idle:
+        TNT1 A 1;
+        wait;
+    Anim.PullPin: // 17 tics
+        HGRN WXY    1;
+        HGRN ABCDEF 1;
+        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN HIJKLM 1;
+        TNT1 A      1;
+        goto Anim.Idle;
+    Anim.ReinsertPin:
+        HGRN MLKJIH 1;
+        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN FEDCBA 1;
+        HGRN YXW    1;
+        goto Anim.Idle;
+    }
+
+    /** Actions **/
     states {
     Ready:
     Ready2:
         TNT1 A 1 {
+            S7_SetAnim ("Anim.Idle");
+
             int wrFlags = 0;
 
             if (!invoker.cooking)
@@ -122,7 +151,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         loop;
 
     Fire:
-        TNT1 A      0 {
+        TNT1 A 0 {
             if (invoker.cooking)
                 return ResolveState ("Hold");
 
@@ -131,25 +160,18 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
 
             return ResolveState (null);
         }
-        HGRN WXY    1;
-        HGRN ABCDEF 1;
-        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
-        HGRN HIJKLM 1;
-        TNT1 A      1;
+        TNT1 A 17 S7_SetAnim ("Anim.PullPin");
         goto Hold;
 
     AltFire:
-        TNT1 A      0 {
+        TNT1 A 0 {
             if (!CheckInventory ('S7_GrenadeCount', 1) || invoker.cooking)
                 return ResolveState ("Ready2");
 
             return ResolveState (null);
         }
-        HGRN WXY    1;
-        HGRN ABCDEF 1;
-        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
-        HGRN HIJKLM 1;
-        TNT1 A      1 {
+        TNT1 A 16 S7_SetAnim ("Anim.PullPin");
+        TNT1 A  1 {
             TakeInventory ('S7_GrenadeCount', 1, TIF_NoTakeInfinite);
 
             invoker.cooking = true;
@@ -159,7 +181,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         goto Ready2;
 
     CancelThrow:
-        TNT1 A      1 {
+        TNT1 A 17 {
             TakeInventory ('S7_Reloading', 0x7FFFFFFF);
             invoker.throwForce = 0;
             A_ClearRefire ();
@@ -167,12 +189,10 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
             if (invoker.cooking)
                 return ResolveState ("Ready2");
 
+            S7_SetAnim ("Anim.ReinsertPin");
+
             return ResolveState (null);
         }
-        HGRN MLKJIH 1;
-        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
-        HGRN FEDCBA 1;
-        HGRN YXW    1;
         goto Ready2;
     }
 }
