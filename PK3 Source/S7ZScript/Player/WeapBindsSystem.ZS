@@ -153,13 +153,7 @@ class S7_WeapBindsSystem : Inventory {
         if (draco && (slot > Num_Weapon_Slots_Draco || pos >= DracoBinds [slot-1].Size ()))
             return null;
 
-        Array<S7_BaseWeapon> weapons; weapons.Clear ();
-
-        if (!draco) weapons.Copy (     Binds [slot]);
-        else        weapons.Copy (DracoBinds [slot-1]);
-
-        let weap = weapons [pos];
-        weapons.Clear ();
+        let weap = (!draco ? Binds [slot] [pos] : DracoBinds [slot-1] [pos]);
 
         return weap;
     }
@@ -172,13 +166,8 @@ class S7_WeapBindsSystem : Inventory {
         if (draco && (slot > Num_Weapon_Slots_Draco || pos >= DracoBinds [slot-1].Size ()))
             return false;
 
-        Array<S7_BaseWeapon> weapons; weapons.Clear ();
-
-        if (!draco) weapons.Copy (     Binds [slot]);
-        else        weapons.Copy (DracoBinds [slot-1]);
-
-        bool ret = weapons [pos] != null;
-        weapons.Clear ();
+        let weap = (!draco ? Binds [slot] [pos] : DracoBinds [slot-1] [pos]);
+        bool ret = weap != null;
 
         return ret;
     }
@@ -243,13 +232,13 @@ class S7_WeapBindsSystem : Inventory {
             return null;
 
         PlayerInfo player = PlayerPawn (Owner).player;
-        Array<S7_BaseWeapon> weapons; weapons.Clear ();
 
         if (slot < (!draco ? 0 : 1) || slot > 9) // Return if the slot number is out of bounds.
             return S7_BaseWeapon (player.ReadyWeapon);
         if ((!draco && Binds [slot].Size () < 1) || (draco && DracoBinds [slot-1].Size () < 1)) // Return if the slot is empty
             return S7_BaseWeapon (player.ReadyWeapon);
 
+        Array<S7_BaseWeapon> weapons;
         if (!draco) weapons.Copy (     Binds [slot]);
         else        weapons.Copy (DracoBinds [slot-1]);
 
@@ -343,8 +332,7 @@ class S7_WeapBindsSystem : Inventory {
         int slotSize = !draco ? (Binds [slot].Size ()) : (DracoBinds [slot].Size ());
         Array<S7_BaseWeapon> weaps; weaps.Clear ();
         if (!weap && pos < slotSize) {
-            weaps.Copy (Binds [slot]);
-            oldWeap = weaps [pos];
+            oldWeap = Binds [slot] [pos];
             if (!draco) Binds [slot  ].Delete (pos, 1);
             else   DracoBinds [slot-1].Delete (pos, 1);
         } else if (weap && pos >= slotSize) {
@@ -352,13 +340,11 @@ class S7_WeapBindsSystem : Inventory {
             else   DracoBinds [slot-1].Push (weap);
         } else if (weap) {
             if (!draco) {
-                weaps.Copy (Binds [slot]);
-                oldWeap = weaps [pos];
+                oldWeap = Binds [slot] [pos];
                 Binds [slot].Delete (pos, 1);
                 Binds [slot].Insert (pos, weap);
             } else {
-                weaps.Copy (DracoBinds [slot]);
-                oldWeap = weaps [pos];
+                oldWeap = DracoBinds [slot-1] [pos];
                 DracoBinds [slot-1].Delete (pos, 1);
                 DracoBinds [slot-1].Insert (pos, weap);
             }

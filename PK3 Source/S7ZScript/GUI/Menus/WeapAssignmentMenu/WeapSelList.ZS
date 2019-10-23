@@ -326,15 +326,12 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
     }
 
     void Select (S7_WeapAssignMenu_ListWeap item) {
-        Array<S7_ZF_Label> labels; labels.Clear ();
         for (int i = 0; i < items.Size (); i++) {
             if (!items [i])
                 continue;
 
-            labels.Copy (items [i].labels);
-            for (int j = 0; j < labels.Size (); j++)
-                labels [j].textColor = (items [i] == item ? Font.CR_Red : Font.CR_White);
-            labels.Clear ();
+            for (int j = 0; j < items [i].labels.Size (); j++)
+                items [i].labels [j].textColor = (items [i] == item ? Font.CR_Red : Font.CR_White);
         }
     }
 }
