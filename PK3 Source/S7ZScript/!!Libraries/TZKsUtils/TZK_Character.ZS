@@ -1,3 +1,7 @@
+// Copyright (c) 2017 Benjamin Moir. All rights reserved.
+// This work is licensed under the terms of the MIT license.
+// To obtain a copy, visit <https://opensource.org/licenses/MIT>.
+
 // Helper class to work with chars
 class S7_TZK_Character
 {
