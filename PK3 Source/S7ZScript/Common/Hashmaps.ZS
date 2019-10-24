@@ -29,8 +29,8 @@ class S7_Hashmap_StrObj {
     protected Array<string> Keys;
     protected Array<Object> Values;
 
-    void GetKeys   (S7_TZK_ArrayStr other) { other.Values.Copy (Keys  ); }
-    void GetValues (S7_TZK_ArrayObj other) { other.Values.Copy (Values); }
+    void GetKeys   (Array<string> other) { other.Copy (Keys  ); }
+    void GetValues (Array<Object> other) { other.Copy (Values); }
 
     uint Size () { return Keys.Size (); }
 

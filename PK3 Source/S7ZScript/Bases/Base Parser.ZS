@@ -271,7 +271,7 @@ class S7_BaseParser {
         return true;
     }
 
-    protected bool ParseArrayAssignment (out S7_TZK_ArrayStr values, EValueType valueType) {
+    protected bool ParseArrayAssignment (out Array<string> values, EValueType valueType) {
         S7_TZK_Token t;
 
         if ((t = m_Tokenizer.Next ()).type != TOK_Equals) {
@@ -294,7 +294,7 @@ class S7_BaseParser {
         return true;
     }
 
-    protected bool ParseArray (out S7_TZK_ArrayStr values, EValueType valueType) {
+    protected bool ParseArray (out Array<string> values, EValueType valueType) {
         values.Clear ();
         S7_TZK_Token t;
 

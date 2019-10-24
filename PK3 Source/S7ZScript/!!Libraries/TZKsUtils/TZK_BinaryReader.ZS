@@ -55,12 +55,11 @@ class S7_TZK_BinaryReader
             (Read() << 56);
     }
 
-    S7_TZK_ArrayI8 ReadBytes(int count)
+    void ReadBytes(int count, out Array<int8> arr)
     {
-        let arr = new("S7_TZK_ArrayI8");
+        arr.Clear();
         for(int i = 0; i < count; i++)
             arr.Push(Read());
-        return arr;
     }
 
     string ReadString(int length = -1)

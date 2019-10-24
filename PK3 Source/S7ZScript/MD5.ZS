@@ -55,7 +55,7 @@ class S7_MD5 {
     static string FromStream (S7_TZK_Stream stream) {
         let md5 = S7_MD5.Create ();
 
-        let tmpArr = new ('S7_TZK_ArrayI32');
+        Array<int> tmpArr;
 
         for (int i = 0; i < stream.Length (); i++)
             tmpArr.Push (stream.Read ());
@@ -78,7 +78,7 @@ class S7_MD5 {
         return ret;
     }
 
-    static string FromBytes (S7_TZK_ArrayI32 input) {
+    static string FromBytes (out Array<int> input) {
         let md5 = S7_MD5.Create ();
 
         md5.Put (input);
@@ -174,7 +174,7 @@ class S7_MD5 {
         S44 = 21,
     }
 
-    private void transform (S7_TZK_ArrayI32 block) {
+    private void transform (out Array<int> block) {
         uint a = _state [0],
              b = _state [1],
              c = _state [2],
@@ -183,7 +183,7 @@ class S7_MD5 {
         uint x [16];
 
         for (int i = 0; i < 16; i++)
-            x [i] = block.Values [i];
+            x [i] = block [i];
 
         // Round 1
         FF (a, b, c, d, x [ 0], S11, 0xd76aa478); /* 1 */
@@ -277,10 +277,10 @@ class S7_MD5 {
         _state [3] = 0x10325476;
     }
 
-    bool Put (S7_TZK_ArrayI32 data) {
+    bool Put (out Array<int> data) {
         uint i, index, partLen;
         uint inputLen = data.Size ();
-        let tmpBuffer = new ('S7_TZK_ArrayI32');
+        Array<int> tmpBuffer;
 
         // Compute number of bytes mod 64
         index = uint ((uint (_count) >>> 3) & (64 - 1));
@@ -293,7 +293,7 @@ class S7_MD5 {
         // Transform as many times as possible
         if (inputLen >= partLen) {
             for (int j = 0; j < partLen; j++)
-                _buffer [index + j] = (data.Values [j] & 0xFF);
+                _buffer [index + j] = (data [j] & 0xFF);
 
             tmpBuffer.Clear ();
             for (int j = 0; j < 64; j+=4) {
@@ -310,10 +310,10 @@ class S7_MD5 {
                 tmpBuffer.Clear ();
                 for (int j = 0; j < 64; j+=4) {
                     tmpBuffer.Push (
-                        ((data.Values [i+j+3] << 8*3) & 0xFF000000) |
-                        ((data.Values [i+j+2] << 8*2) & 0x00FF0000) |
-                        ((data.Values [i+j+1] << 8*1) & 0x0000FF00) |
-                        ( data.Values [i+j]           & 0x000000FF)
+                        ((data [i+j+3] << 8*3) & 0xFF000000) |
+                        ((data [i+j+2] << 8*2) & 0x00FF0000) |
+                        ((data [i+j+1] << 8*1) & 0x0000FF00) |
+                        ( data [i+j]           & 0x000000FF)
                     );
                 }
 
@@ -327,7 +327,7 @@ class S7_MD5 {
         // Buffer remaining input
         if (inputLen - i) {
             for (int j = 0; j < inputLen-i; j++)
-                _buffer [index+j] = data.Values [i+j] & 0xFF;
+                _buffer [index+j] = data [i+j] & 0xFF;
         }
 
         return true;
@@ -335,7 +335,8 @@ class S7_MD5 {
 
     string Finish () {
         string data = "";
-        let padArr = new ('S7_TZK_ArrayI32'), bitsArr = new ('S7_TZK_ArrayI32');
+        Array<int> padArr;
+        Array<int> bitsArr;
         uint index, padLen;
 
         // Save number of bits

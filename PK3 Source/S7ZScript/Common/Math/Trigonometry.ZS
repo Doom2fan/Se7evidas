@@ -94,12 +94,12 @@ extend class S7_Math {
     ** Returns:
     **  The XY origin of the rectangle and the rectangle's size.
     */
-    static Vector2, Vector2 CalculateSmallestAABB (S7_TZK_ArrayF64 points) {
+    static Vector2, Vector2 CalculateSmallestAABB (Array<double> points) {
         Vector2 origin = (int.Max, int.Max);
         Vector2 size = (int.Min, int.Min);
 
         for (int i = 0; i < points.Size (); i += 2) {
-            Vector2 vertex = (points.Values [i], points.Values [i+1]);
+            Vector2 vertex = (points [i], points [i+1]);
 
             // Origin
             origin.X = min (origin.X, vertex.X);

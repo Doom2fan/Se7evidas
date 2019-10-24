@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-version "4.1.3"
+version "4.2.4"
 
 /* Info
 ** You can use anything from here. Just make sure to credit the author(s).

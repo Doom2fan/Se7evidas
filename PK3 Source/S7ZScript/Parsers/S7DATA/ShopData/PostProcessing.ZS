@@ -46,13 +46,11 @@ extend class S7_S7DataParser {
             return;
         }
 
-        let pages = new ('S7_TZK_ArrayObj');
-        pages.Clear ();
-
+        Array<object> pages;
         tmpShopData.pages.GetValues (pages);
 
         for (int i = 0; i < pages.Size (); i++) {
-            let page = S7_SSPage (pages.Values [i]);
+            let page = S7_SSPage (pages [i]);
 
             if (!page)
                 continue;

@@ -4,8 +4,8 @@
 
 // A stream that operates on byte arrays
 class S7_TZK_ByteStream : S7_TZK_Stream {
-    protected S7_TZK_ArrayI32 m_Data;
-    protected S7_TZK_ArrayI32 m_WriteBuffer;
+    protected Array<int> m_Data;
+    protected Array<int> m_WriteBuffer;
 
     override bool CanRead () { return true; }
     override bool CanWrite () { return true; }
@@ -15,7 +15,7 @@ class S7_TZK_ByteStream : S7_TZK_Stream {
 
     override int Read () {
         if (EOF ()) return -1;
-        int b = (m_Data.Values [Position ()]) & 255;
+        int b = (m_Data [Position ()]) & 255;
         Seek (1, SEEK_Current);
         return b;
     }
@@ -29,18 +29,17 @@ class S7_TZK_ByteStream : S7_TZK_Stream {
 
     override void Flush () {
         for (int i = 0; i < m_WriteBuffer.Size (); i++)
-            m_Data.Push (m_WriteBuffer.Values [i]);
+            m_Data.Push (m_WriteBuffer [i]);
 
         m_WriteBuffer.Clear ();
         Seek (0, SEEK_End);
     }
 
-    static S7_TZK_ByteStream Create (S7_TZK_ArrayI32 data) {
+    static S7_TZK_ByteStream Create (Array<int> data) {
         let bs = new ("S7_TZK_ByteStream");
-        bs.m_Data = new ("S7_TZK_ArrayI32");
         bs.m_Data.Clear ();
         if (data) bs.m_Data.Copy (data);
-        bs.m_WriteBuffer = new ("S7_TZK_ArrayI32");
+        bs.m_WriteBuffer.Clear ();
         return bs;
     }
 }
