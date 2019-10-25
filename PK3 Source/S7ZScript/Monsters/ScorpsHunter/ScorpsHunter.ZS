@@ -153,7 +153,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
                 if (random [monsterSpc] () <= clamp (64 * (level * 0.025), 96, 256))
                     shotty.shellsCount /= 2;
             } else
-                shotty.shellsCount = -1;
+                shotty.shellsCount = 0;
         }
     }
 
