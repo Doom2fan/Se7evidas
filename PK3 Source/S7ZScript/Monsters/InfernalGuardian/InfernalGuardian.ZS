@@ -80,8 +80,8 @@ class S7_InfernalGuardian : S7_HellNobleBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (1250 * max (1, level / 2.5)));
-            GiveCash (source, int (1300 * max (1, level / 10.)));
+            GiveXP (source, int (1250 * max (1, level / 3.5)));
+            GiveCash (source, int (clamp (1300 * (level / 15.), 1300, 1300 * 2.25)));
         }
     }
 

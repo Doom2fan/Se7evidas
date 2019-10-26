@@ -91,7 +91,7 @@ class S7_Infernal : S7_MonsterBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, int (250 * max (1, level / 3.5)));
-            GiveCash (source, int (250 * max (1, level / 10.)));
+            GiveCash (source, int (clamp (250 * (level / 15.), 250, 250 * 4)));
         }
     }
 

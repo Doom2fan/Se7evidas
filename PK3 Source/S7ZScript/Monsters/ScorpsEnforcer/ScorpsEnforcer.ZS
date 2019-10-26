@@ -86,7 +86,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
             GiveXP (source, int (150 * max (1, level / 3.)));
-            GiveCash (source, int (120 * max (1, level / 15.)));
+            GiveCash (source, int (clamp (120 * (level / 15.), 120, 120 * 3)));
         }
     }
 

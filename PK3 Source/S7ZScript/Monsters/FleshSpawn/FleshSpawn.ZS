@@ -93,8 +93,8 @@ class S7_FleshSpawn : S7_MonsterBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (175 * max (1, level / 2.5)));
-            GiveCash (source, int (160 * max (1, level / 12.5)));
+            GiveXP (source, int (175 * max (1, level / 3.5)));
+            GiveCash (source, int (clamp (160 * (level / 15.), 160, 160 * 2)));
         }
     }
 

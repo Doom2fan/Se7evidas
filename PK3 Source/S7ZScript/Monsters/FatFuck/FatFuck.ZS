@@ -92,8 +92,8 @@ class S7_FatFuck : S7_DemonBase {
         if (source) {
             let xpSys = GetXPSystem ();
             double level = xpSys ? xpSys.level : 1;
-            GiveXP (source, int (850 * max (1, level / 2.5)));
-            GiveCash (source, int (650 * max (1, level / 10.)));
+            GiveXP (source, int (850 * max (1, level / 3.5)));
+            GiveCash (source, int (clamp (650 * (level / 15.), 650, 650 * 2.5)));
         }
     }
 
