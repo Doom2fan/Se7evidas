@@ -203,12 +203,13 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         goto TrueDeselect;
     Deselect.Zoom:
         TNT1 A 8 {
+            invoker.zoomed = false;
+
             S7_SetAnim ("Anim.Idle");
 
             A_SetBlend ("00 00 00", 1.0, 8);
             A_SetCrosshair (0);
             A_ZoomFactor (invoker.GetZoomFactor (), ZOOM_Instant);
-            invoker.zoomed = false;
         }
         goto Ready2;
 
