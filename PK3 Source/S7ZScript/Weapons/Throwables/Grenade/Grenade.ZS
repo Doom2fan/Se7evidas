@@ -290,7 +290,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
     }
 
     const FrameTime = 2;
-    static const string [] GrenSprites = {
+    static const string GrenSprites [] = {
         "TGRPA", "TGRPB", "TGRPC", "TGRPD", "TGRPE", "TGRPF", "TGRPG", "TGRPH"
     };
 

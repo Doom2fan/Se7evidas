@@ -106,7 +106,7 @@ class S7_GenericGoreBits : S7_GoreBase {
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            static const StateLabel [] stateNames = { "Frame1", "Frame2", "Frame3", "Frame4", "Frame5" };
+            static const StateLabel stateNames [] = { "Frame1", "Frame2", "Frame3", "Frame4", "Frame5" };
 
             bMissile = true;
             bKilled = false;
