@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_ShadowDemon : S7_Mechdemon {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Shadow"
+        //$Angled
+
         RenderStyle "Translucent";
         Alpha .25;
 

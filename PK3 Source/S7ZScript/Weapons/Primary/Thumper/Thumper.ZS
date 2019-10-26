@@ -53,6 +53,11 @@ class S7_ThumperMag : Ammo { // This isn't actually used by the weapon. It's jus
 // No more GROSS HACKS! Yay!
 class S7_Thumper : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Thumper" 50mm Grenade Launcher"
+        //$NotAngled
+
         Tag "$THUMPER";
         Inventory.PickupMessage "$THUMPER";
         Inventory.PickupSound "Weapons/Pickup/Medium";

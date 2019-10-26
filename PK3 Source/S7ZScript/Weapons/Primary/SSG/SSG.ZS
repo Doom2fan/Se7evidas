@@ -34,6 +34,11 @@ class S7_SSGFauxClip : Ammo {
 
 class S7_SSG : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title "12ga Double-barrel Shotgun"
+        //$NotAngled
+
         Tag "$SSG";
         Inventory.PickupMessage "$SSG";
         Inventory.PickupSound "Weapons/Pickup/Medium";

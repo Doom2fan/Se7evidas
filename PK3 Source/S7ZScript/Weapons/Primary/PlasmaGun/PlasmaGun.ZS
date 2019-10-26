@@ -32,6 +32,11 @@ class S7_PlasmaGunMag : Ammo {
 
 class S7_PlasmaGun : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title "Prototype Plasma Machinegun"
+        //$NotAngled
+
         Tag "$PLASMAGUN";
         Inventory.PickupMessage "$PLASMAGUN";
         Inventory.PickupSound "Weapons/Pickup/Medium";

@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_Infernal : S7_MonsterBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Infernal"
+        //$Angled
+
         Radius 31;
         Height 56;
         Mass 400;

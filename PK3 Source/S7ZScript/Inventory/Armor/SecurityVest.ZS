@@ -103,6 +103,11 @@ class S7_CCSecVestData : S7_ArmorData {
 
 class S7_CCSecVest : S7_BasicArmorPickup {
     default {
+        //$Category "Se7evidas/Armour"
+        //$Color 1
+        //$Title "Cronus Corp. Security Vest"
+        //$NotAngled
+
         Radius 20;
         Height 16;
         Armor.SaveAmount 100;
@@ -212,6 +217,11 @@ class S7_SBTKSecVestData : S7_ArmorData {
 
 class S7_SBTKSecVest : S7_BasicArmorPickup {
     default {
+        //$Category "Se7evidas/Armour"
+        //$Color 1
+        //$Title "Sigma BTK Security Vest"
+        //$NotAngled
+
         Radius 20;
         Height 16;
         Armor.SaveAmount 100;

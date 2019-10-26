@@ -39,6 +39,11 @@ class S7_M400AutogunStored : Inventory {
     property ScanAngle: scanAngle;
 
     default {
+        //$Category "Se7evidas/Inventory"
+        //$Color 13
+        //$Title "M-400 Autogun (Stored)"
+        //$NotAngled
+
         Inventory.Amount 1;
         Inventory.MaxAmount 1;
         Inventory.Icon "graphics/Inventory/TurretIcon.png";

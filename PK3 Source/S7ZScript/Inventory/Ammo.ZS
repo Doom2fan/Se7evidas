@@ -29,8 +29,13 @@ class S7_BackpackToken : Ammo {
         -INVENTORY.INVBAR
     }
 }
-class S7_Backpack : Inventory replaces Backpack {
+class S7_Backpack : Inventory {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Backpack"
+        //$NotAngled
+
         Height 26;
 
         Tag "$BACKPACK";
@@ -105,6 +110,11 @@ class S7_Backpack : Inventory replaces Backpack {
 
 class S7_BackpackNoAmmo : Inventory {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Empty Backpack"
+        //$NotAngled
+
         Height 26;
 
         Tag "$EMPTBACKPACK";
@@ -146,6 +156,11 @@ class S7_BackpackNoAmmo : Inventory {
 //-------------------------------------------------------------------------------------------
 class S7_9mmCartridges : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "9mm Magazine"
+        //$NotAngled
+
         Tag "$9MM";
         Inventory.PickupMessage "$9MMMAG";
         Inventory.Amount 15;
@@ -168,6 +183,11 @@ class S7_9mmCartridges : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_45ACPCartridges : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title ".45 ACP Drum Mag"
+        //$NotAngled
+
         Tag "$45ACP";
         Inventory.PickupMessage "$45ACP_DRUMMAG";
         Inventory.Amount 62;
@@ -190,11 +210,16 @@ class S7_45ACPCartridges : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_44MCartridges : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title ".44 Magnum Speedloader"
+        //$NotAngled
+
         Tag "$44M";
         Inventory.PickupMessage "$44M_SPEEDLOADER";
         Inventory.Amount 6;
         Inventory.MaxAmount 36;
-        //Inventory.Icon "44MP0";
+        //Inventory.Icon "44MPA0";
         Inventory.PickupSound "misc/ammopickup";
     }
 
@@ -212,6 +237,11 @@ class S7_44MCartridges : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_762x39Cartridges : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "7.62x39mm Magazine"
+        //$NotAngled
+
         Tag "$762X39";
         Inventory.PickupMessage "$762X39_MAG";
         Inventory.Amount 35;
@@ -234,6 +264,11 @@ class S7_762x39Cartridges : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_45WWCartridges : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title ".45 WW Magazine"
+        //$NotAngled
+
         Tag "$45WW";
         Inventory.PickupMessage "$45WW_PACK";
         Inventory.Amount 15;
@@ -256,6 +291,11 @@ class S7_45WWCartridges : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_20gaShells : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Bandolier of 20ga Shells"
+        //$NotAngled
+
         Tag "$20GA";
         Inventory.PickupMessage "$20GA_BANDOLIER";
         Inventory.Amount 10;
@@ -312,6 +352,11 @@ class S7_20gaShells : Ammo {
 
 class S7_20gaShellsSmall : S7_20gaShells {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "20ga Shells"
+        //$NotAngled
+
         Inventory.PickupMessage "$20GASMALL";
         Inventory.Amount 4;
     }
@@ -330,6 +375,11 @@ class S7_20gaShellsSmall : S7_20gaShells {
 //-------------------------------------------------------------------------------------------
 class S7_12gaShells : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Box of 12ga Shells"
+        //$NotAngled
+
         Tag "$12GA";
         Inventory.PickupMessage "$12GA_BOX";
         Inventory.Amount 6;
@@ -386,6 +436,11 @@ class S7_12gaShells : Ammo {
 
 class S7_12gaShellsSmall : S7_12gaShells {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "12ga Shells"
+        //$NotAngled
+
         Inventory.PickupMessage "$12GASMALL";
         Inventory.Amount 3;
     }
@@ -404,6 +459,11 @@ class S7_12gaShellsSmall : S7_12gaShells {
 //-------------------------------------------------------------------------------------------
 class S7_Cells : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Type A Energy Cells"
+        //$NotAngled
+
         Tag "$CELLS";
         Inventory.PickupMessage "$CELLS";
         Inventory.Amount 18;
@@ -426,6 +486,11 @@ class S7_Cells : Ammo {
 //-------------------------------------------------------------------------------------------
 class S7_FBSysCells : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Firebrand Systems Energy Cell"
+        //$NotAngled
+
         Tag "$FBSYSCELLS";
         Inventory.PickupMessage "$FBSYSCELLS";
         Inventory.Amount 32;
@@ -443,6 +508,11 @@ class S7_FBSysCells : Ammo {
 
 class S7_FBSysCellPack : S7_FBSysCells {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Pack of Firebrand Systems Energy Cells"
+        //$NotAngled
+
         Tag "$FBSYSCELLPACK";
         Inventory.PickupMessage "$FBSYSCELLPACK";
         Inventory.Amount 64;
@@ -463,6 +533,11 @@ class S7_FBSysCellPack : S7_FBSysCells {
 //-------------------------------------------------------------------------------------------
 class S7_AntimatterShells : Ammo {
     default {
+        //$Category "Se7evidas/Ammunition"
+        //$Color 6
+        //$Title "Antimatter Shell"
+        //$NotAngled
+
         Tag "$ANTISHELLS";
         Inventory.PickupMessage "$ANTISHELLS";
         Inventory.Amount 1;
@@ -471,11 +546,11 @@ class S7_AntimatterShells : Ammo {
         Inventory.PickupSound "misc/ammopickup";
     }
 
-    states {
+    /*states {
     Spawn:
         ANSH A -1;
         stop;
-    }
+    }*/
 }
 
 //-------------------------------------------------------------------------------------------

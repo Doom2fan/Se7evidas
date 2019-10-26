@@ -32,6 +32,11 @@ class S7_ManxCarbineClip : Ammo {
 
 class S7_ManxCarbine : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Manx" 9mm Carbine"
+        //$NotAngled
+
         Tag "$MANXCARBINE";
         Inventory.PickupMessage "$MANXCARBINE";
         Inventory.PickupSound "Weapons/Pickup/Small";

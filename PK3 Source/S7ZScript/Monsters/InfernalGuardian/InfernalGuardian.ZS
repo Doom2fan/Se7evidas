@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_InfernalGuardian : S7_HellNobleBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Infernal Guardian"
+        //$Angled
+
         Health 1500;
         GibHealth -750;
         Speed 8;

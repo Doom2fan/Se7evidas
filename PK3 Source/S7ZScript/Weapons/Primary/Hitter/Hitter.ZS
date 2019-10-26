@@ -32,6 +32,11 @@ class S7_HitterSMGClip : Ammo {
 
 class S7_HitterSMG : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Hitter" .45 ACP SMG"
+        //$NotAngled
+
         Tag "$HITTERSMG";
         Inventory.PickupMessage "HITTERSMG";
         Inventory.PickupSound "Weapons/Pickup/Small";

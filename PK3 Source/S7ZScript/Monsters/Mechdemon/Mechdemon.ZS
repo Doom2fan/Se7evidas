@@ -25,6 +25,11 @@ class S7_Mechdemon : S7_DemonBase {
     const S7_ChargeSpeed = 25;
 
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Mechdemon"
+        //$Angled
+
         Health 150;
         GibHealth -75;
         PainChance 180;

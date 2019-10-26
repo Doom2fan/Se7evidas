@@ -32,6 +32,11 @@ class S7_ConquerorRifleClip : Ammo {
 
 class S7_ConquerorRifle : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Conqueror" .45WW Sniper Rifle"
+        //$NotAngled
+
         Tag "$CONQUERORSRIFLE";
         Inventory.PickupMessage "$CONQUERORSRIFLE";
         Inventory.PickupSound "Weapons/Pickup/Medium";

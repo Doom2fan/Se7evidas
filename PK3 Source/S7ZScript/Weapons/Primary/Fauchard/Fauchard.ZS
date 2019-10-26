@@ -32,6 +32,11 @@ class S7_FauchardMag : Ammo {
 
 class S7_Fauchard : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Fauchard" Laser Rifle"
+        //$NotAngled
+
         Tag "$FAUCHARD";
         Inventory.PickupMessage "$FAUCHARD";
         Inventory.PickupSound "Weapons/Pickup/Medium";

@@ -18,6 +18,11 @@
 
 class S7_ManxScope : Inventory {
     default {
+        //$Category "Se7evidas/Weapon modifications"
+        //$Color 19
+        //$Title "Manx Carbine Scope"
+        //$NotAngled
+
         Inventory.MaxAmount 50;
         Inventory.Icon "WMODA0";
 
@@ -47,6 +52,11 @@ class S7_ManxScope : Inventory {
 
 class S7_ManxSuppressor : Inventory {
     default {
+        //$Category "Se7evidas/Weapon modifications"
+        //$Color 19
+        //$Title "Manx Carbine Suppressor"
+        //$NotAngled
+
         Inventory.MaxAmount 50;
         Inventory.Icon "WMODB0";
 
@@ -76,6 +86,11 @@ class S7_ManxSuppressor : Inventory {
 
 class S7_TEC9Suppressor : Inventory {
     default {
+        //$Category "Se7evidas/Weapon modifications"
+        //$Color 19
+        //$Title "Kronos SMG Supressor"
+        //$NotAngled
+
         Inventory.MaxAmount 50;
         Inventory.Icon "WMODC0";
 

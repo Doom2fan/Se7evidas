@@ -32,6 +32,11 @@ class S7_PrettyShootyIonCannonGunMag : Ammo {
 
 class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Mjolnir" Ion Cannon"
+        //$NotAngled
+
         Tag "$IONCANNON";
         Inventory.PickupMessage "$IONCANNON";
         Inventory.PickupSound "Weapons/Pickup/Medium";

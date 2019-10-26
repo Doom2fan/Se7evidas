@@ -29,6 +29,11 @@ class S7_ManxCarbineTracerEnemy : S7_ManxCarbineTracer {
 }
 class S7_ScorpsTrooper : S7_ScorpBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Shadow Corps. Trooper"
+        //$Angled
+
         Health 30;
         GibHealth -15;
         PainChance 200;

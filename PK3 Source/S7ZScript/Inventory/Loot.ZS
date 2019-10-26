@@ -59,6 +59,11 @@ class S7_LootItem : Inventory {
 //-------------------------------------------------------------------------------------------
 class S7_Thumper_Used : S7_LootItem {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Used thumper grenade"
+        //$Angled
+
         S7_LootItem.BlocksUsed 2;
 
         Inventory.Amount 1;
@@ -83,6 +88,11 @@ class S7_Thumper_Used : S7_LootItem {
 // Sprite credits: Amuscaria/Eriance
 class S7_Loot_ScorpsHunterSG : S7_LootItem {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Shadow Corps Hunter SG"
+        //$NotAngled
+
         S7_LootItem.BlocksUsed 15;
 
         Inventory.Amount 1;
@@ -149,6 +159,11 @@ class S7_Loot_ScorpsHunterSG : S7_LootItem {
 // Sprite credits: Id Software
 class S7_Loot_SkullSceptre : S7_LootItem {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Skull Sceptre"
+        //$NotAngled
+
         S7_LootItem.BlocksUsed 10;
 
         Inventory.Amount 1;
@@ -168,6 +183,11 @@ class S7_Loot_SkullSceptre : S7_LootItem {
 // Sprite credits: Id Software
 class S7_Loot_SacrificialDagger : S7_LootItem {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Sacrificial Dagger"
+        //$NotAngled
+
         S7_LootItem.BlocksUsed 6;
 
         Inventory.Amount 1;
@@ -187,6 +207,11 @@ class S7_Loot_SacrificialDagger : S7_LootItem {
 // Sprite credits: Id Software
 class S7_Loot_BloodChalice : S7_LootItem {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Blood Chalice"
+        //$NotAngled
+
         S7_LootItem.BlocksUsed 4;
 
         Inventory.Amount 1;
@@ -211,6 +236,11 @@ class S7_Loot_BloodChalice : S7_LootItem {
 // Sprite credits: Id Software
 class S7_Loot_GoldChest : S7_LootItem {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Gold Chest"
+        //$NotAngled
+
         S7_LootItem.BlocksUsed 25;
 
         Inventory.Amount 1;
@@ -235,6 +265,11 @@ class S7_Loot_GoldChest : S7_LootItem {
 // Sprite credits: amv2k9
 class S7_Loot_CreditsBriefcase10K : Inventory {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Credits Briefcase (10k)"
+        //$NotAngled
+
         Inventory.Amount 10000;
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$LOOT_CREDITSCASE_10K";
@@ -276,6 +311,11 @@ class S7_Loot_CreditsBriefcase10K : Inventory {
 
 class S7_Loot_CreditsBriefcase5K : S7_Loot_CreditsBriefcase10K {
     default {
+        //$Category "Se7evidas/Loot"
+        //$Color 17
+        //$Title "Credits Briefcase (5k)"
+        //$NotAngled
+
         Inventory.Amount 5000;
         Inventory.PickupMessage "$LOOT_CREDITSCASE_5K";
         Scale 0.65;

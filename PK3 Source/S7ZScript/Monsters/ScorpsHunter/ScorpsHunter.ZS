@@ -31,6 +31,11 @@ class S7_ScorpsHunterTracer : S7_SSGTracer {
 }
 class S7_ScorpsHunter : S7_ScorpBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Shadow Corps. Hunter"
+        //$Angled
+
         Health 45;
         GibHealth -22;
         PainChance 200;

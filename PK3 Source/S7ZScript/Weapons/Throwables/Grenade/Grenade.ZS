@@ -24,6 +24,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_GrenadeCount : Ammo {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title "Grenade"
+        //$NotAngled
+
         Inventory.PickupMessage "$GRENADE_PICKUP";
         Inventory.PickupSound "Weapons/Grenade/Pickup";
 
@@ -43,6 +48,11 @@ class S7_GrenadeCount : Ammo {
 }
 class S7_GrenadeBox : S7_GrenadeCount {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title "Box of Grenades"
+        //$NotAngled
+
         Inventory.PickupMessage "$GRENADEBOX_PICKUP";
         Inventory.PickupSound "";
 

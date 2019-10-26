@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_BlackPanther : S7_HellNobleBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Black Panther"
+        //$Angled
+
         Health 750;
         Speed 8;
         PainChance 50;

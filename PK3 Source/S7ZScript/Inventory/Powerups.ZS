@@ -29,6 +29,11 @@ class S7_HeartSphere : Inventory { // I am not good at naming things
     property MaxHealFactor: maxHealFactor;
 
     default {
+        //$Category "Se7evidas/Powerups"
+        //$Color 9
+        //$Title "Life Essence"
+        //$NotAngled
+
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$HEARTSPHERE_PICKUP";
         S7_HeartSphere.MaxHealFactor 1.5;
@@ -85,6 +90,11 @@ class S7_HeartSphere : Inventory { // I am not good at naming things
 */
 class S7_SoulSphere : S7_HeartSphere {
     default {
+        //$Category "Se7evidas/Powerups"
+        //$Color 9
+        //$Title "Soulsphere"
+        //$NotAngled
+
         Inventory.PickupMessage "$SOULSPHERE_PICKUP";
         S7_HeartSphere.MaxHealFactor 2.;
     }
@@ -152,6 +162,11 @@ class S7_DemonEyes_Power : PowerLightAmp {
 
 class S7_DemonEyes : PowerupGiver {
     default {
+        //$Category "Se7evidas/Powerups"
+        //$Color 9
+        //$Title "Demon Eyes"
+        //$NotAngled
+
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$DEMONEYES_PICKUP";
         Powerup.Type "S7_DemonEyes_Power";
@@ -173,6 +188,11 @@ class S7_DemonEyes : PowerupGiver {
 //-------------------------------------------------------------------------------------------
 class S7_MapPowerup : MapRevealer {
     default {
+        //$Category "Se7evidas/Powerups"
+        //$Color 9
+        //$Title "Area-mapping computer"
+        //$NotAngled
+
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$MAP_PICKUP";
         Scale 0.5;
@@ -206,6 +226,11 @@ class S7_BiospherePower : PowerIronFeet {
 
 class S7_Biosphere : PowerupGiver {
     default {
+        //$Category "Se7evidas/Powerups"
+        //$Color 9
+        //$Title "Hazard Protection Sigil"
+        //$NotAngled
+
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$BIOSPHERE_PICKUP";
         Powerup.Type 'S7_BiospherePower';
@@ -268,6 +293,11 @@ class S7_Invisibility_Power : PowerInvisibility {
 
 class S7_Invisibility : PowerupGiver {
     default {
+        //$Category "Se7evidas/Powerups"
+        //$Color 9
+        //$Title "Shadowsphere"
+        //$NotAngled
+
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$INVISIBILITY_PICKUP";
         Powerup.Type 'S7_Invisibility_Power';

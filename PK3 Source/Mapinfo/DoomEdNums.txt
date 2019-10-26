@@ -16,6 +16,9 @@ doomEdNums {
     //30011 = S7_AntimatterGun
     30012 = S7_AK47
     //30013 = S7_IWSL5
+    30014 = S7_CaesarChaingun
+    30015 = S7_GrenadeCount
+    30016 = S7_GrenadeBox
 
     // Ammo
     31000 = S7_9mmCartridges
@@ -29,23 +32,57 @@ doomEdNums {
     31008 = S7_FBSysCells
     31009 = S7_12gaShells
     31010 = S7_45WWCartridges
-    31011 = S7_AntimatterShells
+    //31011 = S7_AntimatterShells
+    31012 = S7_FBSysCellPack
+    31013 = S7_20gaShellsSmall
+    31014 = S7_12gaShellsSmall
 
     // Inventory
-    32001 = S7_Medikit
-    32002 = S7_Stimpack
-    32003 = S7_Canteen
-    32004 = S7_Thumper_Used
-    //32005 = S7_BerserkPickup
+    32000 = S7_Medikit
+    32001 = S7_Stimpack
+    32002 = S7_ManxScope
+    32003 = S7_ManxSuppressor
+    32004 = S7_TEC9Suppressor
+    32005 = S7_HeartSphere
+    32006 = S7_SoulSphere
+    32007 = S7_DemonEyes
+    32008 = S7_MapPowerup
+    32009 = S7_Biosphere
+    32010 = S7_Invisibility
+    32011 = S7_InvulnerabilityType1
+    32012 = S7_InvulnerabilityType2
+    32013 = S7_CanteenRefill
+    32014 = S7_FlashlightBattery
+    32015 = S7_Berserk
+    32016 = S7_ArmorBonus
+    32017 = S7_LargeArmorBonus
+    32018 = S7_CCSecVest
+    32019 = S7_SBTKSecVest
+    32020 = S7_CCCombatArmor
+    32021 = S7_SBTKCombatArmor
+    32022 = S7_M400AutogunStored
+    32023 = S7_Thumper_Used
+    32024 = S7_Loot_ScorpsHunterSG
+    32025 = S7_Loot_SkullSceptre
+    32026 = S7_Loot_SacrificialDagger
+    32027 = S7_Loot_BloodChalice
+    32028 = S7_Loot_GoldChest
+    32029 = S7_Loot_CreditsBriefcase5K
+    32030 = S7_Loot_CreditsBriefcase10K
 
     // Monsters
-    32500 = S7_Empress
-    32501 = S7_BlackPanther
-    32502 = S7_FatFuck
-    //32503 =
-    32504 = S7_Hellion
-    32505 = S7_ScorpsTrooper
-    32506 = S7_Succubus
-    32507 = S7_Terminator
-    32508 = S7_ScorpsEnforcer
+    32500 = S7_ScorpsTrooper
+    32501 = S7_ScorpsHunter
+    32502 = S7_ScorpsEnforcer
+    32503 = S7_Hellion
+    32504 = S7_DemonDog
+    32505 = S7_Mechdemon
+    32506 = S7_ShadowDemon
+    32507 = S7_FleshSpawn
+    32508 = S7_Infernal
+    //32509 = S7_FatFuck
+    32510 = S7_BlackPanther
+    32511 = S7_InfernalGuardian
+    32512 = S7_Empress
+    //32513 = Mastermind Replacement
 }

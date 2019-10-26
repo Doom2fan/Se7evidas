@@ -32,6 +32,11 @@ class S7_CaesarChaingunMag : Ammo {
 
 class S7_CaesarChaingun : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Caesar" .45WW Chaingun"
+        //$NotAngled
+
         Tag "$CAESARCHAINGUN";
         Inventory.PickupMessage "$CAESARCHAINGUN";
         Inventory.PickupSound "Weapons/Pickup/Medium";

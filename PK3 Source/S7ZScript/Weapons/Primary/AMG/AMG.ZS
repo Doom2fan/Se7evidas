@@ -32,6 +32,11 @@ class S7_AMGMag : Ammo {
 
 class S7_AMG : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Mars" 7.62x39mm Assault Rifle"
+        //$NotAngled
+
         Tag "$AMG";
         Inventory.PickupMessage "$AMG";
         Inventory.PickupSound "Weapons/Pickup/Medium";

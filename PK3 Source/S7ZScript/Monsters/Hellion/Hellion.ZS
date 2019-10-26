@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_Hellion : S7_DemonBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Hellion"
+        //$Angled
+
         Health 75;
         GibHealth -30;
         Radius 20;

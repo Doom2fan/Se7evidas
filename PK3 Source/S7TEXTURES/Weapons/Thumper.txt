@@ -37,18 +37,3 @@ sprite "THMPH0", 154, 82 {
     offset -193, -86
     patch "graphics/Weapons/Thumper/Frame8.png", 0, 0
 }
-
-sprite "THGRB1", 8, 8 {
-    offset 4, 3
-    patch "sprites/Weapons/Primary/Thumper/THGRA1.png", 0, 0
-}
-
-sprite "THGRB2B8", 16, 8 {
-    offset 8, 3
-    patch "sprites/Weapons/Primary/Thumper/THGRA2A8.png", 0, 0
-}
-
-sprite "THGRB3B7", 20, 8 {
-    offset 10, 3
-    patch "sprites/Weapons/Primary/Thumper/THGRA3A7.png", 0, 0
-}

@@ -40,6 +40,11 @@ class S7_LaserPewPewClipSecond : Ammo {
 
 class S7_LaserPewPew : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Butterfly" Laser SMG"
+        //$NotAngled
+
         Tag "$BUTTFLY";
 
         Inventory.PickupMessage "$BUTTFLY";

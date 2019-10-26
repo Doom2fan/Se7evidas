@@ -25,6 +25,11 @@ class S7_FleshSpawn : S7_MonsterBase {
     const FS_ChargeSpeed = 25;
 
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Tick"
+        //$Angled
+
         Health 150;
         GibHealth -75;
         Speed 10;

@@ -32,6 +32,11 @@ class S7_ShotgunMag : Ammo {
 
 class S7_Shotgun : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title ""Lucifer" 20ga Combat Shotgun"
+        //$NotAngled
+
         Tag "$SHOTGUN";
         Inventory.PickupMessage "$SHOTGUN";
         Inventory.PickupSound "Weapons/Pickup/Medium";

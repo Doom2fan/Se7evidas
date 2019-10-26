@@ -151,6 +151,11 @@ class S7_CCCombatArmorData : S7_ArmorData {
 
 class S7_CCCombatArmor : S7_BasicArmorPickup {
     default {
+        //$Category "Se7evidas/Armour"
+        //$Color 1
+        //$Title "Cronus Corp. Combat Armour"
+        //$NotAngled
+
         Radius 20;
         Height 16;
         Armor.SaveAmount 200;
@@ -251,6 +256,11 @@ class S7_SBTKCombatArmorData : S7_CCCombatArmorData {
 
 class S7_SBTKCombatArmor : S7_BasicArmorPickup {
     default {
+        //$Category "Se7evidas/Armour"
+        //$Color 1
+        //$Title "Sigma BTK Combat Armour"
+        //$NotAngled
+
         Radius 20;
         Height 16;
         Armor.SaveAmount 200;

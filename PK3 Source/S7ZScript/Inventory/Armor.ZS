@@ -27,6 +27,11 @@
 */
 class S7_ArmorBonus : Inventory {
     default {
+        //$Category "Se7evidas/Armour"
+        //$Color 1
+        //$Title "Enchanted Helmet"
+        //$NotAngled
+
         Inventory.Amount 4;
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$S7_ARMORBONUS";
@@ -69,6 +74,11 @@ class S7_ArmorBonus : Inventory {
 */
 class S7_LargeArmorBonus : S7_ArmorBonus {
     default {
+        //$Category "Se7evidas/Armour"
+        //$Color 1
+        //$Title "Enchanted Horned Helmet"
+        //$NotAngled
+
         Inventory.Amount 7;
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$S7_LARGEARMORBONUS";

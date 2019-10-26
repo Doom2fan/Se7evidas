@@ -28,6 +28,11 @@
 
 class S7_Berserk : Inventory {
     default {
+        //$Category "Se7evidas/Inventory"
+        //$Color 13
+        //$Title "XS-22 Emergency Stimulant Cocktail"
+        //$NotAngled
+
         Tag "$XS22ESC";
         Inventory.Icon "BSRKA0";
         Inventory.PickupMessage "$XS22ESC";

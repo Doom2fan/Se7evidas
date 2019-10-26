@@ -27,6 +27,11 @@ const S7_EmpressMass = 12000;
 /** Main actor **/
 class S7_Empress : S7_DemonBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Empress"
+        //$Angled
+
         Health 4500;
         Radius 40;
         Height 100;

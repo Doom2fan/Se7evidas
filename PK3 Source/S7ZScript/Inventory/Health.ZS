@@ -218,6 +218,11 @@ class S7_HealWeapItem : Inventory {
 */
 class S7_Medikit : S7_HealWeapItem {
     default {
+        //$Category "Se7evidas/Health"
+        //$Color 1
+        //$Title "Medikit"
+        //$NotAngled
+
         Tag "$MEDIKIT";
 
         S7_HealWeapItem.HealWeap 'S7_MedikitApplicator';
@@ -299,6 +304,11 @@ class S7_MedikitApplicator : S7_HealWeap {
 */
 class S7_Stimpack : S7_HealWeapItem {
     default {
+        //$Category "Se7evidas/Health"
+        //$Color 1
+        //$Title "Stimpack"
+        //$NotAngled
+
         Tag "$STIMPACK";
 
         S7_HealWeapItem.HealWeap 'S7_StimpackApplicator';
@@ -417,12 +427,6 @@ class S7_Canteen : Inventory {
 
         return false;
     }
-
-    states {
-    Spawn:
-        CANT A -1;
-        stop;
-    }
 }
 
 /* Credits:
@@ -430,6 +434,11 @@ class S7_Canteen : Inventory {
 */
 class S7_CanteenRefill : Inventory {
     default {
+        //$Category "Se7evidas/Health"
+        //$Color 1
+        //$Title "Canteen Refill"
+        //$NotAngled
+
         Inventory.Amount 5;
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$GOTHTHBONUS";

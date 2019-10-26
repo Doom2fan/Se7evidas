@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_FatFuck : S7_DemonBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Corpulent"
+        //$Angled
+
         Health 900;
         Radius 48;
         Height 64;

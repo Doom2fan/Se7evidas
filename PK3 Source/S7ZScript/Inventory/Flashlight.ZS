@@ -24,6 +24,11 @@
 */
 class S7_FlashlightBattery : Inventory {
     default {
+        //$Category "Se7evidas/Inventory"
+        //$Color 13
+        //$Title "Flashlight Battery"
+        //$NotAngled
+
         Tag "$FLASHLIGHT_BATTERY";
 
         Inventory.MaxAmount 4;

@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_Succubus : S7_SuccubusBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Succubus"
+        //$Angled
+
         Health 350;
         Speed 8;
         PainChance 90;

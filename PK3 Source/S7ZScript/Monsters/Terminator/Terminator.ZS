@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_Terminator : S7_DemonBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Terminator"
+        //$Angled
+
         Health 5000;
         Radius 24;
         Height 64;

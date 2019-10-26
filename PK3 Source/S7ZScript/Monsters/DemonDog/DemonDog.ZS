@@ -23,6 +23,11 @@
 //-------------------------------------------------------------------------------------------
 class S7_DemonDog : S7_DemonBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Hellhound"
+        //$Angled
+
         Health 80;
         GibHealth -40;
         PainChance 180;

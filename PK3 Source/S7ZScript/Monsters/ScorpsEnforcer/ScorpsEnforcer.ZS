@@ -30,6 +30,11 @@ class S7_ScorpsEnforcerTracer : S7_BulletTracer {
 }
 class S7_ScorpsEnforcer : S7_ScorpBase {
     default {
+        //$Category "Se7evidas/Monsters"
+        //$Color 12
+        //$Title "Shadow Corps. Enforcer"
+        //$Angled
+
         Health 105;
         GibHealth -15;
         PainChance 200;

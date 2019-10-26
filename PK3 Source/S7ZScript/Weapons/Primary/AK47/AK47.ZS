@@ -32,6 +32,11 @@ class S7_AK47Clip : Ammo {
 
 class S7_AK47 : S7_BaseWeapon {
     default {
+        //$Category "Se7evidas/Weapons"
+        //$Color 14
+        //$Title "AK-47 (7.62x39mm)"
+        //$NotAngled
+
         Tag "$AK47";
         Inventory.PickupMessage "$AK47";
         Inventory.PickupSound "Weapons/Pickup/Medium";
