@@ -33,7 +33,7 @@ class S7_BaseStatusbar : BaseStatusBar {
     protected void DrawLine (Vector2 origin, Vector2 p1, Vector2 p2, Color lineColor, double thickness = -1, Vector2 scale = (1, 1), double alpha = 1., int flags = 0) {
         if (alpha <= 0)
             return;
-        if (thickness == 0)
+        if (thickness ~== 0)
             return;
 
         Vector2 box = (abs (p2.X - p1.X) * scale.X, abs (p2.Y - p1.Y) * scale.Y);
@@ -97,7 +97,7 @@ class S7_BaseStatusbar : BaseStatusBar {
             origin += org;
         }
 
-        if (thickness != -1)
+        if (!(thickness ~== -1))
             Screen.DrawThickLine (int (origin.X + p1.X), int (origin.Y + p1.Y), int (origin.X + p2.X), int (origin.Y + p2.Y), thickness, lineColor, int (alpha * 255));
         else
             Screen.DrawLine (int (origin.X + p1.X), int (origin.Y + p1.Y), int (origin.X + p2.X), int (origin.Y + p2.Y), lineColor, int (alpha * 255));
