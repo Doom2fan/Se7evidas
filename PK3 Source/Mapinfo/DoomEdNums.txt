@@ -1,5 +1,4 @@
 // 30011 and 30013 are commmented out because those weapons aren't in the main PK3 yet.
-// 32503 is commented out because it seems I accidentally skipped that monsters slot.
 doomEdNums {
     // Weapons
     30000 = S7_Shotgun
@@ -21,68 +20,68 @@ doomEdNums {
     30016 = S7_GrenadeBox
 
     // Ammo
-    31000 = S7_9mmCartridges
-    31001 = S7_44MCartridges
-    31002 = S7_762x39Cartridges
-    31003 = S7_20gaShells
-    31004 = S7_Cells
-    31005 = S7_45ACPCartridges
-    31006 = S7_Backpack
-    31007 = S7_BackpackNoAmmo
-    31008 = S7_FBSysCells
-    31009 = S7_12gaShells
-    31010 = S7_45WWCartridges
-    //31011 = S7_AntimatterShells
-    31012 = S7_FBSysCellPack
-    31013 = S7_20gaShellsSmall
-    31014 = S7_12gaShellsSmall
+    30200 = S7_9mmCartridges
+    30201 = S7_44MCartridges
+    30202 = S7_762x39Cartridges
+    30203 = S7_20gaShells
+    30204 = S7_Cells
+    30205 = S7_45ACPCartridges
+    30206 = S7_Backpack
+    30207 = S7_BackpackNoAmmo
+    30208 = S7_FBSysCells
+    30209 = S7_12gaShells
+    30210 = S7_45WWCartridges
+    //30211 = S7_AntimatterShells
+    30212 = S7_FBSysCellPack
+    30213 = S7_20gaShellsSmall
+    30214 = S7_12gaShellsSmall
 
     // Inventory
-    32000 = S7_Medikit
-    32001 = S7_Stimpack
-    32002 = S7_ManxScope
-    32003 = S7_ManxSuppressor
-    32004 = S7_TEC9Suppressor
-    32005 = S7_HeartSphere
-    32006 = S7_SoulSphere
-    32007 = S7_DemonEyes
-    32008 = S7_MapPowerup
-    32009 = S7_Biosphere
-    32010 = S7_Invisibility
-    32011 = S7_InvulnerabilityType1
-    32012 = S7_InvulnerabilityType2
-    32013 = S7_CanteenRefill
-    32014 = S7_FlashlightBattery
-    32015 = S7_Berserk
-    32016 = S7_ArmorBonus
-    32017 = S7_LargeArmorBonus
-    32018 = S7_CCSecVest
-    32019 = S7_SBTKSecVest
-    32020 = S7_CCCombatArmor
-    32021 = S7_SBTKCombatArmor
-    32022 = S7_M400AutogunStored
-    32023 = S7_Thumper_Used
-    32024 = S7_Loot_ScorpsHunterSG
-    32025 = S7_Loot_SkullSceptre
-    32026 = S7_Loot_SacrificialDagger
-    32027 = S7_Loot_BloodChalice
-    32028 = S7_Loot_GoldChest
-    32029 = S7_Loot_CreditsBriefcase5K
-    32030 = S7_Loot_CreditsBriefcase10K
+    30400 = S7_Medikit
+    30401 = S7_Stimpack
+    30402 = S7_ManxScope
+    30403 = S7_ManxSuppressor
+    30404 = S7_TEC9Suppressor
+    30405 = S7_HeartSphere
+    30406 = S7_SoulSphere
+    30407 = S7_DemonEyes
+    30408 = S7_MapPowerup
+    30409 = S7_Biosphere
+    30410 = S7_Invisibility
+    30411 = S7_InvulnerabilityType1
+    30412 = S7_InvulnerabilityType2
+    30413 = S7_CanteenRefill
+    30414 = S7_FlashlightBattery
+    30415 = S7_Berserk
+    30416 = S7_ArmorBonus
+    30417 = S7_LargeArmorBonus
+    30418 = S7_CCSecVest
+    30419 = S7_SBTKSecVest
+    30420 = S7_CCCombatArmor
+    30421 = S7_SBTKCombatArmor
+    30422 = S7_M400AutogunStored
+    30423 = S7_Thumper_Used
+    30424 = S7_Loot_ScorpsHunterSG
+    30425 = S7_Loot_SkullSceptre
+    30426 = S7_Loot_SacrificialDagger
+    30427 = S7_Loot_BloodChalice
+    30428 = S7_Loot_GoldChest
+    30429 = S7_Loot_CreditsBriefcase5K
+    30430 = S7_Loot_CreditsBriefcase10K
 
     // Monsters
-    32500 = S7_ScorpsTrooper
-    32501 = S7_ScorpsHunter
-    32502 = S7_ScorpsEnforcer
-    32503 = S7_Hellion
-    32504 = S7_DemonDog
-    32505 = S7_Mechdemon
-    32506 = S7_ShadowDemon
-    32507 = S7_FleshSpawn
-    32508 = S7_Infernal
-    //32509 = S7_FatFuck
-    32510 = S7_BlackPanther
-    32511 = S7_InfernalGuardian
-    32512 = S7_Empress
-    //32513 = Mastermind Replacement
+    30700 = S7_ScorpsTrooper
+    30701 = S7_ScorpsHunter
+    30702 = S7_ScorpsEnforcer
+    30703 = S7_Hellion
+    30704 = S7_DemonDog
+    30705 = S7_Mechdemon
+    30706 = S7_ShadowDemon
+    30707 = S7_FleshSpawn
+    30708 = S7_Infernal
+    //30709 = S7_FatFuck
+    30710 = S7_BlackPanther
+    30711 = S7_InfernalGuardian
+    30712 = S7_Empress
+    //30713 = Mastermind Replacement
 }
