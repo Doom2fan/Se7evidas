@@ -56,7 +56,9 @@ class S7_InfantryPlayer : S7_BasePlayer {
         player.PendingWeapon = raptor;
     }
 
-    // Currently uses Scout sprites, as I haven't made any sprites for this class yet
+    /* Credits
+     * Sprites: Megaherz, Chronos "phantombeta" Ouroboros
+    */
     states {
     Spawn:
         PINF AAAA 1;

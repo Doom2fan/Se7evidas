@@ -58,6 +58,9 @@ class S7_ScoutPlayer : S7_BasePlayer {
         player.PendingWeapon = tec9;
     }
 
+    /* Credits
+     * Sprites: Rogue Entertainment, Chronos "phantombeta" Ouroboros
+    */
     states {
     Spawn:
         PSCT AAAA 1;

@@ -17,6 +17,7 @@
 */
 
 /* Casing sprites by Captain J. Edited by Chronos "phantombeta" Ouroboros
+** Unfired .45WW casing sprites by Captain J and Chronos "phantombeta" Ouroboros
 ** Usage:
 **  Weapons:  A_FireCustomMissile ('<Casing spawner actor>', 0, 0, <int xPos>, <float yPos>)
 **  Monsters: A_SpawnProjectile ('<Casing spawner actor>', <float yPos/zPos>, <int xPos>, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0)

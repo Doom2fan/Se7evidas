@@ -223,6 +223,7 @@ class S7_44MCartridges : Ammo {
         Inventory.PickupSound "misc/ammopickup";
     }
 
+    /** Sprites by potetobloke **/
     states {
     Spawn:
         44MP A -1;

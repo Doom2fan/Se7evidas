@@ -40,6 +40,9 @@ extend class S7_MapEventThinker {
     }
 }
 
+/* Credits
+ * Sprites: Chronos "phantombeta" Ouroboros
+*/
 class S7_MEATW_Eyes : S7_EffectsBase {
     default {
         Scale 0.1;

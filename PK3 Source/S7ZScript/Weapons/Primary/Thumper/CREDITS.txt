@@ -1,8 +1,7 @@
 Coding: Chronos "phantombeta" Ouroboros
 
 Sprites:
-    HUD Sprites: ID Software, Captain J
-    Pickup Sprites: Eriance, DoomNukem, Chronos "phantombeta" Ouroboros
+    HUD and Pickup Sprites: Neccronixis, Chronos "phantombeta" Ouroboros
     Grenade Sprites: Credits in Grenades.ZS
     Animation: Chronos "phantombeta" Ouroboros
 

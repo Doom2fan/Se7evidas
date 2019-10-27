@@ -16,6 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Credits:
+ * Sprites by DoomNukem and Chronos "phantombeta" Ouroboros.
+*/
 class S7_ManxScope : Inventory {
     default {
         //$Category "Se7evidas/Weapon modifications"
@@ -50,6 +53,9 @@ class S7_ManxScope : Inventory {
     }
 }
 
+/* Credits:
+ * Sprites by Vostyok.
+*/
 class S7_ManxSuppressor : Inventory {
     default {
         //$Category "Se7evidas/Weapon modifications"
@@ -84,6 +90,9 @@ class S7_ManxSuppressor : Inventory {
     }
 }
 
+/* Credits:
+ * Sprites by Vostyok.
+*/
 class S7_TEC9Suppressor : Inventory {
     default {
         //$Category "Se7evidas/Weapon modifications"
