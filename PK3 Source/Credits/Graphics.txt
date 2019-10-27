@@ -113,6 +113,7 @@ sprites/
 
     Inventory/
         Ammo/
+            44MPA0: potetobloke
             BKPKA0: Id Software, BloodyAcid, Chronos "phantombeta" Ouroboros
             CELLA0: BloodyAcid, chronoteeth, Chronos "phantombeta" Ouroboros
             CELL[CD]0: Id Software, Chronos "phantombeta" Ouroboros
