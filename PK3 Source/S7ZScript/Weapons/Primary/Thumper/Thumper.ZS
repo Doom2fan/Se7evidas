@@ -411,7 +411,7 @@ class S7_Thumper : S7_BaseWeapon {
                     return ResolveState (null);
                 else if (i >= S7_TH_EndToken)
                     i = S7_TH_None;
-                else if (CheckInventory (S7_Thumper.PoolNames [i], 1) || (player.cmd.buttons & BT_AltAttack))
+                else if (CheckInventory (S7_Thumper.PoolNames [i], 1) || invoker.CheckButton (CB_Down, BT_AltAttack))
                     break;
 
                 i++;
@@ -432,12 +432,12 @@ class S7_Thumper : S7_BaseWeapon {
         TNT1 A 2 {
             S7_SetAnim ("Anim.Idle");
 
-            if (player.cmd.buttons & BT_Attack) {
+            if (invoker.CheckButton (CB_Down, BT_Attack)) {
                 if (invoker.airburstDistance >= 10.)
                     invoker.airburstDistance += .5;
                 else
                     invoker.airburstDistance = 10.;
-            } else if (player.cmd.buttons & BT_AltAttack) {
+            } else if (invoker.CheckButton (CB_Down, BT_AltAttack)) {
                 if (invoker.airburstDistance ~== 10. || invoker.airburstDistance < 10.)
                     invoker.airburstDistance = 0.;
                 else
@@ -445,7 +445,7 @@ class S7_Thumper : S7_BaseWeapon {
             }
         }
         TNT1 A 0 {
-            if (player.cmd.buttons & BT_Zoom)
+            if (invoker.CheckButton (CB_Down, BT_Zoom))
                 return ResolveState ("Zoom");
 
             return ResolveState (null);

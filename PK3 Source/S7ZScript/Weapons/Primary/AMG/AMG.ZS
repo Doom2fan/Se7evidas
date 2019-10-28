@@ -236,10 +236,10 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 AAAAAAAA 1 {
             S7_SetAnim ("Anim.Idle");
 
-            if (!invoker.zoomed || !(player.cmd.buttons & BT_Zoom))
+            if (!invoker.zoomed || invoker.CheckButton (CB_Up, BT_Zoom))
                 return ResolveState ("DoZoom");
 
-            if (player.cmd.buttons & BT_Attack || player.cmd.buttons & BT_AltAttack)
+            if (invoker.CheckButton (CB_Down, BT_Attack | BT_AltAttack))
                 return ResolveState ("ChangeZoomLevel");
 
             return ResolveState (null);
@@ -275,12 +275,12 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
 
-            if (!(player.cmd.buttons & BT_Zoom))
+            if (invoker.CheckButton (CB_Up, BT_Zoom))
                 return ResolveState ("Ready2");
 
-            if (player.cmd.buttons & BT_Attack)
+            if (invoker.CheckButton (CB_Down, BT_Attack))
                 invoker.zoomLevel = clamp (invoker.zoomLevel + 0.25, 0, BaseZoomFactor * 1.5);
-            else if (player.cmd.buttons & BT_AltAttack)
+            else if (invoker.CheckButton (CB_Down, BT_AltAttack))
                 invoker.zoomLevel = clamp (invoker.zoomLevel - 0.25, 0, BaseZoomFactor * 1.5);
 
             A_ZoomFactor (invoker.GetZoomFactor ());
@@ -289,7 +289,7 @@ class S7_AMG : S7_BaseWeapon {
         }
         loop;
     ChangeZoomLevel.Delay:
-        TNT1 A 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
+        TNT1 A 1 A_JumpIf (invoker.CheckButton (CB_Up, BT_Zoom), "Ready2");
         goto ChangeZoomLevel;
     }
 

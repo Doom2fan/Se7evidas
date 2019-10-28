@@ -113,7 +113,7 @@ extend class S7_BaseWeapon {
             wrFlags &= ~WRF_AllowZoom;
 
             let zoomState = ResolveState ("Zoom");
-            if (zoomState && !(player.oldbuttons & BT_Zoom) && (player.cmd.buttons & BT_Zoom))
+            if (zoomState && invoker.CheckButton (CB_Pressed, BT_Zoom))
                 player.SetPSprite (PSP_Weapon, zoomState);
         }
 

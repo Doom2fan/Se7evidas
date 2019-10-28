@@ -201,8 +201,8 @@ class S7_SSG : S7_BaseWeapon {
         TNT1 A 1 DoSelectOffset ((  0,  0));
     Ready2:
         TNT1 A 1 {
-            bool attack = ((player.cmd.buttons & BT_Attack) && !(player.oldbuttons & BT_Attack));
-            bool altAttack = ((player.cmd.buttons & BT_AltAttack) && !(player.oldbuttons & BT_AltAttack));
+            bool attack = invoker.CheckButton (CB_Pressed, BT_Attack);
+            bool altAttack = invoker.CheckButton (CB_Pressed, BT_AltAttack);
             if (attack && altAttack)
                 return ResolveState ("Fire.Both");
             else if (attack)
@@ -242,7 +242,7 @@ class S7_SSG : S7_BaseWeapon {
     action state S7_FireSSGSingle (bool right, bool firingBoth = false) {
         if (!firingBoth) {
             int otherButton = (!right ? BT_AltAttack : BT_Attack);
-            if (!(player.oldbuttons & otherButton) && (player.cmd.buttons & otherButton))
+            if (invoker.CheckButton (CB_Pressed, otherButton))
                 return ResolveState ("Fire.Both");
 
             if (!right && !invoker.leftLoaded)

@@ -348,10 +348,10 @@ class S7_ManxCarbine : S7_BaseWeapon {
 
     Zoom:
         TNT1 AAAAAAAA 1 {
-            if (!invoker.zoomed || !(player.cmd.buttons & BT_Zoom))
+            if (!invoker.zoomed || invoker.CheckButton (CB_Up, BT_Zoom))
                 return ResolveState ("DoZoom");
 
-            if (player.cmd.buttons & BT_Attack || player.cmd.buttons & BT_AltAttack)
+            if (invoker.CheckButton (CB_Down, BT_Attack | BT_AltAttack))
                 return ResolveState ("ChangeZoomLevel");
 
             S7_SetAnim ("Anim.Idle");
@@ -386,13 +386,13 @@ class S7_ManxCarbine : S7_BaseWeapon {
         goto Ready2;
     ChangeZoomLevel:
         TNT1 A 1 {
-            if (!(player.cmd.buttons & BT_Zoom))
+            if (invoker.CheckButton (CB_Up, BT_Zoom))
                 return ResolveState ("Ready2");
 
-            if (player.cmd.buttons & BT_Attack) {
+            if (invoker.CheckButton (CB_Down, BT_Attack)) {
                 invoker.zoomLevel = clamp (invoker.zoomLevel + 0.2, 0, BaseZoomFactor);
                 A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
-            } else if (player.cmd.buttons & BT_AltAttack) {
+            } else if (invoker.CheckButton (CB_Down, BT_AltAttack)) {
                 invoker.zoomLevel = clamp (invoker.zoomLevel - 0.2, 0, BaseZoomFactor);
                 A_ZoomFactor (BaseZoomFactor + invoker.zoomLevel);
             }
@@ -401,7 +401,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         }
         loop;
     ChangeZoomLevel.Delay:
-        TNT1 A 1 A_JumpIf (!(player.cmd.buttons & BT_Zoom), "Ready2");
+        TNT1 A 1 A_JumpIf (invoker.CheckButton (CB_Up, BT_Zoom), "Ready2");
         goto ChangeZoomLevel;
 
     ChangeMode:

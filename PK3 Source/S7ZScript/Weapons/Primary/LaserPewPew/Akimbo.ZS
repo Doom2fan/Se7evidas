@@ -147,7 +147,7 @@ extend class S7_LaserPewPew {
 
             DoReadyWeaponToSwitch (player, leftReady);
 
-            if (!(player.oldbuttons & BT_Attack) && (player.cmd.buttons & BT_Attack))
+            if (invoker.CheckButton (CB_Pressed, BT_Attack))
                 return ResolveState ("AkimboRight.Fire");
 
             return ResolveState (null);
@@ -163,7 +163,7 @@ extend class S7_LaserPewPew {
             if (!(player.WeaponState & WF_WeaponBobbing))
                 DoReadyWeaponToBob (player);
 
-            if (!(player.oldbuttons & BT_AltAttack) && (player.cmd.buttons & BT_AltAttack))
+            if (invoker.CheckButton (CB_Pressed, BT_AltAttack))
                 return ResolveState ("AkimboLeft.Fire");
 
             return ResolveState (null);
@@ -230,7 +230,7 @@ extend class S7_LaserPewPew {
             S7_Recoil (-0.07);
         }
         TNT1 A 1;
-        TNT1 A 1 A_JumpIf (player.cmd.buttons & BT_Attack, "AkimboRight.Fire");
+        TNT1 A 1 A_JumpIf (invoker.CheckButton (CB_Down, BT_Attack), "AkimboRight.Fire");
         goto AkimboRight.Ready;
     AkimboLeft.Fire:
         TNT1 A 1 bright {
@@ -263,7 +263,7 @@ extend class S7_LaserPewPew {
             S7_Recoil (-0.07);
         }
         TNT1 A 1;
-        TNT1 A 1 A_JumpIf (player.cmd.buttons & BT_AltAttack, "AkimboLeft.Fire");
+        TNT1 A 1 A_JumpIf (invoker.CheckButton (CB_Down, BT_AltAttack), "AkimboLeft.Fire");
         goto AkimboLeft.Ready;
 
     // Dryfiring
