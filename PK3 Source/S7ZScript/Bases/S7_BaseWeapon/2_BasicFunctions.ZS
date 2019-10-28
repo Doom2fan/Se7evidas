@@ -69,6 +69,20 @@ extend class S7_BaseWeapon {
         return (!sprinting || reloadWhileSprinting);
     }
 
+    protected bool CheckButton (int mode, int button) {
+        let plr = Owner.player;
+
+        switch (mode) {
+        case CB_Down: return  (plr.cmd.buttons & button);
+        case CB_Up  : return !(plr.cmd.buttons & button);
+        case CB_Pressed : return !(plr.oldbuttons & button) &&  (plr.cmd.buttons & button);
+        case CB_Released: return  (plr.oldbuttons & button) && !(plr.cmd.buttons & button);
+        default: ThrowAbortException ("Invalid value passed to CheckButton parameter \"mode\"");
+        }
+
+        return false;
+    }
+
     //-------------------------------------------------------------------------------------------
     //
     // S7_WeaponReady

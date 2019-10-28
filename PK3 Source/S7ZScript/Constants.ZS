@@ -55,6 +55,11 @@ enum S7_DelayedSpawns {
     S7_DelaySpawns_All = 2,
 }
 
+// Key renames
+enum S7_GZDoomButtons {
+    S7_BT_ChangeFireMode = BT_User3,
+}
+
 // Debugging constants
 enum S7_DebuggingConstants {
     // Monster AI bitfield

@@ -141,8 +141,6 @@ class S7_PlayerEventHandler : EventHandler {
 
             if (pPawn && strings [1] ~== "Melee")
                 pPawn.SetInventory ('S7_DoMelee', 1);
-            else if (pPawn && strings [1] ~== "FiringMode")
-                pPawn.SetInventory ('S7_ChangeFireMode', 1);
             else if (pPawn && strings [1] ~== "FlashlightPress") {
                 let flashlight = S7_Flashlight (pPawn.FindInventory ("S7_Flashlight"));
                 if (flashlight)

@@ -215,8 +215,10 @@ class S7_BasePlayer : PlayerPawn {
             if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ('S7_BasicArmor'))
                 GiveBasics (); // We only check it in this function to avoid a function call.
 
-            if (!(player.cmd.buttons & BT_Reload) && (player.oldbuttons & BT_Reload))
+            if (!(player.oldbuttons & BT_Reload) && (player.cmd.buttons & BT_Reload))
                 SetInventory ('S7_Reloading', !CheckInventory ('S7_Reloading', 1));
+            if (!(player.oldbuttons & S7_BT_ChangeFireMode) && (player.cmd.buttons & S7_BT_ChangeFireMode))
+                SetInventory ('S7_ChangeFireMode', 1);
 
             if (playerData)
                 playerData.dying = health < (maxHealth * 0.2);

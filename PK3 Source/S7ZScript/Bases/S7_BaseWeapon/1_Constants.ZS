@@ -22,6 +22,13 @@ extend class S7_BaseWeapon {
         S7WRF_MeleeWhileSprinting      = 1 << 1,
     }
 
+    enum S7_CheckButtonMode {
+        CB_Down,
+        CB_Up,
+        CB_Pressed,
+        CB_Released,
+    }
+
     enum S7_A_FireBullets_Flags {
         S7_FB_SpeedOffs       = 1 << 0,
         S7_FB_UseAmmo         = 1 << 1,
