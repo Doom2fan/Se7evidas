@@ -179,6 +179,19 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         }
         goto Ready2;
 
+    QuickMeleeDerp:
+        TNT1 A 0 {
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+
+            if (invoker.zoomed)
+                return ResolveState ("Ready2");
+
+            S7_SetAnim ("Null");
+
+            return ResolveState (null);
+        }
+        goto QuickMelee;
+
     Deselect:
         CQR1 A 0 {
             if (health <= 0) {

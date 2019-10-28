@@ -124,9 +124,16 @@ class S7_HitterSMG : S7_BaseWeapon {
     Ready2:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
-            S7_WeaponReady ("Reload", null);
+            S7_WeaponReady ("Reload", null, "QuickMeleeDerp");
         }
         loop;
+
+    QuickMeleeDerp:
+        TNT1 A 0 {
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+            S7_SetAnim ("Null");
+        }
+        goto QuickMelee;
 
     Deselect:
         SR20 A 0 {
