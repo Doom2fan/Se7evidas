@@ -165,7 +165,7 @@ extend class S7_BasePlayer {
             // Dodging
             if (dodge_Cooldown <= 0) { // If dodge_Cooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
-                if ((player.cmd.buttons & BT_UseR2) && !(player.oldbuttons & BT_UseR2) && (pos.Z - floorZ) <= 0 &&
+                if ((player.cmd.buttons & BT_User2) && !(player.oldbuttons & BT_User2) && (pos.Z - floorZ) <= 0 &&
                     !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
                     !ledgeGrab_Grabbed
                 ) {
@@ -443,7 +443,7 @@ extend class S7_BasePlayer {
 
                 // Start/stop sprinting
                 if (!sprint_Sprinting && sprint_Tics != -1 &&
-                    (player.cmd.buttons & BT_UseR1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
+                    (player.cmd.buttons & BT_User1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
                     !(self is 'S7_DracoPlayer') && !ledgeGrab_Grabbed
                 ) {
                     sprint_Sprinting = true;
@@ -451,7 +451,7 @@ extend class S7_BasePlayer {
                     sprint_Tics = 0;
                     sprint_OldAgility = double.NaN;
                 } else if (sprint_Sprinting &&
-                    (!(player.cmd.buttons & BT_UseR1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
+                    (!(player.cmd.buttons & BT_User1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
                     ledgeGrab_Grabbed || (self is 'S7_DracoPlayer'))
                 ) {
                     if (sprint_Tics < 5)
