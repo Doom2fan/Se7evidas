@@ -123,6 +123,8 @@ extend class S7_LaserPewPew {
     // Ready
     AkimboRight.Ready:
         TNT1 A 1 {
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+
             S7_SetRightAnim ("AnimAkimbo.Idle");
             A_OverlayFlags (RightAnimLayer_ID, PSPF_AddBob, true);
             if (!(player.WeaponState & WF_WeaponBobbing))
@@ -153,6 +155,8 @@ extend class S7_LaserPewPew {
         wait;
     AkimboLeft.Ready:
         TNT1 A 1 {
+            TakeInventory ('S7_DoMelee', 0x7FFFFFFF);
+
             S7_SetLeftAnim ("AnimAkimbo.Idle");
             A_OverlayFlags (LeftAnimLayer_ID, PSPF_AddBob, true);
 
