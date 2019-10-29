@@ -78,7 +78,9 @@ class S7_Thumper : S7_BaseWeapon {
     }
 
     const AnimLayer_ID = 2;
+    double rangeFinderDistance; // In map units
     double airburstDistance; // In meters
+    int zoomHoldTime;
     bool chambered;
     int selectedPool;
     Class<S7_50mmCasing> casingType;
@@ -146,6 +148,8 @@ class S7_Thumper : S7_BaseWeapon {
     override void AttachToOwner (Actor other) {
         Super.AttachToOwner (other);
 
+        rangeFinderDistance = -1;
+        airburstDistance = 0;
         selectedPool = S7_TH_Exp;
     }
 
@@ -432,21 +436,55 @@ class S7_Thumper : S7_BaseWeapon {
         TNT1 A 2 {
             S7_SetAnim ("Anim.Idle");
 
+            if (invoker.CheckButton (CB_Down, S7_BT_ChangeFireMode)) {
+                FLineTraceData traceData;
+                LineTrace (angle, 65536, pitch, flags: TRF_AbsOffset, offsetZ: player.viewZ - pos.Z, data: traceData);
+                invoker.rangeFinderDistance = traceData.Distance;
+            } else
+                invoker.rangeFinderDistance = -1;
+
+            double distAdd = 2.5;
+
             if (invoker.CheckButton (CB_Down, BT_Attack)) {
                 if (invoker.airburstDistance >= 10.)
-                    invoker.airburstDistance += .5;
+                    invoker.airburstDistance += distAdd;
                 else
                     invoker.airburstDistance = 10.;
             } else if (invoker.CheckButton (CB_Down, BT_AltAttack)) {
                 if (invoker.airburstDistance ~== 10. || invoker.airburstDistance < 10.)
                     invoker.airburstDistance = 0.;
                 else
-                    invoker.airburstDistance -= .5;
+                    invoker.airburstDistance -= distAdd;
             }
+
+            invoker.airburstDistance = clamp (invoker.airburstDistance, 0., 9999.);
+
+            int timeTics = 5;
+
+            if (invoker.zoomHoldTime >= (5 * 5 + 10 * 3 + 15 * 2))
+                timeTics = 1;
+            else if (invoker.zoomHoldTime >= (5 * 5 + 10 * 3))
+                timeTics = 2;
+            else if (invoker.zoomHoldTime >= (5 * 5))
+                timeTics = 3;
+
+            let psp = player.FindPSprite (PSP_Weapon);
+            if (psp)
+                psp.tics = timeTics;
+
+            if (invoker.CheckButton (CB_Down, BT_Attack | BT_AltAttack))
+                invoker.zoomHoldTime += timeTics;
+            else
+                invoker.zoomHoldTime /= 2;
         }
         TNT1 A 0 {
+            invoker.rangeFinderDistance = -1;
+            TakeInventory ('S7_ChangeFireMode', 1);
+
             if (invoker.CheckButton (CB_Down, BT_Zoom))
                 return ResolveState ("Zoom");
+
+            invoker.zoomHoldTime = 0;
 
             return ResolveState (null);
         }

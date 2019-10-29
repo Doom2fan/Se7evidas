@@ -481,6 +481,37 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
                     DrawImage ("graphics/HUD/Cartridges/S7H50M0.png", (-26 - 22 * i, -43), DI_Item_Left_Top);
                     DrawImage (String.Format ("graphics/HUD/Cartridges/S7H50M%d.png", grenType), (-26 - 22 * i, -17), DI_Item_Left_Top);
                 }
+
+                let thumper = S7_Thumper (CPlayer.ReadyWeapon);
+                double stringYPos = -50;
+
+                bool drawAirburstDist = thumper.airburstDistance >= S7_Math.VM_Epsilon;
+                bool drawRangeFinder = !(thumper.rangeFinderDistance ~== -1);
+
+                if (drawAirburstDist || drawRangeFinder)
+                    DrawImage ("graphics/HUD/Fullscreen/S7ProgressBarBG.png", (0, stringYPos - 3), DI_Item_HCenter | DI_Item_Top | DI_Screen_Center_Bottom, scale: (1.2, 2));
+
+                if (drawAirburstDist) {
+                    string airburstString = String.Format ("Airburst distance: %.2fm", thumper.airburstDistance);
+
+                    DrawString (mFScreenHUDFont, airburstString, (0, stringYPos),
+                        flags: DI_Item_HCenter | DI_Item_Top | DI_Screen_Center_Bottom | DI_Text_Align_Center | DI_NoShadow,
+                        translation: Font.CR_Green
+                    );
+
+                    stringYPos += mFScreenHUDFont.mFont.GetHeight ();
+                }
+
+                if (drawRangeFinder) {
+                    string rangeString = String.Format ("Range: %.2fm", thumper.rangeFinderDistance / S7C_MapUnitsPerMeter);
+
+                    DrawString (mFScreenHUDFont, rangeString, (0, stringYPos),
+                        flags: DI_Item_HCenter | DI_Item_Top | DI_Screen_Center_Bottom | DI_Text_Align_Center | DI_NoShadow,
+                        translation: Font.CR_Green
+                    );
+
+                    stringYPos += mFScreenHUDFont.mFont.GetHeight ();
+                }
             } else {
                 for (int i = 0; i < FScreenAmmoBars.Size (); i++) {
                     if (CheckWeaponSelected (FScreenAmmoBars [i].weap)) {
