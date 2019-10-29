@@ -134,6 +134,8 @@ extend class S7_BasePlayer {
 
         if (player.onground && cmd.buttons & BT_Jump)
             crouching_DoCrouch = false;
+        else if (player.health < 1)
+            crouching_DoCrouch = false;
 
         if (CanCrouch () && player.health > 0 && level.IsCrouchingAllowed ()) {
             if (!totallyfrozen) {
