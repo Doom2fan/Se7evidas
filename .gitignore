@@ -6,7 +6,6 @@ Se7evidas.7Z
 *.wad.backup*
 *.wad.bak*
 *.tmp*
-*.dbs
 *.ncb
 *.suo
 *.pdb

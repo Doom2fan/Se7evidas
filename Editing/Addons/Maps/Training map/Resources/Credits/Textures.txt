@@ -1,0 +1,3 @@
+textures/Se7evidas/LuciusTrainRange/
+    TargetBack and TargetFront_Hellion: Eriance, Chronos "phantombeta" Ouroboros
+    

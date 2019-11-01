@@ -1,0 +1,170 @@
+type = "Doom Builder Map Settings Configuration";
+gameconfig = "GZDoom_DoomUDMF.cfg";
+strictpatches = 0;
+
+maps
+{
+	
+	MAP01
+	{
+		scriptcompiler = "zdoom_acs.cfg";
+		defaultfloortexture = "textures/Se7evidas/LuciusTrainRange/Flat1.png";
+		overrideceilheight = false;
+		
+		resources
+		{
+			
+			resource0
+			{
+				type = 0;
+				location = "E:\\Dropbox\\Doom Stuff\\IWADs\\Doom2.wad";
+				option1 = 0;
+				option2 = 0;
+				notfortesting = 1;
+			}
+			
+			resource1
+			{
+				type = 1;
+				location = "E:\\Doom\\... MY OWN FUCKING MODS\\Se7evidas\\PK3 Source";
+				option1 = 0;
+				option2 = 0;
+				notfortesting = 0;
+			}
+			
+			resource2
+			{
+				type = 1;
+				location = "E:\\Doom\\... MY OWN FUCKING MODS\\Se7evidas\\Editing\\Addons\\Maps\\Training map\\Resources";
+				option1 = 0;
+				option2 = 0;
+				notfortesting = 0;
+			}
+		}
+		defaulttoptexture = "textures/Se7evidas/LuciusTrainRange/MetalSupport4.png";
+		overridemiddletexture = false;
+		viewpositionx = -441.4692f;
+		viewpositiony = 544.584f;
+		viewscale = 2.192943f;
+		overridefloortexture = false;
+		customceilheight = 128;
+		customfloorheight = 0;
+		
+		grid
+		{
+			background = "";
+			backoffsetx = 0;
+			backoffsety = 0;
+			backscalex = 100;
+			backscaley = 100;
+			backsource = 0;
+			gridsize = 16f;
+			gridrotate = 0f;
+			gridoriginx = 0f;
+			gridoriginy = 0f;
+		}
+		defaultceiltexture = "textures/Se7evidas/LuciusTrainRange/Flat1.png";
+		overridebrightness = false;
+		uselongtexturenames = true;
+		overridebottomtexture = false;
+		overridefloorheight = false;
+		overridetoptexture = false;
+		custombrightness = 196;
+		overrideceiltexture = false;
+		defaultwalltexture = "textures/Se7evidas/LuciusTrainRange/MetalSupport4.png";
+		defaultbottomtexture = "textures/Se7evidas/LuciusTrainRange/MetalSupport4.png";
+		
+		plugins
+		{
+			
+			stairsectorbuilder
+			{
+				
+				prefabs
+				{
+				}
+			}
+		}
+		
+		scriptlumps
+		{
+			
+			lump
+			{
+				filename = "SCRIPTS";
+				hash = 3469170009;
+				caretposition = 1216;
+				firstvisibleline = 31;
+				activetab = true;
+			}
+		}
+		useresourcesinreadonlymode = true;
+		
+		fieldtypes
+		{
+			
+			linedef
+			{
+				shown = 3;
+				alpha = 1;
+				arg0str = 2;
+			}
+			
+			sidedef
+			{
+				offsetx_mid = 1;
+				offsety_mid = 1;
+				offsetx_top = 1;
+				offsety_top = 1;
+				offsetx_bottom = 1;
+				offsety_bottom = 1;
+				scalex_bottom = 1;
+				scaley_bottom = 1;
+				scalex_mid = 1;
+			}
+			
+			sector
+			{
+				xpanningceiling = 1;
+				ypanningceiling = 1;
+				rotationceiling = 17;
+				xscaleceiling = 1;
+				yscaleceiling = 1;
+				xscalefloor = 1;
+				xpanningfloor = 1;
+				ypanningfloor = 1;
+				rotationfloor = 17;
+				yscalefloor = 1;
+				lightfloor = 0;
+				fadecolor = 0;
+				desaturation = 1;
+				lightcolor = 0;
+				lightfloorabsolute = 3;
+			}
+		}
+		
+		scriptdocuments
+		{
+			
+			document0
+			{
+				filename = "DIALOGUE";
+				hash = 3588187714;
+				resource;
+				tabtype = 0;
+				scripttype = 18;
+			}
+			
+			document1
+			{
+				filename = "SCRIPTS";
+				hash = 3469170009;
+				resource;
+				tabtype = 0;
+				scripttype = 1;
+				caretposition = 240;
+				activetab = true;
+			}
+		}
+	}
+}
