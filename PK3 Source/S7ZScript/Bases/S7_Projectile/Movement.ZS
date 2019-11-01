@@ -55,6 +55,7 @@ extend class S7_Projectile {
             else if ((i == 8) && !(colFlags & ColMode_Center))
                 continue;
 
+            tr.ffloorsToIgnore.Clear ();
             tr.activeLinesToIgnore.Clear ();
             tr.actorsToIgnore.Clear ();
 
@@ -69,6 +70,7 @@ extend class S7_Projectile {
             int handleColRet = 0;
             do {
                 double traceMaxDist = level.Vec3Diff (traceCurPos, traceEndpoint).Length ();
+                tr.Results.ffloor = null;
 
                 if (tr.Trace (traceCurPos, curSector, velUnit, traceMaxDist, 0)) {
                     if (!self)

@@ -18,6 +18,7 @@
 
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
+    Array<F3DFloor> ffloorsToIgnore;
     Array<Line> activeLinesToIgnore;
     Array<Actor> actorsToIgnore;
     Array<Actor> actorsRipped;
@@ -58,6 +59,11 @@ class S7_Projectile_Trace : LineTracer {
             )
         ) {
             activeLinesToIgnore.Push (hl);
+            return TRACE_Stop;
+        }
+
+        if (Results.ffloor && ffloorsToIgnore.Find (Results.ffloor) == ffloorsToIgnore.Size ()) {
+            ffloorsToIgnore.Push (Results.ffloor);
             return TRACE_Stop;
         }
 
