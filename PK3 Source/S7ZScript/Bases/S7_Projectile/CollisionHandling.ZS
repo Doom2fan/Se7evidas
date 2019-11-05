@@ -72,7 +72,7 @@ extend class S7_Projectile {
 
         double maxDist = abs (oldVel.Length ());
         let hitPos = level.Vec3Offset (oldPos, (oldVel.Unit () * hitDist));
-        hitPos += -(oldVel.Unit () * abs (radius / 4.));
+        hitPos += -(oldVel.Unit () * abs (radius / 2.));
 
         SetOrigin (hitPos, interpFastProj);
 
