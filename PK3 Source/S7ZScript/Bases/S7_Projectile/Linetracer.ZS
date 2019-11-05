@@ -67,7 +67,7 @@ class S7_Projectile_Trace : LineTracer {
             return TRACE_Stop;
         }
 
-        if (Results.Tier == TIER_Middle && !(hl.flags & Line.ML_TwoSided) && !hl.backsector)
+        if (Results.Tier == TIER_Middle && !hl.backsector)
             return TRACE_Stop;
 
         if (sourceActor.bMissile && (hl.flags & (Line.ML_BlockProjectile | Line.ML_BlockEverything)))
