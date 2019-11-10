@@ -206,10 +206,10 @@ class S7_BasePlayer : PlayerPawn {
 
         Super.PlayerThink ();
 
-        CustCalcHeight ();
-
         if (!player || !player.mo || player.mo != self)
             return;
+
+        CustCalcHeight ();
 
         if (!(player.cheats & CF_Predicting)) {
             if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ('S7_BasicArmor'))
