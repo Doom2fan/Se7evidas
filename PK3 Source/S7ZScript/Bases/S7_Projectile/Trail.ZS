@@ -64,12 +64,13 @@ extend class S7_Projectile {
 
         if (effectsStepsMode == EFXStepMode_MapUnit) {
             Vector3 frac = dirVec * interval;
-            int count = int ((dist / interval));
-            Vector3 initialDist = (dirVec * dist) - (count * frac);
+            int count = int (floor ((dist / interval) + .5));
 
             for (int i = 0; i < count; i++) {
-                Vector3 curDist = initialDist + (frac * i);
+                Vector3 curDist = frac * i;
                 double diff = abs (curDist.Length ());
+                if (curDist ~== (0, 0, 0))
+                    diff = 0;
 
                 if (diff > dist)
                     break;

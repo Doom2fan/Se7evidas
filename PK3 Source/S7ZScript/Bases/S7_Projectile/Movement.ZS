@@ -79,8 +79,12 @@ extend class S7_Projectile {
                     handleColRet = HandleCollision (oldPos, oldVel, traceStartPos);
                     traceCurPos = tr.Results.HitPos;
                     if (handleColRet == 1) {
-                        if (!self || bDestroyed)
+                        if (!self || bDestroyed) {
+                            if (hitSky)
+                                SpawnEffects (oldPos, level.Vec3Diff (oldPos, pos).Length (), oldVel);
+
                             return;
+                        }
 
                         tr.actorsToIgnore.Clear ();
                         collisionHandled = true;

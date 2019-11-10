@@ -78,8 +78,7 @@ extend class S7_Projectile {
 
         if (!bSkyExplode && CheckSkyHit (pos, null)) {
             hitSky = true;
-            SpawnEffects (oldPos, tr.Results.Distance, oldVel);
-            Destroy ();
+            S7_ExplodeMissile (null, null, true);
 
             return 1;
         }
@@ -108,8 +107,6 @@ extend class S7_Projectile {
             SetOrigin (hitPos, interpFastProj);
 
             bool didHitSky = CheckSkyHit (pos, tm);
-
-            SpawnEffects (oldPos, tr.Results.Distance, oldVel);
 
             A_Stop ();
             S7_ExplodeMissile (BlockingLine, BlockingMobj, (!BlockingLine && !BlockingMobj) ? didHitSky : false);

@@ -21,6 +21,7 @@ class S7_Projectile : FastProjectile {
     enum EMovementMode {
         Normal         = 0, /// The projectile uses the normal movement code.
         FastProjectile    , /// The projectile is a FastProjectile.
+        InstantMovement   , /// The projectile is a FastProjectile, and performs all of its movement instantly.
         OldFastProj       , /// The projectile is a FastProjectile and uses GZDoom's code.
     };
     /// Determines how to detect collisions. Only used for EMovementMode.FastProjectile.
@@ -65,7 +66,7 @@ class S7_Projectile : FastProjectile {
         S7_Projectile.InterpMove true;
 
         S7_Projectile.EffectStepMul 0.125;
-        S7_Projectile.EffectsStepsMode EFXStepMode_FastProj;
+        S7_Projectile.EffectsStepsMode EFXStepMode_Accurate;
         S7_Projectile.EffectStepInterval -1;
 
         Projectile;
@@ -83,11 +84,17 @@ class S7_Projectile : FastProjectile {
                 NewFastProjTick ();
             break;
 
+            case InstantMovement:
+                InstantMovementTick ();
+            break;
+
             case OldFastProj:
                 Super.Tick ();
             break;
         }
     }
+
+    virtual void PostMovement () { }
 
     static const double FPColOffs [] = { // Y and Z, not X and Y.
         // Edge centers
@@ -104,7 +111,7 @@ class S7_Projectile : FastProjectile {
         0, 0.5
     };
     virtual void NewFastProjTick () {
-        if (!self)
+        if (!self || bDestroyed)
             return;
 
         ClearInterpolation ();
@@ -114,8 +121,10 @@ class S7_Projectile : FastProjectile {
 
         HandleMovement ();
 
+        PostMovement ();
+
         // Return if the actor got removed
-        if (!self)
+        if (!self || bDestroyed)
             return;
         // Freed itself
         if (!CheckNoDelay ())
@@ -126,7 +135,51 @@ class S7_Projectile : FastProjectile {
                 tics--;
 
             while (!tics) {
-                if (!self || !CurState || !SetState (CurState.NextState)) // Actor was removed
+                if (!self || bDestroyed || !CurState || !SetState (CurState.NextState)) // Actor was removed
+                    return;
+            }
+        }
+    }
+
+    const S7_InstantMovement_Limit = 2 ** 14;
+    virtual void InstantMovementTick () {
+        if (!self || bDestroyed)
+            return;
+
+        ClearInterpolation ();
+
+        if (!bNoTimeFreeze && isFrozen ())
+            return;
+
+        int moveCount = 0;
+        while (!(vel ~== (0, 0, 0))) {
+            HandleMovement ();
+
+            if (!self || bDestroyed)
+                return;
+
+            PostMovement ();
+
+            if (moveCount++ >= S7_InstantMovement_Limit) {
+                Console.PrintF ("\cgSe7evidas error: Stopped instant-movement projectile \"%s\" from looping infinitely.", GetClassName ());
+                Destroy ();
+                return;
+            }
+        }
+
+        // Return if the actor got removed
+        if (!self || bDestroyed)
+            return;
+        // Freed itself
+        if (!CheckNoDelay ())
+            return;
+        // Advance the state
+        if (tics != -1) {
+            if (tics > 0)
+                tics--;
+
+            while (!tics) {
+                if (!self || bDestroyed || !CurState || !SetState (CurState.NextState)) // Actor was removed
                     return;
             }
         }
@@ -135,7 +188,9 @@ class S7_Projectile : FastProjectile {
     virtual void S7_ExplodeMissile (Line l, Actor targ, bool onSky) {
         hitSky = onSky;
         if (onSky && !bSkyExplode) {
+            vel = (0, 0, 0);
             Destroy ();
+
             return;
         }
 
