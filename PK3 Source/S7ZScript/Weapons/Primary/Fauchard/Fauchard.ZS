@@ -249,7 +249,6 @@ class S7_Fauchard : S7_BaseWeapon {
 class S7_FauchardTracer : S7_LaserTracer {
     default {
         DamageFunction ((30. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        Speed 300;
         DamageType 'LaserTracer';
         Scale 0.015;
         MissileType 'S7_LaserTracerTrail';

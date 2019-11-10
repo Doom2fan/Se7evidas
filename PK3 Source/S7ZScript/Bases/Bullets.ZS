@@ -78,8 +78,11 @@ class S7_BaseTracer : S7_Projectile {
 }
 class S7_LaserTracer : S7_BaseTracer {
     default {
+        S7_Projectile.MovementMode InstantMovement;
         S7_Projectile.EffectsStepsMode EFXStepMode_MapUnit;
         S7_Projectile.EffectStepInterval 10;
+
+        Speed 8000;
     }
 }
 

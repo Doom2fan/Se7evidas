@@ -521,7 +521,6 @@ class S7_LaserPewPew : S7_BaseWeapon {
 class S7_LaserPewPew_Tracer : S7_LaserTracer {
     default {
         DamageFunction ((21. + fRandom [weaponDamage] (-2.5, 2.5)) * (1. + bonusDMGFactor));
-        Speed 310;
         DamageType 'LaserTracer';
         Scale 0.0125;
         MissileType 'S7_LaserPewPew_Tracer_Trail';
@@ -555,7 +554,7 @@ class S7_LaserPewPew_Tracer_Trail : S7_TracerEffectsBase {
     Spawn:
         BLSF A 1 bright;
     Loople:
-        "----" A 1 bright A_FadeOut (0.2);
+        #### # 1 bright A_FadeOut (0.2);
         wait;
     }
 }
