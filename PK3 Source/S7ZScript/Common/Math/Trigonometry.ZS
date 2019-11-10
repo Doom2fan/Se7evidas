@@ -84,6 +84,20 @@ extend class S7_Math {
         return forwards, sideways, vertical;
     }
 
+    /* Summary:
+    **  Reflects a vector around a normal.
+    **
+    ** Arguments:
+    **  vec: The vector to reflect.
+    **  normal: The normal to reflect the vector around.
+    **
+    ** Returns:
+    **  Returns the reflected vector.
+    */
+    clearscope static Vector3 ReflectVector (Vector3 vec, Vector3 normal) {
+        return (2 * (normal dot vec) * normal - vec).Unit ();
+    }
+
     /** Polygons **/
     /* Summary:
     **  Calculates the smallest AABB that can hold a set of points.
