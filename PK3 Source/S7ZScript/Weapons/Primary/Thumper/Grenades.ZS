@@ -469,7 +469,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
             return;
         }
 
-        if (!self || !info || hitSky)
+        if (!self || bDestroyed || !info || hitSky)
             return;
 
         if (stepMulCounter > 0) {

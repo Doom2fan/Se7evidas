@@ -240,7 +240,7 @@ class S7_EmpressShieldSparkle : S7_EmpressSparkle {
         }
     ReallyFadeOutNow:
         "----" A 1 bright {
-            if (!self)
+            if (!self || bDestroyed)
                 return;
 
             offs += vel;
@@ -263,7 +263,7 @@ class S7_EmpressShieldFlare : S7_Empress_FXBase {
     double zOffs;
 
     override void Tick () {
-        if (self && target)
+        if (self && !bDestroyed && target)
             Warp (target, xofs: 64, zofs: zOffs, angle: rotAngle, flags: WARPF_NoCheckPosition | WARPF_Interpolate);
 
         Super.Tick ();

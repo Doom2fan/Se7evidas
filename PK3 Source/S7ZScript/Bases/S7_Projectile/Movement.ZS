@@ -73,13 +73,13 @@ extend class S7_Projectile {
                 tr.Results.ffloor = null;
 
                 if (tr.Trace (traceCurPos, curSector, velUnit, traceMaxDist, 0)) {
-                    if (!self)
+                    if (!self || bDestroyed)
                         return;
 
                     handleColRet = HandleCollision (oldPos, oldVel, traceStartPos);
                     traceCurPos = tr.Results.HitPos;
                     if (handleColRet == 1) {
-                        if (!self)
+                        if (!self || bDestroyed)
                             return;
 
                         tr.actorsToIgnore.Clear ();
@@ -94,6 +94,7 @@ extend class S7_Projectile {
                 loopBreaker++;
                 if (loopBreaker >= 4096) { // Uh oh.
                     Console.PrintF ("\cgSe7evidas error: Broke an infinite loop in S7_Projectile.");
+                    vel = (0, 0, 0);
                     Destroy ();
                     return;
                 }

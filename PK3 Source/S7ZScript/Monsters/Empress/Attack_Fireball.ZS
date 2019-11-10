@@ -113,7 +113,7 @@ class S7_EmpressMissile1 : S7_Projectile {
             invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
             invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
 
-            if (self && target)
+            if (self && !bDestroyed && target)
                 Warp (target, 25., 0, 105., rotAngle, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
             rotAngle += 24;
             loopCount--;
@@ -124,7 +124,7 @@ class S7_EmpressMissile1 : S7_Projectile {
 
     Flight:
         TNT1 A 1 bright {
-            if (self && target)
+            if (self && !bDestroyed && target)
                 Warp (target, 25., 0, 105., 360, WARPF_AbsoluteAngle | WARPF_NoCheckPosition | WARPF_Interpolate);
         }
         TNT1 A 0 {

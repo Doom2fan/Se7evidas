@@ -102,7 +102,7 @@ class S7_MonsterBase : Actor {
 
         Super.Tick ();
 
-        if (!self)
+        if (!self || bDestroyed)
             return;
 
         if (target && !setStats)

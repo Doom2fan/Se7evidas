@@ -384,7 +384,7 @@ class S7_BasePlayer : PlayerPawn {
     clearscope int GetMaxMana      () { return ((xpSys) ? int (250 + (15 * xpSys.GetStat (S7Stat_Magic)))   : 0); }
 
     bool CanGiveHealing (bool checkMax = true) {
-        if (!self || !healSys || !xpSys)
+        if (!self || bDestroyed || !healSys || !xpSys)
             return false; // Return false if anything is invalid
         else if (health <= 0 || (checkMax && health >= GetMaxHealth ()))
             return false; // Return false if the player is dead or at max health
@@ -393,7 +393,7 @@ class S7_BasePlayer : PlayerPawn {
     }
 
     bool GiveHealing (int healAmount) {
-        if (!self || !healSys || !xpSys)
+        if (!self || bDestroyed || !healSys || !xpSys)
             return false; // Return false if anything is invalid
         else if (health <= 0 || health >= GetMaxHealth ())
             return false; // Return false if the player is dead or at max health

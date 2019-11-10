@@ -71,7 +71,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
     override void Tick () {
         Super.Tick ();
 
-        if (!self)
+        if (!self || bDestroyed)
             return;
 
         if (hasScope && hasSuppressor)

@@ -207,7 +207,7 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
                 invoker.StepEffects (pos, (0, 0, 0), (0, 0, 0));
             }
 
-            if (self && tracer) {
+            if (self && !bDestroyed && tracer) {
                 double spinSpeed = clamp (S7_Empress.DanmakuFireballs_Time_ChangeFrame - empress.attackDanmakuFireballs_Time, 0, 5);
                 phaseToTarg += spinSpeed;
 

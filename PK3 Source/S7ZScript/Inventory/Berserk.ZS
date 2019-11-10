@@ -120,7 +120,7 @@ class S7_BerserkToken : Powerup {
         Super.DoEffect ();
 
         // Shouldn't happen, but hey!
-        if (!self || !Owner || Owner.health <= 0 || owner.bKilled)
+        if (!self || bDestroyed || !Owner || Owner.health <= 0 || owner.bKilled)
             return;
 
         double timeMod = 1. - (.25 * (Amount / 3.));
@@ -130,7 +130,7 @@ class S7_BerserkToken : Powerup {
             Owner.DamageMobj (Owner, Owner, 1, 'S7_BerserkDamage', DMG_No_Armor | DMG_Thrustless);
 
         // Can actually happen now if the owner dies
-        if (!self || !Owner || Owner.health <= 0 || owner.bKilled)
+        if (!self || bDestroyed || !Owner || Owner.health <= 0 || owner.bKilled)
             return;
 
         double regenRateAmount = 0, regenRateTime = 1;

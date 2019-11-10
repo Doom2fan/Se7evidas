@@ -52,7 +52,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     S7_Empress owner;
 
     void OrbitMaster (bool initWarp = false) {
-        if (!self)
+        if (!self || bDestroyed)
             return;
 
         double zOffs = 50.0 + 40 * (useCos ? cos (40 + rotAngle) : sin (40 + rotAngle));
@@ -104,7 +104,7 @@ class S7_EmpressInvulnOrbiterCW : Actor {
     }
 
     void WasDestroyed () {
-        if (!owner || !self)
+        if (!owner || !self || bDestroyed)
             return;
 
         int idx = owner.ballsList.Find (self);

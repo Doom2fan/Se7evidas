@@ -72,7 +72,7 @@ class S7_EffectsBase : Actor {
             return;
 
         // Return if the actor got removed.
-        if (!self)
+        if (!self || bDestroyed)
             return;
         // Freed itself
         if (!CheckNoDelay ())
@@ -83,7 +83,7 @@ class S7_EffectsBase : Actor {
                 tics--;
 
             while (!tics) {
-                if (!self || !CurState || !SetState (CurState.NextState)) // Actor was removed
+                if (!self || bDestroyed || !CurState || !SetState (CurState.NextState)) // Actor was removed
                     return;
             }
         }

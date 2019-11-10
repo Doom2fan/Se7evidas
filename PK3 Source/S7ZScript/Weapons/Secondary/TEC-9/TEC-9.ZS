@@ -59,7 +59,7 @@ class S7_TEC9 : S7_BaseWeapon {
     override void Tick () {
         Super.Tick ();
 
-        if (!self)
+        if (!self || bDestroyed)
             return;
 
         if (hasSuppressor)
