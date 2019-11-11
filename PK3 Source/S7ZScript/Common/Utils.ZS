@@ -69,6 +69,51 @@ struct S7_Utils {
 
         return inputStr.Left (firstTrailingZero).Mid (lastLeadingZero);
     }
+
+    /* Summary:
+    **  Sorts a dynamic array of ints using the quicksort algorithm.
+    **
+    ** Arguments:
+    **  arr: The array to sort.
+    **  l: The lower bound of the sub-array.
+    **  r: The upper bound of the sub-array.
+    **
+    ** Returns:
+    **  Returns void.
+    */
+    static void QuicksortInt (out Array<int> arr, int l, int r) {
+        // Base case: No need to sort arrays of length <= 1
+        if (l >= r)
+            return;
+
+        // Choose pivot to be the last element in the subarray
+        int pivot = arr [r];
+
+        // Index indicating the "split" between elements smaller than pivot and
+        // elements greater than pivot
+        int cnt = l;
+
+        // Traverse through array from l to r
+        for (int i = l; i <= r; i++) {
+            // If an element less than or equal to the pivot is found...
+            if (arr [i] <= pivot) {
+                // Then swap arr [cnt] and arr [i] so that the smaller element arr [i]
+                // is to the left of all elements greater than pivots
+                int tmp = arr [cnt];
+                arr [cnt] = arr [i];
+                arr [i] = tmp;
+
+                // Make sure to increment cnt so we can keep track of what to swap
+                // arr [i] with
+                cnt++;
+            }
+        }
+
+        // NOTE: cnt is currently at one plus the pivot's index
+        // (Hence, the cnt-2 when recursively sorting the left side of pivot)
+        QuicksortInt (arr, l  , cnt - 2); // Recursively sort the left side of pivot
+        QuicksortInt (arr, cnt,       r); // Recursively sort the right side of pivot
+    }
 }
 
 class S7_BoundingBox {
