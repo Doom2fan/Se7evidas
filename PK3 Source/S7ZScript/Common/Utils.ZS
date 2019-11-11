@@ -17,6 +17,12 @@
 */
 
 struct S7_Utils {
+    /* Summary:
+    **  Generates a random male english name.
+    **
+    ** Returns:
+    **  Returns a string with the generated name and surname.
+    */
     static string GenName_Male_Eng () {
         int fore = random [nameGen] (0, S7_NamesList.NL_Male_Eng_Fore.Size () - 1);
         int sur  = random [nameGen] (0, S7_NamesList.NL_Male_Eng_Sur.Size ()  - 1);
@@ -31,6 +37,18 @@ struct S7_Utils {
         return String.Format ("%s %s", S7_NamesList.NL_Male_Eng_Fore [fore], S7_NamesList.NL_Male_Eng_Sur [sur]);
     }
 
+    /* Summary:
+    **  Creates a 32-bit UID from 4 characters.
+    **
+    ** Arguments:
+    **  a: The first character.
+    **  b: The second character.
+    **  c: The third character.
+    **  d: The fourth character.
+    **
+    ** Returns:
+    **  Returns an UID composed from the input characters.
+    */
     static int MakeUID (string a, string b, string c, string d) {
         if (a.Length () + b.Length () + c.Length () + d.Length () != 4)
             return 0;
@@ -45,6 +63,15 @@ struct S7_Utils {
         return (val.ByteAt (0) << 24 | val.ByteAt (1) << 16 | val.ByteAt (2) << 8 | val.ByteAt (3));
     }
 
+    /* Summary:
+    **  Trims zeroes from a string.
+    **
+    ** Arguments:
+    **  inputStr: The input string.
+    **
+    ** Returns:
+    **  Returns the input string with leading and trailing zeroes removed.
+    */
     static string TrimZeroes (string inputStr) {
         int inputSize = inputStr.Length ();
 
