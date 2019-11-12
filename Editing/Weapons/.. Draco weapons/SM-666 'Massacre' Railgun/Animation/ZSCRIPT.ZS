@@ -2,14 +2,14 @@ version "3.3"
 
 class S7_Draco_Massacre : S7_DracoWeapon {
     default {
-        tag "lolololololololol";
-        inventory.pickupMessage "$IONCANNON";
+        tag "$MASSACRERAILGUN";
+        inventory.pickupMessage "$MASSACRERAILGUN";
         //weapon.ammoType1 "S7_PrettyShootyIonCannonGunMag";
         //weapon.ammoType2 "S7_Cells";
         weapon.ammoUse 0;
         weapon.ammoGive 0;
-        S7_BaseWeapon.Icon "PIC1Z0";
-        S7_BaseWeapon.ShortTag "lolololololololol";
+        S7_BaseWeapon.Icon "DMSCZ0";
+        S7_BaseWeapon.ShortTag "$SHORTMASSACRERAILGUN";
     }
 
     action void DMSC_SpawnSmoke (int count) {
@@ -19,8 +19,8 @@ class S7_Draco_Massacre : S7_DracoWeapon {
 
     states {
     Spawn:
-        //PIC1 Z -1;
-        //stop;
+        DMSC Z -1;
+        stop;
 
     Ready:
     Ready2:
@@ -75,12 +75,14 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
     default {
         S7_Projectile.MovementMode FastProjectile;
         S7_Projectile.interpMove false;
-        S7_Projectile.EffectStepMul 0.015625;
+        S7_Projectile.EffectsStepsMode EFXStepMode_MapUnit;
+        S7_Projectile.EffectStepInterval 10;
+
         radius 8;
         height 8;
         speed 20;
         renderStyle "add";
-        scale 0.04;
+        scale 0.02;
         damageFunction (realDamage);
         damageType "DracoMassacre";
         missileType "S7_Draco_MassacreProjectileTrail";
@@ -90,17 +92,16 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
         +forceXYBillboard +forceRadiusDMG +bloodlessImpact
     }
 
-    override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
+    /*override Actor StepEffects (Vector3 initialPos, Vector3 stepDiff, Vector3 realVel) {
         let act = super.StepEffects (initialPos, stepDiff, realVel);
         act.alpha = (abs (stepDiff.Length ()) / abs (realVel.Length ()));
         return act;
-    }
+    }*/
 
     states {
     Spawn:
         TNT1 A 0 noDelay {
-            A_ScaleVelocity (1.0 / 20);
-            A_ScaleVelocity (240);
+            vel = vel.Unit () * 240;
             realDamage = 50 + (random [weaponDamage] (0.0, 5.0) * 20);
         }
     Idle:
@@ -128,13 +129,14 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
 class S7_Draco_MassacreProjectileTrail : S7_TracerEffectsBase {
     default {
         renderStyle "add";
-        scale 0.04;
+        scale 0.02;
     }
 
     states {
     Spawn:
         PLGF A 2 bright;
-        stop;
+        PLGF A 1 A_FadeOut (0.01);
+        wait;
     }
 }
 

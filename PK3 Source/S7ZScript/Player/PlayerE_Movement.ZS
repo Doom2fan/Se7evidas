@@ -167,17 +167,20 @@ extend class S7_BasePlayer {
             // Dodging
             if (dodge_Cooldown <= 0) { // If dodge_Cooldown is less than or equal to 0...
                 // If the player tapped user2, isn't sprinting, didn't have his Soul Lance beam grabbed and has at least S7C_DodgeStamina stamina...
-                if ((player.cmd.buttons & BT_User2) && !(player.oldbuttons & BT_User2) && (pos.Z - floorZ) <= 0 &&
-                    !(self is 'S7_DracoPlayer') && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
+                if ((player.cmd.buttons & BT_User2) && !(player.oldbuttons & BT_User2) && player.onground &&
+                    !bS7_DisableDodging && !sprint_Sprinting && CheckInventory ('S7_Stamina', S7C_DodgeStamina) &&
                     !ledgeGrab_Grabbed
                 ) {
                     Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
-                    if (!(movementInput.XY dot movementInput.XY ~== 0)) { // If the player is trying to move
+                    // If the player is trying to move
+                    if (!(movementInput.XY dot movementInput.XY ~== 0)) {
+                        // Take S7C_DodgeStamina stamina
                         if (!(player.cheats & CF_Predicting))
-                            TakeInventory ('S7_Stamina', S7C_DodgeStamina); // Take S7C_DodgeStamina stamina
+                            TakeInventory ('S7_Stamina', S7C_DodgeStamina);
 
-                        A_PlaySound ("Player/Dodge", CHAN_Body); // Play the dodge sound
+                        // Play the dodge sound
+                        A_PlaySound ("Player/Dodge", CHAN_Body);
 
                         if (!(player.cheats & CF_Predicting))
                             GiveInventory ('S7_PowerDodgeEffects', 1);
@@ -197,24 +200,29 @@ extend class S7_BasePlayer {
     void Movement_MultiJump () {
         if (player.cheats & CF_Predicting)
             return;
+        // Return if we can't jump, we're dead, we're holding a ledge or we just walljumped.
         if (!level.IsJumpingAllowed () || health <= 0 || ledgeGrab_Grabbed || wallJump_JustJumped)
             return;
+        // Return if we're teching.
         if (teching_Active)
             return;
 
+        // If we're on the ground or on top of an actor:
         if (player.onground || bOnMobj) {
             multiJump_Count = 0;
             return;
         }
 
         int mJumpMax = CountInv ('S7_MultiJump_Max');
-        if (mJumpMax < 1 || multiJump_Count >= mJumpMax)
+        // Return if we can't multijump or we already hit the limit.
+        if (mJumpMax < 1 || multiJump_Count >= mJumpMax || bS7_DisableMultijump)
             return;
 
         double force = (JumpZ * 35 / TicRate) * S7_MultiJumpZMul;
         if (force <= 0.0)
             return;
 
+        // If the jump key was pressed, we're sufficiently off the ground and our Z velocity is <= 16:
         if ((player.cmd.buttons & BT_Jump) && !(player.oldbuttons & BT_Jump) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
             let marker = Spawn ('S7_MultiJump_Marker', pos); // Spawn the multijump effect
             marker.angle = angle;
@@ -251,19 +259,20 @@ extend class S7_BasePlayer {
     }
 
     void Movement_WallJump () {
+        // Decrement the walljump timer.
         if (wallJump_JustJumped && !(player.cheats & CF_Predicting))
             wallJump_JustJumped--;
 
-        if (health <= 0 || (self is 'S7_DracoPlayer') || wallJump_JustJumped)
+        // Return if we can't jump.
+        if (health <= 0 || bS7_DisableWalljump || wallJump_JustJumped)
             return;
-
-        // Return if the player isn't trying to move backwards and isn't holding onto a ledge
+        // Return if the player isn't trying to move backwards and isn't holding onto a ledge.
         if (player.cmd.forwardmove >= 0 && !ledgeGrab_Grabbed)
             return;
-        // Return if the player didn't just press the jump key
+        // Return if the player didn't just press the jump key.
         if (!((player.cmd.buttons & BT_Jump) && !(player.oldbuttons & BT_Jump)))
             return;
-        // Return if the player isn't 16 mu above the ground
+        // Return if the player isn't 16 mu above the ground.
         if (!ledgeGrab_Grabbed && (pos.Z - GetZAt ()) < 16.0)
             return;
 
@@ -271,6 +280,7 @@ extend class S7_BasePlayer {
         normal = normal.Unit ();
 
         FLineTraceData traceData;
+        // Try to find a wall to jump off of.
         for (int i = 0; i < WallJumpHitCount + 1; i++) {
             double hitAngle = angle + (WallJumpHitInterval * ((-1) ^ ((i+1) & 1) * ((i+1) >> 1)));
 
@@ -315,11 +325,13 @@ extend class S7_BasePlayer {
     void Movement_LedgeGrabbing () {
         double spRadius = ceil (radius * sqrt (2.));
 
+        // If we're holding onto a ledge:
         if (ledgeGrab_Grabbed && ledgeGrab_Marker) {
             let marker = S7_LedgeMarker (ledgeGrab_Marker);
 
             bool crushFingers = ((marker.ceilingZ - marker.floorZ) < 1 || marker.floorZ >= self.ceilingZ);
 
+            // If our fingers got crushed, we can't hold anymore, or we want to let go of the ledge:
             if (crushFingers || !Movement_LGrab_CanHold (marker, spRadius) ||
                 ((player.cmd.buttons & LedgeGrab_DropKeys) == LedgeGrab_DropKeys) ||
                 S7_ActorExtensions.IsInVoid (marker)
@@ -352,11 +364,13 @@ extend class S7_BasePlayer {
             double xyStiffness = .25, xyDamping = .5 ;
             double  zStiffness = .75,  zDamping = .25;
 
+            // Check if the player wants to climb the ledge.
             if (!(player.cheats & CF_Predicting) && (player.cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch)) {
                 ledgeGrab_DoClimb = true;
                 ledgeGrab_ClimbTime = 0;
             }
 
+            // Climb the ledge.
             if (ledgeGrab_DoClimb) {
                 destPos.Z = marker.floorZ + (player.viewZ - pos.Z);
                 xyStiffness = .1 ; xyDamping = .5;
@@ -379,10 +393,13 @@ extend class S7_BasePlayer {
 
             vel = newVel;
         } else if ((!ledgeGrab_Grabbed && ledgeGrab_Marker) || (ledgeGrab_Grabbed && !ledgeGrab_Marker)) {
+            // If there's no ledge grabbed and there's a marker, or there's a ledge grabbed,
+            // but there's no marker:
             if (!(player.cheats & CF_Predicting)) {
                 if (ledgeGrab_Marker)
                     ledgeGrab_Marker.Destroy ();
 
+                // If we're holding the ledge grab "weapon", switch back to the last used.
                 if (player.ReadyWeapon is 'S7_LedgeGrabWeapon' && weapBinds.LastWeapon)
                     player.PendingWeapon = weapBinds.LastWeapon;
 
@@ -394,21 +411,26 @@ extend class S7_BasePlayer {
             return;
         }
 
-        if (!ledgeGrab_Grabbed && vel.Z < 0.0 && vel.xy.Length () < 5 && Movement_LGrab_CheckWeap () && !(player.cheats & CF_Predicting)) {
+        // Try to grab a ledge.
+        if (!ledgeGrab_Grabbed && vel.Z < 0.0 && vel.xy.Length () < 5 &&Movement_LGrab_CheckWeap () &&
+            !(player.cheats & CF_Predicting) && !bS7_DisableLedgeGrab) {
             let oldPos = pos;
             SetXYZ (pos + (0, 0, height));
             double ledgeHeight = GetZAt (spRadius + LedgeGrab_MaxReach, 0) - oldPos.Z;
             SetXYZ (oldPos);
 
+            // If the ledge isn't too high, but isn't too low either:
             if (ledgeHeight > maxStepHeight && ledgeHeight <= LedgeGrab_MaxHeight) {
                 bool MUDA;
                 [MUDA, ledgeGrab_Marker] = A_SpawnItemEx ('S7_LedgeMarker', spRadius + LedgeGrab_MaxReach, zofs: ledgeHeight);
 
+                // If the marker was spawned:
                 if (ledgeGrab_Marker) {
                     let marker = S7_LedgeMarker (ledgeGrab_Marker);
 
-                    if (Movement_LGrab_CanHold (marker, spRadius) && (marker.ceilingZ - marker.floorZ) >= 1 && marker.floorZ < self.ceilingZ &&
-                        !S7_ActorExtensions.IsInVoid (marker)) {
+                    // If we can grab the ledge:
+                    if (Movement_LGrab_CanHold (marker, spRadius) && (marker.ceilingZ - marker.floorZ) >= 1 &&
+                        marker.floorZ < self.ceilingZ && !S7_ActorExtensions.IsInVoid (marker)) {
                         vel = (0, 0, vel.Z);
 
                         if (!wallJump_JustJumped)
@@ -438,24 +460,27 @@ extend class S7_BasePlayer {
     void Movement_Sprinting () {
         Vector3 movementInput = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
 
+        // If we're alive:
         if (health > 0) {
             if (!(player.cheats & CF_Predicting)) {
                 if (sprint_Tics == -1 && CheckInventory ('S7_Stamina', 75))
                     sprint_Tics = 0;
 
+                // We can't sprint if:
+                bool cantSprint = (
+                    playerData.dying || // We're dying
+                    CountInv ('S7_Stamina') < S7C_SprintStamina || // We don't have enough stamina
+                    ledgeGrab_Grabbed || // We're holding onto a ledge
+                    bS7_DisableSprinting // Sprinting is disabled
+                );
+
                 // Start/stop sprinting
-                if (!sprint_Sprinting && sprint_Tics != -1 &&
-                    (player.cmd.buttons & BT_User1) && !playerData.dying && CheckInventory ('S7_Stamina', S7C_SprintStamina) &&
-                    !(self is 'S7_DracoPlayer') && !ledgeGrab_Grabbed
-                ) {
+                if (!sprint_Sprinting && sprint_Tics != -1 && (player.cmd.buttons & BT_User1) && !cantSprint) {
                     sprint_Sprinting = true;
                     sprint_SpeedFactor = sprint_SpdFacPproc = 0.0;
                     sprint_Tics = 0;
                     sprint_OldAgility = double.NaN;
-                } else if (sprint_Sprinting &&
-                    (!(player.cmd.buttons & BT_User1) || playerData.dying || CountInv ('S7_Stamina') < S7C_SprintStamina ||
-                    ledgeGrab_Grabbed || (self is 'S7_DracoPlayer'))
-                ) {
+                } else if (sprint_Sprinting && (!(player.cmd.buttons & BT_User1) || cantSprint)) {
                     if (sprint_Tics < 5)
                         TakeInventory ('S7_Stamina', sprint_Tics);
 
@@ -502,9 +527,19 @@ extend class S7_BasePlayer {
         if (teching_Active && teching_HorzVelKilled)
             horzSpeedMax = 5 * 5;
         bool horzSpeedOverMax = (vel.XY dot vel.XY) > horzSpeedMax;
+        // We can't tech if:
+        bool cantTech = (
+            health <= 0 || // We're dead
+            player.onground || // We're on the ground
+            horzSpeedOverMax || // We're moving too fast
+            ledgeGrab_Grabbed || // We're holding onto a ledge
+            bS7_DisableTeching // Teching is disabled
+        );
 
+        // If we're teching:
         if (teching_Active) {
-            if (!(player.cmd.buttons & BT_Crouch) || player.onground || horzSpeedOverMax || ledgeGrab_Grabbed)
+            // Stop teching if we let go of crouch or can't tech anymore.
+            if (!(player.cmd.buttons & BT_Crouch) || cantTech)
                 teching_Active = false;
             else {
                 if (vel.Z < -0.5)
@@ -521,8 +556,10 @@ extend class S7_BasePlayer {
             }
         }
 
+        // If crouch was just pressed:
         if ((player.cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch)) {
-            if (!teching_Active && !player.onground && !horzSpeedOverMax && !ledgeGrab_Grabbed) {
+            // If teching isn't active and we can tech:
+            if (!teching_Active && !cantTech) {
                 teching_Active = true;
                 teching_HorzVelKilled = false;
             }

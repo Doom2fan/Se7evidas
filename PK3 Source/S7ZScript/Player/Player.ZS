@@ -42,8 +42,6 @@ class S7_PlayerData : Inventory {
     int milkUseRate, milkRegenRate;
     // Heartbeats thing.
     int heartbeatTics;
-    // Hack for getting viewbob in morphed players
-    double bob;
 
     override void AttachToOwner (Actor other) {
         Super.AttachToOwner (other);
@@ -64,6 +62,14 @@ class S7_BasePlayer : PlayerPawn {
 
     string classDesc;
     property ClassDescription: classDesc;
+
+    private int S7PlayerFlags;
+    flagdef S7_DisableMultijump: S7PlayerFlags, 0;
+    flagdef S7_DisableWalljump: S7PlayerFlags, 1;
+    flagdef S7_DisableDodging: S7PlayerFlags, 2;
+    flagdef S7_DisableLedgeGrab: S7PlayerFlags, 3;
+    flagdef S7_DisableSprinting: S7PlayerFlags, 4;
+    flagdef S7_DisableTeching: S7PlayerFlags, 5;
 
     default {
         S7_BasePlayer.ClassDescription "";
@@ -209,8 +215,6 @@ class S7_BasePlayer : PlayerPawn {
         if (!player || !player.mo || player.mo != self)
             return;
 
-        CustCalcHeight ();
-
         if (!(player.cheats & CF_Predicting)) {
             if (!playerData || !weapBinds || !xpSys || !healSys || !FindInventory ('S7_BasicArmor'))
                 GiveBasics (); // We only check it in this function to avoid a function call.
@@ -258,13 +262,6 @@ class S7_BasePlayer : PlayerPawn {
         }
     }
 
-    override void DeathThink () {
-        Super.DeathThink ();
-
-        if (player.morphTics && (player.mo is 'S7_BasePlayer'))
-            S7_BasePlayer (player.mo).CustCalcHeight ();
-    }
-
     const BaseCrouchSpeed = (1./8.);
     override void CrouchMove (int direction) {
         double defaultHeight = fullHeight;
@@ -297,86 +294,76 @@ class S7_BasePlayer : PlayerPawn {
         CheckFakeFloorTriggers (pos.Z + oldHeight, true);
     }
 
-    const GZD_MaxBob = 16.0;
-    virtual void CustCalcHeight () {
-        if (!player || !player.morphTics || !playerData)
-            return;
-
+    override void CalcHeight () {
         double bobAngle;
         double bob;
         bool   still = false;
 
-        if (player.cheats & CF_NOCLIP2)
-            playerData.bob = 0;
-        else if (player.mo.bNoGravity && !player.onground)
-            playerData.bob = 0.5;
+        if (player.cheats & CF_NoClip2)
+            player.bob = 0.;
+        else if (bNoGravity && !player.onGround)
+            player.bob = .5;
         else {
-            playerData.bob = vel dot vel;
-            if (playerData.bob == 0)
+            player.bob = player.vel dot player.vel;
+
+            if (player.bob == 0.)
                 still = true;
             else {
-                playerData.bob *= S7_PlayerCVar.GetFloat (player, "movebob");
+                player.bob *= player.GetMoveBob ();
 
-                if (playerData.bob > GZD_MaxBob)
-                    playerData.bob = GZD_MaxBob;
+                if (player.bob > MaxBob)
+                    player.bob = MaxBob;
             }
         }
 
-        double defaultviewheight = player.mo.ViewHeight + player.crouchviewdelta;
-
+        double defaultViewHeight = ViewHeight + player.crouchViewDelta;
         if (player.cheats & CF_NoVelocity) {
-            player.viewz = player.mo.pos.z + defaultviewheight;
-
-            if (player.viewz > player.mo.ceilingz - 4)
-                player.viewz = player.mo.ceilingz - 4;
+            player.viewZ = pos.Z + defaultViewHeight;
+            player.viewZ = min (player.viewZ, ceilingZ - 4.);
 
             return;
         }
 
         if (still) {
             if (player.health > 0) {
-                bobAngle = level.time / (120 * TicRate / 35.) * 360.;
-                bob = S7_PlayerCVar.GetFloat (player, "stillbob") * sin (bobAngle);
-            }
-            else
+                bobAngle = level.time / (120. * TicRate / 35.) * 360.;
+                bob = player.GetStillBob () * sin (bobAngle);
+            } else
                 bob = 0;
-        }
-        else {
-            bobAngle = level.time / (20 * TicRate / 35.) * 360.;
-            bob = playerData.bob * sin (bobAngle) * (player.mo.waterlevel > 1 ? 0.25 : 0.5);
+        } else {
+            bobAngle = level.maptime / (20. * TicRate / 35.) * 360.;
+            bob = player.bob * sin (bobAngle) * ((waterLevel > 1) ? .25 : .5);
         }
 
-        // Move viewheight
+        // Move viewHeight
         if (player.playerstate == PST_Live) {
-            player.viewheight += player.deltaviewheight;
+            player.viewHeight += player.deltaViewHeight;
 
-            if (player.viewheight > defaultviewheight) {
-                player.viewheight = defaultviewheight;
-                player.deltaviewheight = 0;
-            } else if (player.viewheight < (defaultviewheight / 2)) {
-                player.viewheight = defaultviewheight / 2;
-                if (player.deltaviewheight <= 0)
-                    player.deltaviewheight = 1 / 65536.;
+            if (player.viewHeight > defaultViewHeight) {
+                player.viewHeight = defaultViewHeight;
+                player.deltaViewHeight = 0.;
+            } else if (player.viewHeight < (defaultViewHeight / 2.)) {
+                player.viewHeight = defaultViewHeight / 2.;
+                player.deltaViewHeight = max (player.deltaViewHeight, S7_Math.VM_Epsilon);
             }
 
-            if (player.deltaviewheight) {
-                player.deltaviewheight += 0.25;
+            if (player.deltaViewHeight) {
+                player.deltaViewHeight += .25;
 
-                if (!player.deltaviewheight)
-                    player.deltaviewheight = 1 / 65536.;
+                if (player.deltaViewHeight == 0.)
+                    player.deltaViewHeight = S7_Math.VM_Epsilon;
             }
         }
 
-        player.viewz = player.mo.pos.z + player.viewheight + (bob * player.mo.ViewBob); // [SP] Allow DECORATE changes to view bobbing speed.
+        /*if (player.morphTics)
+            bob = 0.;*/
 
-        if (player.mo.Floorclip && player.playerstate != PST_Dead && player.mo.pos.Z <= player.mo.floorz)
-            player.viewz -= player.mo.Floorclip;
+        player.viewZ = pos.Z + player.viewHeight + (bob * clamp (ViewBob, 0., 1.5)); // [SP] Allow DECORATE changes to view bobbing speed.
 
-        if (player.viewz > player.mo.ceilingz - 4)
-            player.viewz = player.mo.ceilingz - 4;
+        if (floorClip && player.playerstate != PST_DEAD && pos.Z <= floorZ)
+            player.viewZ -= floorClip;
 
-        if (player.viewz < player.mo.floorz + 4)
-            player.viewz = player.mo.floorz + 4;
+        player.viewZ = clamp (player.viewZ, floorZ + 4., ceilingZ - 4.);
     }
 
     clearscope int S7_GetMaxHealth () { return ((xpSys) ? int (SpawnHealth () * (1. + (.06 * xpSys.GetStat (S7Stat_Vitality)))) : 0); }

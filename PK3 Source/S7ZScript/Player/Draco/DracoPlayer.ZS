@@ -64,6 +64,13 @@ class S7_DracoPlayer : S7_BasePlayer {
 
         // Class stuff
         Player.DisplayName "Draco";
+
+        +S7_BASEPLAYER.S7_DISABLEMULTIJUMP
+        +S7_BASEPLAYER.S7_DISABLEWALLJUMP
+        +S7_BASEPLAYER.S7_DISABLEDODGING
+        +S7_BASEPLAYER.S7_DISABLELEDGEGRAB
+        +S7_BASEPLAYER.S7_DISABLESPRINTING
+        +S7_BASEPLAYER.S7_DISABLETECHING
     }
 
     override void PostBeginPlay () {
