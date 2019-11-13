@@ -35,5 +35,6 @@ extend class S7_BaseWeapon {
         S7_FB_AbsoluteAngle   = 1 << 2,
         S7_FB_AbsolutePitch   = 1 << 3,
         S7_FB_PhysRelVelocity = 1 << 4,
+        S7_FB_NoRandomSpread  = 1 << 5,
     }
 }

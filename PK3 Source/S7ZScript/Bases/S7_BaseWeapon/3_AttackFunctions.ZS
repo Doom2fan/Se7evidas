@@ -149,7 +149,9 @@ extend class S7_BaseWeapon {
     // S7_A_FireBullets & S7_A_SpawnSFX
     //
     //-------------------------------------------------------------------------------------------
+    // Note: DO NOT USE THIS FUNCTION FOR ANYTHING THAT AFFECTS THE PLAYSIM, OR IT CAN AND *WILL* CAUSE DESYNCS.
     action Actor, S7_TZK_ArrayObj S7_A_SpawnSFX (Class<Actor> sfxType, Vector3 offs = (0, 0, 0), double angleOffs = 0, double pitchOffs = 0, int amount = 1, int flags = 0) {
+        flags |= S7_FB_NoRandomSpread;
         return S7_A_FireBullets (sfxType, offs: offs, angleOffs: angleOffs, pitchOffs: pitchOffs, amount: amount, flags: flags | S7_FB_SpeedOffs);
     }
 
@@ -200,11 +202,12 @@ extend class S7_BaseWeapon {
             let proj = Spawn (projType, origin, ALLOW_REPLACE);
             proj.target = self;
 
-            let projRot = S7_GM_Quaternion.CreateFromAngles (
-                fRandom [weaponSpread] (-spread.X, spread.X),
-                fRandom [weaponSpread] (-spread.Y, spread.Y),
-                0
-            );
+            if (!(flags & S7_FB_NoRandomSpread)) {
+                spread.X = fRandom [weaponSpread] (-spread.X, spread.X);
+                spread.Y = fRandom [weaponSpread] (-spread.Y, spread.Y);
+            }
+
+            let projRot = S7_GM_Quaternion.CreateFromAngles (spread.X, spread.Y, 0);
             projRot = projBaseRot.MultiplyQuat (projRot);
 
             Vector3 forwards = S7_Math.GetAxesFromQuat (projRot);
