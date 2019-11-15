@@ -24,7 +24,7 @@ extend class S7_Math {
     ** Arguments:
     **  lvl: An instance of the LevelLocals struct.
     **  p1: The starting point.
-    **  p2: The endpont.
+    **  p2: The endpoint.
     **
     ** Returns:
     **  Returns the angle and pitch from p1 to p2.
@@ -36,6 +36,42 @@ extend class S7_Math {
         double pitch = -VectorAngle (diffVec.Length (), diffVec.Z);
 
         return angle, pitch;
+    }
+
+    /* Summary:
+    **  Gets the angle and pitch of a 3D vector.
+    **
+    ** Arguments:
+    **  vec: The vector.
+    **
+    ** Returns:
+    **  Returns the angle and pitch of the vector.
+    */
+    static double, double GetVectorAngles (Vector3 vec) {
+        double angle = VectorAngle (vec.X, vec.Y);
+        double pitch = -VectorAngle (vec.XY.Length (), vec.Z);
+
+        return angle, pitch;
+    }
+
+    /* Summary:
+    **  Calculates a 3D vector with the specified yaw, pitch and length.
+    **
+    ** Arguments:
+    **  yaw: The yaw of the vector.
+    **  pitch: The pitch of the vector.
+    **  length: The magnitude of the vector.
+    **
+    ** Returns:
+    **  Returns a Vector3 of magnitude <length> with the specified yaw and pitch.
+    */
+    static Vector3 Vec3FromAngle (double yaw, double pitch, double length) {
+        double pitchCos = cos (pitch);
+        return (
+            length * pitchCos * cos (yaw),
+            length * pitchCos * sin (yaw),
+            length * -sin (pitch)
+        );
     }
 
     /* Summary:
