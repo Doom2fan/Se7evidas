@@ -119,6 +119,14 @@ class S7_ManxCarbine : S7_BaseWeapon {
         if (!pspOverlay)
             return ResolveState ("Null");
 
+        if (health <= 0) {
+            if (!showOverlay) {
+                pspOverlay.sprite = GetSpriteIndex ('TNT1');
+                pspOverlay.frame = 0;
+            }
+            return ResolveState ("Overlay.DeselectDEAD");
+        }
+
         if (!pspWeap) {
             pspOverlay.sprite = GetSpriteIndex ('TNT1');
             pspOverlay.frame = 0;
