@@ -47,8 +47,9 @@ extend class S7_BasePlayer {
 
         int curStamina = CountInv ('S7_Stamina');
         int maxStamina = GetMaxStamina ();
+        bool regenBlocked = (sprint_Sprinting || teching_Active);
 
-        if (health <= 0 || curStamina == maxStamina || sprint_Sprinting) {
+        if (health <= 0 || curStamina == maxStamina || regenBlocked) {
             playerData.staminaTics = 0;
             return;
         }

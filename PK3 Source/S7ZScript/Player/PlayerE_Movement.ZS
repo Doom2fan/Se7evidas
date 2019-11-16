@@ -51,11 +51,17 @@ extend class S7_BasePlayer {
     // Teching
     const Teching_MaxPressTime = TicRate / 4;
     const Teching_MaxHorzSpeed = 50.0;
+    const Teching_StartStamina = 15;
+    const Teching_HoldStamina = 5;
+    const Teching_HoldStaminaTime = 5;
+    const Teching_MaxTime = 35 * 10;
+    const Teching_WaitTime = 35 / 3;
 
     bool   teching_Active;
     bool   teching_HorzVelKilled;
     double teching_VelXKillSpeed;
     double teching_VelYKillSpeed;
+    int    teching_Timer;
 
     override void MovePlayer () {
         let player = self.player;
@@ -532,16 +538,24 @@ extend class S7_BasePlayer {
             health <= 0 || // We're dead
             player.onground || // We're on the ground
             horzSpeedOverMax || // We're moving too fast
+            teching_Timer < 0 || // We just stopped teching
             ledgeGrab_Grabbed || // We're holding onto a ledge
             bS7_DisableTeching // Teching is disabled
         );
 
+        if (player.onground)
+            teching_Timer = 0;
+        else if (teching_Timer < 0)
+            teching_Timer++;
+
         // If we're teching:
         if (teching_Active) {
             // Stop teching if we let go of crouch or can't tech anymore.
-            if (!(player.cmd.buttons & BT_Crouch) || cantTech)
+            if (!(player.cmd.buttons & BT_Crouch) || cantTech) {
                 teching_Active = false;
-            else {
+                if (!player.onground && teching_Timer >= 0)
+                    teching_Timer = -Teching_WaitTime;
+            } else {
                 if (vel.Z < -0.5)
                     vel.Z *= 0.25;
 
@@ -553,15 +567,24 @@ extend class S7_BasePlayer {
                     teching_VelYKillSpeed = S7_Math.DampedSpring (vel.Y, 0, teching_VelYKillSpeed, 0.25, 0.5)
                 );
                 player.vel = vel.XY;
+
+                if ((teching_Timer % Teching_HoldStaminaTime) == 0)
+                    TakeInventory ('S7_Stamina', Teching_HoldStamina);
+
+                if (teching_Timer >= Teching_MaxTime)
+                    teching_Timer = -Teching_WaitTime;
+
+                teching_Timer++;
             }
         }
 
         // If crouch was just pressed:
         if ((player.cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch)) {
             // If teching isn't active and we can tech:
-            if (!teching_Active && !cantTech) {
+            if (!teching_Active && !cantTech && CheckInventory ('S7_Stamina', Teching_StartStamina)) {
                 teching_Active = true;
                 teching_HorzVelKilled = false;
+                TakeInventory ('S7_Stamina', Teching_StartStamina);
             }
         }
     }
