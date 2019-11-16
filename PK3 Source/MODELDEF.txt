@@ -16,7 +16,7 @@ model S7_MultiJump_Marker {
     skin 0 "MultiJumpMarker.png" // Textures by Chronos "phantombeta" Ouroboros
     model 1 "FlatCeil.md3"
     skin 1 "MultiJumpMarker.png" // Textures by Chronos "phantombeta" Ouroboros
-    scale 32.0 32.0 32.0
+    scale 64.0 64.0 64.0
 
     frameIndex MJMP A 0 0
 }
