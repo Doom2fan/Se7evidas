@@ -26,7 +26,7 @@ extend class S7_Math {
     **  ld: The line to check.
     **
     ** Returns:
-    **  Returns 0 on the line or in front of it or 1 if behind the line.
+    **  Returns 0 if on the line or in front of it or 1 if behind the line.
     */
     clearscope static int PointOnLineSidePrecise (double x, double y, in Line ld) {
         return (y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y > S7C_EqualEpsilon;
