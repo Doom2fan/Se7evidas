@@ -18,6 +18,8 @@
 
 extend class S7_Projectile {
     void HandleMovement () {
+        spawnedTrail = false;
+
         let oldPos = pos;
         let oldVel = vel;
 
@@ -80,8 +82,10 @@ extend class S7_Projectile {
                     traceCurPos = tr.Results.HitPos;
                     if (handleColRet == 1) {
                         if (!self || bDestroyed) {
-                            if (hitSky)
+                            if (hitSky) {
                                 SpawnEffects (oldPos, level.Vec3Diff (oldPos, pos).Length (), oldVel);
+                                spawnedTrail = true;
+                            }
 
                             return;
                         }
@@ -113,25 +117,28 @@ extend class S7_Projectile {
         if (!collisionHandled)
             SetOrigin (level.Vec3Offset (pos, vel), interpFastProj);
 
-        SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
+        if (!spawnedTrail) {
+            SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);
+            spawnedTrail = true;
+        }
 
         if (!collisionHandled && bMissile) {
-            bool floorHit = pos.Z <= floorZ;
-            bool ceilingHit = (pos.Z + height) > ceilingZ;
+            double floorHeight, ceilHeight;
+            [floorHeight, ceilHeight] = CheckBlockingPlanes (pos);
 
-            bool didHitSky = CheckSkyHit (pos, null);
+            bool didHitSky = CheckSkyHit (pos, null, false);
 
-            if ((floorHit || ceilingHit) && !bNoInteraction && !bNoClip) {
-                SetZ (floorHit ? GetZAt () : ceilingZ - height);
-
-                if (floorHit) {
+            if ((BlockingFloor || BlockingCeiling) && !bNoInteraction && !bNoClip) {
+                if (BlockingFloor) {
                     HitFloor ();
-                    BlockingFloor = CurSector;
+                    SetZ (floorHeight);
                 } else
-                    BlockingCeiling = CurSector;
+                    SetZ (ceilHeight - abs (height / 2.));
 
-                A_Stop ();
-                S7_ExplodeMissile (null, null, didHitSky);
+                if (bMissile) {
+                    A_Stop ();
+                    S7_ExplodeMissile (null, null, didHitSky);
+                }
             }
         }
 

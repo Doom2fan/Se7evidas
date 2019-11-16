@@ -36,6 +36,23 @@ class S7_Projectile : FastProjectile {
         EFXStepMode_Accurate    , /// Calculates effects placement accurately.
         EFXStepMode_MapUnit     , /// Places effects every /interval/ map units.
     };
+    /// Determines what blocked the projectile.
+    enum EBlockTypes {
+        S7_BLOCK_None,
+        S7_BLOCK_Actor,
+        S7_BLOCK_Line,
+        S7_BLOCK_Floor,
+        S7_BLOCK_Ceiling,
+        S7_BLOCK_3DFloor_Floor,
+        S7_BLOCK_3DFloor_Ceiling,
+    };
+    /// Determines what tier of a line blocked the projectile.
+    enum EBlockLineTiers {
+        S7_BLOCK_Tier_Bottom,
+        S7_BLOCK_Tier_Middle,
+        S7_BLOCK_Tier_Top,
+        S7_BLOCK_Tier_FFloor,
+    };
 
     int moveMode;
     int fpCollisionMode;
@@ -45,6 +62,11 @@ class S7_Projectile : FastProjectile {
     double effectStepMul;
     double bonusDMGFactor;
 
+    int BlockingType;
+    int BlockingLineTier;
+    F3DFloor BlockingFFloor;
+
+    private bool spawnedTrail;
     bool hitSky;
 
     /// Which movement code to use.
