@@ -72,12 +72,14 @@ extend class S7_Projectile {
     }
 
     protected double, double CheckBlockingPlanes (Vector3 checkPos) {
+        Sector sec = level.PointInSector (checkPos.XY);
+
         double floorHeight, ceilHeight;
         Sector floorSec, ceilSec;
         F3DFloor floorFFloor, ceilFFloor;
 
-        [floorHeight, floorSec, floorFFloor] = CurSector.NextLowestFloorAt (checkPos.X, checkPos.Y, checkPos.Z);
-        [ ceilHeight,  ceilSec,  ceilFFloor] = CurSector.NextHighestCeilingAt (checkPos.X, checkPos.Y, checkPos.Z, checkPos.Z + height);
+        [floorHeight, floorSec, floorFFloor] = sec.NextLowestFloorAt (checkPos.X, checkPos.Y, checkPos.Z);
+        [ ceilHeight,  ceilSec,  ceilFFloor] = sec.NextHighestCeilingAt (checkPos.X, checkPos.Y, checkPos.Z, checkPos.Z + height);
 
         if (floorFFloor && checkPos.Z <= floorHeight) {
             BlockingType = S7_BLOCK_3DFloor_Floor;
@@ -113,7 +115,7 @@ extend class S7_Projectile {
         BlockingCeiling = null;
         BlockingType = S7_BLOCK_None;
 
-        double hitDist = level.Vec3Diff (startPos, tr.Results.HitPos).Length ();
+        double hitDist = tr.Results.Distance;
         if (hitDist > abs (oldVel.Length ()) + radius) {
             if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor && tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
@@ -121,11 +123,7 @@ extend class S7_Projectile {
             return 0;
         }
 
-        double maxDist = abs (oldVel.Length ());
         let hitPos = level.Vec3Offset (oldPos, (oldVel.Unit () * hitDist));
-        hitPos += -(oldVel.Unit () * abs (radius / 2.));
-
-        SetOrigin (hitPos, interpFastProj);
 
         /*if (!bSkyExplode && CheckSkyHit (pos, null, true)) {
             if (!spawnedTrail) {
@@ -139,12 +137,27 @@ extend class S7_Projectile {
             return 1;
         }*/
 
-        if (tr.Results.HitType == TRACE_HitFloor)
-            hitPos = tr.Results.HitPos;
-        else if (tr.Results.HitType == TRACE_HitCeiling)
-            hitPos = level.Vec3Offset (tr.Results.HitPos, (0, 0, -abs (height / 2.)));
+        if (tr.Results.HitType == TRACE_HitFloor) {
+            double floorHeight = tr.Results.HitSector.floorPlane.ZatPoint (hitPos.XY);
 
-        Vector3 rHitPos = tr.Results.HitPos;
+            if (tr.Results.FFloor)
+                floorHeight = tr.Results.FFloor.top.ZatPoint (hitPos.XY);
+
+            floorHeight = tr.Results.HitSector.NextLowestFloorAt (hitPos.X, hitPos.Y, floorHeight + 0.001);
+            hitPos = (hitPos.XY, floorHeight);
+        } else if (tr.Results.HitType == TRACE_HitCeiling) {
+            double ceilHeight = tr.Results.HitSector.ceilingPlane.ZatPoint (hitPos.XY);
+
+            if (tr.Results.FFloor)
+                ceilHeight = tr.Results.FFloor.bottom.ZatPoint (hitPos.XY);
+
+            ceilHeight = tr.Results.HitSector.NextHighestCeilingAt (hitPos.X, hitPos.Y, ceilHeight - 0.001, (ceilHeight - 0.001) + height);
+            hitPos = (hitPos.XY, ceilHeight - (abs (height) - 1));
+        } else {
+            hitPos += -(oldVel.Unit () * abs (radius / 2.));
+        }
+
+        SetOrigin (hitPos, interpFastProj);
 
         FCheckPosition tm;
         tm.DoRipping = bRipper;
@@ -173,8 +186,8 @@ extend class S7_Projectile {
                         backSec = frontSec;
                     }
 
-                    bool aboveBottom = (pos.Z >= backSec.floorPlane.ZatPoint (rHitPos.XY));
-                    bool belowTop = ((pos.Z + height) < backSec.ceilingPlane.ZatPoint (rHitPos.XY));
+                    bool aboveBottom = (pos.Z >= backSec.floorPlane.ZatPoint (hitPos.XY));
+                    bool belowTop = ((pos.Z + height) < backSec.ceilingPlane.ZatPoint (hitPos.XY));
 
                     if (aboveBottom && belowTop)
                         BlockingLineTier = S7_BLOCK_Tier_Middle;
@@ -222,18 +235,25 @@ extend class S7_Projectile {
             }
         } else {
             double floorHeight, ceilHeight;
-            [floorHeight, ceilHeight] = CheckBlockingPlanes (rHitPos);
+            [floorHeight, ceilHeight] = CheckBlockingPlanes (hitPos);
 
-            if (BlockingFloor || BlockingCeiling) {
+            bool hitPlane = (
+                BlockingType == S7_BLOCK_Floor ||
+                BlockingType == S7_BLOCK_Ceiling ||
+                BlockingType == S7_BLOCK_3DFloor_Floor ||
+                BlockingType == S7_BLOCK_3DFloor_Ceiling
+            );
+
+            if (hitPlane) {
                 SetOrigin (hitPos, interpFastProj);
 
                 bool didHitSky = CheckSkyHit (pos, null, true);
 
-                if (BlockingFloor) {
+                if (BlockingType == S7_BLOCK_Floor || BlockingType == S7_BLOCK_3DFloor_Floor) {
                     HitFloor ();
                     SetZ (floorHeight);
                 } else
-                    SetZ (ceilHeight - (height / 4. * 3.));
+                    SetZ (ceilHeight - (abs (height) - 1));
 
                 if (!spawnedTrail && didHitSky) {
                     SpawnEffects (oldPos, level.Vec3Diff (oldPos, pos).Length (), oldVel);

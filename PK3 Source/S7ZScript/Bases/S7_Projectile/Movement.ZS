@@ -133,7 +133,7 @@ extend class S7_Projectile {
                     HitFloor ();
                     SetZ (floorHeight);
                 } else
-                    SetZ (ceilHeight - abs (height / 2.));
+                    SetZ (ceilHeight - (abs (height) - 1));
 
                 if (bMissile) {
                     A_Stop ();
