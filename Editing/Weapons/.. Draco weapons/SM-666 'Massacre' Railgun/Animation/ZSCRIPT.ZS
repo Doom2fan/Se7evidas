@@ -164,7 +164,7 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
                 Vector3 offs;
                 Vector3 actVel;
 
-                if (hitGeo) {
+                if (!hitGeo) {
                     offs = S7_Math.Vec3FromAngle (
                         fRandom [sfx] (0, 360),
                         fRandom [sfx] (-90, 90),
