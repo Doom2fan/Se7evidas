@@ -134,59 +134,6 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
         realDamage = 50 + (random [weaponDamage] (0.0, 5.0) * 20);
     }
 
-    static Vector3 GetGeoHitNormal (Actor act) {
-        if (act.BlockingLine) {
-            double ang = VectorAngle (act.BlockingLine.delta.X, act.BlockingLine.delta.Y);
-            let norm = (AngleToVector (ang - 90, 1.), 0).Unit ();
-
-            if (S7_Math.PointOnLineSidePrecise (act.pos.X, act.pos.Y, act.BlockingLine) == 1)
-                norm = -norm;
-
-            return norm;
-        } else if (act.BlockingFloor)
-            return act.BlockingFloor.floorPlane.normal;
-        else if (act.BlockingCeiling)
-            return act.BlockingCeiling.ceilingPlane.normal;
-
-        if (act.pos.Z <= act.FloorSector.floorPlane.ZatPoint (act.pos.XY))
-            return act.FloorSector.floorPlane.normal;
-        else if ((act.pos.Z + act.height) >= act.CeilingSector.ceilingPlane.ZatPoint (act.pos.XY))
-            return act.CeilingSector.ceilingPlane.normal;
-
-        return (double.NaN, double.NaN, double.NaN);
-    }
-
-    clearscope static Vector3, Vector3 GetOrthoVecs (Vector3 vec) {
-        if (vec == (0, 0, 0))
-            return (0, 0, 0);
-        else if (vec.XY == (0, 0))
-            return (1, 1, 0).Unit ();
-
-        Vector3 orth0 = (-vec.y, vec.x, 0).Unit ();
-        Vector3 orth1 = (vec cross orth0).Unit ();
-        Console.Printf ("vec: %f, %f, %f", vec.X, vec.Y, vec.Z);
-        Console.Printf ("orth0: %f, %f, %f", orth0.X, orth0.Y, orth0.Z);
-        Console.Printf ("orth1: %f, %f, %f", orth1.X, orth1.Y, orth1.Z);
-
-        return orth0, orth1;
-    }
-
-    static Vector3 RandomOrthoHalfSphereVec (Vector3 vec, Vector3 orth0, Vector3 orth1) {
-        if (vec ~== (0, 0, 0))
-            return (0, 0, 0);
-
-        Vector2 xy = (fRandom [sfx] (-1, 1), fRandom [sfx] (-1, 1));
-
-        if (xy dot xy > 1)
-            xy = xy.Unit ();
-
-        double z = sqrt (1 - xy.x * xy.x - xy.y * xy.y);
-        Vector3 ret = (z * vec + xy.x * orth0 + xy.y * orth1);
-        if (ret ~== (0, 0, 0))
-            return (0, 0, 0);
-
-        return ret.Unit ();
-    }
     states {
     Spawn:
         PLGF A 1 bright;
@@ -200,46 +147,24 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
 
     Death:
         TNT1 A 3 {
-            let norm = GetGeoHitNormal (self);
-            Vector3 orth0, orth1;
-            if (norm == norm)
-                [orth0, orth1] = GetOrthoVecs (norm);
-            else
-                Console.Printf ("fuck");
+            bool hitGeo = (BlockingType != S7_BLOCK_None && BlockingType != S7_BLOCK_Actor);
 
-            /*double minAngle, maxAngle;
-            double minPitch, maxPitch;
+            Vector3 norm, orth0, orth1;
 
-            if (BlockingMobj) {
-                minAngle = 0; maxAngle = 359.9999;
-                minPitch = -90; maxPitch = 90;
-            } else {
-                double _discard;
+            if (hitGeo) {
+                norm = GetGeoHitNormal ();
 
-                let norm = GetGeoHitConstraints (pos, CurSector, BlockingLine, BlockingFloor, BlockingCeiling);
-
-                double normAngle, normPitch;
-                [normAngle, normPitch] = S7_Math.GetVectorAngles (norm);
-                let quat = S7_GM_Quaternion.CreateFromAngles (normAngle, normPitch, 0);
-
-                let pitchQuat = S7_GM_Quaternion.CreateFromAngles ( 0, 90, 0);
-
-                [minAngle, _discard, _discard] = quat.MultiplyQuat (S7_GM_Quaternion.CreateFromAngles (-90,   0, 0)).ToAngles ();
-                [maxAngle, _discard, _discard] = quat.MultiplyQuat (S7_GM_Quaternion.CreateFromAngles ( 90,   0, 0)).ToAngles ();
-                [_discard, minPitch, _discard] = quat.MultiplyQuat (S7_GM_Quaternion.CreateFromAngles (  0,  90, 0)).ToAngles ();
-                [_discard, maxPitch, _discard] = quat.MultiplyQuat (S7_GM_Quaternion.CreateFromAngles (  0, -90, 0)).ToAngles ();
-                Console.Printf ("angles: %f, %f", minAngle, maxAngle);
-                Console.Printf ("pitches: %f, %f", minPitch, maxPitch);
-
-                quat.Destroy ();
-                pitchQuat.Destroy ();
-            }*/
+                if (norm == norm)
+                    [orth0, orth1] = S7_Math.GetOrthoVecs (norm);
+                else
+                    Console.Printf ("NaN received from GetGeoHitNormal in S7_Draco_MassacreProjectile's Death state. This shouldn't happen.");
+            }
 
             for (int i = 0; i < 8; i++) {
                 Vector3 offs;
                 Vector3 actVel;
 
-                if (BlockingMobj || norm != norm) {
+                if (hitGeo) {
                     offs = S7_Math.Vec3FromAngle (
                         fRandom [sfx] (0, 360),
                         fRandom [sfx] (-90, 90),
@@ -252,8 +177,8 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
                         1
                     );
                 } else {
-                    offs = RandomOrthoHalfSphereVec (norm, orth0, orth1);
-                    actVel = RandomOrthoHalfSphereVec (norm, orth0, orth1);
+                    offs = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [sfx] (0, 1), fRandom [sfx] (0, 1)), orth0, orth1);
+                    actVel = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [sfx] (0, 1), fRandom [sfx] (0, 1)), orth0, orth1);
                 }
 
                 offs *= fRandom [sfx] (0, 15);
