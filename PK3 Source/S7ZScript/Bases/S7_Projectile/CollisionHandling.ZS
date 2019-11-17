@@ -80,12 +80,10 @@ extend class S7_Projectile {
         [ ceilHeight,  ceilSec,  ceilFFloor] = CurSector.NextHighestCeilingAt (checkPos.X, checkPos.Y, checkPos.Z, checkPos.Z + height);
 
         if (floorFFloor && checkPos.Z <= floorHeight) {
-            Console.Printf ("f %f", floorHeight);
             BlockingFloor = floorFFloor.model;
             Blocking3DFloor = floorFFloor.model;
             BlockingFFloor = floorFFloor;
         } else if (ceilFFloor && (checkPos.Z + height) >= ceilHeight) {
-            Console.Printf ("c %f", ceilHeight);
             BlockingCeiling = ceilFFloor.model;
             Blocking3DFloor = ceilFFloor.model;
             BlockingFFloor = ceilFFloor;
