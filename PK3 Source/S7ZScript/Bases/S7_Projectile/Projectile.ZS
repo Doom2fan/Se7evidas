@@ -145,7 +145,7 @@ class S7_Projectile : FastProjectile {
 
             case S7_BLOCK_Ceiling:
                 if (BlockingCeiling)
-                    return BlockingCeiling.floorPlane.normal;
+                    return -BlockingCeiling.floorPlane.normal;
             break;
 
             case S7_BLOCK_3DFloor_Floor:
