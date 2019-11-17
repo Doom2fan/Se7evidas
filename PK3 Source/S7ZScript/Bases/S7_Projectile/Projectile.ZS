@@ -116,7 +116,82 @@ class S7_Projectile : FastProjectile {
         }
     }
 
+    /* Summary:
+    **  Gets the normal vector for the level geometry the projectile hit.
+    **  Only works when MovementMode is set to "FastProjectile" or "InstantMove".
+    **
+    ** Returns:
+    **  Returns a Vector3 containing the normal of whatever the projectile hit.
+    **  Returns a Vector3 containing NaNs if the projectile didn't hit any level geometry.
+    */
+    Vector3 GetGeoHitNormal () {
+        switch (BlockingType) {
+            case S7_BLOCK_Line:
+                if (BlockingLine) {
+                    double ang = VectorAngle (BlockingLine.delta.X, BlockingLine.delta.Y);
+                    let norm = (AngleToVector (ang - 90, 1.), 0).Unit ();
+
+                    if (S7_Math.PointOnLineSidePrecise (pos.X, pos.Y, BlockingLine) == 1)
+                        norm = -norm;
+
+                    return norm;
+                }
+            break;
+
+            case S7_BLOCK_Floor:
+                if (BlockingFloor)
+                    return BlockingFloor.floorPlane.normal;
+            break;
+
+            case S7_BLOCK_Ceiling:
+                if (BlockingCeiling)
+                    return BlockingCeiling.floorPlane.normal;
+            break;
+
+            case S7_BLOCK_3DFloor_Floor:
+                if (BlockingFFloor)
+                    return -BlockingFFloor.top.normal; // 3D floor normals are inverted.
+            break;
+
+            case S7_BLOCK_3DFloor_Ceiling:
+                if (BlockingFFloor)
+                    return -BlockingFFloor.bottom.normal; // 3D floor normals are inverted.
+            break;
+        }
+
+        if (pos.Z <= FloorSector.floorPlane.ZatPoint (pos.XY))
+            return FloorSector.floorPlane.normal;
+        else if ((pos.Z + height) >= CeilingSector.ceilingPlane.ZatPoint (pos.XY))
+            return CeilingSector.ceilingPlane.normal;
+
+        return (double.NaN, double.NaN, double.NaN);
+    }
+
+    /* Summary:
+    **  Called after movement is performed when the movement mode is set to "FastProjectile" or "InstantMove".
+    */
     virtual void PostMovement () { }
+
+
+    /* Summary:
+    **  Called when the projectile hits something.
+    **
+    ** Arguments:
+    **  l: The line the projectile hit, if any.
+    **  targ: The actor the projectile hit, if any.
+    **  onSky: Whether the projectile hit a sky.
+    */
+    virtual void S7_ExplodeMissile (Line l, Actor targ, bool onSky) {
+        hitSky = onSky;
+        if (onSky && !bSkyExplode) {
+            vel = (0, 0, 0);
+            Destroy ();
+
+            return;
+        }
+
+        ExplodeMissile (l, targ, onSky);
+    }
 
     static const double FPColOffs [] = { // Y and Z, not X and Y.
         // Edge centers
@@ -132,6 +207,9 @@ class S7_Projectile : FastProjectile {
         // Center
         0, 0.5
     };
+    /* Summary:
+    **  Called when the movement mode is set to "FastProjectile".
+    */
     virtual void NewFastProjTick () {
         if (!self || bDestroyed)
             return;
@@ -164,6 +242,9 @@ class S7_Projectile : FastProjectile {
     }
 
     const S7_InstantMovement_Limit = 2 ** 14;
+    /* Summary:
+    **  Called when the movement mode is set to "InstantMovement".
+    */
     virtual void InstantMovementTick () {
         if (!self || bDestroyed)
             return;
@@ -205,17 +286,5 @@ class S7_Projectile : FastProjectile {
                     return;
             }
         }
-    }
-
-    virtual void S7_ExplodeMissile (Line l, Actor targ, bool onSky) {
-        hitSky = onSky;
-        if (onSky && !bSkyExplode) {
-            vel = (0, 0, 0);
-            Destroy ();
-
-            return;
-        }
-
-        ExplodeMissile (l, targ, onSky);
     }
 }

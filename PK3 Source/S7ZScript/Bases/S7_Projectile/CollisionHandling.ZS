@@ -80,17 +80,26 @@ extend class S7_Projectile {
         [ ceilHeight,  ceilSec,  ceilFFloor] = CurSector.NextHighestCeilingAt (checkPos.X, checkPos.Y, checkPos.Z, checkPos.Z + height);
 
         if (floorFFloor && checkPos.Z <= floorHeight) {
+            BlockingType = S7_BLOCK_3DFloor_Floor;
+
             BlockingFloor = floorFFloor.model;
             Blocking3DFloor = floorFFloor.model;
             BlockingFFloor = floorFFloor;
         } else if (ceilFFloor && (checkPos.Z + height) >= ceilHeight) {
+            BlockingType = S7_BLOCK_3DFloor_Ceiling;
+
             BlockingCeiling = ceilFFloor.model;
             Blocking3DFloor = ceilFFloor.model;
             BlockingFFloor = ceilFFloor;
-        } else if (checkPos.Z <= floorHeight)
+        } else if (checkPos.Z <= floorHeight) {
+            BlockingType = S7_BLOCK_Floor;
+
             BlockingFloor = floorSec;
-        else if ((checkPos.Z + height) >= ceilHeight)
+        } else if ((checkPos.Z + height) >= ceilHeight) {
+            BlockingType = S7_BLOCK_Ceiling;
+
             BlockingCeiling = ceilSec;
+        }
 
         return floorHeight, ceilHeight;
     }

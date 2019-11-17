@@ -134,6 +134,55 @@ extend class S7_Math {
         return (2 * (normal dot vec) * normal - vec).Unit ();
     }
 
+    /* Summary:
+    **  Calculates two orthogonal vectors from an arbitrary 3D vector.
+    **
+    ** Arguments:
+    **  vec: The vector to calculate the orthogonal vectors from.
+    **
+    ** Returns:
+    **  Returns two vectors orthogonal to the vector passed to the function.
+    */
+    clearscope static Vector3, Vector3 GetOrthoVecs (Vector3 vec) {
+        if (vec == (0, 0, 0))
+            return (0, 0, 0), (0, 0, 0);
+        else if (vec.XY == (0, 0))
+            return (1, 0, 0), (0, 1, 0);
+
+        Vector3 orth0 = (-vec.y, vec.x, 0).Unit ();
+        Vector3 orth1 = (vec cross orth0).Unit ();
+
+        return orth0, orth1;
+    }
+
+
+    /* Summary:
+    **  Calculates a random direction in a half-sphere around a normal vector.
+    **
+    ** Arguments:
+    **  vec: The normal of the half-sphere.
+    **  xy: Two random numbers in the range [0-1].
+    **  orth0: A vector orthogonal to "vec". Must be different from orth1.
+    **  orth1: A vector orthogonal to "vec". Must be different from orth0.
+    **
+    ** Returns:
+    **  Returns a random 3D vector in a half-sphere around "vec".
+    */
+    clearscope static Vector3 RandomHalfSphereVecFromNormal (Vector3 vec, Vector2 xy, Vector3 orth0, Vector3 orth1) {
+        if (vec ~== (0, 0, 0))
+            return (0, 0, 0);
+
+        if (xy dot xy > 1)
+            xy = xy.Unit ();
+
+        double z = sqrt (1 - xy.x * xy.x - xy.y * xy.y);
+        Vector3 ret = (z * vec + xy.x * orth0 + xy.y * orth1);
+        if (ret ~== (0, 0, 0))
+            return (0, 0, 0);
+
+        return ret.Unit ();
+    }
+
     /** Polygons **/
     /* Summary:
     **  Calculates the smallest AABB that can hold a set of points.
