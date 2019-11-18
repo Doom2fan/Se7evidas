@@ -79,54 +79,85 @@ extend class S7_BasePlayer {
         ActualMovePlayer (player, cmd);
     }
 
+    virtual Vector2 S7_TweakSpeeds (Vector2 move, bool running) {
+        move.X *= (!running ? ForwardMove1 : ForwardMove2);
+        move.Y *= (!running ? SideMove1 : SideMove2);
+
+        if (!player.morphTics) {
+            double factor = 1.;
+
+            for (let it = Inv; it != null; it = it.Inv)
+                factor *= it.GetSpeedFactor ();
+
+            move *= factor;
+        }
+
+        return move;
+    }
+
     virtual void ActualMovePlayer (PlayerInfo player, UserCmd cmd) {
         // killough 10/98:
         //
         // We must apply thrust to the player and bobbing separately, to avoid anomalies. The thrust
         // applied to bobbing is always the same strength on ice, because the player still "works just
         // as hard" to move, while the thrust applied to the movement varies with 'movefactor'.
-        if (cmd.forwardmove | cmd.sidemove) {
+        if (cmd.forwardmove || cmd.sidemove) {
             double forwardmove, sidemove;
             double bobfactor;
-            double friction, movefactor;
+            double friction, moveFactor;
             double fm, sm;
 
-            [friction, movefactor] = GetFriction ();
-            bobfactor = friction < Orig_Friction ? movefactor : Orig_Friction_Factor;
+            [friction, moveFactor] = GetFriction ();
+            bobfactor = friction < Orig_Friction ? moveFactor : Orig_Friction_Factor;
             if (!player.onground && !bNoGravity && !waterlevel) {
                 // [RH] allow very limited movement if not on ground.
-                movefactor *= level.aircontrol;
-                bobfactor*= level.aircontrol;
+                moveFactor *= level.aircontrol;
+                bobfactor *= level.aircontrol;
             }
 
-            fm = cmd.forwardmove;
-            sm = cmd.sidemove;
-            [fm, sm] = TweakSpeeds (fm, sm);
-            fm *= Speed / 256;
-            sm *= Speed / 256;
+            bool running;
+            Vector2 moveSpeed; {
+                Vector3 mov = S7_ActorExtensions.ConvertPlayerMovementInput (player.cmd.forwardmove, player.cmd.sidemove);
+                moveSpeed = mov.XY;
+                running = (mov.Z ~== 1.);
+
+                if (moveSpeed.Length () != 0)
+                    moveSpeed = moveSpeed.Unit ();
+            }
+
+            moveSpeed = S7_TweakSpeeds (moveSpeed, running);
+            moveSpeed *= Speed;
+
+            // When walking, cut speed by half.
+            if (!running) {
+                moveFactor *= 0.5;
+                bobFactor *= 0.5;
+            }
 
             // When crouching, speed and bobbing have to be reduced
             if (CanCrouch () && player.crouchfactor != 1) {
-                fm *= player.crouchfactor;
-                sm *= player.crouchfactor;
+                moveSpeed *= player.crouchfactor;
                 bobfactor *= player.crouchfactor;
             }
 
             double sprintFactor = 1.0 + (sprint_Sprinting ? sprint_SpeedFactor : 0.0);
-            forwardmove = fm * movefactor * (35 / TicRate) * sprintFactor;
-            sidemove = sm * movefactor * (35 / TicRate) * sprintFactor;
+            moveFactor *= 50; // To account for our values not being bonkers.
+            bobfactor *= 50; // Ditto.
 
-            if (forwardmove) {
-                Bob (Angle, cmd.forwardmove * bobfactor / 256., true);
-                ForwardThrust (forwardmove, Angle);
+            Vector2 bobSpeed = moveSpeed * bobFactor * (35. / TicRate) * sprintFactor;
+            moveSpeed = moveSpeed * moveFactor * (35. / TicRate) * sprintFactor;
+
+            if (moveSpeed.X != 0) {
+                Bob (Angle, bobSpeed.X, true);
+                ForwardThrust (moveSpeed.X, Angle);
             }
-            if (sidemove) {
+            if (moveSpeed.Y != 0) {
                 let a = Angle - 90;
-                Bob (a, cmd.sidemove * bobfactor / 256., false);
-                Thrust (sidemove, a);
+                Bob (a, bobSpeed.Y, false);
+                Thrust (moveSpeed.Y, a);
             }
 
-            if (!(player.cheats & CF_Predicting) && !(forwardmove ~== 0 && sidemove ~== 0))
+            if (!(player.cheats & CF_Predicting) && !(moveSpeed.X ~== 0 && moveSpeed.Y ~== 0))
                 PlayRunning ();
 
             if (player.cheats & CF_RevertPlease) {
@@ -135,6 +166,7 @@ extend class S7_BasePlayer {
             }
         }
     }
+
     override void CheckCrouch (bool totallyfrozen) {
         UserCmd cmd = player.cmd;
 
