@@ -406,20 +406,24 @@ class S7_ActorExtensions : Actor {
     **  whether the player is running or not as Z.
     */
     static Vector3 ConvertPlayerMovementInput (int forwardMove, int sideMove) {
+        bool xRunning = (abs (forwardMove) > 6400);
+        bool yRunning = (abs (sideMove) > 6144);
+
+        if (xRunning) {
+            int sign = (uint (-forwardMove >>> 31) - uint (forwardMove >>> 31));
+            forwardMove = (abs (forwardMove) - 6400) * sign;
+        }
+        if (yRunning) {
+            int sign = (uint (-sideMove >>> 31) - uint (sideMove >>> 31));
+            sideMove = (abs (sideMove) - 6144) * sign;
+        }
+
         Vector3 ret;
-
-        bool xRunning = forwardMove > 6400.;
-        bool yRunning = sideMove > 6144.;
-
-        ret.X = (
-            xRunning ?
-            (forwardMove - 6400.) / 6400. :
-             forwardMove          / 6400.
-        );
+        ret.X = (forwardMove / 6400.);
         ret.Y = (
             yRunning ?
-            (sideMove - 6144.) / 4096. :
-             sideMove          / 6144.
+            sideMove / 4096. :
+            sideMove / 6144.
         );
 
         ret.Z = (xRunning || yRunning) ? 1. : 0.;
