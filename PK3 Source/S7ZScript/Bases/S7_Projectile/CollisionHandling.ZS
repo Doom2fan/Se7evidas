@@ -115,7 +115,7 @@ extend class S7_Projectile {
         BlockingCeiling = null;
         BlockingType = S7_BLOCK_None;
 
-        double hitDist = tr.Results.Distance;
+        double hitDist = level.Vec3Diff (startPos, tr.Results.HitPos).Length ();
         if (hitDist > abs (oldVel.Length ()) + radius) {
             if (tr.Results.HitType == TRACE_HitActor && tr.Results.HitActor && tr.actorsToIgnore.Find (tr.Results.HitActor) == tr.actorsToIgnore.Size ())
                 tr.actorsToIgnore.Push (tr.Results.HitActor);
