@@ -43,7 +43,7 @@ class S7_S7DataParser : S7_BaseParser {
         while ((tk = m_Tokenizer.Next ()).type != TOK_EOF) { // Read until the end of the file
             // Error out if we don't have an identifier
             if (tk.type != TOK_Identifier) {
-                m_ParsingException = S7_BadTokenPE.Create ("S7_BaseParser.ParseGenericType", TOK_Identifier, tk);
+                m_ParsingException = S7_BadTokenPE.Create ("S7_S7DataParser.Parse", TOK_Identifier, tk);
                 return false;
             }
 
