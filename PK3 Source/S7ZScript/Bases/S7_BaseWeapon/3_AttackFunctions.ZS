@@ -212,7 +212,7 @@ extend class S7_BaseWeapon {
 
             Vector3 forwards = S7_Math.GetAxesFromQuat (projRot);
 
-            proj.vel = (forwards.Unit () * proj.Speed);
+            proj.vel += (forwards.Unit () * proj.Speed);
             [proj.angle, proj.pitch, proj.roll] = projRot.ToAngles ();
 
             if (flags & S7_FB_PhysRelVelocity)
