@@ -733,7 +733,7 @@ shop "mainShop" {
                     name = "$SS_HANDGRENADES";
                     desc = "$SS_HANDGRENADEDESC";
                     info = "$SS_HANDGRENADEINFO";
-                    icon = "sprites/Weapons/Throwables/Grenade/TGRNZ0.png";
+                    icon = "graphics/Weapons/Throwables/Grenades/Icon.png";
 
                     inventoryName = "S7_GrenadeCount";
                     buyPrice = 200;

@@ -76,7 +76,7 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
         Weapon.AmmoUse 0;
         Weapon.AmmoGive 0;
 
-        S7_BaseWeapon.Icon "HGRNZ0";
+        S7_BaseWeapon.Icon "graphics/Weapons/Throwables/Grenades/Icon.png";
         S7_BaseWeapon.ShortTag "$GRENADEWEAP";
         S7_BaseWeapon.AmmoBuyData "HGRN", 1;
         S7_BaseWeapon.BindSlot S7_WpSlot_Special;
