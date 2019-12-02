@@ -192,7 +192,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             int colour = Font.CR_White;
 
             if (item == link.selectedItem)
-                colour = Font.CR_Red;
+                colour = Font.CR_LightBlue;
             else if (item.itemData.itemType != IT_PageLink) {
                 if (
                     (!sellMode && !item.itemData.CanBuy (pPawn, 1)) ||

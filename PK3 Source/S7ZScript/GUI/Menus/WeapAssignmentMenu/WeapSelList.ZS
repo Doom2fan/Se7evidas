@@ -331,7 +331,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
                 continue;
 
             for (int j = 0; j < items [i].labels.Size (); j++)
-                items [i].labels [j].textColor = (items [i] == item ? Font.CR_Red : Font.CR_White);
+                items [i].labels [j].textColor = (items [i] == item ? Font.CR_LightBlue : Font.CR_White);
         }
     }
 }

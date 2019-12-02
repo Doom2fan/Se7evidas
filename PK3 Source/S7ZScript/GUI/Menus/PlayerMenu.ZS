@@ -114,13 +114,13 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
             return;
         }
 
-        xpSysButton.textColor           = (      xpSysButton.isHovered ? Font.CR_Red : Font.CR_White);
-        luciusShopButton.textColor      = ( luciusShopButton.isHovered ? Font.CR_Red : Font.CR_White);
-        weapAssignButton.textColor      = ( weapAssignButton.isHovered ? Font.CR_Red : Font.CR_White);
-        weapEnchantButton.textColor     = (weapEnchantButton.isHovered ? Font.CR_Red : Font.CR_White);
+        xpSysButton.textColor           = (      xpSysButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
+        luciusShopButton.textColor      = ( luciusShopButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
+        weapAssignButton.textColor      = ( weapAssignButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
+        weapEnchantButton.textColor     = (weapEnchantButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
         if (dracoWeapAssignButton)
-            dracoWeapAssignButton.textColor = (dracoWeapAssignButton.isHovered ? Font.CR_Red : Font.CR_White);
+            dracoWeapAssignButton.textColor = (dracoWeapAssignButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
         if (m400AutogunButton)
-            m400AutogunButton.textColor     = (m400AutogunButton.isHovered ? Font.CR_Red : Font.CR_White);
+            m400AutogunButton.textColor     = (m400AutogunButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
     }
 }
