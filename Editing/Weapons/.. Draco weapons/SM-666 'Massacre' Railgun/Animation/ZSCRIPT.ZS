@@ -25,9 +25,10 @@ class S7_Draco_Massacre : S7_DracoWeapon {
     }
 
     action void DMSC_SpawnSmoke (int count) {
-        for (int i = 0; i < count; i++)
-            S7_A_SpawnSFX ('S7_HeatSmokeSpawner', offs: (0, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
-            //A_FireProjectile ("S7_HeatSmokeSpawner", 0, 0, random [sfx] (4, 10), fRandom [sfx] (-8.0, -9.2));
+        for (int i = 0; i < count; i++) {
+            let act = S7_A_SpawnSFX ('S7_HeatSmoke', offs: (35, random [S7_SmokeRNG] (4, 10), fRandom [S7_SmokeRNG] (9., 10.)));
+            act.vel = (vel / 2.) + act.vel;
+        }
     }
 
     const AnimLayer_ID = 2;
