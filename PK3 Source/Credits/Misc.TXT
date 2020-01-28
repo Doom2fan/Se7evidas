@@ -1,21 +1,25 @@
 DBIGFONT: From Ultimate Simplicity
 
 SMALLFNT:
+    Font name: Miniplicity
     Author: Jimmy / Agent Spork
     Original font: Ultimate Simplicity's bigfont
     Idea Base: Inspired by Valiant which extensively uses the Ultimate Simplicity bigfont.
 
 LOGOFNT:
+    Font name: ZDoom 2012 Big
     Author: Jimmy
     Idea Base: Creating a font loosely based on the ZDoom "Z" icon.
     Additional Credits: "Eriance (Amuscaria), Blue Shadow, Blox, and BouncyTEM for input via the forums while I was creating this."
 
 GARGWING:
+    Font name: Gargoyle Wing, Lowercases variant
     Author: Jimmy, NeuralStunner (lower cases)
     Original font: "Tie Wing" by Boba Fonts
     Idea Base: In my long search for "Archery Black", the Jenocide font, someone offered this as a match. It's similar, but different enough to make an all-new font out of it. :P
 
 S7TxtFnt:
+    Font name: Simply Unreal, Condensed + Lowercases variant
     Submitted: Jimmy
     Author: Jimmy
     Original font: Epic Megagames
