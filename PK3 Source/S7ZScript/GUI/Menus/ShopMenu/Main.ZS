@@ -47,7 +47,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     Font bigFont, smallFont;
 
     S7_ZF_Image mainWindowBG;
-    S7_ZF_Label nameLabel, playerDataLabel, descLabel, infoLabel, tooltipLabel;
+    S7_ZF_Label nameLabel, playerDataLabel, costLabel, descLabel, infoLabel, tooltipLabel;
     S7_ZF_Button buyButton;
 
     S7_ZF_Frame shopFrame;
@@ -117,11 +117,16 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         mainWindowBG = new ('S7_ZF_Image').Init ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
         mainWindowBG.Pack (shopFrame);
 
-        playerDataLabel = new ('S7_ZF_Label').Init ((255, 345-smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
+        playerDataLabel = new ('S7_ZF_Label').Init ((255, 345 - smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         playerDataLabel.Pack (shopFrame);
-        descLabel = new ('S7_ZF_Label').Init ((255, 55), (355, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
+
+        descLabel = new ('S7_ZF_Label').Init ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         descLabel.Pack (shopFrame);
-        infoLabel = new ('S7_ZF_Label').Init ((255, 355), (355, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
+
+        costLabel = new ('S7_ZF_Label').Init ((258, 50 + 8), (355 - 8, descLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: false, textColor: Font.CR_White);
+        costLabel.Pack (shopFrame);
+
+        infoLabel = new ('S7_ZF_Label').Init ((255 + 8, 358), (355 - 8, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         infoLabel.Pack (shopFrame);
 
         tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
@@ -347,6 +352,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     }
 
     void SetDescription (S7_SSItem item) {
+        string cost = "";
         string desc = "";
         string info = "";
 
@@ -356,29 +362,27 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         }
 
         if ((item.itemType & IT_BuySellItem) != 0) {
-            string costString = "";
-
             let itemInfo = item.GetInfo (S7_BasePlayer (CPlayer.mo), 1);
 
             if (!sellMode && (item.itemType & IT_BuyItem))
-                costString = GetCostString (itemInfo.buyPrice, sellMode);
+                cost = GetCostString (itemInfo.buyPrice, sellMode);
             else if (sellMode && (item.itemType & IT_SellItem))
-                costString = GetCostString (itemInfo.sellPrice, sellMode);
-
-            if (costString != "")
-                desc = String.Format ("%s\n\n%s", costString, desc);
+                cost = GetCostString (itemInfo.sellPrice, sellMode);
         }
 
-        if (descLabel)
-            descLabel.text = desc;
-        if (infoLabel)
-            infoLabel.text = info;
+        if (cost)
+            desc = String.Format ("\n\n%s", desc);
+
+        costLabel.text = cost;
+        descLabel.text = desc;
+        infoLabel.text = info;
     }
 
     void Select (S7_SSItem item) {
         if (item && (item.descShowType & DS_Select))
             SetDescription (item);
         else if (!item) {
+            costLabel.text = "";
             descLabel.text = "";
             infoLabel.text = "";
         }
