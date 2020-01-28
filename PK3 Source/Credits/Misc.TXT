@@ -23,3 +23,9 @@ S7TxtFnt:
     Submitted: Jimmy
     Author: Jimmy
     Original font: Epic Megagames
+
+S7TxtBig:
+    Font name: Jenocide Big
+    Submitted: Jimmy
+    Author: Jimmy
+    Original font: "Archery Black" by ShyFonts
