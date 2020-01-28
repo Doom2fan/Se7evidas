@@ -63,10 +63,12 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
     Font bigFont;
     Font smallFont;
+    Font textBigFont;
 
     S7_ZF_Frame slotsFrame, weapSelFrame;
     S7_WeapAssignMenu_List itemsList;
     S7_ZF_Image infoBG;
+    S7_ZF_Label infoNameLabel;
     S7_ZF_Label infoLabel;
     S7_ZF_Button slotButtons [5] [3];
     S7_ZF_Image  slotImages  [5] [3];
@@ -92,6 +94,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
+        textBigFont = Font.GetFont ('S7TxtBig.FON2');
 
         slotsFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 210));
         slotsFrame.Pack (mainFrame);
@@ -129,8 +132,28 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         infoBG = new ('S7_ZF_Image').Init ((221, 12), (400, 246), "graphics/Menu/WeapAssignment/InfoBG.png", S7_ZF_Image.AlignType_TopLeft);
         infoBG.Pack (weapSelFrame);
-        infoLabel = new ('S7_ZF_Label').Init ((221 + 5, 12 + 5), (400 - (5*2), 246 - (5*2)), text: "", fnt: smallFont, wrap: true, autoSize: false, textColor: Font.CR_White);
+
+        double InfoNameLabelScale = .75;
+        infoNameLabel = new ('S7_ZF_Label').Init (
+            (221 + 5, 12 + 5), (400 - (5*2), textBigFont.GetHeight () * InfoNameLabelScale),
+
+            text: "", fnt: textBigFont,
+            wrap: true, autoSize: false,
+            textScale: InfoNameLabelScale, textColor: Font.CR_White
+        );
+        infoNameLabel.Pack (weapSelFrame);
+
+        let infoLabelOrigin = infoNameLabel.box.pos + (15, infoNameLabel.box.size.Y + 2);
+        infoLabel = new ('S7_ZF_Label').Init (
+            infoLabelOrigin,
+            (616 - 15, 253) - infoLabelOrigin,
+
+            text: "", fnt: smallFont,
+            wrap: true, autoSize: false,
+            textColor: Font.CR_White, lineSpacing: 1
+        );
         infoLabel.Pack (weapSelFrame);
+
         itemsList = S7_WeapAssignMenu_List (new ('S7_WeapAssignMenu_List').InitList (self, weapSelFrame, S7_BasePlayer (CPlayer.mo), isDraco));
 
         selectedX = selectedY = -1;
@@ -231,9 +254,12 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     }
 
     void SetInfo (S7_BaseWeapon weap) {
+        string weaponName = "";
         string info = "";
 
         if (weap) {
+            weaponName = StringTable.Localize (weap.shortTag, true);
+
             string weapName = weap.GetClassName ();
             Array<String> strings;
             for (int i = 0; i < S7_WeapData.WeaponDescs.Size (); i++) {
@@ -248,6 +274,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             }
         }
 
+        infoNameLabel.text = weaponName;
         infoLabel.text = info;
     }
 }
