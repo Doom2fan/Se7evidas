@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-version "4.2.4"
+version "4.3.3"
 
 /* Info
 ** You can use anything from here. Just make sure to credit the author(s).
@@ -130,6 +130,8 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/MapEvents/PerfectHatred.ZS"
 
 // Menus
+#include "S7ZScript/GUI/Menus/!!CustomZFormsControls/CompositeBox.ZS"
+#include "S7ZScript/GUI/Menus/!!ZFormsUtils.ZS"
 #include "S7ZScript/GUI/Menus/XPSystemMenu.ZS"
 #include "S7ZScript/GUI/Menus/WeapAssignmentMenu/WeapSelList.ZS"
 #include "S7ZScript/GUI/Menus/WeapAssignmentMenu/Main.ZS"
