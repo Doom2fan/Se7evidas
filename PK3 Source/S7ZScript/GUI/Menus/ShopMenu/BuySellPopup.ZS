@@ -78,7 +78,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
     Font bigFont, smallFont;
 
-    S7_ZF_Image background;
+    S7_ZF_CompositeBox background;
     S7_ZF_Label modeLabel;
 
     S7_ZF_Image itemIcon;
@@ -96,7 +96,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
     bool shiftHeld, ctrlHeld;
 
     S7_ZF_Frame InitPopup (S7_ShopMenu menuLink, S7_ZF_Frame frame) {
-        self.Init ((160, 200), (320, 80));
+        self.Init ((160, 200), (336, 84));
         self.Pack (frame);
         link = menuLink;
 
@@ -107,8 +107,10 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         handler.link = self;
         handler.menuLink = link;
 
-        background = new ('S7_ZF_Image').Init ((0, 0), (320, 80), "graphics/Menu/Shop/BuySellPopup.png", S7_ZF_Image.AlignType_TopLeft);
+        let bgBox = S7_ZFMenuUtils.GetConfirmMenuBG ();
+        background = new ('S7_ZF_CompositeBox').Init ((0, 0), box.size, textures: bgBox);
         background.Pack (self);
+
         modeLabel = new ('S7_ZF_Label').Init ((4, 4), (40, 10), text: "", fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         modeLabel.Pack (self);
 
