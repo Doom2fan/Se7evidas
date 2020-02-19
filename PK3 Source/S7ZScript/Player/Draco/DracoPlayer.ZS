@@ -131,7 +131,7 @@ class S7_DracoPlayer : S7_BasePlayer {
         BOSS K  3 A_NoBlocking;
         BOSS L  3;
         BOSS M  3;
-        BOSS N  3 A_PlaySound ("Misc/Body", CHAN_5);
+        BOSS N  3 A_StartSound ("Misc/Body", slot: CHAN_5);
         BOSS O -1;
         stop;
     XDeath:
