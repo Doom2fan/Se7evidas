@@ -58,8 +58,8 @@ class S7_DracoPlayer : S7_BasePlayer {
         GibHealth -100;
 
         // Movement
-        Player.ForwardMove 1.0, 1.0;
-        Player.SideMove 1.0, 1.0;
+        Player.ForwardMove .5, .5;
+        Player.SideMove .25, .25;
         Player.JumpZ 9;
 
         // Class stuff
