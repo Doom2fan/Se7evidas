@@ -120,13 +120,13 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         playerDataLabel = new ('S7_ZF_Label').Init ((255, 345 - smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         playerDataLabel.Pack (shopFrame);
 
-        descLabel = new ('S7_ZF_Label').Init ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
+        descLabel = new ('S7_ZF_Label').Init ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
         descLabel.Pack (shopFrame);
 
         costLabel = new ('S7_ZF_Label').Init ((258, 50 + 8), (355 - 8, descLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: false, textColor: Font.CR_White);
         costLabel.Pack (shopFrame);
 
-        infoLabel = new ('S7_ZF_Label').Init ((255 + 8, 358), (355 - 8, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
+        infoLabel = new ('S7_ZF_Label').Init ((255 + 8, 358), (355 - 8, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
         infoLabel.Pack (shopFrame);
 
         tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
