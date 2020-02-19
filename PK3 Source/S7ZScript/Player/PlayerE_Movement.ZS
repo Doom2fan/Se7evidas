@@ -218,7 +218,7 @@ extend class S7_BasePlayer {
                             TakeInventory ('S7_Stamina', S7C_DodgeStamina);
 
                         // Play the dodge sound
-                        A_PlaySound ("Player/Dodge", CHAN_Body);
+                        A_StartSound ("Player/Dodge", slot: CHAN_Body);
 
                         if (!(player.cheats & CF_Predicting))
                             GiveInventory ('S7_PowerDodgeEffects', 1);

@@ -135,7 +135,7 @@ class S7_Shotgun : S7_BaseWeapon {
         DSGR AB 1;
         DSGR C  4;
         DSGR BA 1;
-        DSGR A  1 A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_6);
+        DSGR A  1 A_StartSound ("Weapons/Shotgun/ShellIn", slot: CHAN_6);
         DSGR B  1;
         DSGR C  4;
         DSGR B  1;
@@ -198,7 +198,7 @@ class S7_Shotgun : S7_BaseWeapon {
 
             S7_SetAnim ("Anim.Fire");
 
-            A_PlaySound ("Weapons/Shotgun/Fire", CHAN_5);
+            A_StartSound ("Weapons/Shotgun/Fire", slot: CHAN_5);
             A_AlertMonsters ();
             if (!firingRight)
                 A_GunFlash ("FlashLeft");
@@ -243,7 +243,7 @@ class S7_Shotgun : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 1 bright {
-            A_PlaySound ("Weapons/Shotgun/Fire", CHAN_5);
+            A_StartSound ("Weapons/Shotgun/Fire", slot: CHAN_5);
 
             A_AlertMonsters ();
             A_GunFlash ("AltFlash");
@@ -256,7 +256,7 @@ class S7_Shotgun : S7_BaseWeapon {
             S7_Recoil (-.725);
         }
         TNT1 A 1 bright {
-            A_PlaySound ("Weapons/Shotgun/Fire", CHAN_6);
+            A_StartSound ("Weapons/Shotgun/Fire", slot: CHAN_6);
 
             A_AlertMonsters ();
 
@@ -308,7 +308,7 @@ class S7_Shotgun : S7_BaseWeapon {
         }
         TNT1 A 10 {
             S7_SetAnim ("Anim.Pump");
-            A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
+            A_StartSound ("Weapons/Shotgun/Pump", slot: CHAN_7);
 
             S7_SpawnCasing (false);
             S7_SpawnCasing (true);
@@ -318,7 +318,7 @@ class S7_Shotgun : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+            A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_7);
         }
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ()) {
@@ -351,7 +351,7 @@ class S7_Shotgun : S7_BaseWeapon {
             TakeInventory ('S7_20gaShells', 2);
 
             S7_SetAnim ("Anim.InsertShells");
-            A_PlaySound ("Weapons/Shotgun/ShellIn", CHAN_5);
+            A_StartSound ("Weapons/Shotgun/ShellIn", slot: CHAN_5);
 
             return ResolveState (null);
         }
@@ -379,7 +379,7 @@ class S7_Shotgun : S7_BaseWeapon {
             } else
                 return ResolveState ("InsertShells");
 
-            A_PlaySound ("Weapons/Shotgun/Pump", CHAN_7);
+            A_StartSound ("Weapons/Shotgun/Pump", slot: CHAN_7);
             S7_SetAnim ("Anim.Pump");
 
             return ResolveState (null);

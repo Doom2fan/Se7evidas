@@ -106,9 +106,9 @@ class S7_Fauchard : S7_BaseWeapon {
         stop;
     Anim.Reload:
         LSRF ACDEFGH   2;
-        LSRF I         2 A_PlaySound ("Weapons/Fauchard/Out", CHAN_6);
+        LSRF I         2 A_StartSound ("Weapons/Fauchard/Out", slot: CHAN_6);
         LSRF J        30;
-        LSRF J        12 A_PlaySound ("Weapons/Fauchard/In", CHAN_7);
+        LSRF J        12 A_StartSound ("Weapons/Fauchard/In", slot: CHAN_7);
         LSRF KHGFEDCA  2;
         goto Anim.Idle;
     }
@@ -174,7 +174,7 @@ class S7_Fauchard : S7_BaseWeapon {
 
             S7_SetAnim ("Anim.Fire");
 
-            A_PlaySound ("Weapons/Fauchard/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/Fauchard/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
 
@@ -207,7 +207,7 @@ class S7_Fauchard : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireLaser", CHAN_7);
+            A_StartSound ("Weapons/DryFireLaser", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;

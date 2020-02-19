@@ -124,12 +124,12 @@ class S7_AK47 : S7_BaseWeapon {
         AK47 J   1 A_WeaponOffset (6 + -2, 36 + 2);
         AK47 K   1 {
             A_WeaponOffset (6 + -3, 36 + 4);
-            A_PlaySound ("Weapons/AK47/Out", CHAN_6);
+            A_StartSound ("Weapons/AK47/Out", slot: CHAN_6);
         }
         AK47 L   1 A_WeaponOffset (6 + -1, 36 + 1);
         AK47 M   1 A_WeaponOffset (6     , 36    );
         AK47 N  15;
-        AK47 O   1 A_PlaySound ("Weapons/AK47/In", CHAN_7);
+        AK47 O   1 A_StartSound ("Weapons/AK47/In", slot: CHAN_7);
         AK47 PQ  1;
         AK47 R   1 A_WeaponOffset (6 + 1, 36 + -2);
         AK47 S   1 A_WeaponOffset (6 + 3, 36 + -4);
@@ -146,7 +146,7 @@ class S7_AK47 : S7_BaseWeapon {
     Anim.Reload.Chamber:
         AK47 A     2;
         AK42 ABCDE 2;
-        AK42 F     2 A_PlaySound ("Weapons/AK47/Bolt", CHAN_6);
+        AK42 F     2 A_StartSound ("Weapons/AK47/Bolt", slot: CHAN_6);
         AK42 GH    2;
         AK42 IJKLM 1;
         AK47 A     2;
@@ -194,7 +194,7 @@ class S7_AK47 : S7_BaseWeapon {
                 else
                     invoker.semiAuto = true;
 
-                A_PlaySound ("Weapons/ModeChange", CHAN_7);
+                A_StartSound ("Weapons/ModeChange", slot: CHAN_7);
             }
         }
         goto Ready2;
@@ -229,7 +229,7 @@ class S7_AK47 : S7_BaseWeapon {
 
             A_AlertMonsters ();
             A_GunFlash ("Flash");
-            A_PlaySound ("Weapons/AK47/Fire", (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
+            A_StartSound ("Weapons/AK47/Fire", slot: (invoker.halfTic ? CHAN_5 : CHAN_Weapon));
 
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3.5, 2.5));
             S7_A_SpawnCasing ('S7_RifleCasing', (30, 18, 10.5), pitchOffs: -45, spread: (10, 15));
@@ -280,7 +280,7 @@ class S7_AK47 : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+            A_StartSound ("Weapons/DryFireRifle", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;

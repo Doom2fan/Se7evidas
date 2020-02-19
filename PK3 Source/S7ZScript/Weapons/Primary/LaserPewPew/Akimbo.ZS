@@ -31,7 +31,7 @@ extend class S7_LaserPewPew {
         goto AnimAkimbo.Idle;
     AnimAkimbo.Reload: // 18 tics
         BLSG GH  2;
-        BLSG I   4 A_PlaySound ("Weapons/LaserPewPew/In", CHAN_7);
+        BLSG I   4 A_StartSound ("Weapons/LaserPewPew/In", slot: CHAN_7);
         BLSG J   4;
         BLSG IHG 2;
         goto AnimAkimbo.Idle;
@@ -210,7 +210,7 @@ extend class S7_LaserPewPew {
             S7_SetRightAnim ("AnimAkimbo.Fire");
 
             A_AlertMonsters ();
-            A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/LaserPewPew/Fire", slot: CHAN_Weapon);
 
             A_GunFlash ("Flash");
             S7_A_FireBullets ('S7_LaserPewPew_Tracer', spread: (.2, .2), offs: (10, 4.5, 4.5), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
@@ -240,7 +240,7 @@ extend class S7_LaserPewPew {
             S7_SetLeftAnim ("AnimAkimbo.Fire");
 
             A_AlertMonsters ();
-            A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/LaserPewPew/Fire", slot: CHAN_Weapon);
 
             A_Overlay (1001, "Flash");
             A_OverlayFlags (1001, PSPF_AddWeapon | PSPF_PowDouble | PSPF_CVarFast | PSPF_Flip | PSPF_Mirror, true);
@@ -270,7 +270,7 @@ extend class S7_LaserPewPew {
     AkimboRight.DryFire:
         TNT1 A 3 {
             S7_SetRightAnim ("AnimAkimbo.Idle");
-            A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_6);
+            A_StartSound ("Weapons/LaserPewPew/DryFire", slot: CHAN_6);
         }
         TNT1 A 0 {
             // Check the opposite ammo, if there's none, we can go ahead and reload
@@ -281,7 +281,7 @@ extend class S7_LaserPewPew {
     AkimboLeft.DryFire:
         TNT1 A 3 {
             S7_SetLeftAnim ("AnimAkimbo.Idle");
-            A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
+            A_StartSound ("Weapons/LaserPewPew/DryFire", slot: CHAN_7);
         }
         TNT1 A 0 {
             // Check the opposite ammo, if there's none, we can go ahead and reload
@@ -349,11 +349,11 @@ extend class S7_LaserPewPew {
             S7_SetLeftAnim ("AnimAkimbo.Idle");
 
             if (invoker.reloadRight)
-                A_PlaySound ("Weapons/LaserPewPew/Out", CHAN_5);
+                A_StartSound ("Weapons/LaserPewPew/Out", slot: CHAN_5);
         }
         TNT1 A 2 {
             if (invoker.reloadLeft)
-                A_PlaySound ("Weapons/LaserPewPew/Out", CHAN_6);
+                A_StartSound ("Weapons/LaserPewPew/Out", slot: CHAN_6);
         }
     AkimboRight.ReloadAnim_ReloadRight:
         TNT1 A 0 A_JumpIf (!invoker.reloadRight, "AkimboRight.ReloadAnim_ReloadLeft");

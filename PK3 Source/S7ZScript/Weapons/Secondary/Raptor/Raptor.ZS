@@ -81,8 +81,8 @@ class S7_Raptor : S7_BaseWeapon {
     Anim.Reload:
         RPTR FGGH  1;
         RPTR I     4;
-        RPTR I    23 A_PlaySound ("Weapons/Raptor/Out", CHAN_6);
-        RPTR I     1 A_PlaySound ("Weapons/Raptor/In", CHAN_7);
+        RPTR I    23 A_StartSound ("Weapons/Raptor/Out", slot: CHAN_6);
+        RPTR I     1 A_StartSound ("Weapons/Raptor/In", slot: CHAN_7);
         RPTR JDD   1;
         RPTR BA    1;
         RPTN A     1;
@@ -137,7 +137,7 @@ class S7_Raptor : S7_BaseWeapon {
 
             S7_SetAnim ("Anim.Fire");
 
-            A_PlaySound ("Weapons/Raptor/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/Raptor/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
 
@@ -166,7 +166,7 @@ class S7_Raptor : S7_BaseWeapon {
     AltFire:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Altfire");
-            A_PlaySound ("Weapons/Raptor/Melee", CHAN_5);
+            A_StartSound ("Weapons/Raptor/Melee", slot: CHAN_5);
         }
         TNT1 A 2;
         TNT1 A 1 A_CustomPunch (30 + random [weaponDamage] (-2, 2), true, 0, 'S7_RaptorMPuff', 85);
@@ -182,7 +182,7 @@ class S7_Raptor : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFirePistol", CHAN_7);
+            A_StartSound ("Weapons/DryFirePistol", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;

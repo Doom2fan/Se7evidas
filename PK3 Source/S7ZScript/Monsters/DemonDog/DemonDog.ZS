@@ -106,7 +106,7 @@ class S7_DemonDog : S7_DemonBase {
         loop;
 
     Melee:
-        TNT1 A      0 A_PlaySound ("Monsters/DemonDog/Attack", CHAN_Voice);
+        TNT1 A      0 A_StartSound ("Monsters/DemonDog/Attack", slot: CHAN_Voice);
         DDOG EEEFFF 2 A_FaceTarget ();
         TNT1 A      0 A_CustomMeleeAttack (int ((24. + fRandom [monsterDMG] (-2., 2.)) * (1. + GetDamageBonus ())), "", "", 'Bite');
         DDOG GGGG   2 A_FaceTarget ();

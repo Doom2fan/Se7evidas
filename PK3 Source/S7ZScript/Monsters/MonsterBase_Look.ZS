@@ -273,7 +273,7 @@ extend class S7_MonsterBase {
             if (reactiontime > level.maptime)
                 target = null;
         } else if (SeeSound)
-            A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: bBoss ? ATTN_None : ATTN_Norm);
+            A_StartSound (SeeSound, slot: CHAN_Weapon, volume: 1., attenuation: bBoss ? ATTN_None : ATTN_Norm);
 
         if (target && SeeState)
             SetState (SeeState);
@@ -419,9 +419,9 @@ extend class S7_MonsterBase {
                 target = null;
         } else if (SeeSound && !(flags & LOF_NoSeeSound)) {
             if (flags & LOF_FullVolSeeSound) // Full volume
-                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_None);
+                A_StartSound (SeeSound, slot: CHAN_Weapon, volume: 1., attenuation: ATTN_None);
             else
-                A_PlaySound (SeeSound, CHAN_Weapon, volume: 1., attenuation: ATTN_Norm);
+                A_StartSound (SeeSound, slot: CHAN_Weapon, volume: 1., attenuation: ATTN_Norm);
         }
 
         if (target && !bInChase) {

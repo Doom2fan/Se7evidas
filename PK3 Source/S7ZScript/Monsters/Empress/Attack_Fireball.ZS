@@ -52,7 +52,7 @@ extend class S7_Empress {
                 proj.bonusDMGFactor = GetDamageBonus ();
         }
         HRFR HHHH 1 A_FaceTarget (90, 45);
-        TNT1 A 0 A_PlaySound ("Misc/Common/Fireball2", attenuation: 0.5);
+        TNT1 A 0 A_StartSound ("Misc/Common/Fireball2", attenuation: 0.5);
         HRFR HHHH 5;
         goto See;
     }

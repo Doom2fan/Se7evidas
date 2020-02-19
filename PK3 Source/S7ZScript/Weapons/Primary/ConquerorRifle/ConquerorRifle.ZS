@@ -125,10 +125,10 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     Anim.Reload:
         CQR1 A      2;
         CQR1 IJKLMN 2;
-        TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/Out", CHAN_6);
+        TNT1 A      0 A_StartSound ("Weapons/ConquerorRifle/Out", slot: CHAN_6);
         CQR1 OPN    2;
         CQR1 N     12;
-        TNT1 A      0 A_PlaySound ("Weapons/ConquerorRifle/In", CHAN_7);
+        TNT1 A      0 A_StartSound ("Weapons/ConquerorRifle/In", slot: CHAN_7);
         CQR1 QRN    2;
         CQR1 NMLKJI 2;
         CQR1 A      2;
@@ -301,7 +301,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             else
                 invoker.semiAuto = true;
 
-            A_PlaySound ("Weapons/ModeChange", CHAN_7);
+            A_StartSound ("Weapons/ModeChange", slot: CHAN_7);
 
             return ResolveState (null);
         }
@@ -324,7 +324,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             S7_SetAnim ("Anim.Fire");
 
             A_AlertMonsters ();
-            A_PlaySound ("Weapons/ConquerorRifle/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/ConquerorRifle/Fire", slot: CHAN_Weapon);
             invoker.loaded = false;
 
             Vector2 spread = (!invoker.zoomed ? (.05, .06) : (.005, .005));
@@ -391,7 +391,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     DoPump:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Pump");
-            A_PlaySound ("Weapons/ConquerorRifle/Pump1", CHAN_5);
+            A_StartSound ("Weapons/ConquerorRifle/Pump1", slot: CHAN_5);
         }
         TNT1 A 3;
         TNT1 A 6 {
@@ -407,7 +407,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
             else
                 S7_A_SpawnCasing (casingType, (30,  8, 10), pitchOffs: -45, spread: (10, 15));
         }
-        TNT1 A 1 A_PlaySound ("Weapons/ConquerorRifle/Pump2", CHAN_5);
+        TNT1 A 1 A_StartSound ("Weapons/ConquerorRifle/Pump2", slot: CHAN_5);
         TNT1 A 3;
         TNT1 A 1 { return invoker.pumpEndState; }
         wait;
@@ -415,7 +415,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     Fire.Jammed:
         TNT1 A 3 { // Add an auto unjamming cvar later
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
+            A_StartSound ("Weapons/ConquerorRifle/DryFire", slot: CHAN_7);
         }
         goto Ready2;
 
@@ -443,7 +443,7 @@ class S7_ConquerorRifle : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/ConquerorRifle/DryFire", CHAN_7);
+            A_StartSound ("Weapons/ConquerorRifle/DryFire", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;

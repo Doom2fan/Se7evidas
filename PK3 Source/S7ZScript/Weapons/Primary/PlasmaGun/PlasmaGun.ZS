@@ -148,8 +148,8 @@ class S7_PlasmaGun : S7_BaseWeapon {
         PLSG A  1 DoSelectOffset ((60, 58));
         PLSG A  1 DoSelectOffset ((72, 72));
         TNT1 A  6;
-        TNT1 A 25 A_PlaySound ("Weapons/PlasmaGun/Out", CHAN_Weapon);
-        TNT1 A 25 A_PlaySound ("Weapons/PlasmaGun/In", CHAN_Weapon);
+        TNT1 A 25 A_StartSound ("Weapons/PlasmaGun/Out", slot: CHAN_Weapon);
+        TNT1 A 25 A_StartSound ("Weapons/PlasmaGun/In", slot: CHAN_Weapon);
         TNT1 A  8;
         PLSG A  1 DoSelectOffset ((72, 72), forceNoInterpolate: true);
         PLSG A  1 DoSelectOffset ((60, 58));
@@ -158,7 +158,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         PLSG A  1 DoSelectOffset ((24, 24));
         PLSG A  4 {
             DoSelectOffset (( 0,  0));
-            A_PlaySound ("Weapons/PlasmaGun/Beep", CHAN_Weapon);
+            A_StartSound ("Weapons/PlasmaGun/Beep", slot: CHAN_Weapon);
         }
         goto Anim.Idle;
     }
@@ -212,7 +212,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             S7_SetAnim ("Anim.Fire");
 
-            A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/PlasmaGun/Fire", slot: CHAN_Weapon);
 
             S7_A_FireBullets ('S7_PlasmaGunRail', spread: (.275, .275), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus (), flags: S7_FB_UseAmmo);
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 3));
@@ -253,8 +253,8 @@ class S7_PlasmaGun : S7_BaseWeapon {
                 A_SetBlend ("10 6B DA", 0.175 * invoker.charge, 8);
 
             double vR = double (invoker.charge) / Charge_Max;
-            A_PlaySound ("Weapons/PlasmaGun/Fire", CHAN_Weapon, 1. - (.5 * vR));
-            A_PlaySound ("Weapons/PlasmaGun/AltFire", CHAN_5, 0.5 + (.5 * vR));
+            A_StartSound ("Weapons/PlasmaGun/Fire",    slot: CHAN_Weapon, volume: 1. - (.5 * vR));
+            A_StartSound ("Weapons/PlasmaGun/AltFire", slot: CHAN_5     , volume: .5 + (.5 * vR));
 
             A_GunFlash ("Flash.Charged");
             S7_A_FireBullets (String.Format ("S7_PlasmaGunRailCharge%d", invoker.charge), offs: (10, 5, 8), bonusDMGFactor: invoker.GetDamageBonus ());
@@ -315,7 +315,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
         goto Ready2;
 
     ChargeStart:
-        TNT1 A 0 A_PlaySound ("Weapons/PlasmaGun/Charge", CHAN_Weapon);
+        TNT1 A 0 A_StartSound ("Weapons/PlasmaGun/Charge", slot: CHAN_Weapon);
     Charge:
         TNT1 A 1 {
             if (invoker.chargingLevel >= Max_Charging_Level)
@@ -363,7 +363,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
             if (!CheckInventory ('S7_PlasmaGunMag', invoker.GetChargeCost ()))
                 return ResolveState ("DryFire.Alt");
 
-            A_PlaySound ("Weapons/PlasmaGun/ChargeFinish");
+            A_StartSound ("Weapons/PlasmaGun/ChargeFinish", slot: CHAN_Weapon);
             A_SetBlend ("10 6B DA", 0.25, 5);
 
             invoker.altfireLock = true;
@@ -390,7 +390,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
 
             invoker.semiAuto = !invoker.semiAuto;
 
-            A_PlaySound ("Weapons/ModeChange", CHAN_7);
+            A_StartSound ("Weapons/ModeChange", slot: CHAN_7);
 
             A_WeaponOffset (4, 36);
         }
@@ -412,7 +412,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+            A_StartSound ("Weapons/DryFirePlasma", slot: CHAN_7);
 
             A_WeaponOffset (0, 32);
             A_ClearRefire ();
@@ -422,7 +422,7 @@ class S7_PlasmaGun : S7_BaseWeapon {
     DryFire.Alt:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+            A_StartSound ("Weapons/DryFirePlasma", slot: CHAN_7);
 
             A_ClearRefire ();
         }

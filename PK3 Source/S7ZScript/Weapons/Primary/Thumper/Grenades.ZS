@@ -375,7 +375,7 @@ class S7_ThumperGrenadeTherm_Fire_Fire : S7_FireThinker_Flame {
             flameRNG.GetFloat (-offsMax, offsMax)
         ), false);
 
-        A_PlaySound ("Fire/DoomCrackle", attenuation: 2);
+        A_StartSound ("Fire/DoomCrackle", attenuation: 2);
 
         Destroy ();
     }
@@ -573,7 +573,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
 
         airburstRange = 0;
 
-        A_PlaySound ("Fire/Flare", CHAN_7, 0.15, true);
+        A_StartSound ("Fire/Flare", slot: CHAN_7, flags: CHANF_Looping, volume: .15);
         initialized = true;
     }
 
@@ -819,7 +819,7 @@ class S7_ThumperGrenadeNail_Nail : S7_Projectile {
         NAIL A 1 A_FadeOut (0.03);
         wait;
     XDeath:
-        TNT1 A 3 A_PlaySound ("Bullet/HitFlesh", CHAN_Body, 0.5);
+        TNT1 A 3 A_StartSound ("Bullet/HitFlesh", slot: CHAN_Body, volume: .5);
         stop;
     }
 }
@@ -939,7 +939,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
     }
 
     override void DoAirburst (Vector3 prevVel) {
-        A_PlaySound ("Steam/Burst");
+        A_StartSound ("Steam/Burst", CHAN_Body);
         S7_InitialGasBurst ();
         emittingGas = true;
         projDetonated = true;

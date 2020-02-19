@@ -291,7 +291,7 @@ class S7_FleshSpawnBall : S7_FireballBase {
         FLBL ABCBABCBABCBABCBIJKLM 4 bright;
         stop;
     Death:
-        TNT1 A     0 A_PlaySound ("Monsters/FleshSpawn/FireballExplode", CHAN_5);
+        TNT1 A     0 A_StartSound ("Monsters/FleshSpawn/FireballExplode", slot: CHAN_5);
         FLBL DEFGH 4 bright;
         stop;
     }

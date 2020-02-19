@@ -86,9 +86,9 @@ extend class S7_Empress {
             frame++;
 
         if (time == 0)
-            A_PlaySound ("Monsters/Empress/DanmakuFireballsStart", CHAN_Body, attenuation: 0.5);
+            A_StartSound ("Monsters/Empress/DanmakuFireballsStart", slot: CHAN_Body, attenuation: 0.5);
         else if (time == DanmakuFireballs_Time_SpawnMissiles) {
-            A_PlaySound ("Monsters/Empress/DanmakuFireballsLoop", CHAN_5, attenuation: 0.5);
+            A_StartSound ("Monsters/Empress/DanmakuFireballsLoop", slot: CHAN_5, attenuation: 0.5);
             invoker.attackDanmakuFireballs_Fireballs.Clear ();
 
             for (int i = 0; i < DanmakuFireballs_FireballCount; i++) {
@@ -103,7 +103,7 @@ extend class S7_Empress {
                 }
             }
         } else if (time == DanmakuFireballs_Time_Warn)
-            A_PlaySound ("Monsters/Empress/DanmakuFireballsEnd", CHAN_6, attenuation: ATTN_None);
+            A_StartSound ("Monsters/Empress/DanmakuFireballsEnd", slot: CHAN_6, attenuation: ATTN_None);
         else if (time == DanmakuFireballs_Time_LaunchMissiles) {
             for (int i = 0; i < invoker.attackDanmakuFireballs_Fireballs.Size (); i++) {
                 let proj = invoker.attackDanmakuFireballs_Fireballs [i];

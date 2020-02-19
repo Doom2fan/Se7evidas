@@ -133,7 +133,7 @@ class S7_SSG : S7_BaseWeapon {
 
     Anim.ReloadOpen:
         SSG0 AAABC 1;
-        SSG0 D     1 A_PlaySound ("Weapons/SSG/Open", CHAN_7);
+        SSG0 D     1 A_StartSound ("Weapons/SSG/Open", slot: CHAN_7);
         SSG0 E     1;
         wait;
     Anim.ReloadBoth:
@@ -143,7 +143,7 @@ class S7_SSG : S7_BaseWeapon {
         }
         SSG0 GHIJKLMNO 1;
         SSG0 P         1 {
-            A_PlaySound ("Weapons/SSG/In", CHAN_6);
+            A_StartSound ("Weapons/SSG/In", slot: CHAN_6);
             invoker.leftLoaded = true;
             TakeInventory (invoker.ammoType2, 1);
         }
@@ -151,7 +151,7 @@ class S7_SSG : S7_BaseWeapon {
         SSG0 RSTUVWXYZ 1;
         SSG1 A         1;
         SSG1 B         1 {
-            A_PlaySound ("Weapons/SSG/In", CHAN_7);
+            A_StartSound ("Weapons/SSG/In", slot: CHAN_7);
             invoker.rightLoaded = true;
             TakeInventory (invoker.ammoType2, 1);
         }
@@ -162,7 +162,7 @@ class S7_SSG : S7_BaseWeapon {
         SSG3 A         1 S7_SpawnShell (false);
         SSG3 BCDEFHIJK 1;
         SSG0 Q         4 {
-            A_PlaySound ("Weapons/SSG/In", CHAN_6);
+            A_StartSound ("Weapons/SSG/In", slot: CHAN_6);
             invoker.leftLoaded = true;
             TakeInventory (invoker.ammoType2, 1);
         }
@@ -175,7 +175,7 @@ class S7_SSG : S7_BaseWeapon {
         SSG0 WXYZ   1;
         SSG1 A      1;
         SSG1 B      1 {
-            A_PlaySound ("Weapons/SSG/In", CHAN_6);
+            A_StartSound ("Weapons/SSG/In", slot: CHAN_6);
             invoker.rightLoaded = true;
             TakeInventory (invoker.ammoType2, 1);
         }
@@ -184,7 +184,7 @@ class S7_SSG : S7_BaseWeapon {
         goto Anim.ReloadEnd;
     Anim.ReloadEnd:
         SSG0 E     1;
-        SSG0 D     1 A_PlaySound ("Weapons/SSG/Close", CHAN_Weapon);
+        SSG0 D     1 A_StartSound ("Weapons/SSG/Close", slot: CHAN_Weapon);
         SSG0 CBAAA 1;
         goto Anim.Idle;
     }
@@ -255,7 +255,7 @@ class S7_SSG : S7_BaseWeapon {
             S7_SetAnim ("Anim.Fire");
 
         A_AlertMonsters ();
-        A_PlaySound ("Weapons/SSG/Fire", (!right ? CHAN_Weapon : CHAN_5));
+        A_StartSound ("Weapons/SSG/Fire", slot: (!right ? CHAN_Weapon : CHAN_5));
         if (!firingBoth) {
             if (!right) A_GunFlash ("Flash.Left");
             else        A_GunFlash ("Flash.Right");
@@ -270,7 +270,7 @@ class S7_SSG : S7_BaseWeapon {
 
     action state S7_FireSSGBoth (bool right, bool firingBoth = false) {
         A_AlertMonsters ();
-        A_PlaySound ("Weapons/SSG/Fire", (!right ? CHAN_Weapon : CHAN_5));
+        A_StartSound ("Weapons/SSG/Fire", slot: (!right ? CHAN_Weapon : CHAN_5));
 
         S7_FireSSG (right);
 
@@ -322,7 +322,7 @@ class S7_SSG : S7_BaseWeapon {
 
                 invoker.firingBoth_FiredLeft = true;
             } else {
-                A_PlaySound ("Weapons/DryFireShotgun", CHAN_Weapon);
+                A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_Weapon);
                 invoker.firingBoth_FiredLeft = false;
             }
 
@@ -351,7 +351,7 @@ class S7_SSG : S7_BaseWeapon {
             } else {
                 A_ZoomFactor (.99);
                 S7_Recoil (-2.175);
-                A_PlaySound ("Weapons/DryFireShotgun", CHAN_5);
+                A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_5);
 
                 invoker.firingBoth_FiredRight = false;
             }
@@ -395,21 +395,21 @@ class S7_SSG : S7_BaseWeapon {
     DryFireLeft:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
+            A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_6);
         }
         goto DryFireEnd;
     DryFireRight:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+            A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_7);
         }
         goto DryFireEnd;
     DryFireBoth:
         TNT1 A 1 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireShotgun", CHAN_6);
+            A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_6);
         }
-        TNT1 A 2 A_PlaySound ("Weapons/DryFireShotgun", CHAN_7);
+        TNT1 A 2 A_StartSound ("Weapons/DryFireShotgun", slot: CHAN_7);
         goto DryFireEnd;
     DryFireEnd:
         TNT1 A 0 A_JumpIf (!invoker.leftLoaded && !invoker.rightLoaded && S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
@@ -428,7 +428,7 @@ class S7_SSG : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 5 S7_SetAnim ("Anim.ReloadOpen");
-        TNT1 A 2 A_PlaySound ("Weapons/SSG/Open", CHAN_7);
+        TNT1 A 2 A_StartSound ("Weapons/SSG/Open", slot: CHAN_7);
         TNT1 A 0 {
             if (!invoker.leftLoaded && !invoker.rightLoaded)
                 S7_SetAnim ("Anim.ReloadBoth");

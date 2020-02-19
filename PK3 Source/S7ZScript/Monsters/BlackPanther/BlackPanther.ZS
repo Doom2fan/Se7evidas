@@ -173,7 +173,7 @@ class S7_BlackPantherBall : S7_FireballBase {
     Death:
         TNT1 A      0 {
             A_Explode (int (floor (16. * (1. + bonusDMGFactor / 2.))), 16, 0);
-            A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
+            A_StartSound ("Misc/Common/FireballHit", slot: CHAN_5);
         }
         PNTB CDEFGH 2 bright;
         stop;

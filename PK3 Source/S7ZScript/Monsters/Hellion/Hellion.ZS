@@ -103,7 +103,7 @@ class S7_Hellion : S7_DemonBase {
         loop;
 
     Missile:
-        TNT1 A 0 A_PlaySound ("Monsters/Hellion/Attack", CHAN_Voice);
+        TNT1 A 0 A_StartSound ("Monsters/Hellion/Attack", slot: CHAN_Voice);
 
         HELN GGGGGGHHHHIIIJJ 1 bright A_FaceTarget (26, 13);
 
@@ -202,7 +202,7 @@ class S7_HellionBall : S7_FireballBase {
         }
         loop;
     Death:
-        TNT1 A     0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
+        TNT1 A     0 A_StartSound ("Misc/Common/FireballHit", slot: CHAN_5);
         CP00 DEFGH 2 bright;
         stop;
     }

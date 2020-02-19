@@ -80,7 +80,7 @@ extend class S7_BaseWeapon {
     DaggerMelee1:
         DAG1 ABCD 1;
         DAG1 E    1 {
-            A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
+            A_StartSound ("Weapons/Tridagger/Swing", slot: CHAN_Weapon);
             S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
         }
         DAG1 F    1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
@@ -92,7 +92,7 @@ extend class S7_BaseWeapon {
     DaggerMelee2:
         DAG2 AB 1;
         DAG2 C  1 {
-            A_PlaySound ("Weapons/Tridagger/Swing", CHAN_Weapon);
+            A_StartSound ("Weapons/Tridagger/Swing", slot: CHAN_Weapon);
             S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
         }
         DAG2 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (9. + fRandom [weaponDamage] (-0.5, 1.0)), 'S7_DaggerPuff');
@@ -107,7 +107,7 @@ extend class S7_BaseWeapon {
         TNT1 A  4;
         KNF1 AB 1;
         KNF1 C  1 {
-            A_PlaySound ("Weapons/Machete/Swing", CHAN_Weapon);
+            A_StartSound ("Weapons/Machete/Swing", slot: CHAN_Weapon);
             S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (15.35 + fRandom [weaponDamage] (-2, 5)), 'S7_MachetePuff');
         }
         KNF1 D  1 S7_QuickMeleeCustomPunch (S7_GetMeleeDamage (15.35 + fRandom [weaponDamage] (-2, 5)), 'S7_MachetePuff');

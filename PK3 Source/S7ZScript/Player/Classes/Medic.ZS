@@ -130,7 +130,7 @@ class S7_MedicPlayer : S7_BasePlayer {
         PSCT J  3 A_NoBlocking;
         PSCT K  3;
         PSCT L  3;
-        PSCT M  3 A_PlaySound ("Misc/Body", CHAN_5);
+        PSCT M  3 A_StartSound ("Misc/Body", slot: CHAN_5);
         PSCT N  3;
         PSCT O -1;
         stop;

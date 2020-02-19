@@ -111,7 +111,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         CESR ABCD 1;
         CESR E    6;
         CESR FGH  1;
-        CESR I    1 A_PlaySound ("Weapons/CaesarChaingun/Out", CHAN_5);
+        CESR I    1 A_StartSound ("Weapons/CaesarChaingun/Out", slot: CHAN_5);
         CESR I    2 A_WeaponOffset (-2, 32 - 2);
         CESR J    2 A_WeaponOffset (-1, 32 - 1);
         CESR K    1 A_WeaponOffset ( 0, 32    );
@@ -120,7 +120,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
         CESR R   20;
         CESR QPPO 1;
         CESR NMLK 1;
-        CESR J    1 A_PlaySound ("Weapons/CaesarChaingun/In", CHAN_6);
+        CESR J    1 A_StartSound ("Weapons/CaesarChaingun/In", slot: CHAN_6);
         CESR I    2 A_WeaponOffset (2, 32 + 2);
         CESR I    2 A_WeaponOffset (1, 32 + 1);
         CESR H    1 A_WeaponOffset (0, 32    );
@@ -158,7 +158,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
             if (++invoker.fireMode > 2)
                 invoker.fireMode = 0;
 
-            A_PlaySound ("Weapons/ModeChange", CHAN_7);
+            A_StartSound ("Weapons/ModeChange", slot: CHAN_7);
         }
         goto Ready2;
 
@@ -196,7 +196,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
                 S7_A_FireBullets ('S7_CaesarChaingun_Tracer', spread: (.16, .16), offs: (10, 9, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
                 S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 4.5, 3));
 
-                A_PlaySound ("Weapons/CaesarChaingun/Fire", CHAN_Weapon);
+                A_StartSound ("Weapons/CaesarChaingun/Fire", slot: CHAN_Weapon);
 
                 A_ZoomFactor (.975, ZOOM_Instant);
                 S7_Recoil ((invoker.fireMode >= 1) ? -1.35 : -0.9);
@@ -245,7 +245,7 @@ class S7_CaesarChaingun : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+            A_StartSound ("Weapons/DryFireRifle", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;

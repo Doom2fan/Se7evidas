@@ -117,7 +117,7 @@ class S7_BulletTracer : S7_BaseTracer {
     XDeath:
         TNT1 A 3 {
             if (random [misc] (0, 255) < 96)
-                A_PlaySound ("Tracers/HitFlesh", CHAN_Body, volume: 0.5);
+                A_StartSound ("Tracers/HitFlesh", slot: CHAN_Body, volume: .5);
         }
         stop;
     }
@@ -149,7 +149,7 @@ class S7_BulletPuff : S7_TracerEffectsBase {
 
     states {
     Spawn:
-        TNT1 A 0 noDelay A_PlaySound ("Tracers/HitWall", CHAN_Body);
+        TNT1 A 0 noDelay A_StartSound ("Tracers/HitWall", slot: CHAN_Body);
     NoSound:
         SPRK A 2 bright {
             for (int i = 0; i < 4; i++) {

@@ -194,7 +194,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         MANX H     6;
         MANX IJ    1;
         MANX KL    2;
-        MANX M     2 A_PlaySound ("Weapons/ManxCarbine/In", CHAN_6);
+        MANX M     2 A_StartSound ("Weapons/ManxCarbine/In", slot: CHAN_6);
         MANX NO    2;
         MANX PQEDA 2;
         goto Anim.Idle;
@@ -296,11 +296,11 @@ class S7_ManxCarbine : S7_BaseWeapon {
                 return ResolveState ("DryFire");
 
             if (!invoker.hasSuppressor) {
-                A_PlaySound ("Weapons/ManxCarbine/Fire", invoker.fireSoundChannel ? CHAN_5 : CHAN_Weapon);
+                A_StartSound ("Weapons/ManxCarbine/Fire", slot: invoker.fireSoundChannel ? CHAN_5 : CHAN_Weapon);
                 A_AlertMonsters ();
                 A_GunFlash ();
             } else {
-                A_PlaySound ("Weapons/ManxCarbine/Fire", invoker.fireSoundChannel ? CHAN_5 : CHAN_Weapon, volume: 0.4);
+                A_StartSound ("Weapons/ManxCarbine/Fire", slot: invoker.fireSoundChannel ? CHAN_5 : CHAN_Weapon, volume: 0.4);
                 A_AlertMonsters (512.0);
             }
 
@@ -419,7 +419,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
             S7_SetAnim ("Anim.Idle");
 
             invoker.semiAuto = !invoker.semiAuto;
-            A_PlaySound ("Weapons/ModeChange", CHAN_7);
+            A_StartSound ("Weapons/ModeChange", slot: CHAN_7);
         }
         goto Ready2;
 
@@ -427,7 +427,7 @@ class S7_ManxCarbine : S7_BaseWeapon {
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
 
-            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+            A_StartSound ("Weapons/DryFireSMG", slot: CHAN_7);
 
             return ResolveState (null);
         }

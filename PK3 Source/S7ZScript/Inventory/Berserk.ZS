@@ -217,18 +217,18 @@ class S7_BerserkWeap : S7_BaseWeapon {
         SYR1 EFGHI      1;
         SYR1 J          5;
         SYR1 KL         1;
-        SYR1 M          8 A_PlaySound ("Syringe/In", CHAN_5);
+        SYR1 M          8 A_StartSound ("Syringe/In", slot: CHAN_5);
         SYR1 N          2;
         SYR1 O          2 {
-            A_PlaySound ("Berserk/Inject", CHAN_Weapon);
-            A_PlaySound ("*pain", CHAN_Voice);
+            A_StartSound ("Berserk/Inject", slot: CHAN_Weapon);
+            A_StartSound ("*pain", slot: CHAN_Voice);
         }
         SYR1 P          2;
         SYR1 Q          2 S7_A_InjectBerserk ();
         SYR1 QRSTUVWWWX 2;
         SYR1 Y          8;
         SYR1 Z          2;
-        SYR2 A          2 A_PlaySound ("Syringe/Out", CHAN_5);
+        SYR2 A          2 A_StartSound ("Syringe/Out", slot: CHAN_5);
         SYR2 BCD        2;
         SYR2 E          8;
         SYR2 FG         2;

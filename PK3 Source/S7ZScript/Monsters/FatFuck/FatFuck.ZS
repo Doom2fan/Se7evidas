@@ -115,9 +115,9 @@ class S7_FatFuck : S7_DemonBase {
         loop;
 
     See:
-        TNT1 A      0 A_PlaySound ("Footsteps/Huge", CHAN_5);
+        TNT1 A      0 A_StartSound ("Footsteps/Huge", slot: CHAN_5);
         FAT1 AABBCC 5 A_S7ChaseDef;
-        TNT1 A      0 A_PlaySound ("Footsteps/Huge", CHAN_6);
+        TNT1 A      0 A_StartSound ("Footsteps/Huge", slot: CHAN_6);
         FAT1 DDEEFF 5 A_S7ChaseDef;
         loop;
 
@@ -142,11 +142,11 @@ class S7_FatFuck : S7_DemonBase {
         goto See;
 
     FireballAttack:
-        TNT1 A 0 A_PlaySound ("fatso/raiseguns", CHAN_Voice);
+        TNT1 A 0 A_StartSound ("fatso/raiseguns", slot: CHAN_Voice);
         FAT1 GGGGGGGGGG 1 A_FaceTarget (36, 18);
 
         FAT1 H     10 bright {
-            A_PlaySound ("fatso/attack", CHAN_Weapon);
+            A_StartSound ("fatso/attack", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
@@ -154,14 +154,14 @@ class S7_FatFuck : S7_DemonBase {
 
         FAT1 H     10 bright {
             A_FaceTarget (0, 0);
-            A_PlaySound ("fatso/attack", CHAN_Weapon);
+            A_StartSound ("fatso/attack", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }
         FAT1 IIIGGG 2;
 
         FAT1 H 10 bright {
-            A_PlaySound ("fatso/attack", CHAN_Weapon);
+            A_StartSound ("fatso/attack", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0, -25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
             A_SpawnProjectile ('S7_FatFuckShot', 25.0,  25, fRandom [monsterSpread] (-3.5, 3.5), CMF_AimDirection | CMF_AbsolutePitch, pitch);
         }

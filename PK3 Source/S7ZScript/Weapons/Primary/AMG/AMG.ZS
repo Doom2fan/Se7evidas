@@ -138,11 +138,11 @@ class S7_AMG : S7_BaseWeapon {
     Anim.Reload:
         AMGG A         2;
         AMGR ABCDE     2;
-        AMGR F         2 A_PlaySound ("Weapons/AMG/Out", CHAN_6);
+        AMGR F         2 A_StartSound ("Weapons/AMG/Out", slot: CHAN_6);
         AMGR GHIJKLMNO 2;
-        AMGR P         2 A_PlaySound ("Weapons/AMG/In", CHAN_7);
+        AMGR P         2 A_StartSound ("Weapons/AMG/In", slot: CHAN_7);
         AMGR QR        4;
-        AMGR S         7 A_PlaySound ("Weapons/AMG/Tap", CHAN_6);
+        AMGR S         7 A_StartSound ("Weapons/AMG/Tap", slot: CHAN_6);
         AMGR TUVWXYA   2;
         AMGG A         2;
         goto Anim.Idle;
@@ -305,7 +305,7 @@ class S7_AMG : S7_BaseWeapon {
             else
                 invoker.burstFire = true;
 
-            A_PlaySound ("Weapons/ModeChange", CHAN_7);
+            A_StartSound ("Weapons/ModeChange", slot: CHAN_7);
 
             return ResolveState (null);
         }
@@ -330,7 +330,7 @@ class S7_AMG : S7_BaseWeapon {
                 return ResolveState ("DryFire.Burst");
         }
 
-        A_PlaySound ("Weapons/AMG/Fire", CHAN_Weapon);
+        A_StartSound ("Weapons/AMG/Fire", slot: CHAN_Weapon);
         A_AlertMonsters ();
         A_GunFlash ();
 
@@ -431,7 +431,7 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 A  1 {
             S7_SetAnim ("Anim.DryfireIdle");
 
-            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+            A_StartSound ("Weapons/DryFireRifle", slot: CHAN_7);
             HandleBurstRecoil (invoker.burstCount);
         }
         TNT1 AA 1 HandleBurstRecoil (invoker.burstCount);
@@ -440,7 +440,7 @@ class S7_AMG : S7_BaseWeapon {
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
 
-            A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+            A_StartSound ("Weapons/DryFireRifle", slot: CHAN_7);
             invoker.burstCount = 0;
         }
         goto DryFire.Check;

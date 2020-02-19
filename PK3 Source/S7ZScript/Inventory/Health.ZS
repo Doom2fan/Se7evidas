@@ -268,7 +268,7 @@ class S7_MedikitApplicator : S7_HealWeap {
     }
 
     override void StartHealing () {
-        Owner.A_PlaySound ("S7Inventory/Medikit/Bandage", CHAN_7);
+        Owner.A_StartSound ("S7Inventory/Medikit/Bandage", slot: CHAN_7);
     }
 
     override void DoingHealing () {
@@ -373,7 +373,7 @@ class S7_StimpackApplicator : S7_HealWeap {
             }
         }
 
-        Owner.A_PlaySound ("S7Inventory/Stimpack/Apply", CHAN_7);
+        Owner.A_StartSound ("S7Inventory/Stimpack/Apply", slot: CHAN_7);
         pPawn.GiveHealing (healAmount);
         lowerSpeed = 0;
 
@@ -423,7 +423,7 @@ class S7_Canteen : Inventory {
         }
 
         pPawn.A_SetBlend ("00 28 78", 0.5, 14);
-        pPawn.A_PlaySound ("Inventory/CanteenUse", CHAN_Item);
+        pPawn.A_StartSound ("Inventory/CanteenUse", slot: CHAN_Item);
 
         return false;
     }

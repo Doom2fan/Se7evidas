@@ -131,7 +131,7 @@ class S7_InfernalGuardian : S7_HellNobleBase {
             if (random [CustomJump] (0, 255) < 128)
                 return ResolveState ("Missile.ShieldAttack");
 
-            A_PlaySound ("Monsters/InfernalGuardian/Attack", CHAN_Voice);
+            A_StartSound ("Monsters/InfernalGuardian/Attack", slot: CHAN_Voice);
 
             return ResolveState (null);
         }
@@ -224,7 +224,7 @@ class S7_InfernalGuardianBall : S7_FireballBase {
     Death:
         TNT1 A      0 {
             A_Explode (int (floor (32. * (1. + bonusDMGFactor / 2.))), 24, 8);
-            A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
+            A_StartSound ("Misc/Common/FireballHit", slot: CHAN_5);
         }
         BS0P CDEFGH 2 bright;
         stop;
@@ -250,7 +250,7 @@ class S7_InfernalGuardianShieldShot : S7_FireballBase {
         BS0P I 1 bright;
         loop;
     Death:
-        TNT1 A       0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
+        TNT1 A       0 A_StartSound ("Misc/Common/FireballHit", slot: CHAN_5);
         BS0P JKLMNOP 2 bright;
         stop;
     }

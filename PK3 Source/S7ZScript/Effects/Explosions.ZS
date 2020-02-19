@@ -63,8 +63,8 @@ class S7_ExplosionSound : S7_EffectsBase {
             return;
 
         act.duration = duration;
-        act.A_PlaySound (closeSound, slot: Channel_Close, volume: 1., attenuation: Attenuation_Close);
-        act.A_PlaySound (distantSound, slot: Channel_Distant, volume: Dist_MinVol, attenuation: Attenuation_Distant);
+        act.A_StartSound (closeSound, slot: Channel_Close, volume: 1., attenuation: Attenuation_Close);
+        act.A_StartSound (distantSound, slot: Channel_Distant, volume: Dist_MinVol, attenuation: Attenuation_Distant);
     }
 
     override void Tick () {

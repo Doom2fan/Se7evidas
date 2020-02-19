@@ -68,9 +68,9 @@ class S7_Terminator : S7_DemonBase {
         loop;
 
     See:
-        TERM A   4 A_PlaySound ("Footsteps/Large", CHAN_5);
+        TERM A   4 A_StartSound ("Footsteps/Large", slot: CHAN_5);
         TERM ABB 4 A_S7ChaseDef;
-        TERM C   4 A_PlaySound ("Footsteps/Large", CHAN_6);
+        TERM C   4 A_StartSound ("Footsteps/Large", slot: CHAN_6);
         TERM CDD 4 A_S7ChaseDef;
         loop;
 
@@ -83,14 +83,14 @@ class S7_Terminator : S7_DemonBase {
 
     /** Plasma Cannon **/
     Missile.Plasma:
-        TNT1 A 0 A_PlaySound ("Terminator/PlasmaStart", CHAN_Weapon); // Play the plasma attack begin sound
+        TNT1 A 0 A_StartSound ("Terminator/PlasmaStart", slot: CHAN_Weapon); // Play the plasma attack begin sound
 
         TERM EEEEEE 1 A_FaceTarget (60, 30); // Spin to face target
 
         TERM F  1 bright {
             Vector3 targPos = LeadTarget (target, 75, (18., 35.));
             double sprMod = Clamp (1 - (targPos.Length () / 512), 0.065, 1.0);
-            A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/PlasmaFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_TerminatorPlasma', 35.0, 18, fRandom [monsterSpread] (-2.0, 2.0) * sprMod, CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-1.0, 1.0) * sprMod);
         }
         TERM FF 1 bright;
@@ -99,7 +99,7 @@ class S7_Terminator : S7_DemonBase {
         TERM F   1 bright {
             Vector3 targPos = LeadTarget (target, 75, (18., 35.));
             double sprMod = Clamp (1 - (targPos.Length () / 512), 0.065, 1.0);
-            A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/PlasmaFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_TerminatorPlasma', 35.0, 18, fRandom [monsterSpread] (-2.0, 2.0) * sprMod, CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-1.0, 1.0) * sprMod);
         }
         TERM FF  1 bright;
@@ -108,7 +108,7 @@ class S7_Terminator : S7_DemonBase {
         TERM F   1 bright {
             Vector3 targPos = LeadTarget (target, 75, (18., 35.));
             double sprMod = Clamp (1 - (targPos.Length () / 512), 0.065, 1.0);
-            A_PlaySound ("Terminator/PlasmaFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/PlasmaFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_TerminatorPlasma', 35.0, 18, fRandom [monsterSpread] (-2.0, 2.0) * sprMod, CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-1.0, 1.0) * sprMod);
         }
         TERM FF  1 bright;
@@ -120,7 +120,7 @@ class S7_Terminator : S7_DemonBase {
     Missile.Machinegun:
         TERM GGGG 1 {
             shotsCount = 0;
-            A_PlaySound ("Terminator/MachinegunStart", CHAN_Weapon); // Play the machinegun attack begin sound
+            A_StartSound ("Terminator/MachinegunStart", slot: CHAN_Weapon); // Play the machinegun attack begin sound
             A_FaceTarget (90, 45); // Spin to face target
         }
     Missile.Machinegun.Choose:
@@ -147,7 +147,7 @@ class S7_Terminator : S7_DemonBase {
                 return ResolveState ("Missile.Machinegun.End");
 
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-1.75, 1.75), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.875, 0.875));
 
@@ -158,7 +158,7 @@ class S7_Terminator : S7_DemonBase {
             if (!CheckIfCloser (target, 256.0))
                 LeadTarget (target, 200.0, (15., 40.));
 
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-1.75, 1.75), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.875, 0.875));
         }
@@ -167,7 +167,7 @@ class S7_Terminator : S7_DemonBase {
             if (!CheckIfCloser (target, 256.0))
                 LeadTarget (target, 200.0, (15., 40.));
 
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-1.75, 1.75), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.875, 0.875));
         }
@@ -182,7 +182,7 @@ class S7_Terminator : S7_DemonBase {
                 return ResolveState ("Missile.Machinegun.End");
 
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-1.0, 1.0), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.5, 0.5));
 
@@ -191,14 +191,14 @@ class S7_Terminator : S7_DemonBase {
         TERM GGG 1;
         TERM I   1 bright {
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-1.0, 1.0), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.5, 0.5));
         }
         TERM GGG 1;
         TERM H   1 bright {
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-1.0, 1.0), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.5, 0.5));
         }
@@ -213,7 +213,7 @@ class S7_Terminator : S7_DemonBase {
                 return ResolveState ("Missile.Machinegun.End");
 
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-0.5, 0.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.25, 0.25));
 
@@ -222,14 +222,14 @@ class S7_Terminator : S7_DemonBase {
         TERM GGGG 1;
         TERM I    1 bright {
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-0.5, 0.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.25, 0.25));
         }
         TERM GGGG 1;
         TERM H    1 bright {
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-0.5, 0.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.25, 0.25));
         }
@@ -244,7 +244,7 @@ class S7_Terminator : S7_DemonBase {
                 return ResolveState ("Missile.Machinegun.End");
 
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon); // Play the firing sound
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-0.25, 0.25), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.125, 0.125));
 
@@ -253,14 +253,14 @@ class S7_Terminator : S7_DemonBase {
         TERM GGGGG 1;
         TERM I     1 bright {
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-0.25, 0.25), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.125, 0.125));
         }
         TERM GGGGG 1;
         TERM H     1 bright {
             LeadTarget (target, 200.0, (15., 40.));
-            A_PlaySound ("Terminator/MachinegunFire", CHAN_Weapon);
+            A_StartSound ("Terminator/MachinegunFire", slot: CHAN_Weapon);
             A_SpawnProjectile ('S7_RifleCasingSpawn2', 40.0, -14, 0.0, CMF_AbsolutePitch | CMF_AimDirection, 0.0);
             A_SpawnProjectile ('S7_TerminatorTracer', 40.0, -15, fRandom [monsterSpread] (-0.25, 0.25), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.125, 0.125));
         }
@@ -278,7 +278,7 @@ class S7_Terminator : S7_DemonBase {
             if (!CheckIfCloser (target, 875.0))
                 return ResolveState ("Missile.NoGrenade");
 
-            A_PlaySound ("Terminator/LauncherStart", CHAN_Weapon); // Play the launcher attack begin sound
+            A_StartSound ("Terminator/LauncherStart", slot: CHAN_Weapon); // Play the launcher attack begin sound
             A_FaceTarget (90, 45); // Spin to face target
 
             return ResolveState (null);
@@ -294,7 +294,7 @@ class S7_Terminator : S7_DemonBase {
 
             A_SetPitch (-newPitch);
             A_SpawnProjectile ('S7_TerminatorGrenade', 35.0, -18, fRandom [monsterSpread] (-1.0, 1.0), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-0.75, 0.75));
-            A_PlaySound ("Terminator/GrenadeFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/GrenadeFire", slot: CHAN_Weapon); // Play the firing sound
 
             return ResolveState (null);
         }
@@ -310,22 +310,22 @@ class S7_Terminator : S7_DemonBase {
 
             A_SetPitch (-newPitch);
             A_SpawnProjectile ('S7_TerminatorGrenadeStronger', 35.0, -18, fRandom [monsterSpread] (-1.5, 1.5), CMF_AimDirection | CMF_AbsolutePitch, pitch + fRandom [monsterSpread] (-1.0, 1.0));
-            A_PlaySound ("Terminator/GrenadeStrongerFire", CHAN_Weapon); // Play the firing sound
+            A_StartSound ("Terminator/GrenadeStrongerFire", slot: CHAN_Weapon); // Play the firing sound
 
             return ResolveState (null);
         }
         TERM KK 1 bright;
         goto Missile.Grenade.End;
     Missile.Nail: // Speed 130
-        TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon); // Play the firing sound
+        TNT1 A 0 A_StartSound ("Terminator/NailFire", slot: CHAN_Weapon); // Play the firing sound
         TERM K 1 bright A_SpawnProjectile ('S7_TerminatorNail', 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
         TERM KK 1 bright A_FaceTarget (180, 90);
         TERM J 1 A_FaceTarget (0, 0);
-        TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon); // Play the firing sound
+        TNT1 A 0 A_StartSound ("Terminator/NailFire", slot: CHAN_Weapon); // Play the firing sound
         TERM K 1 bright A_SpawnProjectile ('S7_TerminatorNail', 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
         TERM KK 1 bright A_FaceTarget (180, 90);
         TERM J 1 A_FaceTarget (0, 0);
-        TNT1 A 0 A_PlaySound ("Terminator/NailFire", CHAN_Weapon); // Play the firing sound
+        TNT1 A 0 A_StartSound ("Terminator/NailFire", slot: CHAN_Weapon); // Play the firing sound
         TERM K 1 bright A_SpawnProjectile ('S7_TerminatorNail', 35.0, -18, 0.0, CMF_AimDirection | CMF_AbsolutePitch, pitch);
         TERM K 1 bright;
         goto Missile.Grenade.End;
@@ -550,7 +550,7 @@ class S7_TerminatorNail : S7_Projectile {
         NAIL A 1 A_FadeOut (0.03);
         wait;
     XDeath:
-        TNT1 A 3 A_PlaySound ("Bullet/HitFlesh", CHAN_Body, 0.5);
+        TNT1 A 3 A_StartSound ("Bullet/HitFlesh", slot: CHAN_Body, volume: .5);
         stop;
     }
 }

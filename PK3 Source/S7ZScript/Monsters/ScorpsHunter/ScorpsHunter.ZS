@@ -115,7 +115,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
     }
 
     void DoFireGun () {
-        A_PlaySound ("Monsters/ScorpsHunter/Fire", CHAN_Weapon);
+        A_StartSound ("Monsters/ScorpsHunter/Fire", slot: CHAN_Weapon);
 
         double agilityStat = xpSys ? xpSys.GetStat (S7Stat_Agility, false) : 0.;
         double accuracyMod = clamp ((1. - (agilityStat * .005)), .25, 1.);
@@ -275,7 +275,7 @@ class S7_ScorpsHunter : S7_ScorpBase {
         goto See;
 
     DryFire:
-        SCR3 E 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        SCR3 E 3 A_StartSound ("Weapons/DryFireRifle", slot: CHAN_7);
         TNT1 A 0 A_Jump (random [monsterSpc] () < 192, "Reload");
     DryFire.FindCover:
         TNT1 A        0 { bFrightened = true; }
@@ -291,10 +291,10 @@ class S7_ScorpsHunter : S7_ScorpBase {
         SCR3 A  5;
         SCR3 A  6;
         SCR3 E  5;
-        SCR3 E  1 A_PlaySound ("Monsters/ScorpsHunter/ClipOut", CHAN_5);
+        SCR3 E  1 A_StartSound ("Monsters/ScorpsHunter/ClipOut", slot: CHAN_5);
         SCR3 E  8;
         SCR3 E  1 {
-            A_PlaySound ("Monsters/ScorpsHunter/ClipIn", CHAN_6);
+            A_StartSound ("Monsters/ScorpsHunter/ClipIn", slot: CHAN_6);
             ammo = 8;
         }
         SCR3 EA 5;

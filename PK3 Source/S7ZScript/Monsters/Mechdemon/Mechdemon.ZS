@@ -163,16 +163,16 @@ class S7_Mechdemon : S7_DemonBase {
         MDMN A 10 A_S7Look;
         loop;
     See:
-        TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
+        TNT1 A 0 A_StartSound ("Monsters/Mechdemon/Step", slot: CHAN_5);
         MDMN AA 2 S7_DoChase (2);
         MDMN BB 2 S7_DoChase (2);
-        TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
+        TNT1 A 0 A_StartSound ("Monsters/Mechdemon/Step", slot: CHAN_5);
         MDMN CC 2 S7_DoChase (2);
         MDMN DD 2 S7_DoChase (2);
         loop;
 
     Melee:
-        TNT1 A      0 A_PlaySound ("Monsters/Mechdemon/Attack", CHAN_Voice);
+        TNT1 A      0 A_StartSound ("Monsters/Mechdemon/Attack", slot: CHAN_Voice);
         MDMN EEEFF  2 Fast A_FaceTarget ();
         MDMN G      4 Fast {
             A_FaceTarget ();
@@ -183,10 +183,10 @@ class S7_Mechdemon : S7_DemonBase {
     Missile:
         MDMN AAAA 0 A_FaceTarget (0, 0);
     Charge.RunLoop:
-        TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
+        TNT1 A 0 A_StartSound ("Monsters/Mechdemon/Step", slot: CHAN_5);
         MDMN AA 2 S7_DoCharge ();
         MDMN BB 2 S7_DoCharge ();
-        TNT1 A 0 A_PlaySound ("Monsters/Mechdemon/Step", CHAN_5);
+        TNT1 A 0 A_StartSound ("Monsters/Mechdemon/Step", slot: CHAN_5);
         MDMN CC 2 S7_DoCharge ();
         MDMN DD 2 S7_DoCharge ();
         loop;

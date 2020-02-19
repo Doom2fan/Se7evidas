@@ -91,7 +91,7 @@ class S7_InfantryPlayer : S7_BasePlayer {
     Death.Suicide:
     Death:
         PINF H  4 A_PlayerScream;
-        PINF I  4 A_PlaySound ("Misc/Body", CHAN_5);
+        PINF I  4 A_StartSound ("Misc/Body", slot: CHAN_5);
         PINF J  5 A_NoBlocking;
         PINF K  5;
         PINF L  3;

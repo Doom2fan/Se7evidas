@@ -252,7 +252,7 @@ class S7_Thumper : S7_BaseWeapon {
         THMP B 1 A_WeaponOffset ( 5, 32 +  3, WOF_Interpolate);
         THMP C 1 {
             A_WeaponOffset (16, 32 +  7, WOF_Interpolate);
-            A_PlaySound ("Weapons/Thumper/Pump", CHAN_7);
+            A_StartSound ("Weapons/Thumper/Pump", slot: CHAN_7);
 
             if (invoker.casingType)
                 S7_SpawnCasing ();
@@ -363,7 +363,7 @@ class S7_Thumper : S7_BaseWeapon {
             Class<S7_ThumperGrenade> projType = invoker.ProjectileNames [grenType];
             invoker.casingType = invoker.CasingNames [grenType];
 
-            A_PlaySound ("Weapons/Thumper/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/Thumper/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
 
@@ -422,7 +422,7 @@ class S7_Thumper : S7_BaseWeapon {
             }
 
             if (i > S7_TH_None && i < S7_TH_EndToken && i != invoker.selectedPool) {
-                A_PlaySound ("Weapons/ModeChange", CHAN_6);
+                A_StartSound ("Weapons/ModeChange", slot: CHAN_6);
                 invoker.selectedPool = i;
             }
 
@@ -511,7 +511,7 @@ class S7_Thumper : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/Thumper/Dryfire", CHAN_7);
+            A_StartSound ("Weapons/Thumper/Dryfire", slot: CHAN_7);
         }
         TNT1 A 0 {
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ()) {
@@ -560,7 +560,7 @@ class S7_Thumper : S7_BaseWeapon {
             return ResolveState (null);
         }
         TNT1 A 1 {
-            A_PlaySound ("Weapons/Thumper/ShellIn", CHAN_6);
+            A_StartSound ("Weapons/Thumper/ShellIn", slot: CHAN_6);
 
             invoker.magazine.Insert (0, invoker.selectedPool);
             TakeInventory (S7_Thumper.PoolNames [invoker.selectedPool], 1);

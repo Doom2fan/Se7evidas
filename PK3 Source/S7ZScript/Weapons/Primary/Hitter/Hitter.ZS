@@ -103,10 +103,10 @@ class S7_HitterSMG : S7_BaseWeapon {
         goto Anim.Idle;
     Anim.Reload:
         SR20 AF  1;
-        SR20 G   1 A_PlaySound ("Weapons/HitterSMG/Out", CHAN_6);
+        SR20 G   1 A_StartSound ("Weapons/HitterSMG/Out", slot: CHAN_6);
         SR20 H   1;
         SR20 I  18;
-        SR20 I  28 A_PlaySound ("Weapons/HitterSMG/In", CHAN_7);
+        SR20 I  28 A_StartSound ("Weapons/HitterSMG/In", slot: CHAN_7);
         SR20 JA  1;
         goto Anim.Idle;
     }
@@ -176,7 +176,7 @@ class S7_HitterSMG : S7_BaseWeapon {
                 S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 3), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
                 invoker.upperFired = true;
             } else {
-                A_PlaySound ("Weapons/DryFireSMG", CHAN_6);
+                A_StartSound ("Weapons/DryFireSMG", slot: CHAN_6);
                 invoker.upperFired = false;
             }
 
@@ -185,7 +185,7 @@ class S7_HitterSMG : S7_BaseWeapon {
                 S7_A_FireBullets ('S7_HitterSMGTracer', spread: (.5, .5), offs: (10, 3.75, 6), bonusDMGFactor: invoker.Enchantments_GetDamageBonus (), flags: S7_FB_UseAmmo);
                 invoker.lowerFired = true;
             } else {
-                A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+                A_StartSound ("Weapons/DryFireSMG", slot: CHAN_7);
                 invoker.lowerFired = false;
             }
 
@@ -196,7 +196,7 @@ class S7_HitterSMG : S7_BaseWeapon {
             else
                 A_GunFlash ("Flash");
 
-            A_PlaySound ("Weapons/HitterSMG/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/HitterSMG/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 1.5));
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 2, 2.5));
@@ -244,7 +244,7 @@ class S7_HitterSMG : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetAnim ("Anim.Idle");
-            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+            A_StartSound ("Weapons/DryFireSMG", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
@@ -252,7 +252,7 @@ class S7_HitterSMG : S7_BaseWeapon {
         TNT1 A 5 {
             A_ClearRefire ();
             S7_SetAnim ("Anim.DryFireFiring");
-            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+            A_StartSound ("Weapons/DryFireSMG", slot: CHAN_7);
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2;
@@ -261,7 +261,7 @@ class S7_HitterSMG : S7_BaseWeapon {
         TNT1 A     7 {
             A_ClearRefire ();
             S7_SetAnim ("Anim.DoubleJammed");
-            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+            A_StartSound ("Weapons/DryFireSMG", slot: CHAN_7);
         }
         goto Ready2;
 
@@ -285,7 +285,7 @@ class S7_HitterSMG : S7_BaseWeapon {
 
             invoker.upperJammed = false;
             invoker.lowerJammed = false;
-            A_PlaySound ("Weapons/HitterSMG/Slide", CHAN_6);
+            A_StartSound ("Weapons/HitterSMG/Slide", slot: CHAN_6);
         }
         TNT1 A 6;
         TNT1 A 0 A_JumpIf (CheckInventory ('S7_Reloading', 1), "Reload");

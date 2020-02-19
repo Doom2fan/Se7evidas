@@ -105,7 +105,7 @@ extend class S7_BaseWeapon {
 
         if (!t.linetarget) {
             if (MissSound)
-                A_PlaySound (MissSound, CHAN_Weapon);
+                A_StartSound (MissSound, slot: CHAN_Weapon);
         } else {
             if (lifesteal > 0 && !(t.linetarget.bDontDrain)) {
                 if (flags & CPF_StealArmor) {
@@ -126,8 +126,8 @@ extend class S7_BaseWeapon {
                     GiveBody (int (actualdamage * lifesteal), lifestealmax);
             }
             if (weapon != null) {
-                if (MeleeSound) A_PlaySound ( MeleeSound, CHAN_Weapon);
-                else            A_PlaySound (AttackSound, CHAN_Weapon);
+                if (MeleeSound) A_StartSound ( MeleeSound, slot: CHAN_Weapon);
+                else            A_StartSound (AttackSound, slot: CHAN_Weapon);
             }
 
             // Turn to face target

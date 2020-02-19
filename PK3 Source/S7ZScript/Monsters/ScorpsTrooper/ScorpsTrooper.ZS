@@ -113,7 +113,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
     }
 
     void DoFireGun () {
-        A_PlaySound ("Weapons/ManxCarbine/Fire", CHAN_Weapon);
+        A_StartSound ("Weapons/ManxCarbine/Fire", slot: CHAN_Weapon);
 
         double agilityStat = xpSys ? xpSys.GetStat (S7Stat_Agility, false) : 0.;
         double accuracyMod = clamp ((1. - (agilityStat * .007)), .25, 1.);
@@ -315,7 +315,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         goto See;
 
     DryFire:
-        SCR1 E 3 A_PlaySound ("Weapons/DryFireRifle", CHAN_7);
+        SCR1 E 3 A_StartSound ("Weapons/DryFireRifle", slot: CHAN_7);
         TNT1 A 0 A_Jump (random [monsterSpc] (0, 255) < 192, "Reload");
     DryFire.FindCover:
         TNT1 A        0 { bFrightened = true; }
@@ -332,7 +332,7 @@ class S7_ScorpsTrooper : S7_ScorpBase {
         SCR1 AAAEE  2;
         SCR1 EEEEEE 1;
         SCR1 E      1 {
-            A_PlaySound ("Weapons/ManxCarbine/In", CHAN_Weapon);
+            A_StartSound ("Weapons/ManxCarbine/In", slot: CHAN_Weapon);
             ammo = 23;
         }
         SCR1 E      1;

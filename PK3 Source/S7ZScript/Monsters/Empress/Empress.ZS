@@ -289,7 +289,7 @@ class S7_Empress : S7_DemonBase {
         TNT1 A    0 {
             TakeInventory ('S7_IsDead', 0x7FFFFFFF);
             ResetAttacks ();
-            A_PlaySound ("Footsteps/Large", CHAN_5);
+            A_StartSound ("Footsteps/Large", slot: CHAN_5);
         }
         HRFR AABB 4 {
             if (health < 1)
@@ -298,7 +298,7 @@ class S7_Empress : S7_DemonBase {
             A_S7ChaseDef ();
             return ResolveState (null);
         }
-        TNT1 A    0 A_PlaySound ("Footsteps/Large", CHAN_6);
+        TNT1 A    0 A_StartSound ("Footsteps/Large", slot: CHAN_6);
         HRFR CCDD 4 {
             if (health < 1)
                 return ResolveState ("RunAway");

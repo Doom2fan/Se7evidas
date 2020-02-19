@@ -130,13 +130,13 @@ class S7_GrenadeWeap : S7_ThrowWeapon {
     Anim.PullPin: // 17 tics
         HGRN WXY    1;
         HGRN ABCDEF 1;
-        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN G      1 A_StartSound ("Weapons/Grenade/PinPull", slot: CHAN_Weapon);
         HGRN HIJKLM 1;
         TNT1 A      1;
         goto Anim.Idle;
     Anim.ReinsertPin:
         HGRN MLKJIH 1;
-        HGRN G      1 A_PlaySound ("Weapons/Grenade/PinPull", CHAN_Weapon);
+        HGRN G      1 A_StartSound ("Weapons/Grenade/PinPull", slot: CHAN_Weapon);
         HGRN FEDCBA 1;
         HGRN YXW    1;
         goto Anim.Idle;

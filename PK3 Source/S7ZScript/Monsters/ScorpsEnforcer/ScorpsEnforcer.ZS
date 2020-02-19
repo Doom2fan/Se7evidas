@@ -103,7 +103,7 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
     }
 
     void DoFireGun () {
-        A_PlaySound ("Monsters/ScorpsEnforcer/Fire", CHAN_Weapon);
+        A_StartSound ("Monsters/ScorpsEnforcer/Fire", slot: CHAN_Weapon);
 
         double agilityStat = xpSys ? xpSys.GetStat (S7Stat_Agility, false) : 0.;
         double accuracyMod = clamp ((1. - (agilityStat * .005)), .45, 1.);
@@ -208,14 +208,14 @@ class S7_ScorpsEnforcer : S7_ScorpBase {
             }
 
             if (fireMode) {
-                A_PlaySound ("Monsters/ScorpsEnforcer/Attack", CHAN_Voice);
+                A_StartSound ("Monsters/ScorpsEnforcer/Attack", slot: CHAN_Voice);
                 return ResolveState (3);
             }
 
             return ResolveState (random [monsterSpc] (0, 4));
         }
         SCR2 UUUUUU 1 A_FaceTarget (abs (turn), abs (turn));
-        TNT1 A      0 A_PlaySound ("Monsters/ScorpsEnforcer/Attack", CHAN_Voice);
+        TNT1 A      0 A_StartSound ("Monsters/ScorpsEnforcer/Attack", slot: CHAN_Voice);
     DoShoot2:
         SCR2 E 1 A_FaceTarget (turn / 4, turn / 4);
         SCR2 F 1 DoFireGun ();

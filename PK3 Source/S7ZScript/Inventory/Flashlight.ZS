@@ -119,7 +119,7 @@ class S7_Flashlight : Inventory {
     }
 
     void ToggleLight () {
-        Owner.A_PlaySound (active ? "Inventory/Flashlight/Off" : "Inventory/Flashlight/On", CHAN_Item, volume: 0.5);
+        Owner.A_StartSound (active ? "Inventory/Flashlight/Off" : "Inventory/Flashlight/On", slot: CHAN_Item, volume: 0.5);
         active = !active;
         infraredMode = false;
     }

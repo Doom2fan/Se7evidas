@@ -84,13 +84,13 @@ class S7_Revolver : S7_BaseWeapon {
         // Open
         RVLV AHIJ 1;
         RVLV KL   1;
-        RVLV M    2 A_PlaySound ("Weapons/Revolver/Open", CHAN_5);
+        RVLV M    2 A_StartSound ("Weapons/Revolver/Open", slot: CHAN_5);
         RVLV NOP  1;
         RVLV QRR  1;
         RVLV S    3;
         // Eject
         RVLV T     1 {
-            A_PlaySound ("Weapons/Revolver/Eject", CHAN_6);
+            A_StartSound ("Weapons/Revolver/Eject", slot: CHAN_6);
             for (int i = 0; i < 3; i++) {
                 S7_A_SpawnCasing ('S7_RevolverCasing', (30, -1.5 + i, 5), pitchOffs: 90, spread: (0, 1), horzMul: 0);
                 S7_A_SpawnCasing ('S7_RevolverCasing', (30, -1.5 + i, 6), pitchOffs: 90, spread: (0, 1), horzMul: 0);
@@ -100,11 +100,11 @@ class S7_Revolver : S7_BaseWeapon {
         RVLV VWXYZ 1;
         // Insert
         RVL2 ABCD 1;
-        RVL2 E    3 A_PlaySound ("Weapons/Revolver/In", CHAN_7);
+        RVL2 E    3 A_StartSound ("Weapons/Revolver/In", slot: CHAN_7);
         RVL2 F    3;
         // Close
         RVL2 G   1;
-        RVL2 H   1 A_PlaySound ("Weapons/Revolver/Close", CHAN_Weapon);
+        RVL2 H   1 A_StartSound ("Weapons/Revolver/Close", slot: CHAN_Weapon);
         RVL2 IJK 1;
         RVL2 LM  1;
         RVLV A   3;
@@ -156,7 +156,7 @@ class S7_Revolver : S7_BaseWeapon {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("DryFire");
 
-            A_PlaySound ("Weapons/Revolver/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/Revolver/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
             A_GunFlash ();
 
@@ -187,7 +187,7 @@ class S7_Revolver : S7_BaseWeapon {
 
     DryFire:
         TNT1 A 3 {
-            A_PlaySound ("Weapons/Revolver/Dryfire", CHAN_7);
+            A_StartSound ("Weapons/Revolver/Dryfire", slot: CHAN_7);
             S7_SetAnim ("Anim.DryFire");
         }
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");

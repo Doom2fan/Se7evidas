@@ -337,7 +337,7 @@ extend class S7_MonsterBase {
             // Check for melee attack
             if (meleestate && CheckMeleeRange () && S7_Chase_CanMeleeTarget ()) {
                 if (AttackSound)
-                    A_PlaySound (AttackSound, CHAN_Weapon, volume: 1., attenuation: ATTN_Norm);
+                    A_StartSound (AttackSound, slot: CHAN_Weapon);
 
                 SetState (meleestate);
                 bInChase = false;

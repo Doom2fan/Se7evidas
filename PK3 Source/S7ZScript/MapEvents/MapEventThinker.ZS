@@ -67,7 +67,7 @@ class S7_MapEventThinker : Thinker {
                 case S7_MEVNT_GhostTown: {
                     S_ChangeMusic ("", force: true); // Remove the music
                     let spot = Actor.Spawn ('MapSpot', (0.0, 0.0, 0.0)); // Spawn a mapspot
-                    spot.A_PlaySound ("MapEvents/GhostTown/Wind", CHAN_Body | CHAN_ListenerZ | CHAN_NoPause, 1.0, true, ATTN_None); // Play a wind sound on it
+                    spot.A_StartSound ("MapEvents/GhostTown/Wind", slot: CHAN_Body, flags: CHANF_ListenerZ | CHANF_NoPause | CHANF_Looping, attenuation: ATTN_None); // Play a wind sound on it
                 }
                 break;
 

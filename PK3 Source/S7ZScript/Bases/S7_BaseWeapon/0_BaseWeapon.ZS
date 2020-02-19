@@ -76,7 +76,7 @@ class S7_BaseWeapon : Weapon {
 
     DryFire:
         TNT1 A 0 {
-            A_PlaySound ("Weapons/DryFire", CHAN_Weapon);
+            A_StartSound ("Weapons/DryFire", slot: CHAN_Weapon);
 
             if (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload ())
                 return ResolveState ("Reload");

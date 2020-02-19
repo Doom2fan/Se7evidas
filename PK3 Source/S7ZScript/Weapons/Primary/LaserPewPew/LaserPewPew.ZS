@@ -260,9 +260,9 @@ class S7_LaserPewPew : S7_BaseWeapon {
 
     AnimSingle.Reload:
         BLSG ADEFF   2;
-        BLSG F      15 A_PlaySound ("Weapons/LaserPewPew/Out", CHAN_6);
+        BLSG F      15 A_StartSound ("Weapons/LaserPewPew/Out", slot: CHAN_6);
         BLSG GHI     2;
-        BLSG I       2 A_PlaySound ("Weapons/LaserPewPew/In", CHAN_7);
+        BLSG I       2 A_StartSound ("Weapons/LaserPewPew/In", slot: CHAN_7);
         BLSG IIJEDAA 2;
         goto AnimSingle.Idle;
 
@@ -376,7 +376,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
             S7_SetRightAnim ("AnimSingle.Fire");
 
             A_AlertMonsters ();
-            A_PlaySound ("Weapons/LaserPewPew/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/LaserPewPew/Fire", slot: CHAN_Weapon);
 
             if (!invoker.sights) {
                 A_GunFlash ("Flash");
@@ -408,7 +408,7 @@ class S7_LaserPewPew : S7_BaseWeapon {
     DryFire:
         TNT1 A 3 {
             S7_SetRightAnim ("AnimSingle.Idle");
-            A_PlaySound ("Weapons/LaserPewPew/DryFire", CHAN_7);
+            A_StartSound ("Weapons/LaserPewPew/DryFire", slot: CHAN_7);
         }
         TNT1 A 0 {
             if (invoker.amount > 1 && CheckInventory (SecondMagClass, 1))

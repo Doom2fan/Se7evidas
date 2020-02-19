@@ -156,7 +156,7 @@ class S7_Infernal : S7_MonsterBase {
             invoker.flamethrowerCount = random [monsterAtk] (5, 15);
 
             if (invoker.doFlamethrower)
-                A_PlaySound ("Monsters/Infernal/FlameAttack", CHAN_Body);
+                A_StartSound ("Monsters/Infernal/FlameAttack", slot: CHAN_Body);
         }
         goto FlameStart;
     FlameStart:
@@ -254,7 +254,7 @@ class S7_InfernalBall : S7_FireballBase {
         INFP AB 2 bright;
         loop;
     Death:
-        TNT1 A      0 A_PlaySound ("Misc/Common/FireballHit", CHAN_5);
+        TNT1 A      0 A_StartSound ("Misc/Common/FireballHit", slot: CHAN_5);
         INFP CDEFGH 2 bright;
         stop;
     }

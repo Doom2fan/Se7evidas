@@ -163,7 +163,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         PIC1 A   1 DoSelectOffset ((64, 64));
         PIC1 A   1 DoSelectOffset ((88, 88));
         TNT1 A   5;
-        TNT1 A 105 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Reload", CHAN_Weapon);
+        TNT1 A 105 A_StartSound ("Weapons/PrettyShootyIonCannonGun/Reload", slot: CHAN_Weapon);
         TNT1 A   5;
         PIC1 A   1 DoSelectOffset ((88, 88), forceNoInterpolate: true);
         PIC1 A   1 DoSelectOffset ((64, 64));
@@ -225,7 +225,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
                 S7_A_FireBullets ('S7_IonCannonRail', spread: (1.5, 1.5), offs: (10, 8, 8), bonusDMGFactor: invoker.GetDamageBonus ());
 
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3, 5));
-            A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/PrettyShootyIonCannonGun/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
 
             GiveInventory ('S7_IonCannonInverse', 2);
@@ -252,7 +252,7 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
             }
 
             S7_A_SpawnSFX ('S7_ShotSmoke_2', offs: (15, 3, 5));
-            A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Fire", CHAN_Weapon);
+            A_StartSound ("Weapons/PrettyShootyIonCannonGun/Fire", slot: CHAN_Weapon);
             A_AlertMonsters ();
 
             GiveInventory ('S7_IonCannonInverse', 3);
@@ -262,11 +262,11 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
         goto Ready2;
 
     CantFire:
-        TNT1 A 1 A_PlaySound ("Weapons/PrettyShootyIonCannonGun/Error", CHAN_6);
+        TNT1 A 1 A_StartSound ("Weapons/PrettyShootyIonCannonGun/Error", slot: CHAN_6);
         goto Ready2.SkipAnimSet;
 
     DryFire:
-        TNT1 A 3 A_PlaySound ("Weapons/DryFirePlasma", CHAN_7);
+        TNT1 A 3 A_StartSound ("Weapons/DryFirePlasma", slot: CHAN_7);
         TNT1 A 0 A_JumpIf (S7_PlayerCVar.GetInt (player, "S7_AutoReloading") && invoker.CanReload (), "Reload");
         goto Ready2.SkipAnimSet;
 

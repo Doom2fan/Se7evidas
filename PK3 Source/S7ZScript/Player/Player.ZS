@@ -425,7 +425,7 @@ class S7_BasePlayer : PlayerPawn {
         PLAY I  10;
         PLAY J  10 A_NoBlocking;
         PLAY K  10;
-        TNT1 A   0 A_PlaySound ("Misc/Body", CHAN_5);
+        TNT1 A   0 A_StartSound ("Misc/Body", CHAN_5);
         PLAY LM 10;
         PLAY N  -1;
         stop;
@@ -510,7 +510,7 @@ class S7_BasePlayer : PlayerPawn {
         PLAY J                 10 A_NoBlocking;
         PLAY K                 10 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
-        PLAY L                 10 A_PlaySound ("Misc/Body", CHAN_Body);
+        PLAY L                 10 A_StartSound ("Misc/Body", CHAN_Body);
         PLAY M                 10 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         TNT1 A                  0 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);
         PLAY NNNNNNNNNNNNNNNNNN 5 A_SpawnItemEx ('S7_BlackSmoke', fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (-16, 16), fRandom [S7_SmokeRNG] (8, 16), zVel: 1);

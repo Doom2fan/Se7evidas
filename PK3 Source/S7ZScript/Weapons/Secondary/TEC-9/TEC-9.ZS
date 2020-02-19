@@ -141,17 +141,17 @@ class S7_TEC9 : S7_BaseWeapon {
         TEC9 B 1;
         wait;
     Anim.Reload:
-        TECR A   1 A_PlaySound ("Weapons/TEC-9/Out", CHAN_6);
+        TECR A   1 A_StartSound ("Weapons/TEC-9/Out", slot: CHAN_6);
         TECR BCD 1;
         TECR D   5;
         TECR DEF 2;
-        TNT1 A   0 A_PlaySound ("Weapons/TEC-9/In", CHAN_7);
+        TNT1 A   0 A_StartSound ("Weapons/TEC-9/In", slot: CHAN_7);
         TECR G   2 A_WeaponOffset (0, 32 + -6);
         TECR H   2;
         TECR I   2 A_WeaponOffset (0, 32 + -3);
         TECR J   2 A_WeaponOffset (0, 32 +  0);
         TECR KLM 2;
-        TECR N   2 A_PlaySound ("Weapons/TEC-9/Tap", CHAN_6);
+        TECR N   2 A_StartSound ("Weapons/TEC-9/Tap", slot: CHAN_6);
         TECR O   2 A_WeaponOffset (0, 32 + -8);
         TECR P   2 A_WeaponOffset (0, 32 + -6);
         TECR P   4 A_WeaponOffset (0, 32 + -3);
@@ -259,11 +259,11 @@ class S7_TEC9 : S7_BaseWeapon {
             S7_SetAnim ("Anim.Fire");
 
             if (!invoker.hasSuppressor) {
-                A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon);
+                A_StartSound ("Weapons/TEC-9/Fire", slot: CHAN_Weapon);
                 A_AlertMonsters ();
                 A_GunFlash ();
             } else {
-                A_PlaySound ("Weapons/TEC-9/Fire", CHAN_Weapon, volume: 0.35);
+                A_StartSound ("Weapons/TEC-9/Fire", slot: CHAN_Weapon, volume: .35);
                 A_AlertMonsters (384.0);
             }
 
@@ -300,7 +300,7 @@ class S7_TEC9 : S7_BaseWeapon {
     DryFire:
         TNT1 A 1 {
             S7_SetAnim ("Anim.FireStart");
-            A_PlaySound ("Weapons/DryFireSMG", CHAN_7);
+            A_StartSound ("Weapons/DryFireSMG", slot: CHAN_7);
             A_ClearRefire ();
         }
         TNT1 A 3 S7_SetAnim ("Anim.Idle");
