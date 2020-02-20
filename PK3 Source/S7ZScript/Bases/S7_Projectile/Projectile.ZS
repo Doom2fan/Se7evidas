@@ -172,7 +172,6 @@ class S7_Projectile : FastProjectile {
     */
     virtual void PostMovement () { }
 
-
     /* Summary:
     **  Called when the projectile hits something.
     **
