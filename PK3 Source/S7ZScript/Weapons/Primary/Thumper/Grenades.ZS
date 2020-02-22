@@ -520,7 +520,7 @@ class S7_ThumperGrenadeTherm_Fire : S7_Projectile {
         wait;
     Death:
         TNT1 A 0 {
-            A_ChangeLinkFlags (false);
+            A_ChangeLinkFlags (blockmap: false);
 
             bSpriteFlip = !!random [weaponSpc] (0, 1);
         }
@@ -617,6 +617,8 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
                 PostBeginPlay ();
 
             A_SetGravity (1.0);
+            bNoGravity = false;
+            A_ChangeLinkFlags (blockmap: false);
         }
     Loople:
         THGR A 1 {
@@ -954,6 +956,18 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
                 S7_EmitGas ();
         }
         loop;
+    Death:
+        TNT1 A 0 {
+            A_Stop ();
+
+            A_SetGravity (1.0);
+            bNoGravity = false;
+
+            A_ChangeLinkFlags (blockmap: false);
+
+            return ResolveState ("Loople");
+        }
+        stop;
     Loople:
         THGR B 1 {
             A_SetGravity (1.0);
