@@ -103,6 +103,8 @@ class S7_Empress : S7_DemonBase {
         // Vitality
         startHealth = int (health * (1.0 + (.1 * xpSys.GetStat (S7Stat_Vitality))));
         health = startHealth;
+
+        initialized = true;
     }
 
     override void UpdateStats () {
