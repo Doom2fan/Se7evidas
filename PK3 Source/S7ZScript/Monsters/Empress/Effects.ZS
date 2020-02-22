@@ -202,6 +202,7 @@ class S7_EmpressPentagramFire : S7_Empress_FXBase {
         Scale 0.1;
 
         +FORCEXYBILLBOARD
+        +MOVEWITHSECTOR
     }
 
     states {
