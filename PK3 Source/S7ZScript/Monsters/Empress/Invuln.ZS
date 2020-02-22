@@ -113,8 +113,6 @@ class S7_EmpressInvulnOrbiterCW : Actor {
 
         if (owner.ballsList.Size () <= 0)
             owner.shieldUp = false;
-
-        owner = null;
     }
 
     states {
