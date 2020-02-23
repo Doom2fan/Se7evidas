@@ -27,14 +27,6 @@ hardwareShader postProcess scene {
 }
 
 hardwareShader postProcess scene {
-    name "S7_Shadowsphere"
-    shader "S7Shaders/GLSL/Shadowsphere.frag" 330
-
-    uniform float "blurStrength"
-    uniform float "vignetteStrength"
-}
-
-hardwareShader postProcess scene {
     name "S7_Invuln"
     shader "S7Shaders/GLSL/Invuln.frag" 330
 }
@@ -42,6 +34,14 @@ hardwareShader postProcess scene {
 hardwareShader postProcess scene {
     name "S7_DemonEyes"
     shader "S7Shaders/GLSL/DemonEyes.frag" 330
+}
+
+hardwareShader postProcess scene {
+    name "S7_Shadowsphere"
+    shader "S7Shaders/GLSL/Shadowsphere.frag" 330
+
+    uniform float "blurStrength"
+    uniform float "vignetteStrength"
 }
 
 hardwareShader postProcess scene {
