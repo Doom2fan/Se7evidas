@@ -58,6 +58,25 @@ class S7_ThumperGrenade : S7_Projectile {
         projDetonated = true;
     }
 
+    virtual S7_Thumper_Used SpawnUsedShell () {
+        let usedShell = S7_Thumper_Used (Spawn ('S7_Thumper_Used', pos));
+
+        usedShell.SetOrigin (pos, true);
+        usedShell.prev = prev;
+        usedShell.vel = vel;
+
+        usedShell.angle = angle;
+        usedShell.pitch = pitch;
+
+        usedShell.target = target;
+        usedShell.master = master;
+        usedShell.tracer = tracer;
+
+        usedShell.Translation = self.Translation;
+
+        return usedShell;
+    }
+
     virtual void DoAirburst (Vector3 prevVel) {
         S7_ExplodeMissile (null, null, false);
         projDetonated = true;
@@ -635,7 +654,8 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
                 dynLight.A_Remove (AAPTR_Default, RMVF_Everything);
 
             A_StopSound (CHAN_7);
-            A_SpawnItemEx ('S7_Thumper_Used', 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
+
+            SpawnUsedShell ();
         }
         stop;
     }
@@ -986,7 +1006,7 @@ class S7_ThumperGrenadeNGas : S7_ThumperGrenade {
         }
         loop;
     Die:
-        THGR B 1 A_SpawnItemEx ('S7_Thumper_Used', 0.0, 0.0, 0.0, vel.x, vel.y, vel.z, 0, SXF_NoCheckPosition | SXF_TransferTranslation | SXF_TransferPitch | SXF_TransferPointers | SXF_AbsoluteVelocity);
+        THGR B 1 { SpawnUsedShell (); }
         stop;
     }
 }

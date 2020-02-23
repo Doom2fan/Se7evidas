@@ -66,6 +66,8 @@ class S7_Thumper_Used : S7_LootItem {
 
         S7_LootItem.BlocksUsed 2;
 
+        Radius 10;
+        Height 10;
         Inventory.Amount 1;
         //Inventory.Icon "EMPT50MM";
         Inventory.PickupMessage "$EMPTTHGRPICK";
