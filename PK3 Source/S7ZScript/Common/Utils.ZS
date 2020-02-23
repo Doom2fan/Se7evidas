@@ -16,6 +16,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+class S7_3DFloorPointer play {
+    Sector ownerSector;
+    int ffloorIndex;
+
+    F3DFloor Get3DFloor () {
+        return ownerSector.Get3DFloor (ffloorIndex);
+    }
+
+    static S7_3DFloorPointer FromF3DFloor (F3DFloor ffloor) {
+        let owner = ffloor.target;
+
+        int ffloorCount = owner.Get3DFloorCount ();
+        for (int i = 0; i < ffloorCount; i++) {
+            let cur3DFloor = owner.Get3DFloor (i);
+            if (cur3DFloor == ffloor) {
+                let ptr = new ('S7_3DFloorPointer');
+
+                ptr.ownerSector = owner;
+                ptr.ffloorIndex = i;
+
+                return ptr;
+            }
+        }
+
+        ThrowAbortException ("Error in S7_3DFloorPointer.FromF3DFloor: Could not find 3D floor???");
+        return null;
+    }
+}
+
 struct S7_Utils {
     /* Summary:
     **  Generates a random male english name.

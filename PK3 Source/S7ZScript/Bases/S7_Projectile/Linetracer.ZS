@@ -18,10 +18,10 @@
 
 class S7_Projectile_Trace : LineTracer {
     S7_Projectile sourceActor;
-    Array<F3DFloor> ffloorsToIgnore;
-    Array<Line> activeLinesToIgnore;
-    Array<Actor> actorsToIgnore;
-    Array<Actor> actorsRipped;
+    transient Array<F3DFloor> ffloorsToIgnore;
+    transient Array<Line> activeLinesToIgnore;
+    transient Array<Actor> actorsToIgnore;
+    transient Array<Actor> actorsRipped;
 
     ETraceStatus HandleActor () {
         if (sourceActor.bThruActors)

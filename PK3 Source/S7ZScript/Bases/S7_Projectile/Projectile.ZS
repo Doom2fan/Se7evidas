@@ -64,7 +64,7 @@ class S7_Projectile : FastProjectile {
 
     int BlockingType;
     int BlockingLineTier;
-    F3DFloor BlockingFFloor;
+    S7_3DFloorPointer BlockingFFloor;
 
     private bool spawnedTrail;
     bool hitSky;
@@ -150,12 +150,12 @@ class S7_Projectile : FastProjectile {
 
             case S7_BLOCK_3DFloor_Floor:
                 if (BlockingFFloor)
-                    return -BlockingFFloor.top.normal; // 3D floor normals are inverted.
+                    return -BlockingFFloor.Get3DFloor ().top.normal; // 3D floor normals are inverted.
             break;
 
             case S7_BLOCK_3DFloor_Ceiling:
                 if (BlockingFFloor)
-                    return -BlockingFFloor.bottom.normal; // 3D floor normals are inverted.
+                    return -BlockingFFloor.Get3DFloor ().bottom.normal; // 3D floor normals are inverted.
             break;
         }
 

@@ -61,9 +61,9 @@ extend class S7_Projectile {
         if (BlockingType == S7_BLOCK_Ceiling && BlockingCeiling)
             hitPlaneTex = BlockingCeiling.GetTexture (Sector.Ceiling);
         if (BlockingType == S7_BLOCK_3DFloor_Floor && BlockingFFloor)
-            hitPlaneTex = BlockingFFloor.GetTexture (Sector.Floor);
+            hitPlaneTex = BlockingFFloor.Get3DFloor ().GetTexture (Sector.Floor);
         if (BlockingType == S7_BLOCK_3DFloor_Ceiling && BlockingFFloor)
-            hitPlaneTex = BlockingFFloor.GetTexture (Sector.Ceiling);
+            hitPlaneTex = BlockingFFloor.Get3DFloor ().GetTexture (Sector.Ceiling);
 
         if (hitPlaneTex == skyflatnum)
             return true;
@@ -86,13 +86,13 @@ extend class S7_Projectile {
 
             BlockingFloor = floorFFloor.model;
             Blocking3DFloor = floorFFloor.model;
-            BlockingFFloor = floorFFloor;
+            BlockingFFloor = S7_3DFloorPointer.FromF3DFloor (floorFFloor);
         } else if (ceilFFloor && (checkPos.Z + height) >= ceilHeight) {
             BlockingType = S7_BLOCK_3DFloor_Ceiling;
 
             BlockingCeiling = ceilFFloor.model;
             Blocking3DFloor = ceilFFloor.model;
-            BlockingFFloor = ceilFFloor;
+            BlockingFFloor = S7_3DFloorPointer.FromF3DFloor (ceilFFloor);
         } else if (checkPos.Z <= floorHeight) {
             BlockingType = S7_BLOCK_Floor;
 
@@ -172,7 +172,7 @@ extend class S7_Projectile {
                 BlockingType = S7_BLOCK_Line;
 
                 if (tr.Results.HitType == TRACE_HitWall && tr.Results.Tier == TIER_FFloor && BlockingLine == tr.Results.HitLine) {
-                    BlockingFFloor = tr.Results.ffloor;
+                    BlockingFFloor = S7_3DFloorPointer.FromF3DFloor (tr.Results.ffloor);
                     BlockingLineTier = S7_BLOCK_Tier_FFloor;
                 } else if (!(BlockingLine.flags & Line.ML_TwoSided) || !BlockingLine.sidedef [Line.Back])
                     BlockingLineTier = S7_BLOCK_Tier_Middle;
