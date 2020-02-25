@@ -39,6 +39,83 @@ class S7_TracerEffectsBase : S7_FastProjTrailBase {
     }
 }
 
+mixin class S7_BulletProjMixin {
+    const S7_SBI_MinSparkZ = 2.5;
+    const S7_SBI_MaxSparkZ = 6.;
+
+    void S7_A_SpawnBulletImpact () {
+        Vector3 norm, orth0, orth1;
+
+        bool hitGeo = (BlockingType != S7_BLOCK_None && BlockingType != S7_BLOCK_Actor);
+        if (hitGeo) {
+            norm = GetGeoHitNormal ();
+
+            if (norm == norm)
+                [orth0, orth1] = S7_Math.GetOrthoVecs (norm);
+            else
+                Console.Printf ("NaN received from GetGeoHitNormal in S7_BulletProjMixin.S7_A_SpawnBulletImpact. This shouldn't happen.");
+        } else
+            norm = (0, 0, 0);
+
+        Vector3 offs, actVel;
+        for (int i = random [S7_HitsparksRNG] (3, 4); i > 0; i--) {
+            if (!hitGeo) {
+                offs = S7_Math.Vec3FromAngle (
+                    fRandom [S7_HitsparksRNG] (0, 360),
+                    fRandom [S7_HitsparksRNG] (-90, 90),
+                    1
+                );
+
+                actVel = S7_Math.Vec3FromAngle (
+                    fRandom [S7_HitsparksRNG] (0, 360),
+                    fRandom [S7_HitsparksRNG] (-90, 90),
+                    1
+                );
+            } else {
+                offs = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [S7_HitsparksRNG] (-1, 1), fRandom [S7_HitsparksRNG] (-1, 1)), orth0, orth1);
+                actVel = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [S7_HitsparksRNG] (-1, 1), fRandom [S7_HitsparksRNG] (-1, 1)), orth0, orth1);
+            }
+            actVel.XY *= 2.;
+            actVel.Z = clamp (abs (actVel.Z) * fRandom [S7_HitsparksRNG] (S7_SBI_MinSparkZ, 6.), S7_SBI_MinSparkZ, S7_SBI_MaxSparkZ);
+
+            offs = norm * 1.5 + offs * fRandom [S7_HitsparksRNG] (-.25, .25);
+
+            let act = Spawn ('S7_BulletPuffSparks', level.Vec3Offset (pos, offs));
+            act.vel = actVel;
+        }
+
+        for (int i = random [S7_HitsparksRNG] (3, 4); i > 0; i--) {
+            if (!hitGeo) {
+                offs = S7_Math.Vec3FromAngle (
+                    fRandom [S7_HitsparksRNG] (0, 360),
+                    fRandom [S7_HitsparksRNG] (-90, 90),
+                    1
+                );
+
+                actVel = S7_Math.Vec3FromAngle (
+                    fRandom [S7_HitsparksRNG] (0, 360),
+                    fRandom [S7_HitsparksRNG] (-90, 90),
+                    1
+                );
+            } else {
+                offs = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [S7_HitsparksRNG] (-1, 1), fRandom [S7_HitsparksRNG] (-1, 1)), orth0, orth1);
+                actVel = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [S7_HitsparksRNG] (-1, 1), fRandom [S7_HitsparksRNG] (-1, 1)), orth0, orth1);
+            }
+
+            offs = norm * 1.5 + offs * fRandom [S7_HitsparksRNG] (-2.5, 2.5);
+
+            let act = S7_Smoke3 (Spawn ("S7_Smoke3", level.Vec3Offset (pos, offs)));
+
+            act.scale = (.021, .021);
+            act.vel = actVel;
+            act.fadeInTime = 0;
+            act.stayTime = random [S7_HitsparksRNG] (6, 7);
+            act.fadeOutTime = random [S7_HitsparksRNG] (4, 6);
+            act.targetAlpha = fRandom [S7_HitsparksRNG] (.22, .25);
+        }
+    }
+}
+
 class S7_BaseTracer : S7_Projectile {
     int trueSpeed;
     property TrueSpeed: trueSpeed;
@@ -98,6 +175,8 @@ class S7_BulletTracer : S7_BaseTracer {
         Decal 'BulletChip';
     }
 
+    mixin S7_BulletProjMixin;
+
     states {
     Idle:
         SPRK A 1 bright;
@@ -106,11 +185,7 @@ class S7_BulletTracer : S7_BaseTracer {
     Death:
     Crash:
         SPRK A 2 bright {
-            for (int i = 0; i < 4; i++) {
-                A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-0.5, -2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (1.5, 4.0), 0, SXF_Clientside | SXF_NoCheckPosition);
-                if (i < 3)
-                    A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-1.0, 1.0), fRandom [S7_HitsparksRNG] (-0.8, 0.8), 0, SXF_Clientside | SXF_NoCheckPosition);
-            }
+            S7_A_SpawnBulletImpact ();
         }
         SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
         stop;
@@ -140,29 +215,6 @@ class S7_TracerTrail : S7_TracerEffectsBase {
 // Bullet puff
 //
 //-------------------------------------------------------------------------------------------
-class S7_BulletPuff : S7_TracerEffectsBase {
-    default {
-        Scale 0.05;
-
-        -CLIENTSIDEONLY
-    }
-
-    states {
-    Spawn:
-        TNT1 A 0 noDelay A_StartSound ("Tracers/HitWall", slot: CHAN_Body);
-    NoSound:
-        SPRK A 2 bright {
-            for (int i = 0; i < 4; i++) {
-                A_SpawnItemEx ('S7_BulletPuffSparks', 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-0.5, -2.0), fRandom [S7_HitsparksRNG] (-2.0, 2.0), fRandom [S7_HitsparksRNG] (1.5, 4.0), 0, SXF_Clientside | SXF_NoCheckPosition);
-                if (i < 3)
-                    A_SpawnItemEx ('S7_BulletPuffSmoke', 0.0, 0.0, 0.0, 0.0, fRandom [S7_HitsparksRNG] (-1.0, 1.0), fRandom [S7_HitsparksRNG] (-0.8, 0.8), 0, SXF_Clientside | SXF_NoCheckPosition);
-            }
-        }
-        SPRK A 2 bright A_SetScale (scale.X * 1.5, scale.Y * 1.5);
-        stop;
-    }
-}
-
 class S7_BulletPuffSmoke : S7_BlackSmoke {
     default {
         Alpha 0.2;
