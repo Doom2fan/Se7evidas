@@ -178,8 +178,8 @@ class S7_Draco_MassacreProjectile : S7_Projectile {
                         1
                     );
                 } else {
-                    offs = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [sfx] (0, 1), fRandom [sfx] (0, 1)), orth0, orth1);
-                    actVel = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [sfx] (0, 1), fRandom [sfx] (0, 1)), orth0, orth1);
+                    offs = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [sfx] (-1, 1), fRandom [sfx] (-1, 1)), orth0, orth1);
+                    actVel = S7_Math.RandomHalfSphereVecFromNormal (norm, (fRandom [sfx] (-1 , 1), fRandom [sfx] (-1, 1)), orth0, orth1);
                 }
 
                 offs *= fRandom [sfx] (0, 15);
