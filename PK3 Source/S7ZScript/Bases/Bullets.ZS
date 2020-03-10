@@ -289,8 +289,12 @@ class S7_AK47_Tracer : S7_BulletTracer {
 
 class S7_SSGTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Shotgun pellet.
+        S7_Projectile.Mass (1.95 / 1000.); // 1.95 grams.
+        Speed (400. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((6. + fRandom [weaponDamage] (-2., 1.)) * (1. + bonusDMGFactor));
-        Speed 250;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
     }
@@ -315,8 +319,12 @@ class S7_SSGTracerTrail : S7_TracerTrail {
 
 class S7_12gaTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Shotgun pellet.
+        S7_Projectile.Mass (3.43 / 1000.); // 3.43 grams.
+        Speed (380. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((16. + fRandom [weaponDamage] (-2., 2.)) * (1. + bonusDMGFactor));
-        Speed 250;
         DamageType 'ShotgunTracer';
         MissileType 'S7_SSGTracerTrail';
     }
