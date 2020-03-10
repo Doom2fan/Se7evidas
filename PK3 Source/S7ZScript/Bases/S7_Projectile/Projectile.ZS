@@ -36,6 +36,13 @@ class S7_Projectile : FastProjectile {
         EFXStepMode_Accurate    , /// Calculates effects placement accurately.
         EFXStepMode_MapUnit     , /// Places effects every /interval/ map units.
     };
+    /// Some data about what the projectile is.
+    enum EProjectileType {
+        Proj_Kinetic     = 1 << 0,
+        Proj_Magic       = 1 << 1,
+        Proj_Flame       = 1 << 2,
+        Proj_IgnoreArmor = 1 << 3,
+    };
     /// Determines what blocked the projectile.
     enum EBlockTypes {
         S7_BLOCK_None,
@@ -62,6 +69,15 @@ class S7_Projectile : FastProjectile {
     double effectStepMul;
     double bonusDMGFactor;
 
+    /// EProjectileType. Some data about what the projectile is.
+    int projectileType;
+    /// The projectile's mass in kilograms.
+    double projectileMass;
+    /// How pointy the projectile is. Increases penetration for kinetic projectiles.
+    /// Range is [0-1], 0 is a flat-tipped projectile, ~0.5 is round tipped (e.g. handgun bullets),
+    /// 1 is a pointy tip (e.g., rifle bullets).
+    double projectilePoint;
+
     int BlockingType;
     int BlockingLineTier;
     S7_3DFloorPointer BlockingFFloor;
@@ -81,6 +97,13 @@ class S7_Projectile : FastProjectile {
     property EffectStepInterval: effectStepInterval;
     /// Whether to interpolate the projectile's movement. Only used by EMovementMode.FastProjectile.
     property InterpMove: interpFastProj;
+
+    /// Some data about what the projectile is.
+    property ProjType: projectileType;
+    /// The projectile's mass in kilograms. Increases penetration for kinetic projectiles.
+    property Mass: projectileMass;
+    /// How pointy the projectile is. Increases penetration for kinetic projectiles. Range is [0-1].
+    property Pointiness: projectilePoint;
 
     default {
         S7_Projectile.MovementMode Normal;
@@ -114,6 +137,18 @@ class S7_Projectile : FastProjectile {
                 Super.Tick ();
             break;
         }
+    }
+
+    /* Summary:
+    **  Calculates the projectile's raw kinetic energy.
+    **
+    ** Returns:
+    **  The raw kinetic energy of the projectile in joules as a double.
+    */
+    virtual double GetKineticEnergy () {
+        // 1/2 * <mass in kg> * <velocity in m>
+        double velM = (vel.Length () / S7C_MapUnitsPerMeter * TICRATE);
+        return .5 * projectileMass * (velM * velM);
     }
 
     /* Summary:

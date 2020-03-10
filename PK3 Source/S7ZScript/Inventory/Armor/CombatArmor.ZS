@@ -24,6 +24,7 @@
 class S7_CCCombatArmorData : S7_ArmorData {
     const NormalStartHeight = 26;
     const NormalEndHeight = 47;
+
     const CrouchStartHeight = 5;
     const CrouchEndHeight = 22;
 

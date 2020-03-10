@@ -62,18 +62,30 @@ class S7_CCSecVestData : S7_ArmorData {
         if (!pPawn)
             return damage;
 
-        double ret;
-        double kevDMG = 0;
-
         double startHeight = S7_Math.Lerp (NormalStartHeight, CrouchStartHeight, (1 - pPawn.player.crouchfactor) * 2);
         double   endHeight = S7_Math.Lerp (  NormalEndHeight,   CrouchEndHeight, (1 - pPawn.player.crouchfactor) * 2);
 
-        if (inflictor &&
-            (inflictor.pos.z + inflictor.height/2) >= (pPawn.pos.z + startHeight) &&
-            (inflictor.pos.z + inflictor.height/2) <= (pPawn.pos.z + endHeight)) {
+        let s7Proj = S7_Projectile (inflictor);
+        if (!s7Proj ||
+            (inflictor.pos.z + inflictor.height/2) < (pPawn.pos.z + startHeight) ||
+            (inflictor.pos.z + inflictor.height/2) > (pPawn.pos.z + endHeight) ||
+            (s7Proj.projectileType & S7_Projectile.Proj_IgnoreArmor)
+        ) {
+            UpdateAmount (armor);
+            return damage;
+        }
+
+        double ret;
+        double kevDMG = 0;
+
+        if (s7Proj.projectileType & S7_Projectile.Proj_Kinetic) {
+            double kE = s7Proj.GetKineticEnergy ();
             double kevInt = kevlarDMG / kevlarDMGLimit;
 
-            switch (damageType) {
+            double penetration = kE;
+            Console.Printf ("%f", kE);
+
+            /*switch (damageType) {
             case 'PistolTracer':   kevDMG = damage * 0.5 ; ret = damage * clamp ((kevInt - 0.5 ) / 0.5 , 0.25,  1.0); break;
             case 'RevolverTracer': kevDMG = damage * 0.55; ret = damage * clamp ((kevInt - 0.4 ) / 0.6 , 0.35,  1.0); break;
             case 'ShotgunTracer':  kevDMG = damage * 0.6 ; ret = damage * clamp ((kevInt - 0.65) / 0.35, 0.125, 1.0); break;
@@ -82,17 +94,16 @@ class S7_CCSecVestData : S7_ArmorData {
                 kevDMG = damage * fRandom [S7_Armor] (0.95, 1.15);
                 ret = damage;
                 break;
-            case 'Fire':
-                kevDMG = damage * fRandom [S7_Armor] (0.75, 1.2);
-                ret = damage;
-                break;
+
             default:
                 kevDMG = damage * 0.25;
                 ret = damage * clamp (kevInt, 0.85, 1.0);
                 break;
-            }
-        } else
-            ret = damage;
+            }*/
+        }
+
+        if (s7Proj.projectileType & S7_Projectile.Proj_Flame)
+            kevDMG *= fRandom [S7_Armor] (.75, 1.2);
 
         kevlarDMG = clamp (kevlarDMG + max (kevDMG, 0), 0, kevlarDMGLimit);
         UpdateAmount (armor);

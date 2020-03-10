@@ -265,16 +265,24 @@ class S7_BulletPuffSparks : S7_TracerEffectsBase {
 /*** Primary ***/
 class S7_AMGTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness 1.; // Rifle/Spitzer bullet.
+        S7_Projectile.Mass (7.9 / 1000.); // 7.9 grams.
+        Speed (730.3 * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((22. + fRandom [weaponDamage] (-1., 3.)) * (1. + bonusDMGFactor));
-        Speed 260;
         DamageType 'RifleTracer';
     }
 }
 
 class S7_AK47_Tracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness 1.; // Rifle/Spitzer bullet.
+        S7_Projectile.Mass (7.9 / 1000.); // 7.9 grams.
+        Speed (700. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((21. + fRandom [weaponDamage] (-1., 2.)) * (1. + bonusDMGFactor));
-        Speed 220;
         DamageType 'RifleTracer';
     }
 }
@@ -315,22 +323,34 @@ class S7_12gaTracer : S7_BulletTracer {
 }
 class S7_ManxCarbineTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Pistol/round bullet.
+        S7_Projectile.Mass (7.45 / 1000.); // 7.45 grams.
+        Speed (422. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((17. + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        Speed 200;
         DamageType 'PistolTracer';
     }
 }
 class S7_HitterSMGTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Pistol/round bullet.
+        S7_Projectile.Mass (12. / 1000.); // 12 grams.
+        Speed (340 * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((18. + fRandom [weaponDamage] (-2., 1.)) * (1. + bonusDMGFactor));
-        Speed 170;
         DamageType 'PistolTracer';
     }
 }
 class S7_ConquerorRifle_Tracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness 1.; // Rifle/Spitzer bullet.
+        S7_Projectile.Mass (37.8 / 1000.); // 37.8 grams.
+        Speed (950. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((120. + fRandom [weaponDamage] (-5., 5.)) * (1. + bonusDMGFactor));
-        Speed 550; // So you need to compensate less when firing at long range
         DamageType 'SniperRifleTracer';
         S7_Projectile.EffectStepMul 0.036;
     }
@@ -338,8 +358,12 @@ class S7_ConquerorRifle_Tracer : S7_BulletTracer {
 
 class S7_CaesarChaingun_Tracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness 1.; // Rifle/Spitzer bullet.
+        S7_Projectile.Mass (37.8 / 1000.); // 37.8 grams.
+        Speed (825. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((40. + fRandom [weaponDamage] (0, 5.)) * (1. + bonusDMGFactor));
-        Speed 500;
         DamageType 'SniperRifleTracer';
         S7_Projectile.EffectStepMul 0.036;
     }
@@ -348,22 +372,34 @@ class S7_CaesarChaingun_Tracer : S7_BulletTracer {
 /*** Secondary ***/
 class S7_RaptorTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Pistol/round bullet.
+        S7_Projectile.Mass (7.45 / 1000.); // 7.45 grams.
+        Speed (407. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((15.5 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        Speed 175;
         DamageType 'PistolTracer';
     }
 }
 class S7_RevolverTracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Pistol/round bullet.
+        S7_Projectile.Mass (16. / 1000.); // 7.45 grams.
+        Speed (450. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((60. + fRandom [weaponDamage] (-5., 5.)) * (1. + bonusDMGFactor));
-        Speed 210;
         DamageType 'RevolverTracer';
     }
 }
 class S7_TEC9Tracer : S7_BulletTracer {
     default {
+        S7_Projectile.ProjType Proj_Kinetic; // Bullet.
+        S7_Projectile.Pointiness .5; // Pistol/round bullet.
+        S7_Projectile.Mass (7.45 / 1000.); // 7.45 grams.
+        Speed (398. * S7C_MapUnitsPerMeter / TICRATE);
+
         DamageFunction int ((15.5 + fRandom [weaponDamage] (-1., 1.)) * (1. + bonusDMGFactor));
-        Speed 175;
         DamageType 'PistolTracer';
     }
 }
