@@ -250,7 +250,7 @@ class S7_FireThinker : Actor {
                     int idx = smokeRNG.GetInt (0, group.fireData.Size () - 1);
                     let fireData = group.fireData [idx];
 
-                    let smoke = S7_FireThinker_Smoke (Spawn (group.smokeActor, fireData.GetCoords ()));
+                    let smoke = S7_FireThinker_Smoke (Spawn (group.smokeActor, fireData.GetCoords (), ALLOW_REPLACE));
 
                     if (smoke) {
                         smoke.smokeRNG = smokeRNG;
@@ -272,7 +272,7 @@ class S7_FireThinker : Actor {
                     int idx = smokeRNG.GetInt (0, group.fireData.Size () - 1);
                     let fireData = group.fireData [idx];
 
-                    let flame = S7_FireThinker_Flame (Spawn (group.flameActor, fireData.GetCoords ()));
+                    let flame = S7_FireThinker_Flame (Spawn (group.flameActor, fireData.GetCoords (), ALLOW_REPLACE));
 
                     if (flame) {
                         flame.flameRNG = smokeRNG;
@@ -480,7 +480,7 @@ class S7_FireThinker : Actor {
         let p = S7_FireThinker (it.Next ());
 
         if (!p)
-            p = S7_FireThinker (Spawn ('S7_FireThinker'));
+            p = S7_FireThinker (Spawn ('S7_FireThinker', replace: NO_REPLACE));
 
         return p;
     }

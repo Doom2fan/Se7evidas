@@ -228,7 +228,7 @@ class S7_M400Autogun : S7_PlayerSummon {
             aimMarker.SetOrigin (aimMarkerPos, !(aimMarker.alpha ~== 0.));
             aimMarker.alpha = (markerHit ? 1. : 0.);
         } else {
-            aimMarker = Spawn ('S7_TurretRedDot', aimMarkerPos);
+            aimMarker = Spawn ('S7_TurretRedDot', aimMarkerPos, ALLOW_REPLACE);
             aimMarker.target = self;
             aimMarker.alpha = 0.;
         }
@@ -395,7 +395,7 @@ class S7_M400Autogun : S7_PlayerSummon {
             useTimer = -1;
 
             A_StartSound ("Explosions/Explosion1", slot: CHAN_Body, volume: .5);
-            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42), ALLOW_REPLACE);
             if (expl)
                 expl.scale = (0.2, 0.2);
         }
@@ -408,14 +408,14 @@ class S7_M400Autogun : S7_PlayerSummon {
             RemoveMarkers (true);
             useTimer = -1;
 
-            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42), ALLOW_REPLACE);
             if (expl) {
                 expl.A_StartSound ("Explosions/Explosion1", slot: CHAN_Body, volume: .5);
                 expl.A_SetScale (.2);
             }
         }
         TRT1 A 10 {
-            let expl = Spawn ('S7_TurretExplosion', pos + (fRandom [S7_HitsparksRNG] (-10, 10), fRandom [S7_HitsparksRNG] (-10, 10), 42 + fRandom [S7_HitsparksRNG] (-6, 6)));
+            let expl = Spawn ('S7_TurretExplosion', pos + (fRandom [S7_HitsparksRNG] (-10, 10), fRandom [S7_HitsparksRNG] (-10, 10), 42 + fRandom [S7_HitsparksRNG] (-6, 6)), ALLOW_REPLACE);
             if (expl) {
                 expl.A_StartSound ("Explosions/Explosion1", slot: CHAN_Body, volume: .5);
                 expl.A_SetScale (.2);
@@ -424,7 +424,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         TRT1 AAAAAAA 1 {
             A_SetTics (random [monsterSpc] (4, 6));
 
-            let expl = Spawn ('S7_TurretExplosion', pos + (fRandom [S7_HitsparksRNG] (-10, 10), fRandom [S7_HitsparksRNG] (-10, 10), 42 + fRandom [S7_HitsparksRNG] (-6, 6)));
+            let expl = Spawn ('S7_TurretExplosion', pos + (fRandom [S7_HitsparksRNG] (-10, 10), fRandom [S7_HitsparksRNG] (-10, 10), 42 + fRandom [S7_HitsparksRNG] (-6, 6)), ALLOW_REPLACE);
             if (expl) {
                 expl.A_StartSound ("Explosions/Explosion1", slot: CHAN_Body, volume: fRandom [S7_HitsparksRNG] (.5, .65));
                 expl.A_SetScale (fRandom [S7_HitsparksRNG] (.15, .3));
@@ -432,7 +432,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         }
         TRT1 A 15;
         TRT1 A 70 {
-            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42), ALLOW_REPLACE);
             if (expl) {
                 expl.A_StartSound ("Explosions/Explosion1", slot: CHAN_Body);
                 expl.A_SetScale (.25);
@@ -440,7 +440,7 @@ class S7_M400Autogun : S7_PlayerSummon {
         }
         TRT1 C -1 {
             A_StartSound ("Explosions/Explosion2", slot: CHAN_Body);
-            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42));
+            let expl = Spawn ('S7_TurretExplosion', pos + (0, 0, 42), ALLOW_REPLACE);
             if (expl)
                 expl.A_SetScale (.5);
         }

@@ -34,7 +34,7 @@ extend class S7_MapEventThinker {
 
         if (level.mapTime == 0) {
             for (int i = 0; i < mapData.monsterSpawnPos.Size (); i++) {
-                Actor.Spawn ('S7_MEATW_Eyes', mapData.monsterSpawnPos [i].pos);
+                Actor.Spawn ('S7_MEATW_Eyes', mapData.monsterSpawnPos [i].pos, ALLOW_REPLACE);
             }
         }
     }

@@ -32,7 +32,7 @@ extend class S7_BaseWeapon {
                 Owner.GiveInventory (Ammo2.GetClass (), count - excess);
 
             if (excess > 0) {
-                let drop = Ammo (Spawn (Ammo2.GetClass (), Owner.Vec3Offset (0, 0, 10.)));
+                let drop = Ammo (Spawn (Ammo2.GetClass (), Owner.Vec3Offset (0, 0, 10.), NO_REPLACE));
 
                 if (drop) {
                     drop.amount = excess;

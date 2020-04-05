@@ -59,7 +59,7 @@ class S7_ThumperGrenade : S7_Projectile {
     }
 
     virtual S7_Thumper_Used SpawnUsedShell () {
-        let usedShell = S7_Thumper_Used (Spawn ('S7_Thumper_Used', pos));
+        let usedShell = S7_Thumper_Used (Spawn ('S7_Thumper_Used', pos, ALLOW_REPLACE));
 
         usedShell.SetOrigin (pos, true);
         usedShell.prev = prev;
@@ -130,7 +130,7 @@ class S7_ThumperGrenade : S7_Projectile {
     Explosion:
         TNT1 A 20 {
             Gren_DoQuake ();
-            let expl = Spawn ('S7_GenericExplosion', pos);
+            let expl = Spawn ('S7_GenericExplosion', pos, ALLOW_REPLACE);
             if (expl) {
                 expl.target = self;
                 expl.scale = scale;
@@ -257,7 +257,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
             }
 
             for (int i = random [sfx] (15, 25); i > 0; i--) {
-                let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-25, 25), fRandom [sfx] (-25, 25), 0)));
+                let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-25, 25), fRandom [sfx] (-25, 25), 0), ALLOW_REPLACE));
 
                 act.A_SetRenderstyle (act.alpha, STYLE_TranslucentStencil);
                 act.SetShade ("FFFFFF");
@@ -280,7 +280,7 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
     Explosion:
         TNT1 A 17 {
             Gren_DoQuake ();
-            let expl = S7_GenericExplosion (Spawn ('S7_GenericExplosion', pos));
+            let expl = S7_GenericExplosion (Spawn ('S7_GenericExplosion', pos, ALLOW_REPLACE));
             if (expl) {
                 expl.target = self;
                 expl.noSmoke = true;
@@ -582,7 +582,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         time = maxTime = random [weaponSpc] (1025, 1050);
 
         if (!dynLight)
-            dynLight = PointLightAttenuated (Spawn ('PointLightAttenuated', pos)); // Spawn the dynamic light
+            dynLight = PointLightAttenuated (Spawn ('PointLightAttenuated', pos, NO_REPLACE)); // Spawn the dynamic light
 
         dynLight.target = self;
         dynLight.args [DynamicLight.Light_Red] = LightColor.r; // Color - Red

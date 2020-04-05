@@ -217,13 +217,13 @@ class S7_Flashlight : Inventory {
         }
 
         if (!selfLight1) {
-            selfLight1 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, false));
+            selfLight1 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, NO_REPLACE));
             selfLight1.followTarget = Owner;
             selfLight1.angle = Owner.angle;
             selfLight1.pitch = Owner.pitch;
         }
         if (!selfLight2) {
-            selfLight2 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, false));
+            selfLight2 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, NO_REPLACE));
             selfLight2.followTarget = Owner;
             selfLight2.angle = Owner.angle;
             selfLight2.pitch = Owner.pitch;

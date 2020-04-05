@@ -80,7 +80,7 @@ mixin class S7_BulletProjMixin {
 
             offs = norm * 1.5 + offs * fRandom [S7_HitsparksRNG] (-.25, .25);
 
-            let act = Spawn ('S7_BulletPuffSparks', level.Vec3Offset (pos, offs));
+            let act = Spawn ('S7_BulletPuffSparks', level.Vec3Offset (pos, offs), ALLOW_REPLACE);
             act.vel = actVel;
         }
 
@@ -104,7 +104,7 @@ mixin class S7_BulletProjMixin {
 
             offs = norm * 1.5 + offs * fRandom [S7_HitsparksRNG] (-2.5, 2.5);
 
-            let act = S7_Smoke3 (Spawn ("S7_Smoke3", level.Vec3Offset (pos, offs)));
+            let act = S7_Smoke3 (Spawn ("S7_Smoke3", level.Vec3Offset (pos, offs), ALLOW_REPLACE));
 
             act.scale = (.021, .021);
             act.vel = actVel;

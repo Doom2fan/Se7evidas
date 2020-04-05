@@ -467,7 +467,7 @@ class S7_TerminatorGrenade : S7_Projectile {
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (96, 128);
 
-            let expl = Spawn ('S7_GenericExplosion', pos);
+            let expl = Spawn ('S7_GenericExplosion', pos, ALLOW_REPLACE);
             if (expl) {
                 expl.target = self;
                 expl.scale = (1., 1.);
@@ -500,7 +500,7 @@ class S7_TerminatorGrenadeStronger : S7_TerminatorGrenade {
             A_SetDamageType ('ExplosionSplashDMG');
             A_Explode (72, 104);
 
-            let expl = Spawn ('S7_GenericExplosion', pos);
+            let expl = Spawn ('S7_GenericExplosion', pos, ALLOW_REPLACE);
             if (expl) {
                 expl.target = self;
                 expl.scale = (.78125, .78125);

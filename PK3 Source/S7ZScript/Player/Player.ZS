@@ -141,7 +141,7 @@ class S7_BasePlayer : PlayerPawn {
             }
         }
         if (!FindInventory ('S7_BasicArmor')) {
-            let armor = S7_BasicArmor (Spawn ('S7_BasicArmor'));
+            let armor = S7_BasicArmor (Spawn ('S7_BasicArmor', replace: NO_REPLACE));
             armor.BecomeItem ();
             AddInventory (armor);
             giveCount++;

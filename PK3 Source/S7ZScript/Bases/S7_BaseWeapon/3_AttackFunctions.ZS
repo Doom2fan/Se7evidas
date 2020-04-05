@@ -113,7 +113,7 @@ extend class S7_BaseWeapon {
                         armorBonusType = 'ArmorBonus';
 
                     if (armorBonusType != null) {
-                        let armorbonus = ArmorBonus (Spawn (armorBonusType));
+                        let armorbonus = ArmorBonus (Spawn (armorBonusType, replace: NO_REPLACE));
                         armorbonus.SaveAmount *= int (actualdamage * lifesteal);
                         if (lifestealmax > 0) armorbonus.MaxSaveAmount = lifestealmax;
                         armorbonus.bDropped = true;

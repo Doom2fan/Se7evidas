@@ -166,7 +166,7 @@ class S7_BasicArmorPickup : BasicArmorPickup {
 
         // This should really never happen but let's be prepared for a broken inventory.
         if (armor == null) {
-            armor = S7_BasicArmor (Spawn ('S7_BasicArmor'));
+            armor = S7_BasicArmor (Spawn ('S7_BasicArmor', replace: NO_REPLACE));
             armor.BecomeItem ();
             Owner.AddInventory (armor);
         } else {

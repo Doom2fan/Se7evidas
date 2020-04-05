@@ -144,7 +144,7 @@ class S7_Empress : S7_DemonBase {
             bNoPain = !(random [monsterSpc] () < 48);
             bNoBlood = true;
 
-            Spawn ('S7_EmpressShieldHitspark', inflictor.pos);
+            Spawn ('S7_EmpressShieldHitspark', inflictor.pos, ALLOW_REPLACE);
         } else if (shieldUp) {
             if (damage < Telefrag_Damage)
                 damage /= 2;

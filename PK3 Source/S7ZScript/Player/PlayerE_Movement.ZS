@@ -262,7 +262,7 @@ extend class S7_BasePlayer {
 
         // If the jump key was pressed, we're sufficiently off the ground and our Z velocity is <= 16:
         if ((player.cmd.buttons & BT_Jump) && !(player.oldbuttons & BT_Jump) && abs (pos.Z - GetZAt ()) >= S7C_MJumpMinDiff && vel.Z <= 16.0) {
-            let marker = Spawn ('S7_MultiJump_Marker', pos); // Spawn the multijump effect
+            let marker = Spawn ('S7_MultiJump_Marker', pos, ALLOW_REPLACE); // Spawn the multijump effect
             marker.angle = angle;
             vel.Z = force;
             multiJump_Count++; // Increment the jump counter by 1

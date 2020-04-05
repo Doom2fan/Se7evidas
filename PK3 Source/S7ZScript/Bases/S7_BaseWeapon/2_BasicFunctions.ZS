@@ -160,7 +160,7 @@ extend class S7_BaseWeapon {
     //
     //-------------------------------------------------------------------------------------------
     Inventory DropAmmo (Class<Inventory> itemClass, Actor act, int amt, Vector3 offs = (0, 0, 0), double angleOffs = 0) {
-        let drop = Inventory (Spawn (itemClass, act.Vec3Offset (0 + offs.X, 0 + offs.Y, 10. + offs.Z)));
+        let drop = Inventory (Spawn (itemClass, act.Vec3Offset (0 + offs.X, 0 + offs.Y, 10. + offs.Z), NO_REPLACE));
 
         if (drop) {
             drop.amount = amt;

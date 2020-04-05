@@ -326,7 +326,7 @@ class S7_20gaShells : Ammo {
                     return ResolveState ("Spawn.Single");
 
                     for (int i = amt - 1; i > 0; i--) {
-                        let act = Inventory (Spawn (ownClass, pos));
+                        let act = Inventory (Spawn (ownClass, pos, ALLOW_REPLACE));
 
                         if (!act)
                             continue;
@@ -410,7 +410,7 @@ class S7_12gaShells : Ammo {
                     return ResolveState ("Spawn.Single");
 
                     for (int i = amt - 1; i > 0; i--) {
-                        let act = Inventory (Spawn (ownClass, pos));
+                        let act = Inventory (Spawn (ownClass, pos, ALLOW_REPLACE));
 
                         if (!act)
                             continue;

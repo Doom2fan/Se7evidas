@@ -332,7 +332,7 @@ class S7_Invisibility : PowerupGiver {
         if (isFrozen ())
             return;
 
-        let act = Spawn ('S7_InvulnerabilityEffect', pos);
+        let act = Spawn ('S7_InvulnerabilityEffect', pos, ALLOW_REPLACE);
         if (act) {
             act.A_SetRenderStyle (act.Alpha, STYLE_Translucent);
             act.vel = vel + (frandom [S7_MiscSFXRNG] (-1.5, 1.5), frandom [S7_MiscSFXRNG] (-1.5, 1.5), frandom [S7_MiscSFXRNG] (-1.5, 1.5));

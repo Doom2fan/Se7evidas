@@ -57,7 +57,7 @@ class S7_ExplosionSound : S7_EffectsBase {
     static void CreateExplosionSound (Vector3 pos, Sound closeSound, Sound distantSound) {
         int duration = int ((TicRate * ceil (max (S_GetLength (closeSound), S_GetLength (distantSound)))) + 5);
 
-        let act = S7_ExplosionSound (Spawn ('S7_ExplosionSound', pos));
+        let act = S7_ExplosionSound (Spawn ('S7_ExplosionSound', pos, ALLOW_REPLACE));
 
         if (!act)
             return;
@@ -128,7 +128,7 @@ class S7_GenericExplosion : S7_EffectsBase {
         XPL1 A 3 noDelay bright {
             if (!noSmoke) {
                 for (int i = random [sfx] (2, 4); i > 0; i--) {
-                    let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-15, 15), fRandom [sfx] (-15, 15), 0)));
+                    let act = S7_Smoke3 (Spawn ("S7_Smoke3", pos + (fRandom [sfx] (-15, 15), fRandom [sfx] (-15, 15), 0), ALLOW_REPLACE));
 
                     act.scale = (0.25 * scale.X, 0.25 * scale.Y);
                     act.vel = (
@@ -148,14 +148,14 @@ class S7_GenericExplosion : S7_EffectsBase {
             Prev = prevInterp;
 
             {
-                let vert = Spawn ("S7_GenericExplosion_Shockwave", pos);
+                let vert = Spawn ("S7_GenericExplosion_Shockwave", pos, ALLOW_REPLACE);
                 vert.scale.X = scale.X;
                 vert.angle = angle;
                 vert.pitch = 90;
             }
 
             for (int i = 0; i < 3; i++) {
-                let act = Spawn ("S7_GenericExplosion_Shockwave", pos);
+                let act = Spawn ("S7_GenericExplosion_Shockwave", pos, ALLOW_REPLACE);
                 act.scale.X = scale.X;
                 act.angle = fRandom [sfx] (-90, 90);
                 act.pitch = 45 + fRandom [sfx] (0, 45);

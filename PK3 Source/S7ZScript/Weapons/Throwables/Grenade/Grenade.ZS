@@ -401,7 +401,7 @@ class S7_ThrownHandGrenade : S7_ThrownObject {
             A_QuakeEx (3, 3, 3, 17, 0, 224 * 2, "", falloff: 1, rollIntensity: 2.);
 
             S7_ExplosionSound.CreateExplosion2 (pos);
-            let expl = Spawn ('S7_GenericExplosion', pos);
+            let expl = Spawn ('S7_GenericExplosion', pos, ALLOW_REPLACE);
             if (expl) {
                 expl.target = self;
                 expl.scale = (1., 1.);
