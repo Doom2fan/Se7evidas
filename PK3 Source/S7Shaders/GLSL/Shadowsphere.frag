@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-const int samples = 50;
+const int samples = 25;
 const float samplesF = float (samples);
 const float blurAmount = .75;
 
@@ -25,7 +25,6 @@ void main () {
 
     // Blur
     vec4 blurImage = vec4 (0.);
-    float scale = 0.;
 
     for (int i = 0; i < samples; i++){
         float p = float (i) / samplesF;
