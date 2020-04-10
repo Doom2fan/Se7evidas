@@ -130,31 +130,35 @@ class S7_DemonEyes_Power : PowerLightAmp {
     override void DoEffect () {
         Super.DoEffect ();
 
-        if (Owner.player) {
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData) {
             if (!isBlinking ())
-                Shader.SetEnabled (Owner.player, "S7_DemonEyes", true);
+                pPawn.shaderData.demonEyesOn = true;
             else
-                Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+                pPawn.shaderData.demonEyesOn = false;
         }
     }
 
     override void EndEffect () {
         Super.EndEffect ();
 
-        if (Owner && Owner.player)
-            Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData)
+            pPawn.shaderData.demonEyesOn = false;
     }
 
     override void DetachFromOwner () {
-        if (Owner && Owner.player)
-            Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData)
+            pPawn.shaderData.demonEyesOn = false;
 
         Super.DetachFromOwner ();
     }
 
     override void OnDestroy () {
-        if (Owner && Owner.player)
-            Shader.SetEnabled (Owner.player, "S7_DemonEyes", false);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData)
+            pPawn.shaderData.demonEyesOn = false;
 
         Super.OnDestroy ();
     }
@@ -262,30 +266,34 @@ class S7_Invisibility_Power : PowerInvisibility {
     override void DoEffect () {
         Super.DoEffect ();
 
-        if (Owner.player) {
-            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", true);
-            Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "blurStrength", 1.);
-            Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "vignetteStrength", 1.);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData) {
+            pPawn.shaderData.shadowsphereOn = true;
+            pPawn.shaderData.shadowsphereBlurStrength = 1.;
+            pPawn.shaderData.shadowsphereVignetteStrength = 1.;
         }
     }
 
     override void EndEffect () {
         Super.EndEffect ();
 
-        if (Owner && Owner.player)
-            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", false);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData)
+            pPawn.shaderData.shadowsphereOn = false;
     }
 
     override void DetachFromOwner () {
-        if (Owner && Owner.player)
-            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", false);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData)
+            pPawn.shaderData.shadowsphereOn = false;
 
         Super.DetachFromOwner ();
     }
 
     override void OnDestroy () {
-        if (Owner && Owner.player)
-            Shader.SetEnabled (Owner.player, "S7_Shadowsphere", false);
+        let pPawn = S7_BasePlayer (Owner);
+        if (pPawn && pPawn.shaderData)
+            pPawn.shaderData.shadowsphereOn = false;
 
         Super.OnDestroy ();
     }

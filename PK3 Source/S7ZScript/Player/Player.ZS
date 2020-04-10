@@ -52,6 +52,59 @@ class S7_PlayerData : Inventory {
     }
 }
 
+class S7_ShaderData : Inventory {
+    // Nightvision shader
+    bool nightvisionOn;
+    double nightvisionIntensityMod;
+    // Invuln shader
+    bool invulnOn;
+    // "Demon eyes" shader
+    bool demonEyesOn;
+    // Shadowsphere shader
+    bool shadowsphereOn;
+    double shadowsphereBlurStrength;
+    double shadowsphereVignetteStrength;
+    // Stealth shader
+    bool stealthOn;
+    double stealthStrengthFactor;
+
+    override void DoEffect () {
+        // Nightvision
+        Shader.SetEnabled (Owner.player, "S7_Nightvision", nightvisionOn);
+        Shader.SetUniform1f (Owner.player, "S7_Nightvision", "flashlightIntensity", nightvisionIntensityMod);
+        // Invuln
+        Shader.SetEnabled (Owner.player, "S7_Invuln", invulnOn);
+        // "Demon eyes"
+        Shader.SetEnabled (Owner.player, "S7_DemonEyes", demonEyesOn);
+        // Shadowsphere
+        Shader.SetEnabled (Owner.player, "S7_Shadowsphere", shadowsphereOn);
+        Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "blurStrength", shadowsphereBlurStrength);
+        Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "vignetteStrength", shadowsphereVignetteStrength);
+        // Stealth
+        Shader.SetEnabled (Owner.player, "S7_StealthShader", stealthOn);
+        Shader.SetUniform1f (Owner.player, "S7_StealthShader", "vignetteStrength", stealthStrengthFactor);
+        Shader.SetUniform3f (Owner.player, "S7_StealthShader", "vignetteColour",  (.625, .25, 1.) * .75);
+    }
+
+    void DisableAllEffects () {
+        Shader.SetEnabled (Owner.player, "S7_Nightvision"    , false);
+        Shader.SetEnabled (Owner.player, "S7_Invuln"         , false);
+        Shader.SetEnabled (Owner.player, "S7_DemonEyes"      , false);
+        Shader.SetEnabled (Owner.player, "S7_Shadowsphere"   , false);
+        Shader.SetEnabled (Owner.player, "S7_StealthShader"  , false);
+    }
+
+    override void DetachFromOwner () {
+        if (Owner && Owner.player)
+            DisableAllEffects ();
+    }
+
+    override void OnDestroy () {
+        if (Owner && Owner.player)
+            DisableAllEffects ();
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Base playerpawn
@@ -101,6 +154,7 @@ class S7_BasePlayer : PlayerPawn {
     S7_WeapBindsSystem weapBinds;
     S7_PlayerData playerData;
     S7_HealingSystem healSys;
+    S7_ShaderData shaderData;
 
     bool stepFrame;
     actor playerLineTarget;
@@ -140,6 +194,13 @@ class S7_BasePlayer : PlayerPawn {
                 giveCount++;
             }
         }
+        if (!shaderData) {
+            if (!(shaderData = S7_ShaderData (FindInventory ('S7_ShaderData')))) {
+                GiveInventory ('S7_ShaderData', 1);
+                shaderData = S7_ShaderData (FindInventory ('S7_ShaderData'));
+                giveCount++;
+            }
+        }
         if (!FindInventory ('S7_BasicArmor')) {
             let armor = S7_BasicArmor (Spawn ('S7_BasicArmor', replace: NO_REPLACE));
             armor.BecomeItem ();
@@ -147,7 +208,7 @@ class S7_BasePlayer : PlayerPawn {
             giveCount++;
         }
 
-        if (giveCount >= 4) {
+        if (giveCount >= 5) {
             Weapon_SetAmmoMax ();
 
             if (S7_InitialCashAmount > 0)

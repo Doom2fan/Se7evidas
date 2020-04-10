@@ -8,11 +8,11 @@ void main () {
     vec2 uv = TexCoord;
     uv *= 1. - uv.yx;
     float vig = uv.x * uv.y * 15;
-    vig = pow (vig, .05 * stealthFactor);
+    vig = pow (vig, .05 * vignetteStrength);
 
     vig = clamp (vig, 0., 1.);
 
     vec4 src = texture (InputTexture, TexCoord);
-    vec4 c = vec4 (mix (src.rgb, vec3 (.625, .25, 1.) * .75, 1. - vig), src.a);
+    vec4 c = vec4 (mix (src.rgb, vignetteColour, 1. - vig), src.a);
     FragColor = vec4 (c);
 }

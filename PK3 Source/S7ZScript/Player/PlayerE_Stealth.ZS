@@ -32,7 +32,8 @@ extend class S7_BasePlayer {
         stealthFactor = clamp (lightLevel * crouchFactor, 0., 1.);
 
         shaderStealthFactor = S7_Math.Lerp (shaderStealthFactor, max ((stealthFactor - .6), 0.) / .4, .1);
-        //Shader.SetUniform1f (player, "S7_StealthShader", "stealthFactor", shaderStealthFactor);
+        if (shaderData)
+            shaderData.stealthStrengthFactor = shaderStealthFactor;
     }
 
     double Misc_Stealth_GetLightLevel () {

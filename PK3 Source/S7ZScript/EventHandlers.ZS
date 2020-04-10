@@ -22,19 +22,6 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_ServerEventHandler : EventHandler {
-    void ResetShaders () {
-        for (int i = 0; i < MaxPlayers; i++) {
-            if (!playeringame [i])
-                continue;
-
-            Shader.SetEnabled (players [i], "S7_Shadowsphere", false);
-            Shader.SetEnabled (players [i], "S7_DemonEyes"   , false);
-            Shader.SetEnabled (players [i], "S7_Invuln"      , false);
-            Shader.SetEnabled (players [i], "S7_Nightvision" , false);
-            //Shader.SetEnabled (players [i], "S7_StealthShader", !(gamestate == GS_TitleLevel));
-        }
-    }
-
     override void WorldLoaded (WorldEvent e) {
         let serverData = S7_ServerData.Get ();
         let mapData = S7_MapData.Get ();
@@ -43,8 +30,6 @@ class S7_ServerEventHandler : EventHandler {
 
         if (mapData.mapEvent > 0)
             Console.PrintF ("%d", mapData.mapEvent);
-
-        ResetShaders ();
     }
 
     override void WorldUnloaded (WorldEvent e) {
@@ -56,8 +41,6 @@ class S7_ServerEventHandler : EventHandler {
             serverData.queuedMapEvent = random [S7_MapEvents] (S7_MEVNT_None + 1, S7_MEVNT_LastToken - 1);
         else*/
             serverData.queuedMapEvent = S7_MEVNT_None;
-
-        ResetShaders ();
     }
 
     override void WorldTick () {

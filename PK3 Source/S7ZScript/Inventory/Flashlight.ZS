@@ -127,6 +127,10 @@ class S7_Flashlight : Inventory {
     override void DoEffect () {
         Super.DoEffect ();
 
+        let pPawn = S7_BasePlayer (Owner);
+        if (!pPawn || pPawn.player == null || !pPawn.shaderData)
+            return;
+
         if (toggle_TimePressed != 0) {
             int toggleTimeHeld = level.time - toggle_TimePressed;
 
@@ -143,7 +147,7 @@ class S7_Flashlight : Inventory {
         if (active && (battery <= 0 || (infraredMode && battery <= (MaxBatteryCharge / 4. / 2.))))
             ToggleLight ();
 
-        Shader.SetEnabled (Owner.player, "S7_Nightvision", active && infraredMode);
+        pPawn.shaderData.nightvisionOn = (active && infraredMode);
 
         if (!active) {
             if (selfLight1)
@@ -157,7 +161,7 @@ class S7_Flashlight : Inventory {
         battery--;
 
         if (!lightColorCVar)
-            lightColorCVar = CVar.GetCVar ("S7_FlashlightColor", Owner.player);
+            lightColorCVar = CVar.GetCVar ("S7_FlashlightColor", pPawn.player);
 
         Color lightColor = lightColorCVar ? lightColorCVar.GetInt () : 0xFFFFFFFF;
         double intensityMod = clamp (double (battery) / (MaxBatteryCharge / 4.), 0., 1.);
@@ -171,7 +175,7 @@ class S7_Flashlight : Inventory {
 
         if (infraredMode) {
             r = g = b = int (128 * intensityMod);
-            Shader.SetUniform1f (Owner.player, "S7_Nightvision", "flashlightIntensity", intensityMod);
+            pPawn.shaderData.nightvisionIntensityMod = intensityMod;
         }
 
         int beamInner = 10;
@@ -182,7 +186,7 @@ class S7_Flashlight : Inventory {
         int spillRadius = 256;
 
         if (!mountCVar)
-            mountCVar = CVar.GetCVar ("S7_FlashlightMount", Owner.player);
+            mountCVar = CVar.GetCVar ("S7_FlashlightMount", pPawn.player);
 
         int mount = mountCVar ? mountCVar.GetInt () : 0;
         double pViewZ = (owner.player.viewZ - owner.pos.Z);
@@ -217,20 +221,20 @@ class S7_Flashlight : Inventory {
         }
 
         if (!selfLight1) {
-            selfLight1 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, NO_REPLACE));
-            selfLight1.followTarget = Owner;
-            selfLight1.angle = Owner.angle;
-            selfLight1.pitch = Owner.pitch;
+            selfLight1 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', pPawn.pos, NO_REPLACE));
+            selfLight1.followTarget = pPawn;
+            selfLight1.angle = pPawn.angle;
+            selfLight1.pitch = pPawn.pitch;
         }
         if (!selfLight2) {
-            selfLight2 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', Owner.pos, NO_REPLACE));
-            selfLight2.followTarget = Owner;
-            selfLight2.angle = Owner.angle;
-            selfLight2.pitch = Owner.pitch;
+            selfLight2 = S7_Flashlight_Spotlight (Spawn ('S7_Flashlight_Spotlight', pPawn.pos, NO_REPLACE));
+            selfLight2.followTarget = pPawn;
+            selfLight2.angle = pPawn.angle;
+            selfLight2.pitch = pPawn.pitch;
         }
 
         if (selfLight1) {
-            selfLight1.bDormant = (infraredMode && (players [consoleplayer] != Owner.player));
+            selfLight1.bDormant = (infraredMode && (players [consoleplayer] != pPawn.player));
             selfLight1.infrared = infraredMode;
             selfLight1.args [0] = r; // R
             selfLight1.args [1] = g; // G
@@ -245,7 +249,7 @@ class S7_Flashlight : Inventory {
             selfLight1.offsetZ = offsetZ;
         }
         if (selfLight2) {
-            selfLight2.bDormant = (infraredMode && (players [consoleplayer] != Owner.player));
+            selfLight2.bDormant = (infraredMode && (players [consoleplayer] != pPawn.player));
             selfLight2.infrared = infraredMode;
             selfLight2.args [0] = int (r * .75); // R
             selfLight2.args [1] = int (g * .75); // G
