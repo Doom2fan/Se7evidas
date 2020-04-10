@@ -126,7 +126,7 @@ extend class S7_BasePlayer {
                     (health <= 5  && health > 2  && playerData.heartbeatTics >= 35 *  .75) ||
                     (health <= 2  &&                playerData.heartbeatTics >= 35 *  .50)
                 ) {
-                    A_StartSound ("Player/Heartbeat", slot: CHAN_Body, flags: CHANF_Local, attenuation: ATTN_None);
+                    A_StartSound ("Player/Heartbeat", slot: CHAN_Body, flags: CHANF_Local, volume: .85, attenuation: ATTN_None);
                     playerData.heartbeatTics = 0;
                     strengthFactor = 4.;
                 } else if (health > 25) { // If health is greater than 25...
