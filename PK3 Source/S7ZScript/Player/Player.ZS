@@ -64,6 +64,9 @@ class S7_ShaderData : Inventory {
     bool shadowsphereOn;
     double shadowsphereBlurStrength;
     double shadowsphereVignetteStrength;
+    // Low health shader
+    bool lowHealthOn;
+    double lowHealthStrengthFactor;
     // Stealth shader
     bool stealthOn;
     double stealthStrengthFactor;
@@ -80,6 +83,10 @@ class S7_ShaderData : Inventory {
         Shader.SetEnabled (Owner.player, "S7_Shadowsphere", shadowsphereOn);
         Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "blurStrength", shadowsphereBlurStrength);
         Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "vignetteStrength", shadowsphereVignetteStrength);
+        // Low health
+        Shader.SetEnabled (Owner.player, "S7_LowHealthShader", lowHealthOn);
+        Shader.SetUniform1f (Owner.player, "S7_LowHealthShader", "vignetteStrength", lowHealthStrengthFactor);
+        Shader.SetUniform3f (Owner.player, "S7_LowHealthShader", "vignetteColour",  (.0, .0, .0));
         // Stealth
         Shader.SetEnabled (Owner.player, "S7_StealthShader", stealthOn);
         Shader.SetUniform1f (Owner.player, "S7_StealthShader", "vignetteStrength", stealthStrengthFactor);
@@ -91,6 +98,7 @@ class S7_ShaderData : Inventory {
         Shader.SetEnabled (Owner.player, "S7_Invuln"         , false);
         Shader.SetEnabled (Owner.player, "S7_DemonEyes"      , false);
         Shader.SetEnabled (Owner.player, "S7_Shadowsphere"   , false);
+        Shader.SetEnabled (Owner.player, "S7_LowHealthShader", false);
         Shader.SetEnabled (Owner.player, "S7_StealthShader"  , false);
     }
 

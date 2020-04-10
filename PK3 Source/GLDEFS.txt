@@ -45,6 +45,15 @@ hardwareShader postProcess scene {
 }
 
 hardwareShader postProcess scene {
+    name "S7_LowHealthShader"
+    shader "S7Shaders/GLSL/VignetteShader.frag" 330
+    Enabled
+
+    uniform float "vignetteStrength"
+    uniform vec3 "vignetteColour"
+}
+
+hardwareShader postProcess scene {
     name "S7_StealthShader"
     shader "S7Shaders/GLSL/VignetteShader.frag" 330
     //Enabled

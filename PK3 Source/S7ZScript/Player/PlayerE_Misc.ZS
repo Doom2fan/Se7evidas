@@ -111,24 +111,35 @@ extend class S7_BasePlayer {
 
     transient CVar heartbeatsSoundCVar;
     void Misc_Heartbeats () {
-        if (health <= 0)
-            return;
+        double strengthFactor = 0.;
+        if (shaderData)
+            strengthFactor = shaderData.lowHealthStrengthFactor * .95;
 
-        if (!heartbeatsSoundCVar)
-            heartbeatsSoundCVar = CVar.GetCVar ("S7_HeartbeatsOn", players [consoleplayer]);
-        if (heartbeatsSoundCVar && heartbeatsSoundCVar.GetInt ()) {
-            if ((health <= 25 && health > 15 && playerData.heartbeatTics >= 89) || // I couldn't find a better way to do this... >.>
-                (health <= 15 && health > 10 && playerData.heartbeatTics >= 71) ||
-                (health <= 10 && health > 5  && playerData.heartbeatTics >= 53) ||
-                (health <= 5  && health > 2  && playerData.heartbeatTics >= 35) ||
-                (health <= 2  &&                playerData.heartbeatTics >= 18)
-            ) {
-                A_StartSound ("Player/Heartbeat", slot: CHAN_Body, flags: CHANF_Local, attenuation: ATTN_None);
-                playerData.heartbeatTics = 0;
-            } else if (health > 25) // If health is greater than 25...
-                playerData.heartbeatTics = 0; // Set heartbeatTics to 0
-            else // If neither...
-                playerData.heartbeatTics++; // Add one to heartbeatTics
+        if (health > 0) {
+            if (!heartbeatsSoundCVar)
+                heartbeatsSoundCVar = CVar.GetCVar ("S7_HeartbeatsOn", players [consoleplayer]);
+            if (heartbeatsSoundCVar && heartbeatsSoundCVar.GetInt ()) {
+                // I couldn't find a better way to do this... >.>
+                if ((health <= 25 && health > 15 && playerData.heartbeatTics >= 35 * 1.50) ||
+                    (health <= 15 && health > 10 && playerData.heartbeatTics >= 35 * 1.25) ||
+                    (health <= 10 && health > 5  && playerData.heartbeatTics >= 35       ) ||
+                    (health <= 5  && health > 2  && playerData.heartbeatTics >= 35 *  .75) ||
+                    (health <= 2  &&                playerData.heartbeatTics >= 35 *  .50)
+                ) {
+                    A_StartSound ("Player/Heartbeat", slot: CHAN_Body, flags: CHANF_Local, attenuation: ATTN_None);
+                    playerData.heartbeatTics = 0;
+                    strengthFactor = 4.;
+                } else if (health > 25) { // If health is greater than 25...
+                    playerData.heartbeatTics = 0;
+                    strengthFactor = 0;
+                } else // If neither...
+                    playerData.heartbeatTics++; // Add one to heartbeatTics
+            }
+        }
+
+        if (shaderData) {
+            shaderData.lowHealthOn = true;
+            shaderData.lowHealthStrengthFactor = strengthFactor;
         }
     }
 
