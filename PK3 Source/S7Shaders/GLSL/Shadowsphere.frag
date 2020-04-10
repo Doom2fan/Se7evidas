@@ -22,19 +22,19 @@ const float blurAmount = .75;
 
 void main () {
     vec4 texel = texture (InputTexture, TexCoord);
-    
+
     // Blur
     vec4 blurImage = vec4 (0.);
     float scale = 0.;
-    
+
     for (int i = 0; i < samples; i++){
         float p = float (i) / samplesF;
         blurImage += texture (InputTexture, TexCoord + (vec2 (.5) - TexCoord) * p * blurAmount * blurStrength) / samplesF;
     }
-    
+
     // Fading
     vec2 centeredCoord = TexCoord - 0.5;
     float distance = sqrt (dot (centeredCoord, centeredCoord));
-    
+
     FragColor = mix (texel, blurImage, clamp (pow (distance, 1.2) * 1.5 * vignetteStrength, 0., 1.));
 }
