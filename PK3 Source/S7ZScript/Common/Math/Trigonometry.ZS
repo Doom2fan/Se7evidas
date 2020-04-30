@@ -144,9 +144,9 @@ extend class S7_Math {
     **  Returns two vectors orthogonal to the vector passed to the function.
     */
     clearscope static Vector3, Vector3 GetOrthoVecs (Vector3 vec) {
-        if (vec == (0, 0, 0))
+        if (vec ~== (0, 0, 0))
             return (0, 0, 0), (0, 0, 0);
-        else if (vec.XY == (0, 0))
+        else if (vec.XY ~== (0, 0))
             return (1, 0, 0), (0, 1, 0);
 
         Vector3 orth0 = (-vec.y, vec.x, 0).Unit ();
