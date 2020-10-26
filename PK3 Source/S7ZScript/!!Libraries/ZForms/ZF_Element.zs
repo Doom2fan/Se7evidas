@@ -323,7 +323,10 @@ class S7_ZF_Element ui {
 		}
 
 		int index = master.elements.find (self);
-		master.elements.delete(index, 1);
+		if (index != master.elements.Size ()) {
+			master.elements.delete(index, 1);
+		}
+		master = NULL;
 	}
 
 	void setBox(Vector2 pos, Vector2 size) {
