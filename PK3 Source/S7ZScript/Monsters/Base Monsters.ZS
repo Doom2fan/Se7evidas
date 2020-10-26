@@ -111,7 +111,8 @@ class S7_MonsterBase : Actor {
         if (xpSys)
             UpdateStats ();
 
-        SearchBehavior ();
+        if (health > 0 && !bKilled)
+            SearchBehavior ();
     }
 
     override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {

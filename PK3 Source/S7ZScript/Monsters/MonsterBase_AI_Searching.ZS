@@ -88,10 +88,6 @@ extend class S7_MonsterBase {
     }
 
     void SearchBehavior () {
-        // Return conditions
-        if (health <= 0 || bKilled)
-            return;
-
         // Normal following behavior plus visibility checks
         if (target && !aiNextNode) {
             if (aiLastKnown)
