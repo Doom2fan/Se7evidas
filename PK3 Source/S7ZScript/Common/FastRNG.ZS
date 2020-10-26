@@ -31,7 +31,7 @@ class S7_FastRNG {
     }
 
     static S7_FastRNG Create () {
-        int seed = MSTime () ^ random [S7_FastRNGSeed] (1, int.max - 1);
+        int seed = level.totaltime ^ random [S7_FastRNGSeed] (1, int.max - 1);
 
         // Hash function from https://stackoverflow.com/a/12996028
         seed = ((seed >>> 16) ^ seed) * 0x45d9f3b;
