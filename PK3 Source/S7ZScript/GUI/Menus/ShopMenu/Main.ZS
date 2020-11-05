@@ -62,13 +62,13 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     virtual S7_SSShop GetShop () { return null; }
 
     void ReportError (string error) {
-        let errorLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: error,
+        let errorLabel = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: error,
             fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         errorLabel.box.pos = (320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ());
         errorLabel.Pack (mainFrame);
         string labelText = "You shouldn't be seeing this";
-        let label = new ('S7_ZF_Label').Init ((0, 12), (0, smallFont.GetHeight ()), text: labelText,
+        let label = S7_ZF_Label.Create ((0, 12), (0, smallFont.GetHeight ()), text: labelText,
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         label.box.pos = (320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.box.pos.y + bigFont.GetHeight () + 5);
@@ -102,41 +102,41 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         handler = new ('S7_ShopMenuHandler');
         handler.link = self;
 
-        shopFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 480));
+        shopFrame = S7_ZF_Frame.Create ((0, 0), (640, 480));
         shopFrame.Pack (mainFrame);
 
-        popupFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 480));
+        popupFrame = S7_ZF_Frame.Create ((0, 0), (640, 480));
         popupFrame.Pack (mainFrame);
 
-        nameLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: "", fnt: bigFont, wrap: false, textColor: Font.CR_White);
+        nameLabel = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: "", fnt: bigFont, wrap: false, textColor: Font.CR_White);
         nameLabel.Pack (shopFrame);
 
-        itemsList = S7_ShopMenu_List (new ('S7_ShopMenu_List').InitList (self, shopFrame, shopData));
-        bsPopup = S7_ShopMenu_BuySellPopup (new ('S7_ShopMenu_BuySellPopup').InitPopup (self, popupFrame));
+        itemsList = S7_ShopMenu_List.CreateList (self, shopFrame, shopData);
+        bsPopup = S7_ShopMenu_BuySellPopup (S7_ShopMenu_BuySellPopup.CreatePopup (self, popupFrame));
 
-        mainWindowBG = new ('S7_ZF_Image').Init ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
+        mainWindowBG = S7_ZF_Image.Create ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
         mainWindowBG.Pack (shopFrame);
 
-        playerDataLabel = new ('S7_ZF_Label').Init ((255, 345 - smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
+        playerDataLabel = S7_ZF_Label.Create ((255, 345 - smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         playerDataLabel.Pack (shopFrame);
 
-        descLabel = new ('S7_ZF_Label').Init ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
+        descLabel = S7_ZF_Label.Create ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
         descLabel.Pack (shopFrame);
 
-        costLabel = new ('S7_ZF_Label').Init ((258, 50 + 8), (355 - 8, descLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: false, textColor: Font.CR_White);
+        costLabel = S7_ZF_Label.Create ((258, 50 + 8), (355 - 8, descLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: false, textColor: Font.CR_White);
         costLabel.Pack (shopFrame);
 
-        infoLabel = new ('S7_ZF_Label').Init ((255 + 8, 358), (355 - 8, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
+        infoLabel = S7_ZF_Label.Create ((255 + 8, 358), (355 - 8, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
         infoLabel.Pack (shopFrame);
 
-        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
+        tooltipLabel = S7_ZF_Label.Create ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
         tooltipLabel.Pack (mainFrame);
 
         let buyButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButton.png", true);
         let buyButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButtonHover.png", true);
         let buyButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButtonPressed.png", true);
 
-        buyButton = new ('S7_ZF_Button').Init ((555, 423), (50, 17), text: StringTable.Localize ("$SS_BUYBUTTON", true), cmdHandler: handler, command: "BuySellButton", fnt: smallFont);
+        buyButton = S7_ZF_Button.Create ((555, 423), (50, 17), text: StringTable.Localize ("$SS_BUYBUTTON", true), cmdHandler: handler, command: "BuySellButton", fnt: smallFont);
         buyButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
         buyButton.Pack (shopFrame);
         sellMode = false;

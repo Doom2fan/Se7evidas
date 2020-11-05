@@ -130,7 +130,6 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/MapEvents/PerfectHatred.ZS"
 
 // Menus
-#include "S7ZScript/GUI/Menus/!!CustomZFormsControls/CompositeBox.ZS"
 #include "S7ZScript/GUI/Menus/!!ZFormsUtils.ZS"
 #include "S7ZScript/GUI/Menus/XPSystemMenu.ZS"
 #include "S7ZScript/GUI/Menus/WeapAssignmentMenu/WeapSelList.ZS"

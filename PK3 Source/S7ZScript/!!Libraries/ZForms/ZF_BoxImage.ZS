@@ -9,11 +9,13 @@ class S7_ZF_BoxImage : S7_ZF_Element {
 		self.alpha = 1;
 	}
 
-	S7_ZF_BoxImage init(Vector2 pos, Vector2 size, S7_ZF_BoxTextures textures = NULL, Vector2 scale = (1, 1)) {
-		self.config(textures, scale);
-		self.setBox(pos, size);
+	static S7_ZF_BoxImage create(Vector2 pos, Vector2 size, S7_ZF_BoxTextures textures = NULL, Vector2 scale = (1, 1)) {
+		let ret = new('S7_ZF_BoxImage');
 
-		return self;
+		ret.config(textures, scale);
+		ret.setBox(pos, size);
+
+		return ret;
 	}
 
 	override void drawer() {

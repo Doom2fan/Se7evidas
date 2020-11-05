@@ -12,11 +12,13 @@ class S7_ZF_Image : S7_ZF_Element {
 		self.alpha = 1;
 	}
 
-	S7_ZF_Image init(Vector2 pos, Vector2 size, string image = "", AlignType alignment = AlignType_TopLeft, Vector2 imageScale = (1, 1), bool tiled = false) {
-		self.config(image, alignment, imageScale, tiled);
-		self.setBox(pos, size);
+	static S7_ZF_Image create(Vector2 pos, Vector2 size, string image = "", AlignType alignment = AlignType_TopLeft, Vector2 imageScale = (1, 1), bool tiled = false) {
+		let ret = new('S7_ZF_Image');
 
-		return self;
+		ret.config(image, alignment, imageScale, tiled);
+		ret.setBox(pos, size);
+
+		return ret;
 	}
 
 	override void drawer() {

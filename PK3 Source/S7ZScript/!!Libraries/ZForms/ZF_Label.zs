@@ -26,12 +26,15 @@ class S7_ZF_Label : S7_ZF_Element {
 		self.lineSpacing = lineSpacing;
 	}
 
-	S7_ZF_Label init(Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft,
-				  bool wrap = true, bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE, double lineSpacing = 0) {
-		self.config(text, fnt, alignment, wrap, autoSize, textScale, textColor, lineSpacing);
-		self.setBox(pos, size);
+	static S7_ZF_Label create(Vector2 pos, Vector2 size, string text = "", Font fnt = NULL, AlignType alignment = AlignType_TopLeft,
+				  			bool wrap = true, bool autoSize = false, double textScale = 1, int textColor = Font.CR_WHITE,
+				  			double lineSpacing = 0) {
+		let ret = new('S7_ZF_Label');
 
-		return self;
+		ret.config(text, fnt, alignment, wrap, autoSize, textScale, textColor, lineSpacing);
+		ret.setBox(pos, size);
+
+		return ret;
 	}
 
 	override void ticker() {

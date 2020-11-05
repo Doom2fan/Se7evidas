@@ -146,14 +146,14 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         string labelText = StringTable.Localize ("$STATSMENUHEADER", true);
-        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        S7_ZF_Label label = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (mainFrame);
 
-        background = new ('S7_ZF_Image').Init ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
+        background = S7_ZF_Image.Create ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (mainFrame);
 
-        statsFrame = new ('S7_ZF_Frame').Init ((35, 60), (200, 200));
+        statsFrame = S7_ZF_Frame.Create ((35, 60), (200, 200));
         statsFrame.Pack (mainFrame);
 
         for (int i = 0; i < statNames.Size (); i++) {
@@ -163,7 +163,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statText = statText.MakeUpper ();
             statText = StringTable.Localize ("$STATSMENU_" .. statText, true);
 
-            statLabels [i] = new ('S7_ZF_Label').Init (
+            statLabels [i] = S7_ZF_Label.Create (
                 (0, yCoords + 1), (0, SmallFont.GetHeight ()),
                 text: String.Format ("%s:", statText),
                 fnt: smallFont,
@@ -174,7 +174,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statLabels [i].command = statNames [i];
             statLabels [i].Pack (statsFrame);
 
-            statBaseLabels [i] = new ('S7_ZF_Label').Init (
+            statBaseLabels [i] = S7_ZF_Label.Create (
                 (80, yCoords + 1), (0, SmallFont.GetHeight ()),
                 text: "0",
                 fnt: smallFont,
@@ -183,7 +183,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             );
             statBaseLabels [i].Pack (statsFrame);
 
-            statAddLabels [i] = new ('S7_ZF_Label').Init ((
+            statAddLabels [i] = S7_ZF_Label.Create ((
                 110, yCoords + 1), (0, SmallFont.GetHeight ()),
             text: "+0",
                 fnt: smallFont,
@@ -195,7 +195,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             S7_ZF_BoxTextures smallButtonIdle, smallButtonHover, smallButtonClick;
             [smallButtonIdle, smallButtonHover, smallButtonClick] = S7_ZFMenuUtils.GetSmallButtonTexes ();
 
-            statButtons [i] [0] = new ('S7_ZF_Button').Init (
+            statButtons [i] [0] = S7_ZF_Button.Create (
                 (140, yCoords), (13, 11),
                 text: "+",
                 cmdHandler: handler, command: String.Format ("StatAdd:%s", statName),
@@ -205,7 +205,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             statButtons [i] [0].SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
             statButtons [i] [0].Pack (statsFrame);
 
-            statButtons [i] [1] = new ('S7_ZF_Button').Init (
+            statButtons [i] [1] = S7_ZF_Button.Create (
                 (160, yCoords), (13, 11),
                 text: "-",
                 cmdHandler: handler, command: String.Format ("StatDec:%s", statName),
@@ -220,14 +220,14 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
         let statButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/XPSys/StatButtonHover.png", true);
         let statButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/XPSys/StatButtonPressed.png", true);
 
-        acceptButton = new ('S7_ZF_Button').Init ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
+        acceptButton = S7_ZF_Button.Create ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
         acceptButton.SetTextures (statButtonIdle, statButtonHover, statButtonClick, null);
         acceptButton.Pack (statsFrame);
-        resetButton = new ('S7_ZF_Button').Init ((25 + 65, 95), (62, 15), text: "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
+        resetButton = S7_ZF_Button.Create ((25 + 65, 95), (62, 15), text: "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
         resetButton.SetTextures (statButtonIdle, statButtonHover, statButtonClick, null);
         resetButton.Pack (statsFrame);
 
-        tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
+        tooltipLabel = S7_ZF_Label.Create ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
         tooltipLabel.Pack (mainFrame);
     }
 

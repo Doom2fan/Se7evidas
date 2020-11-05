@@ -81,25 +81,33 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
     Array<S7_WeapAssignMenu_ListWeap> items;
     double lowestCoord;
 
-    S7_WeaponEnchantmentMenu_List InitList (S7_WeaponEnchantmentMenu menuLink, S7_ZF_Frame frame, S7_BasePlayer pPawn) {
-        self.Init ((25, 50), (200, 400));
-        self.Pack (frame);
+    void Config (S7_WeaponEnchantmentMenu menuLink, S7_ZF_Frame frame, S7_BasePlayer pPawn) {
+        alpha = 1;
+
         link = menuLink;
 
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
-        background = new ('S7_ZF_Image').Init ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignType_TopLeft);
+        background = S7_ZF_Image.Create ((0, 0), (200, 400), "graphics/Menu/Shop/ItemList.png", S7_ZF_Image.AlignType_TopLeft);
         background.Pack (self);
 
-        clippingFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 400 - 3));
+        clippingFrame = S7_ZF_Frame.Create ((0, 3), (200, 400 - 3));
         clippingFrame.Pack (self);
 
         handler = new ('S7_WeaponEnchantmentMenu_ListHandler');
         handler.link = link;
 
         CPlayer = pPawn;
+    }
 
-        return self;
+    static S7_WeaponEnchantmentMenu_List CreateList (S7_WeaponEnchantmentMenu menuLink, S7_ZF_Frame frame, S7_BasePlayer pPawn) {
+        let ret = new ('S7_WeaponEnchantmentMenu_List');
+
+        ret.SetBox ((25, 50), (200, 400));
+        ret.Pack (frame);
+        ret.Config (menuLink, frame, pPawn);
+
+        return ret;
     }
 
     override void Ticker () {
@@ -161,7 +169,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
             items.Clear ();
         }
 
-        itemsFrame = new ('S7_ZF_Frame').Init ((0, 3), (200, 0));
+        itemsFrame = S7_ZF_Frame.Create ((0, 3), (200, 0));
         itemsFrame.Pack (clippingFrame);
 
         double yCoords = 0.0; // We have to do it like this because entries have variable lengths based on contents
@@ -192,7 +200,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
                 texSize = TexMan.GetScaledSize (tex);
 
             // Clickable area
-            let button = new ('S7_ZF_Button').Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Weapon:%s", weapControls.weaponName), null, null, null, null, null);
+            let button = S7_ZF_Button.Create ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Weapon:%s", weapControls.weaponName), null, null, null, null, null);
             button.Pack (itemsFrame);
             weapControls.clickableArea = button;
 
@@ -211,7 +219,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
             for (int i = 0; i < textLines.Count (); i++) {
                 double fHeight = smallFont.GetHeight ();
-                let label = new ('S7_ZF_Label').Init ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
+                let label = S7_ZF_Label.Create ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
                     fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
                 label.Pack (itemsFrame);
@@ -220,7 +228,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
             button.box.size.Y = clickHeight + 4 * 2;
             // Icon
-            let icon = new ('S7_ZF_Image').Init ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon);
+            let icon = S7_ZF_Image.Create ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon);
             icon.Pack (itemsFrame);
             weapControls.icon = icon;
 
@@ -228,7 +236,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
             lowestCoord = yCoords;
             yCoords += button.box.size.Y;
 
-            let sep = new ('S7_ZF_Image').Init ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
+            let sep = S7_ZF_Image.Create ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
             sep.Pack (itemsFrame);
             yCoords += 2;
 

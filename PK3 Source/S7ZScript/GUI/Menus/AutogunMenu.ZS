@@ -145,11 +145,11 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
     int buttonHeldTics;
 
     void ReportError (string error) {
-        let errorLabel = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: error, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        let errorLabel = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: error, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         errorLabel.box.pos = (320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ());
         errorLabel.Pack (mainFrame);
         string labelText = "You shouldn't be seeing this";
-        let label = new ('S7_ZF_Label').Init ((0, 12), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        let label = S7_ZF_Label.Create ((0, 12), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         label.box.pos = (320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.box.pos.y + bigFont.GetHeight () + 5);
         label.Pack (mainFrame);
     }
@@ -176,17 +176,17 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         string labelText = StringTable.Localize ("$AUTOGUNMENUHEADER", true);
-        let header = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        let header = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         header.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         header.Pack (mainFrame);
 
-        menuFrame = new ('S7_ZF_Frame').Init ((25, 50), (590, 400));
+        menuFrame = S7_ZF_Frame.Create ((25, 50), (590, 400));
         menuFrame.Pack (mainFrame);
 
-        popup = new ('S7_AutogunMenu_Popup').InitPopup (self, mainFrame, handler);
+        popup = S7_AutogunMenu_Popup.CreatePopup (self, mainFrame, handler);
 
         let bgBox = S7_ZFMenuUtils.GetCommonMenuBG ();
-        let background = new ('S7_ZF_BoxImage').Init ((0, 0), (590, 400), textures: bgBox);
+        let background = S7_ZF_BoxImage.Create ((0, 0), (590, 400), textures: bgBox);
         background.Pack (menuFrame);
 
         double offs = (smallFont.GetHeight () + 10);
@@ -203,17 +203,17 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         /** Integrity **/
         labelText = StringTable.Localize ("$AUTOGUNMENU_INTEGRITY", true);
-        healthLabel = new ('S7_ZF_Label').Init ((10, 10 + (offs * controlCount++)), (0, 0),
+        healthLabel = S7_ZF_Label.Create ((10, 10 + (offs * controlCount++)), (0, 0),
             text: String.Format ("%s: ", labelText),
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         healthLabel.Pack (menuFrame);
 
-        healthCountLabel = new ('S7_ZF_Label').Init ((healthLabel.box.pos.x, healthLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        healthCountLabel = S7_ZF_Label.Create ((healthLabel.box.pos.x, healthLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         healthCountLabel.Pack (menuFrame);
 
         labelText = StringTable.Localize ("$AUTOGUNMENU_REPAIR", true);
-        repairHealthButton = new ('S7_ZF_Button').Init ((healthLabel.box.pos.x, healthLabel.box.pos.y + bigButtonYOffs), (50, 17),
+        repairHealthButton = S7_ZF_Button.Create ((healthLabel.box.pos.x, healthLabel.box.pos.y + bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "repairHealthButton", fnt: smallFont
         );
         repairHealthButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
@@ -221,17 +221,17 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         /** Ammunition **/
         labelText = StringTable.Localize ("$AUTOGUNMENU_AMMO", true);
-        ammoLabel = new ('S7_ZF_Label').Init ((10, 10 + (offs * controlCount++)), (0, 0),
+        ammoLabel = S7_ZF_Label.Create ((10, 10 + (offs * controlCount++)), (0, 0),
             text: String.Format ("%s: ", labelText),
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         ammoLabel.Pack (menuFrame);
 
-        ammoCountLabel = new ('S7_ZF_Label').Init ((ammoLabel.box.pos.x, ammoLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        ammoCountLabel = S7_ZF_Label.Create ((ammoLabel.box.pos.x, ammoLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         ammoCountLabel.Pack (menuFrame);
 
         labelText = StringTable.Localize ("$AUTOGUNMENU_BUY", true);
-        buyAmmoButton = new ('S7_ZF_Button').Init ((ammoCountLabel.box.pos.x, ammoCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
+        buyAmmoButton = S7_ZF_Button.Create ((ammoCountLabel.box.pos.x, ammoCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "buyAmmoButton", fnt: smallFont
         );
         buyAmmoButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
@@ -239,17 +239,17 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         /** Corruption **/
         labelText = StringTable.Localize ("$AUTOGUNMENU_CORRUPTION", true);
-        corruptionLabel = new ('S7_ZF_Label').Init ((10, 10 + (offs * controlCount++)), (0, 0),
+        corruptionLabel = S7_ZF_Label.Create ((10, 10 + (offs * controlCount++)), (0, 0),
             text: String.Format ("%s: ", labelText),
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         corruptionLabel.Pack (menuFrame);
 
-        corruptionCountLabel = new ('S7_ZF_Label').Init ((corruptionLabel.box.pos.x, corruptionLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        corruptionCountLabel = S7_ZF_Label.Create ((corruptionLabel.box.pos.x, corruptionLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         corruptionCountLabel.Pack (menuFrame);
 
         labelText = StringTable.Localize ("$AUTOGUNMENU_REPAIR", true);
-        repairCorruptionButton = new ('S7_ZF_Button').Init ((corruptionCountLabel.box.pos.x, corruptionCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
+        repairCorruptionButton = S7_ZF_Button.Create ((corruptionCountLabel.box.pos.x, corruptionCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "repairCorruptionButton", fnt: smallFont
         );
         repairCorruptionButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
@@ -257,21 +257,21 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         /** Scan angle **/
         labelText = StringTable.Localize ("$AUTOGUNMENU_SCANANGLE", true);
-        scanAngleLabel = new ('S7_ZF_Label').Init ((10, 10 + (offs * controlCount++)), (0, 0),
+        scanAngleLabel = S7_ZF_Label.Create ((10, 10 + (offs * controlCount++)), (0, 0),
             text: String.Format ("%s: ", labelText),
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
         scanAngleLabel.Pack (menuFrame);
 
-        scanAngleAmountLabel = new ('S7_ZF_Label').Init ((scanAngleLabel.box.pos.x, scanAngleLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        scanAngleAmountLabel = S7_ZF_Label.Create ((scanAngleLabel.box.pos.x, scanAngleLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         scanAngleAmountLabel.Pack (menuFrame);
 
-        scanAngleInc = new ('S7_ZF_Button').Init ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
+        scanAngleInc = S7_ZF_Button.Create ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
             text: "+", cmdHandler: handler, command: "scanAngleIncButton", fnt: smallFont, holdInterval: 3);
         scanAngleInc.SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
         scanAngleInc.Pack (menuFrame);
 
-        scanAngleDec = new ('S7_ZF_Button').Init ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
+        scanAngleDec = S7_ZF_Button.Create ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
             text: "-", cmdHandler: handler, command: "scanAngleDecButton", fnt: smallFont, holdInterval: 3);
         scanAngleDec.SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
         scanAngleDec.Pack (menuFrame);
@@ -429,9 +429,9 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
     S7_ZF_Label textLabel;
     S7_ZF_Button acceptButton, cancelButton;
 
-    S7_AutogunMenu_Popup InitPopup (S7_AutogunMenu menuLink, S7_ZF_Frame frame, S7_AutogunMenuHandler handler) {
-        self.Init ((160, 200), (320, 80));
-        self.Pack (frame);
+    void Config (S7_AutogunMenu menuLink, S7_ZF_Frame frame, S7_AutogunMenuHandler handler) {
+        alpha = 1;
+
         link = menuLink;
         self.handler = handler;
 
@@ -439,28 +439,50 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
         let bgBox = S7_ZFMenuUtils.GetCommonMenuBG ();
-        let background = new ('S7_ZF_BoxImage').Init ((0, 0), (320, 80), textures: bgBox);
+        let background = S7_ZF_BoxImage.Create ((0, 0), (320, 80), textures: bgBox);
         background.Pack (self);
 
-        textLabel = new ('S7_ZF_Label').Init ((5, 5), (320 - 10, 80 - 10),
-            text: "", fnt: smallFont, wrap: true, autoSize: true, textColor: Font.CR_White);
+        textLabel = S7_ZF_Label.Create (
+            (5, 5), (320 - 10, 80 - 10),
+            text: "", fnt: smallFont,
+            wrap: true, autoSize: true,
+            textColor: Font.CR_White
+        );
         textLabel.Pack (self);
 
         let popupButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/PopupButton.png", true);
         let popupButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/PopupButtonHover.png", true);
         let popupButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/PopupButtonPressed.png", true);
 
-        acceptButton = new ('S7_ZF_Button').Init ((196, 57), (55, 17), text: "Accept", cmdHandler: handler, command: "PopupAccept", fnt: smallFont);
+        acceptButton = S7_ZF_Button.Create (
+            (196, 57), (55, 17),
+            text: "Accept",
+            cmdHandler: handler, command: "PopupAccept",
+            fnt: smallFont
+        );
         acceptButton.SetTextures (popupButtonIdle, popupButtonHover, popupButtonClick, popupButtonIdle);
         acceptButton.Pack (self);
-        cancelButton = new ('S7_ZF_Button').Init ((259, 57), (55, 17), text: StringTable.Localize ("$SS_CANCELBUTTON", true), cmdHandler: handler, command: "PopupCancel", fnt: smallFont);
+        cancelButton = S7_ZF_Button.Create (
+            (259, 57), (55, 17),
+            text: StringTable.Localize ("$SS_CANCELBUTTON", true),
+            cmdHandler: handler, command: "PopupCancel",
+            fnt: smallFont
+        );
         cancelButton.SetTextures (popupButtonIdle, popupButtonHover, popupButtonClick, popupButtonIdle);
         cancelButton.Pack (self);
 
         self.hidden = true;
         self.disabled = true;
+    }
 
-        return self;
+    static S7_AutogunMenu_Popup CreatePopup (S7_AutogunMenu menuLink, S7_ZF_Frame frame, S7_AutogunMenuHandler handler) {
+        let ret = new ('S7_AutogunMenu_Popup');
+
+        ret.SetBox ((160, 200), (320, 80));
+        ret.Pack (frame);
+        ret.Config (menuLink, frame, handler);
+
+        return ret;
     }
 
     override void Ticker () {

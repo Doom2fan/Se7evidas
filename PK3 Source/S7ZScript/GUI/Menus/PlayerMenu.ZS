@@ -66,11 +66,11 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        menusFrame = new ('S7_ZF_Frame').Init ((0, 0), (640, 480));
+        menusFrame = S7_ZF_Frame.Create ((0, 0), (640, 480));
         menusFrame.Pack (mainFrame);
 
         string labelText = StringTable.Localize ("$PLAYERMENUHEADER", true);
-        S7_ZF_Label label = new ('S7_ZF_Label').Init ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        S7_ZF_Label label = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (menusFrame);
 
@@ -99,7 +99,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
         string btnText = StringTable.Localize (label, true);
         int btnTextWidth = smallFont.StringWidth (btnText), btnTextHeight = smallFont.GetHeight ();
 
-        button = new ('S7_ZF_Button').Init (((640 - btnTextWidth) / 2, ((480 - btnTextHeight) / 2) + yOffs), (btnTextWidth, btnTextHeight),
+        button = S7_ZF_Button.Create (((640 - btnTextWidth) / 2, ((480 - btnTextHeight) / 2) + yOffs), (btnTextWidth, btnTextHeight),
             btnText, cmdHandler: cmdHandler, command: command, fnt: smallFont);
         button.Pack (menusFrame);
     }

@@ -12,11 +12,13 @@ class S7_ZF_Frame : S7_ZF_Element {
 		}
 	}
 
-	S7_ZF_Frame init(Vector2 pos, Vector2 size) {
-		self.setBox(pos, size);
-		self.alpha = 1;
+	static S7_ZF_Frame create(Vector2 pos, Vector2 size) {
+		let ret = new('S7_ZF_Frame');
 
-		return self;
+		ret.setBox(pos, size);
+		ret.alpha = 1;
+
+		return ret;
 	}
 
 	override void ticker() {

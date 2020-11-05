@@ -51,14 +51,16 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.alpha = 1;
 	}
 
-	S7_ZF_Button init(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
+	static S7_ZF_Button create(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
 	               S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
 	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
 	               int holdInterval = -1) {
-		self.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor, holdInterval);
-		self.setBox(pos, size);
+		let ret = new('S7_ZF_Button');
 
-		return self;
+		ret.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor, holdInterval);
+		ret.setBox(pos, size);
+
+		return ret;
 	}
 
 	override void ticker() {
