@@ -274,7 +274,6 @@ class S7_ShopMenu_List : S7_ZF_Frame {
 
             // Clickable area
             let button = new ('S7_ZF_Button').Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Entry:0x%.8X", item.id), fnt: smallFont);
-            button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             itemControls.clickableArea = button;
 

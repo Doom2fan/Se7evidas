@@ -183,37 +183,26 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         newTotalPowerLabel = new ('S7_ZF_Label').Init ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_DarkRed);
         newTotalPowerLabel.Pack (dataFrame);
 
+        let incDecButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/EnchantmentMenu/IncDecButton.png", true);
+        let incDecButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/EnchantmentMenu/IncDecButtonHover.png", true);
+        let incDecButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/EnchantmentMenu/IncDecButtonPressed.png", true);
+
         increasePowerButton = new ('S7_ZF_Button').Init ((4, 0), (69, 17),
             StringTable.Localize ("$WEAPONENCHANTMENTMENU_INC_POWER", true), cmdHandler: handler, command: "increasePower", fnt: smallFont, textColor: Font.CR_White, holdInterval: 3
         );
-        increasePowerButton.SetTexture (
-            "graphics/Menu/EnchantmentMenu/IncDecButton.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButtonHover.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButtonPressed.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButton.png"
-        );
+        increasePowerButton.SetTextures (incDecButtonIdle, incDecButtonHover, incDecButtonClick, incDecButtonIdle);
         increasePowerButton.Pack (dataFrame);
 
         decreasePowerButton = new ('S7_ZF_Button').Init ((4 + 69 + 4, 0), (69, 17),
             StringTable.Localize ("$WEAPONENCHANTMENTMENU_DEC_POWER", true), cmdHandler: handler, command: "decreasePower", fnt: smallFont, textColor: Font.CR_White, holdInterval: 3
         );
-        decreasePowerButton.SetTexture (
-            "graphics/Menu/EnchantmentMenu/IncDecButton.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButtonHover.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButtonPressed.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButton.png"
-        );
+        decreasePowerButton.SetTextures (incDecButtonIdle, incDecButtonHover, incDecButtonClick, incDecButtonIdle);
         decreasePowerButton.Pack (dataFrame);
 
         buyButton = new ('S7_ZF_Button').Init ((dataFrame.box.size.X - (69 + 4), 235 - (17 + 4)), (69, 17),
             StringTable.Localize ("$WEAPONENCHANTMENTMENU_BUY", true), cmdHandler: handler, command: "buyEnchantment", fnt: smallFont, textColor: Font.CR_White
         );
-        buyButton.SetTexture (
-            "graphics/Menu/EnchantmentMenu/IncDecButton.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButtonHover.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButtonPressed.png",
-            "graphics/Menu/EnchantmentMenu/IncDecButton.png"
-        );
+        buyButton.SetTextures (incDecButtonIdle, incDecButtonHover, incDecButtonClick, incDecButtonIdle);
         buyButton.Pack (dataFrame);
 
         /** Current enchantments list **/
@@ -241,16 +230,21 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         enchantsListInnerFrame.Pack (enchantsListFrame);
         enchantsListFrame.itemsFrame = enchantsListInnerFrame;
 
+        let enchantsListUpIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/HUD/INVGEMU2.png", true);
+        let enchantsListUpHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/HUD/INVGEMU1.png", true);
+        let enchantsListDownIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/HUD/INVGEMD2.png", true);
+        let enchantsListDownHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/HUD/INVGEMD1.png", true);
+
         enchantsListUpButton = new ('S7_ZF_Button').Init ((enchantsListFrame.box.size.X - (12+2), 0), (12, 8),
             "", cmdHandler: handler, command: "enchantsListUp", holdInterval: 3
         );
-        enchantsListUpButton.SetTexture ("graphics/HUD/INVGEMU2.png", "graphics/HUD/INVGEMU1.png", "graphics/HUD/INVGEMU2.png", "graphics/HUD/INVGEMU2.png");
+        enchantsListUpButton.SetTextures (enchantsListUpIdle, enchantsListUpHover, enchantsListUpIdle, enchantsListUpIdle);
         enchantsListUpButton.Pack (enchantsListFrame);
 
         enchantsListDownButton = new ('S7_ZF_Button').Init ((enchantsListUpButton.box.pos.X, enchantsListFrame.box.size.Y - (8 + 2)), (12, 8),
             "", cmdHandler: handler, command: "enchantsListDown", holdInterval: 3
         );
-        enchantsListDownButton.SetTexture ("graphics/HUD/INVGEMD2.png", "graphics/HUD/INVGEMD1.png", "graphics/HUD/INVGEMD2.png", "graphics/HUD/INVGEMD2.png");
+        enchantsListDownButton.SetTextures (enchantsListDownIdle, enchantsListDownHover, enchantsListDownIdle, enchantsListDownIdle);
         enchantsListDownButton.Pack (enchantsListFrame);
 
         /** Misc **/

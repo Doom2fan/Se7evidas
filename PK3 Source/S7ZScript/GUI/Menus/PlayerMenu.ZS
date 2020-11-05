@@ -101,7 +101,6 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
 
         button = new ('S7_ZF_Button').Init (((640 - btnTextWidth) / 2, ((480 - btnTextHeight) / 2) + yOffs), (btnTextWidth, btnTextHeight),
             btnText, cmdHandler: cmdHandler, command: command, fnt: smallFont);
-        button.SetTexture ("", "", "", "");
         button.Pack (menusFrame);
     }
 

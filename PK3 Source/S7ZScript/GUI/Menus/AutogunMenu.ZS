@@ -185,13 +185,21 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         popup = new ('S7_AutogunMenu_Popup').InitPopup (self, mainFrame, handler);
 
-        let background = new ('S7_ZF_Image').Init ((0, 0), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
+        let bgBox = S7_ZFMenuUtils.GetCommonMenuBG ();
+        let background = new ('S7_ZF_BoxImage').Init ((0, 0), (590, 400), textures: bgBox);
         background.Pack (menuFrame);
 
         double offs = (smallFont.GetHeight () + 10);
         int controlCount = 0;
         int bigButtonYOffs = -(int ((17. - smallFont.GetHeight ()) / 2.));
         int smallButtonYOffs = -(int ((11. - smallFont.GetHeight ()) / 2.));
+
+        /** Button textures **/
+        S7_ZF_BoxTextures smallButtonIdle, smallButtonHover, smallButtonClick;
+        [smallButtonIdle, smallButtonHover, smallButtonClick] = S7_ZFMenuUtils.GetSmallButtonTexes ();
+        let buyButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButton.png", true);
+        let buyButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButtonHover.png", true);
+        let buyButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButtonPressed.png", true);
 
         /** Integrity **/
         labelText = StringTable.Localize ("$AUTOGUNMENU_INTEGRITY", true);
@@ -208,7 +216,7 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         repairHealthButton = new ('S7_ZF_Button').Init ((healthLabel.box.pos.x, healthLabel.box.pos.y + bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "repairHealthButton", fnt: smallFont
         );
-        repairHealthButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
+        repairHealthButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
         repairHealthButton.Pack (menuFrame);
 
         /** Ammunition **/
@@ -226,7 +234,7 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         buyAmmoButton = new ('S7_ZF_Button').Init ((ammoCountLabel.box.pos.x, ammoCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "buyAmmoButton", fnt: smallFont
         );
-        buyAmmoButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
+        buyAmmoButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
         buyAmmoButton.Pack (menuFrame);
 
         /** Corruption **/
@@ -244,7 +252,7 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         repairCorruptionButton = new ('S7_ZF_Button').Init ((corruptionCountLabel.box.pos.x, corruptionCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "repairCorruptionButton", fnt: smallFont
         );
-        repairCorruptionButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
+        repairCorruptionButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
         repairCorruptionButton.Pack (menuFrame);
 
         /** Scan angle **/
@@ -260,22 +268,12 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         scanAngleInc = new ('S7_ZF_Button').Init ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
             text: "+", cmdHandler: handler, command: "scanAngleIncButton", fnt: smallFont, holdInterval: 3);
-        scanAngleInc.SetTexture (
-            "graphics/Menu/Generic/SmallButton.png",
-            "graphics/Menu/Generic/SmallButtonHover.png",
-            "graphics/Menu/Generic/SmallButtonPressed.png",
-            "graphics/Menu/Generic/SmallButton.png"
-        );
+        scanAngleInc.SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
         scanAngleInc.Pack (menuFrame);
 
         scanAngleDec = new ('S7_ZF_Button').Init ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
             text: "-", cmdHandler: handler, command: "scanAngleDecButton", fnt: smallFont, holdInterval: 3);
-        scanAngleDec.SetTexture (
-            "graphics/Menu/Generic/SmallButton.png",
-            "graphics/Menu/Generic/SmallButtonHover.png",
-            "graphics/Menu/Generic/SmallButtonPressed.png",
-            "graphics/Menu/Generic/SmallButton.png"
-        );
+        scanAngleDec.SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
         scanAngleDec.Pack (menuFrame);
 
         //dontDim = true;
@@ -427,7 +425,7 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
 
     string popupCommand;
 
-    S7_ZF_Image background;
+    S7_ZF_BoxImage background;
     S7_ZF_Label textLabel;
     S7_ZF_Button acceptButton, cancelButton;
 
@@ -440,18 +438,23 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
         bigFont = Font.GetFont ('BigFont');
         smallFont = Font.GetFont ('S7TxtFnt.FON2');
 
-        background = new ('S7_ZF_Image').Init ((0, 0), (320, 80), "graphics/Menu/Shop/BuySellPopup.png", S7_ZF_Image.AlignType_TopLeft);
+        let bgBox = S7_ZFMenuUtils.GetCommonMenuBG ();
+        let background = new ('S7_ZF_BoxImage').Init ((0, 0), (320, 80), textures: bgBox);
         background.Pack (self);
 
         textLabel = new ('S7_ZF_Label').Init ((5, 5), (320 - 10, 80 - 10),
             text: "", fnt: smallFont, wrap: true, autoSize: true, textColor: Font.CR_White);
         textLabel.Pack (self);
 
+        let popupButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/PopupButton.png", true);
+        let popupButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/PopupButtonHover.png", true);
+        let popupButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/PopupButtonPressed.png", true);
+
         acceptButton = new ('S7_ZF_Button').Init ((196, 57), (55, 17), text: "Accept", cmdHandler: handler, command: "PopupAccept", fnt: smallFont);
-        acceptButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
+        acceptButton.SetTextures (popupButtonIdle, popupButtonHover, popupButtonClick, popupButtonIdle);
         acceptButton.Pack (self);
         cancelButton = new ('S7_ZF_Button').Init ((259, 57), (55, 17), text: StringTable.Localize ("$SS_CANCELBUTTON", true), cmdHandler: handler, command: "PopupCancel", fnt: smallFont);
-        cancelButton.SetTexture ("graphics/Menu/Shop/PopupButton.png", "graphics/Menu/Shop/PopupButtonHover.png", "graphics/Menu/Shop/PopupButtonPressed.png", "graphics/Menu/Shop/PopupButton.png");
+        cancelButton.SetTextures (popupButtonIdle, popupButtonHover, popupButtonClick, popupButtonIdle);
         cancelButton.Pack (self);
 
         self.hidden = true;

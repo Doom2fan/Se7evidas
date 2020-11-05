@@ -132,8 +132,12 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
         tooltipLabel.Pack (mainFrame);
 
+        let buyButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButton.png", true);
+        let buyButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButtonHover.png", true);
+        let buyButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Shop/BuyButtonPressed.png", true);
+
         buyButton = new ('S7_ZF_Button').Init ((555, 423), (50, 17), text: StringTable.Localize ("$SS_BUYBUTTON", true), cmdHandler: handler, command: "BuySellButton", fnt: smallFont);
-        buyButton.SetTexture ("graphics/Menu/Shop/BuyButton.png", "graphics/Menu/Shop/BuyButtonHover.png", "graphics/Menu/Shop/BuyButtonPressed.png", "graphics/Menu/Shop/BuyButton.png");
+        buyButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
         buyButton.Pack (shopFrame);
         sellMode = false;
 

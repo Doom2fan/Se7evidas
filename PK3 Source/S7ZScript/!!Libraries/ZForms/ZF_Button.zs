@@ -12,8 +12,6 @@ class S7_ZF_Button : S7_ZF_Element {
 	double textScale;
 
 	S7_ZF_BoxTextures textures[4];
-	string btnTextures [4];
-	bool singleTex;
 
 	int holdTicInterval;
 	int currentHoldTicsRemaining;
@@ -22,12 +20,11 @@ class S7_ZF_Button : S7_ZF_Element {
 
 	Vector2 mousePos;
 
-	void setTexture(string inactive, string hover, string click, string disabled) {
-		self.btnTextures[ButtonState_Inactive] = inactive;
-		self.btnTextures[ButtonState_Hover] = hover;
-		self.btnTextures[ButtonState_Click] = click;
-		self.btnTextures[ButtonState_Disabled] = disabled;
-		self.singleTex = true;
+	void setTextures(S7_ZF_BoxTextures inactive, S7_ZF_BoxTextures hover, S7_ZF_BoxTextures click, S7_ZF_BoxTextures disabled) {
+		self.textures[ButtonState_Inactive] = inactive;
+		self.textures[ButtonState_Hover] = hover;
+		self.textures[ButtonState_Click] = click;
+		self.textures[ButtonState_Disabled] = disabled;
 	}
 
 	void config(string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
@@ -50,7 +47,6 @@ class S7_ZF_Button : S7_ZF_Element {
 		self.textures[ButtonState_Hover] = hover;
 		self.textures[ButtonState_Click] = click;
 		self.textures[ButtonState_Disabled] = disabled;
-		self.singleTex = false;
 		self.textColor = textColor;
 		self.alpha = 1;
 	}
@@ -91,14 +87,8 @@ class S7_ZF_Button : S7_ZF_Element {
 	}
 
 	override void drawer() {
-		if (singleTex) {
-			string texture = btnTextures[curButtonState];
-			drawTiledImage((0, 0), box.size, texture, true);
-		}
-		else {
-			S7_ZF_BoxTextures textures = textures[curButtonState];
-			drawBox((0, 0), box.size, textures, true);
-		}
+		S7_ZF_BoxTextures textures = textures[curButtonState];
+		drawBox((0, 0), box.size, textures, true);
 
 		// draw the text in the middle of the button
 		Vector2 textSize = (fnt.stringWidth(text), fnt.getHeight()) * textScale;

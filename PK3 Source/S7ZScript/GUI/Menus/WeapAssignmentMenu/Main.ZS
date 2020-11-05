@@ -65,6 +65,9 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
     Font smallFont;
     Font textBigFont;
 
+    S7_ZF_BoxTextures weapSlotIdle, weapSlotHover;
+    S7_ZF_BoxTextures weapSlotClick, weapSlotDisabled;
+
     S7_ZF_Frame slotsFrame, weapSelFrame;
     S7_WeapAssignMenu_List itemsList;
     S7_ZF_Image infoBG;
@@ -108,6 +111,11 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
         label.Pack (slotsFrame);
 
+        weapSlotIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/WeapAssignment/WeapSlot.png", true);
+        weapSlotHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/WeapAssignment/WeapSlotHover.png", true);
+        weapSlotClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/WeapAssignment/WeapSlotPressed.png", true);
+        weapSlotDisabled = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/WeapAssignment/WeapSlotDisabled.png", true);
+
         for (int x = 0; x < 5; x++) {
             double xCoords = 19.0 + ((105.0 + 19.0) * x);
             labelText = weapLabelsText [x];
@@ -119,10 +127,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
                 double yCoords = 72.0 + ((40.0 + 8.0) * y);
                 // Button
                 slotButtons [x] [y] = new ('S7_ZF_Button').Init ((xCoords, yCoords), (107, 42), text: "", cmdHandler: handler, command: String.Format ("SetSlot:%d,%d", x, y), null, null, null, null);
-                slotButtons [x] [y].SetTexture (
-                    "graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png",
-                    "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "graphics/Menu/WeapAssignment/WeapSlotDisabled.png"
-                );
+                slotButtons [x] [y].SetTextures (weapSlotIdle, weapSlotHover, weapSlotClick, weapSlotDisabled);
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
                 slotImages [x] [y] = new ('S7_ZF_Image').Init ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center);
@@ -194,15 +199,9 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
                         slotButtons [x] [y].disabled = true;
                 }
                 if (x == selectedX && y == selectedY) {
-                    slotButtons [x] [y].SetTexture (
-                        "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png",
-                        "graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotDisabled.png"
-                    );
+                    slotButtons [x] [y].SetTextures (weapSlotClick, weapSlotHover, weapSlotIdle, weapSlotDisabled);
                 } else {
-                    slotButtons [x] [y].SetTexture (
-                        "graphics/Menu/WeapAssignment/WeapSlot.png", "graphics/Menu/WeapAssignment/WeapSlotHover.png",
-                        "graphics/Menu/WeapAssignment/WeapSlotPressed.png", "graphics/Menu/WeapAssignment/WeapSlotDisabled.png"
-                    );
+                    slotButtons [x] [y].SetTextures (weapSlotIdle, weapSlotHover, weapSlotClick, weapSlotDisabled);
                 }
             }
         }

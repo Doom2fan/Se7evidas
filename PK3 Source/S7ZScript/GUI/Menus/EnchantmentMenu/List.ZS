@@ -193,7 +193,6 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
             // Clickable area
             let button = new ('S7_ZF_Button').Init ((0, yCoords), (200, 40), "", cmdHandler: handler, command: String.Format ("Weapon:%s", weapControls.weaponName), null, null, null, null, null);
-            button.SetTexture ("", "", "", "");
             button.Pack (itemsFrame);
             weapControls.clickableArea = button;
 

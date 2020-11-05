@@ -1,38 +1,74 @@
 /// Used to determine what to be drawn to the screen for boxes.
 class S7_ZF_BoxTextures ui {
-	enum CornerIndices {
-		C_TOPLEFT,
-		C_TOPRIGHT,
-		C_BOTTOMLEFT,
-		C_BOTTOMRIGHT
+	string boxTexture;
+	bool scaleSides;
+	bool scaleMiddle;
+
+	Vector2 midSliceTopLeft;
+	Vector2 midSliceBottomRight;
+
+	static S7_ZF_BoxTextures createSingleTexture(string tex, bool scaleTex) {
+		let ret = new('S7_ZF_BoxTextures');
+
+		ret.setSingleTexture(tex);
+		ret.scaleMiddle = scaleTex;
+
+		return ret;
 	}
 
-	enum SideIndices {
-		S_TOP,
-		S_BOTTOM,
-		S_LEFT,
-		S_RIGHT
+	static S7_ZF_BoxTextures createTexturePixels(string boxTex, Vector2 topLeft, Vector2 bottomRight, bool scaleSides,
+		                                       bool scaleMiddle) {
+		let ret = new('S7_ZF_BoxTextures');
+
+		ret.setTexturePixels(boxTex, topLeft, bottomRight);
+		ret.scaleSides = scaleSides;
+		ret.scaleMiddle = scaleMiddle;
+
+		return ret;
 	}
 
-	string corners[4];
-	string sides[4];
-	string midTex;
+	static S7_ZF_BoxTextures createTextureNormalized(string boxTex, Vector2 topLeft, Vector2 bottomRight, bool scaleSides,
+		                                           bool scaleMiddle) {
+		let ret = new('S7_ZF_BoxTextures');
 
-	void setCorners(string topLeft, string topRight, string bottomLeft, string bottomRight) {
-		corners[C_TOPLEFT] = topLeft;
-		corners[C_TOPRIGHT] = topRight;
-		corners[C_BOTTOMLEFT] = bottomLeft;
-		corners[C_BOTTOMRIGHT] = bottomRight;
+		ret.setTextureNormalized(boxTex, topLeft, bottomRight);
+		ret.scaleSides = scaleSides;
+		ret.scaleMiddle = scaleMiddle;
+
+		return ret;
 	}
 
-	void setSides(string top, string bottom, string left, string right) {
-		sides[S_TOP] = top;
-		sides[S_BOTTOM] = bottom;
-		sides[S_LEFT] = left;
-		sides[S_RIGHT] = right;
+	void setSingleTexture(string tex) {
+		boxTexture = tex;
+
+		midSliceTopLeft = (0, 0);
+		midSliceBottomRight = (1, 1);
 	}
 
-	void setMidTex(string tex) {
-		midTex = tex;
+	void setTexturePixels(string boxTex, Vector2 topLeft, Vector2 bottomRight) {
+		boxTexture = boxTex;
+
+		Vector2 texSize = TexMan.getScaledSize(TexMan.checkForTexture(boxTexture, TexMan.Type_Any));
+		midSliceTopLeft = (topLeft.x / texSize.x, topLeft.y / texSize.y);
+		midSliceBottomRight = (bottomRight.x / texSize.x, bottomRight.y / texSize.y);
+	}
+
+	void setTextureNormalized(string boxTex, Vector2 topLeft, Vector2 bottomRight) {
+		boxTexture = boxTex;
+
+		midSliceTopLeft = topLeft;
+		midSliceBottomRight = bottomRight;
+	}
+
+	S7_ZF_BoxTextures duplicate() {
+		let ret = new('S7_ZF_BoxTextures');
+
+		ret.boxTexture = boxTexture;
+		ret.scaleSides = scaleSides;
+
+		ret.midSliceTopLeft = midSliceTopLeft;
+		ret.midSliceBottomRight = midSliceBottomRight;
+
+		return ret;
 	}
 }

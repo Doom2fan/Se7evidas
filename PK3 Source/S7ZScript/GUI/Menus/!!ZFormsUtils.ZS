@@ -17,23 +17,25 @@
 */
 
 class S7_ZFMenuUtils {
-    static ui S7_ZF_BoxTextures GetConfirmMenuBG () {
-        let boxTex = new ('S7_ZF_BoxTextures');
-
-        boxTex.SetCorners (
-            "graphics/Menu/ConfirmPopup/TopLeft.png",
-            "graphics/Menu/ConfirmPopup/TopRight.png",
-            "graphics/Menu/ConfirmPopup/BottomLeft.png",
-            "graphics/Menu/ConfirmPopup/BottomRight.png"
+    static ui S7_ZF_BoxTextures GetCommonMenuBG () {
+        return S7_ZF_BoxTextures.CreateTexturePixels (
+            "graphics/Menu/CommonBackground.png",
+            // Middle's top-left corner
+            (7, 7),
+            // Middle's bottom-right corner
+            (14, 14),
+            // Whether to scale the sides
+            false,
+            // Whether to scale the middle
+            false
         );
-        boxTex.SetSides (
-            "graphics/Menu/ConfirmPopup/Top.png",
-            "graphics/Menu/ConfirmPopup/Bottom.png",
-            "graphics/Menu/ConfirmPopup/Left.png",
-            "graphics/Menu/ConfirmPopup/Right.png"
-        );
-        boxTex.SetMidTex ("graphics/Menu/ConfirmPopup/Middle.png");
+    }
 
-        return boxTex;
+    static ui S7_ZF_BoxTextures, S7_ZF_BoxTextures, S7_ZF_BoxTextures GetSmallButtonTexes () {
+        let smallButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Generic/SmallButton.png", true);
+        let smallButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Generic/SmallButtonHover.png", true);
+        let smallButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/Generic/SmallButtonPressed.png", true);
+
+        return smallButtonIdle, smallButtonHover, smallButtonClick;
     }
 }

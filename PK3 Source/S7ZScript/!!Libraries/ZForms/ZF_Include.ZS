@@ -7,4 +7,5 @@
 #include "S7ZScript/!!Libraries/ZForms/ZF_Label.ZS"
 #include "S7ZScript/!!Libraries/ZForms/ZF_Handler.ZS"
 #include "S7ZScript/!!Libraries/ZForms/ZF_Image.ZS"
+#include "S7ZScript/!!Libraries/ZForms/ZF_BoxImage.ZS"
 #include "S7ZScript/!!Libraries/ZForms/ZF_UiEvent.ZS"

@@ -192,6 +192,9 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
             );
             statAddLabels [i].Pack (statsFrame);
 
+            S7_ZF_BoxTextures smallButtonIdle, smallButtonHover, smallButtonClick;
+            [smallButtonIdle, smallButtonHover, smallButtonClick] = S7_ZFMenuUtils.GetSmallButtonTexes ();
+
             statButtons [i] [0] = new ('S7_ZF_Button').Init (
                 (140, yCoords), (13, 11),
                 text: "+",
@@ -199,12 +202,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 fnt: smallFont,
                 holdInterval: 1
             );
-            statButtons [i] [0].SetTexture (
-                "graphics/Menu/Generic/SmallButton.png",
-                "graphics/Menu/Generic/SmallButtonHover.png",
-                "graphics/Menu/Generic/SmallButtonPressed.png",
-                "graphics/Menu/Generic/SmallButton.png"
-            );
+            statButtons [i] [0].SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
             statButtons [i] [0].Pack (statsFrame);
 
             statButtons [i] [1] = new ('S7_ZF_Button').Init (
@@ -214,19 +212,19 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 fnt: smallFont,
                 holdInterval: 1
             );
-            statButtons [i] [1].SetTexture (
-                "graphics/Menu/Generic/SmallButton.png",
-                "graphics/Menu/Generic/SmallButtonHover.png",
-                "graphics/Menu/Generic/SmallButtonPressed.png",
-                "graphics/Menu/Generic/SmallButton.png"
-            );
+            statButtons [i] [1].SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
             statButtons [i] [1].Pack (statsFrame);
         }
+
+        let statButtonIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/XPSys/StatButton.png", true);
+        let statButtonHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/XPSys/StatButtonHover.png", true);
+        let statButtonClick = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/XPSys/StatButtonPressed.png", true);
+
         acceptButton = new ('S7_ZF_Button').Init ((25, 95), (62, 15), text: "Back", cmdHandler: handler, command: "AcceptButton", fnt: smallFont);
-        acceptButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
+        acceptButton.SetTextures (statButtonIdle, statButtonHover, statButtonClick, null);
         acceptButton.Pack (statsFrame);
         resetButton = new ('S7_ZF_Button').Init ((25 + 65, 95), (62, 15), text: "Reset", cmdHandler: handler, command: "ResetButton", fnt: smallFont);
-        resetButton.SetTexture ("graphics/Menu/XPSys/StatButton.png", "graphics/Menu/XPSys/StatButtonHover.png", "graphics/Menu/XPSys/StatButtonPressed.png", "");
+        resetButton.SetTextures (statButtonIdle, statButtonHover, statButtonClick, null);
         resetButton.Pack (statsFrame);
 
         tooltipLabel = new ('S7_ZF_Label').Init ((0, 455), (640, 20), text: "", fnt: smallFont, alignment: S7_ZF_Label.AlignType_Center, wrap: true, autoSize: false, textColor: Font.CR_White);
