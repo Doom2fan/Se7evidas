@@ -225,7 +225,9 @@ class S7_M400Autogun : S7_PlayerSummon {
         let aimMarkerPos = data.HitLocation - (data.HitDir * 2);
 
         if (aimMarker) {
-            aimMarker.SetOrigin (aimMarkerPos, !(aimMarker.alpha ~== 0.));
+            S7_ActorExtensions.SetActorPosition (aimMarker, aimMarkerPos);
+            if (aimMarker.alpha ~== 0.)
+                aimMarker.ClearInterpolation ();
             aimMarker.alpha = (markerHit ? 1. : 0.);
         } else {
             aimMarker = Spawn ('S7_TurretRedDot', aimMarkerPos, ALLOW_REPLACE);

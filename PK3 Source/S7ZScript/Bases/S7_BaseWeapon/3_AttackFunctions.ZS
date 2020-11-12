@@ -236,7 +236,8 @@ extend class S7_BaseWeapon {
                 newpos += advance;
 
                 newPos = level.Vec3Offset (proj.pos, newPos);
-                proj.SetOrigin (newPos, false);
+                S7_ActorExtensions.SetActorPosition (proj, newPos);
+                proj.ClearInterpolation ();
             }
 
             arr.Values.Push (proj);
@@ -282,7 +283,8 @@ extend class S7_BaseWeapon {
 
         if (casing.pos.Z >= casing.ceilingZ) {
             let newPos = level.Vec3Offset ((casing.pos.XY, casing.ceilingZ), (0, 0, -casing.height));
-            casing.SetOrigin (newPos, false);
+            S7_ActorExtensions.SetActorPosition (casing, newPos);
+            casing.ClearInterpolation ();
         }
     }
 }

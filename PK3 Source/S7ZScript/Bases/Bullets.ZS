@@ -245,7 +245,7 @@ class S7_BulletPuffSparks : S7_TracerEffectsBase {
             A_FadeOut (0.1);
 
             if (pos.Z < floorZ) {
-                SetOrigin ((pos.XY, floorZ), true);
+                SetPosition ((pos.XY, floorZ));
                 vel = (0, 0, 0);
             } else if (pos.Z > floorZ)
                 vel -= (0, 0, GetGravity ());

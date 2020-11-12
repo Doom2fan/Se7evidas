@@ -327,7 +327,7 @@ class S7_Smoke3 : S7_WhiteSmoke {
                 Prev.Z = pos.Z;
                 SetZ (newPos.Z);
             } else if (!xyPosEqual)
-                SetOrigin (pos + vel, true);
+                SetPosition (pos + vel);
         }
 
         if (particleTime >= totalTime) {

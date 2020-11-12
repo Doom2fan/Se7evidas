@@ -45,6 +45,10 @@ class S7_MonsterBase : Actor {
     S7_XPSystem xpSys;
     bool setStats;
 
+    void SetPosition (Vector3 newPos) {
+        S7_ActorExtensions.SetActorPosition (self, newPos);
+    }
+
     override String GetObituary (Actor victim, Actor inflictor, Name mod, bool playerattack) {
         if (inflictor && inflictor.Obituary)
             return inflictor.Obituary;

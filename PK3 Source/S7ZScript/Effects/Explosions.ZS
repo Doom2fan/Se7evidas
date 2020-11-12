@@ -144,7 +144,8 @@ class S7_GenericExplosion : S7_EffectsBase {
             }
 
             let prevInterp = Prev;
-            SetOrigin (pos, false);
+            SetPosition (pos);
+            ClearInterpolation ();
             Prev = prevInterp;
 
             {

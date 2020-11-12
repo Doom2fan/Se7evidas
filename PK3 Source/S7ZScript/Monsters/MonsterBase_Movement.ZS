@@ -473,7 +473,7 @@ extend class S7_MonsterBase {
             if (!bDropOff && abs (newFloorZ - oldFloorZ) > MaxStepHeight) {
                 tryOK = false;
                 if (!checkOnly) {
-                    SetOrigin (prevPos, true);
+                    SetPosition (prevPos);
 
                     if (!NoMonsterInterpolation)
                         Prev = prevPrev;
@@ -541,7 +541,8 @@ extend class S7_MonsterBase {
                     bInFloat = true;
 
                     if (checkOnly) {
-                        SetOrigin (oldPos, false);
+                        SetPosition (oldPos);
+                        ClearInterpolation ();
                         angle = oldAngle;
                         pitch = oldPitch;
                     } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
@@ -568,7 +569,8 @@ extend class S7_MonsterBase {
             bInFloat = false;
 
         if (checkOnly) {
-            SetOrigin (oldPos, false);
+            SetPosition (oldPos);
+            ClearInterpolation ();
             angle = oldAngle;
             pitch = oldPitch;
         } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)

@@ -510,11 +510,12 @@ class S7_FireThinker_Smoke : S7_WhiteSmoke {
         chosenFrame = smokeRNG.GetInt (0, 24);
 
         double offsMax = fireSize / 3.;
-        SetOrigin (Vec3Offset (
+        SetPosition (Vec3Offset (
             smokeRNG.GetFloat (-offsMax, offsMax),
             smokeRNG.GetFloat (-offsMax, offsMax),
             smokeRNG.GetFloat (-offsMax, offsMax)
-        ), false);
+        ));
+        ClearInterpolation ();
 
         if ((pos.Z + height) < ceilingZ)
             vel.Z = smokeRNG.GetFloat (0., 2.);
@@ -544,7 +545,7 @@ class S7_FireThinker_Smoke : S7_WhiteSmoke {
                 Prev.Z = pos.Z;
                 SetZ (newPos.Z);
             } else if (!xyPosEqual)
-                SetOrigin (pos + vel, true);
+                SetPosition (pos + vel);
         }
 
         if (fadeTime > 0)

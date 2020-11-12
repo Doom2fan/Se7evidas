@@ -61,7 +61,7 @@ class S7_ThumperGrenade : S7_Projectile {
     virtual S7_Thumper_Used SpawnUsedShell () {
         let usedShell = S7_Thumper_Used (Spawn ('S7_Thumper_Used', pos, ALLOW_REPLACE));
 
-        usedShell.SetOrigin (pos, true);
+        S7_ActorExtensions.SetActorPosition (usedShell, pos);
         usedShell.prev = prev;
         usedShell.vel = vel;
 
@@ -252,7 +252,8 @@ class S7_ThumperGrenadeTherm : S7_ThumperGrenade {
                 let fire = S7_Projectile (act);
                 if (success && fire) {
                     fire.bonusDMGFactor = (1. + invoker.bonusDMGFactor);
-                    fire.SetOrigin ((fire.pos.XY, firePos.Z), false);
+                    fire.SetPosition ((fire.pos.XY, firePos.Z));
+                    fire.ClearInterpolation ();
                 }
             }
 
@@ -302,11 +303,12 @@ class S7_ThumperGrenadeTherm_Fire_Smoke : S7_FireThinker_Smoke {
         chosenFrame = smokeRNG.GetInt (0, 24);
 
         double offsMax = fireSize / 3.;
-        SetOrigin (Vec3Offset (
+        SetPosition (Vec3Offset (
             smokeRNG.GetFloat (-offsMax, offsMax),
             smokeRNG.GetFloat (-offsMax, offsMax),
             smokeRNG.GetFloat (-offsMax, offsMax)
-        ), false);
+        ));
+        ClearInterpolation ();
 
         if (pos.Z <= (floorZ + 1))
             SetZ (floorZ + 1);
@@ -342,7 +344,7 @@ class S7_ThumperGrenadeTherm_Fire_Smoke : S7_FireThinker_Smoke {
                 Prev.Z = pos.Z;
                 SetZ (newPos.Z);
             } else if (!xyPosEqual)
-                SetOrigin (pos + vel, true);
+                SetPosition (pos + vel);
         }
 
         if (fadeTime > 0)
@@ -388,11 +390,12 @@ class S7_ThumperGrenadeTherm_Fire_Trail : S7_ThumperGrenadeTherm_Fire_Smoke {
 class S7_ThumperGrenadeTherm_Fire_Fire : S7_FireThinker_Flame {
     override void PostBeginPlay () {
         double offsMax = fireSize / 3.;
-        SetOrigin (Vec3Offset (
+        SetPosition (Vec3Offset (
             flameRNG.GetFloat (-offsMax, offsMax),
             flameRNG.GetFloat (-offsMax, offsMax),
             flameRNG.GetFloat (-offsMax, offsMax)
-        ), false);
+        ));
+        ClearInterpolation ();
 
         A_StartSound ("Fire/DoomCrackle", attenuation: 2);
 
@@ -600,7 +603,7 @@ class S7_ThumperGrenadeFlare : S7_ThumperGrenade {
         Super.Tick ();
 
         if (dynLight) {
-            dynLight.SetOrigin (pos, true);
+            S7_ActorExtensions.SetActorPosition (dynLight, pos);
             dynLight.target = self;
 
             double mult = Clamp (time / (maxTime * .65), 0., 1.);

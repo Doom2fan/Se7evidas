@@ -132,6 +132,21 @@ class S7_ActorExtensions : Actor {
     }
 
     /* Summary:
+    **  Sets the actor's position. Basically like SetOrigin, but without the FFCF_OnlySpawnPos idiocy.
+    **
+    ** Arguments:
+    **  mo: The actor to be moved.
+    **  newPos: The position to set the actor to.
+    */
+    static void SetActorPosition (Actor act, Vector3 newPos) {
+        LinkContext ctx;
+        act.UnlinkFromWorld (ctx);
+        act.SetXYZ (newPos);
+        act.LinkToWorld (ctx);
+        act.FindFloorCeiling ();
+    }
+
+    /* Summary:
     **  Checks if an actor is "fast".
     **
     ** Arguments:

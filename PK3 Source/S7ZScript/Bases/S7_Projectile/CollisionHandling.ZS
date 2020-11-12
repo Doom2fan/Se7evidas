@@ -157,14 +157,18 @@ extend class S7_Projectile {
             hitPos += -(oldVel.Unit () * abs (radius / 2.));
         }
 
-        SetOrigin (hitPos, interpFastProj);
+        SetPosition (hitPos);
+        if (!interpFastProj)
+            ClearInterpolation ();
 
         FCheckPosition tm;
         tm.DoRipping = bRipper;
 
         SetZ (hitPos.Z);
         if (!TryMove (level.Vec2Offset (hitPos.XY, (double.epsilon * 3, double.epsilon * 3)), true, tm: tm)) {
-            SetOrigin (hitPos, interpFastProj);
+            SetPosition (hitPos);
+            if (!interpFastProj)
+                ClearInterpolation ();
 
             if (BlockingMobj)
                 BlockingType = S7_BLOCK_Actor;
@@ -230,7 +234,8 @@ extend class S7_Projectile {
             if (activationType != -1) {
                 hl.Activate (self, oldSide, activationType);
 
-                SetOrigin (oldPos, false);
+                SetPosition (oldPos);
+                ClearInterpolation ();
                 return -1;
             }
         } else {
@@ -245,7 +250,9 @@ extend class S7_Projectile {
             );
 
             if (hitPlane) {
-                SetOrigin (hitPos, interpFastProj);
+                SetPosition (hitPos);
+                if (!interpFastProj)
+                    ClearInterpolation ();
 
                 bool didHitSky = CheckSkyHit (pos, null, true);
 
@@ -269,7 +276,8 @@ extend class S7_Projectile {
             }
         }
 
-        SetOrigin (oldPos, false);
+        SetPosition (oldPos);
+        ClearInterpolation ();
         return 0;
     }
 }

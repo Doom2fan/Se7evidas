@@ -79,12 +79,13 @@ class S7_PrettyShootyIonCannonGun : S7_BaseWeapon {
 
                 Vector3 curPos = startPos + (stepSize * i);
 
-                act.SetOrigin ((curPos.X, curPos.Y, act.pos.Z), false);
+
+                S7_ActorExtensions.SetActorPosition (act, (curPos.X, curPos.Y, act.pos.Z));
                 if (curPos.Z <= act.floorZ || (curPos.Z + act.height) >= act.ceilingZ) {
                     canFire = false;
                     break;
                 }
-                act.SetOrigin (curPos, false);
+                S7_ActorExtensions.SetActorPosition (act, curPos);
 
                 if (act.pos.Z <= act.floorZ || (act.pos.Z + act.height) >= act.ceilingZ ||
                     !act.TryMove (act.pos.XY, true, false) ||

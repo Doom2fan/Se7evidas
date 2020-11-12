@@ -56,6 +56,10 @@ class S7_DebrisGeneral : S7_EffectsBase {
 
 // By Chronos "phantombeta" Ouroboros
 class S7_EffectsBase : Actor {
+    void SetPosition (Vector3 newPos) {
+        S7_ActorExtensions.SetActorPosition (self, newPos);
+    }
+
     virtual void CheaperTick (bool noStates = false) {
         if (!(vel ~== (0, 0, 0))) {
             let newPos = level.Vec3Offset (pos, vel);
@@ -65,7 +69,7 @@ class S7_EffectsBase : Actor {
                 Prev.Z = pos.Z;
                 SetZ (newPos.Z);
             } else if (!xyPosEqual)
-                SetOrigin (pos + vel, true);
+                SetPosition (pos + vel);
         }
 
         if (noStates)

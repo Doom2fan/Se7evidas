@@ -110,12 +110,17 @@ extend class S7_Projectile {
 
             if (collisionHandled)
                 break;
-            else
-                SetOrigin (oldPos, false);
+            else {
+                SetPosition (oldPos);
+                ClearInterpolation ();
+            }
         }
 
-        if (!collisionHandled)
-            SetOrigin (level.Vec3Offset (pos, vel), interpFastProj);
+        if (!collisionHandled) {
+            SetPosition (level.Vec3Offset (pos, vel));
+            if (!interpFastProj)
+                ClearInterpolation ();
+        }
 
         if (!spawnedTrail) {
             SpawnEffects (oldPos, level.Vec3Diff (pos, oldPos).Length (), oldVel);

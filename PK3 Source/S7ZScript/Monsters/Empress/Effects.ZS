@@ -138,7 +138,8 @@ class S7_EmpressPentagramCorner : S7_Empress_FXBase {
                 if (!line)
                     continue;
 
-                line.SetOrigin (pos, false);
+                S7_ActorExtensions.SetActorPosition (line, pos);
+                line.ClearInterpolation ();
             }
         }
         stop;
@@ -170,7 +171,8 @@ class S7_EmpressPentagramLine : S7_Projectile {
             Vector3 finalPos = level.Vec3Offset (initialPos, stepDiff);
 
             Actor act = Spawn (trail, initialPos, ALLOW_REPLACE);
-            act.SetOrigin (finalPos, false);
+            S7_ActorExtensions.SetActorPosition (act, finalPos);
+            act.ClearInterpolation ();
 
             if (act != null) {
                 act.angle = angle;

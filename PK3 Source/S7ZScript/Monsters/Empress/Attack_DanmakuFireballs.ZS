@@ -184,7 +184,9 @@ class S7_Empress_DanmakuFireball : S7_Projectile {
         Actor act = Super.StepEffects (initialPos, stepDiff, realVel);
 
         if (act) {
-            act.SetOrigin (act.Vec3Offset (fRandom [S7_ProjSFXRNG] (-2.5, 2.5), fRandom [S7_ProjSFXRNG] (-2.5, 2.5), fRandom [S7_ProjSFXRNG] (-3, 3)), false);
+            let newPos = act.Vec3Offset (fRandom [S7_ProjSFXRNG] (-2.5, 2.5), fRandom [S7_ProjSFXRNG] (-2.5, 2.5), fRandom [S7_ProjSFXRNG] (-3, 3));
+            S7_ActorExtensions.SetActorPosition (act, newPos);
+            act.ClearInterpolation ();
             act.vel = (0., 0, fRandom [S7_ProjSFXRNG] (.5, 3.));
         }
 

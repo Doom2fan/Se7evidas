@@ -116,6 +116,10 @@ class S7_Projectile : FastProjectile {
         }
     }
 
+    void SetPosition (Vector3 newPos) {
+        S7_ActorExtensions.SetActorPosition (self, newPos);
+    }
+
     /* Summary:
     **  Gets the normal vector for the level geometry the projectile hit.
     **  Only works when MovementMode is set to "FastProjectile" or "InstantMove".

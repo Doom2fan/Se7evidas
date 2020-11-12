@@ -301,11 +301,7 @@ class S7_Flashlight_Spotlight : DynamicLight {
         vela  += S7_Math.DampedSpring (angle, followTarget.angle, vela, spring, damping);
         velp  += S7_Math.DampedSpring (pitch, followTarget.pitch, velp, spring, damping);
 
-        LinkContext ctx;
-        UnlinkFromWorld (ctx);
-        SetXYZ (pos + vel);
-        LinkToWorld (ctx);
-        FindFloorCeiling (FFCF_OnlySpawnPos);
+        S7_ActorExtensions.SetActorPosition (self, pos + vel);
 
         A_SetAngle (angle + (vela / inertia), SPF_Interpolate);
         A_SetPitch (pitch + (velp / inertia), SPF_Interpolate);

@@ -131,7 +131,8 @@ class S7_GenericGoreBits : S7_GoreBase {
             if (!bNoBlood && (trailSpawnDuration--) > 0) {
                 bool MUDA; Actor trail;
                 [MUDA, trail] = A_SpawnItemEx ('S7_Gibs_Blood_Trail', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, S7_BloodSXFFlags);
-                trail.SetOrigin (oldCoords, false);
+                S7_ActorExtensions.SetActorPosition (trail, oldCoords);
+                trail.ClearInterpolation ();
             }
 
             if (rollDir != -1 && vel.Length () > 0.5) {
