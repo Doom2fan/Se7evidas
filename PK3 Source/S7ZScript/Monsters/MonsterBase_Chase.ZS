@@ -77,7 +77,7 @@ extend class S7_MonsterBase {
                 angle += S7_MoveDir_Interval;
         }
 
-        if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoMove () && !(flags & CHF_StopIfBlocked))) {
+        if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoWalk () && !(flags & CHF_StopIfBlocked))) {
             S7_RandomChaseDir ();
             movecount += 5;
         }
@@ -107,6 +107,7 @@ extend class S7_MonsterBase {
     //-------------------------------------------------------------------------------------------
     const S7_Class_Boss_Strafe_Range = 64*10;
     void S7_DoChase (bool fastChase, State meleestate, State missilestate, bool playActive, bool nightmareFast, bool dontMove, int flags) {
+        meleestate = null;missilestate = null;
         /*
         ** Quirks: Doesn't support the NightmareFast Gameinfo flag.
         */
@@ -413,7 +414,7 @@ extend class S7_MonsterBase {
             TextureID oldFloor = floorpic;
 
             // Chase towards player
-            if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoMove () && !(flags & CHF_StopIfBlocked)))
+            if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoWalk () && !(flags & CHF_StopIfBlocked)))
                 S7_NewChaseDir ();
 
             // If the move was illegal, reset it

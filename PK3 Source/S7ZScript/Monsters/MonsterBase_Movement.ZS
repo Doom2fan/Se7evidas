@@ -33,28 +33,46 @@ extend class S7_MonsterBase {
     const S7_MoveDir_NoDir = S7_MoveDir_MaxDir + 1;
     const S7_MoveDir_Count = S7_MoveDir_MaxDir + 2;
     const S7_MoveDir_Interval = 360. / (S7_MoveDir_MaxDir + 1);
+    const S7_MoveDir_IntervalInv = 1. / S7_MoveDir_Interval;
 
     int movementDir;
 
-    bool, Vector2 S7_TryWalk (bool checkOnly = false) {
+    bool, Vector2 S7_DoWalk () {
+        bool earlyFail = (
+            bBlasted |
+            ((pos.Z > floorZ) & !bOnMobj)
+        );
+
+        if (earlyFail)
+            return false, pos.XY;
+
         bool success; Vector2 newPos;
-        [success, newPos] = S7_DoMove (checkOnly);
+
+        double oldFloorZ = floorZ;
+        [success, newPos] = S7_DoMove (oldFloorZ);
+
+        return success, newPos;
+    }
+
+    bool, Vector2 S7_TryWalk (double oldFloorZ) {
+        bool success; Vector2 newPos;
+        [success, newPos] = S7_DoMove (oldFloorZ);
         if (!success)
             return false, newPos;
 
-        if (!checkOnly)
-            movecount = (random [TryWalk] (0, 255) & 15);
+        movecount = (random [TryWalk] (0, 255) & 15);
 
         return true, newPos;
     }
 
     void S7_RandomChaseDir () {
         int oldDir, turnaround = S7_MoveDir_NoDir;
+        double oldFloorZ = floorZ;
 
         oldDir = movementDir;
 
         if (movementDir != S7_MoveDir_NoDir)
-            turnaround = (int ((((movementDir * S7_MoveDir_Interval) + 180.) % 360.) / S7_MoveDir_Interval) & S7_MoveDir_MaxDir);
+            turnaround = (int ((((movementDir * S7_MoveDir_Interval) + 180.) % 360.) * S7_MoveDir_IntervalInv) & S7_MoveDir_MaxDir);
 
         if (bFriendly) {
             Actor player;
@@ -84,7 +102,7 @@ extend class S7_MonsterBase {
         // If the actor elects to continue in its current direction, let it do
         // so unless the way is blocked. Then it must turn.
         if (random [NewChaseDir] (0, 255) < 150) {
-            if (S7_TryWalk ())
+            if (S7_TryWalk (oldFloorZ))
                 return;
         }
 
@@ -98,14 +116,14 @@ extend class S7_MonsterBase {
         for (tDir = ((oldDir + turndir) & S7_MoveDir_MaxDir); tDir != oldDirMasked; tDir = ((tDir + turndir) & S7_MoveDir_MaxDir)) {
             if (tDir != turnaround) {
                 movementDir = (tDir & S7_MoveDir_MaxDir);
-                if (S7_TryWalk ())
+                if (S7_TryWalk (oldFloorZ))
                     return;
             }
         }
 
         if (turnaround != S7_MoveDir_NoDir) {
             movementDir = (turnaround & S7_MoveDir_MaxDir);
-            if (S7_TryWalk ()) {
+            if (S7_TryWalk (oldFloorZ)) {
                 movecount = (random [NewChaseDir] (0, 255) & 15);
                 return;
             }
@@ -119,19 +137,20 @@ extend class S7_MonsterBase {
         int d [2];
         int oldDir, turnaround = S7_MoveDir_NoDir, walkDir = S7_MoveDir_NoDir;
         uint attempts = 0; // We don't need to attempt S7_MoveDir_NoDir.
+        double oldFloorZ = floorZ;
         oldDir = movementDir;
 
         if (movementDir != S7_MoveDir_NoDir)
-            turnaround = (int ((((movementDir * S7_MoveDir_Interval) + 180.) % 360.) / S7_MoveDir_Interval) & S7_MoveDir_MaxDir);
+            turnaround = (int ((((movementDir * S7_MoveDir_Interval) + 180.) % 360.) * S7_MoveDir_IntervalInv) & S7_MoveDir_MaxDir);
 
         // Try direct route
         if (abs (delta.X) >= 10 && abs (delta.Y) >= 10) {
             double ang = VectorAngle (delta.X, delta.Y);
-            movementDir = walkDir = (int ((ang >= 0 ? ang : 360 + ang) / S7_MoveDir_Interval) & S7_MoveDir_MaxDir);
+            movementDir = walkDir = (int ((ang >= 0 ? ang : 360 + ang) * S7_MoveDir_IntervalInv) & S7_MoveDir_MaxDir);
 
             if (movementDir != turnaround) {
                 attempts |= (1 << movementDir);
-                if (S7_TryWalk ()) {
+                if (S7_TryWalk (oldFloorZ)) {
                     doNewChaseDir_WhatToIgnore = 0;
                     return;
                 }
@@ -171,7 +190,7 @@ extend class S7_MonsterBase {
             if (oldDir != S7_MoveDir_NoDir && !(attempts & (1 << oldDir))) {
                 movementDir = (oldDir & S7_MoveDir_MaxDir);
                 attempts |= (1 << oldDir);
-                if (S7_TryWalk ()) {
+                if (S7_TryWalk (oldFloorZ)) {
                     doNewChaseDir_WhatToIgnore = 0;
                     return;
                 }
@@ -231,7 +250,7 @@ extend class S7_MonsterBase {
                     bool success; Vector2 newPos;
 
                     movementDir = (tDir & S7_MoveDir_MaxDir);
-                    [success, newPos] = S7_TryWalk (true);
+                    [success, newPos] = S7_CheckMove (oldFloorZ);
 
                     double dist = double.infinity;
                     if (success) {
@@ -254,7 +273,7 @@ extend class S7_MonsterBase {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepClosestDirs [i];
                 attempts |= (1 << movementDir);
-                if (S7_TryWalk ()) {
+                if (S7_TryWalk (oldFloorZ)) {
                     doNewChaseDir_WhatToIgnore = 0;
                     return;
                 }
@@ -267,7 +286,7 @@ extend class S7_MonsterBase {
                 // We don't need to do checks or mark as attempted here.
                 movementDir = sweepIgnoredDirs [i];
                 attempts |= (1 << movementDir);
-                if (S7_TryWalk ()) {
+                if (S7_TryWalk (oldFloorZ)) {
                     doNewChaseDir_WhatToIgnore = 0;
                     return;
                 }
@@ -279,7 +298,7 @@ extend class S7_MonsterBase {
             turnaround != S7_MoveDir_NoDir && !(attempts & (1 << turnaround))
         ) {
             movementDir = (turnaround & S7_MoveDir_MaxDir);
-            if (S7_TryWalk ()) {
+            if (S7_TryWalk (oldFloorZ)) {
                 doNewChaseDir_WhatToIgnore = 0;
                 return;
             }
@@ -291,6 +310,10 @@ extend class S7_MonsterBase {
     }
 
     void S7_NewChaseDir () {
+        if (bBlasted) {
+            return;
+        }
+
         Vector2 delta;
 
         if ((bChaseGoal || goal == target) && goal) {
@@ -398,48 +421,22 @@ extend class S7_MonsterBase {
             movecount = strafecount;
     }
 
-    bool, Vector2 S7_DoMove (bool checkOnly = false) {
-        if (bBlasted)
-            return true, pos.XY;
-
-        if (movementDir >= S7_MoveDir_NoDir) {
+    bool, Vector2 S7_DoMove (double oldFloorZ) {
+        /*if (movementDir >= S7_MoveDir_NoDir) {
             movementDir = S7_MoveDir_NoDir; // Make sure it's valid.
             return false, pos.XY;
-        }
-
-        if (!(bNoGravity || bCanJump) && (pos.Z > floorZ && !bOnMobj))
-            return false, pos.XY;
+        }*/
 
         Vector2 possibleNewPos = (0, 0);
         Vector3 oldPos = pos;
-        double oldAngle = angle, oldPitch = pitch;
-        int dropoff = 0;
         bool tryOK;
-
-        // killough 10/98: Allow dogs to drop off of taller ledges sometimes.
-        // dropoff == 1 means always allow it, dropoff==2 means only up to 128 high,
-        // and only if the target is immediately on the other side of the line.
-        if (bJumpDown && target && !target.IsFriend (self) && Distance2D (target) < 144 && random [Dropoff] (0, 255) < 235)
-            dropoff = 2;
 
         Vector3 moveVec = (AngleToVector (double (movementDir) * S7_MoveDir_Interval, Speed), 0);
         [angle, pitch] = S7_Math.GetAnglesTo (level, pos, pos + moveVec);
 
-        double maxmove = radius - 1.;
-        double stepCount = 1;
-
-        if (maxmove > 0) {
-            double xSpeed = abs (moveVec.X);
-            double ySpeed = abs (moveVec.Y);
-
-            if (xSpeed > ySpeed) {
-                if (xSpeed > maxmove)
-                    stepCount = 1 + int (xSpeed / maxmove);
-            } else {
-                if (ySpeed > maxmove)
-                    stepCount = 1 + int (ySpeed / maxmove);
-            }
-        }
+        double moveLen = moveVec.xy.Length ();
+        double stepCount = max (moveLen / max (radius, 1e-4), 1);
+        double stepCountInv = 1. / stepCount;
 
         FCheckPosition tm;
         tm.FromPMove = true;
@@ -449,37 +446,21 @@ extend class S7_MonsterBase {
         double tryMoveOldAngle = angle;
 
         tryOK = true;
-        let prevPrev = Prev;
         let prevPos = pos;
         bool savedDropOff = bDropOff;
-        double oldFloorZ = GetZAt (pos.X, pos.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+        // killough 3/15/98: Don't jump over dropoffs
+        bDropOff = false;
         for (int i = 1; i <= stepCount; i++) {
-            let ptry = startPos + tryMoveVec * i / stepCount;
+            let ptry = startPos + tryMoveVec * i * stepCountInv;
 
-            // killough 3/15/98: Don't jump over dropoffs
-            bDropOff = false;
-            if (!checkOnly) {
-                prevPos = pos;
-                Prev = prevPrev;
-                tryOK = TryMove (ptry, true, null, tm);
-            } else {
-                prevPos = (startPos + tryMoveVec * (i - 1) / stepCount, pos.Z);
-                tryOK = CheckMove (ptry, 0, tm: tm);
-            }
-            bDropOff = savedDropOff;
+            prevPos = pos;
+            tryOK = TryMove (ptry, true, null, tm);
 
-            double newFloorZ = GetZAt (ptry.X, ptry.Y, flags: GZF_AbsolutePos | GZF_AbsoluteAng);
+            double newFloorZ = tm.dropoffZ;
 
-            if (!bDropOff && abs (newFloorZ - oldFloorZ) > MaxStepHeight) {
+            if (!savedDropOff && abs (newFloorZ - oldFloorZ) > MaxStepHeight) {
                 tryOK = false;
-                if (!checkOnly) {
-                    SetPosition (prevPos);
-
-                    if (!NoMonsterInterpolation)
-                        Prev = prevPrev;
-                    else
-                        Prev = prevPos;
-                }
+                SetPosition (prevPos);
             }
 
             if (!tryOK) break;
@@ -488,7 +469,7 @@ extend class S7_MonsterBase {
             possibleNewPos = pTry;
 
             // Handle portal transitions just like P_XYMovement.
-            if (stepCount > 1 && pos.XY != ptry) {
+            if (pos.XY != ptry) {
                 double angleDiff = DeltaAngle (tryMoveOldAngle, angle);
 
                 if (!(anglediff ~== 0)) {
@@ -496,85 +477,105 @@ extend class S7_MonsterBase {
                     tryMoveOldAngle = angle;
                 }
 
-                startPos = pos.XY - tryMoveVec * i / stepCount;
+                startPos = pos.XY - tryMoveVec * i * stepCountInv;
             }
         }
-
-        ClearInterpolation ();
+        bDropOff = savedDropOff;
 
         // [RH] If a walking monster is no longer on the floor, move it down
         // to the floor if it is within MaxStepHeight, presuming that it is
         // actually walking down a step.
-        if (tryOK && !(bNoGravity || bCanJump) && (pos.Z > floorZ) && !bOnMobj) {
-            if (pos.Z <= floorZ + MaxStepHeight) {
-                double savedZ = pos.Z;
+        if (tryOK & (pos.Z > floorZ) & !bOnMobj && (pos.Z <= (floorZ + MaxStepHeight))) {
+            double savedZ = pos.Z;
 
-                SetZ (floorZ);
+            SetZ (floorZ);
 
-                // Make sure that there isn't some other actor between us and
-                // the floor we could get stuck in. The old code did not do this.
-                if (!TestMobjZ ())
-                    SetZ (savedZ);
-                else if (!checkOnly) {
-                    let relPos = PosRelative (floorsector);
+            // Make sure that there isn't some other actor between us and
+            // the floor we could get stuck in. The old code did not do this.
+            if (!TestMobjZ ())
+                SetZ (savedZ);
+            else {
+                let relPos = PosRelative (floorsector);
 
-                    // The monster just hit the floor, so trigger any actions.
-                    if (floorsector.SecActTarget && floorZ ~== floorsector.floorplane.ZAtPoint (relPos.XY))
-                        floorsector.TriggerSectorActions (self, SectorAction.SECSPAC_HitFloor);
-                    CheckFor3DFloorHit (pos.Z, true);
-                }
+                // The monster just hit the floor, so trigger any actions.
+                if (floorsector.SecActTarget && floorZ ~== floorsector.floorplane.ZAtPoint (relPos.XY))
+                    floorsector.TriggerSectorActions (self, SectorAction.SECSPAC_HitFloor);
+                CheckFor3DFloorHit (pos.Z, true);
             }
         }
 
         if (!tryOK) {
-            if ((bCanJump || bFloat) && tm.floatok) {
-                // Must adjust height
-                double savedZ = pos.Z;
+            // Open any specials
+            movementDir = S7_MoveDir_NoDir;
 
-                if (pos.Z < tm.floorZ)
-                    AddZ (FloatSpeed);
-                else
-                    AddZ (-FloatSpeed);
+            int usesCount = CheckMonsterUseSpecials ();
 
-                // [RH] Check to make sure there's nothing in the way of the float
-                if (TestMobjZ ()) {
-                    bInFloat = true;
+            if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
+                Prev = oldPos;
 
-                    if (checkOnly) {
-                        SetPosition (oldPos);
-                        ClearInterpolation ();
-                        angle = oldAngle;
-                        pitch = oldPitch;
-                    } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
-                        Prev = oldPos;
-
-                    return true, possibleNewPos;
-                }
-
-                SetZ (savedZ);
-            }
-
-            if (!checkOnly) {
-                // Open any specials
-                movementDir = S7_MoveDir_NoDir;
-
-                int usesCount = CheckMonsterUseSpecials ();
-
-                if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
-                    Prev = oldPos;
-
-                return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
-            }
+            return usesCount && ((random [OpenDoor] (0, 255) >= 203) ^ (usesCount & 1)), possibleNewPos;
         } else
             bInFloat = false;
 
-        if (checkOnly) {
-            SetPosition (oldPos);
-            ClearInterpolation ();
-            angle = oldAngle;
-            pitch = oldPitch;
-        } else if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
+        if (!NoMonsterInterpolation && pos.XY ~== possibleNewPos)
             Prev = oldPos;
+
+        return tryOK, possibleNewPos;
+    }
+
+    bool, Vector2 S7_CheckMove (double oldFloorZ) {
+        Vector2 possibleNewPos = (0, 0);
+        double oldAngle = angle, oldPitch = pitch;
+        bool tryOK;
+
+        Vector3 moveVec = (AngleToVector (double (movementDir) * S7_MoveDir_Interval, Speed), 0);
+        [angle, pitch] = S7_Math.GetAnglesTo (level, pos, pos + moveVec);
+
+        double moveLen = moveVec.xy.Length ();
+        double stepCount = max (ceil (moveLen / max (radius, 1e-4), 1);
+        double stepCountInv = 1. / stepCount;
+
+        FCheckPosition tm;
+        tm.FromPMove = true;
+
+        Vector2 startPos = pos.XY;
+        Vector2 tryMoveVec = moveVec.XY;
+        double tryMoveOldAngle = angle;
+
+        tryOK = true;
+        bool savedDropOff = bDropOff;
+
+        // killough 3/15/98: Don't jump over dropoffs
+        bDropOff = false;
+
+        for (int i = 1; i <= stepCount; i++) {
+            let ptry = startPos + tryMoveVec * i * stepCountInv;
+
+            tryOK = CheckMove (ptry, PCM_DROPOFF, tm);
+
+            double newFloorZ = tm.dropoffZ;
+
+            if (!savedDropOff && abs (newFloorZ - oldFloorZ) > MaxStepHeight)
+                tryOK = false;
+
+            if (!tryOK) break;
+
+            oldFloorZ = newFloorZ;
+            possibleNewPos = pTry;
+
+            // Handle portal transitions just like P_XYMovement.
+            if (pos.XY != ptry) {
+                double angleDiff = DeltaAngle (tryMoveOldAngle, angle);
+
+                if (!(anglediff ~== 0)) {
+                    tryMoveVec = RotateVector (tryMoveVec, angleDiff);
+                    tryMoveOldAngle = angle;
+                }
+
+                startPos = pos.XY - tryMoveVec * i * stepCountInv;
+            }
+        }
+        bDropoff = savedDropOff;
 
         return tryOK, possibleNewPos;
     }
