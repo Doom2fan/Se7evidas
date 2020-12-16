@@ -67,7 +67,7 @@ extend class S7_MonsterBase {
         }
 
         // Turn towards movement direction if not there yet
-        if (!(flags & CHF_NoDirectionTurn) && (movementDir < S7_MoveDir_NoDir)) {
+        /*if (!(flags & CHF_NoDirectionTurn) && (movementDir < S7_MoveDir_NoDir)) {
             angle = floor (angle / S7_MoveDir_Interval) * S7_MoveDir_Interval;
 
             double delta = deltaangle (angle, (movementDir * S7_MoveDir_Interval));
@@ -80,7 +80,7 @@ extend class S7_MonsterBase {
         if ((--movecount < 0 && !(flags & CHF_NoRandomTurn)) || (!S7_DoWalk () && !(flags & CHF_StopIfBlocked))) {
             S7_RandomChaseDir ();
             movecount += 5;
-        }
+        }*/
 
         return;
     }
@@ -145,7 +145,7 @@ extend class S7_MonsterBase {
         // Turn towards movement direction if not there yet
         if (strafecount)
             A_FaceTarget ();
-        else if (!(flags & CHF_NoDirectionTurn) && movementDir < S7_MoveDir_Count) {
+        /*else if (!(flags & CHF_NoDirectionTurn) && movementDir < S7_MoveDir_Count) {
             angle = floor (angle / S7_MoveDir_Interval) * S7_MoveDir_Interval;
 
             double delta = DeltaAngle (angle, (movementDir * S7_MoveDir_Interval));
@@ -154,7 +154,7 @@ extend class S7_MonsterBase {
                 angle -= S7_MoveDir_Interval;
             else if (delta > 0)
                 angle += S7_MoveDir_Interval;
-        }
+        }*/
 
         // [RH] If the target is dead or a friend (and not a goal), stop chasing it.
         if (target && target != goal && (target.health <= 0 || IsFriend (target)))
@@ -227,7 +227,7 @@ extend class S7_MonsterBase {
             bJustAttacked = false;
 
             if (!S7_ActorExtensions.IsFast (self) && !dontMove && !(flags & CHF_NoPostAttackTurn) && !(flags & CHF_StopIfBlocked))
-                S7_NewChaseDir ();
+                ;//S7_NewChaseDir ();
 
             // Because P_TryWalk would never be reached if the actor is stopped by a blocking object,
             // need to make sure the movecount is reset, otherwise they will just keep attacking
@@ -403,7 +403,30 @@ extend class S7_MonsterBase {
         // Chase towards player
         //
 
-        if (strafecount)
+        Actor targetAct = goal;
+        double targetRadius = 128;
+        double slowRadius = 128 + 32;
+        if (!targetAct)
+            targetAct = aiNextNode;
+        if (!targetAct) {
+            targetAct = target;
+
+            double targActRadius = target ? target.Radius : 0;
+
+            targetRadius = meleeState ? (MeleeRange + targActRadius) : max (128, target ? target.radius * 1.5 : 0);
+            slowRadius = targetRadius + 32;
+        }
+
+        if (targetAct) {
+            Vector2 steerLinearAccel;
+            double steerAngularAccel;
+            [steerLinearAccel, steerAngularAccel] = S7_DoSteering (Speed, targetAct, targetRadius, slowRadius);
+
+            vel += steerLinearAccel;
+            angularVelocity += steerAngularAccel;
+        }
+
+        /*if (strafecount)
             strafecount--;
 
         // Class bosses don't do this when strafing
@@ -433,7 +456,7 @@ extend class S7_MonsterBase {
             }
         }
         else if (dontMove && movecount > 0)
-            movecount--;
+            movecount--;*/
 
         // Make active sound
         if (playActive && random [Chase] (0, 255) < 3)

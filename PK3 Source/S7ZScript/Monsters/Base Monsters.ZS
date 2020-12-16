@@ -27,7 +27,7 @@ class S7_MonsterBase : Actor {
         Radius 20;
         Height 56;
         Mass 100;
-        Speed 8;
+        Speed 6;
 
         /** Damage factors **/
         // Plasma/Laser damage bonus
@@ -36,8 +36,10 @@ class S7_MonsterBase : Actor {
 
         Monster;
 
-        +FLOORCLIP +DONTHARMCLASS
+        +FLOORCLIP +DONTHARMCLASS +SLIDESONWALLS
     }
+
+    double angularVelocity;
 
     int monsDeathType;
     Actor grabbedShooter;
@@ -105,6 +107,10 @@ class S7_MonsterBase : Actor {
         }
 
         Super.Tick ();
+        angle += angularVelocity;
+
+        double friction = GetFriction ();
+        angularVelocity *= friction;
 
         if (!self || bDestroyed)
             return;

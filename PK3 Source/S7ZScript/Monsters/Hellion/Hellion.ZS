@@ -32,7 +32,7 @@ class S7_Hellion : S7_DemonBase {
         GibHealth -30;
         Radius 20;
         Height 56;
-        Speed 8;
+        Speed 6;
         PainChance 200;
         SeeSound "Monsters/Hellion/Sight";
         ActiveSound "Monsters/Hellion/Active";
