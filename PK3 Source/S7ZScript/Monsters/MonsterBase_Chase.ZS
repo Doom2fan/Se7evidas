@@ -114,8 +114,10 @@ extend class S7_MonsterBase {
         if (bInConversation)
             return;
 
-        if (bInChase)
+        if (bInChase) {
+            Console.Printf ("1");
             return;
+        }
         bInChase = true;
 
         // [RH] Andy Baker's stealth monsters
@@ -143,8 +145,8 @@ extend class S7_MonsterBase {
         }
 
         // Turn towards movement direction if not there yet
-        if (strafecount)
-            A_FaceTarget ();
+        /*if (strafecount)
+            A_FaceTarget ();*/
         /*else if (!(flags & CHF_NoDirectionTurn) && movementDir < S7_MoveDir_Count) {
             angle = floor (angle / S7_MoveDir_Interval) * S7_MoveDir_Interval;
 
@@ -189,7 +191,7 @@ extend class S7_MonsterBase {
         }
 
         // Look for a new target
-        if ((!target || !target.bShootable)) {
+        if (!target || !target.bShootable) {
             if (target && target.bNonShootable) {
                 // Target is only temporarily unshootable, so remember it.
                 lastenemy = target;
@@ -235,6 +237,8 @@ extend class S7_MonsterBase {
             if (flags & CHF_StopIfBlocked)
                 movecount = random [TryWalk] (0, 255) & 15;
 
+            Console.Printf ("2");
+
             bInChase = false;
             return;
         }
@@ -251,6 +255,8 @@ extend class S7_MonsterBase {
 
                 bJustAttacked = true;
                 bInChase = false;
+
+                Console.Printf ("3");
 
                 return;
             } else if (result && actualGoal == goal) {
@@ -278,7 +284,7 @@ extend class S7_MonsterBase {
                 } else {
                     delay = 0;
                     reactiontime = default.reactiontime;
-                    angle = lastGoalAng; // Look in direction of last goal
+                    //angle = lastGoalAng; // Look in direction of last goal
                 }
 
                 if (target == goal)
@@ -343,6 +349,8 @@ extend class S7_MonsterBase {
                 SetState (meleestate);
                 bInChase = false;
 
+                Console.Printf ("4");
+
                 return;
             }
 
@@ -406,25 +414,20 @@ extend class S7_MonsterBase {
         Actor targetAct = goal;
         double targetRadius = 128;
         double slowRadius = 128 + 32;
-        if (!targetAct)
+        if (!targetAct && aiNextNode) {
             targetAct = aiNextNode;
-        if (!targetAct) {
+            targetRadius = MeleeRange + radius + aiNextNode.radius;
+            slowRadius = targetRadius + 32;
+        }
+        if (!targetAct && target) {
             targetAct = target;
 
-            double targActRadius = target ? target.Radius : 0;
-
-            targetRadius = meleeState ? (MeleeRange + targActRadius) : max (128, target ? target.radius * 1.5 : 0);
+            targetRadius = meleeState ? (MeleeRange + target.radius) : max (128, target.radius * 1.5);
             slowRadius = targetRadius + 32;
         }
 
-        if (targetAct) {
-            Vector2 steerLinearAccel;
-            double steerAngularAccel;
-            [steerLinearAccel, steerAngularAccel] = S7_DoSteering (Speed, targetAct, targetRadius, slowRadius);
-
-            vel += steerLinearAccel;
-            angularVelocity += steerAngularAccel;
-        }
+        if (targetAct)
+            S7_DoSteering (Speed, targetAct, targetRadius, slowRadius);
 
         /*if (strafecount)
             strafecount--;

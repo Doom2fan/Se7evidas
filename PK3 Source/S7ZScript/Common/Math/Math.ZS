@@ -34,6 +34,24 @@ class S7_Math {
         return x * (1-a) + y * a;
     }
 
+    static int SignI (int s) {
+        if (s > 0)
+            return 1;
+        if (s < 0)
+            return -1;
+
+        return 0;
+    }
+
+    static int SignF (double s) {
+        if (s > 0)
+            return 1;
+        if (s < 0)
+            return -1;
+
+        return 0;
+    }
+
     // Based on C/C++ example implementation by AMD, taken from Wikipedia.
     static double Smoothstep (double edge0, double edge1, double x) {
         // Scale, bias and saturate x to [0, 1] range
