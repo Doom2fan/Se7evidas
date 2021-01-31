@@ -33,7 +33,7 @@ extend class S7_Math {
         let diffVec = lvl.Vec3Diff (p1, p2);
 
         double angle = VectorAngle (diffVec.X, diffVec.Y);
-        double pitch = -VectorAngle (diffVec.Length (), diffVec.Z);
+        double pitch = -VectorAngle (diffVec.XY.Length (), diffVec.Z);
 
         return angle, pitch;
     }
