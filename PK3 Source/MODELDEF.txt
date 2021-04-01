@@ -18,6 +18,8 @@ model S7_MultiJump_Marker {
     skin 1 "MultiJumpMarker.png" // Textures by Chronos "phantombeta" Ouroboros
     scale 64.0 64.0 64.0
 
+    dontCullBackfaces
+
     frameIndex MJMP A 0 0
 }
 
@@ -29,6 +31,7 @@ model S7_GenericExplosion_Shockwave {
     skin 1 "Circle.png"
     scale 1.0 1.0 1.0
 
+    dontCullBackfaces
     useActorPitch
 
     frameIndex SHCK A 0 0
