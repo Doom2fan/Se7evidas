@@ -52,6 +52,40 @@ class S7_LootItem : Inventory {
     }
 }
 
+class S7_CashGiverItem : Inventory {
+    default {
+        // Amount controls how many credits given
+        Inventory.Amount 0;
+        Inventory.MaxAmount 0;
+
+        +INVENTORY.ALWAYSPICKUP +INVENTORY.AUTOACTIVATE
+    }
+
+    override bool TryPickup (in out Actor toucher) {
+        if (!toucher || toucher.CountInv ('S7_Cash') > 0x7FFFFFFF - Amount) {
+            bAlwaysPickup = false;
+            return false;
+        }
+
+        if (!Super.TryPickup (toucher)) {
+            bAlwaysPickup = false;
+            return false;
+        }
+
+        return true;
+    }
+
+    override bool Use (bool pickup) {
+        if (!Owner)
+            return false;
+
+        Owner.GiveInventory ('S7_Cash', Amount);
+        bAlwaysPickup = true;
+
+        return true;
+    }
+}
+
 //-------------------------------------------------------------------------------------------
 //
 // Used 50mm grenade
@@ -232,21 +266,18 @@ class S7_Loot_BloodChalice : S7_LootItem {
 
 //-------------------------------------------------------------------------------------------
 //
-// Treasure
+// Cash loot/Treasure
 //
 //-------------------------------------------------------------------------------------------
 // Sprite credits: Id Software
-class S7_Loot_GoldChest : S7_LootItem {
+class S7_Loot_GoldChest : S7_CashGiverItem {
     default {
         //$Category "Se7evidas/Loot"
         //$Color 17
         //$Title "Gold Chest"
         //$NotAngled
 
-        S7_LootItem.BlocksUsed 25;
-
-        Inventory.Amount 1;
-        //Inventory.Icon "LOT1E0";
+        Inventory.Amount 7500;
         Inventory.PickupMessage "$LOOT_GOLDCHEST";
         Tag "$LOOT_GOLDCHEST";
         Scale 1;
@@ -259,13 +290,8 @@ class S7_Loot_GoldChest : S7_LootItem {
     }
 }
 
-//-------------------------------------------------------------------------------------------
-//
-// Treasure
-//
-//-------------------------------------------------------------------------------------------
 // Sprite credits: amv2k9
-class S7_Loot_CreditsBriefcase10K : Inventory {
+class S7_Loot_CreditsBriefcase10K : S7_CashGiverItem {
     default {
         //$Category "Se7evidas/Loot"
         //$Color 17
@@ -276,32 +302,6 @@ class S7_Loot_CreditsBriefcase10K : Inventory {
         Inventory.MaxAmount 0;
         Inventory.PickupMessage "$LOOT_CREDITSCASE_10K";
         Scale 1;
-
-        +INVENTORY.ALWAYSPICKUP +INVENTORY.AUTOACTIVATE
-    }
-
-    override bool TryPickup (in out Actor toucher) {
-        if (!toucher || toucher.CountInv ('S7_Cash') > 0x7FFFFFFF - Amount) {
-            bAlwaysPickup = false;
-            return false;
-        }
-
-        if (!Super.TryPickup (toucher)) {
-            bAlwaysPickup = false;
-            return false;
-        }
-
-        return true;
-    }
-
-    override bool Use (bool pickup) {
-        if (!Owner)
-            return false;
-
-        Owner.GiveInventory ('S7_Cash', Amount);
-        bAlwaysPickup = true;
-
-        return true;
     }
 
     states {
