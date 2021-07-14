@@ -324,6 +324,13 @@ shop "mainShop" {
                     buyPrice = 200;
                     buyAmount = 10;
                     sellPrice = 10;
+                },
+                sellItem "12GA" {
+                    name = "$SS_12GA";
+                    desc = "$SS_12GADESC";
+                    icon = "sprites/Inventory/Ammo/SHELD0.png";
+                    inventoryName = "S7_12gaShells";
+                    sellPrice = 3;
                 }
             }
         },
@@ -599,6 +606,14 @@ shop "mainShop" {
                     buyPrice = 11000;
                     sellPrice = 8250;
                 },
+                sellItem "AK47" : "S7_SSItem_Weapon" {
+                    name = "$SHORTAK47";
+                    desc = "$SS_AK47DESC";
+                    info = "$SS_AK47INFO";
+                    icon = "sprites/Weapons/Primary/AK47/AK4PA0.png";
+                    inventoryName = "S7_AK47";
+                    sellPrice = 6500;
+                },
                 buySellItem "FCHD" : "S7_SSItem_Weapon" {
                     name = "$SHORTFAUCHARD";
                     desc = "$SS_FAUCHARDDESC";
@@ -656,6 +671,14 @@ shop "mainShop" {
                     inventoryName = "S7_Shotgun";
                     buyPrice = 6000;
                     sellPrice = 4500;
+                },
+                sellItem "LSSG" : "S7_SSItem_Weapon" {
+                    name = "$SHORTSSG";
+                    desc = "$SS_SSGDESC";
+                    info = "$SS_SSGINFO";
+                    icon = "sprites/Weapons/Primary/SSG/SSGPA0.png";
+                    inventoryName = "S7_SSG";
+                    sellPrice = 3500;
                 }
             }
         },
@@ -788,11 +811,6 @@ shop "mainShop" {
                 pageLink "ARTF" {
                     name = "$SS_LOOT_ARTIFACTS";
                     link = "loot_Artifacts";
-                },
-
-                pageLink "TRSR" {
-                    name = "$SS_LOOT_TREASURE";
-                    link = "loot_Treasure";
                 }
             }
         },
@@ -816,29 +834,6 @@ shop "mainShop" {
                     icon = "sprites/Inventory/Loot/LOT1A0.png";
                     inventoryName = "S7_Loot_ScorpsHunterSG";
                     sellPrice = 200;
-                },
-                sellItem "12GA" {
-                    name = "$SS_12GA";
-                    desc = "$SS_12GADESC";
-                    icon = "sprites/Inventory/Ammo/SHELD0.png";
-                    inventoryName = "S7_12gaShells";
-                    sellPrice = 3;
-                },
-                sellItem "LSSG" : "S7_SSItem_Weapon" {
-                    name = "$SHORTSSG";
-                    desc = "$SS_SSGDESC";
-                    info = "$SS_SSGINFO";
-                    icon = "sprites/Weapons/Primary/SSG/SSGPA0.png";
-                    inventoryName = "S7_SSG";
-                    sellPrice = 3500;
-                },
-                sellItem "AK47" : "S7_SSItem_Weapon" {
-                    name = "$SHORTAK47";
-                    desc = "$SS_AK47DESC";
-                    info = "$SS_AK47INFO";
-                    icon = "sprites/Weapons/Primary/AK47/AK4PA0.png";
-                    inventoryName = "S7_AK47";
-                    sellPrice = 6500;
                 }
             }
         },
@@ -880,29 +875,6 @@ shop "mainShop" {
                     icon = "sprites/Inventory/Loot/LOT1D0.png";
                     inventoryName = "S7_Loot_BloodChalice";
                     sellPrice = 250;
-                }
-            }
-        },
-
-        page "loot_Treasure" {
-            name = "$SS_LOOT_TREASURE";
-            backPage = "lootPage";
-
-            items {
-                pageLink "BACK" {
-                    name = "$SS_BACK";
-                    desc = "$SS_BACK_DESC";
-                    icon = "M_BACK_D";
-                    link = "lootPage";
-                },
-
-                sellItem "LT04" {
-                    name = "$LOOT_GOLDCHEST";
-                    desc = "$SS_GOLDCHEST_DESC";
-                    info = "$SS_GOLDCHEST_INFO";
-                    icon = "sprites/Inventory/Loot/LOT1E0.png";
-                    inventoryName = "S7_Loot_GoldChest";
-                    sellPrice = 7500;
                 }
             }
         },

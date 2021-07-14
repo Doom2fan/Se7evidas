@@ -445,4 +445,27 @@ class S7_ActorExtensions : Actor {
 
         return ret;
     }
+
+    /* Summary:
+    **   Gets the line blocking flags for this monster.
+    */
+    static int GetSelfBlockLineFlags (Actor act) {
+        int flags = Line.ML_BlockEverything;
+
+        bool isProjectile = act.bMissile || act.bMBFBouncer;
+        bool notBlocked = act.bNoBlockMonst || (level.compatFlags & COMPATF_NoBlockFriends && act.bFriendly);
+
+        if (isProjectile)
+            flags |= Line.ML_BlockProjectile;
+        if (!isProjectile || act.bBlockAsPlayer)
+            flags |= Line.ML_Blocking;
+        if (!notBlocked)
+            flags |= Line.ML_BlockMonsters;
+        if (act.player || act.bBlockAsPlayer)
+            flags |= Line.ML_Blocking | Line.ML_Block_Players;
+        if (act.bFloat)
+            flags |= Line.ML_Block_Floaters;
+
+        return flags;
+    }
 }
