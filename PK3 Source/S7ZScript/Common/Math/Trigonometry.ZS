@@ -19,6 +19,23 @@
 extend class S7_Math {
     /** Trigonometry **/
     /* Summary:
+    **  Gets the angle from a point to another.
+    **
+    ** Arguments:
+    **  lvl: An instance of the LevelLocals struct.
+    **  p1: The starting point.
+    **  p2: The endpoint.
+    **
+    ** Returns:
+    **  Returns the angle from p1 to p2.
+    */
+    static double GetAngleTo (LevelLocals lvl, Vector2 p1, Vector2 p2) {
+        let diffVec = lvl.Vec2Diff (p1, p2);
+
+        return VectorAngle (diffVec.X, diffVec.Y);
+    }
+
+    /* Summary:
     **  Gets the angle and pitch from a point to another.
     **
     ** Arguments:
@@ -132,6 +149,12 @@ extend class S7_Math {
     */
     clearscope static Vector3 ReflectVector (Vector3 vec, Vector3 normal) {
         return (2 * (normal dot vec) * normal - vec).Unit ();
+    }
+
+    static vector2 ProjectPointToLine2D (LevelLocals level, in Line l, Vector2 point) {
+        let ap = level.Vec2Diff (l.v1.p, point);
+
+        return l.v1.p + (ap dot l.delta) / (l.delta dot l.delta) * l.delta;
     }
 
     /* Summary:
