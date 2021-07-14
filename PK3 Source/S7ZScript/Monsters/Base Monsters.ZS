@@ -27,7 +27,7 @@ class S7_MonsterBase : Actor {
         Radius 20;
         Height 56;
         Mass 100;
-        Speed 6;
+        Speed 8;
 
         /** Damage factors **/
         // Plasma/Laser damage bonus
