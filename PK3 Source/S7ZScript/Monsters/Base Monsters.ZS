@@ -39,8 +39,6 @@ class S7_MonsterBase : Actor {
         +FLOORCLIP +DONTHARMCLASS +SLIDESONWALLS
     }
 
-    double angularVelocity;
-
     int monsDeathType;
     Actor grabbedShooter;
 
@@ -107,13 +105,11 @@ class S7_MonsterBase : Actor {
         }
 
         Super.Tick ();
-        angle += angularVelocity;
-
-        double friction = GetFriction ();
-        angularVelocity *= friction;
 
         if (!self || bDestroyed)
             return;
+
+        S7_DoTickSteering (Speed);
 
         if (target && !setStats)
             CallInitializeXPSystem ();
@@ -286,7 +282,7 @@ class S7_ScorpBase : S7_MonsterBase {
     }
 
     action void S7_DoScorpsChase () {
-        bool canPlayActive = (
+        /*bool canPlayActive = (
             target &&
             CheckSight (target, SF_SeePastBlockEverything | SF_SeePastShootableLines) &&
             (random [SCorpsSeeSound] (0, 255) < 96)
@@ -303,7 +299,8 @@ class S7_ScorpBase : S7_MonsterBase {
             }
         }
 
-        A_S7Chase ("Melee", "Missile", flags: !canPlayActive ? CHF_NoPlayActive : 0);
+        A_S7Chase ("Melee", "Missile", flags: !canPlayActive ? S7CHF_NoPlayActive : 0);*/
+        A_S7Chase ("Melee", "Missile");
     }
 
     // Default variables
