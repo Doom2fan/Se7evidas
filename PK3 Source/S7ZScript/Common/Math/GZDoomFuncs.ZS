@@ -31,4 +31,10 @@ extend class S7_Math {
     clearscope static int PointOnLineSidePrecise (double x, double y, in Line ld) {
         return ((y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y) > S7C_EqualEpsilon;
     }
+
+    static vector2 ProjectPointToLineGZD (LevelLocals level, in Line l, Vector2 point) {
+        let ap = level.Vec2Diff (l.v1.p, point);
+
+        return l.v1.p + (ap dot l.delta) / (l.delta dot l.delta) * l.delta;
+    }
 }

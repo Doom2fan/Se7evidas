@@ -151,10 +151,11 @@ extend class S7_Math {
         return (2 * (normal dot vec) * normal - vec).Unit ();
     }
 
-    static vector2 ProjectPointToLine2D (LevelLocals level, in Line l, Vector2 point) {
-        let ap = level.Vec2Diff (l.v1.p, point);
+    static vector2 ProjectPointToLine2D (Vector2 v1, Vector2 v2, Vector2 point) {
+        let delta = v2 - v1;
+        let ap = point - v1;
 
-        return l.v1.p + (ap dot l.delta) / (l.delta dot l.delta) * l.delta;
+        return v1 + (ap dot delta) / (delta dot delta) * delta;
     }
 
     /* Summary:
