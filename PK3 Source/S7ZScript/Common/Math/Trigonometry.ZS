@@ -151,11 +151,45 @@ extend class S7_Math {
         return (2 * (normal dot vec) * normal - vec).Unit ();
     }
 
-    static vector2 ProjectPointToLine2D (Vector2 v1, Vector2 v2, Vector2 point) {
+    /* Summary:
+    **  Projects a 2D point onto a line segment.
+    **
+    ** Arguments:
+    **  v1: The start vertex of the line segment.
+    **  v2: The end vertex of the line segment.
+    **  pos: The point to project onto the line segment.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether the point lies on the segment, and the closest point.
+    */
+    static bool, Vector2 ProjectPointToLine2D (Vector2 v1, Vector2 v2, Vector2 point) {
+        let ap = level.Vec2Diff (v1, point);
         let delta = v2 - v1;
-        let ap = point - v1;
 
-        return v1 + (ap dot delta) / (delta dot delta) * delta;
+        let t = (ap dot delta) / (delta dot delta);
+        let onLine = (t >= 0. && t <= 1.);
+
+        return onLine, (v1 + t * delta);
+    }
+
+    /* Summary:
+    **  Projects a 2D point onto a line segment.
+    **
+    ** Arguments:
+    **  v1: The start vertex of the line segment.
+    **  delta: The difference between the start and end vertices of the line segment. (v2 - v1)
+    **  pos: The point to project onto the line segment.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether the point lies on the segment, and the closest point.
+    */
+    static bool, Vector2 ProjectPointToLine2D_Delta (Vector2 v1, Vector2 delta, Vector2 point) {
+        let ap = level.Vec2Diff (v1, point);
+
+        let t = (ap dot delta) / (delta dot delta);
+        let onLine = (t >= 0. && t <= 1.);
+
+        return onLine, (v1 + t * delta);
     }
 
     /* Summary:
