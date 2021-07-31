@@ -1,15 +1,39 @@
 /// Frame class - one frame at least is used in any menu, but frames can be put in frames
 /// for easy subpositioning.
-class S7_ZF_Frame : S7_ZF_Element {
-	Array<S7_ZF_Element> elements;
+class S7_ZF_Frame : S7_ZF_ElementContainer {
+	uint elementCount() { return elements.size(); }
+	uint indexOfElement(S7_ZF_Element elem) { return elements.find(elem); }
+	void swapElements(uint index0, uint index1) {
+		let tmp = elements[index0];
+		elements[index0] = elements[index1];
+		elements[index1] = tmp;
+	}
+	void moveElement(uint beforeIndex, uint afterIndex) {
+		if (beforeIndex == afterIndex) return;
+		if (afterIndex > beforeIndex) afterIndex -= 1;
+		let tmp = elements[beforeIndex];
+		elements.delete(beforeIndex);
+		elements.insert(afterIndex, tmp);
+	}
 
-	void setBaseResolution(Vector2 res) {
-		baseScreenSize = res;
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL) {
-				elements[i].baseScreenSize = res;
-			}
+	void internalPack(S7_ZF_Element elem) {
+		if (elem.master != NULL) {
+			elem.unpack();
 		}
+		elem.master = self;
+		self.elements.push(elem);
+		self.onPack(elem);
+	}
+	void internalUnpack(S7_ZF_Element elem) {
+		if (elem.master != self) {
+			throwAbortException("This shouldn't happen unless the user called internalUnpack themselves");
+		}
+		int index = self.elements.find (elem);
+		if (index != self.elements.Size ()) {
+			self.elements.delete(index, 1);
+		}
+		elem.master = NULL;
+		elem.globalStore = NULL;
 	}
 
 	static S7_ZF_Frame create(Vector2 pos, Vector2 size) {
@@ -21,50 +45,7 @@ class S7_ZF_Frame : S7_ZF_Element {
 		return ret;
 	}
 
-	override void ticker() {
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL) {
-				elements[i].ticker();
-			}
-		}
-	}
-
-	override void drawer() {
-		if (hidden) {
-			return;
-		}
-
-		// stuff in the frame shouldn't draw outside the frame
-		S7_ZF_AABB beforeClip = getClipAABB();
-		if (master != NULL) {
-			S7_ZF_AABB clipCoords = boxToScreen();
-			S7_ZF_AABB screenClip = new("S7_ZF_AABB");
-			screenClip.size = screenSize();
-			clipCoords = clipCoords.rectOfIntersection(screenClip);
-
-			Screen.setClipRect(int(clipCoords.pos.x), int(clipCoords.pos.y), int(clipCoords.size.x), int(clipCoords.size.y));
-		}
-
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL && !elements[i].hidden) {
-				elements[i].drawer();
-			}
-		}
-
-		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
-	}
-
-	override void onUIEvent(S7_ZF_UiEvent ev) {
-		if (ev.type == UIEvent.Type_MouseMove) {
-			doHover((ev.mouseX, ev.mouseY));
-		}
-
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements[i] != NULL) {
-				elements[i].onUIEvent(ev);
-			}
-		}
-	}
+	virtual void onPack(S7_ZF_Element elem) {}
 
 	/// Converts relative positioning to screen positioning.
 	override Vector2 relToScreen(Vector2 relPos) {

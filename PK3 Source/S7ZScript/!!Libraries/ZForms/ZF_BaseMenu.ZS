@@ -1,14 +1,46 @@
+enum S7_ZF_FocusPriority {
+	S7_ZF_FocusPriority_AboveAll,
+	S7_ZF_FocusPriority_JustBelowFocused,
+	S7_ZF_FocusPriority_JustAboveFocused,
+}
+
 /// The base menu class for menus to inherit from.
 /// Contains a mainFrame to put items in.
 class S7_ZF_GenericMenu : GenericMenu {
 	S7_ZF_Frame mainFrame;
-	int mouseX;
-	int mouseY;
+
+	S7_ZF_Element focusDefaults[S7_ZF_NavEventType_FocusChangeCount];
+
+	private S7_ZF_ElementTreeGlobal globalStore;
+
+	Vector2 getMousePos() { return globalStore.mousePos; }
+
+	void setFocus(S7_ZF_Element elem, S7_ZF_NavEventType type) {
+		let old = globalStore.focus;
+		globalStore.focus = elem;
+		elem.beenFocused(type);
+		changeFocusIndicator(old, globalStore.focus);
+		if (globalStore.focusIndicator != NULL) globalStore.focusIndicator.show();
+	}
+	S7_ZF_Element getFocusIndicator() { return globalStore.focusIndicator; }
+	void setFocusIndicator(S7_ZF_Element focusIndicator) { globalStore.focusIndicator = focusIndicator; }
+
+	S7_ZF_FocusPriority getFocusPriority() { return globalStore.focusPriority; }
+	void setFocusPriority(S7_ZF_FocusPriority focusPriority) { globalStore.focusPriority = focusPriority; }
 
 	override void init(Menu parent) {
 		Super.init(parent);
 		mainFrame = S7_ZF_Frame.create((0, 0), (320, 200));
+		globalStore = new("S7_ZF_ElementTreeGlobal");
+		mainFrame.setGlobalStore(globalStore);
 		mainFrame.setBaseResolution((320, 200));
+		globalStore.mainFrame = mainFrame;
+		globalStore.needsMouseUpdate = true;
+		setupFocusIndicator();
+		if (globalStore.focusIndicator != NULL) {
+			globalStore.focusIndicator.setNoGlobalStore();
+			globalStore.focusIndicator.hide();
+		}
 	}
 
 	void setBaseResolution(Vector2 size) {
@@ -16,36 +48,113 @@ class S7_ZF_GenericMenu : GenericMenu {
 		mainFrame.setBaseResolution(size);
 	}
 
-	override void ticker() {
-		// Trigger a mouse movement UI event to fix things "sticking" sometimes
-		let zfEv = new("S7_ZF_UiEvent");
-		zfEv.type = UIEvent.Type_MouseMove;
-		zfEv.mouseX = mouseX;
-		zfEv.mouseY = mouseY;
-		mainFrame.onUIEvent(zfEv);
+	virtual void handleBack() {
+		if (!mainFrame.handleBack()) {
+			close();
+			let m = GetCurrentMenu();
+			MenuSound(m != null ? "menu/backup" : "menu/clear");
+			if (!m) menuDelegate.MenuDismissed();
+		}
+	}
 
+	override bool translateKeyboardEvents() {
+		if (globalStore == NULL) return true;
+		return !globalStore.blockMenuEvent;
+	}
+
+	override void ticker() {
 		Super.ticker();
 		mainFrame.ticker();
 	}
 
 	override void drawer() {
-		Super.drawer();
+		if (globalStore.focus != NULL) {
+			S7_ZF_AABB box;
+			globalStore.focus.getFocusAABB(box);
+			positionFocusIndicator(box.pos, box.size);
+		}
+
+		if (globalStore.needsMouseUpdate) {
+			let mouseBlock = mainFrame.handlePriorityMouseBlock(false, globalStore.mousePos);
+			mainFrame.handleMousePosition(mouseBlock, globalStore.mousePos);
+			globalStore.needsMouseUpdate = false;
+		}
 		mainFrame.drawer();
+		mainFrame.topDrawer();
+	}
+
+	virtual void setupFocusIndicator() {}
+	virtual void changeFocusIndicator(S7_ZF_Element oldFocus, S7_ZF_Element newFocus) {}
+	virtual void positionFocusIndicator(Vector2 pos, Vector2 size) {}
+
+	void fireNavigationEvent(S7_ZF_NavEventType type, bool fromController) {
+		if (type == S7_ZF_NavEventType_Deny) {
+			handleBack();
+		}
+
+		if (mainFrame.onNavEvent(type, fromController)) return;
+
+		if (type < S7_ZF_NavEventType_FocusChangeCount) {
+			S7_ZF_Element newFocus;
+			if (globalStore.focus == NULL) {
+				newFocus = focusDefaults[type];
+			} else {
+				newFocus = globalStore.focus.getFocusNeighbor(type);
+			}
+			if (newFocus != NULL) {
+				let oldFocus = globalStore.focus;
+				setFocus(newFocus, type);
+			}
+		}
 	}
 
 	// "relay" all UI events down to the elements so they can handle them
 	override bool onUIEvent(UIEvent ev) {
+		if (ev.type == UIEvent.Type_KeyDown && (ev.keyChar == UIEvent.Key_Escape || ev.keyChar == UIEvent.Key_Back)) {
+			handleBack();
+		}
 		if (ev.type == UIEvent.Type_MouseMove) {
-			mouseX = ev.mouseX;
-			mouseY = ev.mouseY;
+			globalStore.mousePos.x = ev.mouseX;
+			globalStore.mousePos.y = ev.mouseY;
+			globalStore.needsMouseUpdate = true;
+			return true;
+		}
+		if (ev.type == UIEvent.Type_LButtonDown) {
+			let oldFocus = globalStore.focus;
+			globalStore.focus = NULL;
+			changeFocusIndicator(oldFocus, NULL);
+			if (globalStore.focusIndicator != NULL) globalStore.focusIndicator.hide();
+			SetCapture(true);
+		}
+		if (ev.type == UIEvent.Type_LButtonUp) {
+			SetCapture(false);
 		}
 
-		let zfEv = new("S7_ZF_UiEvent");
+		S7_ZF_UiEvent zfEv;
 
 		S7_ZF_UiEvent.fromGZDUiEvent(ev, zfEv);
-		mainFrame.onUIEvent(zfEv);
+		if (mainFrame.onUIEventPriority(zfEv)) return true;
+		if (mainFrame.onUIEvent(zfEv)) return true;
 
-		return Super.onUIEvent(ev);
+		return true;
+	}
+
+	override bool menuEvent(int mkey, bool fromcontroller) {
+		if (globalStore != NULL && globalStore.blockMenuEvent) return true;
+
+		switch (mkey) {
+		case MKEY_Up:    fireNavigationEvent(S7_ZF_NavEventType_Up, fromcontroller); break;
+		case MKEY_Down:  fireNavigationEvent(S7_ZF_NavEventType_Down, fromcontroller); break;
+		case MKEY_Left:  fireNavigationEvent(S7_ZF_NavEventType_Left, fromcontroller); break;
+		case MKEY_Right: fireNavigationEvent(S7_ZF_NavEventType_Right, fromcontroller); break;
+
+		case MKEY_PageUp:   fireNavigationEvent(S7_ZF_NavEventType_PageUp, fromcontroller); break;
+		case MKEY_PageDown: fireNavigationEvent(S7_ZF_NavEventType_PageDown, fromcontroller); break;
+
+		case MKEY_Enter: fireNavigationEvent(S7_ZF_NavEventType_Confirm, fromcontroller); break;
+		case MKEY_Back:  fireNavigationEvent(S7_ZF_NavEventType_Deny, fromcontroller); break;
+		}
+		return true;
 	}
 }
 
@@ -69,9 +178,13 @@ class S7_ZF_EventHandlerMenu ui {
 		ticker();
 	}
 
+	virtual void handleBack() {
+		mainFrame.handleBack();
+	}
+
 	protected virtual void ticker() {
 		// Trigger a mouse movement UI event to fix things "sticking" sometimes
-		let zfEv = new("S7_ZF_UiEvent");
+		S7_ZF_UiEvent zfEv;
 		zfEv.type = UIEvent.Type_MouseMove;
 		zfEv.mouseX = inputProc_MouseX;
 		zfEv.mouseY = inputProc_MouseY;
@@ -90,16 +203,21 @@ class S7_ZF_EventHandlerMenu ui {
 
 	protected virtual void drawer() {
 		mainFrame.drawer();
+		mainFrame.topDrawer();
 	}
 
 	// "relay" all UI events down to the elements so they can handle them
 	virtual bool onUIEvent(UIEvent ev) {
-		let zfEv = new("S7_ZF_UiEvent");
+		if (ev.type == UIEvent.Type_KeyDown && (ev.keyChar == UIEvent.Key_Escape || ev.keyChar == UIEvent.Key_Back)) {
+			handleBack();
+		}
+
+		S7_ZF_UiEvent zfEv;
 
 		S7_ZF_UiEvent.fromGZDUiEvent(ev, zfEv);
+		if (mainFrame.onUIEventPriority(zfEv)) return true;
 		mainFrame.onUIEvent(zfEv);
-
-		return false;
+		return true;
 	}
 
 	private bool inputProc_Alt;
@@ -123,7 +241,7 @@ class S7_ZF_EventHandlerMenu ui {
 	}
 
 	void onInputEvent(InputEvent gzdEv) {
-		let ev = new("S7_ZF_UiEvent");
+		S7_ZF_UiEvent ev;
 
 		ev.KeyString = gzdEv.KeyString;
 		ev.KeyChar = gzdEv.KeyChar;

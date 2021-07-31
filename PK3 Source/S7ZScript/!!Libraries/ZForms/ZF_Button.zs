@@ -1,63 +1,39 @@
-class S7_ZF_Button : S7_ZF_Element {
-	enum ButtonState {
-		ButtonState_Inactive,
-		ButtonState_Hover,
-		ButtonState_Click,
-		ButtonState_Disabled
-	}
+class S7_ZF_Button : S7_ZF_ButtonBase {
+	protected int holdTicInterval;
+	int getHoldTicInterval() { return self.holdTicInterval; }
+	void setHoldTicInterval(int holdTicInterval) { self.holdTicInterval = holdTicInterval; }
 
-	Font fnt;
-	string text;
-	int textColor;
-	double textScale;
+	protected int currentHoldTicsRemaining;
 
-	S7_ZF_BoxTextures textures[4];
+	void config(
+		string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
+		S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL,
+		S7_ZF_BoxTextures click = NULL, S7_ZF_BoxTextures disabled = NULL,
+		Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+		int holdInterval = -1, AlignType alignment = AlignType_Center
+	) {
+		setFont(fnt);
+		setHoldTicInterval(holdInterval);
+		setText(text);
+		setTextScale(textScale);
+		setTextures(inactive, hover, click, disabled);
+		setTextColor(textColor);
+		setAlignment(alignment);
+		setAlpha(1.0);
 
-	int holdTicInterval;
-	int currentHoldTicsRemaining;
-
-	ButtonState curButtonState;
-
-	Vector2 mousePos;
-
-	void setTextures(S7_ZF_BoxTextures inactive, S7_ZF_BoxTextures hover, S7_ZF_BoxTextures click, S7_ZF_BoxTextures disabled) {
-		self.textures[ButtonState_Inactive] = inactive;
-		self.textures[ButtonState_Hover] = hover;
-		self.textures[ButtonState_Click] = click;
-		self.textures[ButtonState_Disabled] = disabled;
-	}
-
-	void config(string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
-	            S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL,
-	            S7_ZF_BoxTextures click = NULL, S7_ZF_BoxTextures disabled = NULL,
-	            Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-	            int holdInterval = -1) {
-		if (fnt == NULL) {
-			self.fnt = smallfont;
-		}
-		else {
-			self.fnt = fnt;
-		}
 		self.cmdHandler = cmdHandler;
 		self.command = command;
-		self.holdTicInterval = holdInterval;
-		self.text = text;
-		self.textScale = textScale;
-		self.textures[ButtonState_Inactive] = inactive;
-		self.textures[ButtonState_Hover] = hover;
-		self.textures[ButtonState_Click] = click;
-		self.textures[ButtonState_Disabled] = disabled;
-		self.textColor = textColor;
-		self.alpha = 1;
 	}
 
-	static S7_ZF_Button create(Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
-	               S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
-	               S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
-	               int holdInterval = -1) {
+	static S7_ZF_Button create(
+		Vector2 pos, Vector2 size, string text = "", S7_ZF_Handler cmdHandler = NULL, string command = "",
+		S7_ZF_BoxTextures inactive = NULL, S7_ZF_BoxTextures hover = NULL, S7_ZF_BoxTextures click = NULL,
+		S7_ZF_BoxTextures disabled = NULL, Font fnt = NULL, double textScale = 1, int textColor = Font.CR_WHITE,
+		int holdInterval = -1, AlignType alignment = AlignType_Center
+	) {
 		let ret = new('S7_ZF_Button');
 
-		ret.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor, holdInterval);
+		ret.config(text, cmdHandler, command, inactive, hover, click, disabled, fnt, textScale, textColor, holdInterval, alignment);
 		ret.setBox(pos, size);
 
 		return ret;
@@ -88,33 +64,52 @@ class S7_ZF_Button : S7_ZF_Element {
 		}
 	}
 
-	override void drawer() {
-		S7_ZF_BoxTextures textures = textures[curButtonState];
-		drawBox((0, 0), box.size, textures, true);
-
-		// draw the text in the middle of the button
-		Vector2 textSize = (fnt.stringWidth(text), fnt.getHeight()) * textScale;
-		Vector2 textPos = (box.size - textSize) / 2;
-		drawText(textPos, fnt, text, textColor, textScale);
+	override bool handleMousePosition(bool mouseBlock, Vector2 mousePos) {
+		S7_ZF_AABB screenBox; boxToScreen(screenBox);
+		if (!isEnabled()) {
+			curButtonState = ButtonState_Disabled;
+		}
+		else if (curButtonState != ButtonState_Click) {
+			if (!mouseBlock && !getHoverBlock() && screenBox.pointCollides(mousePos)) {
+				curButtonState = ButtonState_Hover;
+			}
+			else {
+				curButtonState = ButtonState_Inactive;
+			}
+		}
+		return false;
 	}
 
-	override void onUIEvent(S7_ZF_UiEvent ev) {
+	override bool onNavEvent(S7_ZF_NavEventType type, bool fromController) {
+		if (isEnabled() && isFocused() && type == S7_ZF_NavEventType_Confirm && holdTicInterval == -1) {
+			if (cmdHandler != NULL) cmdHandler.buttonClickCommand(self, command);
+			return true;
+		}
+		return false;
+	}
+
+	override bool onUIEvent(S7_ZF_UiEvent ev) {
 		// if the player's clicked, and their mouse is in the right place, set the state accordingly
 		if (ev.type == UIEvent.Type_LButtonDown) {
-			if (isEnabled() && boxToScreen().pointCollides(mousePos)) {
+			let mousePos = getGlobalStore().mousePos;
+			S7_ZF_AABB screenBox; boxToScreen(screenBox);
+			if (!mouseBlock && isEnabled() && screenBox.pointCollides(mousePos)) {
 				if (cmdHandler && holdTicInterval >= 0) {
 					cmdHandler.buttonClickCommand(self, command);
 					currentHoldTicsRemaining = holdTicInterval;
 				}
 				curButtonState = ButtonState_Click;
+				setHoverBlock(self);
 			}
 		}
 		// if the player's releasing, check if their mouse is still in the correct range and trigger method if it was
 		else if (ev.type == UIEvent.Type_LButtonUp) {
+			let mousePos = getGlobalStore().mousePos;
+			S7_ZF_AABB screenBox; boxToScreen(screenBox);
 			if (!isEnabled()) {
 				curButtonState = ButtonState_Disabled;
 			}
-			else if (boxToScreen().pointCollides(mousePos) && curButtonState == ButtonState_Click) {
+			else if (screenBox.pointCollides(mousePos) && curButtonState == ButtonState_Click) {
 				if (cmdHandler && holdTicInterval == -1) {
 					cmdHandler.buttonClickCommand(self, command);
 				}
@@ -124,22 +119,8 @@ class S7_ZF_Button : S7_ZF_Element {
 			else {
 				curButtonState = ButtonState_Inactive;
 			}
+			setHoverBlock(NULL);
 		}
-		// if the player's mouse has moved, update the tracked position and do a quick hover check
-		else if (ev.type == UIEvent.Type_MouseMove) {
-			mousePos = (ev.mouseX, ev.mouseY);
-			if (!isEnabled()) {
-				curButtonState = ButtonState_Disabled;
-			}
-			else if (curButtonState != ButtonState_Click) {
-				if (boxToScreen().pointCollides(mousePos)) {
-					curButtonState = ButtonState_Hover;
-				}
-				else {
-					curButtonState = ButtonState_Inactive;
-				}
-			}
-			doHover(mousePos);
-		}
+		return false;
 	}
 }

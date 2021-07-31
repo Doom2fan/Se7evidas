@@ -41,12 +41,12 @@ class S7_WeaponEnchantmentMenuHandler : S7_ZF_Handler {
         }
     }
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (!link)
             return;
 
         if (caller && (command == "increasePower" || command == "decreasePower"))
-            caller.holdTicInterval = 15;
+            caller.SetHoldTicInterval (15);
 
         RepeatableButtons (command);
 
@@ -59,14 +59,14 @@ class S7_WeaponEnchantmentMenuHandler : S7_ZF_Handler {
         }
     }
 
-    override void buttonHeldCommand (S7_ZF_Button caller, string command) {
+    override void ButtonHeldCommand (S7_ZF_Button caller, string command) {
         if (!link)
             return;
 
         RepeatableButtons (command);
 
         if (command == "increasePower" || command == "decreasePower")
-            caller.holdTicInterval = 3;
+            caller.SetHoldTicInterval (3);
     }
 }
 
@@ -82,38 +82,43 @@ class S7_WeaponEnchantmentMenu_EnchantsList : S7_ZF_Frame {
         return ret;
     }
 
-    override void OnUIEvent (S7_ZF_UiEvent ev) {
-        Super.OnUIEvent (ev);
-
+    override bool OnUIEvent (S7_ZF_UiEvent ev) {
         if (itemsFrame && itemsFrame.isEnabled ()) {
-            if (ev.type == UIEvent.Type_WheelDown)
+            if (ev.type == UIEvent.Type_WheelDown) {
                 UpdateScroll (-1);
-            else if (ev.type == UIEvent.Type_WheelUp)
+                return true;
+            } else if (ev.type == UIEvent.Type_WheelUp) {
                 UpdateScroll (+1);
+                return true;
+            }
         }
+
+        return Super.OnUIEvent (ev);
+    }
+
+    void ClearItemsFrame () {
+        while (itemsFrame.elements.Size () > 0)
+            itemsFrame.elements [0].Unpack ();
     }
 
     double GetLowestCoord () {
-        return -(itemsFrame.box.size.Y - box.size.Y);
+        return -(itemsFrame.GetHeight () - GetHeight ());
     }
 
     void UpdateScroll (int direction = 0) {
         if (!itemsFrame)
             return;
 
-        if (direction < 0)
-            itemsFrame.box.pos.Y -= 15 * abs (direction);
-        if (direction > 0)
-            itemsFrame.box.pos.Y += 15 * abs (direction);
+        itemsFrame.SetPosY (itemsFrame.GetPosY () + 15 * direction);
 
         double lowestCoord = GetLowestCoord ();
 
-        if (box.size.Y > itemsFrame.box.size.Y)
-            itemsFrame.box.pos.Y = 0;
-        else if (itemsFrame.box.pos.Y < lowestCoord)
-            itemsFrame.box.pos.Y = lowestCoord;
-        else if (itemsFrame.box.pos.Y > 0)
-            itemsFrame.box.pos.Y = 0;
+        if (GetHeight () > itemsFrame.GetHeight ())
+            itemsFrame.SetPosY (0);
+        else if (itemsFrame.GetPosY () < lowestCoord)
+            itemsFrame.SetPosY (lowestCoord);
+        else if (itemsFrame.GetPosY () > 0)
+            itemsFrame.SetPosY (0);
     }
 }
 
@@ -160,7 +165,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         {
             string labelText = StringTable.Localize ("$WEAPONENCHANTMENTMENUHEADER", true);
             S7_ZF_Label label = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-            label.box.pos.X = 320. - (bigFont.stringWidth (labelText) / 2.);
+            label.SetPosX (320. - (bigFont.stringWidth (labelText) / 2.));
             label.Pack (mainFrame);
         }
 
@@ -170,14 +175,14 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         dataFrame = S7_ZF_Frame.Create ((250, 50), (365, 400));
         dataFrame.Pack (mainFrame);
 
-        mainWindowBG = S7_ZF_Image.Create ((0, 0), dataFrame.box.size, "graphics/Menu/EnchantmentMenu/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
+        mainWindowBG = S7_ZF_Image.Create ((0, 0), dataFrame.GetSize (), "graphics/Menu/EnchantmentMenu/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
         mainWindowBG.Pack (dataFrame);
 
         /** Weapon data **/
         weapNameLabel = S7_ZF_Label.Create ((0, 8), (0, smallFont.GetHeight ()*1.0), text: "", fnt: smallFont, wrap: false, autoSize: false, textScale: 1.0, textColor: Font.CR_White);
         weapNameLabel.Pack (dataFrame);
 
-        weapImage = S7_ZF_Image.Create ((0, 8 + smallFont.GetHeight () + 12), (dataFrame.box.size.X, 200), "", S7_ZF_Image.AlignType_Center, imageScale: (2.5, 2.5));
+        weapImage = S7_ZF_Image.Create ((0, 8 + smallFont.GetHeight () + 12), (dataFrame.GetWidth (), 200), "", S7_ZF_Image.AlignType_Center, imageScale: (2.5, 2.5));
         weapImage.Pack (dataFrame);
 
         priceLabel = S7_ZF_Label.Create ((8, 0), (0, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: false, autoSize: false, textColor: Font.CR_White);
@@ -208,7 +213,7 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         decreasePowerButton.SetTextures (incDecButtonIdle, incDecButtonHover, incDecButtonClick, incDecButtonIdle);
         decreasePowerButton.Pack (dataFrame);
 
-        buyButton = S7_ZF_Button.Create ((dataFrame.box.size.X - (69 + 4), 235 - (17 + 4)), (69, 17),
+        buyButton = S7_ZF_Button.Create ((dataFrame.GetWidth () - (69 + 4), 235 - (17 + 4)), (69, 17),
             StringTable.Localize ("$WEAPONENCHANTMENTMENU_BUY", true), cmdHandler: handler, command: "buyEnchantment", fnt: smallFont, textColor: Font.CR_White
         );
         buyButton.SetTextures (incDecButtonIdle, incDecButtonHover, incDecButtonClick, incDecButtonIdle);
@@ -229,12 +234,12 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
             enchantsListFrame = S7_WeaponEnchantmentMenu_EnchantsList.Create ((10, 237), (351, 160));
             enchantsListFrame.Pack (dataFrame);
 
-            double newYPos = curEnchantmentsLabel.box.pos.Y + curEnchantmentsLabel.box.size.Y + 4;
-            enchantsListFrame.box.size.Y -= newYPos - enchantsListFrame.box.pos.Y;
-            enchantsListFrame.box.pos.Y = newYPos;
+            double newYPos = curEnchantmentsLabel.GetPosY () + curEnchantmentsLabel.GetHeight () + 4;
+            enchantsListFrame.SetHeight (enchantsListFrame.GetHeight () - newYPos - enchantsListFrame.GetPosY ());
+            enchantsListFrame.SetPosY (newYPos);
         }
 
-        enchantsListInnerFrame = S7_ZF_Frame.Create ((0, 0), enchantsListFrame.box.size);
+        enchantsListInnerFrame = S7_ZF_Frame.Create ((0, 0), enchantsListFrame.GetSize ());
         enchantsListInnerFrame.Pack (enchantsListFrame);
         enchantsListFrame.itemsFrame = enchantsListInnerFrame;
 
@@ -243,13 +248,13 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         let enchantsListDownIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/HUD/INVGEMD2.png", true);
         let enchantsListDownHover = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/HUD/INVGEMD1.png", true);
 
-        enchantsListUpButton = S7_ZF_Button.Create ((enchantsListFrame.box.size.X - (12+2), 0), (12, 8),
+        enchantsListUpButton = S7_ZF_Button.Create ((enchantsListFrame.GetWidth () - (12+2), 0), (12, 8),
             "", cmdHandler: handler, command: "enchantsListUp", holdInterval: 3
         );
         enchantsListUpButton.SetTextures (enchantsListUpIdle, enchantsListUpHover, enchantsListUpIdle, enchantsListUpIdle);
         enchantsListUpButton.Pack (enchantsListFrame);
 
-        enchantsListDownButton = S7_ZF_Button.Create ((enchantsListUpButton.box.pos.X, enchantsListFrame.box.size.Y - (8 + 2)), (12, 8),
+        enchantsListDownButton = S7_ZF_Button.Create ((enchantsListUpButton.GetPosX (), enchantsListFrame.GetHeight () - (8 + 2)), (12, 8),
             "", cmdHandler: handler, command: "enchantsListDown", holdInterval: 3
         );
         enchantsListDownButton.SetTextures (enchantsListDownIdle, enchantsListDownHover, enchantsListDownIdle, enchantsListDownIdle);
@@ -299,11 +304,11 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         string labelText = StringTable.Localize (labelText, true);
         for (int i = 0; i < valueReplStrings.Size (); i++) {
             labelText.Replace (String.Format ("%%%d", i + 1), valueReplStrings [i]);
-            label.text = labelText;
+            label.SetText (labelText);
         }
 
-        label.box.pos.Y = (prevItem.box.pos.Y + prevItem.box.size.Y + yOffset);
-        label.box.size.X = label.fnt.StringWidth (label.text) * label.textScale;
+        label.SetPosY (prevItem.GetPosY () + prevItem.GetHeight () + yOffset);
+        label.SetWidth (label.GetFont ().StringWidth (label.GetText ()) * label.GetTextScale ());
     }
 
     string FormatFraction (double val) {
@@ -322,31 +327,30 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
     void Select (S7_BaseWeapon weap) {
         if (!weap) {
             // Hide and disable the data frame and return
-            dataFrame.hidden = true;
-            dataFrame.disabled = true;
+            dataFrame.Hide ();
+            dataFrame.Disable ();
             return;
         }
 
         // Show and enable the data frame
-        dataFrame.hidden = false;
-        dataFrame.disabled = false;
+        dataFrame.Show ();
+        dataFrame.Enable ();
 
         // Update the weapon name and icon
         string weapName = weap.shortTag;
-        weapNameLabel.Text = weapName;
+        weapNameLabel.SetText (weapName);
 
-        let fnt = weapNameLabel.fnt;
-        double strLen = fnt.stringWidth (weapName) * weapNameLabel.textScale;
-        weapNameLabel.box.size.X = strLen;
-        weapNameLabel.box.pos.X = (365.0 - strLen) / 2.;
+        let fnt = weapNameLabel.GetFont ();
+        double strLen = fnt.stringWidth (weapName) * weapNameLabel.GetTextScale ();
+        weapNameLabel.SetWidth (strLen);
+        weapNameLabel.SetPosX ((365.0 - strLen) / 2.);
 
         Vector2 iconSize = (0, 0);
         iconSize = TexMan.GetScaledSize (TexMan.CheckForTexture (weap.weapIcon, TexMan.Type_Any));
-        iconSize.X *= weapImage.imageScale.X;
-        iconSize.Y *= weapImage.imageScale.Y;
+        iconSize = S7_Math.Vec2Mul (iconSize, weapImage.GetImageScale ());
 
-        weapImage.image = weap.weapIcon;
-        weapImage.box.size.Y = iconSize.Y;
+        weapImage.SetImage (weap.weapIcon);
+        weapImage.SetHeight (iconSize.Y);
 
         // Calculate the values for the weapon data
         int finalPrice; double finalPower;
@@ -374,30 +378,27 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
         UpdateLabel (newTotalPowerLabel, curTotalPowerLabel, "$WEAPONENCHANTMENTMENU_NEWTOTALPOWER", String.Format ("%d:%s", newTotalPowerAmount, FormatFraction (newTotalPower)));
 
         int cashAmount = CPlayer.mo.CountInv ("S7_Cash");
-        priceLabel.textColor = (finalPrice > cashAmount) ? Font.CR_Red : Font.CR_White;
+        priceLabel.SetTextColor (finalPrice > cashAmount ? Font.CR_Red : Font.CR_White);
 
         // Set the buttons' positions
-        increasePowerButton.box.pos.Y = newTotalPowerLabel.box.pos.Y + newTotalPowerLabel.box.size.Y + 4;
-        decreasePowerButton.box.pos.Y = increasePowerButton.box.pos.Y;
+        increasePowerButton.SetPosY (newTotalPowerLabel.GetPosY () + newTotalPowerLabel.GetHeight () + 4);
+        decreasePowerButton.SetPosY (increasePowerButton.GetPosY ());
 
         // Update the increase, decrease and buy buttons
         int nextLevelPrice; {
             double MUDA;
             [nextLevelPrice, MUDA] = weap.Enchantments_GetNewEnchantmentData (enchantmentPower + 1, weap.enchantments_List.Size ());
         }
-        decreasePowerButton.disabled = (enchantmentPower <= 1);
-        increasePowerButton.disabled = (finalPrice > cashAmount || nextLevelPrice > cashAmount);
-        buyButton.disabled = (finalPrice > cashAmount);
+        decreasePowerButton.SetDisabled (enchantmentPower <= 1);
+        increasePowerButton.SetDisabled (finalPrice > cashAmount || nextLevelPrice > cashAmount);
+        buyButton.SetDisabled (finalPrice > cashAmount);
 
-        decreasePowerButton.textColor = (decreasePowerButton.disabled) ? Font.CR_DarkGray : Font.CR_White;
-        increasePowerButton.textColor = (increasePowerButton.disabled) ? Font.CR_DarkGray : Font.CR_White;
-        buyButton.textColor = (buyButton.disabled) ? Font.CR_DarkGray : Font.CR_White;
+        decreasePowerButton.SetTextColor (decreasePowerButton.IsDisabled () ? Font.CR_DarkGray : Font.CR_White);
+        increasePowerButton.SetTextColor (increasePowerButton.IsDisabled () ? Font.CR_DarkGray : Font.CR_White);
+        buyButton.SetTextColor (buyButton.IsDisabled () ? Font.CR_DarkGray : Font.CR_White);
 
         // Destroy all the labels in the enchantment list and clear it
-        for (int i = enchantsListInnerFrame.elements.Size () - 1; i >= 0; i--)
-            enchantsListInnerFrame.elements [i].Destroy ();
-
-        enchantsListInnerFrame.elements.Clear ();
+        enchantsListFrame.ClearItemsFrame ();
 
         // Populate the current enchantments list
         int smallFontHeight = smallFont.GetHeight ();
@@ -412,25 +413,25 @@ class S7_WeaponEnchantmentMenu : S7_ZF_GenericMenu {
                 textColor: Font.CR_White
             ).Pack (enchantsListInnerFrame);
         }
-        enchantsListInnerFrame.box.size.Y = ((smallFontHeight + 4) * (enchantmentsCount - 1)) + smallFontHeight + 1;
+        enchantsListInnerFrame.SetHeight (((smallFontHeight + 4) * (enchantmentsCount - 1)) + smallFontHeight + 1);
 
         // Update the up/down arrows in the enchantments list
         double lowestCoord = enchantsListFrame.GetLowestCoord ();
         bool disableDownArrow = (
-            (enchantsListInnerFrame.box.pos.Y <= lowestCoord) ||
-            (enchantsListInnerFrame.box.size.Y <= enchantsListFrame.box.size.Y)
+            (enchantsListInnerFrame.GetPosY () <= lowestCoord) ||
+            (enchantsListInnerFrame.GetHeight () <= enchantsListFrame.GetHeight ())
         );
-        enchantsListDownButton.disabled = disableDownArrow;
-        enchantsListDownButton.hidden   = disableDownArrow;
+        enchantsListDownButton.SetDisabled (disableDownArrow);
+        enchantsListDownButton.SetHidden (disableDownArrow);
 
-        bool disableUpArrow = enchantsListInnerFrame.box.pos.Y >= 0.;
-        enchantsListUpButton.disabled = disableUpArrow;
-        enchantsListUpButton.hidden   = disableUpArrow;
+        bool disableUpArrow = enchantsListInnerFrame.GetPosY () >= 0.;
+        enchantsListUpButton.SetDisabled (disableUpArrow);
+        enchantsListUpButton.SetHidden (disableUpArrow);
     }
 
     void SetTooltip (string text) {
         if (tooltipLabel)
-            tooltipLabel.text = text;
+            tooltipLabel.SetText (text);
     }
 }
 

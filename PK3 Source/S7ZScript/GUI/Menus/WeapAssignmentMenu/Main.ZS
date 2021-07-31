@@ -19,7 +19,7 @@
 class S7_WeapAssignMenuHandler : S7_ZF_Handler {
     S7_WeapAssignMenu link;
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         Array<String> strings; strings.Clear ();
         command.Split (strings, ":");
 
@@ -108,7 +108,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
         string labelText = "WEAPON SLOT ASSIGNMENT";
         S7_ZF_Label label = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-        label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
+        label.SetPosX (320.0 - (bigFont.stringWidth (labelText) / 2.0));
         label.Pack (slotsFrame);
 
         weapSlotIdle = S7_ZF_BoxTextures.CreateSingleTexture ("graphics/Menu/WeapAssignment/WeapSlot.png", true);
@@ -120,7 +120,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             double xCoords = 19.0 + ((105.0 + 19.0) * x);
             labelText = weapLabelsText [x];
             label = S7_ZF_Label.Create ((xCoords, 48), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-            label.box.pos.X += (105.0 / 2) - (smallFont.stringWidth (labelText) / 2.0);
+            label.SetPosX (label.GetPosX () + (105.0 / 2) - (smallFont.stringWidth (labelText) / 2.0));
             label.Pack (slotsFrame);
 
             for (int y = 0; y < 3; y++) {
@@ -131,6 +131,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
                 slotButtons [x] [y].Pack (slotsFrame);
                 // Image
                 slotImages [x] [y] = S7_ZF_Image.Create ((xCoords + 1, yCoords + 1), (105, 40), "", S7_ZF_Image.AlignType_Center);
+                slotImages [x] [y].SetDontBlockMouse (true);
                 slotImages [x] [y].Pack (slotsFrame);
             }
         }
@@ -148,7 +149,7 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         );
         infoNameLabel.Pack (weapSelFrame);
 
-        let infoLabelOrigin = infoNameLabel.box.pos + (15, infoNameLabel.box.size.Y + 2);
+        let infoLabelOrigin = infoNameLabel.GetPos () + (15, infoNameLabel.GetHeight () + 2);
         infoLabel = S7_ZF_Label.Create (
             infoLabelOrigin,
             (616 - 15, 253) - infoLabelOrigin,
@@ -191,12 +192,12 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
 
             for (int y = 0; y < 3; y++) {
                 if (y < weapBinds.SlotCount (x + 1, isDraco) && y < weapBinds.GetSlotMaximum (x + 1, isDraco) && (weap = weapBinds.GetBind (x + 1, y, isDraco)))
-                    slotImages [x] [y].image = weap.weapIcon;
+                    slotImages [x] [y].SetImage (weap.weapIcon);
                 else {
-                    slotButtons [x] [y].disabled = false;
-                    slotImages [x] [y].image = "";
+                    slotButtons [x] [y].Enable ();
+                    slotImages [x] [y].SetImage ("");
                     if (y > weapBinds.SlotCount (x + 1, isDraco) || y >= weapBinds.GetSlotMaximum (x + 1, isDraco))
-                        slotButtons [x] [y].disabled = true;
+                        slotButtons [x] [y].Disable ();
                 }
                 if (x == selectedX && y == selectedY) {
                     slotButtons [x] [y].SetTextures (weapSlotClick, weapSlotHover, weapSlotIdle, weapSlotDisabled);
@@ -206,9 +207,9 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             }
         }
 
-        if (selectedX > -1 && selectedY > -1 && (weapSelFrame.disabled || weapSelFrame.hidden))
+        if (selectedX > -1 && selectedY > -1 && (weapSelFrame.IsDisabled () || weapSelFrame.IsHidden ()))
             ActivateSelFrame (selectedX + 1);
-        else if ((selectedX < 0 || selectedY < 0) && (!weapSelFrame.disabled || !weapSelFrame.hidden))
+        else if ((selectedX < 0 || selectedY < 0) && (!weapSelFrame.IsDisabled () || !weapSelFrame.IsHidden ()))
             ActivateSelFrame (-1);
 
         if (hoveredWeap)
@@ -223,8 +224,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
         bool deactivate = slot < 0;
 
         if (weapSelFrame) {
-            weapSelFrame.disabled = deactivate;
-            weapSelFrame.hidden = deactivate;
+            weapSelFrame.SetDisabled (deactivate);
+            weapSelFrame.SetHidden (deactivate);
         }
 
         if (itemsList) {
@@ -273,8 +274,8 @@ class S7_WeapAssignMenu : S7_ZF_GenericMenu {
             }
         }
 
-        infoNameLabel.text = weaponName;
-        infoLabel.text = info;
+        infoNameLabel.SetText (weaponName);
+        infoLabel.SetText (info);
     }
 }
 

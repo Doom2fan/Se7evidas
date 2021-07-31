@@ -19,7 +19,7 @@
 class S7_XPSystemMenuHandler : S7_ZF_Handler {
     S7_XPSystemMenu link;
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) {
             if (command == "AcceptButton")
                 AcceptStats ();
@@ -36,22 +36,28 @@ class S7_XPSystemMenuHandler : S7_ZF_Handler {
                     GiveStat (commandStrings [1], false);
                 else if (commandStrings [0] == "StatDec")
                     GiveStat (commandStrings [1], true);
+
+                if (commandStrings [0] == "StatAdd" || commandStrings [0] == "StatDec")
+                    caller.SetHoldTicInterval (8);
             }
         }
     }
 
-    override void buttonHeldCommand (S7_ZF_Button caller, string command) {
+    override void ButtonHeldCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0)
             return;
 
         Array<String> commandStrings; commandStrings.Clear ();
         command.Split (commandStrings, ":");
 
-        if (commandStrings.Size () == 2 && link.buttonHeldTics++ > 8) {
+        if (commandStrings.Size () == 2) {
             if (commandStrings [0] == "StatAdd")
                 GiveStat (commandStrings [1], false);
             else if (commandStrings [0] == "StatDec")
                 GiveStat (commandStrings [1], true);
+
+            if (commandStrings [0] == "StatAdd" || commandStrings [0] == "StatDec")
+                caller.SetHoldTicInterval (3);
         }
     }
 
@@ -127,8 +133,6 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
     S7_ZF_Button resetButton, acceptButton;
 
-    int buttonHeldTics;
-
     static const String statNames [] = {
         "Strength", "Agility", "Vitality", "Defense", "Will", "Magic", "Tech"
     };
@@ -147,7 +151,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
         string labelText = StringTable.Localize ("$STATSMENUHEADER", true);
         S7_ZF_Label label = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-        label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
+        label.SetPosX (320.0 - (bigFont.stringWidth (labelText) / 2.0));
         label.Pack (mainFrame);
 
         background = S7_ZF_Image.Create ((25, 50), (590, 400), "graphics/Menu/Generic/Background.png", S7_ZF_Image.AlignType_TopLeft);
@@ -170,8 +174,8 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 wrap: false, autoSize: true,
                 textColor: Font.CR_White
             );
-            statLabels [i].cmdHandler = handler;
-            statLabels [i].command = statNames [i];
+            statLabels [i].SetCmdHandler (handler);
+            statLabels [i].SetCommand (statNames [i]);
             statLabels [i].Pack (statsFrame);
 
             statBaseLabels [i] = S7_ZF_Label.Create (
@@ -244,41 +248,36 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
         int statsTotal = strengthAdd + agilityAdd + vitalityAdd + defenseAdd + willAdd + magicAdd + techAdd;
         if (statsTotal > 0)
-            acceptButton.text = "Accept";
+            acceptButton.SetText ("Accept");
         else
-            acceptButton.text = "Back";
+            acceptButton.SetText ("Back");
 
-        statBaseLabels [0].text = String.Format ("%d", xpSys.strengthStat); statAddLabels [0].text = String.Format ("+%d", strengthAdd);
-        statBaseLabels [1].text = String.Format ("%d", xpSys.agilityStat);  statAddLabels [1].text = String.Format ("+%d", agilityAdd);
-        statBaseLabels [2].text = String.Format ("%d", xpSys.vitalityStat); statAddLabels [2].text = String.Format ("+%d", vitalityAdd);
-        statBaseLabels [3].text = String.Format ("%d", xpSys.defenseStat);  statAddLabels [3].text = String.Format ("+%d", defenseAdd);
-        statBaseLabels [4].text = String.Format ("%d", xpSys.willStat);     statAddLabels [4].text = String.Format ("+%d", willAdd);
-        statBaseLabels [5].text = String.Format ("%d", xpSys.magicStat);    statAddLabels [5].text = String.Format ("+%d", magicAdd);
-        statBaseLabels [6].text = String.Format ("%d", xpSys.techStat);     statAddLabels [6].text = String.Format ("+%d", techAdd);
+        statBaseLabels [0].SetText (String.Format ("%d", xpSys.strengthStat)); statAddLabels [0].SetText (String.Format ("+%d", strengthAdd));
+        statBaseLabels [1].SetText (String.Format ("%d", xpSys.agilityStat));  statAddLabels [1].SetText (String.Format ("+%d", agilityAdd));
+        statBaseLabels [2].SetText (String.Format ("%d", xpSys.vitalityStat)); statAddLabels [2].SetText (String.Format ("+%d", vitalityAdd));
+        statBaseLabels [3].SetText (String.Format ("%d", xpSys.defenseStat));  statAddLabels [3].SetText (String.Format ("+%d", defenseAdd));
+        statBaseLabels [4].SetText (String.Format ("%d", xpSys.willStat));     statAddLabels [4].SetText (String.Format ("+%d", willAdd));
+        statBaseLabels [5].SetText (String.Format ("%d", xpSys.magicStat));    statAddLabels [5].SetText (String.Format ("+%d", magicAdd));
+        statBaseLabels [6].SetText (String.Format ("%d", xpSys.techStat));     statAddLabels [6].SetText (String.Format ("+%d", techAdd));
 
         for (int i = 0; i < statButtons.Size (); i++)
-            statButtons [i] [0].disabled = (statsTotal >= xpSys.attrPoints);
+            statButtons [i] [0].SetDisabled (statsTotal >= xpSys.attrPoints);
 
-        statButtons [0] [1].disabled = (strengthAdd <= 0);
-        statButtons [1] [1].disabled = (agilityAdd  <= 0);
-        statButtons [2] [1].disabled = (vitalityAdd <= 0);
-        statButtons [3] [1].disabled = (defenseAdd  <= 0);
-        statButtons [4] [1].disabled = (willAdd     <= 0);
-        statButtons [5] [1].disabled = (magicAdd    <= 0);
-        statButtons [6] [1].disabled = (techAdd     <= 0);
+        statButtons [0] [1].SetDisabled (strengthAdd <= 0);
+        statButtons [1] [1].SetDisabled (agilityAdd  <= 0);
+        statButtons [2] [1].SetDisabled (vitalityAdd <= 0);
+        statButtons [3] [1].SetDisabled (defenseAdd  <= 0);
+        statButtons [4] [1].SetDisabled (willAdd     <= 0);
+        statButtons [5] [1].SetDisabled (magicAdd    <= 0);
+        statButtons [6] [1].SetDisabled (techAdd     <= 0);
 
-        bool statButtonHeld = false;
         for (int i = 0; i < statButtons.Size (); i++) {
             for (int j = 0; j < 2; j++) {
                 let statButton = statButtons [i] [j];
 
-                statButton.textColor = (statButton.disabled ? Font.CR_DarkGray : Font.CR_White);
-                statButtonHeld |= (statButton.curButtonState == S7_ZF_Button.ButtonState_Click);
+                statButton.SetTextColor (statButton.IsDisabled () ? Font.CR_DarkGray : Font.CR_White);
             }
         }
-
-        if (!statButtonHeld)
-            buttonHeldTics = 0;
 
         for (int i = 0; i < statLabels.Size () + 1; i++) {
             if (i == statLabels.Size ()) {
@@ -286,8 +285,8 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
                 break;
             }
 
-            if (statLabels [i].isHovered) {
-                SetTooltip (StringTable.Localize ("$STATSMENU_TOOLTIP_" .. statLabels [i].command));
+            if (statLabels [i].IsHovered ()) {
+                SetTooltip (StringTable.Localize ("$STATSMENU_TOOLTIP_" .. statLabels [i].GetCommand ()));
                 break;
             }
         }
@@ -295,7 +294,7 @@ class S7_XPSystemMenu : S7_ZF_GenericMenu {
 
     void SetTooltip (string text) {
         if (tooltipLabel)
-            tooltipLabel.text = text;
+            tooltipLabel.SetText (text);
     }
 }
 

@@ -1,4 +1,4 @@
-class S7_ZF_UiEvent ui {
+struct S7_ZF_UiEvent ui {
 	// 
 	int Type;
 	//

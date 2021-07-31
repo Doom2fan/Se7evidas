@@ -39,7 +39,7 @@ class S7_WeaponEnchantmentMenu_ListHandler : S7_ZF_Handler {
         return item;
     }
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings; commandStrings.Clear ();
@@ -112,31 +112,33 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
     override void Ticker () {
         Super.Ticker ();
-        UpdateScroll ();
+        UpdateScroll (0);
     }
 
-    override void OnUIEvent (S7_ZF_UiEvent ev) { // Type_WheelUp
-        Super.OnUIEvent (ev);
-
-        if (itemsFrame && itemsFrame.isEnabled ()) {
+    override bool OnUIEvent (S7_ZF_UiEvent ev) { // Type_WheelUp
+        if (itemsFrame && itemsFrame.IsEnabled ()) {
             if (ev.type == UIEvent.Type_WheelDown) {
-                itemsFrame.box.pos.Y -= 15;
-                UpdateScroll ();
+                UpdateScroll (-1);
+                return true;
             } else if (ev.type == UIEvent.Type_WheelUp) {
-                itemsFrame.box.pos.Y += 15;
-                UpdateScroll ();
+                UpdateScroll (+1);
+                return true;
             }
         }
+
+        return Super.OnUIEvent (ev);
     }
 
-    void UpdateScroll () {
+    void UpdateScroll (double direction) {
+        itemsFrame.SetPosY (itemsFrame.GetPosY () + 15 * direction);
+
         if (itemsFrame && clippingFrame) {
-            if (clippingFrame.box.size.Y > itemsFrame.box.size.Y)
-                itemsFrame.box.pos.Y = 0;
-            else if (itemsFrame.box.pos.Y <= -lowestCoord)
-                itemsFrame.box.pos.Y = -lowestCoord;
-            else if (itemsFrame.box.pos.Y > 0)
-                itemsFrame.box.pos.Y = 0;
+            if (clippingFrame.GetHeight () > itemsFrame.GetHeight ())
+                itemsFrame.SetPosY (0);
+            else if (itemsFrame.GetPosY () <= -lowestCoord)
+                itemsFrame.SetPosY (-lowestCoord);
+            else if (itemsFrame.GetPosY () > 0)
+                itemsFrame.SetPosY (0);
         }
     }
 
@@ -144,12 +146,6 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
         if (!CPlayer)
             return false;
 
-        if (itemsFrame && clippingFrame && clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ()) {
-            clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
-            itemsFrame.master = null;
-            itemsFrame.Destroy ();
-            itemsFrame = null;
-        }
         if (items.Size () > 0) {
             for (int i = items.Size () - 1; i >= 0; i--) {
                 if (!items [i])
@@ -157,16 +153,21 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
 
                 items [i].weaponInst = null;
                 if (items [i].clickableArea) {
-                    items [i].clickableArea.Destroy ();
+                    items [i].clickableArea.Unpack ();
                     items [i].clickableArea = null;
                 }
                 items [i].labels.Clear ();
                 if (items [i].icon) {
-                    items [i].icon.Destroy ();
+                    items [i].icon.Unpack ();
                     items [i].icon = null;
                 }
             }
             items.Clear ();
+        }
+
+        if (itemsFrame) {
+            itemsFrame.Unpack ();
+            itemsFrame = null;
         }
 
         itemsFrame = S7_ZF_Frame.Create ((0, 3), (200, 0));
@@ -222,29 +223,32 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
                 let label = S7_ZF_Label.Create ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
                     fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
+                label.SetDontBlockMouse (true);
                 label.Pack (itemsFrame);
                 weapControls.labels.Push (label);
             }
 
-            button.box.size.Y = clickHeight + 4 * 2;
+            button.SetHeight (clickHeight + 4 * 2);
             // Icon
             let icon = S7_ZF_Image.Create ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, weap.weapIcon);
+            icon.SetDontBlockMouse (true);
             icon.Pack (itemsFrame);
             weapControls.icon = icon;
 
             items.Push (weapControls);
             lowestCoord = yCoords;
-            yCoords += button.box.size.Y;
+            yCoords += button.GetHeight ();
 
             let sep = S7_ZF_Image.Create ((0, yCoords), (200, 2), "graphics/Menu/WeapAssignment/ListSep.png");
+            sep.SetDontBlockMouse (true);
             sep.Pack (itemsFrame);
             yCoords += 2;
 
             inv = inv.inv;
         }
 
-        itemsFrame.box.size.Y = yCoords + 50;
-        itemsFrame.box.pos.Y = 0;
+        itemsFrame.SetHeight (yCoords + 50);
+        itemsFrame.SetPosY (0);
 
         return true;
     }
@@ -255,7 +259,7 @@ class S7_WeaponEnchantmentMenu_List : S7_ZF_Frame {
                 continue;
 
             for (int j = 0; j < items [i].labels.Size (); j++)
-                items [i].labels [j].textColor = (items [i] == item ? Font.CR_LightBlue : Font.CR_White);
+                items [i].labels [j].SetTextColor (items [i] == item ? Font.CR_LightBlue : Font.CR_White);
         }
     }
 }
