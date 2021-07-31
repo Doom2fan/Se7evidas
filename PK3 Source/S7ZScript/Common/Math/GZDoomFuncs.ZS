@@ -32,9 +32,23 @@ extend class S7_Math {
         return ((y - ld.v1.p.Y) * ld.delta.X + (ld.v1.p.X - x) * ld.delta.Y) > S7C_EqualEpsilon;
     }
 
-    static vector2 ProjectPointToLineGZD (LevelLocals level, in Line l, Vector2 point) {
+    /* Summary:
+    **  Projects a 2D point onto a map line.
+    **
+    ** Arguments:
+    **  level: The LevelLocals struct for the level the line belongs to.
+    **  l: The line to project the point onto.
+    **  pos: The point to project.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether the point lies on the segment, and the closest point.
+    */
+    static bool, Vector2 ProjectPointToMapLine (LevelLocals level, in Line l, Vector2 point) {
         let ap = level.Vec2Diff (l.v1.p, point);
 
-        return l.v1.p + (ap dot l.delta) / (l.delta dot l.delta) * l.delta;
+        let t = (ap dot l.delta) / (l.delta dot l.delta);
+        let onLine = (t >= 0. && t <= 1.);
+
+        return onLine, (l.v1.p + t * l.delta);
     }
 }

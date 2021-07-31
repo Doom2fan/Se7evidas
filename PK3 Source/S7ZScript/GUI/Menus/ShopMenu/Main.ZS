@@ -19,7 +19,7 @@
 class S7_ShopMenuHandler : S7_ZF_Handler {
     S7_ShopMenu link;
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) {
             if (command == "BuySellButton") {
                 link.ShowBuySellPopup ();
@@ -51,7 +51,6 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
     S7_ZF_Button buyButton;
 
     S7_ZF_Frame shopFrame;
-    S7_ZF_Frame popupFrame;
 
     S7_ShopMenu_List itemsList;
     S7_ShopMenu_BuySellPopup bsPopup;
@@ -65,13 +64,13 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         let errorLabel = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: error,
             fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
-        errorLabel.box.pos = (320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ());
+        errorLabel.SetPos ((320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ()));
         errorLabel.Pack (mainFrame);
         string labelText = "You shouldn't be seeing this";
         let label = S7_ZF_Label.Create ((0, 12), (0, smallFont.GetHeight ()), text: labelText,
             fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White
         );
-        label.box.pos = (320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.box.pos.y + bigFont.GetHeight () + 5);
+        label.SetPos ((320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.GetPosY () + bigFont.GetHeight () + 5));
         label.Pack (mainFrame);
     }
 
@@ -105,14 +104,11 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         shopFrame = S7_ZF_Frame.Create ((0, 0), (640, 480));
         shopFrame.Pack (mainFrame);
 
-        popupFrame = S7_ZF_Frame.Create ((0, 0), (640, 480));
-        popupFrame.Pack (mainFrame);
-
         nameLabel = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: "", fnt: bigFont, wrap: false, textColor: Font.CR_White);
         nameLabel.Pack (shopFrame);
 
         itemsList = S7_ShopMenu_List.CreateList (self, shopFrame, shopData);
-        bsPopup = S7_ShopMenu_BuySellPopup (S7_ShopMenu_BuySellPopup.CreatePopup (self, popupFrame));
+        bsPopup = S7_ShopMenu_BuySellPopup.CreatePopup (self, mainFrame);
 
         mainWindowBG = S7_ZF_Image.Create ((250, 50), (365, 400), "graphics/Menu/Shop/MainWindow.png", S7_ZF_Image.AlignType_TopLeft);
         mainWindowBG.Pack (shopFrame);
@@ -120,10 +116,10 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         playerDataLabel = S7_ZF_Label.Create ((255, 345 - smallFont.GetHeight ()), (355, smallFont.GetHeight ()), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White);
         playerDataLabel.Pack (shopFrame);
 
-        descLabel = S7_ZF_Label.Create ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
+        descLabel = S7_ZF_Label.Create ((255 + 8, 50 + 8), (355 - 8, playerDataLabel.GetPosX () - 5), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
         descLabel.Pack (shopFrame);
 
-        costLabel = S7_ZF_Label.Create ((258, 50 + 8), (355 - 8, descLabel.box.pos.X - 5), text: "", fnt: smallFont, wrap: false, textColor: Font.CR_White);
+        costLabel = S7_ZF_Label.Create ((258, 50 + 8), (355 - 8, descLabel.GetPosX () - 5), text: "", fnt: smallFont, wrap: false, textColor: Font.CR_White);
         costLabel.Pack (shopFrame);
 
         infoLabel = S7_ZF_Label.Create ((255 + 8, 358), (355 - 8, 80), text: "", fnt: smallFont, wrap: true, textColor: Font.CR_White, linespacing: 1);
@@ -162,15 +158,15 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
 
         int width = bigFont.StringWidth (labelText);
         if (nameLabel) {
-            nameLabel.text = labelText;
-            nameLabel.box.size.X = width;
-            nameLabel.box.pos.X = (640.0 - width) / 2.0;
+            nameLabel.SetText (labelText);
+            nameLabel.SetWidth (width);
+            nameLabel.SetPosX ((640.0 - width) / 2.0);
         }
     }
 
     void SetTooltip (string text) {
         if (tooltipLabel)
-            tooltipLabel.text = text;
+            tooltipLabel.SetText (text);
     }
 
     void ShowBuySellPopup () {
@@ -246,7 +242,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         if (!shopData)
             return;
 
-        if (bsPopup.hidden)
+        if (bsPopup.IsHidden ())
             SetTooltip (StringTable.Localize ("$SS_SELLTTIP", true));
         else
             SetTooltip (StringTable.Localize ("$SS_BUYSELLPOPUPTTIP", true));
@@ -296,9 +292,9 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                 }
             }
 
-            buyButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
-            buyButton.textColor = bbColor;
-            buyButton.disabled = bbDisable;
+            buyButton.SetText (StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true));
+            buyButton.SetTextColor (bbColor);
+            buyButton.SetDisabled (bbDisable);
         }
 
         if (playerDataLabel) {
@@ -320,11 +316,11 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
             }
 
             if (formatStr != "" && cashInv != "") {
-                playerDataLabel.Text = formatStr;
-                playerDataLabel.Text.Replace ("%D", "%d");
-                playerDataLabel.Text.Replace ("%d", String.Format ("%d", CPlayer.mo.CountInv (cashInv)));
+                formatStr.Replace ("%D", "%d");
+                formatStr.Replace ("%d", String.Format ("%d", CPlayer.mo.CountInv (cashInv)));
+                playerDataLabel.SetText (formatStr);
             } else
-                playerDataLabel.Text = "";
+                playerDataLabel.SetText ("");
         }
 
         if (hoveredItem && hoveredItem.itemData)
@@ -377,18 +373,18 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
         if (cost)
             desc = String.Format ("\n\n%s", desc);
 
-        costLabel.text = cost;
-        descLabel.text = desc;
-        infoLabel.text = info;
+        costLabel.SetText (cost);
+        descLabel.SetText (desc);
+        infoLabel.SetText (info);
     }
 
     void Select (S7_SSItem item) {
         if (item && (item.descShowType & DS_Select))
             SetDescription (item);
         else if (!item) {
-            costLabel.text = "";
-            descLabel.text = "";
-            infoLabel.text = "";
+            costLabel.SetText ("");
+            descLabel.SetText ("");
+            infoLabel.SetText ("");
         }
     }
 

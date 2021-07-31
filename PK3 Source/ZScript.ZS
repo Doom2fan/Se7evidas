@@ -71,6 +71,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Common/ErrorHandling.ZS"
 #include "S7ZScript/Common/Extensions.ZS"
 #include "S7ZScript/Common/Math/Math.ZS"
+#include "S7ZScript/Common/Math/Vector.ZS"
 #include "S7ZScript/Common/Math/Physics.ZS"
 #include "S7ZScript/Common/Math/Trigonometry.ZS"
 #include "S7ZScript/Common/Math/Ballistics.ZS"

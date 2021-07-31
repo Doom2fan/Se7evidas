@@ -36,7 +36,7 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
         link.SetAmount (1 * mul);
     }
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "Accept" && link.amount > 0 && link.amount <= 9999) {
             if (!link.sellMode)
                 BuyItem ();
@@ -48,7 +48,7 @@ class S7_ShopMenu_BuySellPopupHandler : S7_ZF_Handler {
             DoAddDec (command);
     }
 
-    override void buttonHeldCommand (S7_ZF_Button caller, string command) {
+    override void ButtonHeldCommand (S7_ZF_Button caller, string command) {
         if ((command == "Add" || command == "Dec") && link.buttonHeldTics++ > 8)
             DoAddDec (command);
     }
@@ -108,7 +108,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         handler.menuLink = link;
 
         let bgBox = S7_ZFMenuUtils.GetCommonMenuBG ();
-        background = S7_ZF_BoxImage.Create ((0, 0), box.size, textures: bgBox);
+        background = S7_ZF_BoxImage.Create ((0, 0), GetSize (), textures: bgBox);
         background.Pack (self);
 
         modeLabel = S7_ZF_Label.Create ((4, 4), (40, 10), text: "", fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
@@ -153,8 +153,9 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         cancelButton.SetTextures (popupButtonIdle, popupButtonHover, popupButtonClick, popupButtonIdle);
         cancelButton.Pack (self);
 
-        self.hidden = true;
-        self.disabled = true;
+        Hide ();
+        Disable ();
+        SetDontBlockMouse (true);
     }
 
     static S7_ShopMenu_BuySellPopup CreatePopup (S7_ShopMenu menuLink, S7_ZF_Frame frame) {
@@ -167,14 +168,14 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         return ret;
     }
 
-    override void OnUIEvent (S7_ZF_UiEvent ev) {
-        if (addButton.curButtonState != S7_ZF_Button.ButtonState_Click && decButton.curButtonState != S7_ZF_Button.ButtonState_Click &&
+    override bool OnUIEvent (S7_ZF_UiEvent ev) {
+        if (addButton.GetCurButtonState () != S7_ZF_Button.ButtonState_Click && decButton.GetCurButtonState () != S7_ZF_Button.ButtonState_Click &&
             (ev.Type == UIEvent.Type_LButtonClick || ev.Type == UIEvent.Type_LButtonDown)) {
             shiftHeld = ev.IsShift;
-             ctrlHeld = ev.IsCtrl;
+            ctrlHeld = ev.IsCtrl;
         }
 
-        Super.OnUIEvent (ev);
+        return Super.OnUIEvent (ev);
     }
 
     void Activate (bool sellMode) {
@@ -193,43 +194,50 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         if (pPawn)
             info = selectedItem.GetInfo (pPawn, 1);
 
-        link.shopFrame.disabled = true;
-        self.hidden = false;
-        self.disabled = false;
+        link.shopFrame.Disable ();
+        Show ();
+        Enable ();
+        SetDontBlockMouse (false);
 
-        modeLabel.text = StringTable.Localize ((sellMode ? "$SS_SELLMODE" : "$SS_BUYMODE"), true);
-        acceptButton.text = StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true);
+        modeLabel.SetText (StringTable.Localize ((sellMode ? "$SS_SELLMODE" : "$SS_BUYMODE"), true));
+        acceptButton.SetText (StringTable.Localize ((sellMode ? "$SS_SELLBUTTON" : "$SS_BUYBUTTON"), true));
 
         let tex = TexMan.CheckForTexture (selectedItem.icon, TexMan.Type_Any);
         Vector2 texSize = (0, 0);
         if (tex)
             texSize = TexMan.GetScaledSize (tex);
 
-        itemIcon.image = selectedItem.icon;
-        itemIcon.box.size = texSize;
-        itemIcon.box.pos = (8, (modeLabel.box.pos.Y + modeLabel.box.size.Y) + 4);
-
-        itemName.text = StringTable.Localize (selectedItem.name, true);
-        itemName.box.size = (smallFont.StringWidth (itemName.text), smallFont.GetHeight ());
-        itemName.box.pos =
-            (8 + texSize.X + ((texSize.X > 0) ? 4 : 0),
-             itemIcon.box.pos.Y
+        itemIcon.SetImage (selectedItem.icon);
+        itemIcon.SetBox (
+            (8, (modeLabel.GetPosY () + bigFont.GetHeight ()) + 4),
+            texSize
         );
 
-        let actualBox = itemName.box;
+        itemName.SetText (StringTable.Localize (selectedItem.name, true));
+        itemName.SetBox (
+            (8 + texSize.X + ((texSize.X > 0) ? 4 : 0), itemIcon.GetPosY ()),
+            (smallFont.StringWidth (itemName.GetText ()), smallFont.GetHeight ())
+        );
+
+        S7_ZF_AABB actualBox;
+        actualBox.pos = itemName.GetPos ();
+        actualBox.size = itemName.GetSize ();
+
         double xCoords = actualBox.pos.X;
         if (info && info.maxAmount != 1) {
-            selAmount.box.pos = (xCoords, (actualBox.pos.Y + actualBox.size.Y) + 2);
-            totalAmount.box.pos = (xCoords, (selAmount.box.pos.Y + selAmount.box.size.Y) + 2);
-            priceLabel.box.pos = (xCoords, (totalAmount.box.pos.Y + totalAmount.box.size.Y) + 2);
-            selAmount.hidden = totalAmount.hidden = false;
+            selAmount.SetPos ((xCoords, (actualBox.pos.Y + actualBox.size.Y) + 2));
+            totalAmount.SetPos ((xCoords, (selAmount.GetPosY () + selAmount.GetHeight ()) + 2));
+            priceLabel.SetPos ((xCoords, (totalAmount.GetPosY () + totalAmount.GetHeight ()) + 2));
+            selAmount.Show ();
+            totalAmount.Show ();
         } else {
-            selAmount.hidden = totalAmount.hidden = true;
-            priceLabel.box.pos = (xCoords, (actualBox.pos.Y + actualBox.size.Y) + 4);
+            selAmount.Hide ();
+            totalAmount.Hide ();
+            priceLabel.SetPos ((xCoords, (actualBox.pos.Y + actualBox.size.Y) + 4));
         }
 
-        addButton.box.pos = ((selAmount.box.pos.X + selAmount.box.size.X) + 4, selAmount.box.pos.Y - 1);
-        decButton.box.pos = ((addButton.box.pos.X + addButton.box.size.X) + 4, addButton.box.pos.Y);
+        addButton.SetPos (((selAmount.GetPosX () + selAmount.GetWidth ()) + 4, selAmount.GetPosY () - 1));
+        decButton.SetPos (((addButton.GetPosX () + addButton.GetWidth ()) + 4, addButton.GetPosY ()));
 
         self.sellMode = sellMode;
         amount = 1;
@@ -264,7 +272,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
     override void Ticker () {
         UpdateData ();
 
-        if (addButton.curButtonState != S7_ZF_Button.ButtonState_Click && decButton.curButtonState != S7_ZF_Button.ButtonState_Click)
+        if (addButton.GetCurButtonState () != S7_ZF_Button.ButtonState_Click && decButton.GetCurButtonState () != S7_ZF_Button.ButtonState_Click)
             buttonHeldTics = 0;
 
         Super.Ticker ();
@@ -294,16 +302,16 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
         uint total = (sellMode ? info.sellAmount : info.buyAmount);
         uint price = (sellMode ? info.sellPrice  : info.buyPrice);
-        totalAmount.text = String.Format ("%s: %d", StringTable.Localize ("$SS_TOTAL", true), total);
-        selAmount.text = String.Format ("%s: %d", StringTable.Localize ("$SS_COUNT", true), amount);
-        priceLabel.text = String.Format ("%s: %d", StringTable.Localize ("$SS_PRICE", true), price);
+        totalAmount.SetText (String.Format ("%s: %d", StringTable.Localize ("$SS_TOTAL", true), total));
+        selAmount.SetText (String.Format ("%s: %d", StringTable.Localize ("$SS_COUNT", true), amount));
+        priceLabel.SetText (String.Format ("%s: %d", StringTable.Localize ("$SS_PRICE", true), price));
 
-        totalAmount.textColor = Font.CR_White;
-        selAmount.textColor = Font.CR_White;
-        priceLabel.textColor = Font.CR_White;
-        acceptButton.textColor = Font.CR_White;
+        totalAmount.SetTextColor (Font.CR_White);
+        selAmount.SetTextColor (Font.CR_White);
+        priceLabel.SetTextColor (Font.CR_White);
+        acceptButton.SetTextColor (Font.CR_White);
 
-        acceptButton.disabled = false;
+        acceptButton.Enable ();
 
         Class<Inventory> cashInvType = (Class<Inventory>) (selectedItem.cashItem);
         uint cash = uint (pPawn.CountInv (cashInvType)), maxCash;
@@ -319,29 +327,32 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         if ((!sellMode && cash < price) || // If buying, check if there's not enough money
             ( sellMode && (cash + price) >= maxCash) // If selling, check if there's too much money
         ) {
-            priceLabel.textColor = Font.CR_DarkRed;
-            acceptButton.textColor = Font.CR_DarkGray;
+            priceLabel.SetTextColor (Font.CR_DarkRed);
+            acceptButton.SetTextColor (Font.CR_DarkGray);
 
-            acceptButton.disabled = true;
+            acceptButton.Disable ();
         }
         if (
             (!sellMode && (selectedItem.GetAmount (pPawn, sellMode) + total) > info.maxAmount) || // If buying, check if there's too much of the item
             ( sellMode && total > selectedItem.GetAmount (pPawn, sellMode)) // If selling, check if there's not enough of the item
         ) {
-            selAmount.textColor = Font.CR_DarkRed;
-            totalAmount.textColor = Font.CR_DarkRed;
-            acceptButton.textColor = Font.CR_DarkGray;
+            selAmount.SetTextColor (Font.CR_DarkRed);
+            totalAmount.SetTextColor (Font.CR_DarkRed);
+            acceptButton.SetTextColor (Font.CR_DarkGray);
 
-            acceptButton.disabled = true;
+            acceptButton.Disable ();
         }
         if ((!sellMode && !selectedItem.CanBuy  (pPawn, amount)) ||
             ( sellMode && !selectedItem.CanSell (pPawn, amount)))
-            acceptButton.disabled = true;
+            acceptButton.Disable ();
 
         bool noShowQuant = info.maxAmount == 1;
-        addButton.disabled = decButton.disabled = noShowQuant;
-        addButton.hidden = decButton.hidden = noShowQuant;
-        totalAmount.hidden = selAmount.hidden = noShowQuant;
+        addButton.SetDisabled (noShowQuant);
+        decButton.SetDisabled (noShowQuant);
+        addButton.SetHidden (noShowQuant);
+        decButton.SetHidden (noShowQuant);
+        totalAmount.SetHidden (noShowQuant);
+        selAmount.SetHidden (noShowQuant);
 
         int heldAmt = selectedItem.GetAmount (pPawn, sellMode);
         let baseItemInfo = selectedItem.GetInfo (pPawn, 1);
@@ -349,28 +360,29 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
 
         if ((!sellMode && (info.maxAmount - (total + heldAmt)) < baseAmount) ||
             ( sellMode && total >= heldAmt))
-            addButton.disabled = true;
+            addButton.Disable ();
         if (amount >= info.maxAmount)
-            addButton.disabled = true;
+            addButton.Disable ();
         if (amount <= 1)
-            decButton.disabled = true;
+            decButton.Disable ();
 
-        addButton.textColor = (addButton.disabled ? Font.CR_DarkGray : Font.CR_White);
-        decButton.textColor = (decButton.disabled ? Font.CR_DarkGray : Font.CR_White);
+        addButton.SetTextColor ((addButton.IsDisabled () ? Font.CR_DarkGray : Font.CR_White));
+        decButton.SetTextColor ((decButton.IsDisabled () ? Font.CR_DarkGray : Font.CR_White));
     }
 
     void Close () {
-        link.shopFrame.disabled = false;
-        self.hidden = true;
-        self.disabled = true;
+        link.shopFrame.Enable ();
+        Hide ();
+        Disable ();
+        SetDontBlockMouse (true);
 
         selectedItem = null;
         if (info)
             info.Destroy ();
         info = null;
-        modeLabel.text = "";
-        itemName.text = "";
-        itemIcon.image = "";
+        modeLabel.SetText ("");
+        itemName.SetText ("");
+        itemIcon.SetImage ("");
 
         Menu.MenuSound ("S7Menu/Close");
     }

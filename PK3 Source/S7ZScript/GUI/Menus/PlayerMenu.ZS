@@ -24,7 +24,7 @@ class S7_PlayerMenuHandler : S7_ZF_Handler {
         Menu.MenuSound ("S7Menu/Choose");
     }
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (command == "openXPSysMenu")
             ChangeMenu ('S7_XPSystemMenu');
         else if (command == "openLuciusShop")
@@ -71,7 +71,7 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
 
         string labelText = StringTable.Localize ("$PLAYERMENUHEADER", true);
         S7_ZF_Label label = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-        label.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
+        label.SetPosX (320.0 - (bigFont.stringWidth (labelText) / 2.0));
         label.Pack (menusFrame);
 
         double fontHeight = smallFont.GetHeight ();
@@ -113,13 +113,13 @@ class S7_PlayerMenu : S7_ZF_GenericMenu {
             return;
         }
 
-        xpSysButton.textColor           = (      xpSysButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
-        luciusShopButton.textColor      = ( luciusShopButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
-        weapAssignButton.textColor      = ( weapAssignButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
-        weapEnchantButton.textColor     = (weapEnchantButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
+        xpSysButton.SetTextColor       (      xpSysButton.IsHovered () ? Font.CR_LightBlue : Font.CR_White);
+        luciusShopButton.SetTextColor  ( luciusShopButton.IsHovered () ? Font.CR_LightBlue : Font.CR_White);
+        weapAssignButton.SetTextColor  ( weapAssignButton.IsHovered () ? Font.CR_LightBlue : Font.CR_White);
+        weapEnchantButton.SetTextColor (weapEnchantButton.IsHovered () ? Font.CR_LightBlue : Font.CR_White);
         if (dracoWeapAssignButton)
-            dracoWeapAssignButton.textColor = (dracoWeapAssignButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
+            dracoWeapAssignButton.SetTextColor (dracoWeapAssignButton.IsHovered () ? Font.CR_LightBlue : Font.CR_White);
         if (m400AutogunButton)
-            m400AutogunButton.textColor     = (m400AutogunButton.isHovered ? Font.CR_LightBlue : Font.CR_White);
+            m400AutogunButton.SetTextColor (m400AutogunButton.IsHovered () ? Font.CR_LightBlue : Font.CR_White);
     }
 }

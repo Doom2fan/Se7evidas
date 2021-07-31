@@ -24,7 +24,7 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
         Menu.MenuSound ("S7Menu/SliderMove");
     }
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (!link || !link.CPlayer || !link.CPlayer.mo)
             return;
 
@@ -32,12 +32,12 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
             ChangeScanAngle (1);
 
             if (caller)
-                caller.holdTicInterval = 15;
+                caller.SetHoldTicInterval (15);
         } else if (command == "scanAngleDecButton") {
             ChangeScanAngle (-1);
 
             if (caller)
-                caller.holdTicInterval = 15;
+                caller.SetHoldTicInterval (15);
         } else if (command == "repairHealthButton")
             link.popup.Activate (link.GetRepairHealthText (), "RepairHealth");
         else if (command == "buyAmmoButton")
@@ -51,7 +51,7 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
             link.popup.Close ();
     }
 
-    override void buttonHeldCommand (S7_ZF_Button caller, string command) {
+    override void ButtonHeldCommand (S7_ZF_Button caller, string command) {
         if (!link || !link.CPlayer || !link.CPlayer.mo)
             return;
 
@@ -59,12 +59,12 @@ class S7_AutogunMenuHandler : S7_ZF_Handler {
             ChangeScanAngle (1);
 
             if (caller)
-                caller.holdTicInterval = 3;
+                caller.SetHoldTicInterval (3);
         } else if (command == "scanAngleDecButton") {
             ChangeScanAngle (-1);
 
             if (caller)
-                caller.holdTicInterval = 3;
+                caller.SetHoldTicInterval (3);
         }
     }
 }
@@ -142,15 +142,13 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
     S7_ZF_Label scanAngleAmountLabel;
     S7_ZF_Button scanAngleInc, scanAngleDec;
 
-    int buttonHeldTics;
-
     void ReportError (string error) {
         let errorLabel = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: error, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-        errorLabel.box.pos = (320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ());
+        errorLabel.SetPos ((320.0 - (bigFont.StringWidth (error) / 2.0), (480.0 / 2.0) - bigFont.GetHeight ()));
         errorLabel.Pack (mainFrame);
         string labelText = "You shouldn't be seeing this";
         let label = S7_ZF_Label.Create ((0, 12), (0, smallFont.GetHeight ()), text: labelText, fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-        label.box.pos = (320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.box.pos.y + bigFont.GetHeight () + 5);
+        label.SetPos ((320.0 - (smallFont.StringWidth (labelText) / 2.0), errorLabel.GetPosY () + bigFont.GetHeight () + 5));
         label.Pack (mainFrame);
     }
 
@@ -177,7 +175,7 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
 
         string labelText = StringTable.Localize ("$AUTOGUNMENUHEADER", true);
         let header = S7_ZF_Label.Create ((0, 12), (0, bigFont.GetHeight ()), text: labelText, fnt: bigFont, wrap: false, autoSize: true, textColor: Font.CR_White);
-        header.box.pos.X = 320.0 - (bigFont.stringWidth (labelText) / 2.0);
+        header.SetPosX (320.0 - (bigFont.stringWidth (labelText) / 2.0));
         header.Pack (mainFrame);
 
         menuFrame = S7_ZF_Frame.Create ((25, 50), (590, 400));
@@ -209,11 +207,11 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         );
         healthLabel.Pack (menuFrame);
 
-        healthCountLabel = S7_ZF_Label.Create ((healthLabel.box.pos.x, healthLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        healthCountLabel = S7_ZF_Label.Create (healthLabel.GetPos (), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         healthCountLabel.Pack (menuFrame);
 
         labelText = StringTable.Localize ("$AUTOGUNMENU_REPAIR", true);
-        repairHealthButton = S7_ZF_Button.Create ((healthLabel.box.pos.x, healthLabel.box.pos.y + bigButtonYOffs), (50, 17),
+        repairHealthButton = S7_ZF_Button.Create (healthLabel.GetPos () + (0, bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "repairHealthButton", fnt: smallFont
         );
         repairHealthButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
@@ -227,11 +225,11 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         );
         ammoLabel.Pack (menuFrame);
 
-        ammoCountLabel = S7_ZF_Label.Create ((ammoLabel.box.pos.x, ammoLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        ammoCountLabel = S7_ZF_Label.Create (ammoLabel.GetPos (), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         ammoCountLabel.Pack (menuFrame);
 
         labelText = StringTable.Localize ("$AUTOGUNMENU_BUY", true);
-        buyAmmoButton = S7_ZF_Button.Create ((ammoCountLabel.box.pos.x, ammoCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
+        buyAmmoButton = S7_ZF_Button.Create (ammoCountLabel.GetPos () + (0, bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "buyAmmoButton", fnt: smallFont
         );
         buyAmmoButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
@@ -245,11 +243,11 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         );
         corruptionLabel.Pack (menuFrame);
 
-        corruptionCountLabel = S7_ZF_Label.Create ((corruptionLabel.box.pos.x, corruptionLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        corruptionCountLabel = S7_ZF_Label.Create (corruptionLabel.GetPos (), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         corruptionCountLabel.Pack (menuFrame);
 
         labelText = StringTable.Localize ("$AUTOGUNMENU_REPAIR", true);
-        repairCorruptionButton = S7_ZF_Button.Create ((corruptionCountLabel.box.pos.x, corruptionCountLabel.box.pos.y + bigButtonYOffs), (50, 17),
+        repairCorruptionButton = S7_ZF_Button.Create (corruptionCountLabel.GetPos () + (0, bigButtonYOffs), (50, 17),
             labelText, cmdHandler: handler, command: "repairCorruptionButton", fnt: smallFont
         );
         repairCorruptionButton.SetTextures (buyButtonIdle, buyButtonHover, buyButtonClick, buyButtonIdle);
@@ -263,15 +261,15 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         );
         scanAngleLabel.Pack (menuFrame);
 
-        scanAngleAmountLabel = S7_ZF_Label.Create ((scanAngleLabel.box.pos.x, scanAngleLabel.box.pos.y), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
+        scanAngleAmountLabel = S7_ZF_Label.Create (scanAngleLabel.GetPos (), (0, 0), text: "", fnt: smallFont, wrap: false, autoSize: true, textColor: Font.CR_White);
         scanAngleAmountLabel.Pack (menuFrame);
 
-        scanAngleInc = S7_ZF_Button.Create ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
+        scanAngleInc = S7_ZF_Button.Create (scanAngleAmountLabel.GetPos () + (0, smallButtonYOffs), (13, 11),
             text: "+", cmdHandler: handler, command: "scanAngleIncButton", fnt: smallFont, holdInterval: 3);
         scanAngleInc.SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
         scanAngleInc.Pack (menuFrame);
 
-        scanAngleDec = S7_ZF_Button.Create ((scanAngleAmountLabel.box.pos.x, scanAngleAmountLabel.box.pos.y + smallButtonYOffs), (13, 11),
+        scanAngleDec = S7_ZF_Button.Create (scanAngleAmountLabel.GetPos () + (0, smallButtonYOffs), (13, 11),
             text: "-", cmdHandler: handler, command: "scanAngleDecButton", fnt: smallFont, holdInterval: 3);
         scanAngleDec.SetTextures (smallButtonIdle, smallButtonHover, smallButtonClick, smallButtonIdle);
         scanAngleDec.Pack (menuFrame);
@@ -375,45 +373,77 @@ class S7_AutogunMenu : S7_ZF_GenericMenu {
         let inv = S7_M400AutogunStored (CPlayer.mo.FindInventory ('S7_M400AutogunStored'));
 
         if (inv) {
-            healthCountLabel.text = String.Format ("%d%", int ((inv.integrity / 500.) * 100.));
-            ammoCountLabel.text = String.Format ("%d", inv.ammo);
-            corruptionCountLabel.text = String.Format ("%d", inv.corruption);
-            scanAngleAmountLabel.text = String.Format ("%d", inv.scanAngle);
+            healthCountLabel.SetText (String.Format ("%d%", int ((inv.integrity / 500.) * 100.)));
+            ammoCountLabel.SetText (String.Format ("%d", inv.ammo));
+            corruptionCountLabel.SetText (String.Format ("%d", inv.corruption));
+            scanAngleAmountLabel.SetText (String.Format ("%d", inv.scanAngle));
 
-            repairHealthButton.disabled = (repairHealthButton.hidden = (inv.integrity >= 500));
-            buyAmmoButton.disabled = (buyAmmoButton.hidden = (inv.ammo >= 1000));
-            repairCorruptionButton.disabled = (repairCorruptionButton.hidden = (inv.corruption <= 0));
-            scanAngleInc.disabled = (inv.scanAngle >= 180.);
-            scanAngleDec.disabled = (inv.scanAngle <= 10.);
+            repairHealthButton.SetTextColor (Font.CR_White);
+            buyAmmoButton.SetTextColor (Font.CR_White);
+            repairCorruptionButton.SetTextColor (Font.CR_White);
+
+            if (inv.integrity >= 500) {
+                repairHealthButton.Disable ();
+                repairHealthButton.Hide ();
+            } else {
+                repairHealthButton.Enable ();
+                repairHealthButton.Show ();
+            }
+
+            if (inv.ammo >= 1000) {
+                buyAmmoButton.Disable ();
+                buyAmmoButton.Hide ();
+            } else {
+                buyAmmoButton.Enable ();
+                buyAmmoButton.Show ();
+            }
+
+            if (inv.corruption <= 0) {
+                repairCorruptionButton.Disable ();
+                repairCorruptionButton.Hide ();
+            } else {
+                repairCorruptionButton.Enable ();
+                repairCorruptionButton.Show ();
+            }
+
+            if (inv.scanAngle >= 180.)
+                scanAngleInc.Disable ();
+            else
+                scanAngleInc.Enable ();
+
+            if (inv.scanAngle <= 10.)
+                scanAngleDec.Disable ();
+            else
+                scanAngleDec.Enable ();
         }
 
         int cash = CPlayer.mo.CountInv ('S7_Cash');
 
         if (cash < 5) {
-            repairHealthButton.textColor = Font.CR_Red;
-            repairHealthButton.disabled = true;
+            repairHealthButton.SetTextColor (Font.CR_Red);
+            repairHealthButton.Disable ();
         }
         if (cash < 2) {
-            buyAmmoButton.textColor = Font.CR_Red;
-            buyAmmoButton.disabled = true;
+            buyAmmoButton.SetTextColor (Font.CR_Red);
+            buyAmmoButton.Disable ();
         }
         if (cash < 50) {
-            repairCorruptionButton.textColor = Font.CR_Red;
-            repairCorruptionButton.disabled = true;
+            repairCorruptionButton.SetTextColor (Font.CR_Red);
+            repairCorruptionButton.Disable ();
         }
 
         Super.Ticker ();
 
-        healthCountLabel.box.pos.X = (healthLabel.box.pos.x + healthLabel.box.size.x + 5);
-        ammoCountLabel.box.pos.X = (ammoLabel.box.pos.x + ammoLabel.box.size.x + 5);
-        corruptionCountLabel.box.pos.X = (corruptionLabel.box.pos.x + corruptionLabel.box.size.x + 5);
-        scanAngleAmountLabel.box.pos.X = (scanAngleLabel.box.pos.x + scanAngleLabel.box.size.x + 5);
+        healthCountLabel.SetPosX (healthLabel.GetPosX () + healthLabel.GetWidth () + 5);
+        ammoCountLabel.SetPosX (ammoLabel.GetPosX () + ammoLabel.GetWidth () + 5);
+        corruptionCountLabel.SetPosX (corruptionLabel.GetPosX () + corruptionLabel.GetWidth () + 5);
+        scanAngleAmountLabel.SetPosX (scanAngleLabel.GetPosX () + scanAngleLabel.GetWidth () + 5);
 
-        repairHealthButton.box.pos.X = (healthLabel.box.pos.x + healthLabel.box.size.x + 35);
-        buyAmmoButton.box.pos.X = (ammoLabel.box.pos.x + ammoLabel.box.size.x + 35);
-        repairCorruptionButton.box.pos.X = (corruptionLabel.box.pos.x + corruptionLabel.box.size.x + 35);
-        scanAngleInc.box.pos.X = (scanAngleLabel.box.pos.x + scanAngleLabel.box.size.x + 35);
-        scanAngleDec.box.pos.X = (scanAngleInc.box.pos.x + scanAngleInc.box.size.x + 2.5);
+        repairHealthButton.SetPosX (healthLabel.GetPosX () + healthLabel.GetWidth () + 35);
+        buyAmmoButton.SetPosX (ammoLabel.GetPosX () + ammoLabel.GetWidth () + 35);
+        repairCorruptionButton.SetPosX (corruptionLabel.GetPosX () + corruptionLabel.GetWidth () + 35);
+        scanAngleInc.SetPosX (scanAngleLabel.GetPosX () + scanAngleLabel.GetWidth () + 35);
+        scanAngleDec.SetPosX (scanAngleInc.GetPosX () + scanAngleInc.GetWidth () + 2.5);
     }
 }
 
@@ -471,8 +501,9 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
         cancelButton.SetTextures (popupButtonIdle, popupButtonHover, popupButtonClick, popupButtonIdle);
         cancelButton.Pack (self);
 
-        self.hidden = true;
-        self.disabled = true;
+        Hide ();
+        Disable ();
+        SetDontBlockMouse (true);
     }
 
     static S7_AutogunMenu_Popup CreatePopup (S7_AutogunMenu menuLink, S7_ZF_Frame frame, S7_AutogunMenuHandler handler) {
@@ -496,26 +527,28 @@ class S7_AutogunMenu_Popup : S7_ZF_Frame {
         if (!link)
             return;
 
-        link.menuFrame.disabled = true;
-        self.hidden = false;
-        self.disabled = false;
+        link.menuFrame.Disable ();
+        Show ();
+        Enable ();
+        SetDontBlockMouse (false);
 
-        textLabel.text = text;
+        textLabel.SetText (text);
         popupCommand = command;
 
         Menu.MenuSound ("S7Menu/Open");
     }
 
     void SetText (string text) {
-        textLabel.text = text;
+        textLabel.SetText (text);
     }
 
     void Close () {
-        link.menuFrame.disabled = false;
-        self.hidden = true;
-        self.disabled = true;
+        link.menuFrame.Enable ();
+        Hide ();
+        Disable ();
+        SetDontBlockMouse (true);
 
-        textLabel.text = "";
+        textLabel.SetText ("");
         popupCommand = "";
         Menu.MenuSound ("S7Menu/Close");
     }

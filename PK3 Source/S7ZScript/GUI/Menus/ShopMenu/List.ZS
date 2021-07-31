@@ -19,7 +19,7 @@
 class S7_ShopMenu_ListHandler : S7_ZF_Handler {
     S7_ShopMenu link;
 
-    override void buttonClickCommand (S7_ZF_Button caller, string command) {
+    override void ButtonClickCommand (S7_ZF_Button caller, string command) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings; commandStrings.Clear ();
@@ -74,7 +74,7 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
         }
     }
 
-    override void elementHoverChanged (S7_ZF_Element caller, string command, bool lostFocus) {
+    override void ElementHoverChanged (S7_ZF_Element caller, string command, bool lostFocus) {
         if (command.IndexOf (":") < 0) { // Currently empty
         } else {
             Array<String> commandStrings; commandStrings.Clear ();
@@ -160,33 +160,35 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         UpdateList ();
     }
 
-    override void OnUIEvent (S7_ZF_UiEvent ev) {
-        Super.OnUIEvent (ev);
-
+    override bool OnUIEvent (S7_ZF_UiEvent ev) {
         if (itemsFrame && itemsFrame.isEnabled ()) {
             if (ev.type == UIEvent.Type_WheelDown) {
-                itemsFrame.box.pos.Y -= 15;
-                UpdateScroll ();
+                UpdateScroll (-1);
+                return true;
             } else if (ev.type == UIEvent.Type_WheelUp) {
-                itemsFrame.box.pos.Y += 15;
-                UpdateScroll ();
+                UpdateScroll (+1);
+                return true;
             }
         }
+
+        return Super.OnUIEvent (ev);
     }
 
-    void UpdateScroll () {
+    void UpdateScroll (double direction) {
+        itemsFrame.SetPosY (itemsFrame.GetPosY () + 15 * direction);
+
         if (itemsFrame && clippingFrame) {
-            if (clippingFrame.box.size.Y > itemsFrame.box.size.Y)
-                itemsFrame.box.pos.Y = 0;
-            else if (itemsFrame.box.pos.Y <= -lowestCoord)
-                itemsFrame.box.pos.Y = -lowestCoord;
-            else if (itemsFrame.box.pos.Y > 0)
-                itemsFrame.box.pos.Y = 0;
+            if (clippingFrame.GetHeight () > itemsFrame.GetHeight ())
+                itemsFrame.SetPosY (0);
+            else if (itemsFrame.GetPosY () <= -lowestCoord)
+                itemsFrame.SetPosY (-lowestCoord);
+            else if (itemsFrame.GetPosY () > 0)
+                itemsFrame.SetPosY (0);
         }
     }
 
     void UpdateList () {
-        UpdateScroll ();
+        UpdateScroll (0);
 
         bool sellMode = link.sellMode;
         let pPawn = S7_BasePlayer (link.CPlayer.mo);
@@ -211,7 +213,7 @@ class S7_ShopMenu_List : S7_ZF_Frame {
             }
 
             for (int j = item.labels.Size () - 1; j >= 0; j--)
-                item.labels [j].textColor = colour;
+                item.labels [j].SetTextColor (colour);
         }
     }
 
@@ -230,37 +232,28 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         if (!page)
             return false;
 
-        if (items.Size () >= 0) {
-            for (int i = items.Size () - 1; i > 0; i--) {
+        if (items.Size () > 0) {
+            for (int i = items.Size () - 1; i >= 0; i--) {
                 if (!items [i])
                     continue;
 
                 items [i].itemData = null;
-                if (items [i].clickableArea) {
-                    items [i].clickableArea.master = null;
-                    items [i].clickableArea.Destroy ();
+                if (items [i].clickableArea)
                     items [i].clickableArea = null;
-                }
                 items [i].labels.Clear ();
-                if (items [i].icon) {
-                    items [i].icon.master = null;
-                    items [i].icon.Destroy ();
+                if (items [i].icon)
                     items [i].icon = null;
-                }
             }
             items.Clear ();
         }
 
-        if (itemsFrame && clippingFrame) {
-            if (clippingFrame.elements.Find (itemsFrame) != clippingFrame.elements.Size ())
-                clippingFrame.elements.Delete (clippingFrame.elements.Find (itemsFrame));
-
-            itemsFrame.master = null;
-            itemsFrame.Destroy ();
+        if (itemsFrame) {
+            itemsFrame.Unpack ();
             itemsFrame = null;
         }
 
         itemsFrame = S7_ZF_Frame.Create ((0, 3), (200, 0));
+        itemsFrame.SetPosY (0);
         itemsFrame.Pack (clippingFrame);
 
         curPage = page;
@@ -303,27 +296,29 @@ class S7_ShopMenu_List : S7_ZF_Frame {
                 let label = S7_ZF_Label.Create ((textX, textY + (fHeight * i)), (textLines.stringWidth (i), fHeight), text: textLines.StringAt (i),
                     fnt: smallFont, wrap: false, textColor: Font.CR_White
                 );
+                label.SetDontBlockMouse (true);
                 label.Pack (itemsFrame);
                 itemControls.labels.Push (label);
             }
 
-            button.box.size.Y = clickHeight + 4 * 2;
+            button.SetHeight (clickHeight + 4 * 2);
             // Icon
             let icon = S7_ZF_Image.Create ((8, yCoords + 4 + (clickHeight - texSize.Y) / 2), texSize, item.icon);
+            icon.SetDontBlockMouse (true);
             icon.Pack (itemsFrame);
             itemControls.icon = icon;
 
             items.Push (itemControls);
             lowestCoord = yCoords;
-            yCoords += button.box.size.Y;
+            yCoords += button.GetHeight ();
 
             let sep = S7_ZF_Image.Create ((0, yCoords), (200, 2), "graphics/Menu/Shop/ListSep.png");
+            sep.SetDontBlockMouse (true);
             sep.Pack (itemsFrame);
             yCoords += 2;
         }
 
-        itemsFrame.box.size.Y = yCoords;
-        itemsFrame.box.pos.Y = 0;
+        itemsFrame.SetHeight (yCoords);
 
         return true;
     }

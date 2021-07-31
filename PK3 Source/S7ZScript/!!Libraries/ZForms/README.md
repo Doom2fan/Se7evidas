@@ -4,10 +4,6 @@ ZForms is intended as an easy-to-use simple GUI framework for GZDoom's ZScript l
 
 ## Getting started
 
-ZForms is heavily under construction, so examples and documentation will not be provided until the framework is more fleshed out.
-
-However, if you want to have a play around with it in its early form, follow these instructions:
-
 ### Prerequisites
 
 You will need Python 3.6 to run the Build Script necessary to get ZForms working.
@@ -28,6 +24,10 @@ You will need Python 3.6 to run the Build Script necessary to get ZForms working
 
 To include the entire library in your mod, you can easily just add `#include "<PREFIX>(_)ZForms/Include.zsc"` in a ZScript file.
 If you only need certain files from the library, you can also use `#include` to add these normally.
+
+[See examples here](https://github.com/Doom2fan/ZFormsExamples)
+
+[See documentation here](https://zscriptlibraries.miraheze.org/wiki/ZForms_documentation)
 
 ## License
 This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md) file for details.

@@ -1,8 +1,19 @@
 class S7_ZF_Image : S7_ZF_Element {
-	string image;
-	AlignType alignment;
-	Vector2 imageScale;
-	bool tiled;
+	protected string image;
+	string getImage() { return self.image; }
+	void setImage(string image) { self.image = image; }
+
+	protected AlignType alignment;
+	AlignType getAlignment() { return self.alignment; }
+	void setAlignment(AlignType alignment) { self.alignment = alignment; }
+
+	protected Vector2 imageScale;
+	Vector2 getImageScale() { return self.imageScale; }
+	void setImageScale(Vector2 imageScale) { self.imageScale = imageScale; }
+
+	protected bool tiled;
+	bool getTiled() { return self.tiled; }
+	void setTiled(bool tiled) { self.tiled = tiled; }
 
 	void config(string image = "", AlignType alignment = AlignType_TopLeft, Vector2 imageScale = (1, 1), bool tiled = false) {
 		self.image = image;
@@ -22,6 +33,10 @@ class S7_ZF_Image : S7_ZF_Element {
 	}
 
 	override void drawer() {
+		S7_ZF_AABB beforeClip, clipRect;
+		screenClip(beforeClip, clipRect);
+		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
+
 		TextureID tex = TexMan.checkForTexture(image, TexMan.Type_Any);
 
 		if (!tex) {
@@ -38,13 +53,9 @@ class S7_ZF_Image : S7_ZF_Element {
 		}
 		else {
 			Vector2 pos = getAlignedDrawPos(box.size, imageSize, alignment);
-			drawImage(pos, image, true, imageScale, clipRect: boxToScreen());
+			drawImage(pos, image, true, imageScale);
 		}
-	}
 
-	override void onUIEvent(S7_ZF_UiEvent ev) {
-		if (ev.type == UIEvent.Type_MouseMove) {
-			doHover((ev.mouseX, ev.mouseY));
-		}
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
 	}
 }

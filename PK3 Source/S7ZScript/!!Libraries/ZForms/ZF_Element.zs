@@ -1,3 +1,39 @@
+class S7_ZF_ElementTreeGlobal {
+	Vector2 baseScreenSize;
+
+	bool blockMenuEvent;
+
+	S7_ZF_Frame mainFrame;
+	S7_ZF_Element hoverBlock;
+
+	S7_ZF_Element focus;
+	S7_ZF_Element focusIndicator;
+	S7_ZF_FocusPriority focusPriority;
+
+	Vector2 mousePos;
+
+	bool needsMouseUpdate;
+}
+
+enum S7_ZF_NavEventType {
+	S7_ZF_NavEventType_Left,
+	S7_ZF_NavEventType_Right,
+	S7_ZF_NavEventType_Up,
+	S7_ZF_NavEventType_Down,
+
+	S7_ZF_NavEventType_Tab,
+
+	// not used for focus changing beyond this point
+
+	S7_ZF_NavEventType_FocusChangeCount,
+
+	S7_ZF_NavEventType_PageUp = S7_ZF_NavEventType_FocusChangeCount,
+	S7_ZF_NavEventType_PageDown,
+
+	S7_ZF_NavEventType_Confirm,
+	S7_ZF_NavEventType_Deny
+}
+
 class S7_ZF_Element ui {
 	enum AlignType {
 		AlignType_Left    = 1,
@@ -21,17 +57,101 @@ class S7_ZF_Element ui {
 		AlignType_BottomRight  = AlignType_Bottom | AlignType_Right,
 	}
 
-	S7_ZF_Frame master;
+	protected S7_ZF_Element master;
 
-	S7_ZF_Handler cmdHandler;
-	string command;
+	protected S7_ZF_ElementTreeGlobal globalStore;
+	void setGlobalStore(S7_ZF_ElementTreeGlobal globalStore) {
+		if (master == NULL) {
+			self.globalStore = globalStore;
+		}
+	}
 
-	Vector2 baseScreenSize;
-	S7_ZF_AABB box;
-	double alpha;
-	bool disabled;
-	bool hidden;
-	bool isHovered;
+	void requestMouseUpdate() {
+		let s = getGlobalStore();
+		if (s != NULL) {
+			s.needsMouseUpdate = true;
+		}
+	}
+
+	protected S7_ZF_Handler cmdHandler;
+	S7_ZF_Handler getCmdHandler() {return self.cmdHandler; }
+	void setCmdHandler(S7_ZF_Handler cmdHandler) {self.cmdHandler = cmdHandler; }
+	protected string command;
+	string getCommand() {return self.command; }
+	void setCommand(string command) {self.command = command; }
+
+	protected S7_ZF_AABB box;
+	Vector2 getPos() { return self.box.pos; }
+	double getPosX() { return self.box.pos.x; }
+	double getPosY() { return self.box.pos.y; }
+	void setPos(Vector2 pos) { boxChange(pos, self.box.size); }
+	void setPosX(double x) { boxChange((x, self.box.pos.y), self.box.size); }
+	void setPosY(double y) { boxChange((self.box.pos.x, y), self.box.size); }
+	Vector2 getSize() { return self.box.size; }
+	double getWidth() { return self.box.size.x; }
+	double getHeight() { return self.box.size.y; }
+	void setSize(Vector2 size) { boxChange(self.box.pos, size); }
+	void setWidth(double width) { boxChange(self.box.pos, (width, self.box.size.y)); }
+	void setHeight(double height) { boxChange(self.box.pos, (self.box.size.x, height)); }
+
+	void setBox(Vector2 pos, Vector2 size) {
+		boxChange(pos, size);
+	}
+	
+	void boxChange(Vector2 newPos, Vector2 newSize) {
+		if (newPos == box.pos && newSize == box.size) return;
+		box.pos = newPos;
+		box.size = newSize;
+		requestMouseUpdate();
+		onBoxChanged();
+	}
+	virtual void onBoxChanged() {}
+
+	protected S7_ZF_Element focusNeighbors[S7_ZF_NavEventType_FocusChangeCount];
+	S7_ZF_Element getFocusNeighbor(S7_ZF_NavEventType type) {
+		return self.focusNeighbors[type];
+	}
+	void setFocusNeighbor(S7_ZF_NavEventType type, S7_ZF_Element neighbor) {
+		self.focusNeighbors[type] = neighbor;
+	}
+
+	bool isFocused() {
+		return getGlobalStore().focus == self;
+	}
+
+	protected double alpha;
+	double getAlpha() { return self.alpha; }
+	void setAlpha(double alpha) { self.alpha = clamp(alpha, 0.0, 1.0); }
+
+	protected bool disabled;
+	bool isDisabled() { return self.disabled; }
+	void setDisabled(bool disabled) { self.disabled = disabled; requestMouseUpdate(); }
+	void enable() { disabled = false; requestMouseUpdate(); }
+	void disable() { disabled = true; requestMouseUpdate(); }
+
+	protected bool hidden;
+	bool isHidden() { return hidden; }
+	void setHidden(bool hidden) { self.hidden = hidden; requestMouseUpdate(); }
+	void show() { hidden = false; requestMouseUpdate(); }
+	void hide() { hidden = true; requestMouseUpdate(); }
+
+	protected bool elemHovered;
+	bool isHovered() { return self.elemHovered; }
+
+	bool containsMouse() {
+		S7_ZF_AABB screenBox;
+		boxToScreen(screenBox);
+		return screenBox.pointCollides(getGlobalStore().mousePos);
+	}
+
+	private bool noGlobalStore;
+	void setNoGlobalStore() { noGlobalStore = true; }
+
+	protected bool mouseBlock;
+
+	protected bool dontBlockMouse;
+	bool getDontBlockMouse() { return self.dontBlockMouse; }
+	void setDontBlockMouse(bool dontBlockMouse) { self.dontBlockMouse = dontBlockMouse; requestMouseUpdate(); }
 
 	int round(double roundee) {
 		if (roundee < 0) {
@@ -42,22 +162,33 @@ class S7_ZF_Element ui {
 		}
 	}
 
-	S7_ZF_AABB getClipAABB() {
-		S7_ZF_AABB curClip = new("S7_ZF_AABB");
-		[curClip.pos.x, curClip.pos.y, curClip.size.x, curClip.size.y] = screen.GetClipRect();
-		if (curClip.size.x != -1) {
-			return curClip;
+	void setHoverBlock(S7_ZF_Element val) {
+		let s = getGlobalStore();
+		if (s != NULL) {
+			s.hoverBlock = val;
 		}
-		else {
+	}
+
+	bool getHoverBlock() {
+		let s = getGlobalStore();
+		if (s != NULL) {
+			return s.hoverBlock != NULL && s.hoverBlock != self;
+		}
+		return false;
+	}
+
+	void getClipAABB(S7_ZF_AABB curClip) {
+		[curClip.pos.x, curClip.pos.y, curClip.size.x, curClip.size.y] = screen.GetClipRect();
+		if (curClip.size.x == -1) {
 			curClip.pos = (0, 0);
 			curClip.size = screenSize();
-			return curClip;
 		}
 	}
 
 	Vector2 getAspectRatioOffset() {
 		Vector2 screenSize = screenSize();
 		Vector2 virtualSize = getBaseVirtualSize();
+		Vector2 baseScreenSize = baseScreenSize();
 		if (screenSize.x / baseScreenSize.x == screenSize.y / baseScreenSize.y) {
 			return (0, 0);
 		}
@@ -67,6 +198,11 @@ class S7_ZF_Element ui {
 		else {
 			return ((screenSize.x - (screenSize.y * (baseScreenSize.x / baseScreenSize.y))), 0) / 2;
 		}
+	}
+
+	Vector2 relToMainFrame(Vector2 relPos) {
+		if (master == NULL) return relPos;
+		return master.relToMainFrame(box.pos + relPos);
 	}
 
 	/// Converts relative positioning to screen positioning.
@@ -83,17 +219,51 @@ class S7_ZF_Element ui {
 		return master.screenToRel(screenPos - box.pos);
 	}
 
+	protected S7_ZF_ElementTreeGlobal getGlobalStore() {
+		if (noGlobalStore) return NULL;
+		if (globalStore != NULL) return globalStore;
+		if (master != NULL) {
+			globalStore = master.getGlobalStore();
+			return globalStore;
+		}
+		return NULL;
+	}
+
+	void setBaseResolution(Vector2 res) {
+		let s = getGlobalStore();
+		if (s != NULL) {
+			s.baseScreenSize = res;
+			s.needsMouseUpdate = true;
+		}
+	}
+
+	Vector2 baseScreenSize() {
+		let s = getGlobalStore();
+		if (s != NULL) {
+			return s.baseScreenSize;
+		}
+		return screenSize();
+	}
+
+	void aabbToScreen(S7_ZF_AABB ret, S7_ZF_AABB bounds, bool intersect = true) {
+		ret.pos = relToScreen(bounds.pos) * getScale();
+		ret.size = bounds.size * getScale();
+
+		if (intersect && master != NULL) {
+			S7_ZF_AABB screenBox; master.boxToScreen(screenBox, true);
+			ret.rectOfIntersection(ret, screenBox);
+		}
+	}
+
 	/// Return a bounding box which uses absolute coordinates.
-	virtual S7_ZF_AABB boxToScreen() {
-		S7_ZF_AABB ret = new("S7_ZF_AABB");
+	void boxToScreen(S7_ZF_AABB ret, bool intersect = true) {
 		ret.pos = relToScreen((0, 0)) * getScale();
 		ret.size = box.size * getScale();
 
-		if (master != NULL) {
-			ret = ret.rectOfIntersection(master.boxToScreen());
+		if (intersect && master != NULL) {
+			S7_ZF_AABB screenBox; master.boxToScreen(screenBox, true);
+			ret.rectOfIntersection(ret, screenBox);
 		}
-
-		return ret;
 	}
 
 	Vector2 screenSize() {
@@ -102,6 +272,7 @@ class S7_ZF_Element ui {
 
 	double getScale() {
 		Vector2 screenSize = screenSize();
+		let baseScreenSize = baseScreenSize();
 		return min(screenSize.x / baseScreenSize.x, screenSize.y / baseScreenSize.y);
 	}
 
@@ -143,7 +314,7 @@ class S7_ZF_Element ui {
 	}
 
 	/// Gets the cumulative alpha value for the element.
-	double getAlpha() {
+	double getDrawAlpha() {
 		double calcAlpha = 1;
 
 		S7_ZF_Element elem = self;
@@ -155,27 +326,66 @@ class S7_ZF_Element ui {
 		return calcAlpha;
 	}
 
+	void screenClip(S7_ZF_AABB beforeClip, S7_ZF_AABB clipRect, S7_ZF_AABB aabb = NULL) {
+		getClipAABB(beforeClip);
+		if (aabb == NULL) boxToScreen(clipRect);
+		else aabbToScreen(clipRect, aabb);
+		clipRect.rectOfIntersection(clipRect, beforeClip);
+		S7_ZF_AABB screenClip;
+		screenClip.size = screenSize();
+		clipRect.rectOfIntersection(clipRect, screenClip);
+	}
+
 	/// Draws text, taking into account relative positioning, and scale factor.
 	void drawText(Vector2 relPos, Font fnt, string text, int color = Font.CR_WHITE, double scale = 1, double alpha = 1) {
 		if (scale == 0) return;
 
 		Vector2 drawPos = relToScreen(relPos) / scale;
 		Vector2 virtualSize = scaleToVirtualSize((scale, scale));
-		Screen.drawText(fnt, color, drawPos.x, drawPos.y, text, DTA_VirtualWidthF, virtualSize.x, DTA_VirtualHeightF, virtualSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha * getAlpha());
+		Screen.drawText(fnt, color, drawPos.x, drawPos.y, text, DTA_VirtualWidthF, virtualSize.x, DTA_VirtualHeightF, virtualSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha * getDrawAlpha());
+	}
+
+	void drawLine(Vector2 start, Vector2 end, double thickness, Color color) {
+		Vector2 drawPosStart = relToScreen(start) * getScale();
+		Vector2 drawPosEnd = relToScreen(end) * getScale();
+		thickness *= getScale();
+
+		S7_ZF_AABB aabb; getClipAABB(aabb);
+		bool draw;
+		Vector2 clippedStart, clippedEnd;
+		[draw, clippedStart, clippedEnd] = aabb.cohenSutherlandClip(drawPosStart, drawPosEnd);
+
+		if (draw) {
+			Screen.drawThickLine(
+				int(clippedStart.x), int(clippedStart.y),
+				int(clippedEnd.x), int(clippedEnd.y),
+				thickness, color
+			);
+		}
 	}
 
 	/// Draws an image, taking into account relative positioning, and scale factor.
 	void drawImage(Vector2 relPos, string imageName, bool animate, Vector2 scale = (1, 1), double alpha = 1, S7_ZF_AABB clipRect = NULL) {
 		if (scale.x == 0 || scale.y == 0) return;
 
+		S7_ZF_AABB c;
 		if (clipRect == NULL) {
-			clipRect = getClipAABB();
+			getClipAABB(c);
+		}
+		else {
+			c.pos = clipRect.pos;
+			c.size = clipRect.size;
 		}
 		TextureID tex = TexMan.checkForTexture(imageName, TexMan.Type_Any);
 		Vector2 drawPos = relToScreen(relPos);
 		drawPos = (drawPos.x / scale.x, drawPos.y / scale.y);
 		Vector2 virtualSize = scaleToVirtualSize(scale);
-		Screen.DrawTexture(tex, animate, drawPos.x, drawPos.y, DTA_VirtualWidthF, virtualSize.x, DTA_VirtualHeightF, virtualSize.y, DTA_KeepRatio, true, DTA_Alpha, alpha * getAlpha(), DTA_ClipLeft, int(clipRect.pos.x), DTA_ClipTop, int(clipRect.pos.y), DTA_ClipRight, int(clipRect.pos.x + clipRect.size.x), DTA_ClipBottom, int(clipRect.pos.y + clipRect.size.y), DTA_TopOffset, 0, DTA_LeftOffset, 0);
+		Screen.DrawTexture(
+			tex, animate, drawPos.x, drawPos.y, DTA_VirtualWidthF, virtualSize.x, DTA_VirtualHeightF, virtualSize.y,
+			DTA_KeepRatio, true, DTA_Alpha, alpha * getDrawAlpha(),
+			DTA_ClipLeft, int(c.pos.x), DTA_ClipTop, int(c.pos.y), DTA_ClipRight, int(c.pos.x + c.size.x), DTA_ClipBottom, int(c.pos.y + c.size.y),
+			DTA_TopOffset, 0, DTA_LeftOffset, 0
+		);
 	}
 
 	Vector2 scaleVec(Vector2 vec, Vector2 scale) {
@@ -214,12 +424,6 @@ class S7_ZF_Element ui {
 			return;
 		}
 
-		S7_ZF_AABB beforeClip = getClipAABB();
-		S7_ZF_AABB clipRect = boxToScreen().rectOfIntersection(beforeClip);
-		S7_ZF_AABB screenClip = new("S7_ZF_AABB");
-		screenClip.size = screenSize();
-		clipRect = clipRect.rectOfIntersection(screenClip);
-
 		Vector2 imageScale = scaleVec(imageSize, scale);
 		let absPos = relToScreen(relPos) * getScale();
 		let scaledSize = size * getScale();
@@ -236,207 +440,8 @@ class S7_ZF_Element ui {
 		shape2DAddQuad(shape, absPos, scaledSize, (0, 0), (xSize, ySize), vertCount);
 
 		let texID = TexMan.checkForTexture(imageName, TexMan.Type_Any);
-		Screen.drawShape(texID, animate, shape, DTA_Alpha, alpha * getAlpha(), DTA_ClipLeft, int(floor(clipRect.pos.x)), DTA_ClipTop, int(floor(clipRect.pos.y)), DTA_ClipRight, int(ceil(clipRect.pos.x + clipRect.size.x)), DTA_ClipBottom, int (ceil(clipRect.pos.y + clipRect.size.y)));
-
-		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
-
-		shape.clear();
-		shape.destroy();
-	}
-
-	private void drawBoxCalcTiledImage(Shape2D shape, Vector2 screenPos, Vector2 screenSize, Vector2 scaledSize,
-	                                   Vector2 uvPos, Vector2 uvSize, out int vertCount) {
-		if (scaledSize.x ~== 0 || scaledSize.y ~== 0) {
-			return;
-		}
-
-		double fracX = screenSize.x / scaledSize.x;
-		double fracY = screenSize.y / scaledSize.y;
-		int countX = int (ceil (fracX));
-		int countY = int (ceil (fracY));
-
-		double drawSizeLimitX = fracX;
-		double drawPosX = screenPos.x;
-		for (int x = 0; x < countX; x++) {
-			double drawSizeLimitY = fracY;
-			double drawPosY = screenPos.y;
-
-			double drawFracX = min (1, drawSizeLimitX);
-			double drawSizeX = scaledSize.x * drawFracX;
-			double drawUVSizeX = uvSize.x * drawFracX;
-
-			for (int y = 0; y < countY; y++) {
-				double drawFracY = min (1, drawSizeLimitY);
-				double drawSizeY = scaledSize.y * drawFracY;
-				double drawUVSizeY = uvSize.y * drawFracY;
-
-				shape2DAddQuad(shape, (drawPosX, drawPosY), (drawSizeX, drawSizeY), uvPos, (drawUVSizeX, drawUVSizeY), vertCount);
-
-				drawPosY += drawSizeY;
-				drawSizeLimitY -= drawFracY;
-			}
-
-			drawPosX += drawSizeX;
-			drawSizeLimitX -= drawFracX;
-		}
-	}
-
-	private Shape2D drawBoxCalc(Vector2 pos, Vector2 size, S7_ZF_BoxTextures textures, Vector2 scale = (1, 1)) {
-		double screenScale = getScale();
-
-		Vector2 imageSize = texSize(textures.boxTexture);
-		Vector2 imageSizeInv = (1 / imageSize.x, 1 / imageSize.y);
-
-		// Abort if the image has an invalid resolution.
-		if (imageSize.x < 0 || imageSize.x ~== 0 || imageSize.y < 0 || imageSize.y ~== 0) {
-			return null;
-		}
-
-		let absPos = relToScreen(pos) * screenScale;
-		let scaledSize = size * screenScale;
-		if (scaledSize ~== (0, 0)) {
-			return null;
-		}
-
-		// Raw
-		Vector2 tlRawSize = scaleVec(imageSize, textures.midSliceTopLeft);
-
-		Vector2 brRawPos = scaleVec(imageSize, textures.midSliceBottomRight);
-		Vector2 brRawSize = imageSize - brRawPos;
-
-		Vector2 midRawPos = tlRawSize;
-		Vector2 midRawSize = brRawPos - tlRawSize;
-
-		// UVs
-		Vector2 tlUVSize = scaleVec(tlRawSize, imageSizeInv);
-
-		Vector2 brUVSize = scaleVec(brRawSize, imageSizeInv);
-		Vector2 brUVPos = scaleVec(brRawPos, imageSizeInv);
-
-		Vector2 midUVPos = scaleVec(midRawPos, imageSizeInv);
-		Vector2 midUVSize = scaleVec(midRawSize, imageSizeInv);
-
-		// Scaled
-		Vector2 tlScaledSize = scaleVec(tlRawSize * screenScale, scale);
-
-		Vector2 brScaledPos = scaleVec(brRawPos * screenScale, scale);
-		Vector2 brScaledSize = scaleVec(brRawSize * screenScale, scale);
-
-		Vector2 midScaledPos = scaleVec(midRawPos * screenScale, scale);
-		Vector2 midScaledSize = scaleVec(midRawSize * screenScale, scale);
-
-		// Screen
-		Vector2 tlScreenPos = absPos;
-		Vector2 tlScreenSize = tlScaledSize;
-
-		Vector2 brScreenPos = absPos + scaledSize - brScaledSize;
-		Vector2 brScreenSize = (absPos + scaledSize) - brScreenPos;
-
-		Vector2 midScreenPos = tlScreenPos + tlScreenSize;
-		Vector2 midScreenSize = brScreenPos - midScreenPos;
-
-		let shape = new("Shape2D");
-		shape.clear();
-
-		int vertCount = 0;
-
-		/* Corners */ {
-			// UVs
-			Vector2 trUVPos = (brUVPos.x, 0);
-			Vector2 trUVSize = (brUVSize.x, tlUVSize.y);
-
-			Vector2 blUVPos = (0, brUVPos.y);
-			Vector2 blUVSize = (tlUVSize.x, brUVSize.y);
-			// Screen
-			Vector2 trScreenPos = (brScreenPos.x, tlScreenPos.y);
-			Vector2 trScreenSize = (brScreenSize.x, tlScreenSize.y);
-
-			Vector2 blScreenPos = (tlScreenPos.x, brScreenPos.y);
-			Vector2 blScreenSize = (tlScreenSize.x, brScreenSize.y);
-
-			shape2DAddQuad(shape, tlScreenPos, tlScreenSize,  (0, 0), tlUVSize, vertCount);
-			shape2DAddQuad(shape, trScreenPos, trScreenSize, trUVPos, trUVSize, vertCount);
-			shape2DAddQuad(shape, brScreenPos, brScreenSize, brUVPos, brUVSize, vertCount);
-			shape2DAddQuad(shape, blScreenPos, blScreenSize, blUVPos, blUVSize, vertCount);
-		}
-
-		/* Sides */ {
-			// UVs
-			Vector2 topUVPos = (midUVPos.x, 0);
-			Vector2 topUVSize = (midUVSize.x, tlUVSize.y);
-
-			Vector2 bottomUVPos = (midUVPos.x, brUVPos.y);
-			Vector2 bottomUVSize = (midUVSize.x, brUVSize.y);
-
-			Vector2 leftUVPos = (0, midUVPos.y);
-			Vector2 leftUVSize = (tlUVSize.x, midUVSize.y);
-
-			Vector2 rightUVPos = (brUVPos.x, midUVPos.y);
-			Vector2 rightUVSize = (brUVSize.x, midUVSize.y);
-			// Screen
-			Vector2 topScreenPos = (midScreenPos.x, tlScreenPos.y);
-			Vector2 topScreenSize = (midScreenSize.x, tlScreenSize.y);
-
-			Vector2 bottomScreenPos = (midScreenPos.x, brScreenPos.y);
-			Vector2 bottomScreenSize = (midScreenSize.x, brScreenSize.y);
-
-			Vector2 leftScreenPos = (tlScreenPos.x, midScreenPos.y);
-			Vector2 leftScreenSize = (tlScreenSize.x, midScreenSize.y);
-
-			Vector2 rightScreenPos = (brScreenPos.x, midScreenPos.y);
-			Vector2 rightScreenSize = (brScreenSize.x, midScreenSize.y);
-
-			if (textures.scaleSides) {
-				shape2DAddQuad(shape, topScreenPos, topScreenSize, topUVPos, topUVSize, vertCount);
-				shape2DAddQuad(shape, bottomScreenPos, bottomScreenSize, bottomUVPos, bottomUVSize, vertCount);
-				shape2DAddQuad(shape, leftScreenPos, leftScreenSize, leftUVPos, leftUVSize, vertCount);
-				shape2DAddQuad(shape, rightScreenPos, rightScreenSize, rightUVPos, rightUVSize, vertCount);
-			} else {
-				Vector2 topScaledSize = (midScaledSize.x, tlScaledSize.y);
-				Vector2 bottomScaledSize = (midScaledSize.x, brScaledSize.y);
-				Vector2 leftScaledSize = (tlScaledSize.x, midScaledSize.y);
-				Vector2 rightScaledSize = (brScaledSize.x, midScaledSize.y);
-
-				drawBoxCalcTiledImage(shape, topScreenPos, topScreenSize, topScaledSize, topUVPos, topUVSize, vertCount);
-				drawBoxCalcTiledImage(shape, bottomScreenPos, bottomScreenSize, bottomScaledSize, bottomUVPos, bottomUVSize, vertCount);
-				drawBoxCalcTiledImage(shape, leftScreenPos, leftScreenSize, leftScaledSize, leftUVPos, leftUVSize, vertCount);
-				drawBoxCalcTiledImage(shape, rightScreenPos, rightScreenSize, rightScaledSize, rightUVPos, rightUVSize, vertCount);
-			}
-		}
-
-		if (textures.scaleMiddle) {
-			shape2DAddQuad(shape, midScreenPos, midScreenSize, midUVPos, midUVSize, vertCount);
-		} else {
-			drawBoxCalcTiledImage(shape, midScreenPos, midScreenSize, midScaledSize, midUVPos, midUVSize, vertCount);
-		}
-
-		return shape;
-	}
-
-	/// Draw a box using a S7_ZF_BoxTextures struct.
-	void drawBox(Vector2 pos, Vector2 size, S7_ZF_BoxTextures textures, bool animate, Vector2 scale = (1, 1)) {
-		if (textures == NULL) {
-			return;
-		}
-
-		Shape2D shape = NULL;
-
-		shape = drawBoxCalc(pos, size, textures, scale);
-
-		if (shape == NULL) {
-			return;
-		}
-
-		S7_ZF_AABB beforeClip = getClipAABB();
-		S7_ZF_AABB clipRect = boxToScreen().rectOfIntersection(beforeClip);
-		S7_ZF_AABB screenClip = new("S7_ZF_AABB");
-		screenClip.size = screenSize();
-		clipRect = clipRect.rectOfIntersection(screenClip);
-
-		let texID = TexMan.checkForTexture(textures.boxTexture, TexMan.Type_Any);
-		Screen.drawShape(texID, animate, shape, DTA_Alpha, alpha * getAlpha(), DTA_ClipLeft, int(floor(clipRect.pos.x)), DTA_ClipTop, int(floor(clipRect.pos.y)), DTA_ClipRight, int(ceil(clipRect.pos.x + clipRect.size.x)), DTA_ClipBottom, int (ceil(clipRect.pos.y + clipRect.size.y)));
-
-		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+		S7_ZF_AABB clipRect; getClipAABB(clipRect);
+		Screen.drawShape(texID, animate, shape, DTA_Alpha, alpha * getDrawAlpha(), DTA_ClipLeft, int(floor(clipRect.pos.x)), DTA_ClipTop, int(floor(clipRect.pos.y)), DTA_ClipRight, int(ceil(clipRect.pos.x + clipRect.size.x)), DTA_ClipBottom, int (ceil(clipRect.pos.y + clipRect.size.y)));
 
 		shape.clear();
 		shape.destroy();
@@ -444,30 +449,23 @@ class S7_ZF_Element ui {
 
 	/// Draws a coloured region, taking into account relative positioning, and scale factor.
 	void fill(Vector2 relStartPos, Vector2 size, Color col, double amount) {
+		S7_ZF_AABB aabb;
 		Vector2 startPos = relToScreen(relStartPos) * getScale();
-		size *= getScale();
-
-		S7_ZF_AABB beforeClip = getClipAABB();
-		S7_ZF_AABB clipTest = new("S7_ZF_AABB");
-		clipTest.pos = startPos;
-		clipTest.size = size;
-		S7_ZF_AABB clipRect = clipTest.rectOfIntersection(beforeClip);
-		Screen.setClipRect(int(clipRect.pos.x), int(clipRect.pos.y), int(clipRect.size.x), int(clipRect.size.y));
-
-		Screen.dim(col, amount * getAlpha(), int(startPos.x), int(startPos.y), int(size.x), int(size.y));
-
-		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+		aabb.pos = startPos;
+		aabb.size = size * getScale();
+		S7_ZF_AABB clip;
+		getClipAABB(clip);
+		aabb.rectOfIntersection(aabb, clip);
+		
+		if (aabb.size.x > 0.0 && aabb.size.y > 0.0) {
+			Screen.dim(col, amount * getDrawAlpha(), int(aabb.pos.x), int(aabb.pos.y), int(aabb.size.x), int(aabb.size.y));
+		}
 	}
 
 	/// Packs the element into the master frame.
 	void pack(S7_ZF_Frame master) {
-		if (master != NULL) {
-			unpack();
-		}
-
-		self.master = master;
-		master.elements.push(self);
-		baseScreenSize = master.baseScreenSize;
+		master.internalPack(self);
+		requestMouseUpdate();
 	}
 
 	/// Unpacks the element from its master frame.
@@ -475,26 +473,68 @@ class S7_ZF_Element ui {
 		if (master == NULL) {
 			return;
 		}
-
-		int index = master.elements.find (self);
-		if (index != master.elements.Size ()) {
-			master.elements.delete(index, 1);
+		if (!(master is "S7_ZF_Frame")) {
+			throwAbortException("Tried to unpack a non-frame-bound element");
 		}
-		master = NULL;
+
+		requestMouseUpdate();
+
+		let masterFrame = S7_ZF_Frame(master);
+		masterFrame.internalUnpack(self);
 	}
 
-	void setBox(Vector2 pos, Vector2 size) {
-		if (box == NULL) {
-			box = new("S7_ZF_AABB");
+	void drawFocusIndicator(S7_ZF_ElementTreeGlobal globalStore) {
+		if (globalStore.focusIndicator == NULL) return;
+
+		S7_ZF_AABB beforeClip;
+		getClipAABB(beforeClip);
+		Screen.clearClipRect();
+
+		globalStore.focusIndicator.master = globalStore.mainFrame;
+		globalStore.focusIndicator.drawer();
+		globalStore.focusIndicator.master = NULL;
+
+		Screen.setClipRect(int(beforeClip.pos.x), int(beforeClip.pos.y), int(beforeClip.size.x), int(beforeClip.size.y));
+	}
+
+	void drawSubElement(S7_ZF_Element elem) {
+		let globalStore = getGlobalStore();
+		if (globalStore.focusPriority == S7_ZF_FocusPriority_JustBelowFocused && elem == globalStore.focus) {
+			drawFocusIndicator(globalStore);
 		}
-		box.pos = pos;
-		box.size = size;
+		elem.drawer();
+		if (globalStore.focusPriority == S7_ZF_FocusPriority_JustAboveFocused && elem == globalStore.focus) {
+			drawFocusIndicator(globalStore);
+		}
+	}
+
+	bool mousePosAndBlock(bool mouseBlock, Vector2 mousePos) {
+		let res = handleMousePosition(mouseBlock, mousePos);
+		if (res) return true;
+		return blocksMouse(mousePos);
 	}
 
 	// methods for overriding in derived elements
 	virtual void ticker() {}
+	virtual bool handleMousePosition(bool mouseBlock, Vector2 mousePos) { return false; }
+	virtual bool handlePriorityMouseBlock(bool mouseBlock, Vector2 mousePos) { return mouseBlock || blocksMousePriority(mousePos); }
 	virtual void drawer() {}
-	virtual void onUIEvent(S7_ZF_UiEvent ev) {}
+	virtual void topDrawer() {}
+	virtual bool onNavEvent(S7_ZF_NavEventType type, bool fromController) { return false; }
+	virtual bool onUIEvent(S7_ZF_UiEvent ev) { return false; }
+	virtual bool onUIEventPriority(S7_ZF_UiEvent ev) { return false; }
+
+	virtual bool blocksMousePriority(Vector2 mousePos) { return false; }
+	virtual bool blocksMouse(Vector2 mousePos) {
+		if (dontBlockMouse) return false;
+		S7_ZF_AABB screenBox; boxToScreen(screenBox);
+		return screenBox.pointCollides(mousePos);
+	}
+
+	virtual bool handleBack() { return false; }
+
+	virtual void getFocusAABB(S7_ZF_AABB box) { box.pos = relToMainFrame((0, 0)); box.size = self.box.size; }
+	virtual void beenFocused(S7_ZF_NavEventType type) {}
 
 	// Added by Chronos "phantombeta" Ouroboros
 	bool isEnabled() {
@@ -510,20 +550,23 @@ class S7_ZF_Element ui {
 		return true;
 	}
 
-	virtual void doHover (Vector2 mousePos) {
-		bool hover = boxToScreen().pointCollides(mousePos);
+	virtual void doHover (bool mouseBlock, Vector2 mousePos) {
+		S7_ZF_AABB screenBox; boxToScreen(screenBox);
+		bool hover = (getHoverBlock() || mouseBlock) ? false : screenBox.pointCollides(mousePos);
 
-		if (hover && !isHovered) {
+		if (hover && !elemHovered) {
 			if (cmdHandler) {
 				cmdHandler.elementHoverChanged(self, command, false);
 			}
-			isHovered = true;
+			elemHovered = true;
 		}
-		else if (!hover && isHovered) {
+		else if (!hover && elemHovered) {
 			if (cmdHandler) {
 				cmdHandler.elementHoverChanged(self, command, true);
 			}
-			isHovered = false;
+			elemHovered = false;
 		}
 	}
+
+	virtual void activate() {}
 }
