@@ -55,6 +55,14 @@ extend class S7_MonsterBase {
         S7_MonsterBase.MaxStealthAttackRange 256.;
     }
 
+    private void InitializeChase () {
+        aiState = AIS_Chase;
+        aiChaseFuncState = null;
+
+        aiCountdown = -1;
+        aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
+    }
+
     bool CheckReachedGoal (Actor other) {
         if (!other || (CurSector.Flags & Sector.SECF_NoAttack))
             return false;
@@ -89,6 +97,9 @@ extend class S7_MonsterBase {
         }
 
         aiState = AIS_Wander;
+
+        if (moveStandStillCount > 0)
+            moveStandStillCount--;
 
         if (moveCount > 0)
             moveCount--;
@@ -182,6 +193,23 @@ extend class S7_MonsterBase {
         int mmc = int (MinMissileChance * G_SkillPropertyFloat (SKILLP_Aggressiveness));
         return (noRandom || random [CheckMissileRange] () >= min (int (dist), mmc));
     }
+
+    //-------------------------------------------------------------------------------------------
+    //
+    // Movement target retrieval
+    //
+    //-------------------------------------------------------------------------------------------
+    Actor S7_Chase_GetMovementGoal () {
+        let moveGoal = goal;
+
+        if (!moveGoal && aiNextNode)
+            moveGoal = aiNextNode;
+        if (!moveGoal && target)
+            moveGoal = target;
+
+        return moveGoal;
+    }
+
     //-------------------------------------------------------------------------------------------
     //
     // DoChase / A_DoChase
@@ -195,8 +223,12 @@ extend class S7_MonsterBase {
         moveCount = random [S7_Chase] (0, 255) & mask;
     }
 
+    void S7_SetStandStillCount () {
+        moveCount = 0;
+        moveStandStillCount = random [S7_Chase] (0, 255) % 6;
+    }
+
     void S7_DoChase (bool fastChase, State meleestate, State missilestate, bool playActive, bool nightmareFast, bool dontMove, int flags) {
-        meleestate = missilestate = null;
         /*
         ** Quirks: Doesn't support the NightmareFast Gameinfo flag.
         */
@@ -498,23 +530,20 @@ extend class S7_MonsterBase {
         }
 
         // Chase towards player
-        Actor targetAct = goal;
-        double targetRadius = 128;
-        double slowRadius = 128 + 32;
-        if (!targetAct && aiNextNode)
-            targetAct = aiNextNode;
-        if (!targetAct && target)
-            targetAct = target;
+        let moveGoal = S7_Chase_GetMovementGoal ();
 
         if (aiState == AIS_Chase) {
             if (strafecount > 0)
                 strafecount--;
 
+            if (moveStandStillCount > 0)
+                moveStandStillCount--;
+
             if (moveCount > 0)
                 moveCount--;
         }
 
-        S7_DoSteering (Speed, targetAct, dontMove);
+        S7_DoSteering (Speed, moveGoal, dontMove);
 
         if (aiState == AIS_Chase) {
             // Make active sound

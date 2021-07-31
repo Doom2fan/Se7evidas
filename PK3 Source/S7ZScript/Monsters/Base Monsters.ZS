@@ -59,8 +59,8 @@ class S7_MonsterBase : Actor {
     override void BeginPlay () {
         Super.BeginPlay ();
 
-        aiCountdown = -1;
-        aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
+        InitializeChase ();
+        InitializeMovement ();
     }
 
     protected bool SetXPSys () {
