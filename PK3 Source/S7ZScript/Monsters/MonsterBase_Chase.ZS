@@ -178,7 +178,7 @@ extend class S7_MonsterBase {
 
     bool S7_SuggestMissileAttack (double dist, bool noRandom) {
         // The Arch Vile's special behavior turned into a property
-        if (MaxTargetRange > 0 && dist > MaxTargetRange)
+        if (MaxTargetRange > S7_Math.VM_Epsilon && dist > MaxTargetRange)
             return false;
 
         // From the Revenant: close enough for fist attack
@@ -191,7 +191,7 @@ extend class S7_MonsterBase {
             dist *= 0.125;
 
         int mmc = int (MinMissileChance * G_SkillPropertyFloat (SKILLP_Aggressiveness));
-        return (noRandom || random [CheckMissileRange] () >= min (int (dist), mmc));
+        return noRandom || (random [CheckMissileRange] () >= min (int (dist), mmc));
     }
 
     //-------------------------------------------------------------------------------------------
@@ -364,16 +364,18 @@ extend class S7_MonsterBase {
         if (aiState == AIS_Chase && S7_DoChase_Chase (fastChase, playActive, dontMove, flags))
             return;
 
-        bool mayAttack = true;
+        bool mayAttack = target != null;
         if (aiState != AIS_MissileAttack) {
-            mayAttack = (
-                target &&
-                (
-                    (target.player == null || !((target.player.cheats & CF_Frightening) || target.bFrightening)) &&
-                    !bFrightened
-                ) ||
-                random [Anubis] (0, 255) < 43
-            );
+            bool isFrightened = false;
+            if (target) {
+                isFrightened = (
+                    (target.player && (target.player.cheats & CF_Frightening)) ||
+                    target.bFrightening ||
+                    bFrightened
+                );
+            }
+
+            mayAttack = (!isFrightened || random [Anubis] (0, 255) < 43);
         }
 
         // [RH] Scared monsters attack less frequently
@@ -392,9 +394,10 @@ extend class S7_MonsterBase {
 
             // Check for missile attack
             if (missilestate && S7_CheckMissileRange (aiState == AIS_MissileAttack)) {
-                if (aiState != AIS_MissileAttack && (moveCount < 1 || S7_ActorExtensions.IsFast (self)))
-                    aiState = AIS_MissileAttack;
-                else if (vel.XY ~== (0, 0)) {
+                if (aiState != AIS_MissileAttack) {
+                    if (moveCount < 1 || S7_ActorExtensions.IsFast (self))
+                        aiState = AIS_MissileAttack;
+                } else if (vel.XY ~== (0, 0)) {
                     SetState (missilestate);
 
                     bJustAttacked = true;

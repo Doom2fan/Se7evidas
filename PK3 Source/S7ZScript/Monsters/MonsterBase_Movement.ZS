@@ -23,20 +23,6 @@
 
 class S7_TestThing : Actor {
     default {
-        -NOBLOCKMAP -NOGRAVITY
-    }
-
-    states {
-    Spawn:
-        AMRK A 1 noDelay bright {
-            SetZ (floorZ);
-        }
-        loop;
-    }
-}
-
-class S7_TestThing2 : Actor {
-    default {
         radius 0;
         height 0;
 
@@ -295,7 +281,7 @@ extend class S7_MonsterBase {
                 selectedOffset = actorOffset;
             }
         }
-        Spawn ('S7_TestThing2', (level.Vec2Offset (Pos.XY, selectedOffset), Pos.Z + MaxStepHeight + .5));
+        Spawn ('S7_TestThing', (level.Vec2Offset (Pos.XY, selectedOffset), Pos.Z + MaxStepHeight + .5));
 
         return selectedObstacle, selectedOffset;
     }
@@ -477,17 +463,18 @@ extend class S7_MonsterBase {
         } else if (chooseNewDir) {
             canWalk &= S7_NewChaseDir (walkDir, maxAccel, moveGoal);
             mustStop = !canWalk;
-        }
+
+            if (moveCount < 1)
+                S7_SetMoveCount ();
+        } else if (moveCount > 0)
+            canWalk = mustStop = false;
 
         Vector2 targetVel;
         if (mustStop)
             targetVel = (0, 0);
-        else if (canWalk) {
+        else if (canWalk)
             targetVel = AngleToVector (Angle, maxAccel);
-
-            if (moveCount < 1)
-                S7_SetMoveCount ();
-        } else
+        else
             return;
 
         let linearAccel = targetVel - Vel.XY;
