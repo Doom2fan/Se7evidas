@@ -26,51 +26,9 @@ class S7_ShopMenu_ListHandler : S7_ZF_Handler {
             command.Split (commandStrings, ":");
 
             if (commandStrings.Size () >= 2) {
-                if (commandStrings [0] == "Entry")
-                    ListSelect (commandStrings [1]);
+                if (commandStrings [0] == "Entry" && link.itemsList)
+                    link.itemsList.queuedSelect = commandStrings [1];
             }
-        }
-    }
-
-    void ListSelect (string itemId) {
-        if (!link)
-            return;
-
-        S7_ShopMenu_ListItem item;
-        let list = link.itemsList;
-        if (!list)
-            return;
-
-        for (int i = 0; i < list.items.Size (); i++) {
-            if (list.items [i] && list.items [i].id == itemId.ToInt ()) {
-                item = list.items [i];
-                break;
-            }
-        }
-
-        if (!item)
-            return;
-
-        if (item.itemData && item.itemData.itemType == IT_PageLink && item.itemData.link) {
-            link.selectedItem = null;
-            link.hoveredItem = null;
-            list.UpdateList ();
-
-            let page = item.itemData.link;
-            list.SetPage (page);
-            link.SetPage (page);
-
-            Menu.MenuSound ("S7Menu/Choose");
-        } else if (link.selectedItem != item) { // If the item isn't already selected
-            link.selectedItem = item;
-            list.UpdateList ();
-
-            Menu.MenuSound ("S7Menu/SelectionMove");
-        } else {
-            link.selectedItem = null;
-            list.UpdateList ();
-
-            Menu.MenuSound ("S7Menu/SelectionMove");
         }
     }
 
@@ -124,6 +82,8 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     Array<S7_ShopMenu_ListItem> items;
     double lowestCoord;
 
+    name queuedSelect;
+
     void Config (S7_ShopMenu menuLink, S7_SSShop shopData) {
         alpha = 1;
 
@@ -155,6 +115,11 @@ class S7_ShopMenu_List : S7_ZF_Frame {
     }
 
     override void Ticker () {
+        if (queuedSelect != 'NO_CHANGE') {
+            ListSelect (queuedSelect);
+            queuedSelect = 'NO_CHANGE';
+        }
+
         Super.Ticker ();
 
         UpdateList ();
@@ -172,6 +137,45 @@ class S7_ShopMenu_List : S7_ZF_Frame {
         }
 
         return Super.OnUIEvent (ev);
+    }
+
+    void ListSelect (string itemId) {
+        if (!link)
+            return;
+
+        S7_ShopMenu_ListItem item;
+
+        for (int i = 0; i < items.Size (); i++) {
+            if (items [i] && items [i].id == itemId.ToInt ()) {
+                item = items [i];
+                break;
+            }
+        }
+
+        if (!item)
+            return;
+
+        if (item.itemData && item.itemData.itemType == IT_PageLink && item.itemData.link) {
+            link.selectedItem = null;
+            link.hoveredItem = null;
+            UpdateList ();
+
+            let page = item.itemData.link;
+            SetPage (page);
+            link.SetPage (page);
+
+            Menu.MenuSound ("S7Menu/Choose");
+        } else if (link.selectedItem != item) { // If the item isn't already selected
+            link.selectedItem = item;
+            UpdateList ();
+
+            Menu.MenuSound ("S7Menu/SelectionMove");
+        } else {
+            link.selectedItem = null;
+            UpdateList ();
+
+            Menu.MenuSound ("S7Menu/SelectionMove");
+        }
     }
 
     void UpdateScroll (double direction) {

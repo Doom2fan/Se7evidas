@@ -74,13 +74,16 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
     S7_WeapAssignMenu link;
     S7_BasePlayer CPlayer;
 
-    Font bigFont, smallFont;
-    S7_ZF_Image background;
-    S7_ZF_Frame clippingFrame, itemsFrame;
+    protected Font bigFont, smallFont;
+    protected S7_ZF_Image background;
+    protected S7_ZF_Frame clippingFrame, itemsFrame;
     Array<S7_WeapAssignMenu_ListWeap> items;
-    double lowestCoord;
-    Vector2 mousePos;
-    bool isDraco;
+    protected double lowestCoord;
+    protected Vector2 mousePos;
+    protected bool isDraco;
+
+    protected S7_WeaponSlots activateRequest;
+    protected bool deactivateRequest;
 
     void Config (S7_WeapAssignMenu menuLink, S7_BasePlayer pPawn, bool draco) {
         alpha = 1;
@@ -115,6 +118,16 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
 
     override void Ticker () {
         Super.Ticker ();
+        if (activateRequest != -1) {
+            DoActivate (activateRequest);
+            activateRequest = -1;
+        }
+
+        if (deactivateRequest) {
+            DoDeactivate ();
+            deactivateRequest = false;
+        }
+
         UpdateScroll ();
     }
 
@@ -134,7 +147,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         return Super.OnUIEvent (ev);
     }
 
-    void UpdateScroll () {
+    protected void UpdateScroll () {
         if (itemsFrame && clippingFrame) {
             if (clippingFrame.GetHeight () > itemsFrame.GetHeight ())
                 itemsFrame.SetPosY (0);
@@ -146,10 +159,18 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
     }
 
     void Activate (S7_WeaponSlots slot) {
-        PopulateList (slot);
+        activateRequest = slot;
     }
 
     void Deactivate () {
+        deactivateRequest = true;
+    }
+
+    protected void DoActivate (S7_WeaponSlots slot) {
+        PopulateList (slot);
+    }
+
+    protected void DoDeactivate () {
         if (items.Size () > 0) {
             for (int i = items.Size () - 1; i >= 0; i--) {
                 if (!items [i])
@@ -175,7 +196,7 @@ class S7_WeapAssignMenu_List : S7_ZF_Frame {
         }
     }
 
-    bool PopulateList (S7_WeaponSlots slot) {
+    protected bool PopulateList (S7_WeaponSlots slot) {
         if (!CPlayer || slot < 0)
             return false;
 
