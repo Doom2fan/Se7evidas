@@ -268,16 +268,6 @@ extend class S7_MonsterBase {
         // Turn towards movement direction if not there yet
         /*if (strafecount)
             A_FaceTarget ();*/
-        /*else if (!(flags & S7CHF_NoDirectionTurn) && movementDir < S7_MoveDir_Count) {
-            angle = floor (angle / S7_MoveDir_Interval) * S7_MoveDir_Interval;
-
-            double delta = DeltaAngle (angle, (movementDir * S7_MoveDir_Interval));
-
-            if (delta < 0)
-                angle -= S7_MoveDir_Interval;
-            else if (delta > 0)
-                angle += S7_MoveDir_Interval;
-        }*/
 
         // [RH] If the target is dead or a friend (and not a goal), stop chasing it.
         if (target && target != goal && (target.health <= 0 || IsFriend (target)))

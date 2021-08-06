@@ -21,33 +21,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class S7_TestThing : Actor {
-    default {
-        radius 0;
-        height 0;
-
-        renderStyle "Translucent";
-
-        +NOBLOCKMAP +NOGRAVITY
-    }
-
-    override void Tick () {
-        Super.Tick ();
-
-        if (Tics < 1 || CurState == null)
-            return;
-
-        double totalTics = CurState.Tics;
-        alpha = (Tics / totalTics);
-    }
-
-    states {
-    Spawn:
-        AMRK A 35 noDelay bright;
-        stop;
-    }
-}
-
 class S7_MonsterBase_WallTracer : LineTracer {
     int LineBlockFlags;
     bool CanDropoff;
@@ -281,7 +254,6 @@ extend class S7_MonsterBase {
                 selectedOffset = actorOffset;
             }
         }
-        Spawn ('S7_TestThing', (level.Vec2Offset (Pos.XY, selectedOffset), Pos.Z + MaxStepHeight + .5));
 
         return selectedObstacle, selectedOffset;
     }
@@ -444,6 +416,8 @@ extend class S7_MonsterBase {
         if (!canFloat && (Pos.Z > floorZ || Vel.Z > S7_Math.VM_Epsilon))
             return;
 
+        // Note that this checks for < 0. This is how it is in GZDoom's A_Chase, changing it to < 1 will make monsters
+        // rarely attack.
         bool chooseNewDir = moveCount < 0;
 
         let predictionTime = max ((CurState ? CurState.Tics : Tics) / 4., 1);
@@ -527,7 +501,7 @@ extend class S7_MonsterBase {
 
     void S7_DoTickSteering (double maxAccel) {
         /*
-         * This function is executed in Tick, intended for making monsters attempt to avoid slipping down dropoffs.
+         * This function is executed in Tick, to make monsters avoid slipping down dropoffs.
          */
 
         if (aiChaseFuncState == null)
