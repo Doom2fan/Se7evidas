@@ -444,7 +444,7 @@ extend class S7_MonsterBase {
         if (!canFloat && (Pos.Z > floorZ || Vel.Z > S7_Math.VM_Epsilon))
             return;
 
-        bool chooseNewDir = moveCount < 1;
+        bool chooseNewDir = moveCount < 0;
 
         let predictionTime = max ((CurState ? CurState.Tics : Tics) / 4., 1);
 
@@ -464,7 +464,7 @@ extend class S7_MonsterBase {
             canWalk &= S7_NewChaseDir (walkDir, maxAccel, moveGoal);
             mustStop = !canWalk;
 
-            if (moveCount < 1)
+            if (moveCount < 0)
                 S7_SetMoveCount ();
         } else if (moveCount > 0)
             canWalk = mustStop = false;
