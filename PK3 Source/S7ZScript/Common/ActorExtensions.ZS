@@ -117,6 +117,19 @@ class S7_ActorExtensions : Actor {
         return act.FindState ('Raise');
     }
 
+    static bool CheckIfActorInLOS (Actor self, Actor target, double fov = 90., int sightFlags = 0) {
+        if (!self.CheckSight (target, sightFlags))
+            return false;
+
+        let diff = self.Vec3To (target);
+        let dirVec = S7_Math.Vec3FromAngle (self.Angle, self.Pitch, 1).Unit ();
+
+        if (diff dot dirVec > cos (fov / 2.))
+            return false;
+
+        return true;
+    }
+
     static bool CheckActorCollision (Actor a, Actor b, bool no_z = false) {
         double blockDist = b.radius + a.radius;
 
