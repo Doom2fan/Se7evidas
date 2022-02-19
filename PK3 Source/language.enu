@@ -19,8 +19,8 @@
     //SKILLS_NIGHTMARE                = "Hell (E)";
     //SKILLS_SE7EVIDAS                = "Se7evidas (S)";
 
-    CONFIRM_BABY                    = "Really? You must suck a lot at this";
-    CONFIRM_EASY                    = "You still suck.";
+    CONFIRM_BABY                    = "Double ammo, half damage taken, and \"easy Icon of Sin.\"\nUses the Baby spawn filter";
+    CONFIRM_EASY                    = "\"Easy Icon of Sin.\"\nUses the Easy spawn filter.";
     CONFIRM_NORMAL                  = "Uses the Normal spawn filter.";
     CONFIRM_HARD                    = "Uses the Hard spawn filter.\n(Default skill)";
     CONFIRM_HARDSTR                 = "Enemies hit harder.\nUses the Hard spawn filter.";
