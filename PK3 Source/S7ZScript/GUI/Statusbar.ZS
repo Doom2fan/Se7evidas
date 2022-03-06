@@ -28,8 +28,8 @@
 class Se7evidasStatusBar : S7_BaseStatusbar {
     // Constants
     const Radar_Scale = 10.0;
-    const Radar_MaxDist = 750.0;
     const Radar_Radius = 50.0;
+    const Radar_MaxDist = Radar_Scale * Radar_Radius;
 
     // Fonts
     HUDFont mSmallFont;
@@ -196,7 +196,8 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
                 }
 
                 // Coords
-                Vector2 v1WorldPos = (pPawnXYPos.XY - curLine.v1.p), v2WorldPos = pPawnXYPos.XY - curLine.v2.p;
+                Vector2 v1WorldPos = level.Vec2Diff (curLine.v1.p, pPawnXYPos.XY);
+                Vector2 v2WorldPos = level.Vec2Diff (curLine.v2.p, pPawnXYPos.XY);
 
                 Vector2 pos = v1WorldPos;
                 Vector2 dir = v2WorldPos - v1WorldPos;
@@ -230,10 +231,14 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
                 } else
                     continue;
 
-                Vector2 v1ScreenPos, v2ScreenPos;
-                v1ScreenPos.x = (v1WorldPos.x * angleSin + v1WorldPos.y * angleCos); v1ScreenPos.y = (v1WorldPos.x * angleCos - v1WorldPos.y * angleSin);
-                v2ScreenPos.x = (v2WorldPos.x * angleSin + v2WorldPos.y * angleCos); v2ScreenPos.y = (v2WorldPos.x * angleCos - v2WorldPos.y * angleSin);
-                v1ScreenPos /= Radar_Scale; v2ScreenPos /= Radar_Scale;
+                Vector2 v1ScreenPos = (
+                    (v1WorldPos.x * angleSin + v1WorldPos.y * angleCos),
+                    (v1WorldPos.x * angleCos - v1WorldPos.y * angleSin)
+                ) / Radar_Scale;
+                Vector2 v2ScreenPos = (
+                    (v2WorldPos.x * angleSin + v2WorldPos.y * angleCos),
+                    (v2WorldPos.x * angleCos - v2WorldPos.y * angleSin)
+                ) / Radar_Scale;
 
                 DrawLine (radarOffs, v1ScreenPos, v2ScreenPos, "Black");
             }
@@ -261,10 +266,12 @@ class Se7evidasStatusBar : S7_BaseStatusbar {
 
             // Coords
             Vector3 actorPos = (curActor.prev + (TicFrac * (curActor.pos - curActor.prev)));
-            Vector2 worldPos = pPawnXYPos.xy - actorPos.xy, screenPos;
+            Vector2 worldPos = level.Vec2Diff (actorPos.xy, pPawnXYPos.xy);
             worldPos /= Radar_Scale;
-            screenPos.x = (worldPos.x * angleSin + worldPos.y * angleCos);
-            screenPos.y = (worldPos.x * angleCos - worldPos.y * angleSin);
+            Vector2 screenPos = (
+                (worldPos.x * angleSin + worldPos.y * angleCos),
+                (worldPos.x * angleCos - worldPos.y * angleSin)
+            );
 
             if (screenPos.Length () >= Radar_Radius)
                 continue;
