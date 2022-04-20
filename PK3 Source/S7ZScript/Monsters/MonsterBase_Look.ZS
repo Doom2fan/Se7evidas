@@ -249,7 +249,7 @@ extend class S7_MonsterBase {
                 target = targ;
 
                 if (bAmbush) {
-                    if (CheckSight (target, SF_SeePastBlockEverything)) {
+                    if (S7_CheckIfInLOS (target, sightFlags: SF_SeePastBlockEverything)) {
                         A_S7Look_SeeYou ();
                         return;
                     }
@@ -387,7 +387,7 @@ extend class S7_MonsterBase {
                     if (bAmbush) {
                         dist = Distance2D (target);
 
-                        if (CheckSight (target, SF_SeePastBlockEverything) &&
+                        if (S7_CheckIfInLOS (target, sightFlags: SF_SeePastBlockEverything) &&
                             (!minSeeDist || dist > minSeeDist) &&
                             (!maxSeeDist || dist < maxSeeDist)
                         ) {

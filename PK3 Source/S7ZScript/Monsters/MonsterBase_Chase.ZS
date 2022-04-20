@@ -131,7 +131,7 @@ extend class S7_MonsterBase {
         if (CurSector.flags & Sector.SECF_NoAttack)
             return false;
 
-        if (!CheckSight (target, SF_SeePastBlockEverything))
+        if (!S7_CheckIfInLOS (target, sightFlags: SF_SeePastBlockEverything))
             return false;
 
         if (bJustHit) {
@@ -498,7 +498,7 @@ extend class S7_MonsterBase {
 
     void S7_DoChaseEnd (bool fastChase, bool playActive, bool dontMove, int flags) {
         // Possibly choose another target
-        if ((multiplayer || TIDtoHate) && !threshold && !CheckSight (target)) {
+        if ((multiplayer || TIDtoHate) && !threshold && !S7_CheckIfInLOS (target)) {
             bool lookForBetter = false;
             bool gotNew;
 

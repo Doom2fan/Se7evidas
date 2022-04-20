@@ -63,6 +63,10 @@ class S7_MonsterBase : Actor {
         InitializeMovement ();
     }
 
+    action bool S7_CheckIfInLOS (Actor target, double fov = 90., int sightFlags = 0) {
+        return S7_ActorExtensions.CheckIfActorInLOS (self, target, 90, sightFlags);
+    }
+
     protected bool SetXPSys () {
         if (!xpSys && !(xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true)))) {
             GiveInventory ('S7_XPSystem', 1);

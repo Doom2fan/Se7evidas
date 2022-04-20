@@ -94,7 +94,7 @@ extend class S7_MonsterBase {
                 aiLastKnown.Destroy ();
 
             // Clear ambush flag if needed
-            if (bAmbush && CheckIfTargetInLOS ()) {
+            if (bAmbush && S7_CheckIfInLOS (target)) {
                 bAmbush = false;
 
                 if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
@@ -102,7 +102,7 @@ extend class S7_MonsterBase {
             }
 
             // Store the position we last saw our target
-            bool inLOS = CheckIfTargetInLOS ();
+            bool inLOS = S7_CheckIfInLOS (target);
             if (inLOS)
                 aiLastTargetPos = target.pos;
 
@@ -129,7 +129,7 @@ extend class S7_MonsterBase {
                     ForgetTarget (self);
             }
         } else if (aiNextNode && target) {
-            if (CheckIfTargetInLOS () && S7_CanSeeEnemy (target)) {
+            if (S7_CheckIfInLOS (target) && S7_CanSeeEnemy (target)) {
                 aiCountdown = -1;
                 aiNodeCountdown = -1;
 
