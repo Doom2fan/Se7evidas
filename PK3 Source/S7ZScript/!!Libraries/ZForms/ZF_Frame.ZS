@@ -2,7 +2,7 @@
 /// for easy subpositioning.
 class S7_ZF_Frame : S7_ZF_ElementContainer {
 	uint elementCount() { return elements.size(); }
-	uint indexOfElement(S7_ZF_Element elem) { return elements.find(elem); }
+	int indexOfElement(S7_ZF_Element elem) { return elements.find(elem); }
 	void swapElements(uint index0, uint index1) {
 		let tmp = elements[index0];
 		elements[index0] = elements[index1];
