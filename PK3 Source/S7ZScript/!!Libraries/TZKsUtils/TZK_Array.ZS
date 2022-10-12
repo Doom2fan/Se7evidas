@@ -9,16 +9,16 @@ class S7_TZK_ArrayI8
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayI8 other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayI8 other) { Values.Move(other.Values); }
-	uint Find(int item) { return Values.Find(item); }
-	uint Push(int item) { return Values.Push(item); }
+	int  Find(int item) { return Values.Find(item); }
+	int  Push(int item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, int item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -29,16 +29,16 @@ class S7_TZK_ArrayI16
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayI16 other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayI16 other) { Values.Move(other.Values); }
-	uint Find(int item) { return Values.Find(item); }
-	uint Push(int item) { return Values.Push(item); }
+	int  Find(int item) { return Values.Find(item); }
+	int  Push(int item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, int item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -49,16 +49,16 @@ class S7_TZK_ArrayI32
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayI32 other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayI32 other) { Values.Move(other.Values); }
-	uint Find(int item) { return Values.Find(item); }
-	uint Push(int item) { return Values.Push(item); }
+	int  Find(int item) { return Values.Find(item); }
+	int  Push(int item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, int item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -69,16 +69,16 @@ class S7_TZK_ArrayF32
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayF32 other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayF32 other) { Values.Move(other.Values); }
-	uint Find(float item) { return Values.Find(item); }
-	uint Push(float item) { return Values.Push(item); }
+	int  Find(float item) { return Values.Find(item); }
+	int  Push(float item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, float item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -89,16 +89,16 @@ class S7_TZK_ArrayF64
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayF64 other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayF64 other) { Values.Move(other.Values); }
-	uint Find(double item) { return Values.Find(item); }
-	uint Push(double item) { return Values.Push(item); }
+	int  Find(double item) { return Values.Find(item); }
+	int  Push(double item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, double item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -109,16 +109,16 @@ class S7_TZK_ArrayStr
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayStr other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayStr other) { Values.Move(other.Values); }
-	uint Find(string item) { return Values.Find(item); }
-	uint Push(string item) { return Values.Push(item); }
+	int  Find(string item) { return Values.Find(item); }
+	int  Push(string item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, string item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -129,16 +129,16 @@ class S7_TZK_ArrayPtr
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayPtr other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayPtr other) { Values.Move(other.Values); }
-	uint Find(voidptr item) { return Values.Find(item); }
-	uint Push(voidptr item) { return Values.Push(item); }
+	int  Find(voidptr item) { return Values.Find(item); }
+	int  Push(voidptr item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, voidptr item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
 
@@ -149,15 +149,15 @@ class S7_TZK_ArrayObj
 	uint Size() { return Values.Size(); }
 	void Copy(S7_TZK_ArrayObj other) { Values.Copy(other.Values); }
 	void Move(S7_TZK_ArrayObj other) { Values.Move(other.Values); }
-	uint Find(Object item) { return Values.Find(item); }
-	uint Push(Object item) { return Values.Push(item); }
+	int  Find(Object item) { return Values.Find(item); }
+	int  Push(Object item) { return Values.Push(item); }
 	bool Pop() { return Values.Pop(); }
 	void Delete(uint index, int n = 1) { Values.Delete(index, n); }
 	void Insert(uint index, Object item) { Values.Insert(index, item); }
 	void ShrinkToFit() { Values.ShrinkToFit(); }
 	void Grow(uint amount) { Values.Grow(amount); }
 	void Resize(uint amount) { Values.Resize(amount); }
-	uint Reserve(uint amount) { return Values.Reserve(amount); }
-	uint Max() { return Values.Max(); }
+	int  Reserve(uint amount) { return Values.Reserve(amount); }
+	int  Max() { return Values.Max(); }
 	void Clear() { Values.Clear(); }
 }
