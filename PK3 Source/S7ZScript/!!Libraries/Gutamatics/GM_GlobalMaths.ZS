@@ -1,26 +1,3 @@
-/*
- * Copyright 2017 Jonathan Russell
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files
- * (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
- * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
 class S7_GM_GlobalMaths {
 	/// Returns the sign of s.
 	static int sign(double s) {
@@ -38,12 +15,12 @@ class S7_GM_GlobalMaths {
 	static double copySignDouble(double source, double signSource) {
 		return abs(source) * sign(signSource);
 	}
-
+	
 	/// Remaps a value in a range to another range.
 	static double remapRange(double value, double range1L, double range1H, double range2L, double range2H) {
 		return range2L + (value - range1L) * (range2H - range1H) / (range1H - range1L);
 	}
-
+	
 	/// Remaps a value in a range to another range.
 	static int remapRangeInt(int value, int range1L, int range1H, int range2L, int range2H) {
 		return int(range2L + (value - range1L) * (range2H - range1H) / double(range1H - range1L));
@@ -53,6 +30,16 @@ class S7_GM_GlobalMaths {
 	static bool closeEnough(double a, double b, double epsilon = double.epsilon) {
 		if (a == b) return true;
 		return abs(a - b) <= epsilon;
+	}
+
+	/// Returns if a value is near zero.
+	static bool nearZero(double value) {
+		let EPS = 1e-8;
+		if (value < 0.0) {
+			return -value < EPS;
+		} else {
+			return value < EPS;
+		}
 	}
 
 	// Creates a smoothed transition between edge0 and edge1.
@@ -68,19 +55,18 @@ class S7_GM_GlobalMaths {
 	}
 
 	/// Converts from horizontal FOV to vertical FOV, according to how GZDoom handles it.
-	static double fovHToY(double fovH) {
+	static double fovHToY(double fovH, double aspect) {
 		// this is how gzdoom does it internally, so i'm using it here
-		double aspect = Screen.getAspectRatio();
 		double fovratio = (aspect >= 1.3) ? 1.333333 : aspect;
 		return 2 * atan(tan(clamp(fovH, 5, 170) / 2.0) / fovratio);
 	}
-
+	
 	/// Linearly interpolates between two doubles, clamping the parameters.
 	static double lerpDouble(double from, double to, double time) {
 		time = clamp(time, 0, 1);
 		return lerpUnclampedDouble(from, to, time);
 	}
-
+	
 	/// Linearly interpolates between two doubles.
 	static double lerpUnclampedDouble(double from, double to, double time) {
 		double ret;
@@ -90,28 +76,59 @@ class S7_GM_GlobalMaths {
 	}
 
 	// Converts from Normalised Device Coordinates to Viewport coordinates.
-	static Vector2 ndcToViewport(Vector3 ndcCoords, bool useScreenblocks = true, PlayerInfo player = NULL) {
-		// player is needed for screenblocks
+	// This is `ui` scope to safely access `screenblocks`.
+	static ui Vector2 ndcToViewport(Vector3 ndcCoords, bool useScreenblocks = true) {
 		if (useScreenblocks) {
-			if (player == NULL) {
-				player = players[consoleplayer];
-			}
 			int viewwindowx, viewwindowy, viewwidth, viewheight;
 			[viewwindowx, viewwindowy, viewwidth, viewheight] = Screen.getViewWindow();
 			int screenHeight = Screen.getHeight();
 			int height = screenHeight;
-			int screenblocks = CVar.getCVar("screenblocks", player).getInt();
 			if (screenblocks < 10) {
 				height = (screenblocks * screenHeight / 10) & ~7;
 			}
 			int bottom = screenHeight - (height + viewwindowy - ((height - viewheight) / 2));
-			return (viewwindowx, screenHeight - bottom - height) + (((ndcCoords.x + 1) * viewwidth) / 2, ((-ndcCoords.y + 1) * height) / 2);
+			let xShift = viewwindowx;
+			let yShift = screenHeight - bottom - height;
+			return (
+				xShift + (( ndcCoords.x + 1.0) * viewwidth) / 2.0,
+				yShift + ((-ndcCoords.y + 1.0) * height   ) / 2.0
+			);
 		}
 		else {
-			return (((ndcCoords.x + 1) * Screen.getWidth()) / 2, ((-ndcCoords.y + 1) * Screen.getHeight()) / 2);
+			return (
+				(( ndcCoords.x + 1.0) * Screen.getWidth())  / 2.0,
+				((-ndcCoords.y + 1.0) * Screen.getHeight()) / 2.0
+			);
 		}
 	}
 
+	// Converts from Viewport coordinates to Normalised Device Coordinates.
+	// This is `ui` scope to safely access `screenblocks`.
+	static ui Vector2 viewportToNdc(Vector2 viewportCoords, bool useScreenblocks = true) {
+		if (useScreenblocks) {
+			int viewwindowx, viewwindowy, viewwidth, viewheight;
+			[viewwindowx, viewwindowy, viewwidth, viewheight] = Screen.getViewWindow();
+			int screenHeight = Screen.getHeight();
+			int height = screenHeight;
+			if (screenblocks < 10) {
+				height = (screenblocks * screenHeight / 10) & ~7;
+			}
+			int bottom = screenHeight - (height + viewwindowy - ((height - viewheight) / 2));
+			let xShift = -double(viewwindowx);
+			let yShift = -double(screenheight) + double(bottom) + double(height);
+			return (
+				  2.0 * (viewportCoords.x + xShift) / double(viewwidth) - 1.0,
+				-(2.0 * (viewportCoords.y + yShift) / double(height)    - 1.0)
+			);
+		}
+		else {
+			return (
+				  2.0 * viewportCoords.x / double(Screen.getWidth())  - 1.0,
+				-(2.0 * viewportCoords.y / double(Screen.getHeight()) - 1.0)
+			);
+		}
+	}
+	
 	enum OutCode {
 		OUT_Inside = 0,
 		OUT_Left   = 1 << 0,
@@ -119,11 +136,11 @@ class S7_GM_GlobalMaths {
 		OUT_Bottom = 1 << 2,
 		OUT_Top    = 1 << 3
 	}
-
+	
 	/// Computes an outcode for a point in a rectangle.
 	static OutCode computeOutcode(Vector2 point, Vector2 min, Vector2 max) {
 		OutCode code = OUT_Inside;
-
+		
 		if (point.x < min.x) {
 			code |= OUT_Left;
 		}
@@ -136,15 +153,15 @@ class S7_GM_GlobalMaths {
 		else if (point.y > max.y) {
 			code |= OUT_Bottom;
 		}
-
+		
 		return code;
 	}
-
+	
 	/// Clips a line to a rectangle.
 	static bool, Vector2, Vector2 cohenSutherlandClip(Vector2 point0, Vector2 point1, Vector2 min, Vector2 max) {
 		OutCode outcode0 = computeOutCode(point0, min, max);
 		OutCode outcode1 = computeOutCode(point1, min, max);
-
+		
 		while (true) {
 			// trivial accept - points are both on screen
 			if ((outcode0 | outcode1) == 0) {
@@ -157,7 +174,7 @@ class S7_GM_GlobalMaths {
 			else {
 				Vector2 new;
 				OutCode outcodeOut = (outcode0 != 0) ? outcode0 : outcode1;
-
+				
 				if ((outcodeOut & OUT_Bottom) != 0) {
 					new.x = point0.x + (point1.x - point0.x) * (max.y - point0.y) / (point1.y - point0.y);
 					new.y = max.y;
@@ -166,7 +183,7 @@ class S7_GM_GlobalMaths {
 					new.x = point0.x + (point1.x - point0.x) * (min.y - point0.y) / (point1.y - point0.y);
 					new.y = min.y;
 				}
-				if ((outcodeOut & OUT_Right) != 0) {
+				else if ((outcodeOut & OUT_Right) != 0) {
 					new.y = point0.y + (point1.y - point0.y) * (max.x - point0.x) / (point1.x - point0.x);
 					new.x = max.x;
 				}
@@ -174,7 +191,7 @@ class S7_GM_GlobalMaths {
 					new.y = point0.y + (point1.y - point0.y) * (min.x - point0.x) / (point1.x - point0.x);
 					new.x = min.x;
 				}
-
+				
 				if (outcodeOut == outCode0) {
 					point0.x = new.x;
 					point0.y = new.y;
@@ -189,12 +206,17 @@ class S7_GM_GlobalMaths {
 		}
 		return false, (0, 0), (0, 0);
 	}
-
+	
 	// Normalizes an angle to (-180, 180]. Like Actor.normalize180, but callable in data scope.
 	static double normalize180(double ang) {
 		ang = ang % 360;
 		ang = (ang + 360) % 360;
 		if (ang > 180) ang -= 360;
 		return ang;
+	}
+
+	static int getDoubleExponent(double f) {
+		if (f == 0.0 || f == double.infinity || f != f) return 0;
+		return int(floor(log10(abs(f))));
 	}
 }
