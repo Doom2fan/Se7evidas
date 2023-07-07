@@ -282,34 +282,26 @@ extend class S7_Math {
     */
     static bool RayIntersectsSeg (Vector2 point, Vector2 a, Vector2 b) {
         if (point.Y == a.Y || point.Y == b.Y)
-            point.Y += double.Epsilon;
+            point.Y += S7_Math.VM_Epsilon;
 
         if (point.Y < a.Y || point.Y > b.Y)
             return false;
         else if (point.X >= max (a.X, b.X))
             return false;
-        else {
-            if (point.X < min (a.X, b.X))
-                return true;
-            else {
-                double m_red, m_blue;
+        else if (point.X < min (a.X, b.X))
+            return true;
 
-                if (a.X != b.X)
-                    m_red = (b.Y - a.Y) / (b.X - a.X);
-                else
-                    m_red = double.infinity;
+        let m_red = (a.X != b.X) ? ((b.Y - a.Y) / (b.X - a.X)) : double.infinity;
+        let m_blue = (a.X != point.X) ? ((point.Y - a.Y) / (point.X - a.X)) : double.infinity;
 
-                if (a.X != point.X)
-                    m_blue = (point.Y - a.Y) / (point.X - a.X);
-                else
-                    m_blue = double.infinity;
+        return m_blue >= m_red;
+    }
 
-                if (m_blue >= m_red)
-                    return true;
-                else
-                    return false;
-            }
-        }
+    static bool RayIntersectsSegAuto (Vector2 point, Vector2 a, Vector2 b) {
+        if (a.Y > b.Y)
+            return RayIntersectsSeg (point, b, a);
+
+        return RayIntersectsSeg (point, a, b);
     }
 
     /* Summary:
