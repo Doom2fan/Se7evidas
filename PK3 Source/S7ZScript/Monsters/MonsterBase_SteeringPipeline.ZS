@@ -171,39 +171,32 @@ class S7_MonsterSteering_BasicActuator : S7_MonsterSteering_Actuator {
         if (path.Length () < 2)
             return (0, 0, 0), 0;
 
-        if (!S7_CanFly ()) {
-            let pathDir = monster.level.Vec2Diff (path.Index (0).XY, path.Index (1).XY).Unit ();
+        let maxSpeed = monster.Speed;
+        let curVel = monster.Vel;
 
-            if (pathDir ~== (0, 0, 0))
-                return (0, 0, 0), 0;
+        let linearAccel = (0, 0, 0);
+        let angularAccel = 0.;
+        if (!monster.S7_CanFly ()) {
+            let pathDir = monster.level.Vec2Diff (path.IndexXY (0), path.IndexXY (1)).Unit ();
 
-            let maxSpeed = monster.Speed;
-            let curVel = monster.Vel;
-            let targetVel = pathDir * maxSpeed;
-
-            let linearAccel = targetVel - monster.Vel.XY;
-            let linearAccelSqr = linearAccel dot linearAccel;
-            if (linearAccelSqr > (maxSpeed * maxSpeed))
-                linearAccel / sqrt (linearAccelSqr) * maxSpeed
-
-            return linearAccel, atan2 (pathDir.Y, pathDir.X) - monster.Angle;
+            if (!(pathDir ~== (0, 0))) {
+                linearAccel = (pathDir * maxSpeed, 0) - (monster.Vel.XY, 0);
+                angularAccel = atan2 (pathDir.Y, pathDir.X) - monster.Angle;
+            }
         } else {
             let pathDir = monster.level.Vec3Diff (path.Index (0), path.Index (1)).Unit ();
 
-            if (pathDir ~== (0, 0, 0))
-                return (0, 0, 0), 0;
-
-            let maxSpeed = monster.Speed;
-            let curVel = monster.Vel;
-            let targetVel = pathDir * maxSpeed;
-
-            let linearAccel = targetVel - monster.Vel;
-            let linearAccelSqr = linearAccel dot linearAccel;
-            if (linearAccelSqr > (maxSpeed * maxSpeed))
-                linearAccel / sqrt (linearAccelSqr) * maxSpeed
-
-            return linearAccel, atan2 (pathDir.Y, pathDir.X) - monster.Angle;
+            if (!(pathDir ~== (0, 0, 0))) {
+                linearAccel = (pathDir * maxSpeed) - monster.Vel;
+                angularAccel = atan2 (pathDir.Y, pathDir.X) - monster.Angle;
+            }
         }
+
+        let linearAccelSqr = linearAccel dot linearAccel;
+        if (linearAccelSqr > (maxSpeed * maxSpeed))
+            linearAccel = linearAccel / sqrt (linearAccelSqr) * maxSpeed;
+
+        return linearAccel, angularAccel;
     }
 }
 
@@ -276,6 +269,10 @@ struct S7_MonsterSteering_Path {
 
     Vector3 Index (int i) {
         return (pointsX [i], pointsY [i], pointsZ [i]);
+    }
+
+    Vector2 IndexXY (int i) {
+        return (pointsX [i], pointsY [i]);
     }
 
     int Length () {
