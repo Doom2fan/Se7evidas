@@ -91,7 +91,7 @@ class S7_MD5 {
             return false;
 
         hash = hash.MakeUpper ();
-        for (int i = 0; i < hash.Length (); i++) {
+        for (uint i = 0; i < hash.Length (); i++) {
             int c = hash.ByteAt (i);
 
             if ((c >= 65 && c <= 70) || (c >= 48 && c <= 57)) // Continue if char matches [0-9A-Z]
@@ -292,7 +292,7 @@ class S7_MD5 {
 
         // Transform as many times as possible
         if (inputLen >= partLen) {
-            for (int j = 0; j < partLen; j++)
+            for (uint j = 0; j < partLen; j++)
                 _buffer [index + j] = (data [j] & 0xFF);
 
             tmpBuffer.Clear ();
@@ -326,7 +326,7 @@ class S7_MD5 {
 
         // Buffer remaining input
         if (inputLen - i) {
-            for (int j = 0; j < inputLen-i; j++)
+            for (uint j = 0; j < inputLen-i; j++)
                 _buffer [index+j] = data [i+j] & 0xFF;
         }
 
@@ -353,7 +353,7 @@ class S7_MD5 {
         padLen = (index < 56) ? (56 - index) : (120 - index);
 
         padArr.Clear ();
-        for (int i = 0; i < padLen; i++)
+        for (uint i = 0; i < padLen; i++)
             padArr.Push (_padding [i]);
 
         Put (padArr);

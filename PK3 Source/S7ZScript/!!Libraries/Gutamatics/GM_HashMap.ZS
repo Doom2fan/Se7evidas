@@ -113,7 +113,7 @@ class S7_GM_KVStorage {
 
 		newKV.clear();
 
-		for (let i = 0u; i < self.keys.size(); i++) {
+		for (let i = 0; i < self.keys.size(); i++) {
 			let k = self.keys[i];
 			if (k != self.empty && k != self.tombstone) {
 				newKV.insert(k, self.values[i], hasher);
@@ -182,7 +182,7 @@ class S7_GM_KVStorage {
 	}
 
 	bool isEmpty() {
-		for (let i = 0u; i < self.keys.size(); i++) {
+		for (let i = 0; i < self.keys.size(); i++) {
 			let k = self.keys[i];
 			if (k != self.empty && k != self.tombstone) {
 				return false;
@@ -192,7 +192,7 @@ class S7_GM_KVStorage {
 	}
 
 	void clear() {
-		for (let i = 0u; i < self.keys.size(); i++) {
+		for (let i = 0; i < self.keys.size(); i++) {
 			self.keys[i] = self.empty;
 			self.values[i] = NULL;
 		}
@@ -212,7 +212,7 @@ class S7_GM_HashMapIterator {
 	}
 
 	Object, Object next() {
-		while (self.i < m.keys.size()) {
+		while (self.i < uint(m.keys.size())) {
 			let k = m.keys[self.i];
 			let v = m.values[self.i];
 			self.i += 1;
@@ -254,7 +254,7 @@ class S7_GM_HashMap {
 	}
 
 	void insert(Object key, Object value) {
-		if (self.kv.loadCount + 1 > self.kv.keys.size() / 2) {
+		if (self.kv.loadCount + 1 > uint(self.kv.keys.size() / 2)) {
 			self.resize(self.kv.keys.size() * 2);
 		}
 		self.kv.insert(key, value, self.hasher);
@@ -278,7 +278,7 @@ class S7_GM_HashMap {
 
 	String debugRepr() {
 		let ret = "";
-		for (let i = 0u; i < self.kv.keys.size(); i++) {
+		for (let i = 0; i < self.kv.keys.size(); i++) {
 			ret.appendFormat("%d : ", i);
 			let k = self.kv.keys[i];
 			if (k == self.kv.empty) {

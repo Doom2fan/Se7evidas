@@ -69,7 +69,7 @@ class S7_GM_Expr {
 
 	void negate() {
 		self.constant = -self.constant;
-		for (let i = 0u; i < self.terms.size(); i++) {
+		for (let i = 0; i < self.terms.size(); i++) {
 			let t = self.terms[i];
 			t.coefficient = -t.coefficient;
 		}
@@ -84,14 +84,14 @@ class S7_GM_Expr {
 		return self;
 	}
 	S7_GM_Expr addAssignExpression(S7_GM_Expr e) {
-		for (let i = 0u; i < e.terms.size(); i++) {
+		for (let i = 0; i < e.terms.size(); i++) {
 			self.terms.push(e.terms[i]);
 		}
 		self.constant += e.constant;
 		return self;
 	}
 	S7_GM_Expr mulAssign(double coeff) {
-		for (let i = 0u; i < self.terms.size(); i++) {
+		for (let i = 0; i < self.terms.size(); i++) {
 			self.terms[i].coefficient *= coeff;
 		}
 		self.constant *= coeff;
@@ -546,7 +546,7 @@ class S7_GM_Solver {
 		self.optimise(objective);
 
 		let cexpr = constraint.getExpr();
-		for (let i = 0u; i < cexpr.terms.size(); i++) {
+		for (let i = 0; i < cexpr.terms.size(); i++) {
 			let term = cexpr.terms[i];
 			if (!S7_GM_GlobalMaths.nearZero(term.coefficient)) {
 				let shouldRemove = false;
@@ -754,7 +754,7 @@ class S7_GM_Solver {
 	private S7_GM_Row, S7_GM_Tag createRow(S7_GM_Constraint constraint) {
 		let expr = constraint.getExpr();
 		let row = S7_GM_Row.create(expr.constant);
-		for (let i = 0u; i < expr.terms.size(); i++) {
+		for (let i = 0; i < expr.terms.size(); i++) {
 			let term = expr.terms[i]; 
 			if (!S7_GM_GlobalMaths.nearZero(term.coefficient)) {
 				let symbol = self.getVarSymbol(term.variable);

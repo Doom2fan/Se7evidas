@@ -72,34 +72,40 @@ class S7_ShaderData : Inventory {
     double stealthStrengthFactor;
 
     override void DoEffect () {
+        if (!Owner || !Owner.player || Owner.PlayerNumber () != consoleplayer)
+            return;
+
         // Nightvision
-        Shader.SetEnabled (Owner.player, "S7_Nightvision", nightvisionOn);
-        Shader.SetUniform1f (Owner.player, "S7_Nightvision", "flashlightIntensity", nightvisionIntensityMod);
+        PPShader.SetEnabled ("S7_Nightvision", nightvisionOn);
+        PPShader.SetUniform1f ("S7_Nightvision", "flashlightIntensity", nightvisionIntensityMod);
         // Invuln
-        Shader.SetEnabled (Owner.player, "S7_Invuln", invulnOn);
+        PPShader.SetEnabled ("S7_Invuln", invulnOn);
         // "Demon eyes"
-        Shader.SetEnabled (Owner.player, "S7_DemonEyes", demonEyesOn);
+        PPShader.SetEnabled ("S7_DemonEyes", demonEyesOn);
         // Shadowsphere
-        Shader.SetEnabled (Owner.player, "S7_Shadowsphere", shadowsphereOn);
-        Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "blurStrength", shadowsphereBlurStrength);
-        Shader.SetUniform1f (Owner.player, "S7_Shadowsphere", "vignetteStrength", shadowsphereVignetteStrength);
+        PPShader.SetEnabled ("S7_Shadowsphere", shadowsphereOn);
+        PPShader.SetUniform1f ("S7_Shadowsphere", "blurStrength", shadowsphereBlurStrength);
+        PPShader.SetUniform1f ("S7_Shadowsphere", "vignetteStrength", shadowsphereVignetteStrength);
         // Low health
-        Shader.SetEnabled (Owner.player, "S7_LowHealthShader", lowHealthOn);
-        Shader.SetUniform1f (Owner.player, "S7_LowHealthShader", "vignetteStrength", lowHealthStrengthFactor);
-        Shader.SetUniform3f (Owner.player, "S7_LowHealthShader", "vignetteColour",  (.0, .0, .0));
+        PPShader.SetEnabled ("S7_LowHealthShader", lowHealthOn);
+        PPShader.SetUniform1f ("S7_LowHealthShader", "vignetteStrength", lowHealthStrengthFactor);
+        PPShader.SetUniform3f ("S7_LowHealthShader", "vignetteColour",  (.0, .0, .0));
         // Stealth
-        Shader.SetEnabled (Owner.player, "S7_StealthShader", stealthOn);
-        Shader.SetUniform1f (Owner.player, "S7_StealthShader", "vignetteStrength", stealthStrengthFactor);
-        Shader.SetUniform3f (Owner.player, "S7_StealthShader", "vignetteColour",  (.625, .25, 1.) * .75);
+        PPShader.SetEnabled ("S7_StealthShader", stealthOn);
+        PPShader.SetUniform1f ("S7_StealthShader", "vignetteStrength", stealthStrengthFactor);
+        PPShader.SetUniform3f ("S7_StealthShader", "vignetteColour",  (.625, .25, 1.) * .75);
     }
 
     void DisableAllEffects () {
-        Shader.SetEnabled (Owner.player, "S7_Nightvision"    , false);
-        Shader.SetEnabled (Owner.player, "S7_Invuln"         , false);
-        Shader.SetEnabled (Owner.player, "S7_DemonEyes"      , false);
-        Shader.SetEnabled (Owner.player, "S7_Shadowsphere"   , false);
-        Shader.SetEnabled (Owner.player, "S7_LowHealthShader", false);
-        Shader.SetEnabled (Owner.player, "S7_StealthShader"  , false);
+        if (!Owner || !Owner.player || Owner.PlayerNumber () != consoleplayer)
+            return;
+
+        PPShader.SetEnabled ("S7_Nightvision"    , false);
+        PPShader.SetEnabled ("S7_Invuln"         , false);
+        PPShader.SetEnabled ("S7_DemonEyes"      , false);
+        PPShader.SetEnabled ("S7_Shadowsphere"   , false);
+        PPShader.SetEnabled ("S7_LowHealthShader", false);
+        PPShader.SetEnabled ("S7_StealthShader"  , false);
     }
 
     override void DetachFromOwner () {

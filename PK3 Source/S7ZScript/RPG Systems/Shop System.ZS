@@ -120,8 +120,9 @@ class S7_SSItem {
 
     virtual void PostProcess () { }
 
-    virtual int GetAmount (S7_BasePlayer player, bool sellMode) {
-        return player.CountInv (inventoryName);
+    virtual uint GetAmount (S7_BasePlayer player, bool sellMode) {
+        let ret = uint (player.CountInv (inventoryName));
+        return ret;
     }
 
     virtual bool CanBuy (S7_BasePlayer player, int amount) {
@@ -131,7 +132,7 @@ class S7_SSItem {
         S7_SSItemInfo info = GetInfo (player, amount);
 
         return (GetAmount (player, false) + info.buyAmount) <= info.maxAmount &&
-                player.CountInv (cashItem) >= info.buyPrice;
+                uint (player.CountInv (cashItem)) >= info.buyPrice;
     }
 
     virtual bool CanSell (S7_BasePlayer player, int amount) {
@@ -140,14 +141,14 @@ class S7_SSItem {
 
         S7_SSItemInfo info = GetInfo (player, amount);
 
-        int maxCashAmount = 0;
+        uint maxCashAmount = 0;
 
         let cashInv = player.FindInventory (cashItem);
         let defCashInv = GetDefaultByType ((Class<Inventory>) (cashItem));
         if (cashInv)
-            maxCashAmount = cashInv.MaxAmount;
+            maxCashAmount = uint (cashInv.MaxAmount);
         else if (defCashInv)
-            maxCashAmount = defCashInv.MaxAmount;
+            maxCashAmount = uint (defCashInv.MaxAmount);
         else
             return false;
 
@@ -186,7 +187,7 @@ class S7_SSItem {
         int finalPrice = int ((itemInfo.buyPrice) - ((itemInfo.buyPrice) * discount));
         int finalAmount = itemInfo.buyAmount;
 
-        if (player.CountInv (self.inventoryName) + finalAmount > itemInfo.maxAmount)
+        if (uint (player.CountInv (self.inventoryName) + finalAmount) > itemInfo.maxAmount)
             return BC_InventoryFull;
         if (player.CountInv (self.cashItem) < finalPrice)
             return BC_NotEnoughMoney;
@@ -209,7 +210,7 @@ class S7_SSItem {
 
         if (player.CountInv (self.inventoryName) < finalAmount)
             return SC_NotEnoughOfItem;
-        if (uint (uint (player.CountInv (self.cashItem)) + uint (finalPrice)) >= player.FindInventory (self.cashItem).maxAmount)
+        if (uint (uint (player.CountInv (self.cashItem)) + uint (finalPrice)) >= uint (player.FindInventory (self.cashItem).maxAmount))
             return SC_TooMuchMoney;
         if (!CanSell (player, amount))
             return SC_Unknown;
@@ -364,12 +365,14 @@ class S7_SSItem_ThumperGrenade : S7_SSItem {
         return ret;
     }
 
-    override int GetAmount (S7_BasePlayer player, bool sellMode) {
+    override uint GetAmount (S7_BasePlayer player, bool sellMode) {
         if (!player)
             return 0;
 
-        if (!sellMode)
-            return S7_Thumper_PUnified.CalculateUnifiedAmount (player);
+        if (!sellMode) {
+            let ret = uint (S7_Thumper_PUnified.CalculateUnifiedAmount (player));
+            return ret;
+        }
         else
             return Super.GetAmount (player, sellMode);
     }
