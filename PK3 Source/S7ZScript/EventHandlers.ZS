@@ -58,13 +58,13 @@ class S7_ServerEventHandler : EventHandler {
     }
 
     override void RenderOverlay (RenderEvent e) {
-        Shader.SetUniform3f (players [consoleplayer], "S7_Nightvision", "offsets", (
+        PPShader.SetUniform3f ("S7_Nightvision", "offsets", (
             fRandom [S7_Nightvision_uOffsets] (0., 1.),
             fRandom [S7_Nightvision_uOffsets] (0., 1.),
             fRandom [S7_Nightvision_uOffsets] (0., 1.))
         );
-        Shader.SetUniform1f (players [consoleplayer], "S7_Nightvision", "mean", -0.75);
-        Shader.SetUniform1f (players [consoleplayer], "S7_Nightvision", "stddev", 0.5);
+        PPShader.SetUniform1f ("S7_Nightvision", "mean", -0.75);
+        PPShader.SetUniform1f ("S7_Nightvision", "stddev", 0.5);
     }
 }
 

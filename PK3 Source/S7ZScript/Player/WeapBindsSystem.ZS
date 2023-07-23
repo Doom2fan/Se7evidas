@@ -228,12 +228,15 @@ class S7_WeapBindsSystem : Inventory {
 
     // Picks the next weapon in the specified slot
     S7_BaseWeapon PickWeapon (uint slot, bool checkAmmo = false, bool draco = false) {
-        if (slot < (!draco ? 0 : 1) || (!draco && slot > Num_Weapon_Slots-1) || (draco && slot > Num_Weapon_Slots_Draco))
+        if (slot < uint (!draco ? 0 : 1))
+            return null;
+
+        if (slot > uint (Num_Weapon_Slots + (!draco ? 0 : -1)))
             return null;
 
         PlayerInfo player = PlayerPawn (Owner).player;
 
-        if (slot < (!draco ? 0 : 1) || slot > 9) // Return if the slot number is out of bounds.
+        if (slot < uint (!draco ? 0 : 1) || slot > 9) // Return if the slot number is out of bounds.
             return S7_BaseWeapon (player.ReadyWeapon);
         if ((!draco && Binds [slot].Size () < 1) || (draco && DracoBinds [slot-1].Size () < 1)) // Return if the slot is empty
             return S7_BaseWeapon (player.ReadyWeapon);

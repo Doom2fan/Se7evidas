@@ -282,34 +282,26 @@ extend class S7_Math {
     */
     static bool RayIntersectsSeg (Vector2 point, Vector2 a, Vector2 b) {
         if (point.Y == a.Y || point.Y == b.Y)
-            point.Y += double.Epsilon;
+            point.Y += S7_Math.VM_Epsilon;
 
         if (point.Y < a.Y || point.Y > b.Y)
             return false;
         else if (point.X >= max (a.X, b.X))
             return false;
-        else {
-            if (point.X < min (a.X, b.X))
-                return true;
-            else {
-                double m_red, m_blue;
+        else if (point.X < min (a.X, b.X))
+            return true;
 
-                if (a.X != b.X)
-                    m_red = (b.Y - a.Y) / (b.X - a.X);
-                else
-                    m_red = double.infinity;
+        let m_red = (a.X != b.X) ? ((b.Y - a.Y) / (b.X - a.X)) : double.infinity;
+        let m_blue = (a.X != point.X) ? ((point.Y - a.Y) / (point.X - a.X)) : double.infinity;
 
-                if (a.X != point.X)
-                    m_blue = (point.Y - a.Y) / (point.X - a.X);
-                else
-                    m_blue = double.infinity;
+        return m_blue >= m_red;
+    }
 
-                if (m_blue >= m_red)
-                    return true;
-                else
-                    return false;
-            }
-        }
+    static bool RayIntersectsSegAuto (Vector2 point, Vector2 a, Vector2 b) {
+        if (a.Y > b.Y)
+            return RayIntersectsSeg (point, b, a);
+
+        return RayIntersectsSeg (point, a, b);
     }
 
     /* Summary:
@@ -341,6 +333,55 @@ extend class S7_Math {
         }
 
         return ((count & 1) == 1);
+    }
+
+    /* Summary:
+    **  Checks if a ray intersects a segment.
+    **
+    ** Arguments:
+    **  rayPos: The point from which the ray starts.
+    **  rayDir: The direction of the ray.
+    **  v1: The first end-point of the line segment.
+    **  v2: The second end-point of the line segment.
+    **  intersection: An output parameter which contains the point of intersection between the ray and the segment.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether the ray is intersecting the segment.
+    */
+    static bool, Vector2 RayLineSegIntersection (Vector2 rayPos, Vector2 rayDir, Vector2 v1, Vector2 v2) {
+        let p1 = rayPos - v1;
+        let p2 = v2 - v1;
+        let p3 = (-rayDir.Y, rayDir.X);
+
+        let dotVal = p2 dot p3;
+        if (dotVal ~== 0)
+            return false, (0, 0);
+
+        let t1 = (p2.X * p1.Y - p2.Y * p1.X) / dotVal;
+        let t2 = (p1 dot p3) / dotVal;
+
+        if (t1 >= 0 && (t2 >= 0 && t2 <= 1))
+            return true, rayPos + rayDir * t1;
+
+        return false, (0, 0);
+    }
+
+    /* Summary:
+    **  Determines whether a vertex is reflex or convex. The vertices must be sorted counter-clockwise.
+    **
+    ** Arguments:
+    **  a: The previous vertex. (V-1)
+    **  b: The vertex to check. (V)
+    **  c: The next vertex. (V+1)
+    **
+    ** Returns:
+    **  Returns true if the vertex is reflex, false if it's convex.
+    */
+    static bool IsVertexReflex (Vector2 a, Vector2 b, Vector2 c) {
+        let v1 = b - a;
+        let v2 = c - b;
+
+        return (v1.X * v2.Y - v2.X * v1.Y) < 0;
     }
 }
 

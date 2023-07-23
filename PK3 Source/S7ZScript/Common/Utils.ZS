@@ -244,3 +244,51 @@ class S7_BoundingBox {
         return (p1 == p2) ? p1 : -1;
     }
 }
+
+struct SArrayVector2 {
+    private Array<double> pointsX;
+    private Array<double> pointsY;
+
+    Vector2 Index (int i) {
+        return (pointsX [i], pointsY [i]);
+    }
+
+    int Size () {
+        return pointsX.Size ();
+    }
+
+    void Push (Vector2 p) {
+        pointsX.Push (p.X);
+        pointsY.Push (p.Y);
+    }
+
+    void Insert (uint index, Vector2 p) {
+        pointsX.Insert (index, p.X);
+        pointsY.Insert (index, p.Y);
+    }
+
+    void Delete (uint index, int n = 1) {
+        pointsX.Delete (index, n);
+        pointsY.Delete (index, n);
+    }
+
+    void Clear () {
+        pointsX.Clear ();
+        pointsY.Clear ();
+    }
+
+    void ShrinkToFit () {
+        pointsX.ShrinkToFit ();
+        pointsY.ShrinkToFit ();
+    }
+
+    void Copy (SArrayVector2 other) {
+        pointsX.Copy (other.pointsX);
+        pointsY.Copy (other.pointsY);
+    }
+
+    void Move (SArrayVector2 other) {
+        pointsX.Move (other.pointsX);
+        pointsY.Move (other.pointsY);
+    }
+}

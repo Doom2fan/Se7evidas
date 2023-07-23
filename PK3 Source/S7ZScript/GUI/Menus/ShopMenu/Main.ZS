@@ -266,11 +266,11 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                     let info = selItemData.GetInfo (pPawn, 1);
 
                     let cashItem = pPawn.FindInventory (selItemData.cashItem);
-                    int cashAmount, cashMax;
+                    uint cashAmount, cashMax;
 
                     if (cashItem) {
-                        cashAmount = cashItem.Amount;
-                        cashMax = cashItem.MaxAmount;
+                        cashAmount = uint (cashItem.Amount);
+                        cashMax = uint (cashItem.MaxAmount);
                     } else {
                         cashAmount = 0;
                         cashMax = 0;

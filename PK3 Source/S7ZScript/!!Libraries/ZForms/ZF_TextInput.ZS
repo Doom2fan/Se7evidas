@@ -203,7 +203,7 @@ class S7_ZF_TextInput : S7_ZF_Element {
 		let line = 0;
 		while (true) {
 			let lineLength = lines[line].length();
-			if (cur + lineLength >= cursor) {
+			if (cur + lineLength >= uint(cursor)) {
 				cursorLine = line;
 				cursorRelative = cursor - cur;
 				break;
@@ -222,7 +222,7 @@ class S7_ZF_TextInput : S7_ZF_Element {
 		line = 0;
 		while (true) {
 			let lineLength = lines[line].length();
-			if (cur + lineLength >= selCursor) {
+			if (cur + lineLength >= uint(selCursor)) {
 				selCursorLine = line;
 				selCursorRelative = selCursor - cur;
 				break;
@@ -529,7 +529,7 @@ class S7_ZF_TextInput : S7_ZF_Element {
 			}
 		}
 
-		if ((dir == -1 && cursorSel > 0) || (dir == 1 && cursorSel < text.length())) {
+		if ((dir == -1 && cursorSel > 0) || (dir == 1 && uint(cursorSel) < text.length())) {
 			let cursorJumpSize = 1;
 			let lastCharCtrlStop = false;
 			while (true) {
