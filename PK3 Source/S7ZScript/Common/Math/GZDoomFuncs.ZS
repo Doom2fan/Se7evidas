@@ -33,6 +33,21 @@ extend class S7_Math {
     }
 
     /* Summary:
+    **  Checks which side of a line a point is on.
+    **
+    ** Arguments:
+    **  p: The point to check.
+    **  v1: The first vertex of the line.
+    **  v2: The second vertex of the line.
+    **
+    ** Returns:
+    **  Returns 0 if on the line or in front of it or 1 if behind the line.
+    */
+    clearscope static int PointOnLineSide (Vector2 p, Vector2 v1, vector2 v2) {
+        return (p.Y - v1.Y) * (v2.X - v1.X) - (p.X - v1.X) * (v2.Y - v1.Y);
+    }
+
+    /* Summary:
     **  Projects a 2D point onto a map line.
     **
     ** Arguments:

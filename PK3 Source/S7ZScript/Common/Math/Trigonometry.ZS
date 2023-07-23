@@ -334,6 +334,55 @@ extend class S7_Math {
 
         return ((count & 1) == 1);
     }
+
+    /* Summary:
+    **  Checks if a ray intersects a segment.
+    **
+    ** Arguments:
+    **  rayPos: The point from which the ray starts.
+    **  rayDir: The direction of the ray.
+    **  v1: The first end-point of the line segment.
+    **  v2: The second end-point of the line segment.
+    **  intersection: An output parameter which contains the point of intersection between the ray and the segment.
+    **
+    ** Returns:
+    **  Returns a bool indicating whether the ray is intersecting the segment.
+    */
+    static bool, Vector2 RayLineSegIntersection (Vector2 rayPos, Vector2 rayDir, Vector2 v1, Vector2 v2) {
+        let p1 = rayPos - v1;
+        let p2 = v2 - v1;
+        let p3 = (-rayDir.Y, rayDir.X);
+
+        let dotVal = p2 dot p3;
+        if (dotVal ~== 0)
+            return false, (0, 0);
+
+        let t1 = (p2.X * p1.Y - p2.Y * p1.X) / dotVal;
+        let t2 = (p1 dot p3) / dotVal;
+
+        if (t1 >= 0 && (t2 >= 0 && t2 <= 1))
+            return true, rayPos + rayDir * t1;
+
+        return false, (0, 0);
+    }
+
+    /* Summary:
+    **  Determines whether a vertex is reflex or convex. The vertices must be sorted counter-clockwise.
+    **
+    ** Arguments:
+    **  a: The previous vertex. (V-1)
+    **  b: The vertex to check. (V)
+    **  c: The next vertex. (V+1)
+    **
+    ** Returns:
+    **  Returns true if the vertex is reflex, false if it's convex.
+    */
+    static bool IsVertexReflex (Vector2 a, Vector2 b, Vector2 c) {
+        let v1 = b - a;
+        let v2 = c - b;
+
+        return (v1.X * v2.Y - v2.X * v1.Y) < 0;
+    }
 }
 
 class S7_Polygon {
