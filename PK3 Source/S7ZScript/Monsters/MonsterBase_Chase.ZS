@@ -529,11 +529,11 @@ extend class S7_MonsterBase {
             if (strafecount > 0)
                 strafecount--;
 
-            if (moveStandStillCount > 0)
+            if (moveStandStillCount-- > 0)
                 moveStandStillCount--;
 
-            if (moveCount > 0)
-                moveCount--;
+            moveCount--;
+            //Console.Printf ("%d", moveCount);
         }
 
         S7_DoSteering (Speed, moveGoal, dontMove);

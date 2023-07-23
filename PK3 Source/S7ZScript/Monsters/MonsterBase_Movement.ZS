@@ -28,6 +28,10 @@ class S7_MonsterBase_WallTracer : LineTracer {
 
     bool WasDropoff;
 
+    bool CheckWallPassable (Line curLine) {
+        return curLine.flags & LineBlockFlags;
+    }
+
     override ETraceStatus TraceCallback () {
         let hitPos = Results.HitPos;
         WasDropoff = false;
@@ -65,6 +69,18 @@ class S7_MonsterBase_WallTracer : LineTracer {
         return TRACE_Skip;
     }
 }
+class S7_Asd : Actor {
+    default {
+        +NOGRAVITY +NOINTERACTION
+    }
+
+    states {
+    Spawn:
+        BAL1 A 3;
+        BAL1 A 2 A_FadeOut (0.1);
+        wait;
+    }
+}
 
 extend class S7_MonsterBase {
     S7_MonsterBase_WallTracer wallTracer;
@@ -81,7 +97,7 @@ extend class S7_MonsterBase {
         ObstacleType_BlockingLine,
         ObstacleType_Dropoff,
         ObstacleType_Actor,
-        ObstacleType_AvoidedWall,
+        ObstacleType_LineAlign,
     }
 
     static const double WallFeelersAngles [] = {
@@ -129,15 +145,22 @@ extend class S7_MonsterBase {
         let offsets = (sinAng * offsY, cosAng * offsY, offsZ);
 
         let startPos = level.Vec3Offset (Pos, offsets);
-        return wallTracer.Trace (startPos, curSector, traceDir, distance, 0);
+        let ret = wallTracer.Trace (startPos, curSector, traceDir, distance, 0);
+
+        if (!ret || wallTracer.Results.HitType != TRACE_HitWall)
+            return false;
+
+        //Spawn('S7_Asd', wallTracer.Results.HitPos);
+
+        return true;
     }
 
-    int, Vector2 S7_Steer_WallAvoid (double checkAngle, double maxAccel, double curSpeed, double predictionTime) {
+    int, Vector2 S7_Steer_WallAvoid (double checkAngle, double maxAccel, double curSpeed, double predictionTime, bool alignWithLine) {
         bool boolDiscard;
         int blockType = ObstacleType_None;
 
         wallTracer.LineBlockFlags = S7_ActorExtensions.GetSelfBlockLineFlags (self);
-        wallTracer.CanDropoff = bFloat;
+        wallTracer.CanDropoff = S7_CanFly ();
         wallTracer.MaxDropOffHeight = MaxDropOffHeight;
 
         let realRadius = S7_Math.SqrtTwo * Radius;
@@ -146,7 +169,6 @@ extend class S7_MonsterBase {
         let closestDist = double.infinity;
         Line closestHitLine = null;
         Vector2 closestHitCentralOffset;
-        int closestHitSide;
 
         double traceDist = realRadius + max (max (curSpeed, maxAccel), realRadius * 1.2) * predictionTime;
         for (int i = 0; i < WallFeelersAngles.Size (); i++) {
@@ -167,18 +189,36 @@ extend class S7_MonsterBase {
 
                 closestDist = wallTracer.Results.Distance;
                 closestHitLine = wallTracer.Results.HitLine;
-                closestHitSide = wallTracer.Results.Side;
                 [boolDiscard, closestHitCentralOffset] = S7_Math.ProjectPointToLine2D (
                     (0, 0), checkDir * traceDist, wallTracer.Results.HitVector.XY * max (closestDist - Radius, 0)
                 );
-                blockType = ObstacleType_BlockingLine + wallTracer.WasDropoff;
+                blockType = wallTracer.WasDropoff ? ObstacleType_Dropoff : ObstacleType_BlockingLine;
             }
         }
 
-        if (closestHitLine != null)
-            return blockType, closestHitCentralOffset;
+        if (closestHitLine == null)
+            return ObstacleType_None, (0, 0);
 
-        return ObstacleType_None, (0, 0);
+        if (blockType == ObstacleType_Dropoff)
+            return ObstacleType_Dropoff, closestHitCentralOffset;
+
+        let dirOffset = closestHitCentralOffset;
+        if (alignWithLine) {
+            let lineDir = closestHitLine.delta.Unit ();
+            let lineCos = checkDir dot lineDir;
+
+            if (lineCos < 0) {
+                lineCos = abs (lineCos);
+                lineDir = -lineDir;
+            }
+
+            if (lineCos > 0.01) {
+                dirOffset = lineDir * maxAccel;
+                blockType = ObstacleType_LineAlign;
+            }
+        }
+
+        return blockType, dirOffset;
     }
 
     bool, Vector2 S7_Steer_AvoidActors (double checkAngle, double maxAccel, double curSpeed, double predictionTime) {
@@ -224,11 +264,11 @@ extend class S7_MonsterBase {
         return false, (0, 0);
     }
 
-    int, Vector2 S7_Steer_AvoidObstacles (double checkAngle, double maxAccel, double curSpeed, double predictionTime) {
+    int, Vector2 S7_Steer_AvoidObstacles (double checkAngle, double maxAccel, double curSpeed, double predictionTime, bool alignWithLine = false) {
         int wallType; Vector2 wallOffset;
         bool actorHit; Vector2 actorOffset;
 
-        [wallType, wallOffset] = S7_Steer_WallAvoid (checkAngle, maxAccel, curSpeed, predictionTime);
+        [wallType, wallOffset] = S7_Steer_WallAvoid (checkAngle, maxAccel, curSpeed, predictionTime, alignWithLine);
         [actorHit, actorOffset] = S7_Steer_AvoidActors (checkAngle, maxAccel, curSpeed, predictionTime);
 
         if (wallType == ObstacleType_None && !actorHit)
@@ -257,6 +297,10 @@ extend class S7_MonsterBase {
         }
 
         return selectedObstacle, selectedOffset;
+    }
+
+    bool S7_CanFly () {
+        return bFloat;
     }
 
     const S7_ChaseDir_Count = 12;
@@ -308,19 +352,43 @@ extend class S7_MonsterBase {
         let predTime = max ((CurState ? CurState.Tics : Tics) / 4., 1);
         let wallAvoidLenSqr = (max (maxAccel, Radius * S7_Math.SqrtTwo) * predTime) ** 2;
 
-        // Try the direct route.
-        [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (goalAngle, maxAccel, 0, predTime);
-        if (dirBlocked == ObstacleType_None) {
-            Angle = goalAngle;
+        // Try the current direction.
+        /*[dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (Angle, maxAccel, 0, predTime, true);
+        if (dirBlocked == ObstacleType_None)
             return true;
-        }
+        else if (dirBlocked == ObstacleType_LineAlign) {
+            let alignAngle = atan2 (dirOffset.Y, dirOffset.X);
+
+            [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (alignAngle, maxAccel, 0, predTime);
+            if ((dirOffset dot dirOffset) <= wallAvoidLenSqr) {
+                Console.Printf ("Line align");
+
+                if (dirBlocked != ObstacleType_None)
+                    Angle = atan2 (dirOffset.Y, dirOffset.X);
+                else
+                    Angle = alignAngle;
+
+                return true;
+            }
+        }*/
 
         // Try the direct route.
-        [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (goalAngle, maxAccel, 0, predTime);
+        [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (goalAngle, maxAccel, 0, predTime, true);
         if (dirBlocked == ObstacleType_None) {
             Angle = goalAngle;
             return true;
-        } /*else if (dirBlocked != ObstacleType_Dropoff && (dirOffset dot dirOffset) > wallAvoidLenSqr) {
+        } /*else if (dirBlocked == ObstacleType_LineAlign) {
+            let alignAngle = atan2 (dirOffset.Y, dirOffset.X);
+
+            [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (alignAngle, maxAccel, 0, predTime);
+
+            if (dirBlocked != ObstacleType_None)
+                Angle = atan2 (dirOffset.Y, dirOffset.X);
+            else
+                Angle = alignAngle;
+
+            return true;
+        } else if (dirBlocked != ObstacleType_Dropoff && (dirOffset dot dirOffset) > wallAvoidLenSqr) {
             Console.Printf ("direct route (should avoid)");
             Angle = atan2 (dirOffset.Y, dirOffset.X);
             return true;
@@ -425,8 +493,26 @@ extend class S7_MonsterBase {
         return linearAccel;
     }
 
+    S7_MonsterSteering_Pipeline steerPipeline;
     void S7_DoSteering (double maxAccel, Actor moveGoal, bool dontMove) {
-        bool canFloat = bFloat;
+        if (!steerPipeline) {
+            steerPipeline = S7_MonsterSteering_Pipeline.Create (self)
+                .AddTargetter (new ('S7_MonsterSteering_BasicTargetter'))
+                .AddConstraint (new ('S7_MonsterSteering_AvoidWallsConstraint'))
+                .WithActuator (new ('S7_MonsterSteering_BasicActuator'))
+                .WithDeadlockActuator (new ('S7_MonsterSteering_BasicDeadlockActuator'));
+        }
+
+        Vector3 linearAccel;
+        double angularAccel;
+        [linearAccel, angularAccel] = steerPipeline.GetSteering ();
+
+        Vel += linearAccel;
+        Angle += angularAccel;
+
+        return;
+
+        bool canFloat = S7_CanFly ();
         if (!canFloat && (Pos.Z > floorZ || Vel.Z > S7_Math.VM_Epsilon))
             return;
 
@@ -464,12 +550,6 @@ extend class S7_MonsterBase {
             targetVel = AngleToVector (Angle, maxAccel);
         else
             return;
-
-        let linearAccel = targetVel - Vel.XY;
-
-        double linearAccelSqr = linearAccel dot linearAccel;
-        if (linearAccelSqr > (maxAccel * maxAccel))
-            linearAccel = linearAccel / sqrt (linearAccelSqr) * maxAccel;
 
         Vel.XY += GetClampedLinearAccel (targetVel - Vel.XY, maxAccel);
     }
@@ -514,6 +594,7 @@ extend class S7_MonsterBase {
     }
 
     void S7_DoTickSteering (double maxAccel) {
+        return;
         /*
          * This function is executed in Tick, to make monsters avoid slipping down dropoffs.
          */
@@ -526,7 +607,7 @@ extend class S7_MonsterBase {
             return;
         }
 
-        bool canFloat = bFloat;
+        bool canFloat = S7_CanFly ();
         if (!canFloat && (Pos.Z > floorZ || Vel.Z > S7_Math.VM_Epsilon))
             return;
 
