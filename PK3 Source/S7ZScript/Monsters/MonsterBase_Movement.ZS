@@ -78,9 +78,10 @@ extend class S7_MonsterBase {
 
     enum EObstacleType {
         ObstacleType_None = 0,
-        ObstacleType_BlockingLine = 1,
-        ObstacleType_Dropoff = 2,
-        ObstacleType_Actor = 3,
+        ObstacleType_BlockingLine,
+        ObstacleType_Dropoff,
+        ObstacleType_Actor,
+        ObstacleType_AvoidedWall,
     }
 
     static const double WallFeelersAngles [] = {
@@ -147,7 +148,7 @@ extend class S7_MonsterBase {
         Vector2 closestHitCentralOffset;
         int closestHitSide;
 
-        double traceDist = realRadius + max (max (curSpeed, maxAccel), realRadius / 2) * predictionTime;
+        double traceDist = realRadius + max (max (curSpeed, maxAccel), realRadius * 1.2) * predictionTime;
         for (int i = 0; i < WallFeelersAngles.Size (); i++) {
             let feelerAngle = checkAngle + WallFeelersAngles [i];
             let feelerYOffs = WallFeelersYOffs [i] * Radius;
@@ -182,7 +183,7 @@ extend class S7_MonsterBase {
 
     bool, Vector2 S7_Steer_AvoidActors (double checkAngle, double maxAccel, double curSpeed, double predictionTime) {
         let checkDir = AngleToVector (checkAngle, 1);
-        let checkSpeed = max (maxAccel, curSpeed) * predictionTime;
+        let checkSpeed = max (max (maxAccel, curSpeed), Radius * S7_Math.SqrtTwo * 1.2) * predictionTime;
         let checkVel = checkDir * checkSpeed;
         let realRadius = S7_Math.SqrtTwo * Radius;
 
@@ -305,17 +306,25 @@ extend class S7_MonsterBase {
         int dirBlocked;
         Vector2 dirOffset;
         let predTime = max ((CurState ? CurState.Tics : Tics) / 4., 1);
-        let wallAvoidLenSqr = (maxAccel * predTime) ** 2;
+        let wallAvoidLenSqr = (max (maxAccel, Radius * S7_Math.SqrtTwo) * predTime) ** 2;
 
         // Try the direct route.
         [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (goalAngle, maxAccel, 0, predTime);
         if (dirBlocked == ObstacleType_None) {
             Angle = goalAngle;
             return true;
-        } else if (dirBlocked != ObstacleType_Dropoff && (dirOffset dot dirOffset) > wallAvoidLenSqr) {
+        }
+
+        // Try the direct route.
+        [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (goalAngle, maxAccel, 0, predTime);
+        if (dirBlocked == ObstacleType_None) {
+            Angle = goalAngle;
+            return true;
+        } /*else if (dirBlocked != ObstacleType_Dropoff && (dirOffset dot dirOffset) > wallAvoidLenSqr) {
+            Console.Printf ("direct route (should avoid)");
             Angle = atan2 (dirOffset.Y, dirOffset.X);
             return true;
-        }
+        }*/
 
         // Sweep to find the closest direction.
         double closestDir;
@@ -336,16 +345,21 @@ extend class S7_MonsterBase {
             [dirBlocked, dirOffset] = S7_Steer_AvoidObstacles (thisDir, maxAccel, 0, predTime);
             if (dirBlocked == ObstacleType_None)
                 dirOffset = AngleToVector (thisDir, 1);
-            else if (dirBlocked == ObstacleType_Dropoff || (dirOffset dot dirOffset) <= wallAvoidLenSqr)
+            else if (dirBlocked == ObstacleType_Dropoff)
                 continue;
+            if (dirBlocked != ObstacleType_None)
+                ;//continue;
 
             let dirEndPos = level.Vec2Offset (Pos.XY, dirOffset);
             let endToGoalDiff = level.Vec2Diff (dirEndPos, goalPos);
             let thisDistSqr = endToGoalDiff dot endToGoalDiff;
-            if (thisDistSqr < closestDistSqr) {
+            closestDir = atan2 (dirOffset.Y, dirOffset.X);
+            closestDistSqr = thisDistSqr;
+            break;
+            /*if (thisDistSqr < closestDistSqr) {
                 closestDir = atan2 (dirOffset.Y, dirOffset.X);
                 closestDistSqr = thisDistSqr;
-            }
+            }*/
         }
 
         if (closestDistSqr != double.infinity) {
@@ -365,7 +379,7 @@ extend class S7_MonsterBase {
         let wanderPos = Pos.XY + AngleToVector (wanderAngle, wanderDist);
 
         // Try the direct route.
-        if (S7_Steer_AvoidObstacles (wanderAngle, maxAccel, 0, predTime) == ObstacleType_None) {
+        if (S7_Steer_AvoidObstacles (wanderAngle, maxAccel, 0, predTime, true) == ObstacleType_None) {
             Angle = wanderAngle;
             return true;
         }
@@ -420,11 +434,11 @@ extend class S7_MonsterBase {
         // rarely attack.
         bool chooseNewDir = moveCount < 0;
 
-        let predictionTime = max ((CurState ? CurState.Tics : Tics) / 4., 1);
+        let predictionTime = max ((CurState ? CurState.Tics : Tics), 1);
 
         let velLen = Vel.XY.Length ();
         let walkDir = (velLen ~== 0) ? Angle : atan2 (Vel.Y, Vel.X);
-        let wallAvoidSpeed = max (Radius * S7_Math.SqrtTwo, velLen);
+        let wallAvoidSpeed = max (Radius * S7_Math.SqrtTwo * 1.25, velLen);
         if (S7_Steer_AvoidObstacles (walkDir, maxAccel, wallAvoidSpeed, predictionTime) != ObstacleType_None)
             chooseNewDir = true;
 
@@ -438,7 +452,7 @@ extend class S7_MonsterBase {
             canWalk &= S7_NewChaseDir (walkDir, maxAccel, moveGoal);
             mustStop = !canWalk;
 
-            if (moveCount < 0)
+            if (moveCount < 1)
                 S7_SetMoveCount ();
         } else if (moveCount > 0)
             canWalk = mustStop = false;
@@ -520,7 +534,7 @@ extend class S7_MonsterBase {
 
         let velLen = Vel.XY.Length ();
         if (moveStandStillCount < 1)
-            S7_DoTickSteering_CheckUse (velLen);
+            S7_DoTickSteering_CheckUse (max (velLen, Radius * 1.2 * S7_Math.SqrtTwo));
 
         if (moveStandStillCount > 0)
             mustStop = true;
