@@ -41,4 +41,18 @@ extend class S7_Math {
     static Vector3 Vec3Mod (Vector3 lhs, Vector3 rhs) {
         return (lhs.X % rhs.X, lhs.Y % rhs.Y, lhs.Z % rhs.Z);
     }
+
+    static Vector2 ClampVec2Length (Vector2 vec, double maxLen) {
+        let vecSqr = vec dot vec;
+        if (vecSqr <= (maxLen * maxLen))
+            return vec;
+        return vec / sqrt (vecSqr) * maxLen;
+    }
+
+    static Vector3 ClampVec3Length (Vector3 vec, double maxLen) {
+        let vecSqr = vec dot vec;
+        if (vecSqr <= (maxLen * maxLen))
+            return vec;
+        return vec / sqrt (vecSqr) * maxLen;
+    }
 }
