@@ -508,7 +508,7 @@ extend class S7_MonsterBase {
             steerPipeline = S7_MonsterSteering_Pipeline.Create (self)
                 .AddTargetter (new ('S7_MonsterSteering_BasicTargetter').WithLookahead (.15))
                 .AddConstraint (new ('S7_MonsterSteering_WallAvoidanceConstraint'))
-                .AddConstraint (new ('S7_MonsterSteering_WallFollowingConstraint'))
+                .AddConstraint (new ('S7_MonsterSteering_WallFollowingConstraint').WithClosestEndMode (2))
                 .AddConstraint (new ('S7_MonsterSteering_AvoidObstaclesConstraint').WithMargin (1.5))
                 .WithActuator (new ('S7_MonsterSteering_BasicActuator'))
                 .WithDeadlockActuator (new ('S7_MonsterSteering_BasicDeadlockActuator'));
