@@ -22,12 +22,30 @@
 //
 //-------------------------------------------------------------------------------------------
 class S7_MonsterBase : Actor {
+    // Maximum linear velocity, in mu/s
+    //property Speed: Speed;
+    // Maximum linear acceleration, in mu/s².
+    property MaxAccel: MaxAccel;
+
+    // How much angular velocity decays per second.
+    property AngularVelocityDecay: AngularVelocityDecay;
+    // Maximum angular velocity, in degrees/s.
+    property MaxTurnSpeed: MaxTurnSpeed;
+    // Maximum angular acceleration, in degrees/s²
+    property MaxTurnAccel: MaxTurnAccel;
+
     default {
         Health 60;
         Radius 20;
         Height 56;
         Mass 100;
-        Speed 8;
+
+        Speed 280;
+        S7_MonsterBase.MaxAccel 35;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 360.;
+        S7_MonsterBase.MaxTurnAccel 30;
 
         /** Damage factors **/
         // Plasma/Laser damage bonus
@@ -38,6 +56,14 @@ class S7_MonsterBase : Actor {
 
         +FLOORCLIP +DONTHARMCLASS +SLIDESONWALLS
     }
+
+    float MaxAccel;
+
+    meta double AngularVelocityDecay;
+    float MaxTurnSpeed;
+    float MaxTurnAccel;
+
+    double AngularVelocity;
 
     int monsDeathType;
     Actor grabbedShooter;
@@ -108,12 +134,16 @@ class S7_MonsterBase : Actor {
             xpSys = S7_XPSystem (FindInventory ('S7_XPSystem', true));
         }
 
+        if (!IsFrozen ()) {
+            angle += AngularVelocity;
+            AngularVelocity *= (1 - AngularVelocityDecay) ** (1. / Thinker.TicRate);
+        }
         Super.Tick ();
 
         if (!self || bDestroyed)
             return;
 
-        S7_DoTickSteering (Speed);
+        S7_DoTickSteering ();
 
         if (target && !setStats)
             CallInitializeXPSystem ();
@@ -121,7 +151,7 @@ class S7_MonsterBase : Actor {
         if (xpSys)
             UpdateStats ();
 
-        if (health > 0 && !bKilled)
+        if (!IsFrozen () && health > 0 && !bKilled)
             SearchBehavior ();
     }
 

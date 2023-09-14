@@ -79,6 +79,9 @@ class S7_Asd : Actor {
         BAL1 A 3;
         BAL1 A 2 A_FadeOut (0.1);
         wait;
+    Spawn2:
+        BAL1 A -1;
+        stop;
     }
 }
 
@@ -145,7 +148,7 @@ extend class S7_MonsterBase {
         let offsets = (sinAng * offsY, cosAng * offsY, offsZ);
 
         let startPos = level.Vec3Offset (Pos, offsets);
-        let ret = wallTracer.Trace (startPos, curSector, traceDir, distance, 0);
+        let ret = wallTracer.Trace (startPos, curSector, traceDir, distance, 0, ignoreAllActors: true);
 
         if (!ret || wallTracer.Results.HitType != TRACE_HitWall)
             return false;
@@ -494,11 +497,19 @@ extend class S7_MonsterBase {
     }
 
     S7_MonsterSteering_Pipeline steerPipeline;
-    void S7_DoSteering (double maxAccel, Actor moveGoal, bool dontMove) {
+    private int lastSteerTick;
+    void S7_DoSteering () {
+        if (lastSteerTick >= level.totaltime)
+            return;
+
+        lastSteerTick = level.totaltime;
+
         if (!steerPipeline) {
             steerPipeline = S7_MonsterSteering_Pipeline.Create (self)
-                .AddTargetter (new ('S7_MonsterSteering_BasicTargetter'))
-                .AddConstraint (new ('S7_MonsterSteering_AvoidWallsConstraint'))
+                .AddTargetter (new ('S7_MonsterSteering_BasicTargetter').WithLookahead (.15))
+                .AddConstraint (new ('S7_MonsterSteering_WallAvoidanceConstraint'))
+                .AddConstraint (new ('S7_MonsterSteering_WallFollowingConstraint'))
+                .AddConstraint (new ('S7_MonsterSteering_AvoidObstaclesConstraint').WithMargin (1.5))
                 .WithActuator (new ('S7_MonsterSteering_BasicActuator'))
                 .WithDeadlockActuator (new ('S7_MonsterSteering_BasicDeadlockActuator'));
         }
@@ -508,50 +519,7 @@ extend class S7_MonsterBase {
         [linearAccel, angularAccel] = steerPipeline.GetSteering ();
 
         Vel += linearAccel;
-        Angle += angularAccel;
-
-        return;
-
-        bool canFloat = S7_CanFly ();
-        if (!canFloat && (Pos.Z > floorZ || Vel.Z > S7_Math.VM_Epsilon))
-            return;
-
-        // Note that this checks for < 0. This is how it is in GZDoom's A_Chase, changing it to < 1 will make monsters
-        // rarely attack.
-        bool chooseNewDir = moveCount < 0;
-
-        let predictionTime = max ((CurState ? CurState.Tics : Tics), 1);
-
-        let velLen = Vel.XY.Length ();
-        let walkDir = (velLen ~== 0) ? Angle : atan2 (Vel.Y, Vel.X);
-        let wallAvoidSpeed = max (Radius * S7_Math.SqrtTwo * 1.25, velLen);
-        if (S7_Steer_AvoidObstacles (walkDir, maxAccel, wallAvoidSpeed, predictionTime) != ObstacleType_None)
-            chooseNewDir = true;
-
-        bool canWalk = true;
-        bool mustStop = false;
-
-        if (aiState == AIS_MissileAttack || (!moveGoal && aiState != AIS_Wander) || moveStandStillCount > 0 || dontMove) {
-            canWalk = false;
-            mustStop = true;
-        } else if (chooseNewDir) {
-            canWalk &= S7_NewChaseDir (walkDir, maxAccel, moveGoal);
-            mustStop = !canWalk;
-
-            if (moveCount < 1)
-                S7_SetMoveCount ();
-        } else if (moveCount > 0)
-            canWalk = mustStop = false;
-
-        Vector2 targetVel;
-        if (mustStop)
-            targetVel = (0, 0);
-        else if (canWalk)
-            targetVel = AngleToVector (Angle, maxAccel);
-        else
-            return;
-
-        Vel.XY += GetClampedLinearAccel (targetVel - Vel.XY, maxAccel);
+        AngularVelocity += angularAccel;
     }
 
     void S7_DoTickSteering_CheckUse (double velLen) {
@@ -593,13 +561,8 @@ extend class S7_MonsterBase {
         return false;
     }
 
-    void S7_DoTickSteering (double maxAccel) {
-        return;
-        /*
-         * This function is executed in Tick, to make monsters avoid slipping down dropoffs.
-         */
-
-        if (aiChaseFuncState == null)
+    void S7_DoTickSteering () {
+        if (aiChaseFuncState == null || IsFrozen ())
             return;
 
         if (health < 1 || bKilled || aiChaseFuncState != CurState) {
@@ -607,25 +570,15 @@ extend class S7_MonsterBase {
             return;
         }
 
-        bool canFloat = S7_CanFly ();
-        if (!canFloat && (Pos.Z > floorZ || Vel.Z > S7_Math.VM_Epsilon))
+        let canMove = S7_CanFly () || (Pos.Z <= floorZ || Pos.Z ~== floorZ || Vel.Z <= S7_Math.VM_Epsilon);
+        if (!canMove)
             return;
 
-        bool mustStop = false;
+        S7_DoSteering ();
 
-        let velLen = Vel.XY.Length ();
-        if (moveStandStillCount < 1)
+        if (moveStandStillCount < 1) {
+            let velLen = Vel.XY.Length ();
             S7_DoTickSteering_CheckUse (max (velLen, Radius * 1.2 * S7_Math.SqrtTwo));
-
-        if (moveStandStillCount > 0)
-            mustStop = true;
-
-        if (!mustStop && S7_DoTickSteering_CheckObstacles (maxAccel, velLen))
-            mustStop = true;
-
-        if (!mustStop)
-            return;
-
-        Vel.XY += GetClampedLinearAccel (-Vel.XY, maxAccel);
+        }
     }
 }

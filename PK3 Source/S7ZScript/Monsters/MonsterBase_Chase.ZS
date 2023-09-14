@@ -104,7 +104,11 @@ extend class S7_MonsterBase {
         if (moveCount > 0)
             moveCount--;
 
-        S7_DoSteering (Speed, null, flags & S7CHF_DontMove);
+        if (flags & S7CHF_DontMove)
+            S7_SetStandStillCount ();
+
+        if (S7_CanFly () || (Pos.Z <= floorZ || Pos.Z ~== floorZ || Vel.Z <= S7_Math.VM_Epsilon))
+            S7_DoSteering ();
     }
 
     action void S7_Wander (int flags = 0) {
@@ -228,7 +232,7 @@ extend class S7_MonsterBase {
         moveStandStillCount = random [S7_Chase] (0, 255) % 6;
     }
 
-    void S7_DoChase (bool fastChase, State meleestate, State missilestate, bool playActive, bool nightmareFast, bool dontMove, int flags) {
+    void S7_DoChase (bool fastChase, State meleestate, State missilestate, bool playActive, bool nightmareFast, int flags) {
         /*
         ** Quirks: Doesn't support the NightmareFast Gameinfo flag.
         */
@@ -236,6 +240,9 @@ extend class S7_MonsterBase {
 
         if (bInConversation || bInChase)
             return;
+
+        if (flags & S7CHF_DontMove)
+            S7_SetStandStillCount ();
 
         bInChase = true;
         if (aiState == AIS_Wander)
@@ -322,7 +329,7 @@ extend class S7_MonsterBase {
                 if (bFriendly) {
                     //A_Look(actor);
                     if (!target) {
-                        if (!dontMove)
+                        if (moveStandStillCount < 1)
                             S7_DoWander ();
                         else
                             aiState = AIS_Chase;
@@ -351,7 +358,7 @@ extend class S7_MonsterBase {
             return;
         }
 
-        if (aiState == AIS_Chase && S7_DoChase_Chase (fastChase, playActive, dontMove, flags))
+        if (aiState == AIS_Chase && S7_DoChase_Chase (fastChase, playActive, flags))
             return;
 
         bool mayAttack = target != null;
@@ -401,10 +408,10 @@ extend class S7_MonsterBase {
                 aiState = AIS_Chase;
         }
 
-        S7_DoChaseEnd (fastChase, playActive, dontMove, flags);
+        S7_DoChaseEnd (fastChase, playActive, flags);
     }
 
-    bool S7_DoChase_Chase (bool fastChase, bool playActive, bool dontMove, int flags) {
+    bool S7_DoChase_Chase (bool fastChase, bool playActive, int flags) {
         // [RH] Don't attack if just moving toward goal
         if (((target == goal || (bChaseGoal && goal)) && goal) || aiNextNode) {
             Actor actualGoal = ((target == goal || (bChaseGoal && goal)) && goal) ? goal : aiNextNode;
@@ -463,7 +470,7 @@ extend class S7_MonsterBase {
             }
 
             if (goal == target && actualGoal != aiNextNode) {
-                S7_DoChaseEnd (fastChase, playActive, dontMove, flags);
+                S7_DoChaseEnd (fastChase, playActive, flags);
                 return true;
             }
         }
@@ -472,7 +479,7 @@ extend class S7_MonsterBase {
         // This was the sole reason for the separate A_FastChase function but
         // it can be just as easily handled by a simple flag so the monsters
         // can take advantage of all the other enhancements of A_Chase.
-        if (fastChase && !dontMove && !aiNextNode) {
+        if (fastChase && moveStandStillCount < 1 && !aiNextNode) {
             if (FastChaseStrafeCount > 0)
                 FastChaseStrafeCount--;
             else {
@@ -496,7 +503,7 @@ extend class S7_MonsterBase {
         return false;
     }
 
-    void S7_DoChaseEnd (bool fastChase, bool playActive, bool dontMove, int flags) {
+    void S7_DoChaseEnd (bool fastChase, bool playActive, int flags) {
         // Possibly choose another target
         if ((multiplayer || TIDtoHate) && !threshold && !S7_CheckIfInLOS (target)) {
             bool lookForBetter = false;
@@ -536,7 +543,8 @@ extend class S7_MonsterBase {
             //Console.Printf ("%d", moveCount);
         }
 
-        S7_DoSteering (Speed, moveGoal, dontMove);
+        if (S7_CanFly () || (Pos.Z <= floorZ || Pos.Z ~== floorZ || Vel.Z <= S7_Math.VM_Epsilon))
+            S7_DoSteering ();
 
         if (aiState == AIS_Chase) {
             // Make active sound
@@ -553,7 +561,7 @@ extend class S7_MonsterBase {
     //
     //-------------------------------------------------------------------------------------------
     action void A_S7ChaseDef () {
-        invoker.S7_DoChase (false, MeleeState, MissileState, true, false /*gameinfo.nightmarefast*/, false, 0);
+        invoker.S7_DoChase (false, MeleeState, MissileState, true, false /*gameinfo.nightmarefast*/, 0);
     }
 
     action void A_S7Chase (StateLabel melee = null, StateLabel missile = null, int flags = 0) {
@@ -562,7 +570,7 @@ extend class S7_MonsterBase {
             return;*/
 
         invoker.S7_DoChase ((flags & S7CHF_FastChase), ResolveState (melee), ResolveState (missile), !(flags & S7CHF_NoPlayActive),
-            (flags & S7CHF_NightmareFast), (flags & S7CHF_DontMove), flags
+            (flags & S7CHF_NightmareFast), flags
         );
     }
 }
