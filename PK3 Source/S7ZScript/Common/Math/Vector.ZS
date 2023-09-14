@@ -41,4 +41,74 @@ extend class S7_Math {
     static Vector3 Vec3Mod (Vector3 lhs, Vector3 rhs) {
         return (lhs.X % rhs.X, lhs.Y % rhs.Y, lhs.Z % rhs.Z);
     }
+
+    static Vector2 ClampVec2Length (Vector2 vec, double maxLen) {
+        let vecSqr = vec dot vec;
+        if (vecSqr <= (maxLen * maxLen))
+            return vec;
+        return vec / sqrt (vecSqr) * maxLen;
+    }
+
+    static Vector3 ClampVec3Length (Vector3 vec, double maxLen) {
+        let vecSqr = vec dot vec;
+        if (vecSqr <= (maxLen * maxLen))
+            return vec;
+        return vec / sqrt (vecSqr) * maxLen;
+    }
+
+    static Vector2 Lerp2 (Vector2 x, Vector2 y, double a) {
+        return x * (1 - a) + y * a;
+    }
+
+    static Vector3 Lerp3 (Vector3 x, Vector3 y, double a) {
+        return x * (1 - a) + y * a;
+    }
+
+    /* Summary:
+    **  Performs a spherical linear interpolation on two vectors.
+    **  NOTE: This operation is not commutative, swapping the start and end points will give a different result.
+    **
+    ** Arguments:
+    **  start: The starting point of the interpolation.
+    **  end: The end point of the interpolation.
+    **  t: How much to interpolate towards the end point.
+    **
+    ** Returns:
+    **  The new slerped angle between the start and end vectors.
+    */
+    static Vector2 Slerp2 (Vector2 start, Vector2 end, double t) {
+        let dotVal = start dot end;
+
+        // `acos(dot)` returns the angle between start and end, and multiplying that by percent returns the angle
+        // between start and the final result.
+        let theta = acos (dotVal) * t;
+        let relativeVec = (end - start * dotVal).Unit ();
+
+        // Orthonormal basis. The final result.
+        return (start * cos (theta) + relativeVec * sin (theta));
+    }
+
+    /* Summary:
+    **  Performs a spherical linear interpolation on two vectors.
+    **  NOTE: This operation is not commutative, swapping the start and end points will give a different result.
+    **
+    ** Arguments:
+    **  start: The starting point of the interpolation.
+    **  end: The end point of the interpolation.
+    **  t: How much to interpolate towards the end point.
+    **
+    ** Returns:
+    **  The new slerped angle between the start and end vectors.
+    */
+    static Vector3 Slerp3 (Vector3 start, Vector3 end, double t) {
+        let dotVal = start dot end;
+
+        // `acos(dot)` returns the angle between start and end, and multiplying that by percent returns the angle
+        // between start and the final result.
+        let theta = acos (dotVal) * t;
+        let relativeVec = (end - start * dotVal).Unit ();
+
+        // Orthonormal basis. The final result.
+        return (start * cos (theta) + relativeVec * sin (theta));
+    }
 }

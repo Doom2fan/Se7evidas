@@ -70,7 +70,7 @@ class S7_UnexpectedToken : S7_ParsingException {
         else
             val = fakeValue;
 
-        return String.Format ("Line %d, char %d: Unexpected token \"%s\"", tkn.line, tkn.charPos, val);
+        return String.Format ("Line %d, char %d: Unexpected token \"%s\" (%s)", tkn.line, tkn.charPos, val, tkn.TypeString ());
     }
     override void SetMessage (string msg) { }
 
@@ -89,7 +89,7 @@ class S7_BadTokenPE : S7_ParsingException {
     ETokenType type;
 
     override string GetMessage () {
-        return String.Format ("Line %d, char %d: Expected %s, got \"%s\"", tkn.line, tkn.charPos, S7_TZK_Token.AsString (type), tkn.value);
+        return String.Format ("Line %d, char %d: Expected %s, got \"%s\" (%s)", tkn.line, tkn.charPos, S7_TZK_Token.AsString (type), tkn.value, tkn.TypeString ());
     }
     override void SetMessage (string msg) { }
 

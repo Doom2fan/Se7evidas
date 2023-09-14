@@ -5,7 +5,7 @@
 class S7_TZK_LumpStream : S7_TZK_StringStream
 {
     override bool CanWrite() { return false; }
-    override int Length() { return m_Data.Length() - 1; }
+    override int Length() { return m_Data.Length(); }
     override void Write(int c) { }
     override void Flush() { }
 
@@ -13,6 +13,8 @@ class S7_TZK_LumpStream : S7_TZK_StringStream
     {
         let ss = new("S7_TZK_LumpStream");
         ss.m_Data = Wads.ReadLump(lumpID);
+        if (ss.m_Data.ByteAt (ss.m_Data.Length () - 1) == 0)
+            ss.m_Data.DeleteLastCharacter ();
         return ss;
     }
 }
