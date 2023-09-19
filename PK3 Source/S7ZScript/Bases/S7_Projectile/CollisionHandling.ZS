@@ -222,9 +222,9 @@ extend class S7_Projectile {
                 tr.actorsRipped.Push (tr.Results.HitActor);
         } else if (tr.Results.HitType == TRACE_HitWall && tr.Results.HitLine) {
             let hl = tr.Results.HitLine;
-            int oldSide = S7_Math.PointOnLineSidePrecise (oldPos.X, oldPos.Y, hl);
 
-            int activationType = -1;
+            let oldSide = S7_Math.PointOnLineSidePrecise (oldPos.X, oldPos.Y, hl);
+            let activationType = -1;
 
             if ((hl.activation & SPAC_MCross) && bActivateMCross)
                 activationType = SPAC_MCross;
@@ -234,6 +234,12 @@ extend class S7_Projectile {
             if (activationType != -1) {
                 hl.Activate (self, oldSide, activationType);
 
+                SetPosition (oldPos);
+                ClearInterpolation ();
+                return -1;
+            }
+
+            if (tr.Results.Tier == TIER_Middle && (hl.flags & Line.ML_3DMidTex) && !(hl.flags & Line.ML_3DMidTex_Impass)) {
                 SetPosition (oldPos);
                 ClearInterpolation ();
                 return -1;
