@@ -20,6 +20,10 @@ class S7_Gauntlets : S7_BaseWeapon {
         weapon.ammoUse 0;
         weapon.ammoGive 0;
         weapon.slotNumber 0;
+
+        S7_BaseWeapon.BindSlot S7_WpSlot_Special;
+        S7_BaseWeapon.Icon "";
+        S7_BaseWeapon.ShortTag "Gauntlets";
     }
 
     int mode;
