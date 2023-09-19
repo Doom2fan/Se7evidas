@@ -276,7 +276,7 @@ class S7_ShopMenu : S7_ZF_GenericMenu {
                         cashMax = 0;
                     }
 
-                    if ((!sellMode && selItemData.GetAmount (pPawn, sellMode) >= info.maxAmount && info.maxAmount > 0) ||
+                    if ((!sellMode && selItemData.GetAmount (pPawn, sellMode) >= uint (info.maxAmount) && info.maxAmount > 0) ||
                         ( sellMode && selItemData.GetAmount (pPawn, sellMode) <  info.sellAmount)) {
                         bbColor = Font.CR_Red;
                         bbDisable = true;
