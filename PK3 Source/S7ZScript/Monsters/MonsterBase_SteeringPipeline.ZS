@@ -704,18 +704,14 @@ class S7_MonsterSteering_Pipeline play {
             }
 
             if (cIdx >= constraintsCount) {
-                ShowGoal (goal);
-                Vector3 linearAccel;
-                double angularAccel;
-                [linearAccel, angularAccel] = actuator.Output (monster, goal);
+                //ShowGoal (goal);
+                let [linearAccel, angularAccel] = actuator.Output (monster, goal);
                 return linearAccel, angularAccel;
             }
         }
 
-        ShowGoal (goal);
-        Vector3 linearAccel;
-        double angularAccel;
-        [linearAccel, angularAccel] = deadlockActuator.Steer (monster);
+        //ShowGoal (goal);
+        let [linearAccel, angularAccel] = deadlockActuator.Steer (monster);
         return linearAccel, angularAccel;
     }
 }
