@@ -82,11 +82,6 @@ class S7_BaseStatusbar : BaseStatusBar {
             case DI_Screen_Bottom: org.Y = screen.GetHeight (); break;
             }
 
-            // Move stuff in the top right corner a bit down if the fps counter is on.
-            if ((flags & (DI_Screen_HMask|DI_Screen_VMask)) == DI_Screen_Right_Top && vid_fps) {
-                origin.Y += 10;
-            }
-
             Vector2 hudScale = GetHUDScale ();
 
             origin = (origin.X * hudScale.X, origin.Y * hudScale.Y);
