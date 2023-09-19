@@ -423,14 +423,13 @@ class S7_ConquerorRifle : S7_BaseWeapon {
         TNT1 A 0 {
             if (!invoker.CheckAmmo (PrimaryFire, false, true))
                 return ResolveState ("Ready2");
-            if (invoker.loaded) {
+            if (invoker.loaded)
                 TakeInventory ('S7_ConquerorRifleClip', 1);
 
-                if (invoker.Ammo1.Amount < 1)
-                    invoker.loaded = false;
-                else if (invoker.Ammo1.Amount > 0)
-                    S7_DoLoad ();
-            }
+            if (invoker.Ammo1.Amount < 1)
+                invoker.loaded = false;
+            else if (invoker.Ammo1.Amount > 0)
+                S7_DoLoad ();
 
             invoker.pumpEndState = ResolveState ("AltFire.PumpEnd");
 
