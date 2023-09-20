@@ -74,7 +74,7 @@ class S7_SSPage {
 }
 
 class S7_SSItemInfo {
-    uint maxAmount;
+    int maxAmount;
     uint buyPrice;
     uint buyAmount;
     uint sellPrice;
@@ -131,7 +131,7 @@ class S7_SSItem {
 
         S7_SSItemInfo info = GetInfo (player, amount);
 
-        return (GetAmount (player, false) + info.buyAmount) <= info.maxAmount &&
+        return (GetAmount (player, false) + info.buyAmount) <= uint (info.maxAmount) &&
                 uint (player.CountInv (cashItem)) >= info.buyPrice;
     }
 
@@ -187,7 +187,7 @@ class S7_SSItem {
         int finalPrice = int ((itemInfo.buyPrice) - ((itemInfo.buyPrice) * discount));
         int finalAmount = itemInfo.buyAmount;
 
-        if (uint (player.CountInv (self.inventoryName) + finalAmount) > itemInfo.maxAmount)
+        if ((player.CountInv (self.inventoryName) + finalAmount) > itemInfo.maxAmount)
             return BC_InventoryFull;
         if (player.CountInv (self.cashItem) < finalPrice)
             return BC_NotEnoughMoney;
@@ -210,7 +210,7 @@ class S7_SSItem {
 
         if (player.CountInv (self.inventoryName) < finalAmount)
             return SC_NotEnoughOfItem;
-        if (uint (uint (player.CountInv (self.cashItem)) + uint (finalPrice)) >= uint (player.FindInventory (self.cashItem).maxAmount))
+        if ((player.CountInv (self.cashItem) + finalPrice) >= player.FindInventory (self.cashItem).maxAmount)
             return SC_TooMuchMoney;
         if (!CanSell (player, amount))
             return SC_Unknown;

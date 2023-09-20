@@ -52,11 +52,12 @@ class S7_Projectile_Trace : LineTracer {
 
         let hl = Results.HitLine;
 
-        if (activeLinesToIgnore.Find (hl) == activeLinesToIgnore.Size () &&
-            (
-                ((hl.activation & SPAC_MCross) && sourceActor.bActivateMCross) ||
-                ((hl.activation & SPAC_PCross) && sourceActor.bActivatePCross)
-            )
+        if (activeLinesToIgnore.Find (hl) != activeLinesToIgnore.Size ())
+            return TRACE_Skip;
+
+        if (
+            ((hl.activation & SPAC_MCross) && sourceActor.bActivateMCross) ||
+            ((hl.activation & SPAC_PCross) && sourceActor.bActivatePCross)
         ) {
             activeLinesToIgnore.Push (hl);
             return TRACE_Stop;
@@ -76,8 +77,10 @@ class S7_Projectile_Trace : LineTracer {
         if (sourceActor.bMissile && Results.Tier == TIER_Middle && (hl.flags & Line.ML_Blocking) && (hl.flags & Line.ML_TwoSided))
             return TRACE_Skip;
 
-        if ((hl.flags & Line.ML_3DMidTex) && !(hl.flags & Line.ML_3DMidTex_Impass))
+        if ((hl.flags & Line.ML_3DMidTex) && !(hl.flags & Line.ML_3DMidTex_Impass)) {
+            activeLinesToIgnore.Push (hl);
             return TRACE_Stop;
+        }
 
         if ((hl.flags & (Line.ML_Blocking | Line.ML_BlockEverything)) || (sourceActor.bIsMonster && (hl.flags & Line.ML_BlockMonsters)))
             return TRACE_Stop;

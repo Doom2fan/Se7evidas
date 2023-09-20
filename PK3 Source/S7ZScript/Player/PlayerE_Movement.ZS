@@ -561,12 +561,13 @@ extend class S7_BasePlayer {
         if (player.cheats & CF_Predicting)
             return;
 
-        double horzSpeedMax = Teching_MaxHorzSpeed * Teching_MaxHorzSpeed;
+        let horzSpeedMax = Teching_MaxHorzSpeed * Teching_MaxHorzSpeed;
         if (teching_Active && teching_HorzVelKilled)
             horzSpeedMax = 5 * 5;
-        bool horzSpeedOverMax = (vel.XY dot vel.XY) > horzSpeedMax;
+        let horzSpeedOverMax = (vel.XY dot vel.XY) > horzSpeedMax;
+        let staminaAmount = CountInv ('S7_Stamina');
         // We can't tech if:
-        bool cantTech = (
+        let cantTech = (
             health <= 0 || // We're dead
             player.onground || // We're on the ground
             horzSpeedOverMax || // We're moving too fast
@@ -582,8 +583,8 @@ extend class S7_BasePlayer {
 
         // If we're teching:
         if (teching_Active) {
-            // Stop teching if we let go of crouch or can't tech anymore.
-            if (!(player.cmd.buttons & BT_Crouch) || cantTech) {
+            // Stop teching if we let go of crouch, can't tech anymore or we're out of stamina.
+            if (!(player.cmd.buttons & BT_Crouch) || cantTech || staminaAmount < Teching_HoldStamina) {
                 teching_Active = false;
                 if (!player.onground && teching_Timer >= 0)
                     teching_Timer = -Teching_WaitTime;
@@ -613,7 +614,7 @@ extend class S7_BasePlayer {
         // If crouch was just pressed:
         if ((player.cmd.buttons & BT_Crouch) && !(player.oldbuttons & BT_Crouch)) {
             // If teching isn't active and we can tech:
-            if (!teching_Active && !cantTech && CheckInventory ('S7_Stamina', Teching_StartStamina)) {
+            if (!teching_Active && !cantTech && staminaAmount >= Teching_StartStamina) {
                 teching_Active = true;
                 teching_HorzVelKilled = false;
                 TakeInventory ('S7_Stamina', Teching_StartStamina);

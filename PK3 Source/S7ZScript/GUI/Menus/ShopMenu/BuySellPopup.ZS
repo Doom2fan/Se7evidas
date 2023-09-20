@@ -250,7 +250,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         amount += addAmount;
 
         let pPawn = S7_BasePlayer (link.CPlayer.mo);
-        if (info && uint (amount) > info.maxAmount)
+        if (info && amount > uint (info.maxAmount))
             amount = info.maxAmount;
         if (selectedItem) {
             let itemInfo = selectedItem.GetInfo (pPawn, 1);
@@ -333,7 +333,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
             acceptButton.Disable ();
         }
         if (
-            (!sellMode && (selectedItem.GetAmount (pPawn, sellMode) + total) > info.maxAmount) || // If buying, check if there's too much of the item
+            (!sellMode && int (selectedItem.GetAmount (pPawn, sellMode) + total) > info.maxAmount) || // If buying, check if there's too much of the item
             ( sellMode && total > selectedItem.GetAmount (pPawn, sellMode)) // If selling, check if there's not enough of the item
         ) {
             selAmount.SetTextColor (Font.CR_DarkRed);
@@ -361,7 +361,7 @@ class S7_ShopMenu_BuySellPopup : S7_ZF_Frame {
         if ((!sellMode && (info.maxAmount - (total + heldAmt)) < baseAmount) ||
             ( sellMode && total >= heldAmt))
             addButton.Disable ();
-        if (amount >= info.maxAmount)
+        if (int (amount) >= info.maxAmount)
             addButton.Disable ();
         if (amount <= 1)
             decButton.Disable ();

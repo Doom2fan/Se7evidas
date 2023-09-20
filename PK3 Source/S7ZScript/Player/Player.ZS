@@ -175,7 +175,7 @@ class S7_BasePlayer : PlayerPawn {
     actor damageInflictor, damageSource;
 
     void GiveBasics () {
-        if (!player || player.mo != self)
+        if (!player || !player.mo || player.mo != self)
             return;
 
         int giveCount = 0;
@@ -254,8 +254,11 @@ class S7_BasePlayer : PlayerPawn {
         sprint_OldAgility = double.NaN;
     }
 
-    override void PostBeginPlay () {
-        Super.PostBeginPlay ();
+    override void GiveDefaultInventory () {
+        Super.GiveDefaultInventory ();
+
+        if (!player || !player.mo || player.mo != self)
+            return;
 
         GiveBasics ();
     }
