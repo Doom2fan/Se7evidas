@@ -23,174 +23,165 @@
 
 class S7_LastKnownPositionMarker : S7_PositionMarkerPersistent {
     default {
-        -NOBLOCKMAP -NOGRAVITY
+        +NOINTERACTION +NOBLOCKMAP +NOGRAVITY
     }
 
     states {
     Spawn:
-        TNT1 A 0 noDelay {
-            Super.PostBeginPlay ();
-            SetZ (floorZ);
-
-            if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-                sprite = GetSpriteIndex ('AMRK');
-        }
-        #### # 700 bright;
+        AMRK A 700 bright;
         stop;
     }
 }
 
-extend class S7_MonsterBase {
-    int aiCountdown; // Countdown until the monster forgets its target.
-    int aiNodeCountdown; // Countdown until the monster gives up on its current node and turns around.
-    Vector3 aiLastTargetPos; // The last position on the monster's target.
-    Actor aiNextNode; // The next node to move to.
-    Actor aiLastKnown;
+extend class S7_MonsterBase_TargettingSystem {
+    int Countdown; // Countdown until the monster forgets its target.
+    int NodeCountdown; // Countdown until the monster gives up on its current node and turns around.
+    S7_MonsterTargetInfo LastTargetInfo; // The last info of the monster's target.
+    S7_MonsterTargetInfo NextNode; // The next node to move to.
 
-    void SearchBehavior_MakeNewNode (double lastAngle = double.NaN) {
-        double lastDist, nextAngle;
-        Vector3 nextNode = pos;
+    void SearchBehavior_MakeNewNode (double lastAngle, bool nested = false) {
+        let maxDist = 256.;
+        let nextPos = Monster.Pos;
         FLineTraceData testNode;
 
-        // If no last angle passed, base angle off last node or self
-        if (!(lastAngle == lastAngle)) {
-            if (aiLastKnown) {
-                lastAngle = aiLastKnown.angle;
-                aiLastKnown.Destroy ();
-            } else
-                lastAngle = angle;
+        // Check random angle offsets for longest path
+        double lastDist = -double.infinity;
+        double nextAngle;
+        for (let i = 0; i < 10; i++) {
+            let testOffset = fRandom [monsterAI] (-45., 45.);
+
+            let dist = maxDist;
+            let curAngle = lastAngle + testOffset;
+            let traceSuccess = Monster.LineTrace (
+                curAngle,
+                maxDist,
+                0,
+                TRF_ThruActors | TRF_ThruHitscan | TRF_BlockSelf,
+                Monster.MaxStepHeight - .5,
+                data: testNode
+            );
+
+            if (traceSuccess)
+                dist = clamp (testNode.Distance - Monster.Radius, 0, maxDist);
+
+            if (dist > lastDist) {
+                nextPos = Monster.Level.Vec3Offset (Monster.Pos, (testNode.HitDir * dist));
+                nextAngle = curAngle;
+
+                lastDist = dist;
+            }
         }
 
-        // Check 5 random angle offsets for longest path
-        for (int i = 0; i < 10; i++) {
-            double testOffset = fRandom [monsterAI] (-45., 45.);
+        if (lastDist ~== 0) {
+            if (!nested)
+                SearchBehavior_MakeNewNode (lastAngle - 180, true);
+            else
+                NextNode.Invalidate ();
 
-            LineTrace (lastAngle + testOffset, 256, 0, TRF_ThruActors | TRF_ThruHitscan, height / 2., data: testNode);
-
-            if (testnode.Distance > lastDist) {
-                nextNode = testNode.HitLocation;
-                nextAngle = lastAngle + testOffset;
-            }
-
-            lastDist = testnode.Distance;
+            return;
         }
 
         // Spawn and set the node
-        aiLastKnown = Spawn ("S7_LastKnownPositionMarker", nextNode, ALLOW_REPLACE);
-        aiLastKnown.angle = nextAngle;
-
-        aiNextNode = aiLastKnown;
-
-        aiNodeCountdown = random [monsterAI] (15 * TicRate, 20 * TicRate);
+        nextPos.Z = Monster.GetZAt (nextPos.X, nextPos.Y, flags: GZF_AbsolutePos);
+        NextNode.FromPosVel (nextPos, (0, 0, 0), newAngle: nextAngle);
+        NodeCountdown = random [monsterAI] (15 * TicRate, 20 * TicRate);
 
         if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-            Console.Printf ("%s %p picked a new pathnode", GetClassName (), self);
+            Console.Printf ("%s %p picked a new pathnode", Monster.GetClassName (), Monster);
     }
 
     void SearchBehavior () {
-        // Normal following behavior plus visibility checks
-        if (target && !aiNextNode) {
-            if (aiLastKnown)
-                aiLastKnown.Destroy ();
-
-            // Clear ambush flag if needed
-            if (bAmbush && S7_CheckIfInLOS (target)) {
-                bAmbush = false;
+        // Normal following behavior plus visibility checks.
+        if (Monster.Target && !NextNode.IsValid) {
+            // Clear ambush flag if needed.
+            if (Monster.bAmbush && Monster.S7_CheckIfInLOS (Monster.Target)) {
+                Monster.bAmbush = false;
 
                 if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-                    Console.Printf ("%s %p ambush flag cleared", GetClassName (), self);
+                    Console.Printf ("%s %p ambush flag cleared", Monster.GetClassName (), Monster);
             }
 
-            // Store the position we last saw our target
-            bool inLOS = S7_CheckIfInLOS (target);
-            if (inLOS)
-                aiLastTargetPos = target.pos;
+            let canSeeTarget = (
+                Monster.S7_CanSeeEnemy (Monster.Target) && // Target is visible.
+                (!Monster.Target.bShadow || random [monsterAI] (0, 35) == 0) && // Not shadow, OR could briefly see.
+                Monster.CheckSight (Monster.Target) // Can actually see the enemy.
+            );
 
-            // Forget player and set a search node if they can't be seen, are out of LoS or shadow
-            if (!inLOS || !S7_CanSeeEnemy (target) || (target.bShadow && random [monsterAI] (0, 35) == 0)) {
-                bool lastTargetPosValid = !(aiLastTargetPos != aiLastTargetPos);
+            if (canSeeTarget)
+                LastTargetInfo.FromActor (Monster.Target); // Store the position we last saw our target.
+            else {
+                // Forget the target and set a search node if they can't be seen, are out of LoS or shadow.
+                let lastTargetPosValid = LastTargetInfo.IsValid;
 
-                if (!bAmbush) {
-                    aiCountdown = random [monsterAI] (30 * TicRate, int (2.5 * 60 * TicRate));
+                if (!Monster.bAmbush) {
+                    Countdown = random [monsterAI] (30 * TicRate, int (2.5 * 60 * TicRate));
 
                     if (lastTargetPosValid) {
-                        aiLastKnown = Spawn ("S7_LastKnownPositionMarker", aiLastTargetPos, ALLOW_REPLACE);
-                        aiLastKnown.angle = angle;
-
-                        aiNextNode = aiLastKnown;
-
-                        aiNodeCountdown = random [monsterAI] (15 * TicRate, 40 * TicRate);
+                        NextNode.Copy (LastTargetInfo);
+                        NextNode.Angle = atan2 (NextNode.Position.Y, NextNode.Position.X);
+                        NodeCountdown = random [monsterAI] (15 * TicRate, 40 * TicRate);
                     } else
-                        SearchBehavior_MakeNewNode ();
+                        SearchBehavior_MakeNewNode (Monster.Angle);
 
                     if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-                        Console.Printf ("%s %p lost target!", GetClassName (), self);
+                        Console.Printf ("%s %p lost target!", Monster.GetClassName (), Monster);
                 } else if (lastTargetPosValid)
-                    ForgetTarget (self);
+                    ForgetTarget ();
             }
-        } else if (aiNextNode && target) {
-            if (S7_CheckIfInLOS (target) && S7_CanSeeEnemy (target)) {
-                aiCountdown = -1;
-                aiNodeCountdown = -1;
-
-                if (aiNextNode)
-                    aiNextNode.Destroy ();
-
-                aiNextNode = null;
+        } else if (Monster.Target && NextNode.IsValid) {
+            if (Monster.S7_CheckIfInLOS (Monster.Target) && Monster.S7_CanSeeEnemy (Monster.Target)) {
+                Countdown = -1;
+                NodeCountdown = -1;
+                NextNode.Invalidate ();
             }
         }
 
-        if (!aiNextNode && aiNodeCountdown >= 0)
-            aiNodeCountdown = -1;
+        if (!NextNode.IsValid && NodeCountdown >= 0)
+            NodeCountdown = -1;
 
-        // Spawn new path nodes as reached
-        if (aiCountdown > 0 && !aiNextNode)
-            SearchBehavior_MakeNewNode ();
+        // Spawn new path nodes as reached.
+        if (Countdown > 0 && !NextNode.IsValid)
+            SearchBehavior_MakeNewNode (Monster.Angle);
 
-        // Give up the search when the countdown runs out
-        if (aiCountdown == 0) {
-            if (aiLastKnown)
-                aiLastKnown.Destroy ();
-
-            ForgetTarget (self);
-            aiNodeCountdown = -1;
+        // Give up the search when the countdown runs out.
+        if (Countdown == 0) {
+            ForgetTarget ();
+            NodeCountdown = -1;
 
             if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-                Console.Printf ("%s %p gave up the search", GetClassName (), self);
+                Console.Printf ("%s %p gave up the search", Monster.GetClassName (), Monster);
         }
 
-        // Give up on the current node and turn around
-        // if we're taking waaay too long to reach it.
-        if (aiNodeCountdown == 0 && aiNextNode) {
-            double newAngle = aiNextNode.angle - 180.;
-            aiNextNode.Destroy ();
+        // Give up on the current node and turn around if we're taking waaay too long to reach it.
+        if (NodeCountdown < 1 && NextNode.IsValid) {
+            let newAngle = NextNode.Angle - 180.;
             SearchBehavior_MakeNewNode (newAngle);
 
             if (S7_Debug_MonsterAI & S7_Dbg_MAI_Searching)
-                Console.Printf ("%s %p couldn't reach a node", GetClassName (), self);
+                Console.Printf ("%s %p couldn't reach a node", Monster.GetClassName (), Monster);
         }
 
-        // Decrement timer
-        aiCountdown = max (aiCountdown - 1, -1);
-        aiNodeCountdown = max (aiNodeCountdown - 1, -1);
+        // Decrement timer.
+        Countdown = max (Countdown - 1, -1);
+        NodeCountdown = max (NodeCountdown - 1, -1);
 
-        if ((S7_Debug_MonsterAI & S7_Dbg_MAI_Searching) && (aiCountdown % 175 == 1))
-            Console.Printf ("%s %p searching for %f seconds", GetClassName (), self, aiCountdown / TicRate);
+        if ((S7_Debug_MonsterAI & S7_Dbg_MAI_Searching) && (Countdown % 175 == 1))
+            Console.Printf ("%s %p searching for %f seconds", Monster.GetClassName (), Monster, Countdown / TicRate);
     }
 
-    void ForgetTarget (Actor which) {
-        aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
+    void ForgetTarget () {
+        LastTargetInfo.Invalidate ();
 
-        // Built-in target-clearing functions
-        which.A_ClearTarget ();
-        which.A_ClearLastHeard ();
+        // Built-in target-clearing functions.
+        Monster.A_ClearTarget ();
+        Monster.A_ClearLastHeard ();
 
-        // No idea if this does anything
-        which.curSector.SoundTarget = null;
+        // No idea if this does anything.
+        Monster.CurSector.SoundTarget = null;
 
-        // May as well go full-retard
-        for (int i = 0; i < Level.Sectors.Size (); i++) {
+        // May as well do this.
+        let level = Monster.Level;
+        for (int i = 0; i < Level.Sectors.Size (); i++)
             level.Sectors [i].SoundTarget = null;
-        }
     }
 }

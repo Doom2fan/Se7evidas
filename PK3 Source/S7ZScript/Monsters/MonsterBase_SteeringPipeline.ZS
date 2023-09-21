@@ -56,32 +56,33 @@ class S7_MonsterSteering_BasicTargetter : S7_MonsterSteering_Targetter {
             return;
         }
 
-        monster.aiNextNode = null;
-        let goalAct = monster.S7_Chase_GetMovementGoal ();
+        S7_MonsterTargetInfo targetInfo;
+        monster.targetSystem.GetMovementGoal (targetInfo);
 
         switch (monster.AIState) {
             case S7_MonsterBase.AIS_Wander:
-                if (!goalAct) {
+                if (!targetInfo.IsValid) {
                     HandleWander (monster, goal);
                     break;
                 }
             case S7_MonsterBase.AIS_Chase:
-                HandleChase (monster, goalAct, goal);
+                HandleChase (monster, targetInfo, goal);
                 break;
             case S7_MonsterBase.AIS_MissileAttack:
                 goal.WithVelocity ((0, 0, 0));
+                goal.WithAngularVel (0);
                 break;
         }
     }
 
-    void HandleChase (S7_MonsterBase monster, Actor goalAct, out S7_MonsterSteering_Goal goal) {
-        let mustStop = (!goalAct && monster.AIState != S7_MonsterBase.AIS_Wander) || monster.MoveStandStillCount > 0;
+    void HandleChase (S7_MonsterBase monster, S7_MonsterTargetInfo targetInfo, out S7_MonsterSteering_Goal goal) {
+        let mustStop = (!targetInfo.IsValid && monster.AIState != S7_MonsterBase.AIS_Wander) || monster.MoveStandStillCount > 0;
 
         if (mustStop)
             goal.WithVelocity ((0, 0, 0));
-        else {
-            let goalVel = monster.S7_CanFly () ? goalAct.Vel : (goalAct.Vel.XY, 0);
-            goal.WithPosition (monster.Level.Vec3Offset (goalAct.Pos, goalVel * lookaheadFactor * Thinker.TicRate));
+        else if (targetInfo.IsValid) {
+            let goalVel = monster.S7_CanFly () ? targetInfo.Velocity : (targetInfo.Velocity.XY, 0);
+            goal.WithPosition (monster.Level.Vec3Offset (targetInfo.Position, goalVel * lookaheadFactor * Thinker.TicRate));
         }
 
         if (monster.bInChase && monster.MoveCount < 0)

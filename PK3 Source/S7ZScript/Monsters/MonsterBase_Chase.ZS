@@ -30,7 +30,6 @@ extend class S7_MonsterBase {
 
     enum S7_ChaseFlags {
         S7CHF_DontMove,
-        S7CHF_FastChase,
         S7CHF_NightmareFast,
         S7CHF_NoDirectionTurn,
         S7CHF_NoPlayActive,
@@ -42,10 +41,10 @@ extend class S7_MonsterBase {
     const S7_Class_Boss_Strafe_Range = 64 * 10;
 
     // The maximum range at which a monster will attack a stealthy player.
-    double maxStealthAttackRange;
-    property MaxStealthAttackRange: maxStealthAttackRange;
-    double maxStealthSightRange;
-    property MaxStealthSightRange: maxStealthSightRange;
+    double MaxStealthAttackRange;
+    property MaxStealthAttackRange: MaxStealthAttackRange;
+    double MaxStealthSightRange;
+    property MaxStealthSightRange: MaxStealthSightRange;
 
     AI_State aiState;
     State aiChaseFuncState;
@@ -59,20 +58,18 @@ extend class S7_MonsterBase {
         aiState = AIS_Chase;
         aiChaseFuncState = null;
 
-        aiCountdown = -1;
-        aiLastTargetPos = (double.NaN, double.NaN, double.NaN);
+        if (!targetSystem)
+            targetSystem = new ('S7_MonsterBase_TargettingSystem');
+        targetSystem.Monster = self;
+        targetSystem.Initialize ();
     }
 
-    bool CheckReachedGoal (Actor other) {
-        if (!other || (CurSector.Flags & Sector.SECF_NoAttack))
+    bool CheckReachedGoal (out S7_MonsterTargetInfo targetInfo) {
+        if (!targetInfo.IsValid || (CurSector.Flags & Sector.SECF_NoAttack))
             return false;
 
-        double dist = Distance2D (other);
-
-        if (dist >= MeleeRange + radius + other.radius)
-            return false;
-
-        return true;
+        let diff = level.Vec2Diff (Pos.XY, targetInfo.Position.XY);
+        return diff dot diff < (MeleeRange + Radius + targetInfo.Radius) ** 2;
     }
 
     //-------------------------------------------------------------------------------------------
@@ -124,18 +121,18 @@ extend class S7_MonsterBase {
     virtual bool S7_Chase_CanMissileTarget () { return true; }
     virtual bool S7_Chase_CanMeleeTarget () { return true; }
 
-    bool S7_CanAttackStealthEnemy (Actor other, double dist) {
-        double stealthFactor = S7_GetTargetStealthFactor (other);
-        double maxDist = max (maxStealthAttackRange * (1. - stealthFactor), (radius * 2.) + other.radius);
+    bool S7_CanAttackStealthEnemy (Actor other, double distSqr) {
+        let stealthFactor = S7_GetTargetStealthFactor (other);
+        let maxDist = max (MaxStealthAttackRange * (1. - stealthFactor), (radius * 2.) + other.radius);
 
-        return !(stealthFactor >= .6 && dist > maxDist);
+        return !(stealthFactor >= .6 && distSqr > maxDist * maxDist);
     }
 
     bool S7_CheckMissileRange (bool noRandom) {
         if (CurSector.flags & Sector.SECF_NoAttack)
             return false;
 
-        if (!S7_CheckIfInLOS (target, sightFlags: SF_SeePastBlockEverything))
+        if (!S7_CheckIfInLOS (Target, sightFlags: SF_SeePastBlockEverything))
             return false;
 
         if (bJustHit) {
@@ -145,19 +142,19 @@ extend class S7_MonsterBase {
             // killough 7/18/98: no friendly fire at corpses
             // killough 11/98: prevent too much infighting among friends
             if (!bFriendly) return true;
-            if (target.health <= 0) return false;
-            if (!IsFriend (target)) return true;
+            if (Target.Health <= 0) return false;
+            if (!IsFriend (Target)) return true;
 
-            return (target.player != null || !target.bJustHit) && (noRandom || random [Defect] () > 128);
+            return (Target.Player != null || !Target.bJustHit) && (noRandom || random [Defect] () > 128);
         }
 
         // Do not attack yet
-        if (reactiontime)
+        if (ReactionTime)
             return false;
 
         // killough 7/18/98: friendly monsters don't attack other friendly
         // monsters or players (except when attacked, and then only once)
-        if (IsFriend (target))
+        if (IsFriend (Target))
             return false;
 
         if (bFriendly && HitFriend ())
@@ -166,11 +163,11 @@ extend class S7_MonsterBase {
         if (!S7_Chase_CanMissileTarget ())
             return false;
 
-        let dist = Distance2D (target);
-
-        if (!S7_CanAttackStealthEnemy (target, dist))
+        let dist = Distance2DSquared (Target);
+        if (!S7_CanAttackStealthEnemy (Target, dist))
             return false;
 
+        dist = sqrt (dist);
         dist -= 64;
 
         // No melee attack, so fire more
@@ -194,24 +191,8 @@ extend class S7_MonsterBase {
         if (bMissileEvenMore)
             dist *= 0.125;
 
-        int mmc = int (MinMissileChance * G_SkillPropertyFloat (SKILLP_Aggressiveness));
+        let mmc = int (MinMissileChance * G_SkillPropertyFloat (SKILLP_Aggressiveness));
         return noRandom || (random [CheckMissileRange] () >= min (int (dist), mmc));
-    }
-
-    //-------------------------------------------------------------------------------------------
-    //
-    // Movement target retrieval
-    //
-    //-------------------------------------------------------------------------------------------
-    Actor S7_Chase_GetMovementGoal () {
-        let moveGoal = goal;
-
-        if (!moveGoal && aiNextNode)
-            moveGoal = aiNextNode;
-        if (!moveGoal && target)
-            moveGoal = target;
-
-        return moveGoal;
     }
 
     //-------------------------------------------------------------------------------------------
@@ -223,7 +204,6 @@ extend class S7_MonsterBase {
     // waste a few cycles than risk not updating a line when changed. And it wouldn't even matter if we had inlining.
     void S7_SetMoveCount () {
         int mask = (aiState == AIS_Wander) ? 7 : 15;
-
         moveCount = random [S7_Chase] (0, 255) & mask;
     }
 
@@ -232,7 +212,7 @@ extend class S7_MonsterBase {
         moveStandStillCount = random [S7_Chase] (0, 255) % 6;
     }
 
-    void S7_DoChase (bool fastChase, State meleestate, State missilestate, bool playActive, bool nightmareFast, int flags) {
+    void S7_DoChase (State meleestate, State missilestate, bool playActive, bool nightmareFast, int flags) {
         /*
         ** Quirks: Doesn't support the NightmareFast Gameinfo flag.
         */
@@ -325,7 +305,7 @@ extend class S7_MonsterBase {
                 return;
             }
 
-            if (!target && !aiNextNode) {
+            if (!target && !targetSystem.NextNode.IsValid) {
                 if (bFriendly) {
                     //A_Look(actor);
                     if (!target) {
@@ -358,7 +338,7 @@ extend class S7_MonsterBase {
             return;
         }
 
-        if (aiState == AIS_Chase && S7_DoChase_Chase (fastChase, playActive, flags))
+        if (aiState == AIS_Chase && S7_DoChase_Chase (playActive, flags))
             return;
 
         bool mayAttack = target != null;
@@ -408,54 +388,44 @@ extend class S7_MonsterBase {
                 aiState = AIS_Chase;
         }
 
-        S7_DoChaseEnd (fastChase, playActive, flags);
+        S7_DoChaseEnd (playActive, flags);
     }
 
-    bool S7_DoChase_Chase (bool fastChase, bool playActive, int flags) {
+    bool S7_DoChase_Chase (bool playActive, int flags) {
         // [RH] Don't attack if just moving toward goal
-        if (((target == goal || (bChaseGoal && goal)) && goal) || aiNextNode) {
-            Actor actualGoal = ((target == goal || (bChaseGoal && goal)) && goal) ? goal : aiNextNode;
+        if (Goal && (Target == Goal || bChaseGoal)) {
+            S7_MonsterTargetInfo goalInfo;
+            goalInfo.FromActor (Goal);
 
-            bool result = CheckReachedGoal (actualGoal);
-
-            if (result && actualGoal == aiNextNode) {
-                if (aiCountdown > 0)
-                    SearchBehavior_MakeNewNode ();
-
-                bJustAttacked = true;
-                bInChase = false;
-
-                return true;
-            } else if (result && actualGoal == goal) {
+            if (CheckReachedGoal (goalInfo)) {
                 // Reached the goal
-                ActorIterator iterator = Level.CreateActorIterator (goal.args [0], 'PatrolPoint');
-                ActorIterator specit = Level.CreateActorIterator (goal.tid, 'PatrolSpecial');
+                let iterator = Level.CreateActorIterator (Goal.args [0], 'PatrolPoint');
+                let specit = Level.CreateActorIterator (Goal.tid, 'PatrolSpecial');
                 Actor spec;
 
-                // Execute the specials of any PatrolSpecials with the same TID
-                // as the goal.
-                while (spec = specit.Next ()) {
+                // Execute the specials of any PatrolSpecials with the same TID as the goal.
+                for (Actor spec; spec = specit.Next ();) {
                     level.ExecuteSpecial (
-                        spec.special, self, null, false,
-                        spec.args [0], spec.args [1], spec.args [2], spec.args [3], spec.args [4]
+                        spec.Special, self, null, false,
+                        spec.Args [0], spec.Args [1], spec.Args [2], spec.Args [3], spec.Args [4]
                     );
                 }
 
-                double lastGoalAng = goal.angle;
+                let lastGoalAng = Goal.Angle;
                 int delay;
-                Actor newGoal = iterator.Next ();
+                let newGoal = iterator.Next ();
 
-                if (newGoal && goal == target) {
-                    delay = newGoal.args [1];
-                    reactiontime = delay * TicRate + level.maptime;
+                if (newGoal && Goal == Target) {
+                    delay = newGoal.Args [1];
+                    reactiontime = delay * TicRate + level.MapTime;
                 } else {
                     delay = 0;
-                    reactiontime = default.reactiontime;
+                    reactiontime = default.Reactiontime;
                     angle = lastGoalAng; // Look in direction of last goal
                 }
 
-                if (target == goal)
-                    target = null;
+                if (Target == Goal)
+                    Target = null;
                 bJustAttacked = true;
 
                 if (newGoal && delay != 0) {
@@ -464,46 +434,29 @@ extend class S7_MonsterBase {
                 }
 
                 bInChase = false;
-                goal = newGoal;
+                Goal = newGoal;
 
                 return true;
             }
 
-            if (goal == target && actualGoal != aiNextNode) {
-                S7_DoChaseEnd (fastChase, playActive, flags);
+            if (Goal == Target) {
+                S7_DoChaseEnd (playActive, flags);
                 return true;
             }
-        }
+        } else if (targetSystem.NextNode.IsValid && CheckReachedGoal (targetSystem.NextNode)) {
+            if (targetSystem.Countdown > 0)
+                targetSystem.SearchBehavior_MakeNewNode (targetSystem.NextNode.Angle);
 
-        // Strafe   (Hexen's class bosses)
-        // This was the sole reason for the separate A_FastChase function but
-        // it can be just as easily handled by a simple flag so the monsters
-        // can take advantage of all the other enhancements of A_Chase.
-        if (fastChase && moveStandStillCount < 1 && !aiNextNode) {
-            if (FastChaseStrafeCount > 0)
-                FastChaseStrafeCount--;
-            else {
-                FastChaseStrafeCount = 0;
-                vel.X = vel.Y = 0;
+            bJustAttacked = true;
+            bInChase = false;
 
-                double dist = Distance2D (target);
-                if (dist < S7_Class_Boss_Strafe_Range) {
-                    if (random [Chase] (0, 255) < 100) {
-                        double ang = AngleTo (target);
-
-                        ang += ((random [Chase] (0, 255) < 128) ? 90 : -90);
-
-                        VelFromAngle (13., ang);
-                        FastChaseStrafeCount = 3; // Strafe time
-                    }
-                }
-            }
+            return true;
         }
 
         return false;
     }
 
-    void S7_DoChaseEnd (bool fastChase, bool playActive, int flags) {
+    void S7_DoChaseEnd (bool playActive, int flags) {
         // Possibly choose another target
         if ((multiplayer || TIDtoHate) && !threshold && !S7_CheckIfInLOS (target)) {
             bool lookForBetter = false;
@@ -528,9 +481,6 @@ extend class S7_MonsterBase {
                 return;
             }
         }
-
-        // Chase towards player
-        let moveGoal = S7_Chase_GetMovementGoal ();
 
         if (aiState == AIS_Chase) {
             if (strafecount > 0)
@@ -561,7 +511,7 @@ extend class S7_MonsterBase {
     //
     //-------------------------------------------------------------------------------------------
     action void A_S7ChaseDef () {
-        invoker.S7_DoChase (false, MeleeState, MissileState, true, false /*gameinfo.nightmarefast*/, 0);
+        invoker.S7_DoChase (MeleeState, MissileState, true, false /*gameinfo.nightmarefast*/, 0);
     }
 
     action void A_S7Chase (StateLabel melee = null, StateLabel missile = null, int flags = 0) {
@@ -569,7 +519,7 @@ extend class S7_MonsterBase {
         /*if ((flags & S7CHF_Resurrect) && P_CheckForResurrection (self, false))
             return;*/
 
-        invoker.S7_DoChase ((flags & S7CHF_FastChase), ResolveState (melee), ResolveState (missile), !(flags & S7CHF_NoPlayActive),
+        invoker.S7_DoChase (ResolveState (melee), ResolveState (missile), !(flags & S7CHF_NoPlayActive),
             (flags & S7CHF_NightmareFast), flags
         );
     }

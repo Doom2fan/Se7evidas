@@ -146,6 +146,7 @@ class S7_IsLoaded : Actor {
 
 // Monsters
 #include "S7ZScript/Monsters/Base Monsters.ZS"
+#include "S7ZScript/Monsters/MonsterBase_Targetting.ZS"
 #include "S7ZScript/Monsters/MonsterBase_Aiming.ZS"
 #include "S7ZScript/Monsters/MonsterBase_Look.ZS"
 #include "S7ZScript/Monsters/MonsterBase_Chase.ZS"

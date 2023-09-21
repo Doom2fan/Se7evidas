@@ -28,7 +28,7 @@ extend class S7_MonsterBase {
         if (player)
             return player.GetTeam ();
 
-        int myTeam = DesignatedTeam;
+        let myTeam = DesignatedTeam;
 
         // Check for monsters that belong to a player on the team but aren't part of the team themselves.
         if (myTeam == Team_None && FriendPlayer != 0)
@@ -39,25 +39,17 @@ extend class S7_MonsterBase {
 
     double S7_GetTargetStealthFactor (Actor other) {
         let pPawn = S7_BasePlayer (other);
-
-        if (pPawn)
-            return pPawn.stealthFactor;
-
-        return 0.;
+        return pPawn ? pPawn.StealthFactor : 0.;
     }
 
     bool S7_CanSeeEnemy (Actor other) {
-        double dist = Distance2D (other);
-        double stealthFactor = S7_GetTargetStealthFactor (other);
-        double maxDist = max (maxStealthSightRange * (1. - stealthFactor), (radius * 2.) + other.radius);
+        let stealthFactor = S7_GetTargetStealthFactor (other);
+        let maxDist = max (MaxStealthSightRange * (1. - stealthFactor), (radius * 2.) + other.radius);
 
-        if (stealthFactor >= .6 && dist > maxDist)
+        if (stealthFactor >= .6 && Distance2DSquared (other) > maxDist * maxDist)
             return false;
 
-        if (bSeeInvisible)
-            return true;
-
-        if (other.bInvisible)
+        if (other.bInvisible && !bSeeInvisible)
             return false;
 
         return true;

@@ -45,7 +45,7 @@ class S7_MonsterBase : Actor {
 
         S7_MonsterBase.AngularVelocityDecay .03;
         S7_MonsterBase.MaxTurnSpeed 360.;
-        S7_MonsterBase.MaxTurnAccel 30;
+        S7_MonsterBase.MaxTurnAccel 60;
 
         /** Damage factors **/
         // Plasma/Laser damage bonus
@@ -68,6 +68,7 @@ class S7_MonsterBase : Actor {
     int monsDeathType;
     Actor grabbedShooter;
 
+    S7_MonsterBase_TargettingSystem targetSystem;
     S7_XPSystem xpSys;
     bool setStats;
 
@@ -151,8 +152,10 @@ class S7_MonsterBase : Actor {
         if (xpSys)
             UpdateStats ();
 
-        if (!IsFrozen () && health > 0 && !bKilled)
-            SearchBehavior ();
+        if (IsFrozen () || health < 1 || bKilled)
+            return;
+
+        targetSystem.Tick ();
     }
 
     override int DamageMobj (Actor inflictor, Actor source, int damage, Name mod, int flags, double angle) {
