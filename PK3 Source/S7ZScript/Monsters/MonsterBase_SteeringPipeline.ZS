@@ -21,40 +21,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class S7_MonsterSteering_Targetter play abstract {
-    abstract void GetGoal (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal);
-}
-
-class S7_MonsterSteering_Decomposer play abstract {
-    abstract void Decompose (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal);
-}
-
-class S7_MonsterSteering_Constraint play abstract {
-    abstract bool WillViolate (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal);
-    abstract void Suggest (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal);
-}
-
-class S7_MonsterSteering_Actuator play abstract {
-    abstract Vector3, double Output (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal);
-}
-
-class S7_MonsterSteering_Deadlock play abstract {
+class S7_MonsterSteering_Behaviour play abstract {
+    virtual bool IsActive (S7_MonsterBase monster) { return true; }
     abstract Vector3, double Steer (S7_MonsterBase monster);
+    abstract double GetWeight (S7_MonsterBase monster);
 }
 
-class S7_MonsterSteering_BasicTargetter : S7_MonsterSteering_Targetter {
+class S7_MonsterSteering_SeekBehaviour : S7_MonsterSteering_Behaviour {
     private double lookaheadFactor;
 
-    S7_MonsterSteering_BasicTargetter WithLookahead (double newLookahead) {
+    static S7_MonsterSteering_SeekBehaviour Create () { return new ('S7_MonsterSteering_SeekBehaviour'); }
+
+    S7_MonsterSteering_SeekBehaviour WithLookahead (double newLookahead) {
         lookaheadFactor = newLookahead;
         return self;
     }
 
-    override void GetGoal (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        if (monster.MoveStandStillCount > 0) {
-            goal.WithVelocity ((0, 0, 0));
-            return;
-        }
+    override double GetWeight (S7_MonsterBase monster) { return 1; }
+
+    override Vector3, double Steer (S7_MonsterBase monster) {
+        if (monster.MoveStandStillCount > 0)
+            return StandStill (monster), 0;
 
         monster.targetSystem.NextNode.Invalidate ();
         S7_MonsterTargetInfo targetInfo;
@@ -62,574 +49,79 @@ class S7_MonsterSteering_BasicTargetter : S7_MonsterSteering_Targetter {
 
         switch (monster.AIState) {
             case S7_MonsterBase.AIS_Wander:
-                if (!targetInfo.IsValid) {
-                    HandleWander (monster, goal);
-                    break;
-                }
+                /*if (!targetInfo.IsValid)
+                    return HandleWander (monster), 0;*/
             case S7_MonsterBase.AIS_Chase:
-                HandleChase (monster, targetInfo, goal);
-                break;
+                return HandleChase (monster, targetInfo), 0;
+
             case S7_MonsterBase.AIS_MissileAttack:
-                goal.WithVelocity ((0, 0, 0));
-                goal.WithAngularVel (0);
-                break;
+                return StandStill (monster), 0;
         }
+
+        return (0, 0, 0), 0;
     }
 
-    void HandleChase (S7_MonsterBase monster, S7_MonsterTargetInfo targetInfo, out S7_MonsterSteering_Goal goal) {
-        let mustStop = (!targetInfo.IsValid && monster.AIState != S7_MonsterBase.AIS_Wander) || monster.MoveStandStillCount > 0;
-
-        if (mustStop)
-            goal.WithVelocity ((0, 0, 0));
-        else if (targetInfo.IsValid) {
-            let goalVel = monster.S7_CanFly () ? targetInfo.Velocity : (targetInfo.Velocity.XY, 0);
-            goal.WithPosition (monster.Level.Vec3Offset (targetInfo.Position, goalVel * lookaheadFactor * Thinker.TicRate));
+    Vector3 StandStill (S7_MonsterBase monster) {
+        if (monster.S7_CanFly ()) {
+            let velLenSqr = monster.Vel dot monster.Vel;
+            if (velLenSqr >= double.Equal_Epsilon)
+                return monster.Vel / velLenSqr * monster.MaxAccel / Thinker.TicRate;
+        } else if (monster.Pos.Z ~== monster.FloorZ || monster.Pos.Z < monster.FloorZ) {
+            let velLenSqr = monster.Vel.XY dot monster.Vel.XY;
+            if (velLenSqr >= double.Equal_Epsilon)
+                return (monster.Vel.XY / velLenSqr * monster.MaxAccel / Thinker.TicRate, 0);
         }
+
+        return (0, 0, 0);
+    }
+
+    Vector3 HandleChase (S7_MonsterBase monster, S7_MonsterTargetInfo targetInfo) {
+        if ((!targetInfo.IsValid && monster.AIState != S7_MonsterBase.AIS_Wander) || monster.MoveStandStillCount > 0)
+            return StandStill (monster);
 
         if (monster.bInChase && monster.MoveCount < 0)
             monster.S7_SetMoveCount ();
-    }
 
-    void HandleWander (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
+        if (!targetInfo.IsValid)
+            return (0, 0, 0);
 
-    }
-}
-
-class S7_MonsterSteering_WallFollowingConstraint : S7_MonsterSteering_Constraint {
-    private bool closestEndMode;
-    private double closestEndMargin;
-
-    private Vector3 newPosStored;
-
-    S7_MonsterSteering_WallFollowingConstraint WithPlainMode () {
-        closestEndMode = false;
-        return self;
-    }
-
-    S7_MonsterSteering_WallFollowingConstraint WithClosestEndMode (double margin) {
-        closestEndMode = true;
-        closestEndMargin = margin;
-        return self;
-    }
-
-    override bool WillViolate (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        if (!goal.HasPosition)
-            return false;
-
-        let startPoint = monster.Pos;
-        let endPoint = goal.Position;
-
-        if (startPoint ~== endPoint)
-            return false;
-
-        let canFly = monster.S7_CanFly ();
-        let level = monster.level;
-        let wallTracer = monster.wallTracer;
-
-        wallTracer.LineBlockFlags = S7_ActorExtensions.GetSelfBlockLineFlags (monster);
-        wallTracer.CanDropoff = canFly;
-        wallTracer.MaxDropOffHeight = monster.MaxDropOffHeight;
-
-        let traceDiff = canFly ? level.Vec3Diff (startPoint, endPoint) : (level.Vec2Diff (startPoint.XY, endPoint.XY), 0);
-        let traceLen = traceDiff dot traceDiff;
-        if (traceLen ~== 0)
-            return false;
-
-        traceLen = sqrt (traceLen);
-        let traceDir = traceDiff / traceLen;
-
-        let traceStartPos = level.Vec3Offset (startPoint, (0, 0, monster.MaxStepHeight + .5));
-
-        if (!wallTracer.Trace (traceStartPos, monster.curSector, traceDir, traceLen, 0, ignoreAllActors: true) || wallTracer.Results.HitType != TRACE_HitWall)
-            return false;
-
-        let hitLine = wallTracer.Results.HitLine;
-        let wallDir = hitLine.delta.Unit ();
-        let wallNormal = (wallDir.Y, -wallDir.X);
-
-        if (level.PointOnLineSide (wallTracer.Results.HitPos.XY - traceDir.XY * .01, hitLine, true) == 1)
-            wallNormal = -wallNormal;
-
-        if (!closestEndMode) {
-            let offsLen = monster.radius;
-            let newPos = level.Vec2Offset (
-                hitLine.v1.p,
-                wallDir * (wallDir dot (endPoint.XY - hitLine.v1.p)) + wallNormal * offsLen
-            );
-            newPosStored = (newPos, endPoint.Z);
-        } else {
-            let offsNorm = wallNormal;
-            let offsNormLen = monster.radius;
-            let offsFwd = wallDir;
-            let offsFwdLen = monster.radius * S7_Math.SqrtTwo * closestEndMargin;
-            Vector2 closestPos;
-
-            let p1Diff = level.Vec2Diff (endPoint.XY, hitLine.v1.p);
-            let p2Diff = level.Vec2Diff (endPoint.XY, hitLine.v2.p);
-            if ((p2Diff dot p2Diff) < (p1Diff dot p1Diff))
-                closestPos = hitLine.v2.p;
-            else {
-                closestPos = hitLine.v1.p;
-                offsFwd = -wallDir;
-            }
-
-            newPosStored = (level.Vec2Offset (closestPos, offsNorm * offsNormLen + offsFwd * offsFwdLen), endPoint.Z);
-        }
-
-        return true;
-    }
-
-    override void Suggest (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        goal.WithPosition (newPosStored);
-    }
-}
-
-class S7_MonsterSteering_WallAvoidanceConstraint : S7_MonsterSteering_Constraint {
-    const FeelersCount = 9;
-    static const double FeelerAngles [] = {
-        0, // The first feeler must always be 0.
-        -19.6875, 19.6875,
-        -39.375, 39.375,
-        -59.0625, 59.0625,
-        -78.75, 78.75
-    };
-
-    private Vector3 newPosStored;
-
-    static bool, double TraceLine (S7_MonsterBase monster, Vector3 startPos, Vector3 traceDir, double traceLen) {
-        let wallTracer = monster.wallTracer;
-        if (!wallTracer.Trace (startPos, monster.curSector, traceDir, traceLen, 0, ignoreAllActors: true) || wallTracer.Results.HitType != TRACE_HitWall)
-            return false, traceLen;
-
-        return true, wallTracer.Results.Distance;
-    }
-
-    override bool WillViolate (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        if (!goal.HasPosition)
-            return false;
-
-        let startPoint = monster.Pos;
-        let endPoint = goal.Position;
-
-        if (startPoint ~== endPoint)
-            return false;
-
-        let canFly = monster.S7_CanFly ();
-        let level = monster.level;
-        let wallTracer = monster.wallTracer;
-
-        wallTracer.LineBlockFlags = S7_ActorExtensions.GetSelfBlockLineFlags (monster);
-        wallTracer.CanDropoff = canFly;
-        wallTracer.MaxDropOffHeight = monster.MaxDropOffHeight;
-
-        Vector3 feelerDirs [FeelersCount];
-        double feelerLens [FeelersCount];
-        double feelersDistToGoal [FeelersCount];
-
-        let pathDiff = canFly ? level.Vec3Diff (startPoint, endPoint) : (level.Vec2Diff (startPoint.XY, endPoint.XY), 0);
-        let pathLength = pathDiff dot pathDiff;
-        if (pathLength ~== 0)
-            return false;
-
-        pathLength = sqrt (pathLength);
-        let pathDir = pathDiff / pathLength;
-        let feelerLen = pathLength;//min (monster.Radius * 4, pathLength);
-
-        let traceStartPos = level.Vec3Offset (startPoint, (0, 0, monster.MaxStepHeight + .5));
-        let wallMargin = monster.Radius;
-
-        bool traceSuccess;
-        // Straight trace is calculated manually.
-        feelerDirs [0] = pathDir;
-        [traceSuccess, feelerLens [0]] = TraceLine (monster, traceStartPos, pathDir, pathLength);
-        feelersDistToGoal [0] = 1;
-        // Early out if the segment direction isn't obstructed.
-        if (!traceSuccess)
-            return false;
-
-        feelerLens [0] = max (feelerLens [0] - wallMargin, 0);
-
-        let chosenFeeler = -1;
-        for (let i = 1; i < FeelersCount; i++) {
-            let feelerDir = (Actor.RotateVector (pathDir.XY, FeelerAngles [i]), pathDir.Z);
-            feelerDirs [i] = feelerDir;
-
-            [traceSuccess, feelerLens [i]] = TraceLine (monster, traceStartPos, feelerDir, feelerLen);
-            feelersDistToGoal [i] = feelerDir.XY dot pathDir.XY;
-
-            if (traceSuccess)
-                feelerLens [i] = max (feelerLens [i] - wallMargin, 0);
-        }
-
-        let highestScore = -double.infinity;
-        for (let i = 0; i < FeelersCount; i++) {
-            let feelerScore = feelersDistToGoal [i] * feelerLens [i];
-
-            if (feelerScore < highestScore)
-                continue;
-
-            highestScore = feelerScore;
-            chosenFeeler = i;
-        }
-
-        // This doesn't sound possible but better safe than sorry.
-        if (chosenFeeler < 0)
-            return false;
-
-        newPosStored = level.Vec3Offset (startPoint, feelerDirs [chosenFeeler] * feelerLens [chosenFeeler]);
-        if (!canFly) {
-            let sec = level.PointInSector (newPosStored.XY);
-            newPosStored.Z = sec.NextLowestFloorAt (newPosStored.X, newPosStored.Y, newPosStored.Z, FFCF_3DRestrict);
-        }
-        return true;
-    }
-
-    override void Suggest (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        goal.WithPosition (newPosStored);
-    }
-}
-
-class S7_MonsterSteering_AvoidObstaclesConstraint : S7_MonsterSteering_Constraint {
-    private double marginFactor;
-
-    private Vector3 newPosStored;
-
-    S7_MonsterSteering_AvoidObstaclesConstraint WithMargin (double newMargin) {
-        marginFactor = newMargin;
-        return self;
-    }
-
-    override bool WillViolate (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        if (!goal.HasPosition)
-            return false;
-
-        let pathStartPos = monster.Pos;
-        let pathEndPos = goal.Position;
-
-        if (pathStartPos ~== pathEndPos)
-            return false;
-
-        Array<Actor> checkList;
-        Array<int> batchStartIndex; // Stores which was the first index for that split.
-        Array<int16> batchCounts;
-
-        let marginFactor = self.marginFactor;
-        let radius = monster.Radius;
-        let outerRadius = monster.Radius * S7_Math.SqrtTwo;
-        let height = monster.Height;
         let level = monster.Level;
-        let splitSize = S7_Math.SqrtTwo * monster.Radius * marginFactor;
-
-        let pathDiff = level.Vec3Diff (pathStartPos, pathEndPos);
-        let pathLen = pathDiff.Length ();
-
-        if (pathLen ~== 0)
-            return false;
-
-        let pathDir = pathDiff / pathLen;
-
-        let startPoint = level.Vec3Offset (pathStartPos, pathDir * splitSize / 2.);
-        let stepCount = pathLen / (splitSize / 2.);
-        let stepCountInt = ceil (stepCount);
-        let stepVec = pathDir * splitSize / 2.;
-
-        if (pathLen < splitSize)
-            stepCount = 1;
-
-        batchStartIndex.Reserve (stepCountInt);
-        batchCounts.Reserve (stepCountInt);
-        for (let batchI = 0; batchI < stepCountInt; batchI++) {
-            batchStartIndex [batchI] = checkList.Size ();
-
-            let centerPoint = level.Vec3Offset (startPoint, stepVec * min (batchI, stepCount));
-            let it = BlockThingsIterator.CreateFromPos (
-                centerPoint.X, centerPoint.Y, centerPoint.Z,
-                monster.Height, splitSize,
-                false
-            );
-
-            for (let other = it.Thing; it.Next (); other = it.Thing) {
-                if (
-                    !other ||
-                    other == monster || // Skip self.
-                    !other.bSolid || other.bNoClip || other.bNoInteraction || // Skip things non-solid objects.
-                    other.bMissile || // Skip projectiles.
-                    other.Radius <= S7_Math.VM_Epsilon || other.Height <= S7_Math.VM_Epsilon ||
-                    other.bCorpse || other.bKilled || // Skip corpses and other dead actors.
-                    other.bIsMonster || other is 'S7_MonsterBase' || // Skip other monsters. (that's for avoidance)
-                    (other.player && other == other.player.mo) // Skip players (but not voodoo dolls)
-                )
-                    continue;
-
-                checkList.Push (other);
-            }
-
-            batchCounts [batchI] = checkList.Size () - batchStartIndex [batchI];
-        }
-
-        for (let batchI = 0; batchI < stepCountInt; batchI++) {
-            let batchStart = batchStartIndex [batchI];
-            let batchCount = batchCounts [batchI];
-
-            for (let batchJ = 0; (batchJ < batchI) & (batchCount > 0); batchJ++) {
-                let otherBatchStart = batchStartIndex [batchJ];
-                let otherBatchEnd = otherBatchStart + batchCounts [batchJ];
-
-                for (let i = batchStart + batchCount - 1; i >= batchStart; i--) {
-                    let iObj = checkList [i];
-                    for (let j = otherBatchStart; j < otherBatchEnd; j++) {
-                        if (iObj == checkList [j]) {
-                            if (i - batchStart < batchCount - 1)
-                                checkList [i] = checkList [batchStart + batchCount - 1];
-
-                            batchCount--;
-
-                            break;
-                        }
-                    }
-                }
-            }
-
-            batchCounts [batchI] = batchCount;
-        }
-
-        let closestDist = double.infinity;
-        Actor closestActor = null;
-        let closestActorOffset = (0, 0, 0);
-        for (let batchI = 0; batchI < stepCountInt; batchI++) {
-            let batchStart = batchStartIndex [batchI];
-            let batchEnd = batchStart + batchCounts [batchI];
-
-            for (let actI = batchStart; actI < batchEnd; actI++) {
-                let other = checkList [actI];
-
-                // Project the other actor onto the path.
-                let startDiff = level.Vec3Diff (pathStartPos, other.Pos);
-                let t = pathDir dot startDiff;
-
-                if (t > closestDist)
-                    continue;
-                if (t < S7_Math.VM_Epsilon || t - pathLen > S7_Math.VM_Epsilon)
-                    continue;
-
-                let relativePos = pathStartPos + startDiff; // So we can omit a lot of portal checks.
-                let projPos = pathStartPos + pathDir * t;
-
-                // Calculate the difference between the closest position and the sum of the ("real") radii.
-                let posDiff = relativePos - projPos;
-                let sumRadii = outerRadius + other.Radius * S7_Math.SqrtTwo;
-
-                // Skip if we're definitely not colliding on the XY plane.
-                if ((posDiff.XY dot posDiff.XY) > sumRadii * sumRadii)
-                    continue;
-
-                // Skip if we can't be colliding on the Z axis.
-                if (projPos.Z + height < relativePos.Z || relativePos.Z + other.height < relativePos.Z)
-                    continue;
-
-                // If we had a possible hit, check if we can collide with that actor.
-                if (monster.CheckPosition (other.Pos.XY, actorsOnly: true))
-                    continue;
-
-                closestDist = t;
-                closestActor = other;
-                closestActorOffset = posDiff;
-            }
-        }
-
-        if (closestActor) {
-            let projPos = pathStartPos + pathDir * closestDist;
-            let relativePos = projPos + closestActorOffset;
-            let offsLen = closestActorOffset.XY.Length ();
-
-            let newOffsDir = (0, 0);
-            // Check if we pass through the center point of the obstacle.
-            if (offsLen ~== 0)
-                // Any vector at a right angle to the path will work.
-                newOffsDir = (pathDir.Y, -pathDir.X);
-            else
-                newOffsDir = -closestActorOffset.XY / offsLen;
-
-            let sumRadii = (outerRadius + closestActor.Radius * S7_Math.SqrtTwo) * marginFactor;
-            newPosStored = level.Vec3Offset (closestActor.Pos, (newOffsDir * sumRadii, 0));
-
-            return true;
-        }
-
-        return false;
-    }
-
-    override void Suggest (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        goal.WithPosition (newPosStored);
-    }
-}
-
-class S7_MonsterSteering_BasicActuator : S7_MonsterSteering_Actuator {
-    override Vector3, double Output (S7_MonsterBase monster, out S7_MonsterSteering_Goal goal) {
-        if (!goal.HasPosition && !goal.HasVelocity && !goal.HasAngle && !goal.HasAngularVel)
-            return (0, 0, 0), 0;
-
-        let maxSpeed = monster.Speed / Thinker.TicRate;
-        let maxAccel = monster.MaxAccel / Thinker.TicRate;
-        let maxTurnSpeed = monster.MaxTurnSpeed / Thinker.TicRate;
-        let maxTurnAccel = monster.MaxTurnAccel / Thinker.TicRate;
         let canFly = monster.S7_CanFly ();
-
-        // Targets
-        let hasVelocity = false;
-        Vector3 targetVel = (0, 0, 0);
-        let hasAngle = goal.HasAngle;
-        let targetAngle = goal.Angle;
-
-        let hasPositionVel = false;
-        Vector3 posVel;
-        if (goal.HasPosition) {
-            let posDiff = !canFly
-                ? (monster.level.Vec2Diff (monster.Pos.XY, goal.Position.XY), 0)
-                : monster.level.Vec3Diff (monster.Pos, goal.Position);
-            let posLen = posDiff dot posDiff;
-            if (!(posLen ~== 0)) {
-                posLen = sqrt (posLen);
-                let posDir = posDiff / posLen;
-
-                let slowRadius = monster.Radius + maxSpeed * 2;
-                posVel = posDir * maxSpeed * clamp (posLen / slowRadius, 0, 1);
-
-                hasVelocity = true;
-                hasPositionVel = true;
-            }
-        }
-
-        if (goal.HasVelocity) {
-            if (hasPositionVel) {
-                let goalVelLen = goal.Velocity.Length ();
-                let posVelLen = posVel.Length ();
-
-                let goalVelDir = goal.Velocity / goalVelLen;
-                let posVelDir = posVel / posVelLen;
-                let velDot = abs (goalVelDir dot posVelDir);
-
-                let newVelDir = S7_Math.Lerp3 (posVelDir + goalVelDir, goalVelDir, velDot).Unit ();
-                let newVelLen = S7_Math.Lerp (posVelLen + goalVelLen, goalVelLen, velDot);
-
-                targetVel = newVelDir * newVelLen;
-            } else
-                targetVel = goal.Velocity;
-
-            hasVelocity = true;
-        } else if (hasPositionVel) {
-            targetVel = posVel;
-            if (!hasAngle) {
-                targetAngle = atan2 (targetVel.Y, targetVel.X);
-                hasAngle = true;
-            }
-
-            hasVelocity = true;
-        }
-
-        let angularVel = goal.AngularVel;
-        let hasAngularVel = goal.HasAngularVel;
-        if (!hasAngularVel && hasAngle) {
-            let angleDiff = Actor.Normalize180 (targetAngle - monster.Angle);
-            let slowRadius = maxTurnSpeed * 4;
-            angularVel = maxTurnSpeed * clamp (abs (angleDiff) / slowRadius, 0, 1);
-
-            if (angleDiff < 0)
-                angularVel = -angularVel;
-            hasAngularVel = true;
-        }
-
-        let linearAccel = (0, 0, 0);
-        let angularAccel = 0.;
-        if (hasVelocity) {
-            targetVel = S7_Math.ClampVec3Length (targetVel, maxSpeed);
-            if (!canFly)
-                linearAccel = (S7_Math.ClampVec2Length (targetVel.XY - monster.Vel.XY, maxAccel), 0);
-            else
-                linearAccel = S7_Math.ClampVec3Length (targetVel - monster.Vel, maxAccel);
-        }
-        if (hasAngularVel) {
-            angularAccel = clamp (angularVel - monster.AngularVelocity, -maxTurnAccel, maxTurnAccel);
-        }
-
-        //Console.Printf ("LVel: %f, LAccel: %f", targetVel.Length (), linearAccel.Length ());
-        //Console.Printf ("AVel: %f, AAccel: %f", angularVel, angularAccel);
-
-        return linearAccel, angularAccel;
-    }
-}
-
-class S7_MonsterSteering_BasicDeadlockActuator : S7_MonsterSteering_Deadlock {
-    override Vector3, double Steer (S7_MonsterBase monster) {
         let maxSpeed = monster.Speed / Thinker.TicRate;
         let maxAccel = monster.MaxAccel / Thinker.TicRate;
+        targetInfo.Velocity = (0, 0, 0);
 
-        let targetVel = Actor.AngleToVector (monster.Angle, maxSpeed);
-        let linearAccel = S7_Math.ClampVec2Length (targetVel - monster.Vel.XY, maxAccel);
+        Vector3 goalDir;
+        double goalDist;
+        if (canFly) {
+            let goalPos = level.Vec3Offset (targetInfo.Position, targetInfo.Velocity * lookaheadFactor);
+            let goalDiff = level.Vec3Diff (monster.Pos, goalPos);
 
-        return (linearAccel, 0), 0;
-    }
-}
+            goalDist = goalDiff.Length ();
+            goalDir = goalDiff / goalDist;
+        } else {
+            let goalPos = level.Vec2Offset (targetInfo.Position.XY, targetInfo.Velocity.XY * lookaheadFactor);
+            let goalDiff = level.Vec2Diff (monster.Pos.XY, goalPos);
 
-struct S7_MonsterSteering_Goal {
-    bool HasPosition;
-    Vector3 Position;
+            goalDist = goalDiff.Length ();
+            goalDir = (goalDiff / goalDist, 0);
+        }
 
-    bool HasVelocity;
-    Vector3 Velocity;
+        if (goalDist < double.Equal_Epsilon)
+            goalDir = (0, 0, 0);
 
-    bool HasAngle;
-    double Angle;
+        let targetRadius = max (targetInfo.Radius * 2 + monster.Radius, 1);
+        let slowRadius = targetRadius * 2 - targetRadius;
+        if (goalDist <= targetRadius)
+            return (0, 0, 0);
 
-    bool HasAngularVel;
-    double AngularVel;
+        let targetSpeed = (goalDist > slowRadius) ? maxSpeed : (maxSpeed * (goalDist - targetRadius) / slowRadius);
+        let targetVel = goalDir * targetSpeed;
 
-    void Initialize () {
-        HasPosition = false;
-        Position = (0, 0, 0);
+        if (canFly)
+            return S7_Math.ClampVec3Length (targetVel - monster.Vel, maxAccel);
 
-        HasVelocity = false;
-        Velocity = (0, 0, 0);
-
-        HasAngle = false;
-        Angle = 0;
-
-        HasAngularVel = false;
-        AngularVel = 0;
-    }
-
-    void Copy (out S7_MonsterSteering_Goal other) {
-        HasPosition = other.HasPosition;
-        Position = other.Position;
-
-        HasVelocity = other.HasVelocity;
-        Velocity = other.Velocity;
-
-        HasAngle = other.HasAngle;
-        Angle = other.Angle;
-
-        HasAngularVel = other.HasAngularVel;
-        AngularVel = other.AngularVel;
-    }
-
-    void WithPosition (Vector3 pos) {
-        HasPosition = true;
-        Position = pos;
-    }
-
-    void WithVelocity (Vector3 vel) {
-        HasVelocity = true;
-        Velocity = vel;
-    }
-
-    void WithAngle (double ang) {
-        HasAngle = true;
-        Angle = ang;
-    }
-
-    void WithAngularVel (double angVel) {
-        HasAngularVel = true;
-        AngularVel = angVel;
+        return (S7_Math.ClampVec2Length (targetVel.XY - monster.Vel.XY, maxAccel), 0);
     }
 }
 
@@ -640,13 +132,8 @@ class S7_MonsterSteering_Pipeline play {
 
     private int lastSteerTic;
     private int updateTime;
-    private S7_MonsterSteering_Goal lastGoal;
 
-    private Array<S7_MonsterSteering_Targetter> targetters;
-    private Array<S7_MonsterSteering_Decomposer> decomposers;
-    private Array<S7_MonsterSteering_Constraint> constraints;
-    private S7_MonsterSteering_Actuator actuator;
-    private S7_MonsterSteering_Deadlock deadlockActuator;
+    private Array<S7_MonsterSteering_Behaviour> behaviours;
 
     static S7_MonsterSteering_Pipeline Create (S7_MonsterBase monster) {
         let ret = new ('S7_MonsterSteering_Pipeline');
@@ -654,108 +141,70 @@ class S7_MonsterSteering_Pipeline play {
         return ret;
     }
 
-    S7_MonsterSteering_Pipeline AddTargetter (S7_MonsterSteering_Targetter targetter) {
-        targetters.Push (targetter);
+    S7_MonsterSteering_Pipeline AddBehaviour (S7_MonsterSteering_Behaviour behaviour) {
+        behaviours.Push (behaviour);
         return self;
-    }
-
-    S7_MonsterSteering_Pipeline AddDecomposer (S7_MonsterSteering_Decomposer decomposer) {
-        decomposers.Push (decomposer);
-        return self;
-    }
-
-    S7_MonsterSteering_Pipeline AddConstraint (S7_MonsterSteering_Constraint constraint) {
-        constraints.Push (constraint);
-        return self;
-    }
-
-    S7_MonsterSteering_Pipeline WithActuator (S7_MonsterSteering_Actuator newActuator) {
-        actuator = newActuator;
-        return self;
-    }
-
-    S7_MonsterSteering_Pipeline WithDeadlockActuator (S7_MonsterSteering_Deadlock deadlock) {
-        deadlockActuator = deadlock;
-        return self;
-    }
-
-    void ShowGoal (out S7_MonsterSteering_Goal goal, bool isStored = false) {
-        let stepLen = S7C_MapUnitsPerMeter * .5;
-
-        let startPos = monster.Pos;
-        Vector3 stepDir;
-
-        if (goal.HasPosition)
-            stepDir = monster.level.Vec3Diff (startPos, goal.Position);
-        else if (goal.HasVelocity)
-            stepDir = goal.Velocity * 5;
-        else
-            return;
-
-        let stepCount = stepDir.Length () / stepLen;
-        stepDir = stepDir.Unit ();
-
-        for (int i = int (ceil (stepCount)); i >= 0; i--) {
-            let stepPos = monster.level.Vec3Offset (startPos, stepDir * min (i, stepCount) * stepLen);
-            let asd = Actor.Spawn ('S7_Asd', stepPos);
-            asd.SetState (asd.FindState ('Spawn2'));
-            asd.tics = 5;
-            asd.scale *= 0.2;
-            asd.A_SetRenderstyle (asd.alpha, STYLE_TranslucentStencil);
-            asd.SetShade (!isStored ? Color (0, 255, 0) : Color (255, 0, 0));
-        }
     }
 
     Vector3, double GetSteering () {
-        if (lastSteerTic >= Level.TotalTime)
+        let level = monster.Level;
+        if (lastSteerTic >= level.TotalTime)
             return (0, 0, 0), 0;
 
-        lastSteerTic = Level.TotalTime;
+        lastSteerTic = level.TotalTime;
 
-        if (!Monster.bInChase || Monster.MoveCount > 0) {
-            //ShowGoal (lastGoal, true);
-            let [linearAccel, angularAccel] = actuator.Output (Monster, lastGoal);
-            return linearAccel, angularAccel;
-        }
+        let maxSpeed = monster.Speed / Thinker.TicRate;
+        let maxAccel = monster.MaxAccel / Thinker.TicRate;
+        let maxTurnSpeed = monster.MaxTurnSpeed / Thinker.TicRate;
+        let maxTurnAccel = monster.MaxTurnAccel / Thinker.TicRate;
 
-        S7_MonsterSteering_Goal goal;
+        let accumLinear = (0, 0, 0);
+        let accumAngular = 0;
+        let calcLinear = true;
+        let calcAngular = true;
+        for (let i = 0; i < behaviours.Size (); i++) {
+            let behaviour = behaviours [i];
+            if (!behaviour.IsActive (monster))
+                continue;
 
-        // Get the top-level goal.
-        let targettersCount = targetters.Size ();
-        for (int i = 0; i < targettersCount; i++)
-            targetters [i].GetGoal (Monster, goal);
+            let [linearForce, angularForce] = behaviour.Steer (monster);
+            let weight = behaviour.GetWeight (monster);
+            linearForce *= weight;
+            angularForce *= weight;
 
-        // Decompose the top-level goal.
-        let decomposersCount = decomposers.Size ();
-        for (int i = 0; i < decomposersCount; i++)
-            decomposers [i].Decompose (Monster, goal);
+            if (calcLinear) {
+                let len = accumLinear.Length ();
+                let remainingLen = max (maxAccel - len, 0);
 
-        // Actuate and constrain.
-        let constraintsCount = constraints.Size ();
-        for (int i = 0; i < ConstraintSteps; i++) {
-            // Check for constraint violation.
-            let cIdx = 0;
-            for (; cIdx < constraintsCount; cIdx++) {
-                let constraint = constraints [cIdx];
+                if (remainingLen > double.Equal_Epsilon)
+                    accumLinear += S7_Math.ClampVec3Length (linearForce, remainingLen);
 
-                if (constraint.WillViolate (Monster, goal)) {
-                    constraint.Suggest (Monster, goal);
-                    break;
-                }
+                if (remainingLen <= double.Equal_Epsilon)
+                    calcLinear = false;
             }
 
-            if (cIdx >= constraintsCount) {
-                //ShowGoal (goal);
+            if (calcAngular) {
+                let len = abs (accumAngular);
+                let remainingLen = max (maxTurnAccel - len, 0);
 
-                lastGoal.Copy (goal);
+                if (remainingLen > double.Equal_Epsilon)
+                    accumAngular += clamp (angularForce, -remainingLen, remainingLen);
 
-                let [linearAccel, angularAccel] = actuator.Output (Monster, goal);
-                return linearAccel, angularAccel;
+                if (remainingLen <= double.Equal_Epsilon)
+                    calcAngular = false;
             }
+
+            if (!calcLinear && !calcAngular)
+                break;
         }
 
-        //ShowGoal (goal);
-        let [linearAccel, angularAccel] = deadlockActuator.Steer (Monster);
-        return linearAccel, angularAccel;
+        return accumLinear, accumAngular;
+
+        /*targetVel = S7_Math.ClampVec3Length (targetVel, maxSpeed);
+        if (!canFly)
+            linearAccel = (S7_Math.ClampVec2Length (targetVel.XY - monster.Vel.XY, maxAccel), 0);
+        else
+            linearAccel = S7_Math.ClampVec3Length (targetVel - monster.Vel, maxAccel);
+        angularAccel = clamp (angularVel - monster.AngularVelocity, -maxTurnAccel, maxTurnAccel);*/
     }
 }

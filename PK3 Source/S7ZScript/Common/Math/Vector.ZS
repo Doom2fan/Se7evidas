@@ -44,14 +44,14 @@ extend class S7_Math {
 
     static Vector2 ClampVec2Length (Vector2 vec, double maxLen) {
         let vecSqr = vec dot vec;
-        if (vecSqr <= (maxLen * maxLen))
+        if ((vecSqr <= (maxLen * maxLen)) | (vecSqr < double.Equal_Epsilon))
             return vec;
         return vec / sqrt (vecSqr) * maxLen;
     }
 
     static Vector3 ClampVec3Length (Vector3 vec, double maxLen) {
         let vecSqr = vec dot vec;
-        if (vecSqr <= (maxLen * maxLen))
+        if ((vecSqr <= (maxLen * maxLen)) | (vecSqr < double.Equal_Epsilon))
             return vec;
         return vec / sqrt (vecSqr) * maxLen;
     }
