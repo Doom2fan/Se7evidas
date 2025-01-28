@@ -23,7 +23,7 @@ extend class S7_BaseWeapon {
     //
     //-------------------------------------------------------------------------------------------
     double ConvWeapRecoil (double amount, double strengthStat, double berserkMod) const {
-        return amount * (1 - clamp ((log10 (strengthStat) / 5.) + (.000035 * (strengthStat**2)), 0., .75)) * (1. - berserkMod);
+        return amount * (1 - clamp ((log10 (strengthStat) / 5.) + (.000035 * (strengthStat * strengthStat)), 0., .75)) * (1. - berserkMod);
     }
 
     virtual void V_S7_Recoil (double amount) {
