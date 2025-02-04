@@ -38,7 +38,7 @@ extend class S7_Math {
     // This formulation uses the quadratic equation to solve
     // the intercept position.
         Vector3 R = lvl.Vec3Diff (projPos, targetPos);
-        double a = (targetVel dot targetVel) - (projSpeed ** 2);
+        double a = (targetVel dot targetVel) - (projSpeed * projSpeed);
         double b = 2. * (R dot targetVel);
         double c = R dot R;
         double tBullet = 0.;
@@ -111,8 +111,8 @@ extend class S7_Math {
         double x = vecDiff.XY.Length (),
                y = vecDiff.Z;
 
-        double vSqr = v ** 2;
-        double sq = (v ** 4) - g*(g*(x ** 2) + 2 * y * (vSqr));
+        double vSqr = v * v;
+        double sq = (v * v * v * v) - g * (g * (x * x) + 2 * y * (vSqr));
 
         if (sq >= 0 && !(sq != sq)) {
             sq = sqrt (sq);
