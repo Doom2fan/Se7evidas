@@ -150,7 +150,7 @@ class S7_IsLoaded : Actor {
 #include "S7ZScript/Monsters/MonsterBase_Aiming.ZS"
 #include "S7ZScript/Monsters/MonsterBase_Look.ZS"
 #include "S7ZScript/Monsters/MonsterBase_Chase.ZS"
-#include "S7ZScript/Monsters/MonsterBase_SteeringPipeline.ZS"
+#include "S7ZScript/Monsters/MonsterBase_Steering.ZS"
 #include "S7ZScript/Monsters/MonsterBase_Movement.ZS"
 #include "S7ZScript/Monsters/MonsterBase_AI_Searching.ZS"
 #include "S7ZScript/Monsters/Spawners.ZS"

@@ -88,23 +88,17 @@ class S7_Asd : Actor {
 extend class S7_MonsterBase {
     S7_MonsterBase_WallTracer wallTracer;
     int moveStandStillCount;
+    double moveStandStillAngle;
 
-    S7_MonsterSteering_Pipeline steerPipeline;
+    S7_MonsterSteering steerBehaviour;
     private int lastSteerTick;
 
     private void InitializeMovement () {
         if (!wallTracer)
             wallTracer = new ('S7_MonsterBase_WallTracer');
 
-        if (!steerPipeline) {
-            steerPipeline = S7_MonsterSteering_Pipeline.Create (self)
-                .AddTargetter (new ('S7_MonsterSteering_BasicTargetter').WithLookahead (.15))
-                .AddConstraint (new ('S7_MonsterSteering_WallAvoidanceConstraint'))
-                .AddConstraint (new ('S7_MonsterSteering_WallFollowingConstraint').WithClosestEndMode (2))
-                .AddConstraint (new ('S7_MonsterSteering_AvoidObstaclesConstraint').WithMargin (1.5))
-                .WithActuator (new ('S7_MonsterSteering_BasicActuator'))
-                .WithDeadlockActuator (new ('S7_MonsterSteering_BasicDeadlockActuator'));
-        }
+        if (!steerBehaviour)
+            steerBehaviour = new ('S7_MonsterSteering_Simple');
 
         moveStandStillCount = 0;
     }
@@ -118,7 +112,7 @@ extend class S7_MonsterBase {
             return;
 
         lastSteerTick = Level.TotalTime;
-        let [linearAccel, angularAccel] = steerPipeline.GetSteering ();
+        let [linearAccel, angularAccel] = steerBehaviour.GetSteering (self);
 
         Vel += linearAccel;
         AngularVelocity += angularAccel;

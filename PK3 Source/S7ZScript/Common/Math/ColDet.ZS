@@ -89,4 +89,111 @@ extend class S7_Math {
 
         return true;
     }
+
+    /* Summary:
+    **  Performs a swept collision test between a moving AABB and a static line.
+    **
+    ** Arguments:
+    **  boxPos: The AABB's starting position.
+    **  boxRadius: The AABB's radius.
+    **  boxDir: The direction that the AABB is moving in.
+    **  lineStart: The line's first vertex.
+    **  lineEnd: The line's second vertex.
+    **  distance: The maximum distance for the sweep test.
+    **
+    ** Returns:
+    **  The time of collision, or -1 if there's no collision.
+    */
+    static double TestAABBLineSwept (
+        Vector2 boxPos, double boxRadius, Vector2 boxDir,
+        Vector2 lineStart, Vector2 lineEnd,
+        double distance
+    ) {
+        if (lineStart ~== lineEnd)
+            return -1;
+
+        let start = boxPos;
+        let delta = boxDir * distance;
+
+        let tEnter = 0.;
+        let tExit = 1.;
+
+        // Process X-axis
+        let minLineX = min (lineStart.X, lineEnd.X);
+        let maxLineX = max (lineStart.X, lineEnd.X);
+        CalculateAxisIntervals (
+            start.X, delta.X, boxRadius,
+            minLineX, maxLineX,
+            tEnter, tExit
+        );
+
+        if (tEnter > tExit || tEnter > 1)
+            return -1;
+
+        // Process Y-axis
+        let minLineY = min (lineStart.Y, lineEnd.Y);
+        let maxLineY = max (lineStart.Y, lineEnd.Y);
+        CalculateAxisIntervals (
+            start.Y, delta.Y, boxRadius,
+            minLineY, maxLineY,
+            tEnter, tExit
+        );
+
+        if (tEnter > tExit || tEnter > 1)
+            return -1;
+
+        // Process normal axis
+        let lineDelta = lineEnd - lineStart;
+        let axis = (-lineDelta.Y, lineDelta.X).Unit ();
+        let proj1 = lineStart dot axis;
+        let proj2 = lineEnd dot axis;
+        let minLineProj = min (proj1, proj2);
+        let maxLineProj = max (proj1, proj2);
+
+        let velocityProj = delta dot axis;
+        let initialProj = start dot axis;
+        let halfProj = boxRadius * (abs (axis.X) + abs (axis.Y));
+
+        CalculateAxisIntervals (
+            initialProj, velocityProj, halfProj,
+            minLineProj, maxLineProj,
+            tEnter, tExit
+        );
+
+        if (tEnter > tExit || tEnter > 1)
+            return -1;
+
+        return tEnter * distance;
+    }
+
+    static void CalculateAxisIntervals (
+        double initialProj, double velocityProj, double halfProj,
+        double minLineProj, double maxLineProj,
+        out double tEnter, out double tExit
+    ) {
+        if (abs (velocityProj) < S7_Math.VM_Epsilon) {
+            // Stationary check
+            let aabbMin = initialProj - halfProj;
+            let aabbMax = initialProj + halfProj;
+
+            if (aabbMax < minLineProj || aabbMin > maxLineProj) {
+                tEnter = double.max;
+                tExit = -double.max;
+            }
+
+            return;
+        }
+
+        let t0 = (minLineProj - initialProj - halfProj) / velocityProj;
+        let t1 = (maxLineProj - initialProj + halfProj) / velocityProj;
+
+        if (velocityProj < 0) {
+            let tmp = t1;
+            t1 = t0;
+            t0 = tmp;
+        }
+
+        tEnter = max (tEnter, max (t0, 0));
+        tExit = min (tExit, min (t1, 1));
+    }
 }

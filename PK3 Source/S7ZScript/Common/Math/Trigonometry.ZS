@@ -367,6 +367,37 @@ extend class S7_Math {
     }
 
     /* Summary:
+    **  Checks if a ray intersects a segment.
+    **
+    ** Arguments:
+    **  rayPos: The point from which the ray starts.
+    **  rayDir: The direction of the ray.
+    **  v1: The first end-point of the line segment.
+    **  v2: The second end-point of the line segment.
+    **  intersection: An output parameter which contains the point of intersection between the ray and the segment.
+    **
+    ** Returns:
+    **  Returns the time to hit the segment, or -1 if it'll never hit.
+    */
+    static double RayLineSegIntersectionTime (Vector2 rayPos, Vector2 rayDir, Vector2 v1, Vector2 v2) {
+        let p1 = rayPos - v1;
+        let p2 = v2 - v1;
+        let p3 = (-rayDir.Y, rayDir.X);
+
+        let dotVal = p2 dot p3;
+        if (dotVal ~== 0)
+            return -1;
+
+        let t1 = (p2.X * p1.Y - p2.Y * p1.X) / dotVal;
+        let t2 = (p1 dot p3) / dotVal;
+
+        if (t1 >= 0 && (t2 >= 0 && t2 <= 1))
+            return t1;
+
+        return -1;
+    }
+
+    /* Summary:
     **  Determines whether a vertex is reflex or convex. The vertices must be sorted counter-clockwise.
     **
     ** Arguments:
@@ -382,6 +413,19 @@ extend class S7_Math {
         let v2 = c - b;
 
         return (v1.X * v2.Y - v2.X * v1.Y) < 0;
+    }
+
+    /* Summary:
+    **  Calculates the factor a vector needs to be stretched by to account for actors being square.
+    **
+    ** Arguments
+    **  angle: The angle of the vector.
+    **
+    ** Returns:
+    **  A scaling factor for the vector.
+    */
+    static double SquareRadiusVectorFactor (double angle) {
+        return 1. / max (abs (cos (angle)), abs (sin (angle)));
     }
 }
 

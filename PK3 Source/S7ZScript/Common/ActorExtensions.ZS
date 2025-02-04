@@ -481,4 +481,126 @@ class S7_ActorExtensions : Actor {
 
         return flags;
     }
+
+    /*static bool CheckSwitchRange (Line curLine, Actor mObj, int side, bool hasOptPos = false, Vector3 optPos = (0, 0, 0)) {
+        // [...]
+    }*/
+
+    const S7_SPAC_Walking = 1 << 13; // This isn't defined in GZDoom, for some reason.
+    static bool CheckCanActivateLine (Line curLine, Actor mObj, int side, int activationType, bool hasOptPos = false, Vector3 optPos = (0, 0, 0))
+    {
+        if (!curLine || !mObj)
+            return false;
+
+        let level = mObj.Level;
+        let lineActivation = curLine.Activation;
+
+        if ((curLine.Flags & Line.ML_FirstSideOnly && side == Line.Back) || curLine.Special == 0)
+            return false;
+
+        if ((activationType & (SPAC_Cross | SPAC_MCross)) && (lineActivation & S7_SPAC_Walking)) {
+            // Not on floor.
+            if ((mObj.Pos.Z > mObj.FloorZ) && !mObj.bOnMobj)
+                return false;
+        }
+
+        if (lineActivation & SPAC_UseThrough)
+            lineActivation |= SPAC_Use;
+        else if (
+            curLine.Special == Teleport &&
+            (lineActivation & SPAC_Cross) &&
+            (activationType & SPAC_PCross) &&
+            mObj.bMissile
+        ) {
+            // Let missiles use regular player teleports
+            lineActivation |= SPAC_PCross;
+        }
+
+        // BOOM's generalized line types that allow monster use can actually be activated by anything except projectiles.
+        if (lineActivation & SPAC_AnyCross)
+            lineActivation |= SPAC_Cross | SPAC_MCross;
+
+        // NOT IMPLEMENTED
+        /*if (activationType == SPAC_Use || activationType == SPAC_UseBack) {
+            if (!CheckSwitchRange (curLine, mObj, side, hasOptPos, optPos))
+                return false;
+        }*/
+
+        if (!mObj.player) {
+            if (
+                ((activationType & SPAC_Use ) && (lineActivation & SPAC_MUse ) && mObj.bCanUseWalls) ||
+                ((activationType & SPAC_Push) && (lineActivation & SPAC_MPush) && mObj.bCanPushWalls)
+            ) {
+                return true;
+            }
+        }
+
+        if ((lineActivation & activationType) == 0 && !((activationType & SPAC_MCross) && lineActivation == SPAC_Cross))
+            return false;
+
+        if ((activationType & SPAC_AnyCross) && (lineActivation & activationType))
+            return true;
+
+        if (
+            !mObj.player &&
+            !mObj.bMissile &&
+            !(curLine.Flags & Line.ML_MonstersCanActivate) &&
+            ((activationType & SPAC_MCross) == 0 || !(lineActivation & SPAC_MCross))
+        ) {
+            // [RH] Monsters' ability to activate this line depends on its type.
+            // In Hexen, only MCROSS lines could be activated by monsters.
+            // With lax activation checks, monsters can also activate certain lines
+            // even without them being marked as monster activate-able.
+            // This is the default for non-Hexen maps in Hexen format.
+            // NOT IMPLEMENTED (we can't check for this :( )
+            /*if (!(level.Flags2 & LEVEL2_LaxMonsterActivation))
+                return false;*/
+
+            // Never open secret doors.
+            if ((activationType & (SPAC_Use | SPAC_Push)) && (curLine.Flags & Line.ML_Secret))
+                return false;
+
+            let noWay = true;
+            if (activationType & (SPAC_Use | SPAC_Push)) {
+                switch (curLine.Special) {
+                    case Door_Raise:
+                        return curLine.Args [0] == 0 && curLine.Args [1] < 64;
+
+                    case Teleport:
+                    case Teleport_NoFog:
+                        return true;
+                }
+
+                return false;
+            } else if (activationType & SPAC_MCross) {
+                if ((lineActivation & SPAC_MCross))
+                    return true;
+
+                switch (curLine.Special) {
+                    case Door_Raise:
+                        return !(curLine.Args [1] >= 64);
+
+                    case Teleport:
+                    case Teleport_NoFog:
+                    case Teleport_Line:
+                    case Plat_DownWaitUpStayLip:
+                    case Plat_DownWaitUpStay:
+                        return true;
+                }
+
+                return false;
+            } else
+                return false;
+
+            // This should be impossible to reach.
+            return false;
+        }
+
+        if ((activationType & SPAC_MCross) &&
+            !(lineActivation & SPAC_MCross) &&
+            !(curLine.Flags & Line.ML_MonstersCanActivate))
+            return false;
+
+        return true;
+    }
 }

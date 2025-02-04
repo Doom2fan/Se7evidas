@@ -210,6 +210,7 @@ extend class S7_MonsterBase {
     void S7_SetStandStillCount () {
         moveCount = 0;
         moveStandStillCount = random [S7_Chase] (0, 255) % 6;
+        moveStandStillAngle = angle;
     }
 
     void S7_DoChase (State meleestate, State missilestate, bool playActive, bool nightmareFast, int flags) {
