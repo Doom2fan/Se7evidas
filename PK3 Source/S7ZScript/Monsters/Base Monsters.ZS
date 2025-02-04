@@ -136,6 +136,9 @@ class S7_MonsterBase : Actor {
         }
 
         if (!IsFrozen ()) {
+            if (bKilled || bCorpse)
+                AngularVelocity = 0;
+
             angle += AngularVelocity;
             AngularVelocity *= (1 - AngularVelocityDecay) ** (1. / Thinker.TicRate);
         }
