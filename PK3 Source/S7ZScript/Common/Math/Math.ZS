@@ -34,6 +34,24 @@ class S7_Math {
         return x * (1-a) + y * a;
     }
 
+    static int SignI (int s) {
+        if (s > 0)
+            return 1;
+        if (s < 0)
+            return -1;
+
+        return 0;
+    }
+
+    static int SignF (double s) {
+        if (s > 0)
+            return 1;
+        if (s < 0)
+            return -1;
+
+        return 0;
+    }
+
     /*
     ** Summary:
     **  Raises a double to an integer power using binary exponentiation.
