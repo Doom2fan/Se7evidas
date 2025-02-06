@@ -34,6 +34,51 @@ class S7_Math {
         return x * (1-a) + y * a;
     }
 
+    /*
+    ** Summary:
+    **  Raises a double to an integer power using binary exponentiation.
+    **
+    ** Arguments:
+    **  base: The double base to be raised to a power.
+    **  exponent: The integer exponent
+    **
+    ** Returns:
+    **  Returns base raised to the power of the exponent.
+    */
+    static double PowI (double base, int exponent) {
+        // Handle special cases.
+        if (base == 0.)
+            return 0;
+        else if (base == 1.)
+            return 1;
+        else if (exponent == 0)
+            return 1;
+        else if (exponent == 1)
+            return base;
+        else if (exponent == -1)
+            return 1. / base;
+
+        // Handle negative exponents.
+        if (exponent < 0.) {
+            base = 1. / base;
+            exponent = -exponent;
+        }
+
+        let result = 1.;
+        while (exponent > 0.) {
+            // If the current exponent is odd, multiply result by the current base.
+            if ((exponent & 1) == 1)
+                result *= base;
+
+            // Square the base.
+            base *= base;
+            // Shift right (divide by 2).
+            exponent >>= 1;
+        }
+
+        return result;
+    }
+
     // Based on C/C++ example implementation by AMD, taken from Wikipedia.
     static double Smoothstep (double edge0, double edge1, double x) {
         // Scale, bias and saturate x to [0, 1] range
