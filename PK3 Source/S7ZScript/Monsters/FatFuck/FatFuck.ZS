@@ -31,7 +31,14 @@ class S7_FatFuck : S7_DemonBase {
         Health 900;
         Radius 48;
         Height 64;
-        Speed 5;
+
+        Speed 175;
+        S7_MonsterBase.MaxAccel 25;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
+
         PainChance 80;
         Mass 1500;
         BloodColor "DA E1 00";

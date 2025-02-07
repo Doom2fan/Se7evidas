@@ -35,11 +35,19 @@ class S7_Empress : S7_DemonBase {
         Health 4500;
         Radius 40;
         Height 100;
-        Speed 18;
         Mass S7_EmpressMass;
+
+        Speed 630;
+        S7_MonsterBase.MaxAccel 60;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
+
         PainChance 15;
         PainChance "Empress_BallExploded", 256;
         PainChance "S7_SoulLance_Beam", 256;
+
         MinMissileChance 160;
         BloodType 'S7_EmpressBlood', 'S7_EmpressBloodSplatter';
         BloodColor "B2 11 DE";

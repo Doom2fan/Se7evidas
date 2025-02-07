@@ -34,7 +34,13 @@ class S7_DemonDog : S7_DemonBase {
 
         Radius 20;
         Height 32;
-        Speed 13;
+
+        Speed 455;
+        S7_MonsterBase.MaxAccel 45;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
 
         SeeSound "Monsters/DemonDog/Sight";
         ActiveSound "Monsters/DemonDog/Active";

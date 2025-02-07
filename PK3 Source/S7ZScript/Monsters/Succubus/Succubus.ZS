@@ -29,8 +29,15 @@ class S7_Succubus : S7_SuccubusBase {
         //$Angled
 
         Health 350;
-        Speed 8;
         PainChance 90;
+
+        Speed 280;
+        S7_MonsterBase.MaxAccel 35;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
+
         SeeSound "Succubus/Sight";
         ActiveSound "Succubus/Active";
         PainSound "Succubus/Pain";

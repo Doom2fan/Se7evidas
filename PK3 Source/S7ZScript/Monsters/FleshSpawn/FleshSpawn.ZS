@@ -32,7 +32,14 @@ class S7_FleshSpawn : S7_MonsterBase {
 
         Health 150;
         GibHealth -75;
-        Speed 10;
+
+        Speed 350;
+        S7_MonsterBase.MaxAccel 40;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 180.;
+        S7_MonsterBase.MaxTurnAccel 60;
+
         PainChance 240;
         Radius 14;
         Height 31;

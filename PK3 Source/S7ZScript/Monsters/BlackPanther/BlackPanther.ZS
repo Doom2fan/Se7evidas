@@ -29,9 +29,16 @@ class S7_BlackPanther : S7_HellNobleBase {
         //$Angled
 
         Health 750;
-        Speed 8;
         PainChance 50;
         BloodColor "00 67 67";
+
+        Speed 280;
+        S7_MonsterBase.MaxAccel 35;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
+
         SeeSound "BlackPanther/Sight";
         ActiveSound "BlackPanther/Active";
         PainSound "BlackPanther/Pain";

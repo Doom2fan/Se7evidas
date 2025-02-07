@@ -44,7 +44,7 @@ class S7_MonsterBase : Actor {
         S7_MonsterBase.MaxAccel 35;
 
         S7_MonsterBase.AngularVelocityDecay .03;
-        S7_MonsterBase.MaxTurnSpeed 360.;
+        S7_MonsterBase.MaxTurnSpeed 90.;
         S7_MonsterBase.MaxTurnAccel 60;
 
         /** Damage factors **/

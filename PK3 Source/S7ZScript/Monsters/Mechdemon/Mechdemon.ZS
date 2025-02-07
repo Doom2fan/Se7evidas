@@ -37,7 +37,13 @@ class S7_Mechdemon : S7_DemonBase {
 
         Radius 30;
         Height 56;
-        Speed 10;
+
+        Speed 350;
+        S7_MonsterBase.MaxAccel 40;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 135.;
+        S7_MonsterBase.MaxTurnAccel 60;
 
         SeeSound "Monsters/Mechdemon/Sight";
         ActiveSound "Monsters/Mechdemon/Active";

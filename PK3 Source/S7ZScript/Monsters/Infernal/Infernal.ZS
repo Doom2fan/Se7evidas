@@ -33,8 +33,14 @@ class S7_Infernal : S7_MonsterBase {
         Mass 400;
         Health 600;
         GibHealth -300;
-        Speed 8;
         PainChance 128;
+
+        Speed 280;
+        S7_MonsterBase.MaxAccel 35;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 180.;
+        S7_MonsterBase.MaxTurnAccel 60;
 
         BloodColor "00 FF FF";
 

@@ -31,8 +31,15 @@ class S7_Terminator : S7_DemonBase {
         Health 5000;
         Radius 24;
         Height 64;
-        Speed 12;
         PainChance 15;
+
+        Speed 420;
+        S7_MonsterBase.MaxAccel 45;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
+
         Mass 12000;
         MinMissileChance 176;
         Species 'S7Terminator';

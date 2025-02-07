@@ -30,8 +30,14 @@ class S7_InfernalGuardian : S7_HellNobleBase {
 
         Health 1500;
         GibHealth -750;
-        Speed 8;
         PainChance 50;
+
+        Speed 280;
+        S7_MonsterBase.MaxAccel 35;
+
+        S7_MonsterBase.AngularVelocityDecay .03;
+        S7_MonsterBase.MaxTurnSpeed 90.;
+        S7_MonsterBase.MaxTurnAccel 60;
 
         SeeSound "Monsters/InfernalGuardian/Sight";
         ActiveSound "Monsters/InfernalGuardian/Active";
