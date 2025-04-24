@@ -400,7 +400,7 @@ class S7_MonsterSteering_ContextSteering : S7_MonsterSteering abstract {
                 let oppCeilZ = oppositeSec.CeilingPlane.ZatPoint (oppositeSec.CenterSpot);
 
                 // Check if we'll hit the upper or lower of the line.
-                if ((oppFloorZ > (hitFloorZ + maxStepHeight)) || ((oppCeilZ - hitFloorZ) <= agentHeight))
+                if ((oppFloorZ > agentPosZ && oppFloorZ > (hitFloorZ + maxStepHeight)) || ((oppCeilZ - hitFloorZ) <= agentHeight))
                     linesToSweep.Push (curLine.Index ());
                 // Check if this is a dropoff.
                 else if (!canDropoff && (hitFloorZ - oppFloorZ) >= maxDropOffHeight)
